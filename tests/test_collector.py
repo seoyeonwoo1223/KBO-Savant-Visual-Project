@@ -1,0 +1,44 @@
+import json
+from pathlib import Path
+
+import pyarrow.parquet as pq
+
+from visualbaseball.collector import process_payload
+from visualbaseball.state_machine import GameState
+from visualbaseball.storage import Store
+
+
+ROOT = Path(__file__).parents[1]
+FIXTURE = ROOT / "data" / "raw" / "2026" / "20260328HTSK0.json"
+
+
+def test_sample_game_and_idempotency(tmp_path):
+    payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
+    ok, message, pitches = process_payload(tmp_path, payload)
+    assert ok and message == "PASS" and pitches == 338
+    first = pq.read_table(tmp_path / "data/processed/pitches.parquet").num_rows
+    ok, message, pitches = process_payload(tmp_path, payload)
+    assert ok and message == "PASS" and pitches == 338
+    assert pq.read_table(tmp_path / "data/processed/pitches.parquet").num_rows == first
+    rows = pq.read_table(tmp_path / "data/processed/pitches.parquet").to_pylist()
+    assert len({row["pitch_id"] for row in rows}) == 338
+    assert not any("spin" in key.lower() for row in rows for key in row)
+
+
+def test_count_transitions_and_two_strike_foul():
+    state = GameState(); state.apply_non_terminal_pitch("B"); assert state.balls == 1
+    state.apply_non_terminal_pitch("S"); state.apply_non_terminal_pitch("F"); state.apply_non_terminal_pitch("F")
+    assert state.strikes == 2
+
+
+def test_runner_advances_multiple_outs_and_inning_reset():
+    state = GameState(); state.set_bases({"b1": {"id": "a"}, "b2": {"id": "b"}}); state.outs = 1
+    assert state.infer_runs({"b3": {"id": "a"}}, 3) == 0
+    state.begin_half(2, "bottom")
+    assert (state.outs, state.base_state_code, state.balls, state.strikes) == (0, 0, 0, 0)
+
+
+def test_incremental_skip_logic(tmp_path):
+    store = Store(tmp_path); raw = tmp_path / "data/raw/2026/old.json"; raw.parent.mkdir(parents=True); raw.write_text("{}")
+    store.mark("old", "completed", raw, "PASS")
+    assert store.should_fetch("old", "2000-01-01") is False
