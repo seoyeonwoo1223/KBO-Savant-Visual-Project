@@ -1,0 +1,33 @@
+name: Daily Visual Baseball update
+
+on:
+  schedule:
+    # 12:07 Asia/Seoul (UTC+9)
+    - cron: "7 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: pytest
+        env:
+          PYTHONPATH: src
+      - run: python -m visualbaseball.cli
+        env:
+          PYTHONPATH: src
+      - run: |
+          git add data exports/visualbaseball_savant_2026_latest.xlsx
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: update Visual Baseball data"
+          git push
