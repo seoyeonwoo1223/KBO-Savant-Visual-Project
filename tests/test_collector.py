@@ -4,8 +4,10 @@ from pathlib import Path
 import pyarrow.parquet as pq
 
 from visualbaseball.collector import process_payload
+from visualbaseball.parser import parse_game
 from visualbaseball.state_machine import GameState
 from visualbaseball.storage import Store
+from visualbaseball.validation import validate_game
 
 
 ROOT = Path(__file__).parents[1]
@@ -42,3 +44,12 @@ def test_incremental_skip_logic(tmp_path):
     store = Store(tmp_path); raw = tmp_path / "data/raw/2026/old.json"; raw.parent.mkdir(parents=True); raw.write_text("{}")
     store.mark("old", "completed", raw, "PASS")
     assert store.should_fetch("old", "2000-01-01") is False
+
+
+def test_official_linescore_overrides_conflicting_pbp_snapshot():
+    payload = json.loads((ROOT / "data/raw/2026/20260527HTWO0.json").read_text(encoding="utf-8"))
+    game, events, pitches, _ = parse_game(payload)
+    assert validate_game(game, events, pitches) == (True, "PASS")
+    assert (events[-1]["away_score_after"], events[-1]["home_score_after"]) == (9, 2)
+    conflicts = [event for event in events if event["event_code"] == "SOURCE_SCORE_CONFLICT"]
+    assert conflicts and all(event["parse_status"] == "unknown" for event in conflicts)
