@@ -28,6 +28,9 @@ def test_sample_game_and_idempotency(tmp_path):
     rows = pq.read_table(tmp_path / "data/processed/pitches.parquet").to_pylist()
     assert len({row["pitch_id"] for row in rows}) == 338
     assert not any("spin" in key.lower() for row in rows for key in row)
+    game_stadium = pq.read_table(tmp_path / "data/processed/games.parquet").to_pylist()[0]["stadium"]
+    assert {row["stadium"] for row in rows} == {game_stadium}
+    assert {row["stadium"] for row in pq.read_table(tmp_path / "data/processed/events.parquet").to_pylist()} == {game_stadium}
 
 
 def test_completed_status_is_not_written_when_processed_tables_fail(tmp_path):

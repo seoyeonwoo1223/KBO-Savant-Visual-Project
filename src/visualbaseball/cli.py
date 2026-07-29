@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse, json
 from pathlib import Path
-from .collector import cache_payload, prepare_game, process_payload
+from .collector import cache_payload, prepare_game, process_payload, rebuild_from_raw
 from .export_excel import export_latest
 from .web_export import export_web_data
 from .http_client import VisualBaseballClient
@@ -10,8 +10,12 @@ from .storage import Store
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(); parser.add_argument("--root", default="."); parser.add_argument("--fixture"); parser.add_argument("--season", type=int, default=2026); parser.add_argument("--game-id")
+    parser = argparse.ArgumentParser(); parser.add_argument("--root", default="."); parser.add_argument("--fixture"); parser.add_argument("--season", type=int, default=2026); parser.add_argument("--game-id"); parser.add_argument("--rebuild-from-raw", action="store_true")
     args = parser.parse_args(); root = Path(args.root).resolve()
+    if args.rebuild_from_raw:
+        games, pitches = rebuild_from_raw(root, args.season)
+        export_latest(root); export_web_data(root); print(f"rebuilt {games} games and {pitches} pitches")
+        return
     if args.fixture:
         payload = json.loads(Path(args.fixture).read_text(encoding="utf-8-sig")); ok, message, pitches = process_payload(root, payload, season=args.season)
         if not ok: raise SystemExit(message)
