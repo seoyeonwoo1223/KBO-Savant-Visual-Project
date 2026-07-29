@@ -47,6 +47,13 @@ def test_incremental_skip_logic(tmp_path):
     assert store.should_fetch("old", "2000-01-01") is False
 
 
+def test_incremental_skip_recovers_portable_raw_cache_from_legacy_absolute_path(tmp_path):
+    store = Store(tmp_path)
+    raw = tmp_path / "data/raw/2026/game.json"; raw.parent.mkdir(parents=True); raw.write_text("{}")
+    store.mark("game", "completed", Path("C:/another-machine/data/raw/2026/game.json"), "PASS")
+    assert store.should_fetch("game", "2026-07-26") is False
+
+
 def test_official_linescore_overrides_conflicting_pbp_snapshot():
     payload = json.loads((ROOT / "data/raw/2026/20260527HTWO0.json").read_text(encoding="utf-8"))
     game, events, pitches, _ = parse_game(payload)
