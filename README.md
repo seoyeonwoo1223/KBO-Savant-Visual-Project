@@ -34,6 +34,14 @@ pytest
 
 `--fixture data/raw/2026/20260328HTSK0.json`로 오프라인 수집·내보내기 확인도 가능합니다.
 
+과거 시즌은 원본과 Parquet을 별도 폴더에 두고 같은 Excel 스키마로 내보냅니다.
+
+```powershell
+python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
+```
+
+이 명령은 `seasons/2025/data/`에 2025 수집 상태를 저장하고, `exports/visualbaseball_savant_2025_latest.xlsx`를 만듭니다.
+
 ## 검증 원칙
 
 게임 최종 점수는 공개 PBP 스냅샷뿐 아니라 공식 라인스코어와도 대조합니다. 두 소스가 충돌하면 `SOURCE_SCORE_CONFLICT` 이벤트를 남기고 공식 라인스코어를 최종 기준으로 사용합니다. 공개 PBP가 제공하지 않는 주자 이벤트는 추측하지 않으며 `parse_status=unknown`으로 보존합니다.
