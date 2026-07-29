@@ -1,7 +1,9 @@
 import json
 from pathlib import Path
+from unittest.mock import patch
 
 import pyarrow.parquet as pq
+import pytest
 
 from visualbaseball.collector import process_payload
 from visualbaseball.parser import parse_game
@@ -26,6 +28,14 @@ def test_sample_game_and_idempotency(tmp_path):
     rows = pq.read_table(tmp_path / "data/processed/pitches.parquet").to_pylist()
     assert len({row["pitch_id"] for row in rows}) == 338
     assert not any("spin" in key.lower() for row in rows for key in row)
+
+
+def test_completed_status_is_not_written_when_processed_tables_fail(tmp_path):
+    payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
+    with patch.object(Store, "replace_game", side_effect=OSError("disk full")):
+        with pytest.raises(OSError, match="disk full"):
+            process_payload(tmp_path, payload)
+    assert Store(tmp_path).manifest()["games"].get("20260328HTSK0") is None
 
 
 def test_count_transitions_and_two_strike_foul():
