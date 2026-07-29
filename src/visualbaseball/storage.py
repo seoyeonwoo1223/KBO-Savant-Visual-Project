@@ -20,14 +20,18 @@ class Store:
 
     def save_manifest(self, manifest: dict) -> None:
         self.manifest_path.parent.mkdir(parents=True, exist_ok=True)
-        self.manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        temporary = self.manifest_path.with_suffix(".json.tmp")
+        temporary.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        temporary.replace(self.manifest_path)
 
     def raw_path(self, season: int, game_id: str) -> Path:
         return self.raw_root / str(season) / f"{game_id}.json"
 
     def write_raw(self, season: int, game_id: str, payload: dict) -> Path:
         path = self.raw_path(season, game_id); path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+        temporary = path.with_suffix(".json.tmp")
+        temporary.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+        temporary.replace(path)
         return path
 
     def should_fetch(self, game_id: str, game_date: str, recheck_days: int = 2) -> bool:
@@ -57,7 +61,9 @@ class Store:
         for name, rows, key in (("games", games, "game_id"), ("events", events, "game_id"), ("pitches", pitches, "game_id")):
             path = self.processed / f"{name}.parquet"; old = pq.read_table(path).to_pylist() if path.exists() else []
             combined = [row for row in old if row.get(key) not in game_ids] + rows
-            pq.write_table(pa.Table.from_pylist(combined), path)
+            temporary = path.with_suffix(".parquet.tmp")
+            pq.write_table(pa.Table.from_pylist(combined), temporary)
+            temporary.replace(path)
 
     def mark(self, game_id: str, status: str, raw_path: Path | None = None, message: str = "") -> None:
         manifest = self.manifest(); entry = manifest["games"].setdefault(game_id, {})

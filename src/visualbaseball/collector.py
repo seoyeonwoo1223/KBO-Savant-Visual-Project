@@ -29,21 +29,21 @@ def prepare_game(payload: dict, schedule_game: dict | None = None, season: int =
     return PreparedGame(game, events, pitches, valid, message)
 
 
-def cache_and_mark(store: Store, season: int, payload: dict, prepared: PreparedGame) -> bool:
-    """Persist raw source and manifest state; callers batch successful table writes."""
+def cache_payload(store: Store, season: int, payload: dict, prepared: PreparedGame) -> Path | None:
+    """Persist raw source; completed games are marked only after table writes succeed."""
     raw_path = store.write_raw(season, prepared.game["game_id"], payload)
-    if prepared.completed:
-        store.mark(prepared.game["game_id"], "completed", raw_path, prepared.message)
-        return True
-    status = "failed" if prepared.game["is_final"] else "incomplete"
-    store.mark(prepared.game["game_id"], status, raw_path, prepared.message)
-    return False
+    if not prepared.completed:
+        status = "failed" if prepared.game["is_final"] else "incomplete"
+        store.mark(prepared.game["game_id"], status, raw_path, prepared.message)
+        return None
+    return raw_path
 
 
 def process_payload(root: Path, payload: dict, schedule_game: dict | None = None, season: int = 2026) -> tuple[bool, str, int]:
     prepared = prepare_game(payload, schedule_game, season)
     store = Store(root)
-    completed = cache_and_mark(store, season, payload, prepared)
-    if completed:
+    raw_path = cache_payload(store, season, payload, prepared)
+    if raw_path:
         store.replace_game(prepared.game, prepared.events, prepared.pitches)
-    return completed, prepared.message, len(prepared.pitches)
+        store.mark(prepared.game["game_id"], "completed", raw_path, prepared.message)
+    return raw_path is not None, prepared.message, len(prepared.pitches)
