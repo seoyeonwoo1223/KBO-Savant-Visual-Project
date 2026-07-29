@@ -25,6 +25,22 @@ def _state_fields(prefix: str, state: dict[str, Any]) -> dict[str, Any]:
     return fields
 
 
+def _official_half_score(away: dict[str, Any], home: dict[str, Any], inning: int, inning_half: str) -> tuple[int, int] | None:
+    """Return the official cumulative score at the end of a half-inning.
+
+    The API occasionally contradicts its `scoreAfter` snapshots while its
+    `gameData.*.linescore` and PA records remain internally consistent.
+    """
+    away_line, home_line = away.get("linescore"), home.get("linescore")
+    if not isinstance(away_line, list) or not isinstance(home_line, list) or len(away_line) < inning:
+        return None
+    if inning_half == "bottom" and len(home_line) < inning:
+        return None
+    def total(values: list[Any], count: int) -> int:
+        return sum(int(value or 0) for value in values[:count])
+    return total(away_line, inning), total(home_line, inning if inning_half == "bottom" else inning - 1)
+
+
 def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = None, season: int = 2026) -> tuple[dict, list[dict], list[dict], int]:
     schedule_game = schedule_game or {}
     game_data, halves = payload["gameData"], payload["pbpData"]
@@ -80,9 +96,17 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
             after = state.snapshot(); event_seq += 1
             events.append(_event(game, event_seq, pa_id, "plate_appearance_result", str(pa.get("type", "")), str(pa.get("result", "")), pa, after if pitch_list else terminal_before, after, 0 if pitch_list else runs, "informational" if pitch_list and pa_status == "ok" else pa_status))
         score_after = half.get("scoreAfter")
-        if isinstance(score_after, list) and len(score_after) >= 2 and (state.away_score, state.home_score) != (int(score_after[0]), int(score_after[1])):
-            before = state.snapshot(); state.away_score, state.home_score = int(score_after[0]), int(score_after[1]); after = state.snapshot(); event_seq += 1
-            events.append(_event(game, event_seq, pa_id if 'pa_id' in locals() else "", "state_adjustment", "SOURCE_SCORE_SNAPSHOT", "Score synchronized to source half-inning snapshot.", {}, before, after, max(0, after["away_score"] - before["away_score"] + after["home_score"] - before["home_score"]), "unknown")); unknown += 1
+        snapshot_score = (int(score_after[0]), int(score_after[1])) if isinstance(score_after, list) and len(score_after) >= 2 else None
+        official_score = _official_half_score(away, home, state.inning, state.inning_half)
+        target_score = official_score or snapshot_score
+        if official_score and snapshot_score and official_score != snapshot_score:
+            snapshot = state.snapshot(); event_seq += 1
+            events.append(_event(game, event_seq, pa_id if 'pa_id' in locals() else "", "source_score_conflict", "SOURCE_SCORE_CONFLICT", f"Half-inning score snapshot {snapshot_score[0]}-{snapshot_score[1]} conflicts with official linescore {official_score[0]}-{official_score[1]}.", {}, snapshot, snapshot, 0, "unknown")); unknown += 1
+        if target_score and (state.away_score, state.home_score) != target_score:
+            before = state.snapshot(); state.away_score, state.home_score = target_score; after = state.snapshot(); event_seq += 1
+            code = "OFFICIAL_LINESCORE_RECONCILIATION" if official_score else "SOURCE_SCORE_SNAPSHOT"
+            description = "Score reconciled to official gameData linescore." if official_score else "Score synchronized to source half-inning snapshot."
+            events.append(_event(game, event_seq, pa_id if 'pa_id' in locals() else "", "state_adjustment", code, description, {}, before, after, max(0, after["away_score"] - before["away_score"] + after["home_score"] - before["home_score"]), "source_limited" if official_score else "unknown")); unknown += 1
     return game, events, pitches, unknown
 
 
