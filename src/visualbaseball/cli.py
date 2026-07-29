@@ -10,18 +10,22 @@ from .storage import Store
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(); parser.add_argument("--root", default="."); parser.add_argument("--fixture"); parser.add_argument("--season", type=int, default=2026); parser.add_argument("--game-id"); parser.add_argument("--rebuild-from-raw", action="store_true")
-    args = parser.parse_args(); root = Path(args.root).resolve()
+    parser = argparse.ArgumentParser(); parser.add_argument("--root", default="."); parser.add_argument("--storage-root"); parser.add_argument("--fixture"); parser.add_argument("--season", type=int, default=2026); parser.add_argument("--game-id"); parser.add_argument("--rebuild-from-raw", action="store_true")
+    args = parser.parse_args(); root = Path(args.root).resolve(); storage_root = Path(args.storage_root).resolve() if args.storage_root else root
     if args.rebuild_from_raw:
-        games, pitches = rebuild_from_raw(root, args.season)
-        export_latest(root); export_web_data(root); print(f"rebuilt {games} games and {pitches} pitches")
+        games, pitches = rebuild_from_raw(storage_root, args.season)
+        export_latest(root, args.season, storage_root)
+        if storage_root == root: export_web_data(root)
+        print(f"rebuilt {games} games and {pitches} pitches")
         return
     if args.fixture:
-        payload = json.loads(Path(args.fixture).read_text(encoding="utf-8-sig")); ok, message, pitches = process_payload(root, payload, season=args.season)
+        payload = json.loads(Path(args.fixture).read_text(encoding="utf-8-sig")); ok, message, pitches = process_payload(storage_root, payload, season=args.season)
         if not ok: raise SystemExit(message)
-        export_latest(root); export_web_data(root); print(f"processed {pitches} pitches")
+        export_latest(root, args.season, storage_root)
+        if storage_root == root: export_web_data(root)
+        print(f"processed {pitches} pitches")
         return
-    client, store = VisualBaseballClient(), Store(root); schedule = client.get_json(f"/api/schedule/season?y={args.season}")["schedule"]
+    client, store = VisualBaseballClient(), Store(storage_root); schedule = client.get_json(f"/api/schedule/season?y={args.season}")["schedule"]
     pending_games, pending_events, pending_pitches, pending_completions = [], [], [], []
     def flush() -> None:
         nonlocal pending_games, pending_events, pending_pitches, pending_completions
@@ -43,7 +47,7 @@ def main() -> None:
                 pending_completions.append((prepared, raw_path))
                 if len(pending_games) >= 25: flush()
     flush()
-    export_latest(root)
-    export_web_data(root)
+    export_latest(root, args.season, storage_root)
+    if storage_root == root: export_web_data(root)
 
 if __name__ == "__main__": main()

@@ -11,6 +11,7 @@ from visualbaseball.state_machine import GameState
 from visualbaseball.storage import Store
 from visualbaseball.validation import validate_game
 from visualbaseball.web_export import export_web_data
+from visualbaseball.export_excel import export_latest
 
 
 ROOT = Path(__file__).parents[1]
@@ -83,3 +84,12 @@ def test_web_export_writes_downloadable_game_and_movement_csv(tmp_path):
     assert "game_id" in (output / "games.csv").read_text(encoding="utf-8")
     assert "horizontal_movement_cm" in (output / "movement.csv").read_text(encoding="utf-8")
     assert json.loads((output / "summary.json").read_text(encoding="utf-8"))["pitches"] == 338
+
+
+def test_season_export_uses_separate_storage_and_output_name(tmp_path):
+    storage_root, output_root = tmp_path / "season", tmp_path / "output"
+    payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
+    assert process_payload(storage_root, payload, season=2025)[0]
+    output = export_latest(output_root, 2025, storage_root)
+    assert output.name == "visualbaseball_savant_2025_latest.xlsx"
+    assert output.exists()

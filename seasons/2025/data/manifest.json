@@ -1,0 +1,3604 @@
+{
+  "games": {
+    "20250322LTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250322LTLG0.json",
+      "message": "PASS"
+    },
+    "20250322OBSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250322OBSK0.json",
+      "message": "PASS"
+    },
+    "20250322WOSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250322WOSS0.json",
+      "message": "PASS"
+    },
+    "20250322HHKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250322HHKT0.json",
+      "message": "PASS"
+    },
+    "20250322NCHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250322NCHT0.json",
+      "message": "PASS"
+    },
+    "20250323NCHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250323NCHT0.json",
+      "message": "PASS"
+    },
+    "20250323HHKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250323HHKT0.json",
+      "message": "PASS"
+    },
+    "20250323WOSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250323WOSS0.json",
+      "message": "PASS"
+    },
+    "20250323OBSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250323OBSK0.json",
+      "message": "PASS"
+    },
+    "20250323LTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250323LTLG0.json",
+      "message": "PASS"
+    },
+    "20250325WOHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250325WOHT0.json",
+      "message": "PASS"
+    },
+    "20250325OBKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250325OBKT0.json",
+      "message": "PASS"
+    },
+    "20250325NCSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250325NCSS0.json",
+      "message": "PASS"
+    },
+    "20250325LTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250325LTSK0.json",
+      "message": "PASS"
+    },
+    "20250325HHLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250325HHLG0.json",
+      "message": "PASS"
+    },
+    "20250326HHLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250326HHLG0.json",
+      "message": "PASS"
+    },
+    "20250326LTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250326LTSK0.json",
+      "message": "PASS"
+    },
+    "20250326NCSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250326NCSS0.json",
+      "message": "PASS"
+    },
+    "20250326OBKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250326OBKT0.json",
+      "message": "PASS"
+    },
+    "20250326WOHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250326WOHT0.json",
+      "message": "PASS"
+    },
+    "20250327WOHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250327WOHT0.json",
+      "message": "PASS"
+    },
+    "20250327OBKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250327OBKT0.json",
+      "message": "PASS"
+    },
+    "20250327NCSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250327NCSS0.json",
+      "message": "PASS"
+    },
+    "20250327LTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250327LTSK0.json",
+      "message": "PASS"
+    },
+    "20250327HHLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250327HHLG0.json",
+      "message": "PASS"
+    },
+    "20250328HTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250328HTHH0.json",
+      "message": "PASS"
+    },
+    "20250328SKWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250328SKWO0.json",
+      "message": "PASS"
+    },
+    "20250328LGNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250328LGNC0.json",
+      "message": "PASS"
+    },
+    "20250328KTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250328KTLT0.json",
+      "message": "PASS"
+    },
+    "20250328SSOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250328SSOB0.json",
+      "message": "PASS"
+    },
+    "20250329SKWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250329SKWO0.json",
+      "message": "PASS"
+    },
+    "20250329HTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250329HTHH0.json",
+      "message": "PASS"
+    },
+    "20250329LGNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250329LGNC0.json",
+      "message": "PASS"
+    },
+    "20250329KTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250329KTLT0.json",
+      "message": "PASS"
+    },
+    "20250329SSOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250329SSOB0.json",
+      "message": "PASS"
+    },
+    "20250330SSOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250330SSOB0.json",
+      "message": "PASS"
+    },
+    "20250330KTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250330KTLT0.json",
+      "message": "PASS"
+    },
+    "20250330SKWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250330SKWO0.json",
+      "message": "PASS"
+    },
+    "20250330HTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250330HTHH0.json",
+      "message": "PASS"
+    },
+    "20250402LTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250402LTHH0.json",
+      "message": "PASS"
+    },
+    "20250402SSHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250402SSHT0.json",
+      "message": "PASS"
+    },
+    "20250402LGKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250402LGKT0.json",
+      "message": "PASS"
+    },
+    "20250402WOOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250402WOOB0.json",
+      "message": "PASS"
+    },
+    "20250403LTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250403LTHH0.json",
+      "message": "PASS"
+    },
+    "20250403SSHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250403SSHT0.json",
+      "message": "PASS"
+    },
+    "20250403LGKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250403LGKT0.json",
+      "message": "PASS"
+    },
+    "20250403WOOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250403WOOB0.json",
+      "message": "PASS"
+    },
+    "20250404NCWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250404NCWO0.json",
+      "message": "PASS"
+    },
+    "20250404HHSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250404HHSS0.json",
+      "message": "PASS"
+    },
+    "20250404OBLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250404OBLT0.json",
+      "message": "PASS"
+    },
+    "20250404KTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250404KTSK0.json",
+      "message": "PASS"
+    },
+    "20250404HTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250404HTLG0.json",
+      "message": "PASS"
+    },
+    "20250405HHSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250405HHSS0.json",
+      "message": "PASS"
+    },
+    "20250405OBLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250405OBLT0.json",
+      "message": "PASS"
+    },
+    "20250405NCWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250405NCWO0.json",
+      "message": "PASS"
+    },
+    "20250406NCWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250406NCWO0.json",
+      "message": "PASS"
+    },
+    "20250406HHSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250406HHSS0.json",
+      "message": "PASS"
+    },
+    "20250406OBLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250406OBLT0.json",
+      "message": "PASS"
+    },
+    "20250406KTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250406KTSK0.json",
+      "message": "PASS"
+    },
+    "20250406HTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250406HTLG0.json",
+      "message": "PASS"
+    },
+    "20250408HHOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250408HHOB0.json",
+      "message": "PASS"
+    },
+    "20250408HTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250408HTLT0.json",
+      "message": "PASS"
+    },
+    "20250408SKSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250408SKSS0.json",
+      "message": "PASS"
+    },
+    "20250408NCKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250408NCKT0.json",
+      "message": "PASS"
+    },
+    "20250408LGWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250408LGWO0.json",
+      "message": "PASS"
+    },
+    "20250409LGWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250409LGWO0.json",
+      "message": "PASS"
+    },
+    "20250409NCKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250409NCKT0.json",
+      "message": "PASS"
+    },
+    "20250409SKSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250409SKSS0.json",
+      "message": "PASS"
+    },
+    "20250409HTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250409HTLT0.json",
+      "message": "PASS"
+    },
+    "20250409HHOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250409HHOB0.json",
+      "message": "PASS"
+    },
+    "20250410HHOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250410HHOB0.json",
+      "message": "PASS"
+    },
+    "20250410HTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250410HTLT0.json",
+      "message": "PASS"
+    },
+    "20250410SKSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250410SKSS0.json",
+      "message": "PASS"
+    },
+    "20250410NCKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250410NCKT0.json",
+      "message": "PASS"
+    },
+    "20250410LGWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250410LGWO0.json",
+      "message": "PASS"
+    },
+    "20250411WOHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250411WOHH0.json",
+      "message": "PASS"
+    },
+    "20250411SKHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250411SKHT0.json",
+      "message": "PASS"
+    },
+    "20250411SSKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250411SSKT0.json",
+      "message": "PASS"
+    },
+    "20250411LTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250411LTNC0.json",
+      "message": "PASS"
+    },
+    "20250411OBLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250411OBLG0.json",
+      "message": "PASS"
+    },
+    "20250412OBLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250412OBLG0.json",
+      "message": "PASS"
+    },
+    "20250412LTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250412LTNC0.json",
+      "message": "PASS"
+    },
+    "20250412WOHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250412WOHH0.json",
+      "message": "PASS"
+    },
+    "20250413WOHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250413WOHH0.json",
+      "message": "PASS"
+    },
+    "20250413SKHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250413SKHT0.json",
+      "message": "PASS"
+    },
+    "20250413SSKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250413SSKT0.json",
+      "message": "PASS"
+    },
+    "20250413LTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250413LTNC0.json",
+      "message": "PASS"
+    },
+    "20250413OBLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250413OBLG0.json",
+      "message": "PASS"
+    },
+    "20250415KTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250415KTHT0.json",
+      "message": "PASS"
+    },
+    "20250415WOLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250415WOLT0.json",
+      "message": "PASS"
+    },
+    "20250415HHSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250415HHSK0.json",
+      "message": "PASS"
+    },
+    "20250415SSLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250415SSLG0.json",
+      "message": "PASS"
+    },
+    "20250416SSLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250416SSLG0.json",
+      "message": "PASS"
+    },
+    "20250416HHSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250416HHSK0.json",
+      "message": "PASS"
+    },
+    "20250416WOLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250416WOLT0.json",
+      "message": "PASS"
+    },
+    "20250416KTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250416KTHT0.json",
+      "message": "PASS"
+    },
+    "20250417KTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250417KTHT0.json",
+      "message": "PASS"
+    },
+    "20250417WOLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250417WOLT0.json",
+      "message": "PASS"
+    },
+    "20250417HHSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250417HHSK0.json",
+      "message": "PASS"
+    },
+    "20250417SSLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250417SSLG0.json",
+      "message": "PASS"
+    },
+    "20250418NCHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250418NCHH0.json",
+      "message": "PASS"
+    },
+    "20250418KTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250418KTWO0.json",
+      "message": "PASS"
+    },
+    "20250418LTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250418LTSS0.json",
+      "message": "PASS"
+    },
+    "20250418LGSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250418LGSK0.json",
+      "message": "PASS"
+    },
+    "20250418HTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250418HTOB0.json",
+      "message": "PASS"
+    },
+    "20250419HTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250419HTOB0.json",
+      "message": "PASS"
+    },
+    "20250419LGSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250419LGSK0.json",
+      "message": "PASS"
+    },
+    "20250419LTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250419LTSS0.json",
+      "message": "PASS"
+    },
+    "20250419KTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250419KTWO0.json",
+      "message": "PASS"
+    },
+    "20250419NCHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250419NCHH0.json",
+      "message": "PASS"
+    },
+    "20250420NCHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250420NCHH0.json",
+      "message": "PASS"
+    },
+    "20250420KTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250420KTWO0.json",
+      "message": "PASS"
+    },
+    "20250420LTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250420LTSS0.json",
+      "message": "PASS"
+    },
+    "20250420LGSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250420LGSK0.json",
+      "message": "PASS"
+    },
+    "20250420HTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250420HTOB0.json",
+      "message": "PASS"
+    },
+    "20250422NCLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250422NCLG0.json",
+      "message": "PASS"
+    },
+    "20250422SKKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250422SKKT0.json",
+      "message": "PASS"
+    },
+    "20250422OBWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250422OBWO0.json",
+      "message": "PASS"
+    },
+    "20250423OBWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250423OBWO0.json",
+      "message": "PASS"
+    },
+    "20250423SKKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250423SKKT0.json",
+      "message": "PASS"
+    },
+    "20250423HTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250423HTSS0.json",
+      "message": "PASS"
+    },
+    "20250423HHLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250423HHLT0.json",
+      "message": "PASS"
+    },
+    "20250423NCLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250423NCLG0.json",
+      "message": "PASS"
+    },
+    "20250424OBWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250424OBWO0.json",
+      "message": "PASS"
+    },
+    "20250424SKKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250424SKKT0.json",
+      "message": "PASS"
+    },
+    "20250424HTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250424HTSS0.json",
+      "message": "PASS"
+    },
+    "20250424HHLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250424HHLT0.json",
+      "message": "PASS"
+    },
+    "20250424NCLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250424NCLG0.json",
+      "message": "PASS"
+    },
+    "20250425KTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250425KTHH0.json",
+      "message": "PASS"
+    },
+    "20250425LGHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250425LGHT0.json",
+      "message": "PASS"
+    },
+    "20250425NCSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250425NCSS0.json",
+      "message": "PASS"
+    },
+    "20250425WOSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250425WOSK0.json",
+      "message": "PASS"
+    },
+    "20250425LTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250425LTOB0.json",
+      "message": "PASS"
+    },
+    "20250426LTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250426LTOB0.json",
+      "message": "PASS"
+    },
+    "20250426LGHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250426LGHT0.json",
+      "message": "PASS"
+    },
+    "20250426KTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250426KTHH0.json",
+      "message": "PASS"
+    },
+    "20250426NCSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250426NCSS0.json",
+      "message": "PASS"
+    },
+    "20250426WOSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250426WOSK0.json",
+      "message": "PASS"
+    },
+    "20250427LTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250427LTOB0.json",
+      "message": "PASS"
+    },
+    "20250427WOSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250427WOSK0.json",
+      "message": "PASS"
+    },
+    "20250427NCSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250427NCSS0.json",
+      "message": "PASS"
+    },
+    "20250427LGHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250427LGHT0.json",
+      "message": "PASS"
+    },
+    "20250427KTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250427KTHH0.json",
+      "message": "PASS"
+    },
+    "20250429LGHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250429LGHH0.json",
+      "message": "PASS"
+    },
+    "20250429LTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250429LTWO0.json",
+      "message": "PASS"
+    },
+    "20250429NCHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250429NCHT0.json",
+      "message": "PASS"
+    },
+    "20250429SSSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250429SSSK0.json",
+      "message": "PASS"
+    },
+    "20250429KTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250429KTOB0.json",
+      "message": "PASS"
+    },
+    "20250430LGHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250430LGHH0.json",
+      "message": "PASS"
+    },
+    "20250430LTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250430LTWO0.json",
+      "message": "PASS"
+    },
+    "20250430NCHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250430NCHT0.json",
+      "message": "PASS"
+    },
+    "20250430SSSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250430SSSK0.json",
+      "message": "PASS"
+    },
+    "20250430KTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250430KTOB0.json",
+      "message": "PASS"
+    },
+    "20250501KTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250501KTOB0.json",
+      "message": "PASS"
+    },
+    "20250501SSSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250501SSSK0.json",
+      "message": "PASS"
+    },
+    "20250501LTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250501LTWO0.json",
+      "message": "PASS"
+    },
+    "20250502HHHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250502HHHT0.json",
+      "message": "PASS"
+    },
+    "20250502WOKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250502WOKT0.json",
+      "message": "PASS"
+    },
+    "20250502OBSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250502OBSS0.json",
+      "message": "PASS"
+    },
+    "20250502NCLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250502NCLT0.json",
+      "message": "PASS"
+    },
+    "20250502SKLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250502SKLG0.json",
+      "message": "PASS"
+    },
+    "20250503SKLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250503SKLG0.json",
+      "message": "PASS"
+    },
+    "20250503NCLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250503NCLT0.json",
+      "message": "PASS"
+    },
+    "20250503OBSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250503OBSS0.json",
+      "message": "PASS"
+    },
+    "20250503WOKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250503WOKT0.json",
+      "message": "PASS"
+    },
+    "20250504HHHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250504HHHT0.json",
+      "message": "PASS"
+    },
+    "20250504WOKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250504WOKT0.json",
+      "message": "PASS"
+    },
+    "20250504OBSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250504OBSS0.json",
+      "message": "PASS"
+    },
+    "20250504NCLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250504NCLT0.json",
+      "message": "PASS"
+    },
+    "20250504SKLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250504SKLG0.json",
+      "message": "PASS"
+    },
+    "20250505SSHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250505SSHH0.json",
+      "message": "PASS"
+    },
+    "20250505HTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250505HTWO0.json",
+      "message": "PASS"
+    },
+    "20250505NCKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250505NCKT0.json",
+      "message": "PASS"
+    },
+    "20250505SKLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250505SKLT0.json",
+      "message": "PASS"
+    },
+    "20250505LGOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250505LGOB0.json",
+      "message": "PASS"
+    },
+    "20250506LGOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250506LGOB0.json",
+      "message": "PASS"
+    },
+    "20250506SKLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250506SKLT0.json",
+      "message": "PASS"
+    },
+    "20250506NCKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250506NCKT0.json",
+      "message": "PASS"
+    },
+    "20250506HTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250506HTWO0.json",
+      "message": "PASS"
+    },
+    "20250506SSHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250506SSHH0.json",
+      "message": "PASS"
+    },
+    "20250507SSHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250507SSHH0.json",
+      "message": "PASS"
+    },
+    "20250507HTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250507HTWO0.json",
+      "message": "PASS"
+    },
+    "20250507NCKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250507NCKT0.json",
+      "message": "PASS"
+    },
+    "20250507SKLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250507SKLT0.json",
+      "message": "PASS"
+    },
+    "20250507LGOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250507LGOB0.json",
+      "message": "PASS"
+    },
+    "20250509HHWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250509HHWO0.json",
+      "message": "PASS"
+    },
+    "20250510HHWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250510HHWO0.json",
+      "message": "PASS"
+    },
+    "20250510LGSS1": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250510LGSS1.json",
+      "message": "PASS"
+    },
+    "20250510LGSS2": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250510LGSS2.json",
+      "message": "PASS"
+    },
+    "20250510LTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250510LTKT0.json",
+      "message": "PASS"
+    },
+    "20250510HTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250510HTSK0.json",
+      "message": "PASS"
+    },
+    "20250510NCOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250510NCOB0.json",
+      "message": "PASS"
+    },
+    "20250511LTKT1": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250511LTKT1.json",
+      "message": "PASS"
+    },
+    "20250511HTSK1": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250511HTSK1.json",
+      "message": "PASS"
+    },
+    "20250511NCOB1": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250511NCOB1.json",
+      "message": "PASS"
+    },
+    "20250511HHWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250511HHWO0.json",
+      "message": "PASS"
+    },
+    "20250511LGSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250511LGSS0.json",
+      "message": "PASS"
+    },
+    "20250511NCOB2": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250511NCOB2.json",
+      "message": "PASS"
+    },
+    "20250511HTSK2": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250511HTSK2.json",
+      "message": "PASS"
+    },
+    "20250511LTKT2": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250511LTKT2.json",
+      "message": "PASS"
+    },
+    "20250513KTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250513KTSS0.json",
+      "message": "PASS"
+    },
+    "20250513OBHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250513OBHH0.json",
+      "message": "PASS"
+    },
+    "20250513LTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250513LTHT0.json",
+      "message": "PASS"
+    },
+    "20250513NCSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250513NCSK0.json",
+      "message": "PASS"
+    },
+    "20250513WOLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250513WOLG0.json",
+      "message": "PASS"
+    },
+    "20250514KTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250514KTSS0.json",
+      "message": "PASS"
+    },
+    "20250514OBHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250514OBHH0.json",
+      "message": "PASS"
+    },
+    "20250514LTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250514LTHT0.json",
+      "message": "PASS"
+    },
+    "20250514NCSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250514NCSK0.json",
+      "message": "PASS"
+    },
+    "20250514WOLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250514WOLG0.json",
+      "message": "PASS"
+    },
+    "20250515WOLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250515WOLG0.json",
+      "message": "PASS"
+    },
+    "20250515NCSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250515NCSK0.json",
+      "message": "PASS"
+    },
+    "20250515LTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250515LTHT0.json",
+      "message": "PASS"
+    },
+    "20250515OBHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250515OBHH0.json",
+      "message": "PASS"
+    },
+    "20250515KTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250515KTSS0.json",
+      "message": "PASS"
+    },
+    "20250517WONC1": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250517WONC1.json",
+      "message": "PASS"
+    },
+    "20250517SKHH1": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250517SKHH1.json",
+      "message": "PASS"
+    },
+    "20250517OBHT1": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250517OBHT1.json",
+      "message": "PASS"
+    },
+    "20250517SSLT1": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250517SSLT1.json",
+      "message": "PASS"
+    },
+    "20250517KTLG1": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250517KTLG1.json",
+      "message": "PASS"
+    },
+    "20250517KTLG2": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250517KTLG2.json",
+      "message": "PASS"
+    },
+    "20250517SSLT2": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250517SSLT2.json",
+      "message": "PASS"
+    },
+    "20250517OBHT2": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250517OBHT2.json",
+      "message": "PASS"
+    },
+    "20250517SKHH2": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250517SKHH2.json",
+      "message": "PASS"
+    },
+    "20250517WONC2": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250517WONC2.json",
+      "message": "PASS"
+    },
+    "20250518WONC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250518WONC0.json",
+      "message": "PASS"
+    },
+    "20250518SKHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250518SKHH0.json",
+      "message": "PASS"
+    },
+    "20250518OBHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250518OBHT0.json",
+      "message": "PASS"
+    },
+    "20250518SSLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250518SSLT0.json",
+      "message": "PASS"
+    },
+    "20250518KTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250518KTLG0.json",
+      "message": "PASS"
+    },
+    "20250520SKOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250520SKOB0.json",
+      "message": "PASS"
+    },
+    "20250520LGLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250520LGLT0.json",
+      "message": "PASS"
+    },
+    "20250520HTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250520HTKT0.json",
+      "message": "PASS"
+    },
+    "20250520SSWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250520SSWO0.json",
+      "message": "PASS"
+    },
+    "20250520HHNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250520HHNC0.json",
+      "message": "PASS"
+    },
+    "20250521HHNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250521HHNC0.json",
+      "message": "PASS"
+    },
+    "20250521SSWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250521SSWO0.json",
+      "message": "PASS"
+    },
+    "20250521HTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250521HTKT0.json",
+      "message": "PASS"
+    },
+    "20250521LGLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250521LGLT0.json",
+      "message": "PASS"
+    },
+    "20250521SKOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250521SKOB0.json",
+      "message": "PASS"
+    },
+    "20250522SKOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250522SKOB0.json",
+      "message": "PASS"
+    },
+    "20250522LGLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250522LGLT0.json",
+      "message": "PASS"
+    },
+    "20250522HTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250522HTKT0.json",
+      "message": "PASS"
+    },
+    "20250522SSWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250522SSWO0.json",
+      "message": "PASS"
+    },
+    "20250522HHNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250522HHNC0.json",
+      "message": "PASS"
+    },
+    "20250523LTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250523LTHH0.json",
+      "message": "PASS"
+    },
+    "20250523KTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250523KTWO0.json",
+      "message": "PASS"
+    },
+    "20250523HTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250523HTSS0.json",
+      "message": "PASS"
+    },
+    "20250523LGSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250523LGSK0.json",
+      "message": "PASS"
+    },
+    "20250523NCOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250523NCOB0.json",
+      "message": "PASS"
+    },
+    "20250524KTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250524KTWO0.json",
+      "message": "PASS"
+    },
+    "20250524LTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250524LTHH0.json",
+      "message": "PASS"
+    },
+    "20250524NCOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250524NCOB0.json",
+      "message": "PASS"
+    },
+    "20250524LGSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250524LGSK0.json",
+      "message": "PASS"
+    },
+    "20250524HTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250524HTSS0.json",
+      "message": "PASS"
+    },
+    "20250525LTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250525LTHH0.json",
+      "message": "PASS"
+    },
+    "20250525KTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250525KTWO0.json",
+      "message": "PASS"
+    },
+    "20250525HTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250525HTSS0.json",
+      "message": "PASS"
+    },
+    "20250525LGSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250525LGSK0.json",
+      "message": "PASS"
+    },
+    "20250525NCOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250525NCOB0.json",
+      "message": "PASS"
+    },
+    "20250527WOHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250527WOHT0.json",
+      "message": "PASS"
+    },
+    "20250527OBKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250527OBKT0.json",
+      "message": "PASS"
+    },
+    "20250527LTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250527LTSS0.json",
+      "message": "PASS"
+    },
+    "20250527NCSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250527NCSK0.json",
+      "message": "PASS"
+    },
+    "20250527HHLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250527HHLG0.json",
+      "message": "PASS"
+    },
+    "20250528HHLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250528HHLG0.json",
+      "message": "PASS"
+    },
+    "20250528NCSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250528NCSK0.json",
+      "message": "PASS"
+    },
+    "20250528OBKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250528OBKT0.json",
+      "message": "PASS"
+    },
+    "20250528WOHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250528WOHT0.json",
+      "message": "PASS"
+    },
+    "20250529WOHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250529WOHT0.json",
+      "message": "PASS"
+    },
+    "20250529OBKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250529OBKT0.json",
+      "message": "PASS"
+    },
+    "20250529LTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250529LTSS0.json",
+      "message": "PASS"
+    },
+    "20250529NCSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250529NCSK0.json",
+      "message": "PASS"
+    },
+    "20250529HHLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250529HHLG0.json",
+      "message": "PASS"
+    },
+    "20250530OBWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250530OBWO0.json",
+      "message": "PASS"
+    },
+    "20250530HTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250530HTKT0.json",
+      "message": "PASS"
+    },
+    "20250530HHNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250530HHNC0.json",
+      "message": "PASS"
+    },
+    "20250530SKLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250530SKLT0.json",
+      "message": "PASS"
+    },
+    "20250530SSLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250530SSLG0.json",
+      "message": "PASS"
+    },
+    "20250531HHNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250531HHNC0.json",
+      "message": "PASS"
+    },
+    "20250531HTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250531HTKT0.json",
+      "message": "PASS"
+    },
+    "20250531SSLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250531SSLG0.json",
+      "message": "PASS"
+    },
+    "20250531SKLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250531SKLT0.json",
+      "message": "PASS"
+    },
+    "20250531OBWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250531OBWO0.json",
+      "message": "PASS"
+    },
+    "20250601OBWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250601OBWO0.json",
+      "message": "PASS"
+    },
+    "20250601SSLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250601SSLG0.json",
+      "message": "PASS"
+    },
+    "20250601SKLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250601SKLT0.json",
+      "message": "PASS"
+    },
+    "20250601HHNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250601HHNC0.json",
+      "message": "PASS"
+    },
+    "20250601HTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250601HTKT0.json",
+      "message": "PASS"
+    },
+    "20250603KTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250603KTHH0.json",
+      "message": "PASS"
+    },
+    "20250603LGNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250603LGNC0.json",
+      "message": "PASS"
+    },
+    "20250603HTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250603HTOB0.json",
+      "message": "PASS"
+    },
+    "20250603SSSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250603SSSK0.json",
+      "message": "PASS"
+    },
+    "20250603WOLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250603WOLT0.json",
+      "message": "PASS"
+    },
+    "20250604KTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250604KTHH0.json",
+      "message": "PASS"
+    },
+    "20250604LGNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250604LGNC0.json",
+      "message": "PASS"
+    },
+    "20250604WOLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250604WOLT0.json",
+      "message": "PASS"
+    },
+    "20250604SSSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250604SSSK0.json",
+      "message": "PASS"
+    },
+    "20250604HTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250604HTOB0.json",
+      "message": "PASS"
+    },
+    "20250605HTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250605HTOB0.json",
+      "message": "PASS"
+    },
+    "20250605SSSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250605SSSK0.json",
+      "message": "PASS"
+    },
+    "20250605WOLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250605WOLT0.json",
+      "message": "PASS"
+    },
+    "20250605LGNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250605LGNC0.json",
+      "message": "PASS"
+    },
+    "20250605KTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250605KTHH0.json",
+      "message": "PASS"
+    },
+    "20250606LGWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250606LGWO0.json",
+      "message": "PASS"
+    },
+    "20250606HHHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250606HHHT0.json",
+      "message": "PASS"
+    },
+    "20250606SKKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250606SKKT0.json",
+      "message": "PASS"
+    },
+    "20250606NCSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250606NCSS0.json",
+      "message": "PASS"
+    },
+    "20250606LTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250606LTOB0.json",
+      "message": "PASS"
+    },
+    "20250607LGWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250607LGWO0.json",
+      "message": "PASS"
+    },
+    "20250607HHHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250607HHHT0.json",
+      "message": "PASS"
+    },
+    "20250607SKKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250607SKKT0.json",
+      "message": "PASS"
+    },
+    "20250607NCSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250607NCSS0.json",
+      "message": "PASS"
+    },
+    "20250607LTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250607LTOB0.json",
+      "message": "PASS"
+    },
+    "20250608LGWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250608LGWO0.json",
+      "message": "PASS"
+    },
+    "20250608HHHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250608HHHT0.json",
+      "message": "PASS"
+    },
+    "20250608SKKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250608SKKT0.json",
+      "message": "PASS"
+    },
+    "20250608NCSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250608NCSS0.json",
+      "message": "PASS"
+    },
+    "20250608LTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250608LTOB0.json",
+      "message": "PASS"
+    },
+    "20250610SKLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250610SKLG0.json",
+      "message": "PASS"
+    },
+    "20250610LTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250610LTKT0.json",
+      "message": "PASS"
+    },
+    "20250610SSHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250610SSHT0.json",
+      "message": "PASS"
+    },
+    "20250610NCWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250610NCWO0.json",
+      "message": "PASS"
+    },
+    "20250610OBHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250610OBHH0.json",
+      "message": "PASS"
+    },
+    "20250611OBHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250611OBHH0.json",
+      "message": "PASS"
+    },
+    "20250611NCWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250611NCWO0.json",
+      "message": "PASS"
+    },
+    "20250611SSHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250611SSHT0.json",
+      "message": "PASS"
+    },
+    "20250611LTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250611LTKT0.json",
+      "message": "PASS"
+    },
+    "20250611SKLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250611SKLG0.json",
+      "message": "PASS"
+    },
+    "20250612OBHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250612OBHH0.json",
+      "message": "PASS"
+    },
+    "20250612NCWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250612NCWO0.json",
+      "message": "PASS"
+    },
+    "20250612SSHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250612SSHT0.json",
+      "message": "PASS"
+    },
+    "20250612LTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250612LTKT0.json",
+      "message": "PASS"
+    },
+    "20250612SKLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250612SKLG0.json",
+      "message": "PASS"
+    },
+    "20250613HTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250613HTNC0.json",
+      "message": "PASS"
+    },
+    "20250614LGHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250614LGHH0.json",
+      "message": "PASS"
+    },
+    "20250614HTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250614HTNC0.json",
+      "message": "PASS"
+    },
+    "20250614KTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250614KTSS0.json",
+      "message": "PASS"
+    },
+    "20250614LTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250614LTSK0.json",
+      "message": "PASS"
+    },
+    "20250614WOOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250614WOOB0.json",
+      "message": "PASS"
+    },
+    "20250615WOOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250615WOOB0.json",
+      "message": "PASS"
+    },
+    "20250615LTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250615LTSK0.json",
+      "message": "PASS"
+    },
+    "20250615KTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250615KTSS0.json",
+      "message": "PASS"
+    },
+    "20250615HTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250615HTNC0.json",
+      "message": "PASS"
+    },
+    "20250615LGHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250615LGHH0.json",
+      "message": "PASS"
+    },
+    "20250617SKWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250617SKWO0.json",
+      "message": "PASS"
+    },
+    "20250617KTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250617KTHT0.json",
+      "message": "PASS"
+    },
+    "20250617OBSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250617OBSS0.json",
+      "message": "PASS"
+    },
+    "20250617HHLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250617HHLT0.json",
+      "message": "PASS"
+    },
+    "20250617NCLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250617NCLG0.json",
+      "message": "PASS"
+    },
+    "20250618SKWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250618SKWO0.json",
+      "message": "PASS"
+    },
+    "20250618KTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250618KTHT0.json",
+      "message": "PASS"
+    },
+    "20250618OBSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250618OBSS0.json",
+      "message": "PASS"
+    },
+    "20250618HHLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250618HHLT0.json",
+      "message": "PASS"
+    },
+    "20250618NCLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250618NCLG0.json",
+      "message": "PASS"
+    },
+    "20250619NCLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250619NCLG0.json",
+      "message": "PASS"
+    },
+    "20250619HHLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250619HHLT0.json",
+      "message": "PASS"
+    },
+    "20250619OBSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250619OBSS0.json",
+      "message": "PASS"
+    },
+    "20250619KTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250619KTHT0.json",
+      "message": "PASS"
+    },
+    "20250619SKWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250619SKWO0.json",
+      "message": "PASS"
+    },
+    "20250620SSLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250620SSLT0.json",
+      "message": "PASS"
+    },
+    "20250621OBLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250621OBLG0.json",
+      "message": "PASS"
+    },
+    "20250621HTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250621HTSK0.json",
+      "message": "PASS"
+    },
+    "20250621NCKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250621NCKT0.json",
+      "message": "PASS"
+    },
+    "20250622OBLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250622OBLG0.json",
+      "message": "PASS"
+    },
+    "20250622HTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250622HTSK0.json",
+      "message": "PASS"
+    },
+    "20250622SSLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250622SSLT0.json",
+      "message": "PASS"
+    },
+    "20250622NCKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250622NCKT0.json",
+      "message": "PASS"
+    },
+    "20250622WOHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250622WOHH0.json",
+      "message": "PASS"
+    },
+    "20250624HTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250624HTWO0.json",
+      "message": "PASS"
+    },
+    "20250624LGKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250624LGKT0.json",
+      "message": "PASS"
+    },
+    "20250624SKOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250624SKOB0.json",
+      "message": "PASS"
+    },
+    "20250625HHSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250625HHSS0.json",
+      "message": "PASS"
+    },
+    "20250625LTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250625LTNC0.json",
+      "message": "PASS"
+    },
+    "20250625HTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250625HTWO0.json",
+      "message": "PASS"
+    },
+    "20250626HTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250626HTWO0.json",
+      "message": "PASS"
+    },
+    "20250626LGKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250626LGKT0.json",
+      "message": "PASS"
+    },
+    "20250626LTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250626LTNC0.json",
+      "message": "PASS"
+    },
+    "20250626HHSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250626HHSS0.json",
+      "message": "PASS"
+    },
+    "20250626SKOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250626SKOB0.json",
+      "message": "PASS"
+    },
+    "20250627SSWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250627SSWO0.json",
+      "message": "PASS"
+    },
+    "20250627OBNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250627OBNC0.json",
+      "message": "PASS"
+    },
+    "20250627KTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250627KTLT0.json",
+      "message": "PASS"
+    },
+    "20250627HHSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250627HHSK0.json",
+      "message": "PASS"
+    },
+    "20250627HTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250627HTLG0.json",
+      "message": "PASS"
+    },
+    "20250628SSWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250628SSWO0.json",
+      "message": "PASS"
+    },
+    "20250628OBNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250628OBNC0.json",
+      "message": "PASS"
+    },
+    "20250628KTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250628KTLT0.json",
+      "message": "PASS"
+    },
+    "20250628HHSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250628HHSK0.json",
+      "message": "PASS"
+    },
+    "20250628HTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250628HTLG0.json",
+      "message": "PASS"
+    },
+    "20250629SSWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250629SSWO0.json",
+      "message": "PASS"
+    },
+    "20250629OBNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250629OBNC0.json",
+      "message": "PASS"
+    },
+    "20250629KTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250629KTLT0.json",
+      "message": "PASS"
+    },
+    "20250629HHSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250629HHSK0.json",
+      "message": "PASS"
+    },
+    "20250629HTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250629HTLG0.json",
+      "message": "PASS"
+    },
+    "20250701SSOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250701SSOB0.json",
+      "message": "PASS"
+    },
+    "20250701LGLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250701LGLT0.json",
+      "message": "PASS"
+    },
+    "20250701WOKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250701WOKT0.json",
+      "message": "PASS"
+    },
+    "20250701SKHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250701SKHT0.json",
+      "message": "PASS"
+    },
+    "20250701NCHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250701NCHH0.json",
+      "message": "PASS"
+    },
+    "20250702NCHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250702NCHH0.json",
+      "message": "PASS"
+    },
+    "20250702SKHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250702SKHT0.json",
+      "message": "PASS"
+    },
+    "20250702WOKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250702WOKT0.json",
+      "message": "PASS"
+    },
+    "20250702LGLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250702LGLT0.json",
+      "message": "PASS"
+    },
+    "20250702SSOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250702SSOB0.json",
+      "message": "PASS"
+    },
+    "20250703SSOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250703SSOB0.json",
+      "message": "PASS"
+    },
+    "20250703LGLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250703LGLT0.json",
+      "message": "PASS"
+    },
+    "20250703WOKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250703WOKT0.json",
+      "message": "PASS"
+    },
+    "20250703SKHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250703SKHT0.json",
+      "message": "PASS"
+    },
+    "20250703NCHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250703NCHH0.json",
+      "message": "PASS"
+    },
+    "20250704HHWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250704HHWO0.json",
+      "message": "PASS"
+    },
+    "20250704LTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250704LTHT0.json",
+      "message": "PASS"
+    },
+    "20250704SKNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250704SKNC0.json",
+      "message": "PASS"
+    },
+    "20250704LGSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250704LGSS0.json",
+      "message": "PASS"
+    },
+    "20250704KTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250704KTOB0.json",
+      "message": "PASS"
+    },
+    "20250705HHWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250705HHWO0.json",
+      "message": "PASS"
+    },
+    "20250705LTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250705LTHT0.json",
+      "message": "PASS"
+    },
+    "20250705SKNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250705SKNC0.json",
+      "message": "PASS"
+    },
+    "20250705LGSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250705LGSS0.json",
+      "message": "PASS"
+    },
+    "20250705KTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250705KTOB0.json",
+      "message": "PASS"
+    },
+    "20250706HHWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250706HHWO0.json",
+      "message": "PASS"
+    },
+    "20250706KTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250706KTOB0.json",
+      "message": "PASS"
+    },
+    "20250706LGSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250706LGSS0.json",
+      "message": "PASS"
+    },
+    "20250706SKNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250706SKNC0.json",
+      "message": "PASS"
+    },
+    "20250706LTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250706LTHT0.json",
+      "message": "PASS"
+    },
+    "20250708HTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250708HTHH0.json",
+      "message": "PASS"
+    },
+    "20250708SSNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250708SSNC0.json",
+      "message": "PASS"
+    },
+    "20250708OBLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250708OBLT0.json",
+      "message": "PASS"
+    },
+    "20250708KTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250708KTSK0.json",
+      "message": "PASS"
+    },
+    "20250708WOLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250708WOLG0.json",
+      "message": "PASS"
+    },
+    "20250709WOLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250709WOLG0.json",
+      "message": "PASS"
+    },
+    "20250709KTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250709KTSK0.json",
+      "message": "PASS"
+    },
+    "20250709OBLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250709OBLT0.json",
+      "message": "PASS"
+    },
+    "20250709SSNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250709SSNC0.json",
+      "message": "PASS"
+    },
+    "20250709HTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250709HTHH0.json",
+      "message": "PASS"
+    },
+    "20250710HTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250710HTHH0.json",
+      "message": "PASS"
+    },
+    "20250710SSNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250710SSNC0.json",
+      "message": "PASS"
+    },
+    "20250710OBLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250710OBLT0.json",
+      "message": "PASS"
+    },
+    "20250710KTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250710KTSK0.json",
+      "message": "PASS"
+    },
+    "20250710WOLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250710WOLG0.json",
+      "message": "PASS"
+    },
+    "20250718LTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250718LTLG0.json",
+      "message": "PASS"
+    },
+    "20250718HHKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250718HHKT0.json",
+      "message": "PASS"
+    },
+    "20250719LTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250719LTLG0.json",
+      "message": "PASS"
+    },
+    "20250719OBSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250719OBSK0.json",
+      "message": "PASS"
+    },
+    "20250719HHKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250719HHKT0.json",
+      "message": "PASS"
+    },
+    "20250720NCHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250720NCHT0.json",
+      "message": "PASS"
+    },
+    "20250720HHKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250720HHKT0.json",
+      "message": "PASS"
+    },
+    "20250720WOSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250720WOSS0.json",
+      "message": "PASS"
+    },
+    "20250720OBSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250720OBSK0.json",
+      "message": "PASS"
+    },
+    "20250720LTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250720LTLG0.json",
+      "message": "PASS"
+    },
+    "20250722HHOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250722HHOB0.json",
+      "message": "PASS"
+    },
+    "20250722SKSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250722SKSS0.json",
+      "message": "PASS"
+    },
+    "20250722KTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250722KTNC0.json",
+      "message": "PASS"
+    },
+    "20250722LGHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250722LGHT0.json",
+      "message": "PASS"
+    },
+    "20250722LTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250722LTWO0.json",
+      "message": "PASS"
+    },
+    "20250723LTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250723LTWO0.json",
+      "message": "PASS"
+    },
+    "20250723LGHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250723LGHT0.json",
+      "message": "PASS"
+    },
+    "20250723KTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250723KTNC0.json",
+      "message": "PASS"
+    },
+    "20250723SKSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250723SKSS0.json",
+      "message": "PASS"
+    },
+    "20250723HHOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250723HHOB0.json",
+      "message": "PASS"
+    },
+    "20250724LTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250724LTWO0.json",
+      "message": "PASS"
+    },
+    "20250724LGHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250724LGHT0.json",
+      "message": "PASS"
+    },
+    "20250724KTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250724KTNC0.json",
+      "message": "PASS"
+    },
+    "20250724SKSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250724SKSS0.json",
+      "message": "PASS"
+    },
+    "20250724HHOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250724HHOB0.json",
+      "message": "PASS"
+    },
+    "20250725LGOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250725LGOB0.json",
+      "message": "PASS"
+    },
+    "20250725HTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250725HTLT0.json",
+      "message": "PASS"
+    },
+    "20250725WONC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250725WONC0.json",
+      "message": "PASS"
+    },
+    "20250725SSKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250725SSKT0.json",
+      "message": "PASS"
+    },
+    "20250725SKHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250725SKHH0.json",
+      "message": "PASS"
+    },
+    "20250726SKHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250726SKHH0.json",
+      "message": "PASS"
+    },
+    "20250726SSKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250726SSKT0.json",
+      "message": "PASS"
+    },
+    "20250726WONC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250726WONC0.json",
+      "message": "PASS"
+    },
+    "20250726HTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250726HTLT0.json",
+      "message": "PASS"
+    },
+    "20250726LGOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250726LGOB0.json",
+      "message": "PASS"
+    },
+    "20250727LGOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250727LGOB0.json",
+      "message": "PASS"
+    },
+    "20250727HTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250727HTLT0.json",
+      "message": "PASS"
+    },
+    "20250727WONC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250727WONC0.json",
+      "message": "PASS"
+    },
+    "20250727SSKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250727SSKT0.json",
+      "message": "PASS"
+    },
+    "20250727SKHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250727SKHH0.json",
+      "message": "PASS"
+    },
+    "20250729SSHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250729SSHH0.json",
+      "message": "PASS"
+    },
+    "20250729OBHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250729OBHT0.json",
+      "message": "PASS"
+    },
+    "20250729NCLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250729NCLT0.json",
+      "message": "PASS"
+    },
+    "20250729WOSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250729WOSK0.json",
+      "message": "PASS"
+    },
+    "20250729KTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250729KTLG0.json",
+      "message": "PASS"
+    },
+    "20250730KTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250730KTLG0.json",
+      "message": "PASS"
+    },
+    "20250730WOSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250730WOSK0.json",
+      "message": "PASS"
+    },
+    "20250730NCLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250730NCLT0.json",
+      "message": "PASS"
+    },
+    "20250730OBHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250730OBHT0.json",
+      "message": "PASS"
+    },
+    "20250730SSHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250730SSHH0.json",
+      "message": "PASS"
+    },
+    "20250731SSHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250731SSHH0.json",
+      "message": "PASS"
+    },
+    "20250731OBHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250731OBHT0.json",
+      "message": "PASS"
+    },
+    "20250731NCLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250731NCLT0.json",
+      "message": "PASS"
+    },
+    "20250731WOSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250731WOSK0.json",
+      "message": "PASS"
+    },
+    "20250731KTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250731KTLG0.json",
+      "message": "PASS"
+    },
+    "20250801LTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250801LTWO0.json",
+      "message": "PASS"
+    },
+    "20250801HHHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250801HHHT0.json",
+      "message": "PASS"
+    },
+    "20250801KTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250801KTNC0.json",
+      "message": "PASS"
+    },
+    "20250801LGSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250801LGSS0.json",
+      "message": "PASS"
+    },
+    "20250801SKOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250801SKOB0.json",
+      "message": "PASS"
+    },
+    "20250802SKOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250802SKOB0.json",
+      "message": "PASS"
+    },
+    "20250802LGSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250802LGSS0.json",
+      "message": "PASS"
+    },
+    "20250802KTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250802KTNC0.json",
+      "message": "PASS"
+    },
+    "20250802LTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250802LTWO0.json",
+      "message": "PASS"
+    },
+    "20250803LTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250803LTWO0.json",
+      "message": "PASS"
+    },
+    "20250803SKOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250803SKOB0.json",
+      "message": "PASS"
+    },
+    "20250803LGSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250803LGSS0.json",
+      "message": "PASS"
+    },
+    "20250803KTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250803KTNC0.json",
+      "message": "PASS"
+    },
+    "20250805KTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250805KTHH0.json",
+      "message": "PASS"
+    },
+    "20250805WONC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250805WONC0.json",
+      "message": "PASS"
+    },
+    "20250805HTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250805HTLT0.json",
+      "message": "PASS"
+    },
+    "20250805SSSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250805SSSK0.json",
+      "message": "PASS"
+    },
+    "20250805OBLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250805OBLG0.json",
+      "message": "PASS"
+    },
+    "20250806KTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250806KTHH0.json",
+      "message": "PASS"
+    },
+    "20250806WONC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250806WONC0.json",
+      "message": "PASS"
+    },
+    "20250806HTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250806HTLT0.json",
+      "message": "PASS"
+    },
+    "20250806SSSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250806SSSK0.json",
+      "message": "PASS"
+    },
+    "20250806OBLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250806OBLG0.json",
+      "message": "PASS"
+    },
+    "20250807OBLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250807OBLG0.json",
+      "message": "PASS"
+    },
+    "20250807SSSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250807SSSK0.json",
+      "message": "PASS"
+    },
+    "20250807HTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250807HTLT0.json",
+      "message": "PASS"
+    },
+    "20250807WONC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250807WONC0.json",
+      "message": "PASS"
+    },
+    "20250807KTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250807KTHH0.json",
+      "message": "PASS"
+    },
+    "20250808OBWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250808OBWO0.json",
+      "message": "PASS"
+    },
+    "20250808SSKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250808SSKT0.json",
+      "message": "PASS"
+    },
+    "20250808HTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250808HTNC0.json",
+      "message": "PASS"
+    },
+    "20250808SKLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250808SKLT0.json",
+      "message": "PASS"
+    },
+    "20250808HHLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250808HHLG0.json",
+      "message": "PASS"
+    },
+    "20250809HHLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250809HHLG0.json",
+      "message": "PASS"
+    },
+    "20250809SSKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250809SSKT0.json",
+      "message": "PASS"
+    },
+    "20250809OBWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250809OBWO0.json",
+      "message": "PASS"
+    },
+    "20250810OBWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250810OBWO0.json",
+      "message": "PASS"
+    },
+    "20250810SSKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250810SSKT0.json",
+      "message": "PASS"
+    },
+    "20250810HTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250810HTNC0.json",
+      "message": "PASS"
+    },
+    "20250810SKLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250810SKLT0.json",
+      "message": "PASS"
+    },
+    "20250810HHLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250810HHLG0.json",
+      "message": "PASS"
+    },
+    "20250812LTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250812LTHH0.json",
+      "message": "PASS"
+    },
+    "20250812LGKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250812LGKT0.json",
+      "message": "PASS"
+    },
+    "20250812HTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250812HTSS0.json",
+      "message": "PASS"
+    },
+    "20250812WOSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250812WOSK0.json",
+      "message": "PASS"
+    },
+    "20250812NCOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250812NCOB0.json",
+      "message": "PASS"
+    },
+    "20250813HTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250813HTSS0.json",
+      "message": "PASS"
+    },
+    "20250813LTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250813LTHH0.json",
+      "message": "PASS"
+    },
+    "20250814LTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250814LTHH0.json",
+      "message": "PASS"
+    },
+    "20250814HTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250814HTSS0.json",
+      "message": "PASS"
+    },
+    "20250814WOSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250814WOSK0.json",
+      "message": "PASS"
+    },
+    "20250814NCOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250814NCOB0.json",
+      "message": "PASS"
+    },
+    "20250815KTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250815KTWO0.json",
+      "message": "PASS"
+    },
+    "20250815HHNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250815HHNC0.json",
+      "message": "PASS"
+    },
+    "20250815SSLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250815SSLT0.json",
+      "message": "PASS"
+    },
+    "20250815LGSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250815LGSK0.json",
+      "message": "PASS"
+    },
+    "20250815HTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250815HTOB0.json",
+      "message": "PASS"
+    },
+    "20250816KTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250816KTWO0.json",
+      "message": "PASS"
+    },
+    "20250816HHNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250816HHNC0.json",
+      "message": "PASS"
+    },
+    "20250816SSLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250816SSLT0.json",
+      "message": "PASS"
+    },
+    "20250816LGSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250816LGSK0.json",
+      "message": "PASS"
+    },
+    "20250816HTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250816HTOB0.json",
+      "message": "PASS"
+    },
+    "20250817KTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250817KTWO0.json",
+      "message": "PASS"
+    },
+    "20250817HHNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250817HHNC0.json",
+      "message": "PASS"
+    },
+    "20250817SSLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250817SSLT0.json",
+      "message": "PASS"
+    },
+    "20250817LGSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250817LGSK0.json",
+      "message": "PASS"
+    },
+    "20250817HTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250817HTOB0.json",
+      "message": "PASS"
+    },
+    "20250819LTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250819LTLG0.json",
+      "message": "PASS"
+    },
+    "20250819SSNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250819SSNC0.json",
+      "message": "PASS"
+    },
+    "20250819SKKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250819SKKT0.json",
+      "message": "PASS"
+    },
+    "20250819WOHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250819WOHT0.json",
+      "message": "PASS"
+    },
+    "20250819OBHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250819OBHH0.json",
+      "message": "PASS"
+    },
+    "20250820OBHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250820OBHH0.json",
+      "message": "PASS"
+    },
+    "20250820WOHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250820WOHT0.json",
+      "message": "PASS"
+    },
+    "20250820SKKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250820SKKT0.json",
+      "message": "PASS"
+    },
+    "20250820SSNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250820SSNC0.json",
+      "message": "PASS"
+    },
+    "20250820LTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250820LTLG0.json",
+      "message": "PASS"
+    },
+    "20250821OBHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250821OBHH0.json",
+      "message": "PASS"
+    },
+    "20250821WOHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250821WOHT0.json",
+      "message": "PASS"
+    },
+    "20250821SKKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250821SKKT0.json",
+      "message": "PASS"
+    },
+    "20250821SSNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250821SSNC0.json",
+      "message": "PASS"
+    },
+    "20250821LTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250821LTLG0.json",
+      "message": "PASS"
+    },
+    "20250822KTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250822KTOB0.json",
+      "message": "PASS"
+    },
+    "20250822WOSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250822WOSS0.json",
+      "message": "PASS"
+    },
+    "20250822LTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250822LTNC0.json",
+      "message": "PASS"
+    },
+    "20250822LGHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250822LGHT0.json",
+      "message": "PASS"
+    },
+    "20250822SKHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250822SKHH0.json",
+      "message": "PASS"
+    },
+    "20250823SKHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250823SKHH0.json",
+      "message": "PASS"
+    },
+    "20250823LGHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250823LGHT0.json",
+      "message": "PASS"
+    },
+    "20250823LTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250823LTNC0.json",
+      "message": "PASS"
+    },
+    "20250823WOSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250823WOSS0.json",
+      "message": "PASS"
+    },
+    "20250823KTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250823KTOB0.json",
+      "message": "PASS"
+    },
+    "20250824KTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250824KTOB0.json",
+      "message": "PASS"
+    },
+    "20250824WOSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250824WOSS0.json",
+      "message": "PASS"
+    },
+    "20250824LTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250824LTNC0.json",
+      "message": "PASS"
+    },
+    "20250824LGHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250824LGHT0.json",
+      "message": "PASS"
+    },
+    "20250824SKHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250824SKHH0.json",
+      "message": "PASS"
+    },
+    "20250826HHWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250826HHWO0.json",
+      "message": "PASS"
+    },
+    "20250826LGNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250826LGNC0.json",
+      "message": "PASS"
+    },
+    "20250826KTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250826KTLT0.json",
+      "message": "PASS"
+    },
+    "20250826HTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250826HTSK0.json",
+      "message": "PASS"
+    },
+    "20250826SSOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250826SSOB0.json",
+      "message": "PASS"
+    },
+    "20250827SSOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250827SSOB0.json",
+      "message": "PASS"
+    },
+    "20250827HTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250827HTSK0.json",
+      "message": "PASS"
+    },
+    "20250827KTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250827KTLT0.json",
+      "message": "PASS"
+    },
+    "20250827LGNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250827LGNC0.json",
+      "message": "PASS"
+    },
+    "20250827HHWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250827HHWO0.json",
+      "message": "PASS"
+    },
+    "20250828HHWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250828HHWO0.json",
+      "message": "PASS"
+    },
+    "20250828LGNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250828LGNC0.json",
+      "message": "PASS"
+    },
+    "20250828KTLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250828KTLT0.json",
+      "message": "PASS"
+    },
+    "20250828HTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250828HTSK0.json",
+      "message": "PASS"
+    },
+    "20250828SSOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250828SSOB0.json",
+      "message": "PASS"
+    },
+    "20250829WOLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250829WOLG0.json",
+      "message": "PASS"
+    },
+    "20250829NCSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250829NCSK0.json",
+      "message": "PASS"
+    },
+    "20250829OBLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250829OBLT0.json",
+      "message": "PASS"
+    },
+    "20250829HTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250829HTKT0.json",
+      "message": "PASS"
+    },
+    "20250829SSHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250829SSHH0.json",
+      "message": "PASS"
+    },
+    "20250830SSHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250830SSHH0.json",
+      "message": "PASS"
+    },
+    "20250830HTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250830HTKT0.json",
+      "message": "PASS"
+    },
+    "20250830OBLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250830OBLT0.json",
+      "message": "PASS"
+    },
+    "20250830NCSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250830NCSK0.json",
+      "message": "PASS"
+    },
+    "20250830WOLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250830WOLG0.json",
+      "message": "PASS"
+    },
+    "20250831SSHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250831SSHH0.json",
+      "message": "PASS"
+    },
+    "20250831HTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250831HTKT0.json",
+      "message": "PASS"
+    },
+    "20250831OBLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250831OBLT0.json",
+      "message": "PASS"
+    },
+    "20250831NCSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250831NCSK0.json",
+      "message": "PASS"
+    },
+    "20250831WOLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250831WOLG0.json",
+      "message": "PASS"
+    },
+    "20250902LTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250902LTLG0.json",
+      "message": "PASS"
+    },
+    "20250902WOSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250902WOSK0.json",
+      "message": "PASS"
+    },
+    "20250902NCKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250902NCKT0.json",
+      "message": "PASS"
+    },
+    "20250902HTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250902HTHH0.json",
+      "message": "PASS"
+    },
+    "20250903NCHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250903NCHH0.json",
+      "message": "PASS"
+    },
+    "20250903SKHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250903SKHT0.json",
+      "message": "PASS"
+    },
+    "20250903LTKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250903LTKT0.json",
+      "message": "PASS"
+    },
+    "20250903WOSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250903WOSS0.json",
+      "message": "PASS"
+    },
+    "20250904OBNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250904OBNC0.json",
+      "message": "PASS"
+    },
+    "20250904LGKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250904LGKT0.json",
+      "message": "PASS"
+    },
+    "20250905OBNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250905OBNC0.json",
+      "message": "PASS"
+    },
+    "20250905WOSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250905WOSS0.json",
+      "message": "PASS"
+    },
+    "20250905LTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250905LTSK0.json",
+      "message": "PASS"
+    },
+    "20250906HHSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250906HHSS0.json",
+      "message": "PASS"
+    },
+    "20250906HTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250906HTNC0.json",
+      "message": "PASS"
+    },
+    "20250907HTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250907HTNC0.json",
+      "message": "PASS"
+    },
+    "20250907HHSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250907HHSS0.json",
+      "message": "PASS"
+    },
+    "20250907SKLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250907SKLG0.json",
+      "message": "PASS"
+    },
+    "20250909HHLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250909HHLT0.json",
+      "message": "PASS"
+    },
+    "20250909OBKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250909OBKT0.json",
+      "message": "PASS"
+    },
+    "20250909LGWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250909LGWO0.json",
+      "message": "PASS"
+    },
+    "20250910SSHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250910SSHT0.json",
+      "message": "PASS"
+    },
+    "20250910SKNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250910SKNC0.json",
+      "message": "PASS"
+    },
+    "20250910HHLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250910HHLT0.json",
+      "message": "PASS"
+    },
+    "20250910LGOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250910LGOB0.json",
+      "message": "PASS"
+    },
+    "20250911NCWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250911NCWO0.json",
+      "message": "PASS"
+    },
+    "20250911LTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250911LTHT0.json",
+      "message": "PASS"
+    },
+    "20250911SKSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250911SKSS0.json",
+      "message": "PASS"
+    },
+    "20250911KTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250911KTLG0.json",
+      "message": "PASS"
+    },
+    "20250912OBHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250912OBHT0.json",
+      "message": "PASS"
+    },
+    "20250913WOHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250913WOHH0.json",
+      "message": "PASS"
+    },
+    "20250913OBNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250913OBNC0.json",
+      "message": "PASS"
+    },
+    "20250913KTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250913KTSS0.json",
+      "message": "PASS"
+    },
+    "20250913SKLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250913SKLT0.json",
+      "message": "PASS"
+    },
+    "20250913HTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250913HTLG0.json",
+      "message": "PASS"
+    },
+    "20250914HTLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250914HTLG0.json",
+      "message": "PASS"
+    },
+    "20250914KTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250914KTSS0.json",
+      "message": "PASS"
+    },
+    "20250914OBNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250914OBNC0.json",
+      "message": "PASS"
+    },
+    "20250914WOHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250914WOHH0.json",
+      "message": "PASS"
+    },
+    "20250915WOHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250915WOHH0.json",
+      "message": "PASS"
+    },
+    "20250916WOOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250916WOOB0.json",
+      "message": "PASS"
+    },
+    "20250916LTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250916LTSS0.json",
+      "message": "PASS"
+    },
+    "20250916SKNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250916SKNC0.json",
+      "message": "PASS"
+    },
+    "20250916LGKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250916LGKT0.json",
+      "message": "PASS"
+    },
+    "20250916HHHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250916HHHT0.json",
+      "message": "PASS"
+    },
+    "20250917HHHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250917HHHT0.json",
+      "message": "PASS"
+    },
+    "20250917SKNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250917SKNC0.json",
+      "message": "PASS"
+    },
+    "20250917WOOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250917WOOB0.json",
+      "message": "PASS"
+    },
+    "20250918LGKT1": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250918LGKT1.json",
+      "message": "PASS"
+    },
+    "20250918HHHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250918HHHT0.json",
+      "message": "PASS"
+    },
+    "20250918SSNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250918SSNC0.json",
+      "message": "PASS"
+    },
+    "20250918WOOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250918WOOB0.json",
+      "message": "PASS"
+    },
+    "20250918LGKT2": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250918LGKT2.json",
+      "message": "PASS"
+    },
+    "20250919LTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250919LTNC0.json",
+      "message": "PASS"
+    },
+    "20250920NCHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250920NCHT0.json",
+      "message": "PASS"
+    },
+    "20250920HHKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250920HHKT0.json",
+      "message": "PASS"
+    },
+    "20250920WOLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250920WOLT0.json",
+      "message": "PASS"
+    },
+    "20250920OBSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250920OBSK0.json",
+      "message": "PASS"
+    },
+    "20250920SSLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250920SSLG0.json",
+      "message": "PASS"
+    },
+    "20250921OBSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250921OBSK0.json",
+      "message": "PASS"
+    },
+    "20250921SSKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250921SSKT0.json",
+      "message": "PASS"
+    },
+    "20250921NCHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250921NCHT0.json",
+      "message": "PASS"
+    },
+    "20250922OBSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250922OBSK0.json",
+      "message": "PASS"
+    },
+    "20250923NCLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250923NCLT0.json",
+      "message": "PASS"
+    },
+    "20250923WOKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250923WOKT0.json",
+      "message": "PASS"
+    },
+    "20250923OBSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250923OBSS0.json",
+      "message": "PASS"
+    },
+    "20250923HTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250923HTSK0.json",
+      "message": "PASS"
+    },
+    "20250924LTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250924LTSS0.json",
+      "message": "PASS"
+    },
+    "20250924LGNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250924LGNC0.json",
+      "message": "PASS"
+    },
+    "20250924HTWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250924HTWO0.json",
+      "message": "PASS"
+    },
+    "20250925LGLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250925LGLT0.json",
+      "message": "PASS"
+    },
+    "20250925WOSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250925WOSS0.json",
+      "message": "PASS"
+    },
+    "20250925KTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250925KTSK0.json",
+      "message": "PASS"
+    },
+    "20250925HHOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250925HHOB0.json",
+      "message": "PASS"
+    },
+    "20250926LGHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250926LGHH0.json",
+      "message": "PASS"
+    },
+    "20250926SSLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250926SSLT0.json",
+      "message": "PASS"
+    },
+    "20250926KTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250926KTSK0.json",
+      "message": "PASS"
+    },
+    "20250926NCOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250926NCOB0.json",
+      "message": "PASS"
+    },
+    "20250927SKOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250927SKOB0.json",
+      "message": "PASS"
+    },
+    "20250927NCHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250927NCHT0.json",
+      "message": "PASS"
+    },
+    "20250927LGHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250927LGHH0.json",
+      "message": "PASS"
+    },
+    "20250928SSWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250928SSWO0.json",
+      "message": "PASS"
+    },
+    "20250928LTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250928LTOB0.json",
+      "message": "PASS"
+    },
+    "20250929LTSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250929LTSK0.json",
+      "message": "PASS"
+    },
+    "20250929NCHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250929NCHT0.json",
+      "message": "PASS"
+    },
+    "20250929LGHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250929LGHH0.json",
+      "message": "PASS"
+    },
+    "20250930LTHH0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250930LTHH0.json",
+      "message": "PASS"
+    },
+    "20250930SKWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250930SKWO0.json",
+      "message": "PASS"
+    },
+    "20250930KTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250930KTNC0.json",
+      "message": "PASS"
+    },
+    "20250930HTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250930HTSS0.json",
+      "message": "PASS"
+    },
+    "20250930OBLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20250930OBLG0.json",
+      "message": "PASS"
+    },
+    "20251001NCLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20251001NCLG0.json",
+      "message": "PASS"
+    },
+    "20251001HHSK0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20251001HHSK0.json",
+      "message": "PASS"
+    },
+    "20251001KTHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20251001KTHT0.json",
+      "message": "PASS"
+    },
+    "20251002SKHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20251002SKHT0.json",
+      "message": "PASS"
+    },
+    "20251003HHKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20251003HHKT0.json",
+      "message": "PASS"
+    },
+    "20251004SKNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20251004SKNC0.json",
+      "message": "PASS"
+    },
+    "20251004SSHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2025/20251004SSHT0.json",
+      "message": "PASS"
+    }
+  }
+}
