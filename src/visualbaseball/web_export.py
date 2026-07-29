@@ -28,7 +28,7 @@ def _rows(root: Path, name: str) -> list[dict]:
 
 def _write_csv(path: Path, columns: tuple[str, ...], rows: list[dict]) -> None:
     with path.open("w", encoding="utf-8", newline="") as handle:
-        writer = csv.DictWriter(handle, fieldnames=columns, extrasaction="ignore")
+        writer = csv.DictWriter(handle, fieldnames=columns, extrasaction="ignore", lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from dataclasses import dataclass
+import json
 from .parser import parse_game
 from .storage import Store
 from .validation import validate_game
@@ -47,3 +48,23 @@ def process_payload(root: Path, payload: dict, schedule_game: dict | None = None
         store.replace_game(prepared.game, prepared.events, prepared.pitches)
         store.mark(prepared.game["game_id"], "completed", raw_path, prepared.message)
     return raw_path is not None, prepared.message, len(prepared.pitches)
+
+
+def rebuild_from_raw(root: Path, season: int = 2026) -> tuple[int, int]:
+    """Reparse retained source payloads after a schema or parser change."""
+    store = Store(root)
+    completed: list[tuple[PreparedGame, Path]] = []
+    for path in sorted((root / "data" / "raw" / str(season)).glob("*.json")):
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
+        prepared = prepare_game(payload, season=season)
+        raw_path = cache_payload(store, season, payload, prepared)
+        if raw_path:
+            completed.append((prepared, raw_path))
+    store.replace_games(
+        [prepared.game for prepared, _ in completed],
+        [event for prepared, _ in completed for event in prepared.events],
+        [pitch for prepared, _ in completed for pitch in prepared.pitches],
+    )
+    for prepared, raw_path in completed:
+        store.mark(prepared.game["game_id"], "completed", raw_path, prepared.message)
+    return len(completed), sum(len(prepared.pitches) for prepared, _ in completed)
