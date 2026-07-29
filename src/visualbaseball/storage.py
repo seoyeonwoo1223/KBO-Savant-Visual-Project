@@ -32,7 +32,16 @@ class Store:
 
     def should_fetch(self, game_id: str, game_date: str, recheck_days: int = 2) -> bool:
         entry = self.manifest()["games"].get(game_id)
-        if not entry or entry.get("status") != "completed" or not Path(entry.get("raw_path", "")).exists(): return True
+        if not entry or entry.get("status") != "completed":
+            return True
+        saved_path = Path(entry.get("raw_path", ""))
+        raw_path = saved_path if saved_path.is_absolute() else self.root / saved_path
+        # Older manifests stored a machine-specific absolute path. The repository
+        # cache is portable, so recover it by game ID when running in Actions.
+        if not raw_path.exists():
+            raw_path = self.raw_path(int(game_date[:4]), game_id)
+        if not raw_path.exists():
+            return True
         # Recent final games are deliberately rechecked because source corrections are possible.
         from datetime import date
         return (date.today() - date.fromisoformat(game_date)).days <= recheck_days
@@ -52,5 +61,11 @@ class Store:
 
     def mark(self, game_id: str, status: str, raw_path: Path | None = None, message: str = "") -> None:
         manifest = self.manifest(); entry = manifest["games"].setdefault(game_id, {})
-        entry.update({"status": status, "raw_path": str(raw_path) if raw_path else entry.get("raw_path", ""), "message": message})
+        relative_path = ""
+        if raw_path:
+            try:
+                relative_path = raw_path.resolve().relative_to(self.root.resolve()).as_posix()
+            except ValueError:
+                relative_path = str(raw_path)
+        entry.update({"status": status, "raw_path": relative_path or entry.get("raw_path", ""), "message": message})
         self.save_manifest(manifest)
