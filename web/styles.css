@@ -1,0 +1,9 @@
+:root { color-scheme: light; font-family: system-ui, sans-serif; color: #182435; background: #f4f7fb; }
+body { margin: 0; }
+main { max-width: 1120px; padding: 32px 20px 64px; margin: auto; }
+header, section { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 12px #18304a12; }
+h1, h2 { margin-top: 0; } .eyebrow { color: #49657f; font-weight: 700; margin: 0 0 8px; }
+.button, button { display: inline-block; background: #125ab3; border: 0; border-radius: 6px; color: white; padding: 10px 14px; text-decoration: none; font-weight: 700; cursor: pointer; }
+.link { margin-left: 14px; } input, select { margin: 8px; padding: 8px; border: 1px solid #bcc8d5; border-radius: 5px; }
+.table-wrap { overflow-x: auto; max-height: 420px; } table { border-collapse: collapse; width: 100%; } th, td { text-align: left; border-bottom: 1px solid #e4e9ef; padding: 9px; white-space: nowrap; }
+th { position: sticky; top: 0; background: #edf3f9; } canvas { display: block; max-width: 100%; height: auto; margin-top: 18px; border: 1px solid #d7e0ea; background: #fff; }

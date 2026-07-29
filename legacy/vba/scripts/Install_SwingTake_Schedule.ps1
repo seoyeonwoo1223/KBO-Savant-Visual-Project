@@ -5,7 +5,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $runner = Join-Path $PSScriptRoot 'Run_SwingTake_Update.ps1'
-$workbook = Join-Path $PSScriptRoot 'visualbaseball_savant_2026_incremental.xlsm'
+$workbook = Join-Path (Split-Path $PSScriptRoot -Parent) 'workbooks\visualbaseball_savant_2026_incremental.xlsm'
 
 if (-not (Test-Path -LiteralPath $runner)) { throw "Runner script not found: $runner" }
 if (-not (Test-Path -LiteralPath $workbook)) { throw "Workbook not found: $workbook" }
@@ -21,4 +21,3 @@ Register-ScheduledTask -TaskName $TaskName -Action $action -Trigger $trigger -Se
 Write-Host "Registered task: $TaskName"
 Write-Host 'Daily trigger: 12:00 PM in the current local Windows timezone.'
 Write-Host 'The user must be logged on, Excel desktop must be installed, and the workbook location must remain unchanged.'
-
