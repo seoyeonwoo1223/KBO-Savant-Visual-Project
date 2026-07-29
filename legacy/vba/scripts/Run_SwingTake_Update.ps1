@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$WorkbookPath = (Join-Path $PSScriptRoot 'visualbaseball_savant_2026_incremental.xlsm')
+    [string]$WorkbookPath = (Join-Path (Split-Path $PSScriptRoot -Parent) 'workbooks\visualbaseball_savant_2026_incremental.xlsm')
 )
 
 $ErrorActionPreference = 'Stop'
@@ -39,4 +39,3 @@ finally {
 }
 
 exit $exitCode
-

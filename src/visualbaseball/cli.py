@@ -2,12 +2,11 @@ from __future__ import annotations
 
 import argparse, json
 from pathlib import Path
-from .collector import process_payload
+from .collector import cache_and_mark, prepare_game, process_payload
 from .export_excel import export_latest
+from .web_export import export_web_data
 from .http_client import VisualBaseballClient
-from .parser import parse_game
 from .storage import Store
-from .validation import validate_game
 
 
 def main() -> None:
@@ -16,7 +15,7 @@ def main() -> None:
     if args.fixture:
         payload = json.loads(Path(args.fixture).read_text(encoding="utf-8-sig")); ok, message, pitches = process_payload(root, payload, season=args.season)
         if not ok: raise SystemExit(message)
-        export_latest(root); print(f"processed {pitches} pitches")
+        export_latest(root); export_web_data(root); print(f"processed {pitches} pitches")
         return
     client, store = VisualBaseballClient(), Store(root); schedule = client.get_json(f"/api/schedule/season?y={args.season}")["schedule"]
     pending_games, pending_events, pending_pitches = [], [], []
@@ -31,17 +30,12 @@ def main() -> None:
             if status.lower() not in {"final", "finished", "end"} and (chr(0xC885) + chr(0xB8CC)) not in status: continue
             if not store.should_fetch(game["gameId"], game_date): continue
             payload = client.get_json(f"/api/game/pbp?id={game['gameId']}", f"/game/{game['gameId']}/pbp")
-            parsed_game, events, pitches, _ = parse_game(payload, game, args.season)
-            valid, message = validate_game(parsed_game, events, pitches)
-            raw_path = store.write_raw(args.season, parsed_game["game_id"], payload)
-            if valid and parsed_game["is_final"]:
-                parsed_game["validation_status"] = "PASS"
-                pending_games.append(parsed_game); pending_events.extend(events); pending_pitches.extend(pitches)
-                store.mark(parsed_game["game_id"], "completed", raw_path, message)
+            prepared = prepare_game(payload, game, args.season)
+            if cache_and_mark(store, args.season, payload, prepared):
+                pending_games.append(prepared.game); pending_events.extend(prepared.events); pending_pitches.extend(prepared.pitches)
                 if len(pending_games) >= 25: flush()
-            else:
-                store.mark(parsed_game["game_id"], "failed" if parsed_game["is_final"] else "incomplete", raw_path, message)
     flush()
     export_latest(root)
+    export_web_data(root)
 
 if __name__ == "__main__": main()

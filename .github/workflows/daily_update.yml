@@ -8,6 +8,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   update:
@@ -25,9 +27,14 @@ jobs:
         env:
           PYTHONPATH: src
       - run: |
-          git add data exports/visualbaseball_savant_2026_latest.xlsx
+          git add data web/data exports/visualbaseball_savant_2026_latest.xlsx
           if git diff --cached --quiet; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: update Visual Baseball data"
           git push
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+      - uses: actions/deploy-pages@v4
