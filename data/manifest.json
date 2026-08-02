@@ -2449,6 +2449,21 @@
       "status": "completed",
       "raw_path": "data/raw/2026/20260731HHKT0.json",
       "message": "PASS"
+    },
+    "20260801HHKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260801HHKT0.json",
+      "message": "PASS"
+    },
+    "20260801LGOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260801LGOB0.json",
+      "message": "PASS"
+    },
+    "20260801SKWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260801SKWO0.json",
+      "message": "PASS"
     }
   }
 }
