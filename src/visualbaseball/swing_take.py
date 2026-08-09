@@ -39,7 +39,7 @@ def _action(row):
     code = str(row.get("pitch_call_code") or "").upper()
     if code in {"S", "F", "X"}:
         return "Swing"
-    if code in {"B", "T"} or (row.get("is_pa_terminal") and str(row.get("pa_result") or "").lower() == "hbp"):
+    if code in {"B", "T"} or (row.get("is_pa_terminal") and str(row.get("pa_type") or "").lower() == "hbp"):
         return "Take"
     return None
 
