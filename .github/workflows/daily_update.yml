@@ -5,6 +5,12 @@ on:
     # 12:07 Asia/Seoul (UTC+9)
     - cron: "7 3 * * *"
   workflow_dispatch:
+    inputs:
+      refresh_completed:
+        description: "Re-fetch every completed game before rebuilding Swing/Take profiles"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -16,7 +22,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,7 +32,7 @@ jobs:
       - run: python -m pytest
         env:
           PYTHONPATH: src
-      - run: python -m visualbaseball.cli
+      - run: python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
         env:
           PYTHONPATH: src
       - run: |
