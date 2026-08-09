@@ -5,7 +5,7 @@ import tempfile
 import pyarrow as pa
 import pyarrow.parquet as pq
 
-from swing_take import build_swing_take
+from visualbaseball.swing_take import build_swing_take
 
 
 def pitch(seq, call, balls, strikes, after_balls, after_strikes, px, pz, outs_after=0, runs=0):
