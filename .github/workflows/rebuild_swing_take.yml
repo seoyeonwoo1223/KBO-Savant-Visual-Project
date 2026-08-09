@@ -1,0 +1,38 @@
+name: Rebuild 2026 Swing Take profiles
+
+on:
+  push:
+    paths:
+      - ".github/profile-refresh-request"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kbo-swing-take-profile-rebuild
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check -r requirements.txt
+      - run: python -m pytest
+        env:
+          PYTHONPATH: src
+      - run: python -m visualbaseball.cli --refresh-completed
+        env:
+          PYTHONPATH: src
+      - run: |
+          git add data web/data exports/visualbaseball_savant_2026_latest.xlsx
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data: rebuild 2026 Swing Take profiles"
+          git push
