@@ -155,6 +155,12 @@ def build_swing_take(root: Path, season: int = SEASON) -> tuple[int, int]:
         row["_relative_location"] = _relative_location(row)
         valid.append(row)
     re288, counts = _re288(valid)
+    processed = root / "data" / "processed"
+    processed.mkdir(parents=True, exist_ok=True)
+    (processed / "re288.json").write_text(json.dumps({
+        "season": season,
+        "states": [{"base_state_code": state[0], "outs": state[1], "balls": state[2], "strikes": state[3], "run_expectancy": round(value, 6), "pitches": counts[state]} for state, value in sorted(re288.items())],
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     valued = []
     for row in valid:
         before, after = _state(row, "before"), _state(row, "after")
@@ -168,7 +174,7 @@ def build_swing_take(root: Path, season: int = SEASON) -> tuple[int, int]:
         x, z = row["_relative_location"]; key = (row["balls_before"], row["strikes_before"], *_cell(x, z))
         row.update({"x_relative": x, "z_relative": z, "attack_region": _region(x, z), "decision_type": _action(row), "decision_run": row["raw_run_value"] - baseline[key], "location_count_baseline": baseline[key]})
         output_rows.append({key: value for key, value in row.items() if not key.startswith("_")})
-    processed = root / "data" / "processed"; pq.write_table(pa.Table.from_pylist(output_rows), processed / "decision_pitches.parquet")
+    pq.write_table(pa.Table.from_pylist(output_rows), processed / "decision_pitches.parquet")
     output = root / "web" / "data" / "profiles"; output.mkdir(parents=True, exist_ok=True)
     for name, slug in PLAYER_SLUGS.items():
         profile_rows = [row for row in valued if row.get("batter_name") == name]
