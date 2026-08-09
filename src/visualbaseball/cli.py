@@ -18,7 +18,7 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(); parser.add_argument("--root", default="."); parser.add_argument("--storage-root"); parser.add_argument("--fixture"); parser.add_argument("--season", type=int, default=2026); parser.add_argument("--game-id"); parser.add_argument("--rebuild-from-raw", action="store_true")
+    parser = argparse.ArgumentParser(); parser.add_argument("--root", default="."); parser.add_argument("--storage-root"); parser.add_argument("--fixture"); parser.add_argument("--season", type=int, default=2026); parser.add_argument("--game-id"); parser.add_argument("--rebuild-from-raw", action="store_true"); parser.add_argument("--refresh-completed", action="store_true")
     args = parser.parse_args(); root = Path(args.root).resolve(); storage_root = Path(args.storage_root).resolve() if args.storage_root else root
     if args.rebuild_from_raw:
         games, pitches = rebuild_from_raw(storage_root, args.season)
@@ -44,7 +44,7 @@ def main() -> None:
             if args.game_id and game.get("gameId") != args.game_id: continue
             status = str(game.get("status", ""))
             if status.lower() not in {"final", "finished", "end"} and (chr(0xC885) + chr(0xB8CC)) not in status: continue
-            if not store.should_fetch(game["gameId"], game_date): continue
+            if not args.refresh_completed and not store.should_fetch(game["gameId"], game_date): continue
             payload = client.get_json(f"/api/game/pbp?id={game['gameId']}", f"/game/{game['gameId']}/pbp")
             prepared = prepare_game(payload, game, args.season)
             raw_path = cache_payload(store, args.season, payload, prepared)
