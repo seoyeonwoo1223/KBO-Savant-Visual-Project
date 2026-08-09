@@ -1,36 +1,5 @@
 <!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KBO Swing/Take Data</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main>
-    <header>
-      <p class="eyebrow">Visual Baseball · 2026</p>
-      <h1>KBO Swing/Take 데이터 뷰어</h1>
-      <p id="summary">데이터 요약을 불러오는 중입니다.</p>
-      <p><a class="button" href="https://github.com/seoyeonwoo1223/KBO-Swing-Take-Project/raw/refs/heads/master/exports/visualbaseball_savant_2026_latest.xlsx">최신 Excel 다운로드</a>
-        <a class="link" href="data/movement.csv">무브먼트 CSV 다운로드</a></p>
-    </header>
-
-    <section>
-      <h2>경기 목록</h2>
-      <label>팀 또는 경기 ID <input id="game-filter" type="search" placeholder="예: KIA, 20260527"></label>
-      <div class="table-wrap"><table><thead><tr><th>날짜</th><th>원정</th><th>홈</th><th>스코어</th><th>구장</th><th>검증</th></tr></thead><tbody id="games"></tbody></table></div>
-    </section>
-
-    <section>
-      <h2>피치 무브먼트</h2>
-      <p>가로·세로 무브먼트(cm)를 산점도로 표시합니다. 브라우저 성능을 위해 최대 5,000구를 균등 표본으로 그립니다.</p>
-      <label>구종 <select id="pitch-type"><option value="">전체</option></select></label>
-      <button id="plot">플롯 불러오기</button>
-      <canvas id="movement" width="900" height="540" aria-label="피치 무브먼트 산점도"></canvas>
-      <p id="plot-status"></p>
-    </section>
-  </main>
-  <script src="app.js"></script>
-</body>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>KBO Swing/Take Profiles</title><link rel="stylesheet" href="styles.css"></head>
+<body><main><header><p class="eyebrow">Visual Baseball ABS · 2026 KBO</p><h1>Swing/Take 프로필</h1><p>RE288 기반 투구 Run Value를 위치와 볼카운트로 중립화한, 두 선수 전용 프로필입니다.</p><p><a class="button" href="profiles/park-junsoon.html">박준순 프로필</a> <a class="button" href="profiles/hong-changki.html">홍창기 프로필</a></p></header></main></body>
 </html>
