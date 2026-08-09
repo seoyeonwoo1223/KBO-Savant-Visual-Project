@@ -10,7 +10,7 @@ def export_latest(root: Path, season: int = 2026, source_root: Path | None = Non
     output = root / "exports" / f"visualbaseball_savant_{season}_latest.xlsx"; output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix(".xlsx.tmp")
     workbook = xlsxwriter.Workbook(temporary, {"strings_to_urls": False}); header = workbook.add_format({"bold": True, "font_color": "#FFFFFF", "bg_color": "#1F4E79", "align": "center"})
-    for name in ("games", "events", "pitches"):
+    for name in ("games", "events", "pitches", "decision_pitches"):
         path = source_root / "data" / "processed" / f"{name}.parquet"; rows = pq.read_table(path).to_pylist() if path.exists() else []
         sheet = workbook.add_worksheet(name.title()); sheet.freeze_panes(1, 0); sheet.hide_gridlines(2)
         columns = list(rows[0]) if rows else []

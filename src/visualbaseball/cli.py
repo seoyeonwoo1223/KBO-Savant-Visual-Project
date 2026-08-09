@@ -7,6 +7,14 @@ from .export_excel import export_latest
 from .web_export import export_web_data
 from .http_client import VisualBaseballClient
 from .storage import Store
+from .swing_take import build_swing_take
+
+
+def _exports(root: Path, season: int, storage_root: Path) -> None:
+    build_swing_take(storage_root, season)
+    export_latest(root, season, storage_root)
+    if storage_root == root:
+        export_web_data(root)
 
 
 def main() -> None:
@@ -14,15 +22,13 @@ def main() -> None:
     args = parser.parse_args(); root = Path(args.root).resolve(); storage_root = Path(args.storage_root).resolve() if args.storage_root else root
     if args.rebuild_from_raw:
         games, pitches = rebuild_from_raw(storage_root, args.season)
-        export_latest(root, args.season, storage_root)
-        if storage_root == root: export_web_data(root)
+        _exports(root, args.season, storage_root)
         print(f"rebuilt {games} games and {pitches} pitches")
         return
     if args.fixture:
         payload = json.loads(Path(args.fixture).read_text(encoding="utf-8-sig")); ok, message, pitches = process_payload(storage_root, payload, season=args.season)
         if not ok: raise SystemExit(message)
-        export_latest(root, args.season, storage_root)
-        if storage_root == root: export_web_data(root)
+        _exports(root, args.season, storage_root)
         print(f"processed {pitches} pitches")
         return
     client, store = VisualBaseballClient(), Store(storage_root); schedule = client.get_json(f"/api/schedule/season?y={args.season}")["schedule"]
@@ -47,7 +53,7 @@ def main() -> None:
                 pending_completions.append((prepared, raw_path))
                 if len(pending_games) >= 25: flush()
     flush()
-    export_latest(root, args.season, storage_root)
-    if storage_root == root: export_web_data(root)
+    _exports(root, args.season, storage_root)
+
 
 if __name__ == "__main__": main()
