@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import csv
 import json
-from datetime import datetime, timezone
 from pathlib import Path
 
 import pyarrow.parquet as pq
@@ -45,7 +44,7 @@ def export_web_data(root: Path) -> Path:
     dates = sorted(str(row.get("game_date")) for row in games if row.get("game_date"))
     summary = {
         "season": 2026,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": max((str(row.get("fetched_at") or "") for row in games), default=None),
         "date_range": [dates[0], dates[-1]] if dates else [],
         "games": len(games),
         "events": len(events),
