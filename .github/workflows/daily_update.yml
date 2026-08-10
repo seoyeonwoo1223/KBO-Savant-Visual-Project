@@ -1,6 +1,12 @@
 name: Daily Visual Baseball update
 
 on:
+  push:
+    paths:
+      - "exports/visualbaseball_savant_2026_latest.xlsx"
+      - "src/visualbaseball/**"
+      - "web/profiles/**"
+      - "requirements.txt"
   schedule:
     # 12:07 Asia/Seoul (UTC+9)
     - cron: "7 3 * * *"
