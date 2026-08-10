@@ -7,6 +7,7 @@ on:
       - "src/visualbaseball/**"
       - "web/profiles/**"
       - "requirements.txt"
+      - ".github/workflows/daily_update.yml"
   schedule:
     # 12:07 Asia/Seoul (UTC+9)
     - cron: "7 3 * * *"
