@@ -23,6 +23,8 @@ PLAYER_SLUGS = {"박준순": "park-junsoon", "홍창기": "hong-changki"}
 PLATE_HALF_WIDTH_FT = 10 / 12  # ABS strike-zone half width used by Visual Baseball.
 GRID_STEP = 0.25
 MIN_LOCATION_CELL_PITCHES = 25
+# FanGraphs has used 300 pitches seen as an illustrative Swing/Take cutoff.
+MIN_PROFILE_PITCHES = 300
 REGION_ORDER = ("Heart", "Shadow", "Chase", "Waste")
 ACTIONS = ("Swing", "Take")
 
@@ -185,7 +187,7 @@ def _summary(rows, name, slug, season, re_counts, excluded, source_metadata):
         if abs(x) <= 1 and abs(z) <= 1:
             key = f"{min(2, max(0, int((x + 1) * 1.5)))}-{min(2, max(0, int((z + 1) * 1.5)))}"
             zone_grid.setdefault(key, []).append(row)
-    return {"schema_version": 2, "metric": "RE288 location-and-count-neutral Decision Run", "season": season, "source": source_metadata, "player": {"name": name, "slug": slug}, "sample": {"eligible_pitches": len(rows), "excluded_pitches": excluded, "minimum_pitches": 100, "meets_minimum": len(rows) >= 100}, "coordinate_contract": {"source": "Visual Baseball ABS px/pz (feet)", "x_center": 0, "x_zone_edge_ft": PLATE_HALF_WIDTH_FT, "z_center": "(sz_top + sz_bottom) / 2", "relative_distance": "max(abs(x_relative), abs(z_relative))", "regions": {"Heart": "0–66.7%", "Shadow": "66.7–133.3%", "Chase": "133.3–200%", "Waste": ">200%"}}, "baseline": {"count": "balls_before × strikes_before", "location": f"normalized {GRID_STEP:.2f} × {GRID_STEP:.2f} cells; sparse cells expand to Chebyshev radius 1.00", "minimum_cell_pitches": MIN_LOCATION_CELL_PITCHES}, "re288": {"observed_states": len(re_counts), "state_counts": {"-".join(map(str, state)): count for state, count in sorted(re_counts.items())}}, "overall": total, "regions": by_region, "zone_grid": {key: aggregate(value) for key, value in zone_grid.items()}}
+    return {"schema_version": 2, "metric": "RE288 location-and-count-neutral Decision Run", "season": season, "source": source_metadata, "player": {"name": name, "slug": slug}, "sample": {"eligible_pitches": len(rows), "excluded_pitches": excluded, "minimum_pitches": MIN_PROFILE_PITCHES, "meets_minimum": len(rows) >= MIN_PROFILE_PITCHES}, "coordinate_contract": {"source": "Visual Baseball ABS px/pz (feet)", "x_center": 0, "x_zone_edge_ft": PLATE_HALF_WIDTH_FT, "z_center": "(sz_top + sz_bottom) / 2", "relative_distance": "max(abs(x_relative), abs(z_relative))", "regions": {"Heart": "0–66.7%", "Shadow": "66.7–133.3%", "Chase": "133.3–200%", "Waste": ">200%"}}, "baseline": {"count": "balls_before × strikes_before", "location": f"normalized {GRID_STEP:.2f} × {GRID_STEP:.2f} cells; sparse cells expand to Chebyshev radius 1.00", "minimum_cell_pitches": MIN_LOCATION_CELL_PITCHES}, "re288": {"observed_states": len(re_counts), "state_counts": {"-".join(map(str, state)): count for state, count in sorted(re_counts.items())}}, "overall": total, "regions": by_region, "zone_grid": {key: aggregate(value) for key, value in zone_grid.items()}}
 
 
 def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None = None) -> tuple[int, int]:
