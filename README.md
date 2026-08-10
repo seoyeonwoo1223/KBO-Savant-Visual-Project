@@ -50,6 +50,10 @@ python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
 
 `.github/workflows/daily_update.yml`은 매일 12:07 Asia/Seoul에 테스트 후 수집기를 실행합니다. 최신 Excel의 `Pitches` 시트가 Swing/Take 프로필의 단일 입력이며, Excel이 갱신되면 박준순·홍창기 프로필 JSON과 `data/processed/decision_pitches.parquet`가 함께 재생성됩니다. 중간 분석 테이블인 Decision Pitches는 Excel에 넣지 않습니다. 데이터 내용이 같으면 Excel과 프로필 파일도 바뀌지 않아 커밋하지 않습니다.
 
+## Swing/Take 프로필 기준
+
+프로필은 2026 KBO 정규시즌의 검증된 투구만 사용한다. 스윙은 헛스윙·파울·인플레이, 테이크는 콜드볼·콜드스트라이크와 타석 종료 사구로 분류한다. 최소 표시 기준은 **300 pitches seen**이며, 이 수치는 FanGraphs의 Swing/Take 분석에서 사용된 하한을 따른다. 300구 미만은 수치를 숨기지 않고 표본 미달로 표시한다.
+
 ## 데스크톱 VBA
 
 기존 Excel 매크로 수집기는 [`legacy/vba/README.md`](legacy/vba/README.md)에 분리해 보존했습니다. 이 경로는 GitHub Actions 수집기와 독립적입니다.
