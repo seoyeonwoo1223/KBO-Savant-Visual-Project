@@ -61,7 +61,7 @@ def _excel_rows(source: Path, season: int) -> list[dict]:
 def _source_metadata(rows: list[dict], source: Path | None) -> dict:
     updated_at = max((str(row.get("fetched_at") or "") for row in rows), default="")
     return {
-        "workbook": source.as_posix() if source else "data/processed/pitches.parquet",
+        "workbook": f"exports/{source.name}" if source else "data/processed/pitches.parquet",
         "sha256": sha256(source.read_bytes()).hexdigest() if source else None,
         "updated_at": updated_at or None,
     }
