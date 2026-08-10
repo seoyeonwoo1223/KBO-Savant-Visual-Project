@@ -11,7 +11,11 @@ from .swing_take import build_swing_take
 
 
 def _exports(root: Path, season: int, storage_root: Path) -> None:
-    build_swing_take(storage_root, season)
+    # The published workbook is the single profile input.  Export it first,
+    # calculate profiles from its Pitches sheet, then include decision_pitches
+    # in the same latest workbook.
+    workbook = export_latest(root, season, storage_root)
+    build_swing_take(storage_root, season, excel_source=workbook)
     export_latest(root, season, storage_root)
     if storage_root == root:
         export_web_data(root)
