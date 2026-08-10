@@ -48,7 +48,7 @@ python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
 
 ## 자동 갱신
 
-`.github/workflows/daily_update.yml`은 매일 12:07 Asia/Seoul에 테스트 후 수집기를 실행합니다. 최신 Excel의 `Pitches` 시트가 Swing/Take 프로필의 단일 입력이며, Excel이 갱신되면 박준순·홍창기 프로필 JSON과 Decision Pitches 시트가 함께 재생성됩니다. 데이터 내용이 같으면 Excel과 프로필 파일도 바뀌지 않아 커밋하지 않습니다.
+`.github/workflows/daily_update.yml`은 매일 12:07 Asia/Seoul에 테스트 후 수집기를 실행합니다. 최신 Excel의 `Pitches` 시트가 Swing/Take 프로필의 단일 입력이며, Excel이 갱신되면 박준순·홍창기 프로필 JSON과 `data/processed/decision_pitches.parquet`가 함께 재생성됩니다. 중간 분석 테이블인 Decision Pitches는 Excel에 넣지 않습니다. 데이터 내용이 같으면 Excel과 프로필 파일도 바뀌지 않아 커밋하지 않습니다.
 
 ## 데스크톱 VBA
 
