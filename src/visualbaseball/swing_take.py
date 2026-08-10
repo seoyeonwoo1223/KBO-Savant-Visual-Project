@@ -161,11 +161,23 @@ def _summary(rows, name, slug, season, re_counts, excluded, source_metadata):
         pitches = len(items); decision = sum(item["decision_run"] for item in items)
         return {"pitches": pitches, "decision_run": round(decision, 4), "decision_run_per_100": round(100 * decision / pitches, 4) if pitches else None}
     total = aggregate(rows)
+    total.update({
+        "swing_pct": round(100 * len([row for row in rows if row["decision_type"] == "Swing"]) / len(rows), 3) if rows else 0,
+        "take_pct": round(100 * len([row for row in rows if row["decision_type"] == "Take"]) / len(rows), 3) if rows else 0,
+    })
     by_region = {}
     for region in REGION_ORDER:
         combined = groups[(region, "Swing")] + groups[(region, "Take")]
         entry = aggregate(combined)
-        entry.update({"share_pct": round(100 * len(combined) / len(rows), 3) if rows else 0, "swing": aggregate(groups[(region, "Swing")]), "take": aggregate(groups[(region, "Take")])})
+        swings = groups[(region, "Swing")]
+        takes = groups[(region, "Take")]
+        entry.update({
+            "share_pct": round(100 * len(combined) / len(rows), 3) if rows else 0,
+            "swing_pct": round(100 * len(swings) / len(combined), 3) if combined else 0,
+            "take_pct": round(100 * len(takes) / len(combined), 3) if combined else 0,
+            "swing": aggregate(swings),
+            "take": aggregate(takes),
+        })
         by_region[region] = entry
     zone_grid = {}
     for row in rows:
