@@ -8,7 +8,6 @@ calculation rather than filling their game state by inference.
 from __future__ import annotations
 
 from collections import Counter, defaultdict
-from datetime import datetime, timezone
 from hashlib import sha256
 import json
 import math
