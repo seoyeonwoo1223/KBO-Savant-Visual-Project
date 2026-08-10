@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
+from hashlib import sha256
 import json
 import math
 from pathlib import Path
@@ -16,6 +17,7 @@ from statistics import mean
 
 import pyarrow as pa
 import pyarrow.parquet as pq
+from openpyxl import load_workbook
 
 SEASON = 2026
 PLAYER_SLUGS = {"박준순": "park-junsoon", "홍창기": "hong-changki"}
@@ -33,6 +35,37 @@ def _number(value):
     except (TypeError, ValueError):
         return None
 
+
+
+def _excel_rows(source: Path, season: int) -> list[dict]:
+    """Read the published workbook's authoritative Pitches sheet."""
+    if not source.exists():
+        raise FileNotFoundError(f"Profile input workbook is missing: {source}")
+    workbook = load_workbook(source, read_only=True, data_only=True)
+    try:
+        sheet = workbook["Pitches"]
+    except KeyError as error:
+        raise ValueError(f"Profile input workbook has no Pitches sheet: {source}") from error
+    iterator = sheet.iter_rows(values_only=True)
+    headers = next(iterator, None)
+    if not headers:
+        return []
+    columns = [str(value) if value is not None else "" for value in headers]
+    rows = []
+    for values in iterator:
+        row = {column: value for column, value in zip(columns, values)}
+        if row.get("season") == season:
+            rows.append(row)
+    return rows
+
+
+def _source_metadata(rows: list[dict], source: Path | None) -> dict:
+    updated_at = max((str(row.get("fetched_at") or "") for row in rows), default="")
+    return {
+        "workbook": source.as_posix() if source else "data/processed/pitches.parquet",
+        "sha256": sha256(source.read_bytes()).hexdigest() if source else None,
+        "updated_at": updated_at or None,
+    }
 
 def _action(row):
     """Classify the source call once, including terminal HBP as a take."""
@@ -121,7 +154,7 @@ def _location_baseline(rows):
     return result
 
 
-def _summary(rows, name, slug, season, re_counts, excluded):
+def _summary(rows, name, slug, season, re_counts, excluded, source_metadata):
     groups = {(region, action): [] for region in REGION_ORDER for action in ACTIONS}
     for row in rows:
         groups[(row["attack_region"], row["decision_type"])].append(row)
@@ -141,12 +174,16 @@ def _summary(rows, name, slug, season, re_counts, excluded):
         if abs(x) <= 1 and abs(z) <= 1:
             key = f"{min(2, max(0, int((x + 1) * 1.5)))}-{min(2, max(0, int((z + 1) * 1.5)))}"
             zone_grid.setdefault(key, []).append(row)
-    return {"schema_version": 1, "metric": "RE288 location-and-count-neutral Decision Run", "season": season, "generated_at": datetime.now(timezone.utc).isoformat(), "player": {"name": name, "slug": slug}, "sample": {"eligible_pitches": len(rows), "excluded_pitches": excluded, "minimum_pitches": 100, "meets_minimum": len(rows) >= 100}, "coordinate_contract": {"source": "Visual Baseball ABS px/pz (feet)", "x_center": 0, "x_zone_edge_ft": PLATE_HALF_WIDTH_FT, "z_center": "(sz_top + sz_bottom) / 2", "relative_distance": "max(abs(x_relative), abs(z_relative))", "regions": {"Heart": "0–66.7%", "Shadow": "66.7–133.3%", "Chase": "133.3–200%", "Waste": ">200%"}}, "baseline": {"count": "balls_before × strikes_before", "location": f"normalized {GRID_STEP:.2f} × {GRID_STEP:.2f} cells; sparse cells expand to Chebyshev radius 1.00", "minimum_cell_pitches": MIN_LOCATION_CELL_PITCHES}, "re288": {"observed_states": len(re_counts), "state_counts": {"-".join(map(str, state)): count for state, count in sorted(re_counts.items())}}, "overall": total, "regions": by_region, "zone_grid": {key: aggregate(value) for key, value in zone_grid.items()}}
+    return {"schema_version": 2, "metric": "RE288 location-and-count-neutral Decision Run", "season": season, "source": source_metadata, "player": {"name": name, "slug": slug}, "sample": {"eligible_pitches": len(rows), "excluded_pitches": excluded, "minimum_pitches": 100, "meets_minimum": len(rows) >= 100}, "coordinate_contract": {"source": "Visual Baseball ABS px/pz (feet)", "x_center": 0, "x_zone_edge_ft": PLATE_HALF_WIDTH_FT, "z_center": "(sz_top + sz_bottom) / 2", "relative_distance": "max(abs(x_relative), abs(z_relative))", "regions": {"Heart": "0–66.7%", "Shadow": "66.7–133.3%", "Chase": "133.3–200%", "Waste": ">200%"}}, "baseline": {"count": "balls_before × strikes_before", "location": f"normalized {GRID_STEP:.2f} × {GRID_STEP:.2f} cells; sparse cells expand to Chebyshev radius 1.00", "minimum_cell_pitches": MIN_LOCATION_CELL_PITCHES}, "re288": {"observed_states": len(re_counts), "state_counts": {"-".join(map(str, state)): count for state, count in sorted(re_counts.items())}}, "overall": total, "regions": by_region, "zone_grid": {key: aggregate(value) for key, value in zone_grid.items()}}
 
 
-def build_swing_take(root: Path, season: int = SEASON) -> tuple[int, int]:
-    source = root / "data" / "processed" / "pitches.parquet"
-    rows = [dict(row) for row in pq.read_table(source).to_pylist() if row.get("season") == season]
+def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None = None) -> tuple[int, int]:
+    """Build profiles from the published Excel workbook, never a parallel raw input."""
+    source = excel_source or root / "data" / "processed" / "pitches.parquet"
+    rows = _excel_rows(source, season) if excel_source else [
+        dict(row) for row in pq.read_table(source).to_pylist() if row.get("season") == season
+    ]
+    source_metadata = _source_metadata(rows, excel_source)
     excluded = Counter(); valid = []
     for row in rows:
         if not _eligible(row):
@@ -178,5 +215,5 @@ def build_swing_take(root: Path, season: int = SEASON) -> tuple[int, int]:
     output = root / "web" / "data" / "profiles"; output.mkdir(parents=True, exist_ok=True)
     for name, slug in PLAYER_SLUGS.items():
         profile_rows = [row for row in valued if row.get("batter_name") == name]
-        (output / f"{slug}.json").write_text(json.dumps(_summary(profile_rows, name, slug, season, counts, dict(excluded)), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        (output / f"{slug}.json").write_text(json.dumps(_summary(profile_rows, name, slug, season, counts, dict(excluded), source_metadata), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return len(output_rows), sum(1 for row in valued if row.get("batter_name") in PLAYER_SLUGS)
