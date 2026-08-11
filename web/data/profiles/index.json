@@ -1,0 +1,23 @@
+{
+  "season": 2026,
+  "players": [
+    {
+      "name": "박준순",
+      "romanized_name": "Park Junsoon",
+      "team": "두산 베어스",
+      "slug": "park-junsoon",
+      "bats": "Right",
+      "pitches": 1032,
+      "meets_minimum": true
+    },
+    {
+      "name": "홍창기",
+      "romanized_name": "Hong Changki",
+      "team": "LG 트윈스",
+      "slug": "hong-changki",
+      "bats": "Left",
+      "pitches": 1795,
+      "meets_minimum": true
+    }
+  ]
+}

@@ -3,50 +3,48 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Swing/Take 프로필</title>
+  <title>홍창기 Swing/Take 프로필</title>
   <link rel="stylesheet" href="profile.css">
 </head>
-<body>
+<body data-profile="hong-changki">
   <main>
+    <p class="back"><a href="../index.html">← 선수 선택</a></p>
     <header class="profile-header">
       <p class="eyebrow">Visual Baseball ABS · 2026 KBO</p>
-      <h1 id="player-name">선수</h1>
+      <h1 id="player-name">홍창기</h1>
+      <p id="bats"></p>
       <p id="meta">프로필을 불러오는 중입니다.</p>
     </header>
-
-    <section class="card decision-card" aria-labelledby="decision-title">
-      <h2 id="decision-title">Decision Run</h2>
-      <div id="summary-stats" class="summary-stats"></div>
-      <p class="method-note">투구의 위치와 볼카운트를 중립화한 뒤 남는 의사결정 가치입니다. 타자 기준으로 양수일수록 좋습니다.</p>
-    </section>
-
-    <section class="card map-card" aria-labelledby="map-title">
-      <h2 id="map-title">Strike-zone decision map</h2>
-      <div class="map-layout">
-        <div class="zone-map" aria-label="Heart, Shadow, Chase, Waste와 스트라이크존을 나타낸 단일선 지도">
-          <div class="zone-200"></div>
-          <div class="zone-chase"></div>
-          <div class="zone-shadow"></div>
-          <div class="zone-heart"></div>
-          <div id="zone-grid" class="strike-zone-grid" aria-label="스트라이크존 3x3 Decision Run"></div>
-          <div class="zone-label label-200">200%</div>
-          <div class="zone-label label-133">133%</div>
-          <div class="zone-label label-100">100%</div>
-          <div class="zone-label label-67">67%</div>
-        </div>
-        <div class="map-key" aria-label="구역 경계 설명">
-          <p><i class="key-line heart"></i>Heart <span>0–66.7%</span></p>
-          <p><i class="key-line shadow"></i>Shadow <span>66.7–133.3%</span></p>
-          <p><i class="key-line chase"></i>Chase <span>133.3–200%</span></p>
-          <p><i class="key-line waste"></i>Waste <span>&gt;200%</span></p>
-        </div>
+    <section class="profile-card" aria-label="Swing Take 프로필">
+      <div class="score-line">
+        <span class="score-label">Decision Run</span>
+        <strong id="total-decision-run">—</strong>
+        <span id="score-detail">위치·카운트 중립</span>
+      </div>
+      <div class="profile-dashboard">
+        <section class="zone-panel" aria-labelledby="zone-title">
+          <h2 id="zone-title">Strike Zone</h2>
+          <div class="zone-visual" aria-label="Heart, Shadow, Chase, Waste 구역과 스트라이크존">
+            <div class="zone-waste"></div>
+            <div class="zone-chase"></div>
+            <div class="zone-shadow"></div>
+            <div class="zone-heart"></div>
+            <div class="strike-zone" aria-label="Strike Zone"></div>
+          </div>
+          <p class="zone-key"><i></i>Strike Zone</p>
+          <p class="zone-note">직사각형 상대 거리 기준 · Heart 0–66.7% · Shadow 66.7–133.3% · Chase 133.3–200%</p>
+        </section>
+        <section class="regions-panel" aria-labelledby="regions-title">
+          <div class="panel-heading">
+            <h2 id="regions-title">Pitch Frequency · Decision</h2>
+            <p id="pitch-total"></p>
+          </div>
+          <div id="regions" class="region-list"></div>
+          <div class="decision-legend"><span class="swing-key">■</span> Swing Decision Run <span class="take-key">■</span> Take Decision Run</div>
+        </section>
       </div>
     </section>
-
-    <section class="card attack-card" aria-labelledby="attack-title">
-      <h2 id="attack-title">Attack regions</h2>
-      <div id="regions" class="region-cards"></div>
-    </section>
+    <p class="method-note">Decision Run은 각 투구의 Raw Run Value에서 같은 볼카운트·상대 위치의 리그 평균을 뺀 값입니다. 타자 기준으로 양수일수록 좋습니다.</p>
   </main>
   <script src="profile.js"></script>
 </body>

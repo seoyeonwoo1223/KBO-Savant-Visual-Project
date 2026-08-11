@@ -1,5 +1,23 @@
 <!doctype html>
 <html lang="ko">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>KBO Swing/Take Profiles</title><link rel="stylesheet" href="styles.css"></head>
-<body><main><header><p class="eyebrow">Visual Baseball ABS · 2026 KBO</p><h1>Swing/Take 프로필</h1><p>RE288 기반 투구 Run Value를 위치와 볼카운트로 중립화한, 두 선수 전용 프로필입니다.</p><p><a class="button" href="profiles/park-junsoon.html">박준순 프로필</a> <a class="button" href="profiles/hong-changki.html">홍창기 프로필</a></p></header></main></body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KBO Swing/Take Profiles</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="profile-index">
+    <header class="index-header">
+      <p class="eyebrow">VISUAL BASEBALL ABS · 2026 KBO</p>
+      <h1>Swing/Take Profiles</h1>
+      <p>RE288 기반 위치·볼카운트 중립 Decision Run 프로필</p>
+    </header>
+    <section aria-labelledby="players-title">
+      <div class="index-heading"><h2 id="players-title">Players</h2><p id="season"></p></div>
+      <div id="player-list" class="player-list" aria-live="polite"></div>
+    </section>
+  </main>
+  <script src="index.js"></script>
+</body>
 </html>
