@@ -4,8 +4,8 @@
   "season": 2026,
   "source": {
     "workbook": "exports/visualbaseball_savant_2026_latest.xlsx",
-    "sha256": "365ff9803021da3dc22e7b6573ea5eda4a2cd82928509fcc94c5d8a0e333187b",
-    "updated_at": "2026-08-11T15:22:42+00:00"
+    "sha256": "e618d1f58102b4ef28e219f78c55d1dd5ccaba8b4529b02ad037256cfddee4f0",
+    "updated_at": "2026-08-11T15:48:34+00:00"
   },
   "player": {
     "name": "박준순",
@@ -333,10 +333,26 @@
   },
   "league": {
     "regions": {
-      "Heart": { "pitches": 36590, "swing_pct": 69.888, "take_pct": 30.112 },
-      "Shadow": { "pitches": 61820, "swing_pct": 52.268, "take_pct": 47.732 },
-      "Chase": { "pitches": 36241, "swing_pct": 25.479, "take_pct": 74.521 },
-      "Waste": { "pitches": 19366, "swing_pct": 7.89, "take_pct": 92.11 }
+      "Heart": {
+        "pitches": 36946,
+        "swing_pct": 69.856,
+        "take_pct": 30.144
+      },
+      "Shadow": {
+        "pitches": 62359,
+        "swing_pct": 52.286,
+        "take_pct": 47.714
+      },
+      "Chase": {
+        "pitches": 36575,
+        "swing_pct": 25.496,
+        "take_pct": 74.504
+      },
+      "Waste": {
+        "pitches": 19561,
+        "swing_pct": 7.863,
+        "take_pct": 92.137
+      }
     }
   },
   "overall": {
