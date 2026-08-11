@@ -3,7 +3,7 @@ const formatSigned = value => {
   const number = Number(value);
   return `${number > 0 ? "+" : ""}${formatNumber(number)}`;
 };
-const profile = document.body.dataset.profile;
+const playerId = new URLSearchParams(window.location.search).get("player");
 const REGION_STYLE = {
   Heart: { className: "heart", color: "#b16ab3" },
   Shadow: { className: "shadow", color: "#ec896f" },
@@ -29,27 +29,31 @@ const swingTakeSplit = (region, league) => `
       <div class="split-half take"><i></i><span>${formatNumber(league.take_pct)}%</span></div>
     </div>` : ""}
   </div>`;
-const runBar = (value, maximum, type) => {
+const runBar = (value, maximum, label) => {
   const positive = Number(value) >= 0;
-  return `<div class="run-bar">
+  return `<div class="run-bar" aria-label="${label} Run Value ${formatSigned(value)}">
     <i class="run-axis"></i>
     <i class="run-fill ${positive ? "positive" : "negative"}" style="--run-width:${runWidth(value, maximum)}"></i>
+    <span class="run-label">${label}</span>
     <span class="run-value ${positive ? "positive" : "negative"}">${formatSigned(value)}</span>
   </div>`;
 };
-fetch(`../data/profiles/${profile}.json`)
+fetch("../data/profiles/profiles.json")
   .then(response => {
     if (!response.ok) throw new Error("profile data could not be loaded");
     return response.json();
   })
-  .then(data => {
-    const { sample, overall, regions, league } = data;
+  .then(catalog => {
+    const data = catalog.players[playerId] || Object.values(catalog.players).find(profile => profile.player.name === playerId);
+    if (!data) throw new Error("profile not found");
+    const { sample, overall, regions } = data;
+    const { season, source, league } = catalog;
     document.querySelector("#player-name").textContent = data.player.name;
     document.title = `${data.player.name} Swing/Take 프로필`;
     document.querySelector("#bats").textContent = `Bats: ${data.player.bats}`;
     document.querySelector("#meta").textContent =
-      `${data.season} 정규시즌 · ${sample.eligible_pitches.toLocaleString()}구 · ${(data.source.updated_at || "").slice(0, 10)} 기준${sample.meets_minimum ? "" : " · 표본 미달 (300구 기준)"}`;
-    document.querySelector("#total-decision-run").textContent = formatSigned(overall.decision_run);
+      `${season} 정규시즌 · ${sample.eligible_pitches.toLocaleString()}구 · ${(source.updated_at || "").slice(0, 10)} 기준${sample.meets_minimum ? "" : " · 표본 미달 (300구 기준)"}`;
+    document.querySelector("#total-run-value").textContent = formatSigned(overall.decision_run);
     document.querySelector("#score-detail").textContent = `100구당 ${formatSigned(overall.decision_run_per_100)} · 위치·카운트 중립`;
     document.querySelector("#pitch-total").textContent = `${overall.pitches.toLocaleString()} total pitches`;
     const maximumRun = Math.max(
@@ -68,12 +72,15 @@ fetch(`../data/profiles/${profile}.json`)
         </div>
         ${swingTakeSplit(styledRegion, league?.regions?.[name])}
         <div class="run-bars">
-          ${runBar(region.swing.decision_run, maximumRun, "swing")}
-          ${runBar(region.take.decision_run, maximumRun, "take")}
+          ${runBar(region.swing.decision_run, maximumRun, "Swing")}
+          ${runBar(region.take.decision_run, maximumRun, "Take")}
         </div>
       </article>`;
     }).join("");
+    const swingTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.swing.decision_run), 0);
+    const takeTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.take.decision_run), 0);
+    document.querySelector("#run-total").innerHTML = `<span>${formatSigned(swingTotal)} Swing Run</span><strong>${formatSigned(takeTotal)} Take Run</strong>`;
   })
   .catch(() => {
-    document.querySelector("#meta").textContent = "프로필 데이터를 불러오지 못했습니다.";
+    document.querySelector("#meta").textContent = "해당 선수의 ABS 프로필을 찾을 수 없습니다. 선수 검색으로 돌아가 주세요.";
   });

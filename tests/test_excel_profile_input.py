@@ -39,9 +39,10 @@ with tempfile.TemporaryDirectory() as directory:
     workbook.close()
 
     eligible, targeted = build_swing_take(root, excel_source=workbook_path)
-    profile = json.loads((root / "web/data/profiles/hong-changki.json").read_text(encoding="utf-8"))
+    catalog = json.loads((root / "web/data/profiles/profiles.json").read_text(encoding="utf-8"))
+    profile = next(profile for profile in catalog["players"].values() if profile["player"]["name"] == "홍창기")
 
     assert eligible == 4 and targeted == 4
     assert profile["overall"]["pitches"] == 4
-    assert profile["source"]["workbook"].endswith("visualbaseball_savant_2026_latest.xlsx")
-    assert profile["source"]["sha256"]
+    assert catalog["source"]["workbook"].endswith("visualbaseball_savant_2026_latest.xlsx")
+    assert catalog["source"]["sha256"]
