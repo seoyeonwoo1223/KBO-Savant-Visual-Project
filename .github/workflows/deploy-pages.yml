@@ -2,7 +2,7 @@ name: Deploy Swing Take profiles
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - "web/**"
       - ".github/workflows/deploy-pages.yml"
