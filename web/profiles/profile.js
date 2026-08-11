@@ -10,7 +10,7 @@ const REGION_STYLE = {
   Chase: { className: "chase", color: "#ffe11b" },
   Waste: { className: "waste", color: "#a8a8a8" }
 };
-const runWidth = (value, maximum) => `${Math.max(2, Math.min(100, Math.abs(Number(value)) / maximum * 100))}%`;
+const runWidth = (value, maximum) => `${Math.max(1, Math.min(50, Math.abs(Number(value)) / maximum * 50))}%`;
 const share = value => Math.max(0, Math.min(100, Number(value)));
 const swingTakeSplit = (region, league) => `
   <div class="swing-take-split" aria-label="Swing ${formatNumber(region.swing_pct)}%, Take ${formatNumber(region.take_pct)}%">
@@ -30,12 +30,12 @@ const swingTakeSplit = (region, league) => `
     </div>` : ""}
   </div>`;
 const runBar = (value, maximum, label) => {
-  const positive = Number(value) >= 0;
+  const number = Number(value);
+  const positive = number >= 0;
   return `<div class="run-bar" aria-label="${label} Run Value ${formatSigned(value)}">
     <i class="run-axis"></i>
-    <i class="run-fill ${positive ? "positive" : "negative"}" style="--run-width:${runWidth(value, maximum)}"></i>
-    <span class="run-label">${label}</span>
-    <span class="run-value ${positive ? "positive" : "negative"}">${formatSigned(value)}</span>
+    <i class="run-fill ${label.toLowerCase()} ${positive ? "right" : "left"}" style="--run-width:${runWidth(value, maximum)}"></i>
+    <span class="run-value ${positive ? "right" : "left"}">${formatSigned(value)}</span>
   </div>`;
 };
 const aggregateProfile = payload => {
@@ -78,7 +78,10 @@ fetch(`../data/players/${playerShard}.json`)
     const meetsMinimum = payload.pitches.length >= payload.minimum_pitches;
     document.querySelector("#player-name").textContent = player.name;
     document.title = `${player.name} Swing/Take 프로필`;
-    document.querySelector("#bats").textContent = `Bats: ${player.bats}`;
+    const bats = document.querySelector("#bats");
+    const hasKnownBats = player.bats && String(player.bats).toLowerCase() !== "unknown";
+    bats.textContent = hasKnownBats ? `Bats: ${player.bats}` : "";
+    bats.hidden = !hasKnownBats;
     document.querySelector("#meta").textContent =
       `${season} 정규시즌 · ${payload.pitches.length.toLocaleString()}구 · ${(source.updated_at || "").slice(0, 10)} 기준${meetsMinimum ? "" : ` · 표본 미달 (${payload.minimum_pitches}구 기준)`}`;
     document.querySelector("#total-run-value").textContent = formatSigned(overall.decision_run);
@@ -88,17 +91,20 @@ fetch(`../data/players/${playerShard}.json`)
       1,
       ...Object.values(regions).flatMap(region => [Math.abs(region.swing.decision_run), Math.abs(region.take.decision_run)])
     );
+    const leaguePitchTotal = Object.values(league?.regions || {}).reduce((sum, region) => sum + Number(region.pitches || 0), 0);
     document.querySelector("#regions").innerHTML = Object.entries(regions).map(([name, region]) => {
       const style = REGION_STYLE[name];
       const dotSize = Math.max(28, Math.min(58, 22 + Math.sqrt(region.share_pct) * 5));
       const styledRegion = { ...region, color: style.color };
+      const leagueRegion = league?.regions?.[name];
+      const leagueShare = leaguePitchTotal && leagueRegion ? 100 * Number(leagueRegion.pitches) / leaguePitchTotal : null;
       return `<article class="region-row">
         <div class="region-name ${style.className}">${name}</div>
         <div class="frequency">
           <i class="frequency-dot" style="--dot-size:${dotSize}px;--region-color:${style.color}"></i>
-          <div class="frequency-copy"><b>${region.pitches.toLocaleString()}구</b>${formatNumber(region.share_pct)}% of pitches</div>
+          <div class="frequency-copy"><b>${region.pitches.toLocaleString()}구</b>${formatNumber(region.share_pct)}%${leagueShare == null ? "" : ` (${formatNumber(leagueShare)}%)`}</div>
         </div>
-        ${swingTakeSplit(styledRegion, league?.regions?.[name])}
+        ${swingTakeSplit(styledRegion, leagueRegion)}
         <div class="run-bars">
           ${runBar(region.swing.decision_run, maximumRun, "Swing")}
           ${runBar(region.take.decision_run, maximumRun, "Take")}
