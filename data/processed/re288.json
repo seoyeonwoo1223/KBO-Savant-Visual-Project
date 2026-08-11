@@ -1,0 +1,2293 @@
+{
+  "season": 2026,
+  "states": [
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.565875,
+      "pitches": 9184
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.511979,
+      "pitches": 4633
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.472127,
+      "pitches": 2332
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.613539,
+      "pitches": 3752
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.539192,
+      "pitches": 3789
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.482637,
+      "pitches": 3686
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.716383,
+      "pitches": 1294
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.599491,
+      "pitches": 1965
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.537141,
+      "pitches": 3029
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 0.929032,
+      "pitches": 465
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 0.814421,
+      "pitches": 846
+    },
+    {
+      "base_state_code": 0,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.60069,
+      "pitches": 1738
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.30608,
+      "pitches": 6250
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.278615,
+      "pitches": 3119
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.223378,
+      "pitches": 1634
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.347961,
+      "pitches": 2575
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.313183,
+      "pitches": 2564
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.229567,
+      "pitches": 2496
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.420933,
+      "pitches": 879
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.399079,
+      "pitches": 1303
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.263108,
+      "pitches": 2098
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 0.548951,
+      "pitches": 286
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 0.569832,
+      "pitches": 537
+    },
+    {
+      "base_state_code": 0,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.338501,
+      "pitches": 1161
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.106441,
+      "pitches": 4782
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.091211,
+      "pitches": 2412
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.060317,
+      "pitches": 1260
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.123636,
+      "pitches": 1925
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.110827,
+      "pitches": 1958
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.08601,
+      "pitches": 1930
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.173107,
+      "pitches": 647
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.130777,
+      "pitches": 1017
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.097705,
+      "pitches": 1525
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 0.261084,
+      "pitches": 203
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 0.200924,
+      "pitches": 433
+    },
+    {
+      "base_state_code": 0,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.132804,
+      "pitches": 881
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.956813,
+      "pitches": 2686
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.866184,
+      "pitches": 1106
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.758065,
+      "pitches": 558
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 1.062016,
+      "pitches": 1161
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.902547,
+      "pitches": 903
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.777487,
+      "pitches": 764
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 1.133192,
+      "pitches": 473
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.01165,
+      "pitches": 515
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.915352,
+      "pitches": 697
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 1.255,
+      "pitches": 200
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 1.059701,
+      "pitches": 268
+    },
+    {
+      "base_state_code": 1,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.8375,
+      "pitches": 400
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.593885,
+      "pitches": 3009
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.49112,
+      "pitches": 1464
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.378342,
+      "pitches": 748
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.717822,
+      "pitches": 1212
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.586237,
+      "pitches": 1148
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.494075,
+      "pitches": 1097
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.89726,
+      "pitches": 438
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.781701,
+      "pitches": 623
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.593468,
+      "pitches": 888
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 1.040541,
+      "pitches": 148
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 0.996466,
+      "pitches": 283
+    },
+    {
+      "base_state_code": 1,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.792593,
+      "pitches": 540
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.236559,
+      "pitches": 2976
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.201841,
+      "pitches": 1412
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.116279,
+      "pitches": 731
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.257959,
+      "pitches": 1225
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.224618,
+      "pitches": 1113
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.195922,
+      "pitches": 1128
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.356502,
+      "pitches": 446
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.24547,
+      "pitches": 607
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.203579,
+      "pitches": 894
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 0.47619,
+      "pitches": 147
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 0.361624,
+      "pitches": 271
+    },
+    {
+      "base_state_code": 1,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.289855,
+      "pitches": 552
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 1.241379,
+      "pitches": 464
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.26257,
+      "pitches": 179
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.91954,
+      "pitches": 87
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 1.179612,
+      "pitches": 206
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 1.418919,
+      "pitches": 148
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 1.119658,
+      "pitches": 117
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 1.11236,
+      "pitches": 89
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.5,
+      "pitches": 86
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 1.413462,
+      "pitches": 104
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 0.694444,
+      "pitches": 36
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 1.333333,
+      "pitches": 39
+    },
+    {
+      "base_state_code": 2,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.531915,
+      "pitches": 47
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.831028,
+      "pitches": 1012
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.758242,
+      "pitches": 455
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.621622,
+      "pitches": 259
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.926267,
+      "pitches": 434
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.853234,
+      "pitches": 402
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.660767,
+      "pitches": 339
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.993197,
+      "pitches": 147
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.92437,
+      "pitches": 238
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.792793,
+      "pitches": 333
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 1.0,
+      "pitches": 50
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 1.043478,
+      "pitches": 92
+    },
+    {
+      "base_state_code": 2,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.076503,
+      "pitches": 183
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.377892,
+      "pitches": 1167
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.33925,
+      "pitches": 507
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.170306,
+      "pitches": 229
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.393536,
+      "pitches": 526
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.36129,
+      "pitches": 465
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.25,
+      "pitches": 392
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.472362,
+      "pitches": 199
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.394636,
+      "pitches": 261
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.34375,
+      "pitches": 352
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 0.521739,
+      "pitches": 69
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 0.395349,
+      "pitches": 129
+    },
+    {
+      "base_state_code": 2,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.420833,
+      "pitches": 240
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 1.447482,
+      "pitches": 695
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.515625,
+      "pitches": 256
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 1.446154,
+      "pitches": 130
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 1.394904,
+      "pitches": 314
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 1.49763,
+      "pitches": 211
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 1.313514,
+      "pitches": 185
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 1.370079,
+      "pitches": 127
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.577236,
+      "pitches": 123
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 1.300578,
+      "pitches": 173
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 1.389831,
+      "pitches": 59
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 1.61194,
+      "pitches": 67
+    },
+    {
+      "base_state_code": 3,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.714286,
+      "pitches": 105
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 1.079327,
+      "pitches": 1248
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.014652,
+      "pitches": 546
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.971888,
+      "pitches": 249
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 1.139194,
+      "pitches": 546
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 1.098394,
+      "pitches": 498
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.929385,
+      "pitches": 439
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 1.149733,
+      "pitches": 187
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.15444,
+      "pitches": 259
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 1.024725,
+      "pitches": 364
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 1.43662,
+      "pitches": 71
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 1.407692,
+      "pitches": 130
+    },
+    {
+      "base_state_code": 3,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.454918,
+      "pitches": 244
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.48067,
+      "pitches": 1552
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.429185,
+      "pitches": 699
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.289189,
+      "pitches": 370
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.515896,
+      "pitches": 692
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.427419,
+      "pitches": 620
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.357143,
+      "pitches": 560
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.709677,
+      "pitches": 248
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.547222,
+      "pitches": 360
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.404537,
+      "pitches": 529
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 0.752809,
+      "pitches": 89
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 0.668712,
+      "pitches": 163
+    },
+    {
+      "base_state_code": 3,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.550955,
+      "pitches": 314
+    },
+    {
+      "base_state_code": 4,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 1.413793,
+      "pitches": 58
+    },
+    {
+      "base_state_code": 4,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.8,
+      "pitches": 20
+    },
+    {
+      "base_state_code": 4,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 1.875,
+      "pitches": 8
+    },
+    {
+      "base_state_code": 4,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 1.129032,
+      "pitches": 31
+    },
+    {
+      "base_state_code": 4,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 1.384615,
+      "pitches": 26
+    },
+    {
+      "base_state_code": 4,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 1.521739,
+      "pitches": 23
+    },
+    {
+      "base_state_code": 4,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.75,
+      "pitches": 8
+    },
+    {
+      "base_state_code": 4,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.1,
+      "pitches": 10
+    },
+    {
+      "base_state_code": 4,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 1.071429,
+      "pitches": 14
+    },
+    {
+      "base_state_code": 4,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.333333,
+      "pitches": 6
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 1.121711,
+      "pitches": 304
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.016,
+      "pitches": 125
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.935484,
+      "pitches": 62
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 1.16,
+      "pitches": 125
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 1.028302,
+      "pitches": 106
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 1.125,
+      "pitches": 88
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 1.073171,
+      "pitches": 41
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.016667,
+      "pitches": 60
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 1.131148,
+      "pitches": 61
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 1.230769,
+      "pitches": 13
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 1.035714,
+      "pitches": 28
+    },
+    {
+      "base_state_code": 4,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.62963,
+      "pitches": 27
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.407484,
+      "pitches": 481
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.366834,
+      "pitches": 199
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.268817,
+      "pitches": 93
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.410788,
+      "pitches": 241
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.375,
+      "pitches": 208
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.265537,
+      "pitches": 177
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.423077,
+      "pitches": 104
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.405172,
+      "pitches": 116
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.256098,
+      "pitches": 164
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 0.581395,
+      "pitches": 43
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 0.6,
+      "pitches": 70
+    },
+    {
+      "base_state_code": 4,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.359712,
+      "pitches": 139
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 1.854077,
+      "pitches": 233
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.745283,
+      "pitches": 106
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 1.583333,
+      "pitches": 48
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 1.946809,
+      "pitches": 94
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 1.733333,
+      "pitches": 90
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 1.786667,
+      "pitches": 75
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 2.172414,
+      "pitches": 29
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.837838,
+      "pitches": 37
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 2.039474,
+      "pitches": 76
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 2.666667,
+      "pitches": 9
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 2.0,
+      "pitches": 17
+    },
+    {
+      "base_state_code": 5,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.806452,
+      "pitches": 31
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 1.381323,
+      "pitches": 514
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.327103,
+      "pitches": 214
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 1.173913,
+      "pitches": 115
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 1.347032,
+      "pitches": 219
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 1.169697,
+      "pitches": 165
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 1.212766,
+      "pitches": 141
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 1.528736,
+      "pitches": 87
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.356436,
+      "pitches": 101
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 1.1,
+      "pitches": 130
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 2.064516,
+      "pitches": 31
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 1.791667,
+      "pitches": 48
+    },
+    {
+      "base_state_code": 5,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.049383,
+      "pitches": 81
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.536737,
+      "pitches": 803
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.415512,
+      "pitches": 361
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.37234,
+      "pitches": 188
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.671348,
+      "pitches": 356
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.486567,
+      "pitches": 335
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.363636,
+      "pitches": 275
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.777778,
+      "pitches": 126
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.642487,
+      "pitches": 193
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.545455,
+      "pitches": 264
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 0.938776,
+      "pitches": 49
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 0.795181,
+      "pitches": 83
+    },
+    {
+      "base_state_code": 5,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.797753,
+      "pitches": 178
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 2.173469,
+      "pitches": 98
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.977273,
+      "pitches": 44
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 1.62963,
+      "pitches": 27
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 2.454545,
+      "pitches": 33
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 2.228571,
+      "pitches": 35
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 2.5,
+      "pitches": 36
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 2.0,
+      "pitches": 11
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 2.1,
+      "pitches": 20
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 1.75,
+      "pitches": 20
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 1.0,
+      "pitches": 2
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 1.666667,
+      "pitches": 6
+    },
+    {
+      "base_state_code": 6,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.470588,
+      "pitches": 17
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 1.619195,
+      "pitches": 323
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.574324,
+      "pitches": 148
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 1.37037,
+      "pitches": 81
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 1.641221,
+      "pitches": 131
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 1.519608,
+      "pitches": 102
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 1.540541,
+      "pitches": 111
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 1.886364,
+      "pitches": 44
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.425926,
+      "pitches": 54
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 1.520548,
+      "pitches": 73
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 2.428571,
+      "pitches": 14
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 1.583333,
+      "pitches": 24
+    },
+    {
+      "base_state_code": 6,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.586957,
+      "pitches": 46
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.553398,
+      "pitches": 309
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.474453,
+      "pitches": 137
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.4,
+      "pitches": 65
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.628571,
+      "pitches": 140
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.527559,
+      "pitches": 127
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.371681,
+      "pitches": 113
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 0.56,
+      "pitches": 50
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 0.633333,
+      "pitches": 60
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.452632,
+      "pitches": 95
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 0.263158,
+      "pitches": 19
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 0.48,
+      "pitches": 25
+    },
+    {
+      "base_state_code": 6,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 0.375,
+      "pitches": 64
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 2.056818,
+      "pitches": 176
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.64557,
+      "pitches": 79
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 1.638298,
+      "pitches": 47
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 2.361111,
+      "pitches": 72
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 1.915254,
+      "pitches": 59
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 1.770492,
+      "pitches": 61
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 2.933333,
+      "pitches": 30
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 2.444444,
+      "pitches": 27
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 2.052632,
+      "pitches": 38
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 3.230769,
+      "pitches": 13
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 2.6,
+      "pitches": 15
+    },
+    {
+      "base_state_code": 7,
+      "outs": 0,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.619048,
+      "pitches": 21
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 1.781065,
+      "pitches": 507
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 1.8,
+      "pitches": 240
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 1.758929,
+      "pitches": 112
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 1.751244,
+      "pitches": 201
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 1.614943,
+      "pitches": 174
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 1.483146,
+      "pitches": 178
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 1.858974,
+      "pitches": 78
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.644444,
+      "pitches": 90
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 1.412698,
+      "pitches": 126
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 2.619048,
+      "pitches": 21
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 2.081081,
+      "pitches": 37
+    },
+    {
+      "base_state_code": 7,
+      "outs": 1,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.428571,
+      "pitches": 63
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 0,
+      "run_expectancy": 0.848175,
+      "pitches": 685
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 1,
+      "run_expectancy": 0.794788,
+      "pitches": 307
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 0,
+      "strikes": 2,
+      "run_expectancy": 0.582278,
+      "pitches": 158
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 0,
+      "run_expectancy": 0.900958,
+      "pitches": 313
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 1,
+      "run_expectancy": 0.880702,
+      "pitches": 285
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 1,
+      "strikes": 2,
+      "run_expectancy": 0.713115,
+      "pitches": 244
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 0,
+      "run_expectancy": 1.117117,
+      "pitches": 111
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 1,
+      "run_expectancy": 1.156627,
+      "pitches": 166
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 2,
+      "strikes": 2,
+      "run_expectancy": 0.836134,
+      "pitches": 238
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 0,
+      "run_expectancy": 1.487179,
+      "pitches": 39
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 1,
+      "run_expectancy": 1.268657,
+      "pitches": 67
+    },
+    {
+      "base_state_code": 7,
+      "outs": 2,
+      "balls": 3,
+      "strikes": 2,
+      "run_expectancy": 1.038168,
+      "pitches": 131
+    }
+  ]
+}
