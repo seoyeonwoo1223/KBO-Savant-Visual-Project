@@ -38,21 +38,49 @@ const runBar = (value, maximum, label) => {
     <span class="run-value ${positive ? "positive" : "negative"}">${formatSigned(value)}</span>
   </div>`;
 };
-fetch("../data/profiles/profiles.json")
+const aggregateProfile = payload => {
+  const groups = Object.fromEntries(Object.keys(REGION_STYLE).map(name => [name, { Swing: [], Take: [] }]));
+  payload.pitches.forEach(pitch => groups[pitch.region][pitch.action].push(Number(pitch.run_value)));
+  const aggregate = values => ({
+    pitches: values.length,
+    decision_run: values.reduce((sum, value) => sum + value, 0),
+    decision_run_per_100: values.length ? 100 * values.reduce((sum, value) => sum + value, 0) / values.length : null
+  });
+  const regions = {};
+  Object.entries(groups).forEach(([name, actions]) => {
+    const swing = aggregate(actions.Swing);
+    const take = aggregate(actions.Take);
+    const pitches = swing.pitches + take.pitches;
+    regions[name] = {
+      pitches,
+      share_pct: payload.pitches.length ? 100 * pitches / payload.pitches.length : 0,
+      swing_pct: pitches ? 100 * swing.pitches / pitches : 0,
+      take_pct: pitches ? 100 * take.pitches / pitches : 0,
+      swing,
+      take
+    };
+  });
+  return { regions, overall: aggregate(payload.pitches.map(pitch => Number(pitch.run_value))) };
+};
+
+const playerShard = /^\d/.test(playerId || "") ? playerId[0] : "other";
+fetch(`../data/players/${playerShard}.json`)
   .then(response => {
     if (!response.ok) throw new Error("profile data could not be loaded");
     return response.json();
   })
-  .then(catalog => {
-    const data = catalog.players[playerId] || Object.values(catalog.players).find(profile => profile.player.name === playerId);
-    if (!data) throw new Error("profile not found");
-    const { sample, overall, regions } = data;
-    const { season, source, league } = catalog;
-    document.querySelector("#player-name").textContent = data.player.name;
-    document.title = `${data.player.name} Swing/Take 프로필`;
-    document.querySelector("#bats").textContent = `Bats: ${data.player.bats}`;
+  .then(shard => {
+    const payload = shard.players[playerId];
+    if (!payload) throw new Error("profile not found");
+    const { overall, regions } = aggregateProfile(payload);
+    const { season, source, league } = shard;
+    const { player } = payload;
+    const meetsMinimum = payload.pitches.length >= payload.minimum_pitches;
+    document.querySelector("#player-name").textContent = player.name;
+    document.title = `${player.name} Swing/Take 프로필`;
+    document.querySelector("#bats").textContent = `Bats: ${player.bats}`;
     document.querySelector("#meta").textContent =
-      `${season} 정규시즌 · ${sample.eligible_pitches.toLocaleString()}구 · ${(source.updated_at || "").slice(0, 10)} 기준${sample.meets_minimum ? "" : " · 표본 미달 (300구 기준)"}`;
+      `${season} 정규시즌 · ${payload.pitches.length.toLocaleString()}구 · ${(source.updated_at || "").slice(0, 10)} 기준${meetsMinimum ? "" : ` · 표본 미달 (${payload.minimum_pitches}구 기준)`}`;
     document.querySelector("#total-run-value").textContent = formatSigned(overall.decision_run);
     document.querySelector("#score-detail").textContent = `100구당 ${formatSigned(overall.decision_run_per_100)} · 위치·카운트 중립`;
     document.querySelector("#pitch-total").textContent = `${overall.pitches.toLocaleString()} total pitches`;
