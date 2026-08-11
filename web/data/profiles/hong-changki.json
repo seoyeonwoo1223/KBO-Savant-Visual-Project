@@ -331,6 +331,14 @@
       "7-2-3-2": 131
     }
   },
+  "league": {
+    "regions": {
+      "Heart": { "pitches": 36590, "swing_pct": 69.888, "take_pct": 30.112 },
+      "Shadow": { "pitches": 61820, "swing_pct": 52.268, "take_pct": 47.732 },
+      "Chase": { "pitches": 36241, "swing_pct": 25.479, "take_pct": 74.521 },
+      "Waste": { "pitches": 19366, "swing_pct": 7.89, "take_pct": 92.11 }
+    }
+  },
   "overall": {
     "pitches": 1818,
     "decision_run": 7.2088,
