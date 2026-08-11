@@ -6,7 +6,8 @@
   <title>박준순 Swing/Take 프로필</title>
   <link rel="stylesheet" href="profile.css">
 </head>
-<body data-profile="park-junsoon">
+<body>
+  <script>location.replace(`index.html?player=${encodeURIComponent("박준순")}`);</script>
   <main>
     <p class="back"><a href="../index.html">← 선수 선택</a></p>
     <header class="profile-header">
@@ -17,8 +18,8 @@
     </header>
     <section class="profile-card" aria-label="Swing Take 프로필">
       <div class="score-line">
-        <span class="score-label">Decision Run</span>
-        <strong id="total-decision-run">—</strong>
+        <span class="score-label">Run Value</span>
+        <strong id="total-run-value">—</strong>
         <span id="score-detail">위치·카운트 중립</span>
       </div>
       <div class="profile-dashboard">
@@ -32,20 +33,19 @@
             <div class="strike-zone" aria-label="Strike Zone"></div>
           </div>
           <p class="zone-key"><i></i>Strike Zone</p>
-          <p class="zone-note">직사각형 상대 거리 기준 · Heart 0–66.7% · Shadow 66.7–133.3% · Chase 133.3–200%</p>
         </section>
         <section class="regions-panel" aria-labelledby="regions-title">
           <div class="panel-heading">
             <h2 id="regions-title">Zone Decisions</h2>
             <p id="pitch-total"></p>
           </div>
-          <div class="region-columns" aria-hidden="true"><span></span><span>Pitch<br>Frequency</span><span class="split-head"><span>Swing</span><span>Take</span></span><span>Decision Run</span></div>
+          <div class="region-columns" aria-hidden="true"><span></span><span>Pitch<br>Frequency</span><span class="split-head"><span>Swing</span><span>Take</span></span><span>Run Value</span></div>
           <div id="regions" class="region-list"></div>
-          <div class="decision-legend"><span class="swing-key">■</span> Swing Decision Run <span class="take-key">■</span> Take Decision Run</div>
+          <div id="run-total" class="run-total"></div>
         </section>
       </div>
     </section>
-    <p class="method-note">Decision Run은 각 투구의 Raw Run Value에서 같은 볼카운트·상대 위치의 리그 평균을 뺀 값입니다. 타자 기준으로 양수일수록 좋습니다.</p>
+    <p class="method-note">Run Value는 각 투구의 Raw Run Value에서 같은 볼카운트·상대 위치의 리그 평균을 뺀 값입니다. 타자 기준으로 양수일수록 좋습니다.</p>
   </main>
   <script src="profile.js"></script>
 </body>

@@ -3,42 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>홍창기 Swing/Take 프로필</title>
+  <title>KBO Swing/Take 프로필</title>
   <link rel="stylesheet" href="profile.css">
 </head>
 <body>
-  <script>location.replace(`index.html?player=${encodeURIComponent("홍창기")}`);</script>
   <main>
-    <p class="back"><a href="../index.html">← 선수 선택</a></p>
+    <p class="back"><a href="../index.html">← 선수 검색</a></p>
     <header class="profile-header">
       <p class="eyebrow">Visual Baseball ABS · 2026 KBO</p>
-      <h1 id="player-name">홍창기</h1>
+      <h1 id="player-name">선수 프로필</h1>
       <p id="bats"></p>
       <p id="meta">프로필을 불러오는 중입니다.</p>
     </header>
     <section class="profile-card" aria-label="Swing Take 프로필">
-      <div class="score-line">
-        <span class="score-label">Run Value</span>
-        <strong id="total-run-value">—</strong>
-        <span id="score-detail">위치·카운트 중립</span>
-      </div>
+      <div class="score-line"><span class="score-label">Run Value</span><strong id="total-run-value">—</strong><span id="score-detail">위치·카운트 중립</span></div>
       <div class="profile-dashboard">
         <section class="zone-panel" aria-labelledby="zone-title">
           <h2 id="zone-title">Strike Zone</h2>
-          <div class="zone-visual" aria-label="Heart, Shadow, Chase, Waste 구역과 스트라이크존">
-            <div class="zone-waste"></div>
-            <div class="zone-chase"></div>
-            <div class="zone-shadow"></div>
-            <div class="zone-heart"></div>
-            <div class="strike-zone" aria-label="Strike Zone"></div>
-          </div>
+          <div class="zone-visual" aria-label="Heart, Shadow, Chase, Waste 구역과 스트라이크존"><div class="zone-waste"></div><div class="zone-chase"></div><div class="zone-shadow"></div><div class="zone-heart"></div><div class="strike-zone" aria-label="Strike Zone"></div></div>
           <p class="zone-key"><i></i>Strike Zone</p>
         </section>
         <section class="regions-panel" aria-labelledby="regions-title">
-          <div class="panel-heading">
-            <h2 id="regions-title">Zone Decisions</h2>
-            <p id="pitch-total"></p>
-          </div>
+          <div class="panel-heading"><h2 id="regions-title">Zone Decisions</h2><p id="pitch-total"></p></div>
           <div class="region-columns" aria-hidden="true"><span></span><span>Pitch<br>Frequency</span><span class="split-head"><span>Swing</span><span>Take</span></span><span>Run Value</span></div>
           <div id="regions" class="region-list"></div>
           <div id="run-total" class="run-total"></div>

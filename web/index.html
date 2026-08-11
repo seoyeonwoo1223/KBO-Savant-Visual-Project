@@ -11,10 +11,17 @@
     <header class="index-header">
       <p class="eyebrow">VISUAL BASEBALL ABS · 2026 KBO</p>
       <h1>Swing/Take Profiles</h1>
-      <p>RE288 기반 위치·볼카운트 중립 Decision Run 프로필</p>
+      <p>2026 KBO 타자별 Swing/Take Run Value 프로필</p>
     </header>
     <section aria-labelledby="players-title">
-      <div class="index-heading"><h2 id="players-title">Players</h2><p id="season"></p></div>
+      <div class="index-heading"><h2 id="players-title">Player Search</h2><p id="season"></p></div>
+      <form id="player-search" class="player-search" role="search">
+        <label for="player-query">선수 이름</label>
+        <input id="player-query" type="search" autocomplete="off" placeholder="예: 홍창기" aria-describedby="search-help">
+        <button type="submit">프로필 보기</button>
+      </form>
+      <p id="search-help" class="search-help">이름을 입력하면 Excel 기반으로 갱신된 해당 선수의 프로필을 엽니다.</p>
+      <p id="search-message" class="search-message" aria-live="polite"></p>
       <div id="player-list" class="player-list" aria-live="polite"></div>
     </section>
   </main>

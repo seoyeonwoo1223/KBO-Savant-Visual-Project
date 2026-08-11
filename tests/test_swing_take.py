@@ -54,7 +54,8 @@ def test_swing_take_contract_cases(tmp_path):
     pq.write_table(pa.Table.from_pylist(rows), processed / "pitches.parquet")
 
     eligible, targeted = build_swing_take(tmp_path)
-    profile = json.loads((tmp_path / "web/data/profiles/park-junsoon.json").read_text())
+    catalog = json.loads((tmp_path / "web/data/profiles/profiles.json").read_text())
+    profile = next(profile for profile in catalog["players"].values() if profile["player"]["name"] == "박준순")
     decision_rows = pq.read_table(processed / "decision_pitches.parquet").to_pylist()
 
     assert eligible == targeted == 6

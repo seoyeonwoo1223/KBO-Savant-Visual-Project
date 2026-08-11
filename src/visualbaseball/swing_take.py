@@ -19,13 +19,13 @@ import pyarrow.parquet as pq
 from openpyxl import load_workbook
 
 SEASON = 2026
-# Add a profile here to publish its JSON, /profiles/<slug>.html page, and index card.
-# Keep this presentation-only registry separate from the league-wide calculation.
-PLAYER_PROFILES = (
-    {"name": "박준순", "slug": "park-junsoon", "romanized_name": "Park Junsoon", "team": "두산 베어스", "bats": "Right"},
-    {"name": "홍창기", "slug": "hong-changki", "romanized_name": "Hong Changki", "team": "LG 트윈스", "bats": "Left"},
-)
-PLAYER_SLUGS = {player["name"]: player["slug"] for player in PLAYER_PROFILES}
+# The source workbook does not include club or batting-side fields. Keep only
+# verified overrides here; every player name and profile payload comes from its
+# Pitches sheet, not from a hand-maintained profile list.
+PLAYER_METADATA = {
+    "박준순": {"romanized_name": "Park Junsoon", "team": "두산 베어스", "bats": "Right"},
+    "홍창기": {"romanized_name": "Hong Changki", "team": "LG 트윈스", "bats": "Left"},
+}
 PLATE_HALF_WIDTH_FT = 10 / 12  # ABS strike-zone half width used by Visual Baseball.
 GRID_STEP = 0.25
 MIN_LOCATION_CELL_PITCHES = 25
@@ -254,13 +254,21 @@ def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None
     pq.write_table(pa.Table.from_pylist(output_rows), processed / "decision_pitches.parquet")
     league = _league_action_rates(valued)
     output = root / "web" / "data" / "profiles"; output.mkdir(parents=True, exist_ok=True)
-    page_output = root / "web" / "profiles"; page_output.mkdir(parents=True, exist_ok=True)
     index_players = []
-    for player in PLAYER_PROFILES:
-        profile_rows = [row for row in valued if row.get("batter_name") == player["name"]]
+    profiles = {}
+    by_batter = defaultdict(list)
+    for row in valued:
+        name = str(row.get("batter_name") or "").strip()
+        if name:
+            by_batter[str(row.get("batter_id") or name)].append(row)
+    for batter_id, profile_rows in sorted(by_batter.items(), key=lambda item: str(item[1][0].get("batter_name") or "")):
+        name = str(profile_rows[0]["batter_name"])
+        player = {"id": batter_id, "name": name, "romanized_name": "", "team": "—", "bats": "Unknown"} | PLAYER_METADATA.get(name, {})
         profile_data = _summary(profile_rows, player, season, counts, dict(excluded), source_metadata, league)
-        (output / f"{player['slug']}.json").write_text(json.dumps(profile_data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        (page_output / f"{player['slug']}.html").write_text(PROFILE_PAGE.format(**player), encoding="utf-8")
-        index_players.append({key: player[key] for key in ("name", "romanized_name", "team", "slug", "bats")} | {"pitches": profile_data["overall"]["pitches"], "meets_minimum": profile_data["sample"]["meets_minimum"]})
+        # One compact catalog lets static Pages render one requested player
+        # without prebuilding a separate HTML page for every player.
+        profiles[batter_id] = {key: profile_data[key] for key in ("player", "sample", "overall", "regions", "zone_grid")}
+        index_players.append({key: player[key] for key in ("id", "name", "romanized_name", "team", "bats")} | {"pitches": profile_data["overall"]["pitches"], "meets_minimum": profile_data["sample"]["meets_minimum"]})
     (output / "index.json").write_text(json.dumps({"season": season, "players": index_players}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    return len(output_rows), sum(1 for row in valued if row.get("batter_name") in PLAYER_SLUGS)
+    (output / "profiles.json").write_text(json.dumps({"season": season, "source": source_metadata, "league": league, "players": profiles}, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    return len(output_rows), len(valued)
