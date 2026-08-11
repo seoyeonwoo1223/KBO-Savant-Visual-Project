@@ -54,15 +54,19 @@ def test_swing_take_contract_cases(tmp_path):
     pq.write_table(pa.Table.from_pylist(rows), processed / "pitches.parquet")
 
     eligible, targeted = build_swing_take(tmp_path)
-    catalog = json.loads((tmp_path / "web/data/profiles/profiles.json").read_text())
-    profile = next(profile for profile in catalog["players"].values() if profile["player"]["name"] == "박준순")
+    index = json.loads((tmp_path / "web/data/profiles/index.json").read_text())
+    player = next(player for player in index["players"] if player["name"] == "박준순")
+    shard_name = player["id"][0] if player["id"][0].isdigit() else "other"
+    shard = json.loads((tmp_path / f"web/data/players/{shard_name}.json").read_text())
+    payload = shard["players"][player["id"]]
+    pitches = payload["pitches"]
     decision_rows = pq.read_table(processed / "decision_pitches.parquet").to_pylist()
 
     assert eligible == targeted == 6
-    assert profile["overall"]["pitches"] == 6
-    assert profile["overall"]["swing_pct"] == 66.667
-    assert profile["overall"]["take_pct"] == 33.333
-    assert profile["regions"]["Heart"]["take"]["pitches"] == 1
-    assert profile["regions"]["Chase"]["take"]["pitches"] == 1
-    assert profile["regions"]["Chase"]["swing"]["pitches"] == 1
+    assert len(pitches) == 6
+    assert sum(pitch["action"] == "Swing" for pitch in pitches) == 4
+    assert sum(pitch["action"] == "Take" for pitch in pitches) == 2
+    assert sum(pitch["region"] == "Heart" and pitch["action"] == "Take" for pitch in pitches) == 1
+    assert sum(pitch["region"] == "Chase" and pitch["action"] == "Take" for pitch in pitches) == 1
+    assert sum(pitch["region"] == "Chase" and pitch["action"] == "Swing" for pitch in pitches) == 1
     assert any(row["event_seq"] == 6 for row in decision_rows)

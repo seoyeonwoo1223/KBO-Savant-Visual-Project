@@ -39,10 +39,13 @@ with tempfile.TemporaryDirectory() as directory:
     workbook.close()
 
     eligible, targeted = build_swing_take(root, excel_source=workbook_path)
-    catalog = json.loads((root / "web/data/profiles/profiles.json").read_text(encoding="utf-8"))
-    profile = next(profile for profile in catalog["players"].values() if profile["player"]["name"] == "홍창기")
+    index = json.loads((root / "web/data/profiles/index.json").read_text(encoding="utf-8"))
+    player = next(player for player in index["players"] if player["name"] == "홍창기")
+    shard_name = player["id"][0] if player["id"][0].isdigit() else "other"
+    shard = json.loads((root / f"web/data/players/{shard_name}.json").read_text(encoding="utf-8"))
+    pitches = shard["players"][player["id"]]
 
     assert eligible == 4 and targeted == 4
-    assert profile["overall"]["pitches"] == 4
-    assert catalog["source"]["workbook"].endswith("visualbaseball_savant_2026_latest.xlsx")
-    assert catalog["source"]["sha256"]
+    assert len(pitches["pitches"]) == 4
+    assert shard["source"]["workbook"].endswith("visualbaseball_savant_2026_latest.xlsx")
+    assert shard["source"]["sha256"]

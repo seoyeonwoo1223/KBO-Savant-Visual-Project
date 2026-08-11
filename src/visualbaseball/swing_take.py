@@ -254,8 +254,11 @@ def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None
     pq.write_table(pa.Table.from_pylist(output_rows), processed / "decision_pitches.parquet")
     league = _league_action_rates(valued)
     output = root / "web" / "data" / "profiles"; output.mkdir(parents=True, exist_ok=True)
+    pitch_output = root / "web" / "data" / "players"; pitch_output.mkdir(parents=True, exist_ok=True)
+    for stale_player in pitch_output.glob("*.json"):
+        stale_player.unlink()
     index_players = []
-    profiles = {}
+    pitch_shards = defaultdict(dict)
     by_batter = defaultdict(list)
     for row in valued:
         name = str(row.get("batter_name") or "").strip()
@@ -265,10 +268,33 @@ def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None
         name = str(profile_rows[0]["batter_name"])
         player = {"id": batter_id, "name": name, "romanized_name": "", "team": "—", "bats": "Unknown"} | PLAYER_METADATA.get(name, {})
         profile_data = _summary(profile_rows, player, season, counts, dict(excluded), source_metadata, league)
-        # One compact catalog lets static Pages render one requested player
-        # without prebuilding a separate HTML page for every player.
-        profiles[batter_id] = {key: profile_data[key] for key in ("player", "sample", "overall", "regions", "zone_grid")}
+        # Keep Excel as the sole source. Pages publishes only the pitch fields
+        # required to aggregate the requested player in the browser; it does
+        # not prebuild a completed profile for every batter.
+        pitch_payload = {
+            "player": player,
+            "minimum_pitches": MIN_PROFILE_PITCHES,
+            "pitches": [
+                {
+                    "action": row["decision_type"],
+                    "region": row["attack_region"],
+                    "run_value": round(row["decision_run"], 8),
+                    "x": round(row["x_relative"], 6),
+                    "z": round(row["z_relative"], 6),
+                }
+                for row in profile_rows
+            ],
+        }
+        shard = batter_id[0] if batter_id[0].isdigit() else "other"
+        pitch_shards[shard][batter_id] = pitch_payload
         index_players.append({key: player[key] for key in ("id", "name", "romanized_name", "team", "bats")} | {"pitches": profile_data["overall"]["pitches"], "meets_minimum": profile_data["sample"]["meets_minimum"]})
+    for shard, players in pitch_shards.items():
+        (pitch_output / f"{shard}.json").write_text(
+            json.dumps({"season": season, "source": source_metadata, "league": league, "players": players}, ensure_ascii=False, separators=(",", ":")) + "\n",
+            encoding="utf-8",
+        )
     (output / "index.json").write_text(json.dumps({"season": season, "players": index_players}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    (output / "profiles.json").write_text(json.dumps({"season": season, "source": source_metadata, "league": league, "players": profiles}, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    stale_catalog = output / "profiles.json"
+    if stale_catalog.exists():
+        stale_catalog.unlink()
     return len(output_rows), len(valued)
