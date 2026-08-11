@@ -19,12 +19,12 @@ const swingTakeSplit = (region, league) => `
       <span>${region.take.pitches.toLocaleString()}</span>
     </div>
     <div class="split-player" style="--swing-share:${share(region.swing_pct)}%;--take-share:${share(region.take_pct)}%;--region-color:${region.color}">
-      <div class="split-half swing"><i></i><span>${formatNumber(region.swing_pct)}%</span></div>
+      <div class="split-half swing"><span>${formatNumber(region.swing_pct)}%</span><i></i></div>
       <i class="split-axis"></i>
       <div class="split-half take"><i></i><span>${formatNumber(region.take_pct)}%</span></div>
     </div>
     ${league ? `<div class="split-league" aria-label="2026 KBO league average: Swing ${formatNumber(league.swing_pct)}%, Take ${formatNumber(league.take_pct)}%" style="--league-swing:${share(league.swing_pct)}%;--league-take:${share(league.take_pct)}%">
-      <div class="split-half swing"><i></i><span>${formatNumber(league.swing_pct)}%</span></div>
+      <div class="split-half swing"><span>${formatNumber(league.swing_pct)}%</span><i></i></div>
       <i class="split-axis"></i>
       <div class="split-half take"><i></i><span>${formatNumber(league.take_pct)}%</span></div>
     </div>` : ""}
@@ -33,9 +33,9 @@ const runBar = (value, maximum, label) => {
   const number = Number(value);
   const positive = number >= 0;
   return `<div class="run-bar" aria-label="${label} Run Value ${formatSigned(value)}">
+    <div class="run-side left">${positive ? "" : `<span class="run-value">${formatSigned(value)}</span><i class="run-fill ${label.toLowerCase()}" style="--run-width:${runWidth(value, maximum)}"></i>`}</div>
     <i class="run-axis"></i>
-    <i class="run-fill ${label.toLowerCase()} ${positive ? "right" : "left"}" style="--run-width:${runWidth(value, maximum)}"></i>
-    <span class="run-value ${positive ? "right" : "left"}">${formatSigned(value)}</span>
+    <div class="run-side right">${positive ? `<i class="run-fill ${label.toLowerCase()}" style="--run-width:${runWidth(value, maximum)}"></i><span class="run-value">${formatSigned(value)}</span>` : ""}</div>
   </div>`;
 };
 const aggregateProfile = payload => {
