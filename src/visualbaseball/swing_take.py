@@ -19,7 +19,13 @@ import pyarrow.parquet as pq
 from openpyxl import load_workbook
 
 SEASON = 2026
-PLAYER_SLUGS = {"박준순": "park-junsoon", "홍창기": "hong-changki"}
+# Add a profile here to publish its JSON, /profiles/<slug>.html page, and index card.
+# Keep this presentation-only registry separate from the league-wide calculation.
+PLAYER_PROFILES = (
+    {"name": "박준순", "slug": "park-junsoon", "romanized_name": "Park Junsoon", "team": "두산 베어스", "bats": "Right"},
+    {"name": "홍창기", "slug": "hong-changki", "romanized_name": "Hong Changki", "team": "LG 트윈스", "bats": "Left"},
+)
+PLAYER_SLUGS = {player["name"]: player["slug"] for player in PLAYER_PROFILES}
 PLATE_HALF_WIDTH_FT = 10 / 12  # ABS strike-zone half width used by Visual Baseball.
 GRID_STEP = 0.25
 MIN_LOCATION_CELL_PITCHES = 25
@@ -155,7 +161,7 @@ def _location_baseline(rows):
     return result
 
 
-def _summary(rows, name, slug, season, re_counts, excluded, source_metadata):
+def _summary(rows, player, season, re_counts, excluded, source_metadata):
     groups = {(region, action): [] for region in REGION_ORDER for action in ACTIONS}
     for row in rows:
         groups[(row["attack_region"], row["decision_type"])].append(row)
@@ -187,7 +193,12 @@ def _summary(rows, name, slug, season, re_counts, excluded, source_metadata):
         if abs(x) <= 1 and abs(z) <= 1:
             key = f"{min(2, max(0, int((x + 1) * 1.5)))}-{min(2, max(0, int((z + 1) * 1.5)))}"
             zone_grid.setdefault(key, []).append(row)
-    return {"schema_version": 2, "metric": "RE288 location-and-count-neutral Decision Run", "season": season, "source": source_metadata, "player": {"name": name, "slug": slug}, "sample": {"eligible_pitches": len(rows), "excluded_pitches": excluded, "minimum_pitches": MIN_PROFILE_PITCHES, "meets_minimum": len(rows) >= MIN_PROFILE_PITCHES}, "coordinate_contract": {"source": "Visual Baseball ABS px/pz (feet)", "x_center": 0, "x_zone_edge_ft": PLATE_HALF_WIDTH_FT, "z_center": "(sz_top + sz_bottom) / 2", "relative_distance": "max(abs(x_relative), abs(z_relative))", "regions": {"Heart": "0–66.7%", "Shadow": "66.7–133.3%", "Chase": "133.3–200%", "Waste": ">200%"}}, "baseline": {"count": "balls_before × strikes_before", "location": f"normalized {GRID_STEP:.2f} × {GRID_STEP:.2f} cells; sparse cells expand to Chebyshev radius 1.00", "minimum_cell_pitches": MIN_LOCATION_CELL_PITCHES}, "re288": {"observed_states": len(re_counts), "state_counts": {"-".join(map(str, state)): count for state, count in sorted(re_counts.items())}}, "overall": total, "regions": by_region, "zone_grid": {key: aggregate(value) for key, value in zone_grid.items()}}
+    return {"schema_version": 2, "metric": "RE288 location-and-count-neutral Decision Run", "season": season, "source": source_metadata, "player": player, "sample": {"eligible_pitches": len(rows), "excluded_pitches": excluded, "minimum_pitches": MIN_PROFILE_PITCHES, "meets_minimum": len(rows) >= MIN_PROFILE_PITCHES}, "coordinate_contract": {"source": "Visual Baseball ABS px/pz (feet)", "x_center": 0, "x_zone_edge_ft": PLATE_HALF_WIDTH_FT, "z_center": "(sz_top + sz_bottom) / 2", "relative_distance": "max(abs(x_relative), abs(z_relative))", "regions": {"Heart": "0–66.7%", "Shadow": "66.7–133.3%", "Chase": "133.3–200%", "Waste": ">200%"}}, "baseline": {"count": "balls_before × strikes_before", "location": f"normalized {GRID_STEP:.2f} × {GRID_STEP:.2f} cells; sparse cells expand to Chebyshev radius 1.00", "minimum_cell_pitches": MIN_LOCATION_CELL_PITCHES}, "re288": {"observed_states": len(re_counts), "state_counts": {"-".join(map(str, state)): count for state, count in sorted(re_counts.items())}}, "overall": total, "regions": by_region, "zone_grid": {key: aggregate(value) for key, value in zone_grid.items()}}
+
+
+PROFILE_PAGE = """<!doctype html>
+<html lang=\"ko\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>{name} Swing/Take 프로필</title><link rel=\"stylesheet\" href=\"profile.css\"></head>
+<body data-profile=\"{slug}\"><main><p class=\"back\"><a href=\"../index.html\">← 선수 선택</a></p><header class=\"profile-header\"><p class=\"eyebrow\">Visual Baseball ABS · 2026 KBO</p><h1 id=\"player-name\">{name}</h1><p id=\"bats\"></p><p id=\"meta\">프로필을 불러오는 중입니다.</p></header><section class=\"profile-card\" aria-label=\"Swing Take 프로필\"><div class=\"score-line\"><span class=\"score-label\">Decision Run</span><strong id=\"total-decision-run\">—</strong><span id=\"score-detail\">위치·카운트 중립</span></div><div class=\"profile-dashboard\"><section class=\"zone-panel\" aria-labelledby=\"zone-title\"><h2 id=\"zone-title\">Strike Zone</h2><div class=\"zone-visual\" aria-label=\"Heart, Shadow, Chase, Waste 구역과 스트라이크존\"><div class=\"zone-waste\"></div><div class=\"zone-chase\"></div><div class=\"zone-shadow\"></div><div class=\"zone-heart\"></div><div class=\"strike-zone\" aria-label=\"Strike Zone\"></div></div><p class=\"zone-key\"><i></i>Strike Zone</p><p class=\"zone-note\">직사각형 상대 거리 기준 · Heart 0–66.7% · Shadow 66.7–133.3% · Chase 133.3–200%</p></section><section class=\"regions-panel\" aria-labelledby=\"regions-title\"><div class=\"panel-heading\"><h2 id=\"regions-title\">Pitch Frequency · Decision</h2><p id=\"pitch-total\"></p></div><div id=\"regions\" class=\"region-list\"></div><div class=\"decision-legend\"><span class=\"swing-key\">■</span> Swing Decision Run <span class=\"take-key\">■</span> Take Decision Run</div></section></div></section><p class=\"method-note\">Decision Run은 각 투구의 Raw Run Value에서 같은 볼카운트·상대 위치의 리그 평균을 뺀 값입니다. 타자 기준으로 양수일수록 좋습니다.</p></main><script src=\"profile.js\"></script></body></html>\n"""
 
 
 def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None = None) -> tuple[int, int]:
@@ -226,7 +237,13 @@ def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None
         output_rows.append({key: value for key, value in row.items() if not key.startswith("_")})
     pq.write_table(pa.Table.from_pylist(output_rows), processed / "decision_pitches.parquet")
     output = root / "web" / "data" / "profiles"; output.mkdir(parents=True, exist_ok=True)
-    for name, slug in PLAYER_SLUGS.items():
-        profile_rows = [row for row in valued if row.get("batter_name") == name]
-        (output / f"{slug}.json").write_text(json.dumps(_summary(profile_rows, name, slug, season, counts, dict(excluded), source_metadata), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    page_output = root / "web" / "profiles"; page_output.mkdir(parents=True, exist_ok=True)
+    index_players = []
+    for player in PLAYER_PROFILES:
+        profile_rows = [row for row in valued if row.get("batter_name") == player["name"]]
+        profile_data = _summary(profile_rows, player, season, counts, dict(excluded), source_metadata)
+        (output / f"{player['slug']}.json").write_text(json.dumps(profile_data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        (page_output / f"{player['slug']}.html").write_text(PROFILE_PAGE.format(**player), encoding="utf-8")
+        index_players.append({key: player[key] for key in ("name", "romanized_name", "team", "slug", "bats")} | {"pitches": profile_data["overall"]["pitches"], "meets_minimum": profile_data["sample"]["meets_minimum"]})
+    (output / "index.json").write_text(json.dumps({"season": season, "players": index_players}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return len(output_rows), sum(1 for row in valued if row.get("batter_name") in PLAYER_SLUGS)

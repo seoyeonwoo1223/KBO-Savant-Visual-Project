@@ -13,6 +13,7 @@ fetch(`../data/profiles/${profile}.json`)
     const { overall, sample, regions, zone_grid: zoneGrid } = data;
     document.querySelector("#player-name").textContent = data.player.name;
     document.title = `${data.player.name} Swing/Take 프로필`;
+    document.querySelector("#bats").textContent = `Bats: ${data.player.bats}`;
     document.querySelector("#meta").textContent =
       `${data.season} 정규시즌 · ${sample.eligible_pitches.toLocaleString()}구 · ${(data.source.updated_at || "").slice(0, 10)} 기준${sample.meets_minimum ? "" : " · 표본 미달 (300구 기준)"}`;
     const stats = [
