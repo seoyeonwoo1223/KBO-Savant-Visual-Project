@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Swing/Take 프로필</title>
-  <link rel="stylesheet" href="profile.css">
+  <link rel="stylesheet" href="profile.css?v=20260812-4">
 </head>
 <body>
   <main>
@@ -25,17 +25,19 @@
         </section>
         <section class="regions-panel" aria-labelledby="regions-title">
           <div class="panel-heading"><h2 id="regions-title">Zone Decisions</h2><p id="pitch-total"></p></div>
-          <div class="region-columns" aria-hidden="true"><span></span><span class="frequency-head">Pitch Frequency<small>(괄호 안은 리그 평균)</small></span><span class="split-head"><span>Swing</span><span>Take</span></span><span>Run Value</span></div>
-          <div id="regions" class="region-list"></div>
-          <div class="panel-footers">
-            <div id="split-legend" class="split-legend"><i></i>League Avg</div>
-            <div id="run-total" class="run-total"></div>
+          <div class="region-scroll" aria-label="Zone Decisions 표. 모바일에서는 좌우로 밀어 전체 지표를 확인하세요.">
+            <div class="region-columns" aria-hidden="true"><span></span><span class="frequency-head">Pitch Frequency<small>(괄호 안은 리그 평균)</small></span><span class="split-head"><span>Swing</span><span>Take</span></span><span>Run Value</span></div>
+            <div id="regions" class="region-list"></div>
+            <div class="panel-footers">
+              <div id="split-legend" class="split-legend"><i></i>League Avg</div>
+              <div id="run-total" class="run-total"></div>
+            </div>
           </div>
         </section>
       </div>
     </section>
     <p class="method-note">Run Value는 각 투구의 Raw Run Value에서 같은 볼카운트·상대 위치의 리그 평균을 뺀 값입니다. 타자 기준으로 양수일수록 좋습니다.</p>
   </main>
-  <script src="profile.js?v=20260812-3"></script>
+  <script src="profile.js?v=20260812-4"></script>
 </body>
 </html>
