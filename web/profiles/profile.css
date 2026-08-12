@@ -106,14 +106,27 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
   .profile-card { padding: 18px 13px; }
   .score-line { flex-wrap: wrap; gap: 7px 10px; }
   #score-detail { flex-basis: 100%; }
-  .region-scroll { overflow-x: auto; overscroll-behavior-x: contain; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
-  .region-columns, .region-row, .panel-footers { min-width: 720px; grid-template-columns: 86px 122px minmax(238px, 1.45fr) minmax(208px, 1.15fr); gap: 16px; }
+  .region-scroll { overflow: visible; padding-bottom: 8px; }
+  .region-columns, .region-row, .panel-footers { min-width: 0; grid-template-columns: 78px minmax(100px, .9fr) minmax(0, 1.35fr); gap: 8px; }
   .region-columns { font-size: .82rem; }
-  .region-row { min-height: 106px; }
+  .region-row {
+    grid-template-areas:
+      "name frequency split"
+      "name run run";
+    min-height: 156px;
+    padding: 8px 0;
+  }
+  .region-name { grid-area: name; }
+  .frequency { grid-area: frequency; }
+  .swing-take-split { grid-area: split; }
+  .run-bars { grid-area: run; margin: 0; padding: 0 8px; gap: 3px; }
   .region-name { font-size: 1.2rem; }
   .frequency { grid-template-columns: 54px minmax(0, 1fr); gap: 7px; }
   .frequency-copy { font-size: .8rem; }
   .frequency-copy b { font-size: .98rem; }
-  .run-bars { padding: 0 12px; }
+  .split-counts { font-size: .71rem; }
+  .split-half span { font-size: .71rem; }
+  .split-league .split-half span { font-size: .66rem; }
+  .run-value { font-size: .78rem; }
   .panel-footers { padding-bottom: 2px; }
 }
