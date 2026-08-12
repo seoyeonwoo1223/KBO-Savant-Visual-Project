@@ -104,12 +104,16 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 @media (max-width: 570px) {
   main { padding: 20px 12px 40px; }
   .profile-card { padding: 18px 13px; }
-  .region-columns { display: none; }
-  .region-row { grid-template-columns: 88px 1fr; gap: 12px; padding: 12px 0; }
-  .frequency { align-self: start; }
-  .swing-take-split, .run-bars { grid-column: 1 / -1; }
-  .region-name { grid-row: 1 / span 2; font-size: 1.23rem; }
-  .run-bars { margin-top: 0; }
-  .panel-footers { display: block; }
-  .split-legend, .run-total { margin-top: 10px; }
+  .score-line { flex-wrap: wrap; gap: 7px 10px; }
+  #score-detail { flex-basis: 100%; }
+  .region-scroll { overflow-x: auto; overscroll-behavior-x: contain; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+  .region-columns, .region-row, .panel-footers { min-width: 720px; grid-template-columns: 86px 122px minmax(238px, 1.45fr) minmax(208px, 1.15fr); gap: 16px; }
+  .region-columns { font-size: .82rem; }
+  .region-row { min-height: 106px; }
+  .region-name { font-size: 1.2rem; }
+  .frequency { grid-template-columns: 54px minmax(0, 1fr); gap: 7px; }
+  .frequency-copy { font-size: .8rem; }
+  .frequency-copy b { font-size: .98rem; }
+  .run-bars { padding: 0 12px; }
+  .panel-footers { padding-bottom: 2px; }
 }
