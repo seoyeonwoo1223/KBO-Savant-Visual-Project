@@ -107,26 +107,23 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
   .score-line { flex-wrap: wrap; gap: 7px 10px; }
   #score-detail { flex-basis: 100%; }
   .region-scroll { overflow: visible; padding-bottom: 8px; }
-  .region-columns, .region-row, .panel-footers { min-width: 0; grid-template-columns: 78px minmax(100px, .9fr) minmax(0, 1.35fr); gap: 8px; }
-  .region-columns { font-size: .82rem; }
-  .region-row {
-    grid-template-areas:
-      "name frequency split"
-      "name run run";
-    min-height: 156px;
-    padding: 8px 0;
-  }
-  .region-name { grid-area: name; }
-  .frequency { grid-area: frequency; }
-  .swing-take-split { grid-area: split; }
-  .run-bars { grid-area: run; margin: 0; padding: 0 8px; gap: 3px; }
-  .region-name { font-size: 1.2rem; }
-  .frequency { grid-template-columns: 54px minmax(0, 1fr); gap: 7px; }
+  .region-columns { display: none; }
+  .region-row, .panel-footers { min-width: 0; }
+  .region-row { display: block; min-height: 0; padding: 18px 0 20px; }
+  .region-name { display: inline-block; padding: 8px 12px; font-size: 1.2rem; }
+  .frequency, .swing-take-split, .run-bars { width: 100%; }
+  .frequency { grid-template-columns: 58px minmax(0, 1fr); gap: 10px; margin: 14px 0 18px; }
+  .swing-take-split { margin: 0 0 18px; }
+  .swing-take-split::before, .run-bars::before { display: block; margin: 0 0 8px; color: #555; font-size: .82rem; font-weight: 700; }
+  .swing-take-split::before { content: "Swing / Take"; }
+  .run-bars { margin: 0; padding: 14px 8px 0; gap: 6px; border-top: 1px solid #e2e2e2; }
+  .run-bars::before { content: "Run Value"; }
   .frequency-copy { font-size: .8rem; }
   .frequency-copy b { font-size: .98rem; }
   .split-counts { font-size: .71rem; }
   .split-half span { font-size: .71rem; }
   .split-league .split-half span { font-size: .66rem; }
   .run-value { font-size: .78rem; }
-  .panel-footers { padding-bottom: 2px; }
+  .panel-footers { display: block; padding: 14px 0 2px; }
+  .split-legend, .run-total { justify-content: flex-start; margin: 0 0 9px; text-align: left; }
 }
