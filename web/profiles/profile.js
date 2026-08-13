@@ -3,7 +3,9 @@ const formatSigned = value => {
   const number = Number(value);
   return `${number > 0 ? "+" : ""}${formatNumber(number)}`;
 };
-const playerId = new URLSearchParams(window.location.search).get("player");
+const params = new URLSearchParams(window.location.search);
+const playerId = params.get("player");
+const seasonParam = params.get("year") || "2026";
 const REGION_STYLE = {
   Heart: { className: "heart", color: "#b16ab3" },
   Shadow: { className: "shadow", color: "#ec896f" },
@@ -23,7 +25,7 @@ const swingTakeSplit = (region, league) => `
       <i class="split-axis"></i>
       <div class="split-half take"><i></i><span>${formatNumber(region.take_pct)}%</span></div>
     </div>
-    ${league ? `<div class="split-league" aria-label="2026 KBO league average: Swing ${formatNumber(league.swing_pct)}%, Take ${formatNumber(league.take_pct)}%" style="--league-swing:${share(league.swing_pct)}%;--league-take:${share(league.take_pct)}%">
+    ${league ? `<div class="split-league" aria-label="League average: Swing ${formatNumber(league.swing_pct)}%, Take ${formatNumber(league.take_pct)}%" style="--league-swing:${share(league.swing_pct)}%;--league-take:${share(league.take_pct)}%">
       <div class="split-half swing"><span>${formatNumber(league.swing_pct)}%</span><i></i></div>
       <i class="split-axis"></i>
       <div class="split-half take"><i></i><span>${formatNumber(league.take_pct)}%</span></div>
@@ -64,7 +66,7 @@ const aggregateProfile = payload => {
 };
 
 const playerShard = /^\d/.test(playerId || "") ? playerId[0] : "other";
-fetch(`../data/players/${playerShard}.json`)
+fetch(`../data/swing_take/${seasonParam}/players/${playerShard}.json`)
   .then(response => {
     if (!response.ok) throw new Error("profile data could not be loaded");
     return response.json();
@@ -75,6 +77,7 @@ fetch(`../data/players/${playerShard}.json`)
     const { overall, regions } = aggregateProfile(payload);
     const { season, source, league } = shard;
     const { player } = payload;
+    document.querySelector("#profile-season").textContent = `Visual Baseball ABS · ${season} KBO`;
     const meetsMinimum = payload.pitches.length >= payload.minimum_pitches;
     document.querySelector("#player-name").textContent = player.name;
     document.title = `${player.name} Swing/Take 프로필`;

@@ -9,6 +9,8 @@ main { max-width: 1180px; padding: 54px 24px 64px; margin: auto; }
 .index-heading { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #ccc; margin-bottom: 14px; }
 .index-heading h2 { margin: 0 0 10px; font-size: 1.35rem; font-weight: 400; }
 .index-heading p { margin: 0; color: #666; font-size: .9rem; }
+.season-picker { display: flex; align-items: center; gap: 7px; color: #666; font-size: .82rem; font-weight: 700; }
+.season-picker select { margin: 0; min-width: 92px; }
 .tool-switch { margin: -2px 0 18px; }
 .tool-switch a { color: #125ab3; font-weight: 700; text-decoration: none; }
 .player-search { display: grid; grid-template-columns: auto minmax(220px, 440px) auto; gap: 10px; align-items: center; margin: 0 0 6px; }

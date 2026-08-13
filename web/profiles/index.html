@@ -10,7 +10,7 @@
   <main>
     <p class="back"><a href="../index.html">← 선수 검색</a></p>
     <header class="profile-header">
-      <p class="eyebrow">Visual Baseball ABS · 2026 KBO</p>
+      <p class="eyebrow" id="profile-season">Visual Baseball ABS · KBO</p>
       <h1 id="player-name">선수 프로필</h1>
       <p id="bats"></p>
       <p id="meta">프로필을 불러오는 중입니다.</p>
@@ -22,6 +22,7 @@
           <h2 id="zone-title">Strike Zone</h2>
           <div class="zone-visual" aria-label="Heart, Shadow, Chase, Waste 구역과 스트라이크존"><div class="zone-waste"></div><div class="zone-chase"></div><div class="zone-shadow"></div><div class="zone-heart"></div><div class="strike-zone" aria-label="Strike Zone"></div></div>
           <p class="zone-key"><i></i>Strike Zone</p>
+          <p class="zone-note">Heart 0–66.7% · Shadow 66.7–133.3% · Chase 133.3–200% · Waste &gt;200%</p>
         </section>
         <section class="regions-panel" aria-labelledby="regions-title">
           <div class="panel-heading"><h2 id="regions-title">Zone Decisions</h2><p id="pitch-total"></p></div>
@@ -38,6 +39,6 @@
     </section>
     <p class="method-note">Run Value는 각 투구의 Raw Run Value에서 같은 볼카운트·상대 위치의 리그 평균을 뺀 값입니다. 타자 기준으로 양수일수록 좋습니다.</p>
   </main>
-  <script src="profile.js?v=20260812-5"></script>
+  <script src="profile.js?v=20260814-1"></script>
 </body>
 </html>
