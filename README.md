@@ -54,6 +54,10 @@ python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
 
 프로필은 2026 KBO 정규시즌의 검증된 투구만 사용한다. 스윙은 헛스윙·파울·인플레이, 테이크는 콜드볼·콜드스트라이크와 타석 종료 사구로 분류한다. 최소 표시 기준은 **300 pitches seen**이며, 이 수치는 FanGraphs의 Swing/Take 분석에서 사용된 하한을 따른다. 300구 미만은 수치를 숨기지 않고 표본 미달로 표시한다.
 
+## Pitcher Zone Profile
+
+`web/zones/`는 같은 Excel의 `Pitches` 시트에서 타자·투수별 0.5 ft 존 데이터를 생성한다. 연도·구종·볼카운트·스트라이크카운트를 고르고 Swing%, Whiff%, Contact%, In-play%를 볼 수 있으며, 구종별 구사율·평균 구속·존 비율 비교표를 함께 제공한다. 일일 2026 갱신 때 이 프로필도 같은 Excel에서 다시 생성된다.
+
 ## 데스크톱 VBA
 
 기존 Excel 매크로 수집기는 [`legacy/vba/README.md`](legacy/vba/README.md)에 분리해 보존했습니다. 이 경로는 GitHub Actions 수집기와 독립적입니다.
