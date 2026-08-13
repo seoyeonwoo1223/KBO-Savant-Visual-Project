@@ -54,10 +54,10 @@ def test_swing_take_contract_cases(tmp_path):
     pq.write_table(pa.Table.from_pylist(rows), processed / "pitches.parquet")
 
     eligible, targeted = build_swing_take(tmp_path)
-    index = json.loads((tmp_path / "web/data/profiles/index.json").read_text())
+    index = json.loads((tmp_path / "web/data/swing_take/2026/index.json").read_text())
     player = next(player for player in index["players"] if player["name"] == "박준순")
     shard_name = player["id"][0] if player["id"][0].isdigit() else "other"
-    shard = json.loads((tmp_path / f"web/data/players/{shard_name}.json").read_text())
+    shard = json.loads((tmp_path / f"web/data/swing_take/2026/players/{shard_name}.json").read_text())
     payload = shard["players"][player["id"]]
     pitches = payload["pitches"]
     decision_rows = pq.read_table(processed / "decision_pitches.parquet").to_pylist()

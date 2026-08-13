@@ -233,11 +233,12 @@ def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None
         valid.append(row)
     re288, counts = _re288(valid)
     processed = root / "data" / "processed"
-    processed.mkdir(parents=True, exist_ok=True)
-    (processed / "re288.json").write_text(json.dumps({
-        "season": season,
-        "states": [{"base_state_code": state[0], "outs": state[1], "balls": state[2], "strikes": state[3], "run_expectancy": round(value, 6), "pitches": counts[state]} for state, value in sorted(re288.items())],
-    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if season == SEASON:
+        processed.mkdir(parents=True, exist_ok=True)
+        (processed / "re288.json").write_text(json.dumps({
+            "season": season,
+            "states": [{"base_state_code": state[0], "outs": state[1], "balls": state[2], "strikes": state[3], "run_expectancy": round(value, 6), "pitches": counts[state]} for state, value in sorted(re288.items())],
+        }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     valued = []
     for row in valid:
         before, after = _state(row, "before"), _state(row, "after")
@@ -251,10 +252,12 @@ def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None
         x, z = row["_relative_location"]; key = (row["balls_before"], row["strikes_before"], *_cell(x, z))
         row.update({"x_relative": x, "z_relative": z, "attack_region": _region(x, z), "decision_type": _action(row), "decision_run": row["raw_run_value"] - baseline[key], "location_count_baseline": baseline[key]})
         output_rows.append({key: value for key, value in row.items() if not key.startswith("_")})
-    pq.write_table(pa.Table.from_pylist(output_rows), processed / "decision_pitches.parquet")
+    if season == SEASON:
+        pq.write_table(pa.Table.from_pylist(output_rows), processed / "decision_pitches.parquet")
     league = _league_action_rates(valued)
-    output = root / "web" / "data" / "profiles"; output.mkdir(parents=True, exist_ok=True)
-    pitch_output = root / "web" / "data" / "players"; pitch_output.mkdir(parents=True, exist_ok=True)
+    output = root / "web" / "data" / "swing_take" / str(season)
+    output.mkdir(parents=True, exist_ok=True)
+    pitch_output = output / "players"; pitch_output.mkdir(parents=True, exist_ok=True)
     for stale_player in pitch_output.glob("*.json"):
         stale_player.unlink()
     index_players = []
@@ -294,7 +297,10 @@ def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None
             encoding="utf-8",
         )
     (output / "index.json").write_text(json.dumps({"season": season, "players": index_players}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    stale_catalog = output / "profiles.json"
-    if stale_catalog.exists():
-        stale_catalog.unlink()
+    catalog_path = root / "web" / "data" / "swing_take" / "index.json"
+    catalog = {"seasons": []}
+    if catalog_path.exists():
+        catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    catalog["seasons"] = sorted(set(catalog.get("seasons", [])) | {season}, reverse=True)
+    catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return len(output_rows), len(valued)

@@ -1,0 +1,2453 @@
+{
+  "season": 2026,
+  "players": [
+    {
+      "id": "53103",
+      "name": "강민균",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 11,
+      "meets_minimum": false
+    },
+    {
+      "id": "69064",
+      "name": "강민성",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 8,
+      "meets_minimum": false
+    },
+    {
+      "id": "74540",
+      "name": "강민호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 911,
+      "meets_minimum": true
+    },
+    {
+      "id": "68050",
+      "name": "강백호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1633,
+      "meets_minimum": true
+    },
+    {
+      "id": "63123",
+      "name": "강승호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 770,
+      "meets_minimum": true
+    },
+    {
+      "id": "50066",
+      "name": "강현우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 115,
+      "meets_minimum": false
+    },
+    {
+      "id": "51868",
+      "name": "고명준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 585,
+      "meets_minimum": true
+    },
+    {
+      "id": "69517",
+      "name": "고승민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1262,
+      "meets_minimum": true
+    },
+    {
+      "id": "61353",
+      "name": "고종욱",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 102,
+      "meets_minimum": false
+    },
+    {
+      "id": "56949",
+      "name": "고준휘",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 195,
+      "meets_minimum": false
+    },
+    {
+      "id": "69100",
+      "name": "구본혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 980,
+      "meets_minimum": true
+    },
+    {
+      "id": "62404",
+      "name": "구자욱",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1400,
+      "meets_minimum": true
+    },
+    {
+      "id": "52769",
+      "name": "권광민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 37,
+      "meets_minimum": false
+    },
+    {
+      "id": "51003",
+      "name": "권동진",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 804,
+      "meets_minimum": true
+    },
+    {
+      "id": "55371",
+      "name": "권혁빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 738,
+      "meets_minimum": true
+    },
+    {
+      "id": "63963",
+      "name": "권희동",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 821,
+      "meets_minimum": true
+    },
+    {
+      "id": "53312",
+      "name": "김건희",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1274,
+      "meets_minimum": true
+    },
+    {
+      "id": "66614",
+      "name": "김규성",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 748,
+      "meets_minimum": true
+    },
+    {
+      "id": "66112",
+      "name": "김기연",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 153,
+      "meets_minimum": false
+    },
+    {
+      "id": "69238",
+      "name": "김대한",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 159,
+      "meets_minimum": false
+    },
+    {
+      "id": "52605",
+      "name": "김도영",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1624,
+      "meets_minimum": true
+    },
+    {
+      "id": "69442",
+      "name": "김도환",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 425,
+      "meets_minimum": true
+    },
+    {
+      "id": "53344",
+      "name": "김동헌",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 247,
+      "meets_minimum": false
+    },
+    {
+      "id": "52504",
+      "name": "김동혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 83,
+      "meets_minimum": false
+    },
+    {
+      "id": "55502",
+      "name": "김동현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 164,
+      "meets_minimum": false
+    },
+    {
+      "id": "56637",
+      "name": "김민규",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 160,
+      "meets_minimum": false
+    },
+    {
+      "id": "53554",
+      "name": "김민석",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1444,
+      "meets_minimum": true
+    },
+    {
+      "id": "54097",
+      "name": "김민석",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 5,
+      "meets_minimum": false
+    },
+    {
+      "id": "77564",
+      "name": "김민성",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 136,
+      "meets_minimum": false
+    },
+    {
+      "id": "64793",
+      "name": "김민수",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 11,
+      "meets_minimum": false
+    },
+    {
+      "id": "62864",
+      "name": "김민식",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 100,
+      "meets_minimum": false
+    },
+    {
+      "id": "53893",
+      "name": "김민준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 35,
+      "meets_minimum": false
+    },
+    {
+      "id": "64004",
+      "name": "김민혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1182,
+      "meets_minimum": true
+    },
+    {
+      "id": "79402",
+      "name": "김상수",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1434,
+      "meets_minimum": true
+    },
+    {
+      "id": "55425",
+      "name": "김상준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 204,
+      "meets_minimum": false
+    },
+    {
+      "id": "78603",
+      "name": "김선빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1587,
+      "meets_minimum": true
+    },
+    {
+      "id": "62934",
+      "name": "김성욱",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 579,
+      "meets_minimum": true
+    },
+    {
+      "id": "67449",
+      "name": "김성윤",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1242,
+      "meets_minimum": true
+    },
+    {
+      "id": "69105",
+      "name": "김성진",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 29,
+      "meets_minimum": false
+    },
+    {
+      "id": "52514",
+      "name": "김세민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 162,
+      "meets_minimum": false
+    },
+    {
+      "id": "52430",
+      "name": "김영웅",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 463,
+      "meets_minimum": true
+    },
+    {
+      "id": "65898",
+      "name": "김웅빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 836,
+      "meets_minimum": true
+    },
+    {
+      "id": "63257",
+      "name": "김인태",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 226,
+      "meets_minimum": false
+    },
+    {
+      "id": "53400",
+      "name": "김재상",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 51,
+      "meets_minimum": false
+    },
+    {
+      "id": "52424",
+      "name": "김재혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 31,
+      "meets_minimum": false
+    },
+    {
+      "id": "62332",
+      "name": "김재현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 52,
+      "meets_minimum": false
+    },
+    {
+      "id": "78224",
+      "name": "김재환",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1536,
+      "meets_minimum": true
+    },
+    {
+      "id": "53865",
+      "name": "김정민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 33,
+      "meets_minimum": false
+    },
+    {
+      "id": "51903",
+      "name": "김정호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 30,
+      "meets_minimum": false
+    },
+    {
+      "id": "66162",
+      "name": "김주성",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 6,
+      "meets_minimum": false
+    },
+    {
+      "id": "51907",
+      "name": "김주원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1650,
+      "meets_minimum": true
+    },
+    {
+      "id": "56326",
+      "name": "김지석",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 221,
+      "meets_minimum": false
+    },
+    {
+      "id": "50458",
+      "name": "김지찬",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1502,
+      "meets_minimum": true
+    },
+    {
+      "id": "69825",
+      "name": "김창평",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 26,
+      "meets_minimum": false
+    },
+    {
+      "id": "78122",
+      "name": "김태군",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 478,
+      "meets_minimum": true
+    },
+    {
+      "id": "66704",
+      "name": "김태연",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1113,
+      "meets_minimum": true
+    },
+    {
+      "id": "64984",
+      "name": "김태진",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 72,
+      "meets_minimum": false
+    },
+    {
+      "id": "65040",
+      "name": "김태훈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 25,
+      "meets_minimum": false
+    },
+    {
+      "id": "50902",
+      "name": "김한별",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 494,
+      "meets_minimum": true
+    },
+    {
+      "id": "56595",
+      "name": "김한홀",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 3,
+      "meets_minimum": false
+    },
+    {
+      "id": "61404",
+      "name": "김헌곤",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 285,
+      "meets_minimum": false
+    },
+    {
+      "id": "76290",
+      "name": "김현수",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1668,
+      "meets_minimum": true
+    },
+    {
+      "id": "54166",
+      "name": "김현종",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 49,
+      "meets_minimum": false
+    },
+    {
+      "id": "51417",
+      "name": "김현준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 173,
+      "meets_minimum": false
+    },
+    {
+      "id": "68912",
+      "name": "김형준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1125,
+      "meets_minimum": true
+    },
+    {
+      "id": "65653",
+      "name": "김호령",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1605,
+      "meets_minimum": true
+    },
+    {
+      "id": "51344",
+      "name": "김휘집",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 627,
+      "meets_minimum": true
+    },
+    {
+      "id": "62947",
+      "name": "나성범",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1552,
+      "meets_minimum": true
+    },
+    {
+      "id": "51551",
+      "name": "나승엽",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 990,
+      "meets_minimum": true
+    },
+    {
+      "id": "69737",
+      "name": "노시환",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1684,
+      "meets_minimum": true
+    },
+    {
+      "id": "62931",
+      "name": "노진혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 794,
+      "meets_minimum": true
+    },
+    {
+      "id": "54944",
+      "name": "데이비슨",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1356,
+      "meets_minimum": true
+    },
+    {
+      "id": "56632",
+      "name": "데일",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 490,
+      "meets_minimum": true
+    },
+    {
+      "id": "66965",
+      "name": "도태훈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 343,
+      "meets_minimum": true
+    },
+    {
+      "id": "54400",
+      "name": "디아즈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1730,
+      "meets_minimum": true
+    },
+    {
+      "id": "54529",
+      "name": "레이예스",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1650,
+      "meets_minimum": true
+    },
+    {
+      "id": "53404",
+      "name": "류승민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 323,
+      "meets_minimum": true
+    },
+    {
+      "id": "62234",
+      "name": "류지혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1538,
+      "meets_minimum": true
+    },
+    {
+      "id": "53036",
+      "name": "류현인",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 566,
+      "meets_minimum": true
+    },
+    {
+      "id": "54219",
+      "name": "류현준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 3,
+      "meets_minimum": false
+    },
+    {
+      "id": "50868",
+      "name": "류효승",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 99,
+      "meets_minimum": false
+    },
+    {
+      "id": "56813",
+      "name": "마드리스",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 257,
+      "meets_minimum": false
+    },
+    {
+      "id": "69102",
+      "name": "문보경",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1308,
+      "meets_minimum": true
+    },
+    {
+      "id": "68119",
+      "name": "문성주",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 886,
+      "meets_minimum": true
+    },
+    {
+      "id": "52121",
+      "name": "문정빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 721,
+      "meets_minimum": true
+    },
+    {
+      "id": "53764",
+      "name": "문현빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1688,
+      "meets_minimum": true
+    },
+    {
+      "id": "79215",
+      "name": "박건우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1386,
+      "meets_minimum": true
+    },
+    {
+      "id": "55509",
+      "name": "박건우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 58,
+      "meets_minimum": false
+    },
+    {
+      "id": "64468",
+      "name": "박계범",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 129,
+      "meets_minimum": false
+    },
+    {
+      "id": "79365",
+      "name": "박동원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1247,
+      "meets_minimum": true
+    },
+    {
+      "id": "50657",
+      "name": "박민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 701,
+      "meets_minimum": true
+    },
+    {
+      "id": "62907",
+      "name": "박민우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1471,
+      "meets_minimum": true
+    },
+    {
+      "id": "52634",
+      "name": "박상준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 514,
+      "meets_minimum": true
+    },
+    {
+      "id": "53305",
+      "name": "박성빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 89,
+      "meets_minimum": false
+    },
+    {
+      "id": "51298",
+      "name": "박성재",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 20,
+      "meets_minimum": false
+    },
+    {
+      "id": "67893",
+      "name": "박성한",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1943,
+      "meets_minimum": true
+    },
+    {
+      "id": "62244",
+      "name": "박세혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 174,
+      "meets_minimum": false
+    },
+    {
+      "id": "52305",
+      "name": "박수종",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 209,
+      "meets_minimum": false
+    },
+    {
+      "id": "69418",
+      "name": "박승규",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1057,
+      "meets_minimum": true
+    },
+    {
+      "id": "62802",
+      "name": "박승욱",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 490,
+      "meets_minimum": true
+    },
+    {
+      "id": "50996",
+      "name": "박시원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 331,
+      "meets_minimum": true
+    },
+    {
+      "id": "55121",
+      "name": "박시원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 4,
+      "meets_minimum": false
+    },
+    {
+      "id": "55563",
+      "name": "박재엽",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 15,
+      "meets_minimum": false
+    },
+    {
+      "id": "55636",
+      "name": "박재현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1352,
+      "meets_minimum": true
+    },
+    {
+      "id": "67609",
+      "name": "박정우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 251,
+      "meets_minimum": false
+    },
+    {
+      "id": "50709",
+      "name": "박정현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 200,
+      "meets_minimum": false
+    },
+    {
+      "id": "50357",
+      "name": "박주홍",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 674,
+      "meets_minimum": true
+    },
+    {
+      "id": "55252",
+      "name": "박준순",
+      "romanized_name": "Park Junsoon",
+      "team": "두산 베어스",
+      "bats": "Right",
+      "pitches": 1065,
+      "meets_minimum": true
+    },
+    {
+      "id": "50204",
+      "name": "박지훈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 997,
+      "meets_minimum": true
+    },
+    {
+      "id": "52348",
+      "name": "박찬혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 842,
+      "meets_minimum": true
+    },
+    {
+      "id": "55530",
+      "name": "박찬형",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 110,
+      "meets_minimum": false
+    },
+    {
+      "id": "64646",
+      "name": "박찬호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1714,
+      "meets_minimum": true
+    },
+    {
+      "id": "54303",
+      "name": "박채울",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 42,
+      "meets_minimum": false
+    },
+    {
+      "id": "56304",
+      "name": "박한결",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 167,
+      "meets_minimum": false
+    },
+    {
+      "id": "62415",
+      "name": "박해민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1630,
+      "meets_minimum": true
+    },
+    {
+      "id": "64166",
+      "name": "배정대",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 395,
+      "meets_minimum": true
+    },
+    {
+      "id": "69727",
+      "name": "변우혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 256,
+      "meets_minimum": false
+    },
+    {
+      "id": "56322",
+      "name": "브룩스",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 619,
+      "meets_minimum": true
+    },
+    {
+      "id": "56950",
+      "name": "블레인",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 320,
+      "meets_minimum": true
+    },
+    {
+      "id": "78168",
+      "name": "서건창",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1189,
+      "meets_minimum": true
+    },
+    {
+      "id": "69995",
+      "name": "서호철",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 560,
+      "meets_minimum": true
+    },
+    {
+      "id": "52804",
+      "name": "석정우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 14,
+      "meets_minimum": false
+    },
+    {
+      "id": "56236",
+      "name": "세베리노",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 247,
+      "meets_minimum": false
+    },
+    {
+      "id": "51528",
+      "name": "손성빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1034,
+      "meets_minimum": true
+    },
+    {
+      "id": "77532",
+      "name": "손아섭",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 650,
+      "meets_minimum": true
+    },
+    {
+      "id": "54156",
+      "name": "손용준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 3,
+      "meets_minimum": false
+    },
+    {
+      "id": "50150",
+      "name": "손호영",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 648,
+      "meets_minimum": true
+    },
+    {
+      "id": "54394",
+      "name": "송지후",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 133,
+      "meets_minimum": false
+    },
+    {
+      "id": "68110",
+      "name": "송찬의",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1033,
+      "meets_minimum": true
+    },
+    {
+      "id": "65207",
+      "name": "신민재",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1213,
+      "meets_minimum": true
+    },
+    {
+      "id": "66662",
+      "name": "신범수",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 65,
+      "meets_minimum": false
+    },
+    {
+      "id": "53989",
+      "name": "신성호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 3,
+      "meets_minimum": false
+    },
+    {
+      "id": "69508",
+      "name": "신윤후",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 79,
+      "meets_minimum": false
+    },
+    {
+      "id": "56909",
+      "name": "신재인",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 443,
+      "meets_minimum": true
+    },
+    {
+      "id": "64006",
+      "name": "심우준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1347,
+      "meets_minimum": true
+    },
+    {
+      "id": "55438",
+      "name": "심재훈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 150,
+      "meets_minimum": false
+    },
+    {
+      "id": "56613",
+      "name": "아데를린",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 464,
+      "meets_minimum": true
+    },
+    {
+      "id": "66864",
+      "name": "안상현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 595,
+      "meets_minimum": true
+    },
+    {
+      "id": "50901",
+      "name": "안인산",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 11,
+      "meets_minimum": false
+    },
+    {
+      "id": "51203",
+      "name": "안재석",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1053,
+      "meets_minimum": true
+    },
+    {
+      "id": "64022",
+      "name": "안중열",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 373,
+      "meets_minimum": true
+    },
+    {
+      "id": "67006",
+      "name": "안치영",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 20,
+      "meets_minimum": false
+    },
+    {
+      "id": "79608",
+      "name": "안치홍",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1435,
+      "meets_minimum": true
+    },
+    {
+      "id": "52001",
+      "name": "안현민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 959,
+      "meets_minimum": true
+    },
+    {
+      "id": "64153",
+      "name": "양석환",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 437,
+      "meets_minimum": true
+    },
+    {
+      "id": "69403",
+      "name": "양우현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 408,
+      "meets_minimum": true
+    },
+    {
+      "id": "76232",
+      "name": "양의지",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1494,
+      "meets_minimum": true
+    },
+    {
+      "id": "55370",
+      "name": "양현종",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 185,
+      "meets_minimum": false
+    },
+    {
+      "id": "55392",
+      "name": "어준서",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 318,
+      "meets_minimum": true
+    },
+    {
+      "id": "53827",
+      "name": "에레디아",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1247,
+      "meets_minimum": true
+    },
+    {
+      "id": "55393",
+      "name": "여동욱",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 505,
+      "meets_minimum": true
+    },
+    {
+      "id": "55339",
+      "name": "염승원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 49,
+      "meets_minimum": false
+    },
+    {
+      "id": "50208",
+      "name": "오명진",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 530,
+      "meets_minimum": true
+    },
+    {
+      "id": "55005",
+      "name": "오서진",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 2,
+      "meets_minimum": false
+    },
+    {
+      "id": "69636",
+      "name": "오선우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 287,
+      "meets_minimum": false
+    },
+    {
+      "id": "78756",
+      "name": "오선진",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 290,
+      "meets_minimum": false
+    },
+    {
+      "id": "53123",
+      "name": "오스틴",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1771,
+      "meets_minimum": true
+    },
+    {
+      "id": "68904",
+      "name": "오영수",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 216,
+      "meets_minimum": false
+    },
+    {
+      "id": "64504",
+      "name": "오윤석",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 649,
+      "meets_minimum": true
+    },
+    {
+      "id": "51991",
+      "name": "오장한",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 196,
+      "meets_minimum": false
+    },
+    {
+      "id": "56754",
+      "name": "오재원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 623,
+      "meets_minimum": true
+    },
+    {
+      "id": "79109",
+      "name": "오지환",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1386,
+      "meets_minimum": true
+    },
+    {
+      "id": "60558",
+      "name": "오태곤",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 908,
+      "meets_minimum": true
+    },
+    {
+      "id": "51996",
+      "name": "오태양",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 65,
+      "meets_minimum": false
+    },
+    {
+      "id": "54307",
+      "name": "원성준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 82,
+      "meets_minimum": false
+    },
+    {
+      "id": "61102",
+      "name": "유강남",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 441,
+      "meets_minimum": true
+    },
+    {
+      "id": "52765",
+      "name": "유민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 114,
+      "meets_minimum": false
+    },
+    {
+      "id": "51013",
+      "name": "유준규",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 193,
+      "meets_minimum": false
+    },
+    {
+      "id": "52667",
+      "name": "윤도현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 257,
+      "meets_minimum": false
+    },
+    {
+      "id": "52591",
+      "name": "윤동희",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 972,
+      "meets_minimum": true
+    },
+    {
+      "id": "68463",
+      "name": "윤정빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 14,
+      "meets_minimum": false
+    },
+    {
+      "id": "50092",
+      "name": "윤준혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 10,
+      "meets_minimum": false
+    },
+    {
+      "id": "53296",
+      "name": "윤준호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 635,
+      "meets_minimum": true
+    },
+    {
+      "id": "56006",
+      "name": "이강민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 616,
+      "meets_minimum": true
+    },
+    {
+      "id": "65703",
+      "name": "이도윤",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1175,
+      "meets_minimum": true
+    },
+    {
+      "id": "56563",
+      "name": "이서준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 10,
+      "meets_minimum": false
+    },
+    {
+      "id": "66409",
+      "name": "이성규",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 82,
+      "meets_minimum": false
+    },
+    {
+      "id": "51100",
+      "name": "이영빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 319,
+      "meets_minimum": true
+    },
+    {
+      "id": "63260",
+      "name": "이우성",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1323,
+      "meets_minimum": true
+    },
+    {
+      "id": "68700",
+      "name": "이원석",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 786,
+      "meets_minimum": true
+    },
+    {
+      "id": "67207",
+      "name": "이유찬",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 468,
+      "meets_minimum": true
+    },
+    {
+      "id": "68106",
+      "name": "이재원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 381,
+      "meets_minimum": true
+    },
+    {
+      "id": "56005",
+      "name": "이재원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 21,
+      "meets_minimum": false
+    },
+    {
+      "id": "52415",
+      "name": "이재현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 794,
+      "meets_minimum": true
+    },
+    {
+      "id": "67807",
+      "name": "이정범",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 51,
+      "meets_minimum": false
+    },
+    {
+      "id": "67644",
+      "name": "이정훈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 288,
+      "meets_minimum": false
+    },
+    {
+      "id": "52154",
+      "name": "이주헌",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 365,
+      "meets_minimum": true
+    },
+    {
+      "id": "50167",
+      "name": "이주형",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 382,
+      "meets_minimum": true
+    },
+    {
+      "id": "51302",
+      "name": "이주형",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 16,
+      "meets_minimum": false
+    },
+    {
+      "id": "79456",
+      "name": "이지영",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 324,
+      "meets_minimum": true
+    },
+    {
+      "id": "66657",
+      "name": "이진영",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 422,
+      "meets_minimum": true
+    },
+    {
+      "id": "51407",
+      "name": "이창용",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 10,
+      "meets_minimum": false
+    },
+    {
+      "id": "64560",
+      "name": "이창진",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 15,
+      "meets_minimum": false
+    },
+    {
+      "id": "69416",
+      "name": "이해승",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 76,
+      "meets_minimum": false
+    },
+    {
+      "id": "78135",
+      "name": "이형종",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 668,
+      "meets_minimum": true
+    },
+    {
+      "id": "68504",
+      "name": "이호연",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 76,
+      "meets_minimum": false
+    },
+    {
+      "id": "54598",
+      "name": "이호준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 186,
+      "meets_minimum": false
+    },
+    {
+      "id": "52807",
+      "name": "임근우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 130,
+      "meets_minimum": false
+    },
+    {
+      "id": "64346",
+      "name": "임병욱",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 942,
+      "meets_minimum": true
+    },
+    {
+      "id": "54236",
+      "name": "임종성",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 75,
+      "meets_minimum": false
+    },
+    {
+      "id": "64340",
+      "name": "임지열",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 337,
+      "meets_minimum": true
+    },
+    {
+      "id": "51762",
+      "name": "장규현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 51,
+      "meets_minimum": false
+    },
+    {
+      "id": "68507",
+      "name": "장두성",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 598,
+      "meets_minimum": true
+    },
+    {
+      "id": "78548",
+      "name": "장성우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 981,
+      "meets_minimum": true
+    },
+    {
+      "id": "63202",
+      "name": "장승현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 128,
+      "meets_minimum": false
+    },
+    {
+      "id": "64115",
+      "name": "장준원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 309,
+      "meets_minimum": true
+    },
+    {
+      "id": "66706",
+      "name": "장진혁",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 106,
+      "meets_minimum": false
+    },
+    {
+      "id": "54214",
+      "name": "전다민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 4,
+      "meets_minimum": false
+    },
+    {
+      "id": "68205",
+      "name": "전민재",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1301,
+      "meets_minimum": true
+    },
+    {
+      "id": "65586",
+      "name": "전병우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1270,
+      "meets_minimum": true
+    },
+    {
+      "id": "50820",
+      "name": "전의산",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 805,
+      "meets_minimum": true
+    },
+    {
+      "id": "78513",
+      "name": "전준우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 740,
+      "meets_minimum": true
+    },
+    {
+      "id": "55397",
+      "name": "전태현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 66,
+      "meets_minimum": false
+    },
+    {
+      "id": "53568",
+      "name": "정대선",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 5,
+      "meets_minimum": false
+    },
+    {
+      "id": "51764",
+      "name": "정민규",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 9,
+      "meets_minimum": false
+    },
+    {
+      "id": "68518",
+      "name": "정보근",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 17,
+      "meets_minimum": false
+    },
+    {
+      "id": "79231",
+      "name": "정수빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1590,
+      "meets_minimum": true
+    },
+    {
+      "id": "68743",
+      "name": "정은원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 51,
+      "meets_minimum": false
+    },
+    {
+      "id": "54812",
+      "name": "정준재",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1700,
+      "meets_minimum": true
+    },
+    {
+      "id": "55926",
+      "name": "정현창",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 259,
+      "meets_minimum": false
+    },
+    {
+      "id": "68089",
+      "name": "조대현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 128,
+      "meets_minimum": false
+    },
+    {
+      "id": "55534",
+      "name": "조민영",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 11,
+      "meets_minimum": false
+    },
+    {
+      "id": "52516",
+      "name": "조세진",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 102,
+      "meets_minimum": false
+    },
+    {
+      "id": "66209",
+      "name": "조수행",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 430,
+      "meets_minimum": true
+    },
+    {
+      "id": "51865",
+      "name": "조형우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1013,
+      "meets_minimum": true
+    },
+    {
+      "id": "69332",
+      "name": "주성원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 73,
+      "meets_minimum": false
+    },
+    {
+      "id": "66354",
+      "name": "주효상",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 73,
+      "meets_minimum": false
+    },
+    {
+      "id": "55435",
+      "name": "차승준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 6,
+      "meets_minimum": false
+    },
+    {
+      "id": "79192",
+      "name": "채은성",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 573,
+      "meets_minimum": true
+    },
+    {
+      "id": "69804",
+      "name": "채현우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 167,
+      "meets_minimum": false
+    },
+    {
+      "id": "50054",
+      "name": "천성호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 806,
+      "meets_minimum": true
+    },
+    {
+      "id": "67905",
+      "name": "천재환",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 689,
+      "meets_minimum": true
+    },
+    {
+      "id": "52103",
+      "name": "최원영",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 64,
+      "meets_minimum": false
+    },
+    {
+      "id": "66606",
+      "name": "최원준",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1703,
+      "meets_minimum": true
+    },
+    {
+      "id": "55894",
+      "name": "최윤석",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 35,
+      "meets_minimum": false
+    },
+    {
+      "id": "50707",
+      "name": "최인호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 278,
+      "meets_minimum": false
+    },
+    {
+      "id": "56338",
+      "name": "최재영",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 143,
+      "meets_minimum": false
+    },
+    {
+      "id": "78288",
+      "name": "최재훈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 467,
+      "meets_minimum": true
+    },
+    {
+      "id": "75847",
+      "name": "최정",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1226,
+      "meets_minimum": true
+    },
+    {
+      "id": "69992",
+      "name": "최정원",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 603,
+      "meets_minimum": true
+    },
+    {
+      "id": "76267",
+      "name": "최주환",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1238,
+      "meets_minimum": true
+    },
+    {
+      "id": "68868",
+      "name": "최준우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 222,
+      "meets_minimum": false
+    },
+    {
+      "id": "50854",
+      "name": "최지훈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1669,
+      "meets_minimum": true
+    },
+    {
+      "id": "62884",
+      "name": "최항",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 53,
+      "meets_minimum": false
+    },
+    {
+      "id": "72443",
+      "name": "최형우",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1651,
+      "meets_minimum": true
+    },
+    {
+      "id": "68362",
+      "name": "추재현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 666,
+      "meets_minimum": true
+    },
+    {
+      "id": "56251",
+      "name": "카메론",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1117,
+      "meets_minimum": true
+    },
+    {
+      "id": "56626",
+      "name": "카스트로",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 901,
+      "meets_minimum": true
+    },
+    {
+      "id": "54730",
+      "name": "페라자",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1827,
+      "meets_minimum": true
+    },
+    {
+      "id": "62700",
+      "name": "하주석",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 418,
+      "meets_minimum": true
+    },
+    {
+      "id": "68525",
+      "name": "한동희",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1008,
+      "meets_minimum": true
+    },
+    {
+      "id": "64101",
+      "name": "한석현",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 486,
+      "meets_minimum": true
+    },
+    {
+      "id": "52628",
+      "name": "한승연",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 160,
+      "meets_minimum": false
+    },
+    {
+      "id": "63722",
+      "name": "한승택",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1015,
+      "meets_minimum": true
+    },
+    {
+      "id": "62895",
+      "name": "한유섬",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 535,
+      "meets_minimum": true
+    },
+    {
+      "id": "50903",
+      "name": "한재환",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 56,
+      "meets_minimum": false
+    },
+    {
+      "id": "68646",
+      "name": "한준수",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1251,
+      "meets_minimum": true
+    },
+    {
+      "id": "55767",
+      "name": "한지윤",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 86,
+      "meets_minimum": false
+    },
+    {
+      "id": "52568",
+      "name": "한태양",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 609,
+      "meets_minimum": true
+    },
+    {
+      "id": "55440",
+      "name": "함수호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 65,
+      "meets_minimum": false
+    },
+    {
+      "id": "79240",
+      "name": "허경민",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 927,
+      "meets_minimum": true
+    },
+    {
+      "id": "56904",
+      "name": "허윤",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 20,
+      "meets_minimum": false
+    },
+    {
+      "id": "52764",
+      "name": "허인서",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1224,
+      "meets_minimum": true
+    },
+    {
+      "id": "55897",
+      "name": "홍대인",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 230,
+      "meets_minimum": false
+    },
+    {
+      "id": "66233",
+      "name": "홍성호",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 65,
+      "meets_minimum": false
+    },
+    {
+      "id": "66108",
+      "name": "홍창기",
+      "romanized_name": "Hong Changki",
+      "team": "LG 트윈스",
+      "bats": "Left",
+      "pitches": 1842,
+      "meets_minimum": true
+    },
+    {
+      "id": "67005",
+      "name": "홍현빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 24,
+      "meets_minimum": false
+    },
+    {
+      "id": "65610",
+      "name": "황대인",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 13,
+      "meets_minimum": false
+    },
+    {
+      "id": "50500",
+      "name": "황성빈",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1252,
+      "meets_minimum": true
+    },
+    {
+      "id": "54795",
+      "name": "황영묵",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 441,
+      "meets_minimum": true
+    },
+    {
+      "id": "56305",
+      "name": "히우라",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 783,
+      "meets_minimum": true
+    },
+    {
+      "id": "56034",
+      "name": "힐리어드",
+      "romanized_name": "",
+      "team": "—",
+      "bats": "Unknown",
+      "pitches": 1721,
+      "meets_minimum": true
+    }
+  ]
+}
