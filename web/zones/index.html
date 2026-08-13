@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KBO Pitcher Zone Profile</title>
+  <link rel="stylesheet" href="zone.css?v=20260813-1">
+</head>
+<body>
+  <main>
+    <nav><a href="../">← Swing/Take 검색</a></nav>
+    <header>
+      <p class="eyebrow">VISUAL BASEBALL ABS · KBO</p>
+      <h1>KBO Zone Profile</h1>
+      <p>Baseball Savant 방식으로 보는 타자·투수별 Swing·Whiff·Contact·In-play 존</p>
+    </header>
+    <section class="notice">
+      <p>Swing% = swings / pitches · Whiff% = whiffs / swings</p>
+      <p>0.5 ft 구간 · 셀을 가리키면 분자와 표본을 확인할 수 있습니다.</p>
+    </section>
+    <section class="search-panel" aria-label="투수 검색">
+      <label>연도<select id="year"></select></label>
+      <label>대상<select id="role"><option value="batter">타자</option><option value="pitcher">투수</option></select></label>
+      <form id="search-form">
+        <label for="query">선수 이름</label>
+        <input id="query" type="search" autocomplete="off" placeholder="예: 홍창기">
+        <button type="submit">검색</button>
+      </form>
+      <div id="matches" class="matches"></div>
+      <p id="message" class="message" aria-live="polite"></p>
+    </section>
+    <section id="profile" class="profile" hidden>
+      <div class="profile-title">
+        <div><p class="eyebrow" id="profile-season"></p><h2 id="player-name"></h2></div>
+        <p id="profile-meta"></p>
+      </div>
+      <div class="filters">
+        <label>구종<select id="pitch-type"><option value="">전체 구종</option></select></label>
+        <label>보기<select id="count-view"><option value="all">전체 카운트</option><option value="single">개별 카운트</option></select></label>
+        <label>볼<select id="balls" disabled><option value="">전체</option><option>0</option><option>1</option><option>2</option><option>3</option></select></label>
+        <label>스트라이크<select id="strikes" disabled><option value="">전체</option><option>0</option><option>1</option><option>2</option></select></label>
+        <label>지표<select id="metric"><option value="swing">Swing %</option><option value="whiff">Whiff %</option><option value="avg">AVG (Hot/Cold)</option><option value="contact">Contact %</option><option value="inplay">In-play %</option></select></label>
+        <label>최소 표본<select id="minimum"><option value="0">0</option><option value="3">3</option><option value="5">5</option><option value="10">10</option></select></label>
+      </div>
+      <div id="summary" class="summary"></div>
+      <div class="dashboard">
+        <section class="chart-card">
+          <div class="chart-heading"><div><strong id="chart-title"></strong><span id="chart-subtitle"></span></div><div id="legend" class="legend"></div></div>
+          <div class="zone-wrap">
+            <div id="zone-grid" class="zone-grid"></div>
+            <div id="strike-zone" class="strike-zone"></div>
+          </div>
+          <div class="plate" aria-hidden="true"></div>
+          <p class="axis-label">포수 시점 · Horizontal (ft.)</p>
+        </section>
+        <section class="table-card">
+          <h3>구종 비교</h3>
+          <div class="table-wrap"><table><thead><tr><th>구종</th><th>구사율</th><th>평균 구속</th><th>Swing%</th><th>Whiff%</th><th>AVG</th><th>Zone%</th></tr></thead><tbody id="pitch-table"></tbody></table></div>
+        </section>
+      </div>
+      <p class="method">색은 선택 지표의 비율을 나타냅니다. 파란색은 낮고 빨간색은 높습니다. 빈 셀은 선택한 최소 표본에 미달합니다.</p>
+    </section>
+  </main>
+  <script src="zone.js?v=20260813-1"></script>
+</body>
+</html>

@@ -8,6 +8,7 @@ from .web_export import export_web_data
 from .http_client import VisualBaseballClient
 from .storage import Store
 from .swing_take import build_swing_take
+from .zone_profile import build_zone_profiles
 
 
 def _exports(root: Path, season: int, storage_root: Path) -> None:
@@ -15,6 +16,7 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
     # the workbook's Pitches sheet. Derived decision rows stay out of Excel.
     workbook = export_latest(root, season, storage_root)
     build_swing_take(storage_root, season, excel_source=workbook)
+    build_zone_profiles(root, season, excel_source=workbook)
     if storage_root == root:
         export_web_data(root)
 

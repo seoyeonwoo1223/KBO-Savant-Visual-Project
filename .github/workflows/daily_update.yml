@@ -6,6 +6,7 @@ on:
       - "exports/visualbaseball_savant_2026_latest.xlsx"
       - "src/visualbaseball/**"
       - "web/profiles/**"
+      - "web/zones/**"
       - "requirements.txt"
       - ".github/workflows/daily_update.yml"
   schedule:
