@@ -32,6 +32,10 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 .zone-key { display: inline-flex; align-items: center; gap: 8px; margin: 14px 0 5px; font-size: 1rem; }
 .zone-key i { display: inline-block; width: 55px; border-top: 5px dotted #0bb35b; }
 .zone-note { max-width: 320px; margin: 5px auto 0; color: #777; font-size: .74rem; line-height: 1.45; }
+.zone-guide { margin: 12px auto 0; color: #666; font-size: .78rem; }
+.zone-guide summary { cursor: pointer; font-weight: 700; }
+.zone-guide img { display: block; width: min(100%, 720px); margin: 10px auto 0; border: 1px solid #d1d1d1; background: #f5f0e9; }
+.zone-guide[open] { grid-column: 1 / -1; }
 .panel-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 0 0 10px; }
 .panel-heading p { margin: 0; color: #666; font: .88rem Arial, sans-serif; white-space: nowrap; }
 .region-columns { display: grid; grid-template-columns: 128px minmax(150px, .8fr) minmax(300px, 1.45fr) minmax(260px, 1.15fr); gap: 32px; align-items: end; padding: 0 0 9px; border-bottom: 1px solid #ddd; color: #555; font-size: .94rem; line-height: 1.05; text-align: center; }

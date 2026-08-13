@@ -10,6 +10,9 @@ h1 { margin: 0; font-size: clamp(2.25rem, 6vw, 4.1rem); line-height: 1; letter-s
 header > p:last-child { margin: 12px 0 0; color: #666; }
 .notice { margin: 18px 0; padding: 13px 15px; border: 1px solid #bad4b0; background: #e5f2df; color: #23651d; font-size: .8rem; line-height: 1.5; }
 .notice p { margin: 0; }
+.zone-guide { margin-top: 8px; }
+.zone-guide summary { cursor: pointer; font-weight: 700; }
+.zone-guide img { display: block; width: min(100%, 720px); margin: 12px auto 2px; border: 1px solid #c9c9c9; background: #f5f0e9; }
 .search-panel { display: flex; align-items: end; gap: 12px; padding: 16px 0 22px; border-bottom: 1px solid #ddd; flex-wrap: wrap; }
 label { display: grid; gap: 5px; color: #555; font-size: .76rem; font-weight: 700; }
 select, input, button { height: 40px; border: 1px solid #bfc4c8; border-radius: 0; padding: 0 11px; background: #fff; color: #252525; font-size: .9rem; }
