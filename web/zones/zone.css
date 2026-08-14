@@ -38,7 +38,7 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.045em; }
 .chart-heading { display: flex; justify-content: space-between; gap: 12px; align-items: start; margin-bottom: 14px; }
 .chart-heading strong { display: block; font-size: 1rem; }
 .chart-heading span { color: #666; font-size: .76rem; }
-.legend { display: grid; grid-template-columns: repeat(6, 22px); height: 14px; }
+.legend { display: grid; grid-template-columns: repeat(10, 14px); height: 14px; }
 .legend i { display: block; }
 .savant-plot { display: grid; grid-template-columns: 16px minmax(0, 480px); justify-content: center; gap: 26px; }
 .vertical-label { align-self: center; color: #555; font-size: .72rem; font-weight: 700; white-space: nowrap; writing-mode: vertical-rl; transform: rotate(180deg); }

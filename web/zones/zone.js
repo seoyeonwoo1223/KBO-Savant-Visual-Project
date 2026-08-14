@@ -6,20 +6,19 @@ const fmt = value => value == null ? "—" : `${value.toFixed(1)}%`;
 const sum = (rows, index) => rows.reduce((total, row) => total + Number(row[index] || 0), 0);
 const metricConfig = {
   swing: { label: "Swing %", numerator: "swings", denominator: "total", maximum: 100, percent: true },
-  whiff: { label: "Whiff %", numerator: "whiffs", denominator: "swings", maximum: 60, percent: true },
-  avg: { label: "AVG", numerator: "hits", denominator: "atBats", maximum: .5, percent: false },
+  whiff: { label: "Whiff %", numerator: "whiffs", denominator: "swings", maximum: 100, percent: true },
+  avg: { label: "AVG", numerator: "hits", denominator: "atBats", maximum: 1, percent: false },
   contact: { label: "Contact %", numerator: "contacts", denominator: "swings", maximum: 100, percent: true },
-  inplay: { label: "In-play %", numerator: "inplay", denominator: "total", maximum: 50, percent: true },
+  inplay: { label: "In-play %", numerator: "inplay", denominator: "total", maximum: 100, percent: true },
 };
 const metricValue = (config, numerator, denominator) => denominator ? (config.percent ? 100 * numerator / denominator : numerator / denominator) : null;
 const metricLabel = (config, value) => value == null ? "—" : config.percent ? `${value.toFixed(1)}%` : value.toFixed(3).replace(/^0/, "");
 
+const savantBands = [[65,108,176],[101,134,190],[145,169,208],[184,200,224],[217,225,237],[245,245,245],[246,214,216],[240,182,187],[234,144,153],[223,36,51]];
 const color = (value, maximum) => {
   if (value == null) return "#e3e3e3";
   const ratio = Math.max(0, Math.min(1, value / maximum));
-  const stops = [[62,103,176],[105,137,190],[185,202,224],[239,224,224],[230,151,157],[215,42,57]];
-  const scaled = ratio * (stops.length - 1), left = Math.floor(scaled), right = Math.min(stops.length - 1, left + 1), mix = scaled - left;
-  return `rgb(${stops[left].map((channel, index) => Math.round(channel + (stops[right][index] - channel) * mix)).join(",")})`;
+  return `rgb(${savantBands[Math.min(9, Math.floor(ratio * 10))].join(",")})`;
 };
 
 const columns = () => state.payload?.schema_version >= 2
@@ -60,7 +59,7 @@ function render() {
   ].map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`).join("");
   $("#chart-title").textContent = config.label;
   $("#chart-subtitle").textContent = `${$("#pitch-type").value || "전체 구종"} · ${totals.total.toLocaleString()}구`;
-  $("#legend").innerHTML = Array.from({length: 6}, (_, index) => `<i style="background:${color(index * config.maximum / 5, config.maximum)}"></i>`).join("");
+  $("#legend").innerHTML = Array.from({length: 10}, (_, index) => `<i style="background:${color(index * config.maximum / 10, config.maximum)}"></i>`).join("");
 
   const minimum = Number($("#minimum").value), cells = new Map(), layout = columns();
   rows.forEach(row => {
