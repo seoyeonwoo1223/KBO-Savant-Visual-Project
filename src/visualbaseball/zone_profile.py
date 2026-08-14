@@ -43,6 +43,16 @@ def _pitch_type(row: dict) -> str:
     return str(row.get("pitch_type_kr") or row.get("pitch_type") or row.get("pitch_type_code") or "기타").strip()
 
 
+def _pitcher_throws(row: dict) -> str:
+    """Infer throwing side from release position used by the published feed."""
+    release_x = _number(row.get("x0"))
+    if release_x is None or abs(release_x) < 0.1:
+        return ""
+    # Visual Baseball's catcher-view coordinate convention places LHP releases
+    # on the positive x side and RHP releases on the negative x side.
+    return "L" if release_x > 0 else "R"
+
+
 def _batting_result(row: dict) -> tuple[int, int]:
     if not _truthy(row.get("is_pa_terminal")):
         return 0, 0
@@ -110,7 +120,12 @@ def build_zone_profiles(root: Path, season: int, excel_source: Path | None = Non
                     player["zone_bottom_sum"] += bottom
                     player["zone_n"] += 1
                 # total, swings, whiffs, contacts, in-play, velo sum/n, zone, pitches, AB, hits
-                aggregate = player["groups"][(balls, strikes, _pitch_type(row), x_bin, z_bin)]
+                group_key = (
+                    (balls, strikes, _pitcher_throws(row), _pitch_type(row), x_bin, z_bin)
+                    if role == "batter"
+                    else (balls, strikes, _pitch_type(row), x_bin, z_bin)
+                )
+                aggregate = player["groups"][group_key]
                 aggregate[0] += 1
                 aggregate[1] += int(swing)
                 aggregate[2] += int(swing and not contact)
@@ -139,12 +154,23 @@ def build_zone_profiles(root: Path, season: int, excel_source: Path | None = Non
             filename = f"{shard}.json"
             current_files.add(filename)
             zone_n = player["zone_n"]
-            records = [
-                [balls, strikes, pitch_type, x_bin, z_bin, *[round(value, 3) if isinstance(value, float) else value for value in values]]
-                for (balls, strikes, pitch_type, x_bin, z_bin), values in player["groups"].items()
-            ]
+            if role == "batter":
+                records = [
+                    [balls, strikes, pitcher_throws, pitch_type, x_bin, z_bin, *[round(value, 3) if isinstance(value, float) else value for value in values]]
+                    for (balls, strikes, pitcher_throws, pitch_type, x_bin, z_bin), values in player["groups"].items()
+                ]
+                schema_version = 2
+                columns = ["balls", "strikes", "pitcher_throws", "pitch_type", "x_bin", "z_bin", "total", "swings", "whiffs", "contacts", "in_play", "velo_sum", "velo_n", "zone", "pitches", "at_bats", "hits"]
+            else:
+                # Preserve the pitcher profile schema and aggregates exactly.
+                records = [
+                    [balls, strikes, pitch_type, x_bin, z_bin, *[round(value, 3) if isinstance(value, float) else value for value in values]]
+                    for (balls, strikes, pitch_type, x_bin, z_bin), values in player["groups"].items()
+                ]
+                schema_version = 1
+                columns = ["balls", "strikes", "pitch_type", "x_bin", "z_bin", "total", "swings", "whiffs", "contacts", "in_play", "velo_sum", "velo_n", "zone", "pitches", "at_bats", "hits"]
             payload = {
-                "schema_version": 1,
+                "schema_version": schema_version,
                 "season": season,
                 "role": role,
                 "source": f"exports/{source.name}",
@@ -156,7 +182,7 @@ def build_zone_profiles(root: Path, season: int, excel_source: Path | None = Non
                     "bottom": round(player["zone_bottom_sum"] / zone_n, 3) if zone_n else 1.5,
                     "top": round(player["zone_top_sum"] / zone_n, 3) if zone_n else 3.5,
                 },
-                "columns": ["balls", "strikes", "pitch_type", "x_bin", "z_bin", "total", "swings", "whiffs", "contacts", "in_play", "velo_sum", "velo_n", "zone", "pitches", "at_bats", "hits"],
+                "columns": columns,
                 "records": records,
             }
             shards[shard][player_id] = payload

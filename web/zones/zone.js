@@ -22,23 +22,33 @@ const color = (value, maximum) => {
   return `rgb(${stops[left].map((channel, index) => Math.round(channel + (stops[right][index] - channel) * mix)).join(",")})`;
 };
 
+const columns = () => state.payload?.schema_version >= 2
+  ? { pitcherThrows: 2, pitchType: 3, xBin: 4, zBin: 5, values: 6 }
+  : { pitcherThrows: null, pitchType: 2, xBin: 3, zBin: 4, values: 5 };
+
 const selectedRows = () => {
   if (!state.payload) return [];
   const pitchType = $("#pitch-type").value;
+  const pitcherThrows = $("#pitcher-throws").value;
   const single = $("#count-view").value === "single";
   const balls = $("#balls").value, strikes = $("#strikes").value;
+  const layout = columns();
   return state.payload.records.filter(row =>
-    (!pitchType || row[2] === pitchType) &&
+    (!pitcherThrows || layout.pitcherThrows === null || row[layout.pitcherThrows] === pitcherThrows) &&
+    (!pitchType || row[layout.pitchType] === pitchType) &&
     (!single || balls === "" || String(row[0]) === balls) &&
     (!single || strikes === "" || String(row[1]) === strikes)
   );
 };
 
-const aggregate = rows => ({
-  total: sum(rows, 5), swings: sum(rows, 6), whiffs: sum(rows, 7), contacts: sum(rows, 8),
-  inplay: sum(rows, 9), veloSum: sum(rows, 10), veloN: sum(rows, 11), zone: sum(rows, 12), pitches: sum(rows, 13),
-  atBats: sum(rows, 14), hits: sum(rows, 15),
-});
+const aggregate = rows => {
+  const offset = columns().values;
+  return {
+    total: sum(rows, offset), swings: sum(rows, offset + 1), whiffs: sum(rows, offset + 2), contacts: sum(rows, offset + 3),
+    inplay: sum(rows, offset + 4), veloSum: sum(rows, offset + 5), veloN: sum(rows, offset + 6), zone: sum(rows, offset + 7), pitches: sum(rows, offset + 8),
+    atBats: sum(rows, offset + 9), hits: sum(rows, offset + 10),
+  };
+};
 
 function render() {
   const rows = selectedRows(), totals = aggregate(rows), config = metricConfig[$("#metric").value];
@@ -52,9 +62,9 @@ function render() {
   $("#chart-subtitle").textContent = `${$("#pitch-type").value || "전체 구종"} · ${totals.total.toLocaleString()}구`;
   $("#legend").innerHTML = Array.from({length: 6}, (_, index) => `<i style="background:${color(index * config.maximum / 5, config.maximum)}"></i>`).join("");
 
-  const minimum = Number($("#minimum").value), cells = new Map();
+  const minimum = Number($("#minimum").value), cells = new Map(), layout = columns();
   rows.forEach(row => {
-    const key = `${row[3]}-${row[4]}`;
+    const key = `${row[layout.xBin]}-${row[layout.zBin]}`;
     const current = cells.get(key) || [];
     current.push(row); cells.set(key, current);
   });
@@ -68,20 +78,17 @@ function render() {
   }
   $("#zone-grid").innerHTML = html.join("");
   const coordinates = state.payload.coordinates;
-  // Keep the drawn ABS zone on the public fixed coordinate contract:
-  // 20 inches wide (±10 in.) and 18–42 inches high (1.5–3.5 ft).
-  // Individual sz_top/sz_bottom values remain in the source data, but must
-  // not shift the visual reference rectangle from this chart definition.
-  const zone = { left: -10 / 12, right: 10 / 12, bottom: 1.5, top: 3.5 };
+  // Draw a 4×4 reference box aligned exactly to the 0.5 ft heat-map cells.
+  const zone = { left: -1.0, right: 1.0, bottom: 1.5, top: 3.5 };
   const left = 100 * (zone.left - coordinates.x_min) / (coordinates.x_max - coordinates.x_min);
   const width = 100 * (zone.right - zone.left) / (coordinates.x_max - coordinates.x_min);
   const top = 100 * (coordinates.z_max - zone.top) / (coordinates.z_max - coordinates.z_min);
   const height = 100 * (zone.top - zone.bottom) / (coordinates.z_max - coordinates.z_min);
   Object.assign($("#strike-zone").style, { left: `${left}%`, width: `${width}%`, top: `${top}%`, height: `${height}%` });
 
-  const types = [...new Set(rows.map(row => row[2]))];
+  const types = [...new Set(rows.map(row => row[layout.pitchType]))];
   const tableRows = types.map(type => {
-    const values = aggregate(rows.filter(row => row[2] === type));
+    const values = aggregate(rows.filter(row => row[layout.pitchType] === type));
     return { type, ...values };
   }).sort((a, b) => b.total - a.total);
   $("#pitch-table").innerHTML = tableRows.map(row => `<tr><td>${row.type}</td><td>${fmt(pct(row.total, totals.total))}</td><td>${row.veloN ? (row.veloSum / row.veloN).toFixed(1) : "—"}</td><td>${fmt(pct(row.swings, row.total))}</td><td>${fmt(pct(row.whiffs, row.swings))}</td><td>${row.atBats ? (row.hits / row.atBats).toFixed(3).replace(/^0/, "") : "—"}</td><td>${fmt(pct(row.zone, row.pitches))}</td></tr>`).join("") || `<tr><td colspan="7">선택 조건의 투구가 없습니다.</td></tr>`;
@@ -97,8 +104,11 @@ async function openPlayer(player, year, role, replaceUrl = true) {
   $("#player-name").textContent = state.payload.player.name;
   $("#profile-season").textContent = `${year} KBO · ${role === "batter" ? "BATTER" : "PITCHER"}`;
   $("#profile-meta").textContent = `${player.pitches.toLocaleString()}개 위치 표본 · ${state.payload.source}`;
-  const types = [...new Set(state.payload.records.map(row => row[2]))].sort();
+  const layout = columns();
+  const types = [...new Set(state.payload.records.map(row => row[layout.pitchType]))].sort();
   $("#pitch-type").innerHTML = `<option value="">전체 구종</option>${types.map(type => `<option>${type}</option>`).join("")}`;
+  $("#pitcher-throws").value = "";
+  $("#pitcher-throws").disabled = layout.pitcherThrows === null;
   if (replaceUrl) history.replaceState(null, "", `?player=${encodeURIComponent(player.id)}&year=${year}&role=${role}`);
   $("#matches").innerHTML = ""; $("#message").textContent = "";
   render();
@@ -136,4 +146,4 @@ $("#count-view").addEventListener("change", event => {
   const enabled = event.target.value === "single";
   $("#balls").disabled = !enabled; $("#strikes").disabled = !enabled; render();
 });
-["#pitch-type", "#balls", "#strikes", "#metric", "#minimum"].forEach(selector => $(selector).addEventListener("change", render));
+["#pitcher-throws", "#pitch-type", "#balls", "#strikes", "#metric", "#minimum"].forEach(selector => $(selector).addEventListener("change", render));
