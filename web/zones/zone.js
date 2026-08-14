@@ -67,7 +67,12 @@ function render() {
     html.push(`<div class="cell ${value == null ? "empty" : ""}" style="background:${color(value, config.maximum)}" title="${title}">${value == null ? "" : config.percent ? `${Math.round(value)}%` : value.toFixed(3).replace(/^0/, "")}</div>`);
   }
   $("#zone-grid").innerHTML = html.join("");
-  const coordinates = state.payload.coordinates, zone = state.payload.strike_zone;
+  const coordinates = state.payload.coordinates;
+  // Keep the drawn ABS zone on the public fixed coordinate contract:
+  // 20 inches wide (±10 in.) and 18–42 inches high (1.5–3.5 ft).
+  // Individual sz_top/sz_bottom values remain in the source data, but must
+  // not shift the visual reference rectangle from this chart definition.
+  const zone = { left: -10 / 12, right: 10 / 12, bottom: 1.5, top: 3.5 };
   const left = 100 * (zone.left - coordinates.x_min) / (coordinates.x_max - coordinates.x_min);
   const width = 100 * (zone.right - zone.left) / (coordinates.x_max - coordinates.x_min);
   const top = 100 * (coordinates.z_max - zone.top) / (coordinates.z_max - coordinates.z_min);
