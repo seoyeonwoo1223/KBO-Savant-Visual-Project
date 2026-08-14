@@ -15,9 +15,8 @@
       <p>Baseball Savant 방식으로 보는 타자·투수별 Swing·Whiff·Contact·In-play 존</p>
     </header>
     <section class="notice">
-      <p>Swing% = swings / pitches · Whiff% = whiffs / swings</p>
-      <p>0.5 ft 구간 · 셀을 가리키면 분자와 표본을 확인할 수 있습니다.</p>
-      <details class="zone-guide"><summary>Heart·Shadow·Chase·Waste 구획 기준 보기</summary><img src="../assets/zone-chart.png" alt="Heart, Shadow, Chase, Waste와 ABS 스트라이크존의 상대 거리 기준도"></details>
+      <p>Swing% = swings / (swings + takes)</p>
+      <p>Whiff% = whiffs / swings · 0.5 ft × 0.5 ft 셀</p>
     </section>
     <section class="search-panel" aria-label="선수 검색">
       <label>연도<select id="year"></select></label>
@@ -36,6 +35,7 @@
         <p id="profile-meta"></p>
       </div>
       <div class="filters">
+        <label>상대 투수<select id="pitcher-throws"><option value="">전체</option><option value="R">우투</option><option value="L">좌투</option></select></label>
         <label>구종<select id="pitch-type"><option value="">전체 구종</option></select></label>
         <label>보기<select id="count-view"><option value="all">전체 카운트</option><option value="single">개별 카운트</option></select></label>
         <label>볼<select id="balls" disabled><option value="">전체</option><option>0</option><option>1</option><option>2</option><option>3</option></select></label>
@@ -62,6 +62,6 @@
       <p class="method">색은 선택 지표의 비율을 나타냅니다. 파란색은 낮고 빨간색은 높습니다. 빈 셀은 선택한 최소 표본에 미달합니다.</p>
     </section>
   </main>
-  <script src="zone.js?v=20260814-3"></script>
+  <script src="zone.js?v=20260814-5"></script>
 </body>
 </html>
