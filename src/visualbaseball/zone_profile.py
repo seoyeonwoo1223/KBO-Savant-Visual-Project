@@ -15,6 +15,8 @@ X_MAX = 2.0
 Z_MIN = 0.0
 Z_MAX = 4.5
 BUCKET_SIZE = 0.5
+SAVANT_STRIKE_ZONE = {"left": -1.0, "right": 1.0, "bottom": 1.5, "top": 3.5}
+HOME_PLATE_WIDTH_FT = 17 / 12
 
 
 def _number(value):
@@ -109,16 +111,9 @@ def build_zone_profiles(root: Path, season: int, excel_source: Path | None = Non
                     "id": player_id,
                     "name": name,
                     "pitches": 0,
-                    "zone_top_sum": 0.0,
-                    "zone_bottom_sum": 0.0,
-                    "zone_n": 0,
                     "groups": defaultdict(lambda: [0] * 11),
                 })
                 player["pitches"] += 1
-                if top is not None and bottom is not None and top > bottom:
-                    player["zone_top_sum"] += top
-                    player["zone_bottom_sum"] += bottom
-                    player["zone_n"] += 1
                 # total, swings, whiffs, contacts, in-play, velo sum/n, zone, pitches, AB, hits
                 group_key = (
                     (balls, strikes, _pitcher_throws(row), _pitch_type(row), x_bin, z_bin)
@@ -153,7 +148,6 @@ def build_zone_profiles(root: Path, season: int, excel_source: Path | None = Non
             shard = player_id[0] if player_id and player_id[0].isdigit() else "other"
             filename = f"{shard}.json"
             current_files.add(filename)
-            zone_n = player["zone_n"]
             if role == "batter":
                 records = [
                     [balls, strikes, pitcher_throws, pitch_type, x_bin, z_bin, *[round(value, 3) if isinstance(value, float) else value for value in values]]
@@ -176,12 +170,8 @@ def build_zone_profiles(root: Path, season: int, excel_source: Path | None = Non
                 "source": f"exports/{source.name}",
                 "player": {"id": player_id, "name": player["name"], "file": filename},
                 "coordinates": {"x_min": X_MIN, "x_max": X_MAX, "z_min": Z_MIN, "z_max": Z_MAX, "bucket_size": BUCKET_SIZE},
-                "strike_zone": {
-                    "left": -10 / 12,
-                    "right": 10 / 12,
-                    "bottom": round(player["zone_bottom_sum"] / zone_n, 3) if zone_n else 1.5,
-                    "top": round(player["zone_top_sum"] / zone_n, 3) if zone_n else 3.5,
-                },
+                "strike_zone": SAVANT_STRIKE_ZONE,
+                "home_plate": {"width_ft": round(HOME_PLATE_WIDTH_FT, 6), "gap_ft": 1 / 3},
                 "columns": columns,
                 "records": records,
             }
