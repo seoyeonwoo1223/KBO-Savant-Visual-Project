@@ -40,12 +40,17 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.045em; }
 .chart-heading span { color: #666; font-size: .76rem; }
 .legend { display: grid; grid-template-columns: repeat(6, 22px); height: 14px; }
 .legend i { display: block; }
-.zone-wrap { position: relative; width: min(100%, 480px); aspect-ratio: 8 / 9; margin: auto; }
+.savant-plot { display: grid; grid-template-columns: 16px minmax(0, 480px); justify-content: center; gap: 26px; }
+.vertical-label { align-self: center; color: #555; font-size: .72rem; font-weight: 700; white-space: nowrap; writing-mode: vertical-rl; transform: rotate(180deg); }
+.plot-column { min-width: 0; }
+.zone-wrap { position: relative; width: 100%; aspect-ratio: 8 / 9; }
 .zone-grid { display: grid; width: 100%; height: 100%; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(9, 1fr); border: 1px solid #5c5c5c; }
-.cell { display: grid; place-items: center; min-width: 0; border-right: 1px solid #ffffff55; border-bottom: 1px solid #ffffff55; font-size: clamp(.62rem, 1.5vw, .82rem); color: #111; }
-.cell.empty { color: #777; background: #ededed !important; }
-.strike-zone { position: absolute; z-index: 2; border: 2px solid #2f8c44; pointer-events: none; }
-.plate { width: 104px; height: 24px; margin: 12px auto 0; border: 1px solid #555; background: #eee; clip-path: polygon(0 0,100% 0,92% 60%,50% 100%,8% 60%); }
+.cell { display: grid; place-items: center; min-width: 0; border-right: 1px solid #ffffff45; border-bottom: 1px solid #ffffff45; font-size: clamp(.62rem, 1.5vw, .82rem); color: #111; }
+.cell.empty { color: #777; background: #e3e3e3 !important; }
+.strike-zone { position: absolute; z-index: 2; border: 2px solid #22a447; pointer-events: none; }
+.x-ticks { display: flex; justify-content: space-between; margin-top: 5px; color: #508d9b; font-size: .68rem; font-weight: 700; }
+.y-ticks { position: absolute; inset: 0 auto 0 -35px; display: flex; flex-direction: column; justify-content: space-between; width: 30px; color: #508d9b; font-size: .68rem; font-weight: 700; text-align: right; }
+.plate { height: auto; aspect-ratio: 3 / 1; margin-right: auto; margin-left: auto; border: 1px solid #555; background: #e2e2e2; clip-path: polygon(0 0,100% 0,92% 60%,50% 100%,8% 60%); }
 .axis-label { margin: 8px 0 0; color: #666; font-size: .72rem; text-align: center; }
 .table-card h3 { margin: 0 0 13px; font-size: 1.05rem; }
 .table-wrap { overflow-x: auto; }
@@ -68,4 +73,5 @@ th:first-child, td:first-child { text-align: left; }
   .dashboard { display: block; }
   .table-card { margin-top: 16px; }
   .chart-card, .table-card { padding: 14px; }
+  .savant-plot { grid-template-columns: 14px minmax(0, 1fr); gap: 24px; }
 }

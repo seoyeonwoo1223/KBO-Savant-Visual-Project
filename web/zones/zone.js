@@ -15,9 +15,9 @@ const metricValue = (config, numerator, denominator) => denominator ? (config.pe
 const metricLabel = (config, value) => value == null ? "—" : config.percent ? `${value.toFixed(1)}%` : value.toFixed(3).replace(/^0/, "");
 
 const color = (value, maximum) => {
-  if (value == null) return "#ededed";
+  if (value == null) return "#e3e3e3";
   const ratio = Math.max(0, Math.min(1, value / maximum));
-  const stops = [[42,91,158],[117,153,202],[221,231,244],[251,229,227],[231,126,128],[204,39,56]];
+  const stops = [[62,103,176],[105,137,190],[185,202,224],[239,224,224],[230,151,157],[215,42,57]];
   const scaled = ratio * (stops.length - 1), left = Math.floor(scaled), right = Math.min(stops.length - 1, left + 1), mix = scaled - left;
   return `rgb(${stops[left].map((channel, index) => Math.round(channel + (stops[right][index] - channel) * mix)).join(",")})`;
 };
@@ -78,13 +78,20 @@ function render() {
   }
   $("#zone-grid").innerHTML = html.join("");
   const coordinates = state.payload.coordinates;
-  // Draw a 4×4 reference box aligned exactly to the 0.5 ft heat-map cells.
-  const zone = { left: -1.0, right: 1.0, bottom: 1.5, top: 3.5 };
+  const zone = state.payload.strike_zone || { left: -1.0, right: 1.0, bottom: 1.5, top: 3.5 };
   const left = 100 * (zone.left - coordinates.x_min) / (coordinates.x_max - coordinates.x_min);
   const width = 100 * (zone.right - zone.left) / (coordinates.x_max - coordinates.x_min);
   const top = 100 * (coordinates.z_max - zone.top) / (coordinates.z_max - coordinates.z_min);
   const height = 100 * (zone.top - zone.bottom) / (coordinates.z_max - coordinates.z_min);
   Object.assign($("#strike-zone").style, { left: `${left}%`, width: `${width}%`, top: `${top}%`, height: `${height}%` });
+  const plate = state.payload.home_plate || { width_ft: 17 / 12, gap_ft: 1 / 3 };
+  const horizontalRange = coordinates.x_max - coordinates.x_min;
+  Object.assign($("#plate").style, {
+    width: `${100 * plate.width_ft / horizontalRange}%`,
+    marginTop: `${100 * plate.gap_ft / horizontalRange}%`,
+  });
+  $("#x-ticks").innerHTML = Array.from({length: 9}, (_, index) => (coordinates.x_min + index * coordinates.bucket_size).toFixed(1)).map(value => `<span>${value}</span>`).join("");
+  $("#y-ticks").innerHTML = Array.from({length: 10}, (_, index) => (coordinates.z_max - index * coordinates.bucket_size).toFixed(1)).map(value => `<span>${value}</span>`).join("");
 
   const types = [...new Set(rows.map(row => row[layout.pitchType]))];
   const tableRows = types.map(type => {

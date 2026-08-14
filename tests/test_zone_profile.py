@@ -40,6 +40,8 @@ def test_zone_profile_builds_search_index_and_pitcher_payload():
         assert index["players"]["2026"]["batter"][0]["name"] == "테스트타자"
         assert index["players"]["2026"]["pitcher"][0]["name"] == "테스트투수"
         assert payload["schema_version"] == 2
+        assert payload["strike_zone"] == {"left": -1.0, "right": 1.0, "bottom": 1.5, "top": 3.5}
+        assert payload["home_plate"]["width_ft"] == 1.416667
         assert payload["records"][0][2] == "L"
         assert sum(record[6] for record in payload["records"]) == 2
         assert sum(record[8] for record in payload["records"]) == 1

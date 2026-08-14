@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Zone Profile</title>
-  <link rel="stylesheet" href="zone.css?v=20260813-2">
+  <link rel="stylesheet" href="zone.css?v=20260814-3">
 </head>
 <body>
   <main>
@@ -47,12 +47,19 @@
       <div class="dashboard">
         <section class="chart-card">
           <div class="chart-heading"><div><strong id="chart-title"></strong><span id="chart-subtitle"></span></div><div id="legend" class="legend"></div></div>
-          <div class="zone-wrap">
-            <div id="zone-grid" class="zone-grid"></div>
-            <div id="strike-zone" class="strike-zone"></div>
+          <div class="savant-plot">
+            <span class="vertical-label">Vertical (ft.)</span>
+            <div class="plot-column">
+              <div class="zone-wrap">
+                <div id="y-ticks" class="y-ticks" aria-hidden="true"></div>
+                <div id="zone-grid" class="zone-grid"></div>
+                <div id="strike-zone" class="strike-zone"></div>
+              </div>
+              <div id="x-ticks" class="x-ticks" aria-hidden="true"></div>
+              <div id="plate" class="plate" aria-hidden="true"></div>
+              <p class="axis-label">포수 시점 · Horizontal (ft.)</p>
+            </div>
           </div>
-          <div class="plate" aria-hidden="true"></div>
-          <p class="axis-label">포수 시점 · Horizontal (ft.)</p>
         </section>
         <section class="table-card">
           <h3>구종 비교</h3>
@@ -62,6 +69,6 @@
       <p class="method">색은 선택 지표의 비율을 나타냅니다. 파란색은 낮고 빨간색은 높습니다. 빈 셀은 선택한 최소 표본에 미달합니다.</p>
     </section>
   </main>
-  <script src="zone.js?v=20260814-5"></script>
+  <script src="zone.js?v=20260814-6"></script>
 </body>
 </html>
