@@ -2574,6 +2574,31 @@
       "status": "completed",
       "raw_path": "data/raw/2026/20260813SSHT0.json",
       "message": "PASS"
+    },
+    "20260814WOKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260814WOKT0.json",
+      "message": "PASS"
+    },
+    "20260814SKLG0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260814SKLG0.json",
+      "message": "PASS"
+    },
+    "20260814OBHT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260814OBHT0.json",
+      "message": "PASS"
+    },
+    "20260814NCLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260814NCLT0.json",
+      "message": "PASS"
+    },
+    "20260814HHSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260814HHSS0.json",
+      "message": "PASS"
     }
   }
 }
