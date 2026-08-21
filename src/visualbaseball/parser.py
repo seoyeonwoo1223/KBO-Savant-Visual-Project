@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from hashlib import sha256
 from typing import Any
 
+from .naver import NaverEnrichment, pitch_key
 from .state_machine import GameState
 
 PITCH_TYPE_CODES = {"\ud3ec\uc2ec": "FF", "\ud22c\uc2ec": "FT", "\uc2ac\ub77c\uc774\ub354": "SL", "\ucee4\ud130": "FC", "\uccb4\uc778\uc9c0\uc5c5": "CH", "\ucee4\ube0c": "CU", "\uc2f1\ucee4": "SI", "\ud3ec\ud06c": "FS", "\uc2a4\uc704\ud37c": "ST"}
@@ -41,7 +42,22 @@ def _official_half_score(away: dict[str, Any], home: dict[str, Any], inning: int
     return total(away_line, inning), total(home_line, inning if inning_half == "bottom" else inning - 1)
 
 
-def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = None, season: int = 2026) -> tuple[dict, list[dict], list[dict], int]:
+def _is_catcher(position: Any) -> bool:
+    return "포" in str(position or "")
+
+
+def _fallback_catchers(halves: list[dict[str, Any]]) -> dict[str, dict[str, str]]:
+    """Use the first catcher seen in VB PBP when a Naver lineup is unavailable."""
+    catchers: dict[str, dict[str, str]] = {}
+    for half in halves:
+        team = str(half.get("team", ""))
+        for pa in half.get("pas") or []:
+            if team and team not in catchers and _is_catcher(pa.get("pos")):
+                catchers[team] = {"id": str(pa.get("batterId", "")), "name": str(pa.get("batter", "")), "source": "vb_position"}
+    return catchers
+
+
+def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = None, season: int = 2026, naver_enrichment: NaverEnrichment | None = None) -> tuple[dict, list[dict], list[dict], int]:
     schedule_game = schedule_game or {}
     game_data, halves = payload["gameData"], payload["pbpData"]
     game_id = str(game_data.get("gameId") or schedule_game.get("gameId"))
@@ -54,9 +70,17 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
             "away_score": int(schedule_game.get("aScore", away.get("score", -1))), "home_score": int(schedule_game.get("hScore", home.get("score", -1))),
             "is_final": (str(status).lower() in {"final", "finished", "end"} or (chr(0xC885) + chr(0xB8CC)) in str(status)), "fetched_at": fetched_at,
             "source_url": f"https://visualbaseball.com/api/game/pbp?id={game_id}", "source_hash": sha256(str(payload).encode()).hexdigest(), "validation_status": "PENDING"}
+    fallback_catchers = _fallback_catchers(halves)
+    active_catchers: dict[str, dict[str, str]] = {
+        str(away.get("team", "")): (naver_enrichment.starters.get("away") if naver_enrichment else None) or fallback_catchers.get(str(away.get("team", "")), {}),
+        str(home.get("team", "")): (naver_enrichment.starters.get("home") if naver_enrichment else None) or fallback_catchers.get(str(home.get("team", "")), {}),
+    }
+    naver_occurrences: dict[tuple[int, str, str, str, int], int] = {}
     state, events, pitches, unknown, event_seq, pa_counter, game_pitch = GameState(), [], [], 0, 0, 0, 0
     for half in halves:
         state.begin_half(int(half.get("inning", 0)), str(half.get("half", "")))
+        offense = str(half.get("team", ""))
+        defense = str(home.get("team", "")) if offense == str(away.get("team", "")) else str(away.get("team", ""))
         for pa in half.get("pas") or []:
             pa_counter += 1; pa_id = f"{game_id}-{pa_counter:03d}"; state.balls = state.strikes = 0
             if state.outs >= 3:
@@ -87,7 +111,7 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
                 else: state.apply_non_terminal_pitch(str(pitch.get("r", "")))
                 after = state.snapshot(); event_seq += 1
                 events.append(_event(game, event_seq, pa_id, "pitch", str(pitch.get("r", "")), _description(str(pitch.get("r", "")), str(pa.get("result", ""))), pa, before, after, runs, pa_status))
-                pitches.append(_pitch(game, event_seq, pa_id, index, game_pitch, pa, pitch, before, after, runs, index == len(pitch_list), pa_status))
+                pitches.append(_pitch(game, event_seq, pa_id, index, game_pitch, pa, pitch, before, after, runs, index == len(pitch_list), pa_status, active_catchers.get(defense, {}), naver_enrichment, naver_occurrences))
             if terminal_before is None:
                 terminal_before = state.snapshot(); runs = state.infer_runs(bases_after, int(pa.get("outsAfter", state.outs))); state.set_bases(bases_after); state.outs = int(pa.get("outsAfter", state.outs));
                 if state.inning_half == "top": state.away_score += runs
@@ -95,6 +119,13 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
                 state.balls = state.strikes = 0
             after = state.snapshot(); event_seq += 1
             events.append(_event(game, event_seq, pa_id, "plate_appearance_result", str(pa.get("type", "")), str(pa.get("result", "")), pa, after if pitch_list else terminal_before, after, 0 if pitch_list else runs, "informational" if pitch_list and pa_status == "ok" else pa_status))
+            # A catcher can enter while batting, then receives the following
+            # half-inning.  The VB substitution object supplies the player ID.
+            for sub in pa.get("subs") or []:
+                if _is_catcher(sub.get("pos")):
+                    active_catchers[offense] = {"id": str(sub.get("toId", "")), "name": str(sub.get("toName", "")), "source": "vb_substitution"}
+            if _is_catcher(pa.get("pos")):
+                active_catchers[offense] = {"id": str(pa.get("batterId", "")), "name": str(pa.get("batter", "")), "source": "vb_position"}
         score_after = half.get("scoreAfter")
         snapshot_score = (int(score_after[0]), int(score_after[1])) if isinstance(score_after, list) and len(score_after) >= 2 else None
         official_score = _official_half_score(away, home, state.inning, state.inning_half)
@@ -114,10 +145,15 @@ def _event(game, seq, pa_id, event_type, code, description, pa, before, after, r
     return {"game_id": game["game_id"], "stadium": game["stadium"], "event_seq": seq, "inning": before["inning"], "inning_half": before["inning_half"], "pa_id": pa_id, "event_type": event_type, "event_code": str(code), "description": description, "batter_id": str(pa.get("batterId", "")), "batter_name": pa.get("batter", ""), "pitcher_id": str(pa.get("pitcherId", "")), "pitcher_name": pa.get("pitcher", ""), "outs_before": before["outs"], "outs_after": after["outs"], "base_state_before": before["base_state"], "base_state_after": after["base_state"], "runs_on_event": runs, "away_score_before": before["away_score"], "home_score_before": before["home_score"], "away_score_after": after["away_score"], "home_score_after": after["home_score"], "parse_status": status}
 
 
-def _pitch(game, event_seq, pa_id, number, game_number, pa, pitch, before, after, runs, terminal, status):
+def _pitch(game, event_seq, pa_id, number, game_number, pa, pitch, before, after, runs, terminal, status, catcher, naver_enrichment, naver_occurrences):
     stuff = str(pitch.get("stuff", "")); code = str(pitch.get("r", "")); pitch_type_code = PITCH_TYPE_CODES.get(stuff, "UN")
-    row = {"season": game["season"], "game_date": game["game_date"], "game_id": game["game_id"], "stadium": game["stadium"], "event_seq": event_seq, "pa_id": pa_id, "pitch_id": f"{game['game_id']}-{pa_id}-{number:02d}", "pitch_number": number, "game_pitch_number": game_number, "inning": before["inning"], "inning_half": before["inning_half"], "batter_id": str(pa.get("batterId", "")), "batter_name": pa.get("batter", ""), "pitcher_id": str(pa.get("pitcherId", "")), "pitcher_name": pa.get("pitcher", ""), "pitch_type": PITCH_TYPE_NAMES.get(pitch_type_code, stuff), "pitch_type_code": pitch_type_code, "pitch_type_kr": stuff, "velocity_kmh": pitch.get("spd"), "velocity_mph": round(float(pitch.get("spd", 0)) * .621371, 1), "px": pitch.get("px"), "pz": pitch.get("pz"), "pitch_call_code": code, "pitch_result": _description(code, str(pa.get("result", ""))), "pa_result": pa.get("result", ""), "pa_type": pa.get("type", ""), "description": _description(code, str(pa.get("result", ""))), "is_swing": code in {"S", "F", "X"}, "is_take": code in {"B", "T"} or (terminal and str(pa.get("type", "")).lower() == "hbp"), "is_contact": code in {"F", "X"}, "is_in_play": code == "X", "is_pa_terminal": terminal, "runs_on_pitch": runs, "parse_status": status, "fetched_at": game["fetched_at"], "source_url": game["source_url"]}
+    naver_key = pitch_key(before["inning"], before["inning_half"], pa.get("batterId", ""), pa.get("pitcherId", ""), number)
+    occurrence = naver_occurrences.get(naver_key, 0)
+    naver_occurrences[naver_key] = occurrence + 1
+    naver_candidates = naver_enrichment.pitch_events.get(naver_key, []) if naver_enrichment else []
+    naver_event = naver_candidates[occurrence] if occurrence < len(naver_candidates) else None
+    row = {"season": game["season"], "game_date": game["game_date"], "game_id": game["game_id"], "stadium": game["stadium"], "event_seq": event_seq, "pa_id": pa_id, "pitch_id": f"{game['game_id']}-{pa_id}-{number:02d}", "pitch_number": number, "game_pitch_number": game_number, "inning": before["inning"], "inning_half": before["inning_half"], "batter_id": str(pa.get("batterId", "")), "batter_name": pa.get("batter", ""), "pitcher_id": str(pa.get("pitcherId", "")), "pitcher_name": pa.get("pitcher", ""), "catcher_id": catcher.get("id") or None, "catcher_name": catcher.get("name") or None, "catcher_source": catcher.get("source") or "unavailable", "pitch_type": PITCH_TYPE_NAMES.get(pitch_type_code, stuff), "pitch_type_code": pitch_type_code, "pitch_type_kr": stuff, "velocity_kmh": pitch.get("spd"), "velocity_mph": round(float(pitch.get("spd", 0)) * .621371, 1), "px": pitch.get("px"), "pz": pitch.get("pz"), "pitch_call_code": code, "pitch_result": _description(code, str(pa.get("result", ""))), "pa_result": pa.get("result", ""), "pa_type": pa.get("type", ""), "description": _description(code, str(pa.get("result", ""))), "is_swing": code in {"S", "F", "X"}, "is_take": code in {"B", "T"} or (terminal and str(pa.get("type", "")).lower() == "hbp"), "is_contact": code in {"F", "X"}, "is_in_play": code == "X", "is_pa_terminal": terminal, "runs_on_pitch": runs, "is_wild_pitch": naver_event.get("is_wild_pitch") if naver_event else None, "is_passed_ball": naver_event.get("is_passed_ball") if naver_event else None, "naver_pitch_id": naver_event.get("naver_pitch_id") if naver_event else None, "naver_match_status": "matched" if naver_event else ("unavailable" if not naver_enrichment else "unmatched"), "parse_status": status, "fetched_at": game["fetched_at"], "source_url": game["source_url"]}
     row.update(_state_fields("before", before)); row.update(_state_fields("after", after))
-    for key in ("szTop", "szBot", "relH", "time", "vMov", "hMov", "dropAngle", "x0", "z0", "vx0", "vy0", "vz0", "ax", "ay", "az"):
+    for key in ("szTop", "szBot", "relH", "time", "y0", "vMov", "hMov", "dropAngle", "x0", "z0", "vx0", "vy0", "vz0", "ax", "ay", "az"):
         row[{"szTop":"sz_top","szBot":"sz_bottom","relH":"release_height_cm","time":"arrival_time_s","vMov":"vertical_movement_cm","hMov":"horizontal_movement_cm","dropAngle":"drop_angle"}.get(key, key)] = pitch.get(key)
     return row

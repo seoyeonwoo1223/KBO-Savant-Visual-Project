@@ -27,12 +27,26 @@ class Store:
     def raw_path(self, season: int, game_id: str) -> Path:
         return self.raw_root / str(season) / f"{game_id}.json"
 
+    def naver_path(self, season: int, game_id: str) -> Path:
+        return self.raw_root / "naver" / str(season) / f"{game_id}.json"
+
     def write_raw(self, season: int, game_id: str, payload: dict) -> Path:
         path = self.raw_path(season, game_id); path.parent.mkdir(parents=True, exist_ok=True)
         temporary = path.with_suffix(".json.tmp")
         temporary.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
         temporary.replace(path)
         return path
+
+    def write_naver(self, season: int, game_id: str, payload: dict) -> Path:
+        path = self.naver_path(season, game_id); path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = path.with_suffix(".json.tmp")
+        temporary.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+        temporary.replace(path)
+        return path
+
+    def read_naver(self, season: int, game_id: str) -> dict | None:
+        path = self.naver_path(season, game_id)
+        return json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
 
     def should_fetch(self, game_id: str, game_date: str, recheck_days: int = 2) -> bool:
         entry = self.manifest()["games"].get(game_id)
@@ -61,6 +75,10 @@ class Store:
         for name, rows, key in (("games", games, "game_id"), ("events", events, "game_id"), ("pitches", pitches, "game_id")):
             path = self.processed / f"{name}.parquet"; old = pq.read_table(path).to_pylist() if path.exists() else []
             combined = [row for row in old if row.get(key) not in game_ids] + rows
+            # Schema additions must also reach prior-game rows; PyArrow otherwise
+            # uses the first (older) row's keys and silently drops new columns.
+            columns = sorted({column for row in combined for column in row})
+            combined = [{column: row.get(column) for column in columns} for row in combined]
             temporary = path.with_suffix(".parquet.tmp")
             pq.write_table(pa.Table.from_pylist(combined), temporary)
             temporary.replace(path)

@@ -7,7 +7,7 @@
 | 경로 | 용도 |
 |---|---|
 | `src/visualbaseball/` | 현재 사용 중인 Python 수집기와 검증·내보내기 코드 |
-| `data/raw/` | 게임별 원본 PBP JSON |
+| `data/raw/` | Visual Baseball 게임별 원본 PBP JSON 및 `raw/naver/`의 정규화된 Naver 릴레이 조인 캐시 |
 | `data/processed/` | 신뢰 가능한 분석 원본: `games`, `events`, `pitches` Parquet |
 | `exports/visualbaseball_savant_2026_latest.xlsx` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
 | `web/` | GitHub Pages에서 표와 무브먼트 플롯을 제공할 정적 뷰어 |
@@ -41,6 +41,16 @@ python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
 ```
 
 이 명령은 `seasons/2025/data/`에 2025 수집 상태를 저장하고, `exports/visualbaseball_savant_2025_latest.xlsx`를 만듭니다.
+
+### 포수·폭투·포일 보강
+
+`Pitches`에는 VB의 `y0`와 기존 운동학 필드(`x0`, `z0`, `vx0`…`az`)를 그대로 보존한다. Naver Sports 릴레이의 이닝별 투구 ID를 VB의 이닝·공수·타자·투수·투구 순번에 결합해 `catcher_id`, `catcher_name`, `is_wild_pitch`, `is_passed_ball`, `naver_pitch_id`를 추가한다. `naver_match_status=unavailable` 또는 `unmatched`는 **0이 아니라 미확인**이다.
+
+특정 원본 경기를 검증·보강하려면 다음처럼 실행한다. 전체 시즌 재생성은 이닝별 릴레이 호출이 필요한 작업이므로 시즌별로 나누어 실행한다.
+
+```powershell
+python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 20260328KTLG0
+```
 
 ## 검증 원칙
 

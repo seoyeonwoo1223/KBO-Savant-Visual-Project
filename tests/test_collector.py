@@ -6,6 +6,7 @@ import pyarrow.parquet as pq
 import pytest
 
 from visualbaseball.collector import process_payload
+from visualbaseball.naver import NaverEnrichment, build_enrichment, pitch_key
 from visualbaseball.parser import parse_game
 from visualbaseball.state_machine import GameState
 from visualbaseball.storage import Store
@@ -32,6 +33,42 @@ def test_sample_game_and_idempotency(tmp_path):
     game_stadium = pq.read_table(tmp_path / "data/processed/games.parquet").to_pylist()[0]["stadium"]
     assert {row["stadium"] for row in rows} == {game_stadium}
     assert {row["stadium"] for row in pq.read_table(tmp_path / "data/processed/events.parquet").to_pylist()} == {game_stadium}
+
+
+def test_y0_catcher_and_naver_wp_pb_fields_are_retained():
+    payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
+    first_half, first_pa = payload["pbpData"][0], payload["pbpData"][0]["pas"][0]
+    key = pitch_key(first_half["inning"], first_half["half"], first_pa["batterId"], first_pa["pitcherId"], 1)
+    enrichment = NaverEnrichment(
+        payload["gameData"]["gameId"], "naver-game", ["https://example.test/relay"],
+        {key: [{"naver_pitch_id": "pitch-1", "is_wild_pitch": True, "is_passed_ball": False}]},
+        {"home": {"id": "catcher-home", "name": "홈포수", "source": "naver_lineup"}},
+    )
+    _, _, pitches, _ = parse_game(payload, naver_enrichment=enrichment)
+    first = pitches[0]
+    assert first["y0"] == first_pa["pitches"][0]["y0"]
+    assert (first["catcher_id"], first["catcher_name"], first["catcher_source"]) == ("catcher-home", "홈포수", "naver_lineup")
+    assert (first["is_wild_pitch"], first["is_passed_ball"], first["naver_pitch_id"], first["naver_match_status"]) == (True, False, "pitch-1", "matched")
+
+
+def test_naver_relay_event_is_assigned_to_the_next_pitch():
+    payload = {"result": {"textRelayData": {
+        "gameId": "20260328KTLG02026",
+        "homeLineup": {"batter": [{"pos": 2, "seqno": 1, "pcode": "10", "name": "홈포수"}]},
+        "awayLineup": {"batter": [{"pos": 2, "seqno": 1, "pcode": "20", "name": "원정포수"}]},
+        "textRelays": [{"inn": 1, "homeOrAway": "0", "textOptions": [
+            {"text": "1구 볼", "ptsPitchId": "p1", "pitchNum": 1, "currentGameState": {"batter": "1", "pitcher": "2"}},
+            {"text": "1루주자 홍길동 : 폭투로 2루까지 진루", "ptsPitchId": None},
+            {"text": "2구 볼", "ptsPitchId": "p2", "pitchNum": 2, "currentGameState": {"batter": "1", "pitcher": "2"}},
+            {"text": "2루주자 홍길동 : 포일로 3루까지 진루", "ptsPitchId": None},
+            {"text": "3구 볼", "ptsPitchId": "p3", "pitchNum": 3, "currentGameState": {"batter": "1", "pitcher": "2"}},
+        ]}],
+    }}}
+    enrichment = build_enrichment("20260328KTLG0", [payload])
+    assert enrichment.starters["home"]["id"] == "10"
+    assert enrichment.pitch_events[pitch_key(1, "top", "1", "2", 1)][0]["is_wild_pitch"] is False
+    assert enrichment.pitch_events[pitch_key(1, "top", "1", "2", 2)][0]["is_wild_pitch"] is True
+    assert enrichment.pitch_events[pitch_key(1, "top", "1", "2", 3)][0]["is_passed_ball"] is True
 
 
 def test_completed_status_is_not_written_when_processed_tables_fail(tmp_path):
