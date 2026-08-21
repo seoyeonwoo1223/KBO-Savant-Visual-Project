@@ -11,6 +11,7 @@
 | `data/processed/` | 신뢰 가능한 분석 원본: `games`, `events`, `pitches` Parquet |
 | `exports/visualbaseball_savant_2026_latest.xlsx` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
 | `web/` | GitHub Pages에서 표와 무브먼트 플롯을 제공할 정적 뷰어 |
+| `web/blocking/` | 실험적 KBO Catcher Blocks Above Average 리더보드·위치 맵 |
 | `legacy/vba/` | 보존용 기존 VBA, `.xlsm`, 원본 `.xlsx`, Windows 실행 스크립트 |
 
 ## GitHub에서 열람·다운로드
@@ -51,6 +52,12 @@ python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
 ```powershell
 python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 20260328KTLG0
 ```
+
+## Catcher Blocks Above Average
+
+`web/blocking/`은 주자가 있거나 2스트라이크인 비접촉 투구를 블로킹 기회로 정의한다. 5-fold 경기 단위 교차검증 로지스틱 모델이 위치·구속·무브먼트·구종·릴리스 방향·타자 손잡이·주자/카운트 상태로 PB+WP 확률을 추정한다. 투구별 `예상 PB+WP - 실제 PB+WP`를 포수별로 합산한 값이 KBO BAA이며, 블로킹 런은 MLB와 같은 0.25 runs/block로 환산한다.
+
+이 결과는 Baseball Savant의 개념과 표시 방식을 KBO 공개 데이터에 적용한 **실험 지표**다. 공개 원본에 포수의 사전 위치가 없으므로 MLB Statcast 지표와 동일한 모델 또는 상호 비교 가능한 값이 아니다. `data/processed/blocking_pitches.parquet`에 투구별 예상 확률과 기여도를, `web/data/blocking/2026/leaderboard.json`에 리더보드와 시각화 집계를 저장한다.
 
 ## 검증 원칙
 
