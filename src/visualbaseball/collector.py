@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from dataclasses import dataclass
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import json
 from .naver import NaverEnrichment, NaverSportsClient
 from .parser import parse_game
@@ -52,9 +53,11 @@ def process_payload(root: Path, payload: dict, schedule_game: dict | None = None
 
 
 def _load_naver(store: Store, season: int, game_id: str, innings: int, client: NaverSportsClient | None, refresh: bool) -> NaverEnrichment | None:
-    cached = None if refresh else store.read_naver(season, game_id)
+    cached = store.read_naver(season, game_id)
     if cached:
-        return NaverEnrichment.from_dict(cached)
+        enrichment = NaverEnrichment.from_dict(cached)
+        if not refresh or enrichment.coverage == "record_no_event":
+            return enrichment
     if not client:
         return None
     try:
@@ -68,19 +71,33 @@ def _load_naver(store: Store, season: int, game_id: str, innings: int, client: N
         return None
 
 
-def rebuild_from_raw(root: Path, season: int = 2026, refresh_naver: bool = False, game_id: str | None = None) -> tuple[int, int]:
+def rebuild_from_raw(root: Path, season: int = 2026, refresh_naver: bool = False, game_id: str | None = None, naver_workers: int = 1) -> tuple[int, int]:
     """Reparse retained source payloads after a schema or parser change."""
     store = Store(root)
     requested_game_id = game_id
     completed: list[tuple[PreparedGame, Path]] = []
-    naver_client = NaverSportsClient() if refresh_naver else None
-    for path in sorted((root / "data" / "raw" / str(season)).glob("*.json")):
+    paths = sorted((root / "data" / "raw" / str(season)).glob("*.json"))
+    if requested_game_id:
+        paths = [path for path in paths if path.stem == requested_game_id]
+    prefetched: dict[Path, NaverEnrichment | None] = {}
+    if refresh_naver and naver_workers > 1:
+        def fetch(path: Path) -> tuple[Path, NaverEnrichment | None]:
+            payload = json.loads(path.read_text(encoding="utf-8-sig"))
+            current_game_id = str(payload.get("gameData", {}).get("gameId", path.stem))
+            innings = max((int(half.get("inning") or 0) for half in payload.get("pbpData", [])), default=9)
+            return path, _load_naver(store, season, current_game_id, innings, NaverSportsClient(), True)
+        with ThreadPoolExecutor(max_workers=naver_workers) as executor:
+            futures = [executor.submit(fetch, path) for path in paths]
+            for count, future in enumerate(as_completed(futures), 1):
+                path, enrichment = future.result(); prefetched[path] = enrichment
+                if count % 25 == 0 or count == len(futures):
+                    print(f"Naver enrichment: {count}/{len(futures)} games")
+    naver_client = NaverSportsClient() if refresh_naver and naver_workers <= 1 else None
+    for path in paths:
         payload = json.loads(path.read_text(encoding="utf-8-sig"))
         current_game_id = str(payload.get("gameData", {}).get("gameId", path.stem))
-        if requested_game_id and current_game_id != requested_game_id:
-            continue
         innings = max((int(half.get("inning") or 0) for half in payload.get("pbpData", [])), default=9)
-        naver_enrichment = _load_naver(store, season, current_game_id, innings, naver_client, refresh_naver)
+        naver_enrichment = prefetched.get(path) if path in prefetched else _load_naver(store, season, current_game_id, innings, naver_client, refresh_naver)
         prepared = prepare_game(payload, season=season, naver_enrichment=naver_enrichment)
         raw_path = cache_payload(store, season, payload, prepared)
         if raw_path:
