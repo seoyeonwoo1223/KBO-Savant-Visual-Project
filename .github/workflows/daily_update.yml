@@ -40,7 +40,30 @@ jobs:
       - run: python -m pytest
         env:
           PYTHONPATH: src
-      - run: python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
+      - name: Check whether the blocking-data backfill is required
+        id: blocking-backfill
+        run: |
+          python - <<'PY'
+          import os
+
+          import pyarrow.parquet as pq
+
+          required = {"catcher_id", "catcher_name", "is_wild_pitch", "is_passed_ball", "naver_match_status"}
+          try:
+              columns = set(pq.read_schema("data/processed/pitches.parquet").names)
+          except (FileNotFoundError, OSError):
+              columns = set()
+          needs_backfill = not required.issubset(columns)
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"required={str(needs_backfill).lower()}\n")
+          PY
+      - name: Update Visual Baseball data
+        run: |
+          if [ "${{ steps.blocking-backfill.outputs.required }}" = "true" ]; then
+            python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --naver-workers 10
+          else
+            python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
+          fi
         env:
           PYTHONPATH: src
       - run: |
