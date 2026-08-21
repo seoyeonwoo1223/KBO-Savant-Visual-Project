@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KBO Catcher Blocking</title>
+  <link rel="stylesheet" href="blocking.css">
+</head>
+<body>
+  <main>
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">VISUAL BASEBALL · 2026 KBO</p>
+        <h1>Catcher Blocking</h1>
+        <p class="subtitle">KBO Blocks Above Average · Experimental</p>
+      </div>
+      <a class="home-link" href="../">Swing/Take 홈</a>
+    </header>
+
+    <div class="tabs" role="tablist" aria-label="Blocking views">
+      <button class="tab active" data-view="leaderboard" role="tab" aria-selected="true">리더보드</button>
+      <button class="tab" data-view="map" role="tab" aria-selected="false">포수 맵</button>
+    </div>
+
+    <section id="leaderboard-view" class="view active">
+      <div class="filters">
+        <label>표본<select id="qualified-filter"><option value="qualified">규정 표본</option><option value="all">전체</option></select></label>
+        <label>팀<select id="team-filter"><option value="all">전체 팀</option></select></label>
+        <label>검색<input id="name-filter" type="search" placeholder="포수 이름"></label>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>RK.</th><th>포수</th><th>팀</th><th>Block<br>Opportunities</th><th>Blocking<br>Runs</th>
+              <th class="baa-head">Blocks Above<br>Average</th><th>Actual<br>PB + WP</th><th>Estimated<br>PB + WP</th><th>BAA / Game</th>
+              <th>Easy %</th><th>Medium %</th><th>Tough %</th><th>Easy</th><th>Medium</th><th>Tough</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="map-view" class="view" hidden>
+      <div class="map-shell">
+        <div class="field-card">
+          <svg id="blocking-map" viewBox="0 0 1000 560" role="img" aria-labelledby="map-title map-desc">
+            <title id="map-title">포수별 Blocks Above Average 위치 맵</title>
+            <desc id="map-desc">홈플레이트 뒤에서 본 투구 위치별 BAA 합계</desc>
+            <rect width="1000" height="560" fill="#173d24"/>
+            <ellipse cx="500" cy="505" rx="330" ry="245" fill="#987a61"/>
+            <path d="M330 470 L405 325 L595 325 L670 470 Z" fill="none" stroke="#fff" stroke-width="8"/>
+            <path d="M466 421 L500 400 L534 421 L534 447 L466 447 Z" fill="#f7f7f7"/>
+            <g id="map-cells"></g>
+            <rect x="435" y="145" width="130" height="120" fill="none" stroke="#72ff78" stroke-width="4"/>
+          </svg>
+          <div class="legend"><span>- BAA</span><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><i class="l5"></i><span>+ BAA</span></div>
+          <aside class="player-summary" id="player-summary"></aside>
+        </div>
+        <div class="map-controls">
+          <label>포수<select id="catcher-select"></select></label>
+          <label>난이도<select id="difficulty-select"><option value="all">전체</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="tough">Tough</option></select></label>
+          <label>구종<select id="pitch-select"><option value="all">전체</option></select></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="method-card">
+      <h2>What is this?</h2>
+      <p>포수가 폭투·포일을 평균적인 포수보다 얼마나 더 막았는지를 나타낸 실험 지표입니다. 각 블로킹 기회의 예상 PB+WP 확률에서 실제 결과를 뺀 값을 합산합니다.</p>
+      <p id="method-note"></p>
+    </section>
+    <p id="status" class="status" aria-live="polite"></p>
+  </main>
+  <script src="blocking.js?v=20260822-1"></script>
+</body>
+</html>
