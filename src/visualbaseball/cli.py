@@ -9,6 +9,7 @@ from .http_client import VisualBaseballClient
 from .storage import Store
 from .swing_take import build_swing_take
 from .zone_profile import build_zone_profiles
+from .blocking import build_blocking
 
 
 def _exports(root: Path, season: int, storage_root: Path) -> None:
@@ -17,15 +18,16 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
     workbook = export_latest(root, season, storage_root)
     build_swing_take(storage_root, season, excel_source=workbook)
     build_zone_profiles(root, season, excel_source=workbook)
+    build_blocking(root, season, storage_root)
     if storage_root == root:
         export_web_data(root)
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(); parser.add_argument("--root", default="."); parser.add_argument("--storage-root"); parser.add_argument("--fixture"); parser.add_argument("--season", type=int, default=2026); parser.add_argument("--game-id"); parser.add_argument("--rebuild-from-raw", action="store_true"); parser.add_argument("--refresh-completed", action="store_true"); parser.add_argument("--refresh-naver", action="store_true", help="Fetch and cache Naver relay flags while rebuilding raw games")
+    parser = argparse.ArgumentParser(); parser.add_argument("--root", default="."); parser.add_argument("--storage-root"); parser.add_argument("--fixture"); parser.add_argument("--season", type=int, default=2026); parser.add_argument("--game-id"); parser.add_argument("--rebuild-from-raw", action="store_true"); parser.add_argument("--refresh-completed", action="store_true"); parser.add_argument("--refresh-naver", action="store_true", help="Fetch and cache Naver relay flags while rebuilding raw games"); parser.add_argument("--naver-workers", type=int, default=1)
     args = parser.parse_args(); root = Path(args.root).resolve(); storage_root = Path(args.storage_root).resolve() if args.storage_root else root
     if args.rebuild_from_raw:
-        games, pitches = rebuild_from_raw(storage_root, args.season, args.refresh_naver, args.game_id)
+        games, pitches = rebuild_from_raw(storage_root, args.season, args.refresh_naver, args.game_id, max(1, args.naver_workers))
         _exports(root, args.season, storage_root)
         print(f"rebuilt {games} games and {pitches} pitches")
         return
