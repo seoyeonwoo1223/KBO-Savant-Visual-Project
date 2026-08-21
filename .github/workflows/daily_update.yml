@@ -41,7 +41,7 @@ jobs:
         env:
           PYTHONPATH: src
       - name: Check whether the blocking-data backfill is required
-        id: blocking-backfill
+        id: blocking_backfill
         run: |
           python - <<'PY'
           import os
@@ -69,7 +69,7 @@ jobs:
           PY
       - name: Update Visual Baseball data
         run: |
-          if [ "${{ steps.blocking-backfill.outputs.required }}" = "true" ]; then
+          if [ "${{ steps.blocking_backfill.outputs.required }}" = "true" ]; then
             python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --naver-workers 10
           else
             python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
