@@ -51,7 +51,7 @@ def test_y0_catcher_and_naver_wp_pb_fields_are_retained():
     assert (first["is_wild_pitch"], first["is_passed_ball"], first["naver_pitch_id"], first["naver_match_status"]) == (True, False, "pitch-1", "matched")
 
 
-def test_naver_relay_event_is_assigned_to_the_next_pitch():
+def test_naver_relay_event_is_assigned_to_the_previous_pitch():
     payload = {"result": {"textRelayData": {
         "gameId": "20260328KTLG02026",
         "homeLineup": {"batter": [{"pos": 2, "seqno": 1, "pcode": "10", "name": "홈포수"}]},
@@ -66,9 +66,9 @@ def test_naver_relay_event_is_assigned_to_the_next_pitch():
     }}}
     enrichment = build_enrichment("20260328KTLG0", [payload])
     assert enrichment.starters["home"]["id"] == "10"
-    assert enrichment.pitch_events[pitch_key(1, "top", "1", "2", 1)][0]["is_wild_pitch"] is False
-    assert enrichment.pitch_events[pitch_key(1, "top", "1", "2", 2)][0]["is_wild_pitch"] is True
-    assert enrichment.pitch_events[pitch_key(1, "top", "1", "2", 3)][0]["is_passed_ball"] is True
+    assert enrichment.pitch_events[pitch_key(1, "top", "1", "2", 1)][0]["is_wild_pitch"] is True
+    assert enrichment.pitch_events[pitch_key(1, "top", "1", "2", 2)][0]["is_passed_ball"] is True
+    assert enrichment.pitch_events[pitch_key(1, "top", "1", "2", 3)][0]["is_passed_ball"] is False
 
 
 def test_completed_status_is_not_written_when_processed_tables_fail(tmp_path):
