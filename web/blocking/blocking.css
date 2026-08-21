@@ -1,0 +1,56 @@
+:root { font-family: Arial, sans-serif; color: #20242a; background: #f4f4f2; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { width: min(1480px, 100%); margin: auto; padding: 34px 20px 64px; }
+.page-header { display: flex; justify-content: space-between; gap: 24px; align-items: flex-end; padding-bottom: 22px; border-bottom: 1px solid #bbb; }
+.eyebrow { margin: 0 0 7px; color: #667; font-size: .78rem; font-weight: 700; letter-spacing: .07em; }
+h1 { margin: 0; font-size: clamp(2.4rem, 6vw, 4.8rem); letter-spacing: -.06em; line-height: .95; }
+.subtitle { margin: 10px 0 0; color: #687078; }
+.home-link { color: #13599d; font-weight: 700; text-decoration: none; }
+.tabs { display: flex; margin: 26px 0 16px; border-bottom: 2px solid #1d242b; }
+.tab { padding: 12px 22px; border: 1px solid #c7cbd0; border-bottom: 0; background: #fff; color: #3d4650; font-weight: 700; cursor: pointer; }
+.tab.active { background: #cf1735; border-color: #cf1735; color: #fff; }
+.view { display: none; }
+.view.active { display: block; }
+.filters, .map-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+label { display: flex; align-items: center; gap: 8px; color: #4d5660; font-size: .79rem; font-weight: 700; }
+select, input { min-height: 39px; margin: 0; padding: 8px 10px; border: 1px solid #bcc3ca; background: #fff; color: #252b31; }
+.table-wrap { overflow: auto; max-height: 720px; border-top: 3px solid #15191d; background: #fff; }
+table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+th, td { padding: 9px 10px; border-bottom: 1px solid #e5e7e9; text-align: center; white-space: nowrap; }
+th { position: sticky; top: 0; z-index: 2; background: #fafafa; border-bottom: 3px solid #15191d; font-size: .74rem; vertical-align: bottom; }
+tbody tr:nth-child(even) { background: #f5f5f5; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: #eaf2f7; }
+td.player { min-width: 145px; text-align: left; font-weight: 700; }
+.baa-head { background: #328b93; color: #fff; }
+td.baa { min-width: 82px; font-size: 1rem; font-weight: 800; color: #fff; }
+.baa.positive { background: #d92136; }
+.baa.negative { background: #1768a6; }
+.baa.neutral { background: #858c92; }
+.map-shell { display: grid; gap: 16px; }
+.field-card { position: relative; min-height: 560px; overflow: hidden; background: #173d24; }
+#blocking-map { display: block; width: 100%; min-height: 520px; }
+.player-summary { position: absolute; top: 18px; right: 18px; width: 310px; padding: 14px; border: 3px solid #72ff78; border-radius: 12px; background: rgba(28,31,29,.94); color: #fff; }
+.player-summary h2 { margin: 0 0 12px; font-size: 1.15rem; }
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.summary-grid div { padding: 10px; background: #303532; text-align: center; }
+.summary-grid strong { display: block; font-size: 1.8rem; }
+.summary-grid span { color: #adb2ae; font-size: .75rem; }
+.legend { position: absolute; bottom: 16px; left: 16px; display: flex; align-items: center; gap: 5px; padding: 10px 12px; border-radius: 6px; background: rgba(9,25,13,.9); color: #fff; font-size: .75rem; }
+.legend i { width: 24px; height: 18px; border: 1px solid #fff; }
+.l1 { background:#174f83 }.l2 { background:#74b5d2 }.l3 { background:#e7e5dd }.l4 { background:#e78268 }.l5 { background:#8a001d }
+.map-controls { justify-content: flex-end; padding: 12px; border: 1px solid #d3d6d8; background: #fff; }
+.method-card { margin-top: 28px; padding: 22px; border-left: 5px solid #328b93; background: #fff; }
+.method-card h2 { margin: 0 0 9px; font-size: 1.1rem; }
+.method-card p { max-width: 980px; margin: 7px 0; color: #515960; line-height: 1.55; }
+.status { color: #9b2d38; }
+@media (max-width: 800px) {
+  main { padding: 24px 12px 48px; }
+  .page-header { align-items: flex-start; flex-direction: column; }
+  .field-card { min-height: 660px; }
+  #blocking-map { transform: translateY(90px); }
+  .player-summary { top: 10px; left: 10px; right: 10px; width: auto; }
+  .legend { bottom: 10px; }
+  .map-controls { justify-content: flex-start; }
+}

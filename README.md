@@ -7,10 +7,11 @@
 | 경로 | 용도 |
 |---|---|
 | `src/visualbaseball/` | 현재 사용 중인 Python 수집기와 검증·내보내기 코드 |
-| `data/raw/` | 게임별 원본 PBP JSON |
+| `data/raw/` | Visual Baseball 게임별 원본 PBP JSON 및 `raw/naver/`의 정규화된 Naver 릴레이 조인 캐시 |
 | `data/processed/` | 신뢰 가능한 분석 원본: `games`, `events`, `pitches` Parquet |
 | `exports/visualbaseball_savant_2026_latest.xlsx` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
 | `web/` | GitHub Pages에서 표와 무브먼트 플롯을 제공할 정적 뷰어 |
+| `web/blocking/` | 실험적 KBO Catcher Blocks Above Average 리더보드·위치 맵 |
 | `legacy/vba/` | 보존용 기존 VBA, `.xlsm`, 원본 `.xlsx`, Windows 실행 스크립트 |
 
 ## GitHub에서 열람·다운로드
@@ -41,6 +42,22 @@ python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
 ```
 
 이 명령은 `seasons/2025/data/`에 2025 수집 상태를 저장하고, `exports/visualbaseball_savant_2025_latest.xlsx`를 만듭니다.
+
+### 포수·폭투·포일 보강
+
+`Pitches`에는 VB의 `y0`와 기존 운동학 필드(`x0`, `z0`, `vx0`…`az`)를 그대로 보존한다. Naver Sports 릴레이의 이닝별 투구 ID를 VB의 이닝·공수·타자·투수·투구 순번에 결합해 `catcher_id`, `catcher_name`, `is_wild_pitch`, `is_passed_ball`, `naver_pitch_id`를 추가한다. `naver_match_status=unavailable` 또는 `unmatched`는 **0이 아니라 미확인**이다.
+
+특정 원본 경기를 검증·보강하려면 다음처럼 실행한다. 전체 시즌 재생성은 이닝별 릴레이 호출이 필요한 작업이므로 시즌별로 나누어 실행한다.
+
+```powershell
+python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 20260328KTLG0
+```
+
+## Catcher Blocks Above Average
+
+`web/blocking/`은 주자가 있거나 2스트라이크인 비접촉 투구를 블로킹 기회로 정의한다. 5-fold 경기 단위 교차검증 로지스틱 모델이 위치·구속·무브먼트·구종·릴리스 방향·타자 손잡이·주자/카운트 상태로 PB+WP 확률을 추정한다. 투구별 `예상 PB+WP - 실제 PB+WP`를 포수별로 합산한 값이 KBO BAA이며, 블로킹 런은 MLB와 같은 0.25 runs/block로 환산한다.
+
+이 결과는 Baseball Savant의 개념과 표시 방식을 KBO 공개 데이터에 적용한 **실험 지표**다. 공개 원본에 포수의 사전 위치가 없으므로 MLB Statcast 지표와 동일한 모델 또는 상호 비교 가능한 값이 아니다. `data/processed/blocking_pitches.parquet`에 투구별 예상 확률과 기여도를, `web/data/blocking/2026/leaderboard.json`에 리더보드와 시각화 집계를 저장한다.
 
 ## 검증 원칙
 
