@@ -4,24 +4,36 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Swing/Take Profiles</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260822-visuals1">
 </head>
 <body>
   <main class="profile-index">
     <header class="index-header">
-      <p class="eyebrow">VISUAL BASEBALL ABS · KBO</p>
       <h1>Swing/Take Profiles</h1>
       <p>KBO 타자별 Swing/Take Run Value 프로필</p>
     </header>
+
+    <section class="visual-menu" aria-labelledby="visuals-title">
+      <h2 id="visuals-title">Visuals</h2>
+      <div class="visual-grid">
+        <a class="visual-card" href="zones/">
+          <div class="visual-card__thumb zone-thumb" aria-hidden="true"><span></span><span></span><span></span><span></span><i></i></div>
+          <div class="visual-card__body"><h3>Zone Profile</h3><p>타자·투수별 Swing·Whiff·Contact·In-play zone profile</p><b>열기 →</b></div>
+        </a>
+        <a class="visual-card" href="blocking/">
+          <div class="visual-card__thumb blocking-thumb" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><i></i></div>
+          <div class="visual-card__body"><h3>Catcher Blocking BAA</h3><p>포수별 블로킹 기회와 Blocks Above Average</p><b>열기 →</b></div>
+        </a>
+      </div>
+    </section>
+
     <section aria-labelledby="players-title">
       <div class="index-heading"><h2 id="players-title">Batter Search</h2><label class="season-picker">연도<select id="season-select"></select></label></div>
-      <p class="tool-switch"><a href="zones/">투수 Zone Profile</a><a href="blocking/">Catcher Blocking BAA →</a></p>
       <form id="player-search" class="player-search" role="search">
         <label for="player-query">선수 이름</label>
-        <input id="player-query" type="search" autocomplete="off" placeholder="예: 홍창기" aria-describedby="search-help">
+        <input id="player-query" type="search" autocomplete="off" placeholder="예: 홍창기">
         <button type="submit">프로필 보기</button>
       </form>
-      <p id="search-help" class="search-help">이름을 입력하면 Excel 기반으로 갱신된 해당 선수의 프로필을 엽니다.</p>
       <p id="search-message" class="search-message" aria-live="polite"></p>
       <div id="player-list" class="player-list" aria-live="polite"></div>
     </section>
