@@ -3,9 +3,13 @@ const formatSigned = value => {
   const number = Number(value);
   return `${number > 0 ? "+" : ""}${formatNumber(number)}`;
 };
+const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
 const params = new URLSearchParams(window.location.search);
 const playerId = params.get("player");
 const seasonParam = params.get("year") || "2026";
+const comparePlayerParam = params.get("comparePlayer");
+const compareYearParam = params.get("compareYear");
+const SEASONS = ["2022", "2023", "2024", "2025", "2026"];
 const REGION_STYLE = {
   Heart: { className: "heart", color: "#b16ab3" },
   Shadow: { className: "shadow", color: "#ec896f" },
@@ -14,6 +18,9 @@ const REGION_STYLE = {
 };
 const runWidth = (value, maximum) => `${Math.max(1, Math.min(50, Math.abs(Number(value)) / maximum * 50))}%`;
 const share = value => Math.max(0, Math.min(100, Number(value)));
+const playerShard = id => /^\d/.test(id || "") ? id[0] : "other";
+const profileCache = new Map();
+
 const swingTakeSplit = (region, league) => `
   <div class="swing-take-split" aria-label="Swing ${formatNumber(region.swing_pct)}%, Take ${formatNumber(region.take_pct)}%">
     <div class="split-counts">
@@ -64,69 +71,149 @@ const aggregateProfile = payload => {
   });
   return { regions, overall: aggregate(payload.pitches.map(pitch => Number(pitch.run_value))) };
 };
+const loadProfile = (season, id) => {
+  const key = `${season}:${id}`;
+  if (!profileCache.has(key)) {
+    profileCache.set(key, fetch(`../data/swing_take/${season}/players/${playerShard(id)}.json`)
+      .then(response => {
+        if (!response.ok) throw new Error("profile data could not be loaded");
+        return response.json();
+      })
+      .then(shard => {
+        const payload = shard.players[id];
+        if (!payload) throw new Error("profile not found");
+        return { shard, payload, ...aggregateProfile(payload) };
+      }));
+  }
+  return profileCache.get(key);
+};
 
-const playerShard = /^\d/.test(playerId || "") ? playerId[0] : "other";
-fetch(`../data/swing_take/${seasonParam}/players/${playerShard}.json`)
+const renderMainProfile = ({ shard, payload, overall, regions }) => {
+  const { season, source, league } = shard;
+  const { player } = payload;
+  document.querySelector("#profile-season").textContent = `Visual Baseball ABS · ${season} KBO`;
+  const meetsMinimum = payload.pitches.length >= payload.minimum_pitches;
+  document.querySelector("#player-name").textContent = player.name;
+  document.title = `${player.name} Swing/Take 프로필`;
+  const bats = document.querySelector("#bats");
+  const hasKnownBats = player.bats && String(player.bats).toLowerCase() !== "unknown";
+  bats.textContent = hasKnownBats ? `Bats: ${player.bats}` : "";
+  bats.hidden = !hasKnownBats;
+  document.querySelector("#meta").textContent =
+    `${season} 정규시즌 · ${payload.pitches.length.toLocaleString()}구 · ${(source.updated_at || "").slice(0, 10)} 기준${meetsMinimum ? "" : ` · 표본 미달 (${payload.minimum_pitches}구 기준)`}`;
+  document.querySelector("#total-run-value").textContent = formatSigned(overall.decision_run);
+  document.querySelector("#score-detail").textContent = `100구당 ${formatSigned(overall.decision_run_per_100)} · 위치·카운트 중립`;
+  document.querySelector("#pitch-total").textContent = `${overall.pitches.toLocaleString()} total pitches`;
+  const maximumRun = Math.max(1, ...Object.values(regions).flatMap(region => [Math.abs(region.swing.decision_run), Math.abs(region.take.decision_run)]));
+  Object.entries(regions).forEach(([name, region]) => {
+    const value = Number(region.swing.decision_run || 0) + Number(region.take.decision_run || 0);
+    const target = document.querySelector(`#zone-run-${name.toLowerCase()}`);
+    if (!target) return;
+    target.textContent = `${formatSigned(value)} Runs`;
+    target.parentElement.setAttribute("aria-label", `${name} Run Value ${formatSigned(value)}`);
+  });
+  const leaguePitchTotal = Object.values(league?.regions || {}).reduce((sum, region) => sum + Number(region.pitches || 0), 0);
+  document.querySelector("#regions").innerHTML = Object.entries(regions).map(([name, region]) => {
+    const style = REGION_STYLE[name];
+    const dotSize = Math.max(28, Math.min(58, 22 + Math.sqrt(region.share_pct) * 5));
+    const styledRegion = { ...region, color: style.color };
+    const leagueRegion = league?.regions?.[name];
+    const leagueShare = leaguePitchTotal && leagueRegion ? 100 * Number(leagueRegion.pitches) / leaguePitchTotal : null;
+    return `<article class="region-row">
+      <div class="region-name ${style.className}">${name}</div>
+      <div class="frequency">
+        <i class="frequency-dot" style="--dot-size:${dotSize}px;--region-color:${style.color}"></i>
+        <div class="frequency-copy"><b>${region.pitches.toLocaleString()}구</b>${formatNumber(region.share_pct)}%${leagueShare == null ? "" : ` (${formatNumber(leagueShare)}%)`}</div>
+      </div>
+      ${swingTakeSplit(styledRegion, leagueRegion)}
+      <div class="run-bars">
+        ${runBar(region.swing.decision_run, maximumRun, "Swing")}
+        ${runBar(region.take.decision_run, maximumRun, "Take")}
+      </div>
+    </article>`;
+  }).join("");
+  const swingTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.swing.decision_run), 0);
+  const takeTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.take.decision_run), 0);
+  document.querySelector("#run-total").innerHTML = `<span>${formatSigned(swingTotal)} Swing Run</span><strong>${formatSigned(takeTotal)} Take Run</strong>`;
+};
+
+const comparisonElements = {
+  a: { player: document.querySelector("#compare-a-player"), year: document.querySelector("#compare-a-year") },
+  b: { player: document.querySelector("#compare-b-player"), year: document.querySelector("#compare-b-year") },
+  results: document.querySelector("#comparison-results")
+};
+const indexPromise = Promise.all(SEASONS.map(season => fetch(`../data/swing_take/${season}/index.json`)
   .then(response => {
-    if (!response.ok) throw new Error("profile data could not be loaded");
+    if (!response.ok) throw new Error("comparison index could not be loaded");
     return response.json();
-  })
-  .then(shard => {
-    const payload = shard.players[playerId];
-    if (!payload) throw new Error("profile not found");
-    const { overall, regions } = aggregateProfile(payload);
-    const { season, source, league } = shard;
-    const { player } = payload;
-    document.querySelector("#profile-season").textContent = `Visual Baseball ABS · ${season} KBO`;
-    const meetsMinimum = payload.pitches.length >= payload.minimum_pitches;
-    document.querySelector("#player-name").textContent = player.name;
-    document.title = `${player.name} Swing/Take 프로필`;
-    const bats = document.querySelector("#bats");
-    const hasKnownBats = player.bats && String(player.bats).toLowerCase() !== "unknown";
-    bats.textContent = hasKnownBats ? `Bats: ${player.bats}` : "";
-    bats.hidden = !hasKnownBats;
-    document.querySelector("#meta").textContent =
-      `${season} 정규시즌 · ${payload.pitches.length.toLocaleString()}구 · ${(source.updated_at || "").slice(0, 10)} 기준${meetsMinimum ? "" : ` · 표본 미달 (${payload.minimum_pitches}구 기준)`}`;
-    document.querySelector("#total-run-value").textContent = formatSigned(overall.decision_run);
-    document.querySelector("#score-detail").textContent = `100구당 ${formatSigned(overall.decision_run_per_100)} · 위치·카운트 중립`;
-    document.querySelector("#pitch-total").textContent = `${overall.pitches.toLocaleString()} total pitches`;
-    const maximumRun = Math.max(
-      1,
-      ...Object.values(regions).flatMap(region => [Math.abs(region.swing.decision_run), Math.abs(region.take.decision_run)])
-    );
-    Object.entries(regions).forEach(([name, region]) => {
-      const value = Number(region.swing.decision_run || 0) + Number(region.take.decision_run || 0);
-      const target = document.querySelector(`#zone-run-${name.toLowerCase()}`);
-      if (!target) return;
-      target.textContent = `${formatSigned(value)} Runs`;
-      target.parentElement.classList.toggle("positive", value > 0);
-      target.parentElement.classList.toggle("negative", value < 0);
-      target.parentElement.setAttribute("aria-label", `${name} Run Value ${formatSigned(value)}`);
+  })))
+  .then(indexes => Object.fromEntries(indexes.map(index => [String(index.season), index.players])));
+
+const populateYears = (select, selectedYear) => {
+  select.innerHTML = SEASONS.map(year => `<option value="${year}"${year === String(selectedYear) ? " selected" : ""}>${year}</option>`).join("");
+};
+const populatePlayers = (select, players, preferredId) => {
+  const sorted = [...players].sort((a, b) => a.name.localeCompare(b.name, "ko"));
+  const selected = sorted.some(player => player.id === preferredId) ? preferredId : (sorted[0]?.id || "");
+  select.innerHTML = sorted.map(player => `<option value="${escapeHtml(player.id)}"${player.id === selected ? " selected" : ""}>${escapeHtml(player.name)} (${escapeHtml(player.id)})</option>`).join("");
+};
+const populateSlotPlayers = (slot, indexes, preferredId) => {
+  const { player, year } = comparisonElements[slot];
+  populatePlayers(player, indexes[year.value] || [], preferredId || player.value);
+};
+const comparisonCard = ({ payload, overall, regions }, season) => {
+  const player = payload.player;
+  const rows = Object.entries(regions).map(([name, region]) => {
+    const value = Number(region.swing.decision_run) + Number(region.take.decision_run);
+    return `<tr class="${REGION_STYLE[name].className}">
+      <td>${name}</td><td>${formatSigned(region.swing.decision_run)}</td><td>${formatSigned(region.take.decision_run)}</td><td>${formatSigned(value)}</td>
+    </tr>`;
+  }).join("");
+  return `<article class="compare-profile">
+    <header><h3>${escapeHtml(player.name)} <span>${season}</span></h3><p class="compare-total">${formatSigned(overall.decision_run)}</p></header>
+    <p class="compare-meta">${overall.pitches.toLocaleString()}구 · 100구당 ${formatSigned(overall.decision_run_per_100)} Run Value</p>
+    <table class="compare-table"><thead><tr><th>구획</th><th>Swing</th><th>Take</th><th>합계</th></tr></thead><tbody>${rows}</tbody></table>
+  </article>`;
+};
+const renderComparison = async () => {
+  const a = comparisonElements.a;
+  const b = comparisonElements.b;
+  comparisonElements.results.innerHTML = '<p class="comparison-status">비교 프로필을 불러오는 중입니다.</p>';
+  try {
+    const [profileA, profileB] = await Promise.all([loadProfile(a.year.value, a.player.value), loadProfile(b.year.value, b.player.value)]);
+    comparisonElements.results.innerHTML = comparisonCard(profileA, a.year.value) + comparisonCard(profileB, b.year.value);
+  } catch {
+    comparisonElements.results.innerHTML = '<p class="comparison-status">선택한 선수·시즌의 비교 프로필을 찾을 수 없습니다.</p>';
+  }
+};
+const updateComparisonQuery = () => {
+  const url = new URL(window.location.href);
+  url.searchParams.set("comparePlayer", comparisonElements.b.player.value);
+  url.searchParams.set("compareYear", comparisonElements.b.year.value);
+  window.history.replaceState(null, "", url);
+};
+const initializeComparison = async () => {
+  try {
+    const indexes = await indexPromise;
+    const defaultCompareYear = compareYearParam && indexes[compareYearParam] ? compareYearParam : (SEASONS.includes(String(Number(seasonParam) - 1)) ? String(Number(seasonParam) - 1) : seasonParam);
+    populateYears(comparisonElements.a.year, seasonParam);
+    populateYears(comparisonElements.b.year, defaultCompareYear);
+    populateSlotPlayers("a", indexes, playerId);
+    populateSlotPlayers("b", indexes, comparePlayerParam || playerId);
+    ["a", "b"].forEach(slot => comparisonElements[slot].year.addEventListener("change", () => populateSlotPlayers(slot, indexes)));
+    document.querySelector("#compare-button").addEventListener("click", () => {
+      updateComparisonQuery();
+      renderComparison();
     });
-    const leaguePitchTotal = Object.values(league?.regions || {}).reduce((sum, region) => sum + Number(region.pitches || 0), 0);
-    document.querySelector("#regions").innerHTML = Object.entries(regions).map(([name, region]) => {
-      const style = REGION_STYLE[name];
-      const dotSize = Math.max(28, Math.min(58, 22 + Math.sqrt(region.share_pct) * 5));
-      const styledRegion = { ...region, color: style.color };
-      const leagueRegion = league?.regions?.[name];
-      const leagueShare = leaguePitchTotal && leagueRegion ? 100 * Number(leagueRegion.pitches) / leaguePitchTotal : null;
-      return `<article class="region-row">
-        <div class="region-name ${style.className}">${name}</div>
-        <div class="frequency">
-          <i class="frequency-dot" style="--dot-size:${dotSize}px;--region-color:${style.color}"></i>
-          <div class="frequency-copy"><b>${region.pitches.toLocaleString()}구</b>${formatNumber(region.share_pct)}%${leagueShare == null ? "" : ` (${formatNumber(leagueShare)}%)`}</div>
-        </div>
-        ${swingTakeSplit(styledRegion, leagueRegion)}
-        <div class="run-bars">
-          ${runBar(region.swing.decision_run, maximumRun, "Swing")}
-          ${runBar(region.take.decision_run, maximumRun, "Take")}
-        </div>
-      </article>`;
-    }).join("");
-    const swingTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.swing.decision_run), 0);
-    const takeTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.take.decision_run), 0);
-    document.querySelector("#run-total").innerHTML = `<span>${formatSigned(swingTotal)} Swing Run</span><strong>${formatSigned(takeTotal)} Take Run</strong>`;
-  })
+    renderComparison();
+  } catch {
+    comparisonElements.results.innerHTML = '<p class="comparison-status">비교용 선수 목록을 불러올 수 없습니다.</p>';
+  }
+};
+
+loadProfile(seasonParam, playerId)
+  .then(renderMainProfile)
   .catch(() => {
     document.querySelector("#meta").textContent = "해당 선수의 ABS 프로필을 찾을 수 없습니다. 선수 검색으로 돌아가 주세요.";
   });
+initializeComparison();
