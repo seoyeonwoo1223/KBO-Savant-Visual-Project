@@ -18,7 +18,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  # A failed data-update workflow_run must not cancel an ordinary web push deployment.
+  group: pages-${{ github.event_name }}
   cancel-in-progress: true
 
 jobs:
