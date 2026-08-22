@@ -3,41 +3,38 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KBO Swing/Take Profiles</title>
-  <link rel="stylesheet" href="styles.css?v=20260822-visuals1">
+  <title>KBO Baseball Visuals</title>
+  <link rel="stylesheet" href="home.css?v=20260822-1">
 </head>
 <body>
-  <main class="profile-index">
-    <header class="index-header">
-      <h1>Swing/Take Profiles</h1>
-      <p>KBO 타자별 Swing/Take Run Value 프로필</p>
+  <main class="home">
+    <header class="home-header">
+      <h1>KBO Baseball Visuals</h1>
+      <p>2026 KBO pitch-tracking visual tools</p>
     </header>
-
-    <section class="visual-menu" aria-labelledby="visuals-title">
+    <section aria-labelledby="visuals-title">
       <h2 id="visuals-title">Visuals</h2>
       <div class="visual-grid">
         <a class="visual-card" href="zones/">
-          <div class="visual-card__thumb zone-thumb" aria-hidden="true"><span></span><span></span><span></span><span></span><i></i></div>
+          <div class="visual-art" aria-hidden="true">
+            <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#d8f2f4"/><g transform="translate(15 7)"><rect width="70" height="86" fill="#eef6f6" stroke="#24323a" stroke-width="1"/><g stroke="#849aa3" stroke-width=".35"><path d="M8.75 0V86M17.5 0V86M26.25 0V86M35 0V86M43.75 0V86M52.5 0V86M61.25 0V86"/><path d="M0 9.55H70M0 19.1H70M0 28.65H70M0 38.2H70M0 47.75H70M0 57.3H70M0 66.85H70M0 76.4H70"/></g><rect x="17.5" y="28.65" width="35" height="38.2" fill="none" stroke="#20b34c" stroke-width="1.2"/><circle cx="43.75" cy="29" r="1.7" fill="#e4233b"/><circle cx="52.5" cy="43" r="1.7" fill="#3187bb"/><circle cx="26.25" cy="53" r="1.7" fill="#f3a336"/></g></svg>
+          </div>
           <div class="visual-card__body"><h3>Zone Profile</h3><p>타자·투수별 Swing·Whiff·Contact·In-play zone profile</p><b>열기 →</b></div>
         </a>
         <a class="visual-card" href="blocking/">
-          <div class="visual-card__thumb blocking-thumb" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><i></i></div>
+          <div class="visual-art" aria-hidden="true">
+            <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#163d24"/><ellipse cx="50" cy="101" rx="41" ry="30" fill="#9b7a5d"/><g stroke="#e6eee8" stroke-width=".8"><path d="M24 72L38 48H62L76 72Z" fill="none"/><path d="M47 62L50 60L53 62V66H47Z" fill="#fff"/></g><g stroke="#d7e3da" stroke-width=".45"><rect x="22" y="38" width="11" height="14" fill="#0b4f82"/><rect x="34" y="38" width="11" height="14" fill="#74b5d2"/><rect x="46" y="38" width="11" height="14" fill="#f3eee8"/><rect x="58" y="38" width="11" height="14" fill="#e78268"/><rect x="70" y="38" width="11" height="14" fill="#e32635"/></g><rect x="40" y="17" width="20" height="17" fill="none" stroke="#71ff78" stroke-width="1.2"/></svg>
+          </div>
           <div class="visual-card__body"><h3>Catcher Blocking BAA</h3><p>포수별 블로킹 기회와 Blocks Above Average</p><b>열기 →</b></div>
+        </a>
+        <a class="visual-card" href="swing-take/">
+          <div class="visual-art" aria-hidden="true">
+            <svg viewBox="0 0 100 100"><rect width="100" height="100" fill="#f1f1ef"/><path d="M18 80C22 59 26 42 38 38C48 35 54 46 50 55L40 82Z" fill="#b9b9b9"/><path d="M32 38L11 23" stroke="#929292" stroke-width="4" stroke-linecap="round"/><rect x="51" y="23" width="35" height="56" fill="#fbf7bb" stroke="#d1ce9c"/><rect x="57" y="31" width="23" height="39" fill="#f8d2cb" stroke="#e7b4ac"/><rect x="62" y="40" width="13" height="21" fill="#e9b9e4" stroke="#c993c3"/><rect x="62" y="36" width="13" height="29" fill="none" stroke="#08ae4f" stroke-width="1.5" stroke-dasharray="1 2"/><text x="68.5" y="37" text-anchor="middle" font-size="4" fill="#343434">+18</text><text x="68.5" y="53" text-anchor="middle" font-size="5" fill="#343434">-3</text><path d="M62 84H75L78 90L68.5 93L59 90Z" fill="#fff" stroke="#555" stroke-width=".7"/></svg>
+          </div>
+          <div class="visual-card__body"><h3>Swing Take Visuals</h3><p>타자별 Swing·Take Run Value profile</p><b>열기 →</b></div>
         </a>
       </div>
     </section>
-
-    <section aria-labelledby="players-title">
-      <div class="index-heading"><h2 id="players-title">Batter Search</h2><label class="season-picker">연도<select id="season-select"></select></label></div>
-      <form id="player-search" class="player-search" role="search">
-        <label for="player-query">선수 이름</label>
-        <input id="player-query" type="search" autocomplete="off" placeholder="예: 홍창기">
-        <button type="submit">프로필 보기</button>
-      </form>
-      <p id="search-message" class="search-message" aria-live="polite"></p>
-      <div id="player-list" class="player-list" aria-live="polite"></div>
-    </section>
   </main>
-  <script src="index.js?v=20260814-2"></script>
 </body>
 </html>
