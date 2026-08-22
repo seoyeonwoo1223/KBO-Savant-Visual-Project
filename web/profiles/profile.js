@@ -94,6 +94,15 @@ fetch(`../data/swing_take/${seasonParam}/players/${playerShard}.json`)
       1,
       ...Object.values(regions).flatMap(region => [Math.abs(region.swing.decision_run), Math.abs(region.take.decision_run)])
     );
+    Object.entries(regions).forEach(([name, region]) => {
+      const value = Number(region.swing.decision_run || 0) + Number(region.take.decision_run || 0);
+      const target = document.querySelector(`#zone-run-${name.toLowerCase()}`);
+      if (!target) return;
+      target.textContent = formatSigned(value);
+      target.parentElement.classList.toggle("positive", value > 0);
+      target.parentElement.classList.toggle("negative", value < 0);
+      target.parentElement.setAttribute("aria-label", `${name} Run Value ${formatSigned(value)}`);
+    });
     const leaguePitchTotal = Object.values(league?.regions || {}).reduce((sum, region) => sum + Number(region.pitches || 0), 0);
     document.querySelector("#regions").innerHTML = Object.entries(regions).map(([name, region]) => {
       const style = REGION_STYLE[name];
