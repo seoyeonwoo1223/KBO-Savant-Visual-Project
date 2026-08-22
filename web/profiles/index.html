@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Swing/Take 프로필</title>
-  <link rel="stylesheet" href="profile.css?v=20260822-3">
+  <link rel="stylesheet" href="profile.css?v=20260822-4">
 </head>
 <body>
   <main>
@@ -18,8 +18,7 @@
     <section class="profile-card" aria-label="Swing Take 프로필">
       <div class="score-line"><span class="score-label">Run Value</span><strong id="total-run-value">—</strong><span id="score-detail">위치·카운트 중립</span></div>
       <div class="profile-dashboard">
-        <section class="zone-panel" aria-labelledby="zone-title">
-          <h2 id="zone-title">Strike Zone</h2>
+        <section class="zone-panel" aria-label="Zone Run Value">
           <div class="zone-visual" aria-label="Heart, Shadow, Chase, Waste 구역별 Run Value와 스트라이크존">
             <div class="zone-waste"></div><div class="zone-chase"></div><div class="zone-shadow"></div><div class="zone-heart"></div>
             <div class="strike-zone" aria-label="Strike Zone"></div>
@@ -28,8 +27,6 @@
             <span class="zone-run-value zone-run-shadow"><b id="zone-run-shadow">—</b></span>
             <span class="zone-run-value zone-run-heart"><b id="zone-run-heart">—</b></span>
           </div>
-          <p class="zone-key"><i></i>Strike Zone</p>
-          <p class="zone-note">Heart 0–66.7% · Shadow 66.7–133.3% · Chase 133.3–200% · Waste &gt;200%</p>
           <details class="zone-guide"><summary>전체 구획 기준도 보기</summary><img src="../assets/zone-chart.png" alt="Heart, Shadow, Chase, Waste와 ABS 스트라이크존의 상대 거리 기준도"></details>
         </section>
         <section class="regions-panel" aria-labelledby="regions-title">
@@ -47,6 +44,6 @@
     </section>
     <p class="method-note">Run Value는 각 투구의 Raw Run Value에서 같은 볼카운트·상대 위치의 리그 평균을 뺀 값입니다. 타자 기준으로 양수일수록 좋습니다.</p>
   </main>
-  <script src="profile.js?v=20260822-2"></script>
+  <script src="profile.js?v=20260822-3"></script>
 </body>
 </html>
