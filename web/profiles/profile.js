@@ -6,6 +6,7 @@ const formatSigned = value => {
 const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
 const params = new URLSearchParams(window.location.search);
 const playerId = params.get("player");
+const profileYearSelect = document.querySelector("#profile-year");
 const seasonParam = params.get("year") || "2026";
 const comparePlayerParam = params.get("comparePlayer");
 const compareYearParam = params.get("compareYear");
@@ -138,8 +139,8 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
 };
 
 const comparisonElements = {
-  a: { player: document.querySelector("#compare-a-player"), year: document.querySelector("#compare-a-year") },
-  b: { player: document.querySelector("#compare-b-player"), year: document.querySelector("#compare-b-year") },
+  a: { player: document.querySelector("#compare-a-player"), list: document.querySelector("#compare-a-players"), year: document.querySelector("#compare-a-year") },
+  b: { player: document.querySelector("#compare-b-player"), list: document.querySelector("#compare-b-players"), year: document.querySelector("#compare-b-year") },
   results: document.querySelector("#comparison-results")
 };
 const indexPromise = Promise.all(SEASONS.map(season => fetch(`../data/swing_take/${season}/index.json`)
@@ -152,14 +153,16 @@ const indexPromise = Promise.all(SEASONS.map(season => fetch(`../data/swing_take
 const populateYears = (select, selectedYear) => {
   select.innerHTML = SEASONS.map(year => `<option value="${year}"${year === String(selectedYear) ? " selected" : ""}>${year}</option>`).join("");
 };
-const populatePlayers = (select, players, preferredId) => {
+const populatePlayers = (input, list, players, preferredId) => {
   const sorted = [...players].sort((a, b) => a.name.localeCompare(b.name, "ko"));
-  const selected = sorted.some(player => player.id === preferredId) ? preferredId : (sorted[0]?.id || "");
-  select.innerHTML = sorted.map(player => `<option value="${escapeHtml(player.id)}"${player.id === selected ? " selected" : ""}>${escapeHtml(player.name)} (${escapeHtml(player.id)})</option>`).join("");
+  const selected = sorted.find(player => player.id === preferredId) || sorted[0];
+  list.innerHTML = sorted.map(player => `<option value="${escapeHtml(player.name)}"></option>`).join("");
+  input.value = selected ? selected.name : "";
+  input.dataset.playerId = selected ? selected.id : "";
 };
 const populateSlotPlayers = (slot, indexes, preferredId) => {
   const { player, year } = comparisonElements[slot];
-  populatePlayers(player, indexes[year.value] || [], preferredId || player.value);
+  populatePlayers(player, comparisonElements[slot].list, indexes[year.value] || [], preferredId || player.dataset.playerId);
 };
 const comparisonCard = ({ payload, overall, regions }, season) => {
   const player = payload.player;
@@ -175,12 +178,14 @@ const comparisonCard = ({ payload, overall, regions }, season) => {
     <table class="compare-table"><thead><tr><th>구획</th><th>Swing</th><th>Take</th><th>합계</th></tr></thead><tbody>${rows}</tbody></table>
   </article>`;
 };
+let comparisonIndexes = null;
+const selectedComparisonId = slot => { const control = comparisonElements[slot]; const player = (comparisonIndexes?.[control.year.value] || []).find(item => item.name === control.player.value); return player ? player.id : control.player.dataset.playerId; };
 const renderComparison = async () => {
   const a = comparisonElements.a;
   const b = comparisonElements.b;
   comparisonElements.results.innerHTML = '<p class="comparison-status">비교 프로필을 불러오는 중입니다.</p>';
   try {
-    const [profileA, profileB] = await Promise.all([loadProfile(a.year.value, a.player.value), loadProfile(b.year.value, b.player.value)]);
+    const [profileA, profileB] = await Promise.all([loadProfile(a.year.value, selectedComparisonId("a")), loadProfile(b.year.value, selectedComparisonId("b"))]);
     comparisonElements.results.innerHTML = comparisonCard(profileA, a.year.value) + comparisonCard(profileB, b.year.value);
   } catch {
     comparisonElements.results.innerHTML = '<p class="comparison-status">선택한 선수·시즌의 비교 프로필을 찾을 수 없습니다.</p>';
@@ -188,13 +193,14 @@ const renderComparison = async () => {
 };
 const updateComparisonQuery = () => {
   const url = new URL(window.location.href);
-  url.searchParams.set("comparePlayer", comparisonElements.b.player.value);
+  url.searchParams.set("comparePlayer", selectedComparisonId("b"));
   url.searchParams.set("compareYear", comparisonElements.b.year.value);
   window.history.replaceState(null, "", url);
 };
 const initializeComparison = async () => {
   try {
     const indexes = await indexPromise;
+    comparisonIndexes = indexes;
     const defaultCompareYear = compareYearParam && indexes[compareYearParam] ? compareYearParam : (SEASONS.includes(String(Number(seasonParam) - 1)) ? String(Number(seasonParam) - 1) : seasonParam);
     populateYears(comparisonElements.a.year, seasonParam);
     populateYears(comparisonElements.b.year, defaultCompareYear);
@@ -210,6 +216,9 @@ const initializeComparison = async () => {
     comparisonElements.results.innerHTML = '<p class="comparison-status">비교용 선수 목록을 불러올 수 없습니다.</p>';
   }
 };
+
+profileYearSelect.innerHTML = SEASONS.map(year => `<option value="${year}"${year === seasonParam ? " selected" : ""}>${year}</option>`).join("");
+profileYearSelect.addEventListener("change", () => { const url = new URL(window.location.href); url.searchParams.set("year", profileYearSelect.value); window.location.href = url; });
 
 loadProfile(seasonParam, playerId)
   .then(renderMainProfile)
