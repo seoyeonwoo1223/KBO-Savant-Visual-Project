@@ -132,20 +132,21 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
   z-index: 4;
   left: 50%;
   display: grid;
-  min-width: 70px;
+  min-width: max-content;
   place-items: center;
-  color: #252525;
+  color: #111;
   line-height: 1;
+  white-space: nowrap;
   transform: translateX(-50%);
   pointer-events: none;
 }
 .zone-run-value small { margin-bottom: 3px; font-size: .63rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
-.zone-run-value b { padding: 0; background: transparent; color: #111; font: 700 1rem/1 Arial, sans-serif; }
+.zone-run-value b { padding: 0; background: transparent; color: #111; font: 400 clamp(1.4rem, 7vw, 2rem)/1 Arial, sans-serif; }
 .zone-run-value.positive b, .zone-run-value.negative b { color: #111; }
-.zone-run-waste { top: 3%; }
-.zone-run-chase { top: 11.5%; }
-.zone-run-shadow { top: 22%; }
+.zone-run-waste { top: 2%; }
+.zone-run-chase { top: 14%; }
+.zone-run-shadow { top: 26%; }
 .zone-run-heart { top: 50%; transform: translate(-50%, -50%); }
 @media (max-width: 570px) {
-  .zone-run-value b { font-size: .9rem; }
+  .zone-run-value b { font-size: clamp(1.4rem, 7vw, 1.75rem); }
 }
