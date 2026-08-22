@@ -16,7 +16,7 @@ import pyarrow.parquet as pq
 PITCH_TYPES = ("FF", "FT", "SI", "FC", "SL", "ST", "CU", "CH", "FS", "UN")
 CONTINUOUS = (
     "px", "pz", "velocity_kmh", "vertical_movement_cm", "horizontal_movement_cm",
-    "drop_angle", "arrival_time_s", "x0", "z0", "below_zone", "side_zone",
+    "drop_angle", "arrival_time_s", "x0", "y0", "z0", "below_zone", "side_zone",
     "center_distance", "runner_count", "two_strikes",
 )
 QUALIFIED_OPPORTUNITIES = 500
@@ -51,7 +51,7 @@ def _feature_rows(rows: list[dict[str, Any]]) -> tuple[np.ndarray, np.ndarray]:
         values = [
             px, pz, _number(row.get("velocity_kmh")), _number(row.get("vertical_movement_cm")),
             _number(row.get("horizontal_movement_cm")), _number(row.get("drop_angle")),
-            _number(row.get("arrival_time_s")), _number(row.get("x0")), _number(row.get("z0")),
+            _number(row.get("arrival_time_s")), _number(row.get("x0")), _number(row.get("y0")), _number(row.get("z0")),
             max(0.0, sz_bottom - pz) if math.isfinite(sz_bottom) else max(0.0, 1.5 - pz),
             max(0.0, abs(px) - 0.83), math.sqrt((px / .83) ** 2 + ((pz - 2.5) / 1.0) ** 2),
             float(runners), float(int(row.get("strikes_before") or 0) == 2),
@@ -209,7 +209,7 @@ def build_blocking(root: Path, season: int = 2026, source_root: Path | None = No
             "label": "KBO Blocks Above Average (experimental)",
             "opportunity": "Runner on base or two strikes; non-contact pitch with confirmed WP/PB coverage",
             "formula": "sum(estimated PB+WP probability - actual PB+WP)",
-            "features": ["pitch location", "speed", "movement", "pitch type", "release side", "batter handedness", "base/strike state"],
+            "features": ["pitch location", "speed", "movement", "pitch type", "initial x/y/z position", "release side", "batter handedness", "base/strike state"],
             "missing_feature": "Catcher setup location is not available in the public KBO/VB source",
             "qualified_opportunities": QUALIFIED_OPPORTUNITIES,
             "difficulty": {"easy": "block probability >= 95%", "medium": "85-95%", "tough": "< 85%"},

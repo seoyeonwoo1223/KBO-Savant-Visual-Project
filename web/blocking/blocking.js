@@ -41,7 +41,7 @@ function renderTable() {
   $("#leaderboard-body").innerHTML = players.map((player, index) => `<tr data-player="${player.catcher_id}">
     <td>${index + 1}</td><td class="player">${player.catcher_name}</td><td>${player.team}</td>
     <td>${player.opportunities.toLocaleString()}</td><td>${fmt(player.blocking_runs, 1)}</td>
-    <td class="baa" style="${baaCellStyle(player.baa, scale)}">${fmt(player.baa, 1, true)}</td><td>${player.actual_pbwp}</td><td>${fmt(player.estimated_pbwp, 1)}</td><td>${fmt(player.baa_per_game, 2, true)}</td>
+    <td class="baa" style="${baaCellStyle(player.baa, scale)}">${fmt(player.baa, 0, true)}</td><td>${player.actual_pbwp}</td><td>${fmt(player.estimated_pbwp, 1)}</td><td>${fmt(player.baa_per_game, 2, true)}</td>
     <td>${fmt(player.difficulty_pct.easy, 1)}%</td><td>${fmt(player.difficulty_pct.medium, 1)}%</td><td>${fmt(player.difficulty_pct.tough, 1)}%</td>
     <td>${fmt(player.difficulty_baa.easy, 1, true)}</td><td>${fmt(player.difficulty_baa.medium, 1, true)}</td><td>${fmt(player.difficulty_baa.tough, 1, true)}</td>
   </tr>`).join("");
