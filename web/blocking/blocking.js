@@ -6,6 +6,20 @@ function fmt(value, digits = 1, plus = false) {
   return `${plus && number > 0 ? "+" : ""}${number.toFixed(digits)}`;
 }
 
+function interpolateColor(from, to, amount) {
+  const start = from.match(/\w\w/g).map(value => parseInt(value, 16));
+  const end = to.match(/\w\w/g).map(value => parseInt(value, 16));
+  return `#${start.map((value, index) => Math.round(value + (end[index] - value) * amount).toString(16).padStart(2, "0")).join("")}`;
+}
+
+function baaCellStyle(value, scale) {
+  const ratio = Math.min(1, Math.abs(Number(value || 0)) / Math.max(scale, .01));
+  const amount = Math.pow(ratio, .58);
+  const endpoint = value < 0 ? "0b4f82" : value > 0 ? "e32635" : "f4f2ee";
+  const background = interpolateColor("f7f6f3", endpoint, amount);
+  return `--baa-color:${background};--baa-text:${amount > .56 ? "#fff" : "#1f2a33"}`;
+}
+
 function color(value, scale) {
   const amount = Math.max(-1, Math.min(1, value / Math.max(scale, .01)));
   if (amount < -.5) return "#174f83";
@@ -19,17 +33,17 @@ function renderTable() {
   const qualified = $("#qualified-filter").value;
   const team = $("#team-filter").value;
   const query = $("#name-filter").value.trim();
+  const scale = Math.max(1, ...state.data.players.map(player => Math.abs(Number(player.baa) || 0)));
   const players = state.data.players.filter(player =>
     (qualified === "all" || player.qualified) &&
     (team === "all" || player.team.split("/").includes(team)) &&
     (!query || player.catcher_name.includes(query))
   );
   $("#leaderboard-body").innerHTML = players.map((player, index) => {
-    const tone = player.baa > .05 ? "positive" : player.baa < -.05 ? "negative" : "neutral";
     return `<tr data-player="${player.catcher_id}">
       <td>${index + 1}</td><td class="player">${player.catcher_name}</td><td>${player.team}</td>
       <td>${player.opportunities.toLocaleString()}</td><td>${fmt(player.blocking_runs, 1)}</td>
-      <td class="baa ${tone}">${fmt(player.baa, 1, true)}</td><td>${player.actual_pbwp}</td><td>${fmt(player.estimated_pbwp, 1)}</td><td>${fmt(player.baa_per_game, 2, true)}</td>
+      <td class="baa" style="${baaCellStyle(player.baa, scale)}">${fmt(player.baa, 1, true)}</td><td>${player.actual_pbwp}</td><td>${fmt(player.estimated_pbwp, 1)}</td><td>${fmt(player.baa_per_game, 2, true)}</td>
       <td>${fmt(player.difficulty_pct.easy, 1)}%</td><td>${fmt(player.difficulty_pct.medium, 1)}%</td><td>${fmt(player.difficulty_pct.tough, 1)}%</td>
       <td>${fmt(player.difficulty_baa.easy, 1, true)}</td><td>${fmt(player.difficulty_baa.medium, 1, true)}</td><td>${fmt(player.difficulty_baa.tough, 1, true)}</td>
     </tr>`;
