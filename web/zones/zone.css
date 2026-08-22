@@ -45,7 +45,7 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.045em; }
 .plot-column { min-width: 0; }
 .zone-wrap { position: relative; width: 100%; aspect-ratio: 8 / 9; }
 .zone-grid { display: grid; width: 100%; height: 100%; grid-template-columns: repeat(8, 1fr); grid-template-rows: repeat(9, 1fr); border: 1px solid #5c5c5c; }
-.cell { display: grid; place-items: center; min-width: 0; border-right: 1px solid #ffffff45; border-bottom: 1px solid #ffffff45; font-size: clamp(.62rem, 1.5vw, .82rem); color: #111; }
+.cell { display: grid; place-items: center; min-width: 0; border-right: 1px solid rgba(42, 58, 68, .34); border-bottom: 1px solid rgba(42, 58, 68, .34); font-size: clamp(.62rem, 1.5vw, .82rem); color: #111; }
 .cell.empty { color: #777; background: #e3e3e3 !important; }
 .strike-zone { position: absolute; z-index: 2; border: 3px solid #22a447; pointer-events: none; }
 .x-ticks { display: flex; justify-content: space-between; margin-top: 5px; color: #508d9b; font-size: .68rem; font-weight: 700; }
