@@ -98,7 +98,7 @@ fetch(`../data/swing_take/${seasonParam}/players/${playerShard}.json`)
       const value = Number(region.swing.decision_run || 0) + Number(region.take.decision_run || 0);
       const target = document.querySelector(`#zone-run-${name.toLowerCase()}`);
       if (!target) return;
-      target.textContent = formatSigned(value);
+      target.textContent = `${formatSigned(value)} Runs`;
       target.parentElement.classList.toggle("positive", value > 0);
       target.parentElement.classList.toggle("negative", value < 0);
       target.parentElement.setAttribute("aria-label", `${name} Run Value ${formatSigned(value)}`);
