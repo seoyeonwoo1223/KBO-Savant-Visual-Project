@@ -16,7 +16,7 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5vw, 3.6rem); letter-spacing: -.055em;
 .profile-card { margin-top: 22px; padding: 26px; background: #fff; border: 1px solid #dedede; }
 .score-line { display: flex; align-items: baseline; gap: 11px; padding-bottom: 20px; border-bottom: 1px solid #ddd; }
 .score-label { color: #666; font-size: 1.32rem; }
-#total-decision-run { font-size: 2.35rem; line-height: 1; }
+#total-run-value { font-size: 2.35rem; line-height: 1; }
 #score-detail { color: #777; font-size: .88rem; }
 .profile-dashboard { display: grid; grid-template-columns: 350px minmax(0, 1fr); gap: 54px; padding-top: 28px; }
 h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
@@ -125,4 +125,28 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
   .run-value { font-size: .78rem; }
   .panel-footers { display: block; padding: 14px 0 2px; }
   .split-legend, .run-total { justify-content: flex-start; margin: 0 0 9px; text-align: left; }
+}
+
+.zone-run-value {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  display: grid;
+  min-width: 70px;
+  place-items: center;
+  color: #252525;
+  line-height: 1;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.zone-run-value small { margin-bottom: 3px; font-size: .63rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
+.zone-run-value b { padding: 3px 6px; background: rgba(255,255,255,.72); font-size: 1rem; font-weight: 700; }
+.zone-run-value.positive b { color: #16734b; }
+.zone-run-value.negative b { color: #9f263d; }
+.zone-run-waste { top: 3%; }
+.zone-run-chase { top: 11.5%; }
+.zone-run-shadow { top: 22%; }
+.zone-run-heart { top: 50%; transform: translate(-50%, -50%); }
+@media (max-width: 570px) {
+  .zone-run-value b { font-size: .9rem; }
 }
