@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Swing/Take 프로필</title>
-  <link rel="stylesheet" href="profile.css?v=20260822-5">
+  <link rel="stylesheet" href="profile.css?v=20260822-6">
 </head>
 <body>
   <main>
@@ -13,7 +13,7 @@
       <p class="eyebrow" id="profile-season">Visual Baseball ABS · KBO</p>
       <h1 id="player-name">선수 프로필</h1>
       <p id="bats"></p>
-      <p id="meta">프로필을 불러오는 중입니다.</p>
+      <div class="profile-options"><label>시즌<select id="profile-year" aria-label="프로필 시즌"></select></label><p id="meta">프로필을 불러오는 중입니다.</p></div>
     </header>
     <section class="profile-card" aria-label="Swing Take 프로필">
       <div class="score-line"><span class="score-label">Run Value</span><strong id="total-run-value">—</strong><span id="score-detail">위치·카운트 중립</span></div>
@@ -50,19 +50,19 @@
       <div class="comparison-controls">
         <fieldset class="comparison-slot">
           <legend>프로필 A</legend>
-          <label>선수<select id="compare-a-player" aria-label="프로필 A 선수"></select></label>
+          <label>선수<input id="compare-a-player" list="compare-a-players" placeholder="선수명 입력" autocomplete="off" aria-label="프로필 A 선수"></label><datalist id="compare-a-players"></datalist>
           <label>시즌<select id="compare-a-year" aria-label="프로필 A 시즌"></select></label>
         </fieldset>
         <fieldset class="comparison-slot">
           <legend>프로필 B</legend>
-          <label>선수<select id="compare-b-player" aria-label="프로필 B 선수"></select></label>
+          <label>선수<input id="compare-b-player" list="compare-b-players" placeholder="선수명 입력" autocomplete="off" aria-label="프로필 B 선수"></label><datalist id="compare-b-players"></datalist>
           <label>시즌<select id="compare-b-year" aria-label="프로필 B 시즌"></select></label>
         </fieldset>
       </div>
       <div id="comparison-results" class="comparison-results" aria-live="polite"></div>
     </section>
-    <p class="method-note">Run Value는 각 투구의 Raw Run Value에서 같은 볼카운트·상대 위치의 리그 평균을 뺀 값입니다. 타자 기준으로 양수일수록 좋습니다.</p>
+    <p class="method-note">Run Value = Σ[Raw Run Value − 리그 평균 Run Value(볼카운트, 상대 위치)] · 양수일수록 타자에게 유리합니다.</p>
   </main>
-  <script src="profile.js?v=20260822-4"></script>
+  <script src="profile.js?v=20260822-5"></script>
 </body>
 </html>
