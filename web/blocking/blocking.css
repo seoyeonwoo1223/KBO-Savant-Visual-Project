@@ -54,3 +54,7 @@ td.baa { min-width: 82px; font-size: 1rem; font-weight: 800; color: #fff; }
   .legend { bottom: 10px; }
   .map-controls { justify-content: flex-start; }
 }
+
+
+/* Savant-inspired continuous BAA scale: blue → neutral → red. */
+td.baa { background: var(--baa-color); color: var(--baa-text); transition: background-color .16s ease; }
