@@ -137,16 +137,52 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
   color: #111;
   line-height: 1;
   white-space: nowrap;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   pointer-events: none;
 }
 .zone-run-value small { margin-bottom: 3px; font-size: .63rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
-.zone-run-value b { padding: 0; background: transparent; color: #111; font: 400 clamp(1.4rem, 7vw, 2rem)/1 Arial, sans-serif; }
+.zone-run-value b { padding: 0; background: transparent; color: #111; font: 400 clamp(1rem, 2vw, 1.28rem)/1 Arial, sans-serif; }
 .zone-run-value.positive b, .zone-run-value.negative b { color: #111; }
-.zone-run-waste { top: 2%; }
-.zone-run-chase { top: 14%; }
-.zone-run-shadow { top: 26%; }
-.zone-run-heart { top: 50%; transform: translate(-50%, -50%); }
-@media (max-width: 570px) {
-  .zone-run-value b { font-size: clamp(1.4rem, 7vw, 1.75rem); }
+.zone-run-waste { top: 5%; }
+.zone-run-chase { top: 15%; }
+.zone-run-shadow { top: 25%; }
+.zone-run-heart { top: 50%; }
+
+.comparison-card { margin-top: 22px; padding: 24px 26px 26px; background: #fff; border: 1px solid #dedede; }
+.comparison-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; padding-bottom: 17px; border-bottom: 1px solid #ddd; }
+.comparison-heading h2 { margin: 0; }
+.comparison-heading p { margin: 6px 0 0; color: #666; font-size: .88rem; }
+.comparison-heading button { flex: 0 0 auto; padding: 9px 17px; border: 1px solid #3d3d3d; background: #303030; color: #fff; font: 700 .84rem Arial, sans-serif; cursor: pointer; }
+.comparison-heading button:hover { background: #555; }
+.comparison-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 18px; }
+.comparison-slot { display: grid; grid-template-columns: minmax(0, 1fr) 108px; gap: 10px; min-width: 0; margin: 0; padding: 14px; border: 1px solid #d9d9d9; }
+.comparison-slot legend { padding: 0 5px; color: #555; font-size: .83rem; font-weight: 700; }
+.comparison-slot label { display: grid; gap: 6px; color: #555; font-size: .76rem; font-weight: 700; }
+.comparison-slot select { width: 100%; min-width: 0; height: 35px; padding: 0 8px; border: 1px solid #bdbdbd; border-radius: 0; background: #fff; color: #222; font: .88rem Arial, sans-serif; }
+.comparison-results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 22px; }
+.compare-profile { min-width: 0; border-top: 3px solid #555; background: #f8f8f8; }
+.compare-profile header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 14px 16px 11px; border-bottom: 1px solid #ddd; }
+.compare-profile h3 { margin: 0; font: 700 1.18rem/1 Arial, sans-serif; }
+.compare-profile h3 span { color: #777; font-size: .88rem; font-weight: 400; }
+.compare-total { margin: 0; color: #111; font: 400 1.72rem/1 Arial, sans-serif; white-space: nowrap; }
+.compare-meta { margin: 8px 16px 12px; color: #676767; font-size: .78rem; }
+.compare-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.compare-table th, .compare-table td { padding: 8px 10px; border-top: 1px solid #e1e1e1; text-align: right; }
+.compare-table th:first-child, .compare-table td:first-child { text-align: left; }
+.compare-table th { color: #666; font-size: .72rem; font-weight: 700; }
+.compare-table td:last-child { color: #111; font-weight: 700; }
+.compare-table .heart td:first-child { border-left: 5px solid #d6a9d8; }
+.compare-table .shadow td:first-child { border-left: 5px solid #f7c5b3; }
+.compare-table .chase td:first-child { border-left: 5px solid #fbf2ae; }
+.compare-table .waste td:first-child { border-left: 5px solid #c9c9c9; }
+.comparison-status { grid-column: 1 / -1; margin: 0; color: #666; font-size: .86rem; }
+@media (max-width: 680px) {
+  .comparison-card { padding: 18px 13px; }
+  .comparison-heading { align-items: flex-start; flex-direction: column; }
+  .comparison-controls, .comparison-results { grid-template-columns: 1fr; }
+  .comparison-slot { grid-template-columns: minmax(0, 1fr) 96px; }
+  .compare-profile header { padding: 13px 12px 10px; }
+  .compare-meta { margin-left: 12px; }
+  .compare-table th, .compare-table td { padding: 8px 7px; font-size: .75rem; }
+  .compare-table th { font-size: .66rem; }
 }
