@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Swing/Take 프로필</title>
-  <link rel="stylesheet" href="profile.css?v=20260822-4">
+  <link rel="stylesheet" href="profile.css?v=20260822-5">
 </head>
 <body>
   <main>
@@ -42,8 +42,27 @@
         </section>
       </div>
     </section>
+    <section class="comparison-card" aria-labelledby="comparison-title">
+      <div class="comparison-heading">
+        <div><h2 id="comparison-title">연도별 비교</h2><p>두 선수·시즌의 Swing/Take Run Value를 나란히 비교합니다.</p></div>
+        <button id="compare-button" type="button">비교하기</button>
+      </div>
+      <div class="comparison-controls">
+        <fieldset class="comparison-slot">
+          <legend>프로필 A</legend>
+          <label>선수<select id="compare-a-player" aria-label="프로필 A 선수"></select></label>
+          <label>시즌<select id="compare-a-year" aria-label="프로필 A 시즌"></select></label>
+        </fieldset>
+        <fieldset class="comparison-slot">
+          <legend>프로필 B</legend>
+          <label>선수<select id="compare-b-player" aria-label="프로필 B 선수"></select></label>
+          <label>시즌<select id="compare-b-year" aria-label="프로필 B 시즌"></select></label>
+        </fieldset>
+      </div>
+      <div id="comparison-results" class="comparison-results" aria-live="polite"></div>
+    </section>
     <p class="method-note">Run Value는 각 투구의 Raw Run Value에서 같은 볼카운트·상대 위치의 리그 평균을 뺀 값입니다. 타자 기준으로 양수일수록 좋습니다.</p>
   </main>
-  <script src="profile.js?v=20260822-3"></script>
+  <script src="profile.js?v=20260822-4"></script>
 </body>
 </html>
