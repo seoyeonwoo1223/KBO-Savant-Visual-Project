@@ -16,8 +16,7 @@ function baaCellStyle(value, scale) {
   const ratio = Math.min(1, Math.abs(Number(value || 0)) / Math.max(scale, .01));
   const amount = Math.pow(ratio, .58);
   const endpoint = value < 0 ? "0b4f82" : value > 0 ? "e32635" : "f4f2ee";
-  const background = interpolateColor("f7f6f3", endpoint, amount);
-  return `--baa-color:${background};--baa-text:${amount > .56 ? "#fff" : "#1f2a33"}`;
+  return `--baa-color:${interpolateColor("f7f6f3", endpoint, amount)};--baa-text:${amount > .56 ? "#fff" : "#1f2a33"}`;
 }
 
 function color(value, scale) {
@@ -39,15 +38,13 @@ function renderTable() {
     (team === "all" || player.team.split("/").includes(team)) &&
     (!query || player.catcher_name.includes(query))
   );
-  $("#leaderboard-body").innerHTML = players.map((player, index) => {
-    return `<tr data-player="${player.catcher_id}">
-      <td>${index + 1}</td><td class="player">${player.catcher_name}</td><td>${player.team}</td>
-      <td>${player.opportunities.toLocaleString()}</td><td>${fmt(player.blocking_runs, 1)}</td>
-      <td class="baa" style="${baaCellStyle(player.baa, scale)}">${fmt(player.baa, 1, true)}</td><td>${player.actual_pbwp}</td><td>${fmt(player.estimated_pbwp, 1)}</td><td>${fmt(player.baa_per_game, 2, true)}</td>
-      <td>${fmt(player.difficulty_pct.easy, 1)}%</td><td>${fmt(player.difficulty_pct.medium, 1)}%</td><td>${fmt(player.difficulty_pct.tough, 1)}%</td>
-      <td>${fmt(player.difficulty_baa.easy, 1, true)}</td><td>${fmt(player.difficulty_baa.medium, 1, true)}</td><td>${fmt(player.difficulty_baa.tough, 1, true)}</td>
-    </tr>`;
-  }).join("");
+  $("#leaderboard-body").innerHTML = players.map((player, index) => `<tr data-player="${player.catcher_id}">
+    <td>${index + 1}</td><td class="player">${player.catcher_name}</td><td>${player.team}</td>
+    <td>${player.opportunities.toLocaleString()}</td><td>${fmt(player.blocking_runs, 1)}</td>
+    <td class="baa" style="${baaCellStyle(player.baa, scale)}">${fmt(player.baa, 1, true)}</td><td>${player.actual_pbwp}</td><td>${fmt(player.estimated_pbwp, 1)}</td><td>${fmt(player.baa_per_game, 2, true)}</td>
+    <td>${fmt(player.difficulty_pct.easy, 1)}%</td><td>${fmt(player.difficulty_pct.medium, 1)}%</td><td>${fmt(player.difficulty_pct.tough, 1)}%</td>
+    <td>${fmt(player.difficulty_baa.easy, 1, true)}</td><td>${fmt(player.difficulty_baa.medium, 1, true)}</td><td>${fmt(player.difficulty_baa.tough, 1, true)}</td>
+  </tr>`).join("");
   document.querySelectorAll("tbody tr").forEach(row => row.addEventListener("click", () => {
     state.player = row.dataset.player;
     $("#catcher-select").value = state.player;
@@ -55,14 +52,20 @@ function renderTable() {
   }));
 }
 
-function polygonPoints(x, z) {
-  const top = 86, bottom = 300, rows = 6, cols = 6;
-  const y0 = bottom - z * (bottom - top) / rows, y1 = bottom - (z + 1) * (bottom - top) / rows;
-  const bounds = y => { const t = (bottom - y) / (bottom - top); const half = 168 - t * 48; return [500 - half, 500 + half]; };
-  const [l0, r0] = bounds(y0), [l1, r1] = bounds(y1);
-  const a0 = l0 + (x + 3) * (r0 - l0) / cols, b0 = l0 + (x + 4) * (r0 - l0) / cols;
-  const a1 = l1 + (x + 3) * (r1 - l1) / cols, b1 = l1 + (x + 4) * (r1 - l1) / cols;
-  return `${a1},${y1} ${b1},${y1} ${b0},${y0} ${a0},${y0}`;
+// Front-facing pitch coordinates. The source grid is 6 inches wide by 9 inches high.
+// Diagram reference: strike zone ±10 in / 18–42 in; Heart ±6.7 in / 22–38 in;
+// Chase boundary ±13.3 in / 14–46 in; Waste begins outside that boundary.
+const MAP = { left: 155, top: 42, width: 420, height: 504, xMin: -24, xMax: 24, zMin: 0, zMax: 60 };
+const sx = inches => MAP.left + (inches - MAP.xMin) / (MAP.xMax - MAP.xMin) * MAP.width;
+const sy = inches => MAP.top + (MAP.zMax - inches) / (MAP.zMax - MAP.zMin) * MAP.height;
+
+function rectFor(x0, z0, x1, z1) {
+  return { x: sx(x0), y: sy(z1), width: sx(x1) - sx(x0), height: sy(z0) - sy(z1) };
+}
+
+function gridCell(x, z) {
+  // x bins: -18..18 inches, z bins: 0..54 inches.
+  return rectFor(x * 6, z * 9, (x + 1) * 6, (z + 1) * 9);
 }
 
 function renderMap() {
@@ -76,16 +79,20 @@ function renderMap() {
   );
   const combined = new Map();
   cells.forEach(cell => {
-    const key = `${cell.x}:${cell.z}`, current = combined.get(key) || { x: cell.x, z: cell.z, baa: 0, opportunities: 0 };
-    current.baa += cell.baa; current.opportunities += cell.opportunities; combined.set(key, current);
+    const key = `${cell.x}:${cell.z}`;
+    const current = combined.get(key) || { x: cell.x, z: cell.z, baa: 0, opportunities: 0 };
+    current.baa += cell.baa;
+    current.opportunities += cell.opportunities;
+    combined.set(key, current);
   });
   const scale = Math.max(.25, ...[...combined.values()].map(cell => Math.abs(cell.baa)));
-  const polygons = [];
+  const cellsSvg = [];
   for (let z = 0; z < 6; z += 1) for (let x = -3; x < 3; x += 1) {
     const cell = combined.get(`${x}:${z}`) || { baa: 0, opportunities: 0 };
-    polygons.push(`<polygon points="${polygonPoints(x, z)}" fill="${cell.opportunities ? color(cell.baa, scale) : "#eee9df"}" fill-opacity="${cell.opportunities ? .96 : .55}" stroke="#173d24" stroke-width="3"><title>BAA ${fmt(cell.baa, 2, true)} · ${cell.opportunities} opportunities</title></polygon>`);
+    const box = gridCell(x, z);
+    cellsSvg.push(`<g><rect x="${box.x}" y="${box.y}" width="${box.width}" height="${box.height}" fill="${cell.opportunities ? color(cell.baa, scale) : "#eee9df"}" fill-opacity="${cell.opportunities ? .94 : .48}" stroke="#fff" stroke-opacity=".42" stroke-width="1"/><text x="${box.x + box.width / 2}" y="${box.y + box.height / 2 - 2}" class="cell-value">${cell.opportunities ? fmt(cell.baa, 2, true) : "–"}</text><text x="${box.x + box.width / 2}" y="${box.y + box.height / 2 + 15}" class="cell-count">${cell.opportunities ? cell.opportunities : ""}</text><title>BAA ${fmt(cell.baa, 2, true)} · ${cell.opportunities} opportunities</title></g>`);
   }
-  $("#map-cells").innerHTML = polygons.join("");
+  $("#map-cells").innerHTML = cellsSvg.join("");
   $("#player-summary").innerHTML = `<h2>${player.catcher_name} · ${player.team}</h2><div class="summary-grid">
     <div><strong>${player.opportunities.toLocaleString()}</strong><span>Block Opportunities</span></div>
     <div><strong>${fmt(player.baa, 1, true)}</strong><span>Blocks Above Avg</span></div>
