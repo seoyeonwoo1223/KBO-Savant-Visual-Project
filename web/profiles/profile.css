@@ -140,9 +140,8 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
   pointer-events: none;
 }
 .zone-run-value small { margin-bottom: 3px; font-size: .63rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
-.zone-run-value b { padding: 3px 6px; background: rgba(255,255,255,.72); font-size: 1rem; font-weight: 700; }
-.zone-run-value.positive b { color: #16734b; }
-.zone-run-value.negative b { color: #9f263d; }
+.zone-run-value b { padding: 0; background: transparent; color: #111; font: 700 1rem/1 Arial, sans-serif; }
+.zone-run-value.positive b, .zone-run-value.negative b { color: #111; }
 .zone-run-waste { top: 3%; }
 .zone-run-chase { top: 11.5%; }
 .zone-run-shadow { top: 22%; }
