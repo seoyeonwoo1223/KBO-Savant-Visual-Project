@@ -168,10 +168,12 @@ function renderMovement() {
   const raw = modeSelect.value === "raw";
   const visualOpacity = usage => {
     const scale = Math.min(1, Math.max(0, Number(usage) || 0) / 10);
+    // A quadratic curve keeps rare pitches clearly subordinate until they approach 10%.
+    const emphasis = scale * scale;
     return {
-      fill: 0.035 + 0.235 * scale,
-      stroke: 0.45 + 0.55 * scale,
-      dot: 0.38 + 0.62 * scale,
+      fill: 0.02 + 0.25 * emphasis,
+      stroke: 0.25 + 0.75 * emphasis,
+      dot: 0.22 + 0.78 * emphasis,
     };
   };
   currentProfile.pitch_types.forEach(pitch => {
