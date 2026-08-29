@@ -169,7 +169,12 @@ fetch("../data/pitch_arsenal/index.json").then(response => response.json()).then
   return loadSeason(yearSelect.value);
 }).catch(() => { message.textContent = "Pitch Arsenal 데이터를 불러오지 못했습니다."; });
 
-yearSelect.addEventListener("change", () => loadSeason(yearSelect.value));
+yearSelect.addEventListener("change", () => {
+  currentProfile = null;
+  profileSection.hidden = true;
+  history.replaceState(null, "", `?year=${yearSelect.value}`);
+  loadSeason(yearSelect.value);
+});
 throwsSelect.addEventListener("change", search);
 form.addEventListener("submit", search);
 modeSelect.addEventListener("change", () => { if (currentProfile) { renderMovement(); renderTable(); } });
