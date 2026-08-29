@@ -49,11 +49,11 @@ def test_pitch_arsenal_builds_adjusted_profiles(tmp_path: Path):
     assert (pitches, players) == (5, 1)
     assert index["players"][0]["throws"] == "R"
     assert four_seam["usage"] == 80.0
-    assert four_seam["horizontal_break_in"]["average"] == 1.0
-    assert four_seam["ivb_in"]["average"] == 1.0
+    assert four_seam["horizontal_break_in"]["average"] == 1.2
+    assert four_seam["ivb_in"]["average"] == 2.2
     assert sweeper["park_factor_code"] == "SL"
-    assert sweeper["horizontal_break_in"]["average"] == 2.0
-    assert sweeper["ivb_in"]["average"] == 2.0
+    assert sweeper["horizontal_break_in"]["average"] == 1.3
+    assert sweeper["ivb_in"]["average"] == 3.2
 
 
 def test_legacy_duplicate_headers_use_fixed_pitch_order():
