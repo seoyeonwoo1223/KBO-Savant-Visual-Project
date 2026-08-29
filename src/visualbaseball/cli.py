@@ -10,6 +10,7 @@ from .storage import Store
 from .swing_take import build_swing_take
 from .zone_profile import build_zone_profiles
 from .blocking import build_blocking
+from .pitch_arsenal import build_pitch_arsenal
 
 
 def _exports(root: Path, season: int, storage_root: Path) -> None:
@@ -18,6 +19,7 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
     workbook = export_latest(root, season, storage_root)
     build_swing_take(storage_root, season, excel_source=workbook)
     build_zone_profiles(root, season, excel_source=workbook)
+    build_pitch_arsenal(root, season, excel_source=workbook)
     build_blocking(root, season, storage_root)
     if storage_root == root:
         export_web_data(root)

@@ -5,8 +5,10 @@ on:
     paths:
       - "exports/visualbaseball_savant_2026_latest.xlsx"
       - "src/visualbaseball/**"
+      - "data/park_adjustments/**"
       - "web/profiles/**"
       - "web/zones/**"
+      - "web/pitch-arsenal/**"
       - "requirements.txt"
       - ".github/workflows/daily_update.yml"
   schedule:
