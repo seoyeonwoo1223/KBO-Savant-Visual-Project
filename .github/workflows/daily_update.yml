@@ -78,6 +78,13 @@ jobs:
           fi
         env:
           PYTHONPATH: src
+      - name: Rebuild all Pitch Arsenal seasons
+        run: |
+          for season in 2022 2023 2024 2025 2026; do
+            python -c "from pathlib import Path; from visualbaseball.pitch_arsenal import build_pitch_arsenal; build_pitch_arsenal(Path('.'), ${season})"
+          done
+        env:
+          PYTHONPATH: src
       - run: |
           git add data web/data exports/visualbaseball_savant_2026_latest.xlsx
           if git diff --cached --quiet; then exit 0; fi
