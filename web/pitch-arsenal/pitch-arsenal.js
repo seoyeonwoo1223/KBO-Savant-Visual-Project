@@ -22,6 +22,16 @@ function svgElement(name, attributes = {}) {
   return element;
 }
 
+function toPitcherView(horizontal) {
+  if (!horizontal) return horizontal;
+  return {
+    ...horizontal,
+    average: -horizontal.average,
+    low_75: -horizontal.high_75,
+    high_75: -horizontal.low_75,
+  };
+}
+
 async function loadSeason(year) {
   seasonIndex = null;
   searchButton.disabled = true;
@@ -151,12 +161,12 @@ function renderMovement() {
     svg.append(svgElement("line", {x1: bounds.left, x2: bounds.right, y1: y(value), y2: y(value), class: value === 0 ? "zero-line" : "grid-line"}));
     const label = svgElement("text", {x: 58, y: y(value) + 4, "text-anchor": "end", class: "axis-text"}); label.textContent = value; svg.append(label);
   }
-  const xTitle = svgElement("text", {x: 360, y: 510, "text-anchor": "middle", class: "axis-title"}); xTitle.textContent = "Horizontal Break (in.)"; svg.append(xTitle);
+  const xTitle = svgElement("text", {x: 360, y: 510, "text-anchor": "middle", class: "axis-title"}); xTitle.textContent = "Horizontal Break (pitcher view, in.)"; svg.append(xTitle);
   const yTitle = svgElement("text", {x: 17, y: 245, transform: "rotate(-90 17 245)", "text-anchor": "middle", class: "axis-title"}); yTitle.textContent = "Induced Vertical Break (in.)"; svg.append(yTitle);
 
   const raw = modeSelect.value === "raw";
   currentProfile.pitch_types.forEach(pitch => {
-    const horizontal = raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in;
+    const horizontal = toPitcherView(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
     if (!horizontal || !vertical) return;
     const ellipse = svgElement("ellipse", {
@@ -195,7 +205,7 @@ function hideTooltip() { document.querySelector("#tooltip").hidden = true; }
 function renderTable() {
   const raw = modeSelect.value === "raw";
   document.querySelector("#pitch-table").innerHTML = currentProfile.pitch_types.map(pitch => {
-    const horizontal = raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in;
+    const horizontal = toPitcherView(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
     return `<tr><td><span class="pitch-key"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td><td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td><td>${fmt(pitch.velocity_kmh?.average)} km/h</td><td>${fmt(horizontal?.average)} in</td><td>${fmt(vertical?.average)} in</td><td>${pitch.movement_n.toLocaleString()} / ${pitch.movement_total_n.toLocaleString()}</td></tr>`;
   }).join("");
