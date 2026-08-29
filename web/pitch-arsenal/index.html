@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KBO Pitch Arsenal</title>
+  <link rel="stylesheet" href="pitch-arsenal.css?v=20260829-1">
+</head>
+<body>
+  <main>
+    <nav><a href="../">← 홈</a></nav>
+    <header>
+      <p class="eyebrow">VISUAL BASEBALL · PARK ADJUSTED</p>
+      <h1>KBO Pitch Arsenal</h1>
+      <p>투수별 구종 사용률·구속·수평 무브먼트·Induced Vertical Break</p>
+    </header>
+    <section class="notice">
+      <p>HB·IVB는 구장·구종별 오프셋을 뺀 보정값입니다. 원 안의 점은 평균, 원의 폭과 높이는 각각 중앙 75% 범위입니다.</p>
+      <p>보정표에 없는 투심은 싱커, 스위퍼는 슬라이더 오프셋을 사용합니다.</p>
+    </section>
+    <section class="search-panel" aria-label="투수 검색">
+      <label>연도<select id="year"></select></label>
+      <label>투구 손<select id="throws"><option value="">전체</option><option value="R">우투</option><option value="L">좌투</option></select></label>
+      <form id="search-form">
+        <label for="query">투수 이름</label>
+        <input id="query" type="search" autocomplete="off" placeholder="예: 안우진">
+        <button type="submit">검색</button>
+      </form>
+      <div id="matches" class="matches"></div>
+      <p id="message" class="message" aria-live="polite"></p>
+    </section>
+    <section id="profile" class="profile" hidden>
+      <div class="profile-title">
+        <div><p class="eyebrow" id="profile-season"></p><h2 id="player-name"></h2></div>
+        <p id="profile-meta"></p>
+      </div>
+      <div class="toolbar">
+        <label>무브먼트<select id="movement-mode"><option value="adjusted">구장 보정</option><option value="raw">원측정값</option></select></label>
+        <span id="coverage"></span>
+      </div>
+      <div class="arsenal-grid">
+        <section class="panel frequency-panel"><h3>Pitch Type Frequency</h3><div id="frequency"></div></section>
+        <section class="panel velocity-panel"><h3>Speed</h3><div id="velocity"></div></section>
+        <section class="panel movement-panel">
+          <div class="panel-heading"><h3>Pitch Movement</h3><span>포수 시점 · inches</span></div>
+          <svg id="movement-chart" viewBox="0 0 680 520" role="img" aria-labelledby="movement-title movement-desc">
+            <title id="movement-title">구종별 수평 무브먼트와 IVB</title>
+            <desc id="movement-desc">점은 평균이고 타원은 중앙 75퍼센트 범위입니다.</desc>
+          </svg>
+          <div id="tooltip" class="tooltip" hidden></div>
+        </section>
+      </div>
+      <section class="table-card">
+        <h3>구종별 수치</h3>
+        <div class="table-wrap"><table>
+          <thead><tr><th>구종</th><th>투구</th><th>구사율</th><th>평균 구속</th><th>HB</th><th>IVB</th><th>보정 표본</th></tr></thead>
+          <tbody id="pitch-table"></tbody>
+        </table></div>
+      </section>
+      <p class="method">중앙 75%는 12.5~87.5 백분위 구간입니다. HB·IVB 원자료와 보정표 단위는 cm이며, 화면에서는 inches로 환산합니다. 보정값 = 측정값 − 구장·구종 오프셋.</p>
+    </section>
+  </main>
+  <script src="pitch-arsenal.js?v=20260829-1"></script>
+</body>
+</html>
