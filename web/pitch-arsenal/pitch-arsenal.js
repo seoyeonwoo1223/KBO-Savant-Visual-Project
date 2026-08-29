@@ -184,7 +184,7 @@ function renderMovement() {
       rx: Math.max(8, Math.abs(x(horizontal.high_75) - x(horizontal.low_75)) / 2),
       ry: Math.max(8, Math.abs(y(vertical.high_75) - y(vertical.low_75)) / 2),
       fill: pitch.color, "fill-opacity": opacity.fill, stroke: pitch.color, "stroke-opacity": opacity.stroke, "stroke-width": 4, class: "movement-ellipse", tabindex: 0,
-      "aria-label": `${pitch.name}, 평균 HB ${fmt(horizontal.average)}인치, 평균 IVB ${fmt(vertical.average)}인치`,
+      "aria-label": `${pitch.name}, 평균 IVB ${fmt(vertical.average)}인치, 평균 HB ${fmt(horizontal.average)}인치`,
     });
     const dot = svgElement("circle", {cx: x(horizontal.average), cy: y(vertical.average), r: 3.5, fill: pitch.color, "fill-opacity": opacity.dot});
     const show = event => showTooltip(event, pitch, horizontal, vertical);
@@ -198,8 +198,8 @@ function showTooltip(event, pitch, horizontal, vertical) {
   const tooltip = document.querySelector("#tooltip");
   tooltip.innerHTML = `<strong>${escapeHtml(pitch.name)}: ${pitch.usage.toFixed(1)}%</strong>
     <p>구속 ${fmt(pitch.velocity_kmh?.average)} km/h · 75% ${fmt(pitch.velocity_kmh?.low_75)}–${fmt(pitch.velocity_kmh?.high_75)}</p>
-    <p>HB ${fmt(horizontal.average)} in · 75% ${fmt(horizontal.low_75)}–${fmt(horizontal.high_75)}</p>
     <p>IVB ${fmt(vertical.average)} in · 75% ${fmt(vertical.low_75)}–${fmt(vertical.high_75)}</p>
+    <p>HB ${fmt(horizontal.average)} in · 75% ${fmt(horizontal.low_75)}–${fmt(horizontal.high_75)}</p>
     <p>무브먼트 표본 ${pitch.movement_n.toLocaleString()} / ${pitch.movement_total_n.toLocaleString()}</p>`;
   tooltip.hidden = false;
   const panel = document.querySelector(".movement-panel");
@@ -217,7 +217,7 @@ function renderTable() {
   document.querySelector("#pitch-table").innerHTML = currentProfile.pitch_types.map(pitch => {
     const horizontal = toPitcherView(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
-    return `<tr><td><span class="pitch-key"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td><td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td><td>${fmt(pitch.velocity_kmh?.average)} km/h</td><td>${fmt(horizontal?.average)} in</td><td>${fmt(vertical?.average)} in</td><td>${pitch.movement_n.toLocaleString()} / ${pitch.movement_total_n.toLocaleString()}</td></tr>`;
+    return `<tr><td><span class="pitch-key"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td><td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td><td>${fmt(pitch.velocity_kmh?.average)} km/h</td><td>${fmt(vertical?.average)} in</td><td>${fmt(horizontal?.average)} in</td><td>${pitch.movement_n.toLocaleString()} / ${pitch.movement_total_n.toLocaleString()}</td></tr>`;
   }).join("");
 }
 
