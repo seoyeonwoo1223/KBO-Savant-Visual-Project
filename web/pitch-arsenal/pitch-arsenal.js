@@ -1,7 +1,8 @@
 const yearSelect = document.querySelector("#year");
 const throwsSelect = document.querySelector("#throws");
-const form = document.querySelector("#search-form");
-const query = document.querySelector("#query");
+const searchForm = document.querySelector("#search-form");
+const queryInput = document.querySelector("#query");
+const searchButton = searchForm.querySelector('button[type="submit"]');
 const matches = document.querySelector("#matches");
 const message = document.querySelector("#message");
 const profileSection = document.querySelector("#profile");
@@ -13,6 +14,7 @@ const escapeHtml = value => String(value).replace(/[&<>'"]/g, character => ({"&"
 
 let seasonIndex = null;
 let currentProfile = null;
+let seasonLoadPromise = null;
 
 function svgElement(name, attributes = {}) {
   const element = document.createElementNS(SVG_NS, name);
@@ -21,13 +23,30 @@ function svgElement(name, attributes = {}) {
 }
 
 async function loadSeason(year) {
-  const response = await fetch(`../data/pitch_arsenal/${year}/index.json`);
-  if (!response.ok) throw new Error("season index unavailable");
-  seasonIndex = await response.json();
-  matches.innerHTML = "";
-  message.textContent = "";
-  const params = new URLSearchParams(location.search);
-  if (params.get("year") === String(year) && params.get("player")) await openPlayer(params.get("player"), false);
+  seasonIndex = null;
+  searchButton.disabled = true;
+  searchForm.setAttribute("aria-busy", "true");
+  message.textContent = `${year} 선수 목록을 불러오는 중입니다.`;
+  try {
+    const response = await fetch(`../data/pitch_arsenal/${year}/index.json`);
+    if (!response.ok) throw new Error("season index unavailable");
+    seasonIndex = await response.json();
+    matches.innerHTML = "";
+    message.textContent = "";
+    const params = new URLSearchParams(location.search);
+    if (params.get("year") === String(year) && params.get("player")) await openPlayer(params.get("player"), false);
+  } finally {
+    searchButton.disabled = false;
+    searchForm.removeAttribute("aria-busy");
+  }
+}
+
+function beginSeasonLoad(year) {
+  seasonLoadPromise = loadSeason(year).catch(() => {
+    message.textContent = "Pitch Arsenal 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
+    return null;
+  });
+  return seasonLoadPromise;
 }
 
 async function openPlayer(playerId, updateUrl = true) {
@@ -44,16 +63,36 @@ async function openPlayer(playerId, updateUrl = true) {
 
 function filteredPlayers() {
   const hand = throwsSelect.value;
-  const term = normalize(query.value);
+  const term = normalize(queryInput.value);
   return (seasonIndex?.players || []).filter(player => (!hand || player.throws === hand) && (!term || normalize(player.name).includes(term)));
 }
 
-function search(event) {
+async function handleSearch(event) {
   event?.preventDefault();
-  if (!seasonIndex) return;
+  if (!seasonIndex && seasonLoadPromise) {
+    message.textContent = `${yearSelect.value} 선수 목록을 불러오는 중입니다.`;
+    try {
+      await seasonLoadPromise;
+    } catch {
+      return;
+    }
+  }
+  if (!seasonIndex) {
+    message.textContent = "선수 목록을 불러오지 못했습니다. 연도를 다시 선택해 주세요.";
+    return;
+  }
   const found = filteredPlayers();
-  const exact = found.find(player => normalize(player.name) === normalize(query.value));
-  if (exact || found.length === 1) return openPlayer(exact || found[0]);
+  const exact = found.find(player => normalize(player.name) === normalize(queryInput.value));
+  if (exact || found.length === 1) {
+    message.textContent = "선수 정보를 불러오는 중입니다.";
+    try {
+      await openPlayer(exact || found[0]);
+      message.textContent = "";
+    } catch {
+      message.textContent = "선수 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
+    }
+    return;
+  }
   matches.innerHTML = found.slice(0, 12).map(player => `<button type="button" data-id="${escapeHtml(player.id)}">${escapeHtml(player.name)} · ${player.throws || "?"}HP</button>`).join("");
   matches.querySelectorAll("button").forEach(button => button.addEventListener("click", () => openPlayer(button.dataset.id)));
   message.textContent = found.length ? `검색 결과 ${found.length}명${found.length > 12 ? " · 상위 12명 표시" : ""}` : "조건에 맞는 투수를 찾지 못했습니다.";
@@ -166,15 +205,15 @@ fetch("../data/pitch_arsenal/index.json").then(response => response.json()).then
   yearSelect.innerHTML = catalog.seasons.map(year => `<option>${year}</option>`).join("");
   const requested = Number(new URLSearchParams(location.search).get("year"));
   if (catalog.seasons.includes(requested)) yearSelect.value = requested;
-  return loadSeason(yearSelect.value);
+  return beginSeasonLoad(yearSelect.value);
 }).catch(() => { message.textContent = "Pitch Arsenal 데이터를 불러오지 못했습니다."; });
 
 yearSelect.addEventListener("change", () => {
   currentProfile = null;
   profileSection.hidden = true;
   history.replaceState(null, "", `?year=${yearSelect.value}`);
-  loadSeason(yearSelect.value);
+  beginSeasonLoad(yearSelect.value);
 });
-throwsSelect.addEventListener("change", search);
-form.addEventListener("submit", search);
+throwsSelect.addEventListener("change", handleSearch);
+searchForm.addEventListener("submit", handleSearch);
 modeSelect.addEventListener("change", () => { if (currentProfile) { renderMovement(); renderTable(); } });
