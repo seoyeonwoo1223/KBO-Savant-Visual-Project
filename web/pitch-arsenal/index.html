@@ -21,13 +21,13 @@
     <section class="search-panel" aria-label="투수 검색">
       <label>연도<select id="year"></select></label>
       <label>투구 손<select id="throws"><option value="">전체</option><option value="R">우투</option><option value="L">좌투</option></select></label>
-      <form id="search-form">
+      <form id="search-form" aria-busy="true">
         <label for="query">투수 이름</label>
         <input id="query" type="search" autocomplete="off" placeholder="예: 안우진">
-        <button type="submit">검색</button>
+        <button type="submit" disabled>검색</button>
       </form>
       <div id="matches" class="matches"></div>
-      <p id="message" class="message" aria-live="polite"></p>
+      <p id="message" class="message" aria-live="polite">선수 목록을 불러오는 중입니다.</p>
     </section>
     <section id="profile" class="profile" hidden>
       <div class="profile-title">
@@ -60,6 +60,6 @@
       <p class="method">중앙 75%는 12.5~87.5 백분위 구간입니다. HB·IVB 원자료와 보정표 단위는 cm이며, 화면에서는 inches로 환산합니다. 보정값 = 측정값 − 구장·구종 오프셋.</p>
     </section>
   </main>
-  <script src="pitch-arsenal.js?v=20260829-3"></script>
+  <script src="pitch-arsenal.js?v=20260829-4"></script>
 </body>
 </html>
