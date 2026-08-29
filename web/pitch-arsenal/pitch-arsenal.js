@@ -150,33 +150,43 @@ function renderVelocity() {
 function renderMovement() {
   const svg = document.querySelector("#movement-chart");
   svg.querySelectorAll(":scope > :not(title):not(desc)").forEach(element => element.remove());
-  const bounds = {left: 70, right: 650, top: 25, bottom: 455, xMin: -30, xMax: 30, yMin: -30, yMax: 30};
+  // The plotting area is square, so every inch has identical x/y length on screen.
+  const bounds = {left: 70, right: 620, top: 50, bottom: 600, xMin: -30, xMax: 30, yMin: -30, yMax: 30};
   const x = value => bounds.left + (value - bounds.xMin) / (bounds.xMax - bounds.xMin) * (bounds.right - bounds.left);
   const y = value => bounds.bottom - (value - bounds.yMin) / (bounds.yMax - bounds.yMin) * (bounds.bottom - bounds.top);
   for (let value = -30; value <= 30; value += 6) {
     svg.append(svgElement("line", {x1: x(value), x2: x(value), y1: bounds.top, y2: bounds.bottom, class: value === 0 ? "zero-line" : "grid-line"}));
-    const label = svgElement("text", {x: x(value), y: 477, "text-anchor": "middle", class: "axis-text"}); label.textContent = value; svg.append(label);
+    const label = svgElement("text", {x: x(value), y: 622, "text-anchor": "middle", class: "axis-text"}); label.textContent = value; svg.append(label);
   }
   for (let value = -30; value <= 30; value += 6) {
     svg.append(svgElement("line", {x1: bounds.left, x2: bounds.right, y1: y(value), y2: y(value), class: value === 0 ? "zero-line" : "grid-line"}));
     const label = svgElement("text", {x: 58, y: y(value) + 4, "text-anchor": "end", class: "axis-text"}); label.textContent = value; svg.append(label);
   }
-  const xTitle = svgElement("text", {x: 360, y: 510, "text-anchor": "middle", class: "axis-title"}); xTitle.textContent = "Horizontal Break (pitcher view, in.)"; svg.append(xTitle);
-  const yTitle = svgElement("text", {x: 17, y: 245, transform: "rotate(-90 17 245)", "text-anchor": "middle", class: "axis-title"}); yTitle.textContent = "Induced Vertical Break (in.)"; svg.append(yTitle);
+  const xTitle = svgElement("text", {x: 345, y: 665, "text-anchor": "middle", class: "axis-title"}); xTitle.textContent = "Horizontal Break (pitcher view, in.)"; svg.append(xTitle);
+  const yTitle = svgElement("text", {x: 17, y: 325, transform: "rotate(-90 17 325)", "text-anchor": "middle", class: "axis-title"}); yTitle.textContent = "Induced Vertical Break (in.)"; svg.append(yTitle);
 
   const raw = modeSelect.value === "raw";
+  const visualOpacity = usage => {
+    const scale = Math.min(1, Math.max(0, Number(usage) || 0) / 10);
+    return {
+      fill: 0.035 + 0.235 * scale,
+      stroke: 0.45 + 0.55 * scale,
+      dot: 0.38 + 0.62 * scale,
+    };
+  };
   currentProfile.pitch_types.forEach(pitch => {
     const horizontal = toPitcherView(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
     if (!horizontal || !vertical) return;
+    const opacity = visualOpacity(pitch.usage);
     const ellipse = svgElement("ellipse", {
       cx: x(horizontal.average), cy: y(vertical.average),
       rx: Math.max(8, Math.abs(x(horizontal.high_75) - x(horizontal.low_75)) / 2),
       ry: Math.max(8, Math.abs(y(vertical.high_75) - y(vertical.low_75)) / 2),
-      fill: `${pitch.color}44`, stroke: pitch.color, "stroke-width": 4, class: "movement-ellipse", tabindex: 0,
+      fill: pitch.color, "fill-opacity": opacity.fill, stroke: pitch.color, "stroke-opacity": opacity.stroke, "stroke-width": 4, class: "movement-ellipse", tabindex: 0,
       "aria-label": `${pitch.name}, 평균 HB ${fmt(horizontal.average)}인치, 평균 IVB ${fmt(vertical.average)}인치`,
     });
-    const dot = svgElement("circle", {cx: x(horizontal.average), cy: y(vertical.average), r: 3.5, fill: pitch.color});
+    const dot = svgElement("circle", {cx: x(horizontal.average), cy: y(vertical.average), r: 3.5, fill: pitch.color, "fill-opacity": opacity.dot});
     const show = event => showTooltip(event, pitch, horizontal, vertical);
     ellipse.addEventListener("mouseenter", show); ellipse.addEventListener("mousemove", show); ellipse.addEventListener("focus", show);
     ellipse.addEventListener("mouseleave", hideTooltip); ellipse.addEventListener("blur", hideTooltip);
