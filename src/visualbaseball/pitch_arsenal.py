@@ -173,8 +173,8 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                 if offset:
                     group["raw_hb"].append(raw_hb / CM_PER_INCH)
                     group["raw_ivb"].append(raw_ivb / CM_PER_INCH)
-                    group["hb"].append((raw_hb - offset[0]) / CM_PER_INCH)
-                    group["ivb"].append((raw_ivb - offset[1]) / CM_PER_INCH)
+                    group["hb"].append((raw_hb + offset[0]) / CM_PER_INCH)
+                    group["ivb"].append((raw_ivb + offset[1]) / CM_PER_INCH)
                     group["movement_adjusted"] += 1
             eligible += 1
     finally:
@@ -214,7 +214,7 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                 "park_adjustment": f"data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx",
             },
             "method": {
-                "movement": "park-adjusted HB and IVB; adjusted = measured - stadium/pitch offset",
+                "movement": "park-adjusted HB and IVB; adjusted = measured + stadium/pitch offset",
                 "interval": "central 75% (12.5th to 87.5th percentile)",
                 "units": {"velocity": "km/h", "movement": "in"},
                 "factor_aliases": {"FT": "SI", "ST": "SL"},
