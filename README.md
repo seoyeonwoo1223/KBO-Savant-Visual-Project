@@ -81,6 +81,10 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 `web/pitch-arsenal/`은 2022~2026 시즌 투수별 구종 사용률, 평균 구속, Horizontal Break와 Induced Vertical Break를 Savant형 화면으로 제공한다. 무브먼트는 `data/park_adjustments/`의 시즌·구장·구종별 오프셋을 사용해 `보정값 = 측정값 - 오프셋`으로 계산하며, 타원의 폭과 높이는 각각 중앙 75%(12.5~87.5 백분위) 범위다. 보정표에 독립 항목이 없는 투심은 싱커, 스위퍼는 슬라이더 오프셋에 연결한다. 원측정값과 보정값은 화면에서 전환할 수 있다.
 
+## Arm Angle Movement Zones
+
+`web/movement-zones/`는 제공된 팔각도별 범위표를 바탕으로 15°·30°·45°·60°의 구종별 Elite·Average·Dead Zone을 HB×IVB 평면에 표시한다. 슬라이더 또는 자동 재생으로 팔각도에 따른 범위 변화를 비교할 수 있다. HB는 투수 시점이며 양수는 암사이드, 음수는 글러브사이드다.
+
 ## 데스크톱 VBA
 
 기존 Excel 매크로 수집기는 [`legacy/vba/README.md`](legacy/vba/README.md)에 분리해 보존했습니다. 이 경로는 GitHub Actions 수집기와 독립적입니다.

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KBO Arm Angle Movement Zones</title>
+  <link rel="stylesheet" href="movement-zones.css?v=20260830-1">
+</head>
+<body>
+  <main>
+    <nav><a href="../">← 홈</a></nav>
+    <header>
+      <p class="eyebrow">KBO PITCH DESIGN · PITCHER PERSPECTIVE</p>
+      <h1>Arm Angle Movement Zones</h1>
+      <p>팔각도와 구종에 따른 엘리트·평균·데드존 무브먼트 범위</p>
+    </header>
+
+    <section class="controls" aria-label="차트 설정">
+      <div class="angle-control">
+        <div class="control-heading">
+          <span>팔각도</span>
+          <strong id="angle-value">45°</strong>
+        </div>
+        <div class="angle-row">
+          <button id="play" class="play-button" type="button" aria-label="팔각도 자동 재생">▶</button>
+          <input id="angle" type="range" min="0" max="3" step="1" value="2" aria-label="팔각도">
+        </div>
+        <div class="angle-ticks" aria-hidden="true"><span>15°</span><span>30°</span><span>45°</span><span>60°</span></div>
+      </div>
+      <div>
+        <span class="control-label">구종</span>
+        <div id="pitch-tabs" class="pitch-tabs" role="tablist" aria-label="구종 선택"></div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="chart-card">
+        <div class="chart-heading">
+          <div>
+            <p class="eyebrow" id="chart-kicker">45° · CUTTER</p>
+            <h2 id="chart-title">Cutter Movement Map</h2>
+          </div>
+          <span>단위: inches</span>
+        </div>
+        <svg id="movement-chart" viewBox="0 0 760 680" role="img" aria-labelledby="svg-title svg-desc">
+          <title id="svg-title">팔각도별 구종 무브먼트 존</title>
+          <desc id="svg-desc">가로축은 투수 시점 수평 무브먼트, 세로축은 induced vertical break입니다.</desc>
+        </svg>
+      </div>
+
+      <aside class="side-panel">
+        <div class="legend" aria-label="범례">
+          <div><span class="swatch elite"></span><div><strong>Elite</strong><small>타자 대응이 가장 어려운 범위</small></div></div>
+          <div><span class="swatch average"></span><div><strong>Average</strong><small>리그 평균 수준의 범위</small></div></div>
+          <div><span class="swatch dead"></span><div><strong>Dead Zone</strong><small>타자에게 상대적으로 취약한 범위</small></div></div>
+        </div>
+        <div class="range-table-wrap">
+          <table>
+            <thead><tr><th>구분</th><th>IVB</th><th>HB</th></tr></thead>
+            <tbody id="range-table"></tbody>
+          </table>
+        </div>
+        <div class="reading-note">
+          <strong>읽는 법</strong>
+          <p>+HB는 암사이드, −HB는 글러브사이드입니다. 외곽선은 엑셀의 최솟값~최댓값을 나타내며 안쪽 선은 분포 형태를 보여주기 위한 보조선입니다.</p>
+        </div>
+      </aside>
+    </section>
+
+    <p class="method">제공된 팔각도별 범위표를 시각화했습니다. 15°의 Fastball·Sinker는 원자료에서 하나의 범위로 제시되어 동일하게 표시됩니다.</p>
+  </main>
+  <script src="movement-zones.js?v=20260830-1"></script>
+</body>
+</html>
