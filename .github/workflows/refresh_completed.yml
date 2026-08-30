@@ -1,0 +1,48 @@
+name: Historical Visual Baseball refresh
+
+on:
+  schedule:
+    # Every Monday 12:37 Asia/Seoul (UTC+9), after the daily incremental run.
+    - cron: "37 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Share the daily updater's lock so a full refresh cannot overwrite an
+# incremental update that is still producing the derived files.
+concurrency:
+  group: visualbaseball-daily-update
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --disable-pip-version-check -r requirements.txt
+      - run: python -m pytest
+        env:
+          PYTHONPATH: src
+      - name: Re-fetch every completed current-season game
+        run: python -m visualbaseball.cli --refresh-completed
+        env:
+          PYTHONPATH: src
+      - name: Rebuild all Pitch Arsenal seasons
+        run: |
+          for season in 2022 2023 2024 2025 2026; do
+            python -c "from pathlib import Path; from visualbaseball.pitch_arsenal import build_pitch_arsenal; build_pitch_arsenal(Path('.'), \${season})"
+          done
+        env:
+          PYTHONPATH: src
+      - run: |
+          git add data web/data exports/visualbaseball_savant_2026_latest.xlsx
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: refresh completed Visual Baseball games"
+          git push
