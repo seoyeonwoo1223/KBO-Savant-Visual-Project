@@ -98,6 +98,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "chore: update Visual Baseball data"
+          git pull --rebase origin master
           git push
       - name: Print failure diagnostics
         if: failure()
