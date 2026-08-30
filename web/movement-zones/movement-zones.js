@@ -31,7 +31,7 @@ const D={
     FF:['Fastball / Sinker',Z([-2,2],[18,23],null,'+18~22+'),Z([3,6],[14,17]),Z([7,10],[10,13])],
     FC:['Cutter',Z([0,3],[6,10]),Z([3,5],[3,6]),Z([6,8],[0,2])],
     GY:['Gyro Slider',Z([-1,2],[-5,-2]),Z([2,5],[-7,-4]),Z([6,9],[-10,-7])],
-    SW:['Sweeper',Z([-4,0],[-23,-18],null,'−18~−22+'),Z([-1,2],[-16,-13]),Z([3,6],[-12,-9])],
+    SW:['Sweeper',Z([-4,0],[-23,-18],null,'−18~−22+'),Z([-1,2],[-16,-13]),Z([3,6],[-10,-7])],
     CH:['Changeup',Z([-3,1],[17,22],null,'+17~21+'),Z([2,5],[13,16]),Z([6,9],[9,12])],
     CU:['Curveball',Z([-8,-5],[-16,-12]),Z([-4,-2],[-11,-8]),Z([1,3],[-7,-4])],
     SL:['Slurve',Z([-3,-1],[-14,-10]),Z([-1,1],[-10,-7]),Z([2,5],[-6,-3])]
@@ -50,7 +50,7 @@ const rangeTable=document.querySelector('#range-table'), playButton=document.que
 let selected='FC', timer=null;
 
 const fmt=n=>`${n>0?'+':''}${n}`.replace('-', '−');
-const rangeText=(range,label)=>label||`${fmt(range[0])}~${fmt(range[1])}`;
+const rangeText=(range,label)=>label||`${fmt(range[range[0] < 0 && range[1] < 0 ? 1 : 0])}~${fmt(range[range[0] < 0 && range[1] < 0 ? 0 : 1])}`;
 const sx=x=>92+(x+25)*(616/50), sy=y=>574-(y+20)*(520/45);
 const escapeHtml=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
