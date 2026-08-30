@@ -18,7 +18,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -29,7 +29,7 @@ jobs:
         env:
           PYTHONPATH: src
       - name: Re-fetch every completed current-season game
-        run: python -m visualbaseball.cli --refresh-completed
+        run: python -m visualbaseball.cli --refresh-completed --refresh-workers 3
         env:
           PYTHONPATH: src
       - name: Rebuild all Pitch Arsenal seasons
