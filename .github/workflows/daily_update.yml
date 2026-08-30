@@ -33,7 +33,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -75,7 +75,7 @@ jobs:
           if [ "${{ steps.blocking_backfill.outputs.required }}" = "true" ]; then
             python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --naver-workers 10
           elif [ -f .github/refresh-completed-request ]; then
-            python -m visualbaseball.cli --refresh-completed
+            python -m visualbaseball.cli --refresh-completed --refresh-workers 3
           else
             python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
           fi
