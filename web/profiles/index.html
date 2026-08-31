@@ -13,7 +13,7 @@
       <p class="eyebrow" id="profile-season">Visual Baseball ABS · KBO</p>
       <h1 id="player-name">선수 프로필</h1>
       <p id="bats"></p>
-      <div class="profile-options"><label>시즌<select id="profile-year" aria-label="프로필 시즌"></select></label><p id="meta">프로필을 불러오는 중입니다.</p></div>
+      <div class="profile-options"><label>시즌<select id="profile-year" aria-label="프로필 시즌"></select></label><p id="meta">프로필을 불러오는 중입니다.</p><button id="export-profile" class="export-button" type="button">프로필 이미지 저장</button></div>
     </header>
     <section class="profile-card" aria-label="Swing Take 프로필">
       <div class="score-line"><span class="score-label">Run Value</span><strong id="total-run-value">—</strong><span id="score-detail">위치·카운트 중립</span></div>
@@ -63,6 +63,7 @@
     </section>
     <p class="method-note">Run Value = Σ[Raw Run Value − 리그 평균 Run Value(볼카운트, 상대 위치)] · 양수일수록 타자에게 유리합니다.</p>
   </main>
-  <script src="profile.js?v=20260822-5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="profile.js?v=20260831-1"></script>
 </body>
 </html>
