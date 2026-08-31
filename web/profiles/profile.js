@@ -7,6 +7,8 @@ const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({ "&
 const params = new URLSearchParams(window.location.search);
 const playerId = params.get("player");
 const profileYearSelect = document.querySelector("#profile-year");
+const exportButton = document.querySelector("#export-profile");
+const profileExportArea = document.querySelector("#profile-export-area");
 const seasonParam = params.get("year") || "2026";
 const comparePlayerParam = params.get("comparePlayer");
 const compareYearParam = params.get("compareYear");
@@ -138,6 +140,36 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
   document.querySelector("#run-total").innerHTML = `<span>${formatSigned(swingTotal)} Swing Run</span><strong>${formatSigned(takeTotal)} Take Run</strong>`;
 };
 
+async function exportProfileImage() {
+  if (typeof html2canvas !== "function" || !playerId) {
+    document.querySelector("#meta").textContent = "이미지 저장 기능을 불러오지 못했습니다. 페이지를 새로고침해 주세요.";
+    return;
+  }
+  exportButton.disabled = true;
+  const originalLabel = exportButton.textContent;
+  exportButton.textContent = "이미지 생성 중…";
+  try {
+    await document.fonts?.ready;
+    const canvas = await html2canvas(profileExportArea, {
+      backgroundColor: "#f4f4f2",
+      scale: Math.max(2, window.devicePixelRatio || 1),
+      useCORS: true,
+      logging: false,
+      ignoreElements: element => element === exportButton || element.classList?.contains("zone-guide"),
+    });
+    const playerName = document.querySelector("#player-name").textContent.replace(/[\\/:*?"<>|]+/g, "_");
+    const link = document.createElement("a");
+    link.download = `${seasonParam}_${playerName}_swing-take.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  } catch {
+    document.querySelector("#meta").textContent = "프로필 이미지를 만들지 못했습니다. 잠시 후 다시 시도해 주세요.";
+  } finally {
+    exportButton.disabled = false;
+    exportButton.textContent = originalLabel;
+  }
+}
+
 const comparisonElements = {
   a: { player: document.querySelector("#compare-a-player"), list: document.querySelector("#compare-a-players"), year: document.querySelector("#compare-a-year") },
   b: { player: document.querySelector("#compare-b-player"), list: document.querySelector("#compare-b-players"), year: document.querySelector("#compare-b-year") },
@@ -226,3 +258,4 @@ loadProfile(seasonParam, playerId)
     document.querySelector("#meta").textContent = "해당 선수의 ABS 프로필을 찾을 수 없습니다. 선수 검색으로 돌아가 주세요.";
   });
 initializeComparison();
+exportButton.addEventListener("click", exportProfileImage);
