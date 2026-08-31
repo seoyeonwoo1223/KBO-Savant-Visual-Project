@@ -7,6 +7,7 @@ const matches = document.querySelector("#matches");
 const message = document.querySelector("#message");
 const profileSection = document.querySelector("#profile");
 const modeSelect = document.querySelector("#movement-mode");
+const exportButton = document.querySelector("#export-profile");
 const SVG_NS = "http://www.w3.org/2000/svg";
 const normalize = value => String(value || "").replace(/\s+/g, "").toLowerCase();
 const fmt = value => value == null ? "—" : Number(value).toFixed(1);
@@ -214,6 +215,37 @@ function showTooltip(event, pitch, horizontal, vertical) {
 
 function hideTooltip() { document.querySelector("#tooltip").hidden = true; }
 
+async function exportProfileImage() {
+  if (!currentProfile || typeof html2canvas !== "function") {
+    message.textContent = "이미지 저장 기능을 불러오지 못했습니다. 페이지를 새로고침해 주세요.";
+    return;
+  }
+  exportButton.disabled = true;
+  const originalLabel = exportButton.textContent;
+  exportButton.textContent = "이미지 생성 중…";
+  hideTooltip();
+  try {
+    await document.fonts?.ready;
+    const canvas = await html2canvas(profileSection, {
+      backgroundColor: "#f4f4f2",
+      scale: Math.max(2, window.devicePixelRatio || 1),
+      useCORS: true,
+      logging: false,
+      ignoreElements: element => element === exportButton || element.id === "tooltip",
+    });
+    const playerName = currentProfile.player.name.replace(/[\\/:*?"<>|]+/g, "_");
+    const link = document.createElement("a");
+    link.download = `${currentProfile.season}_${playerName}_pitch-arsenal.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  } catch {
+    message.textContent = "프로필 이미지를 만들지 못했습니다. 잠시 후 다시 시도해 주세요.";
+  } finally {
+    exportButton.disabled = false;
+    exportButton.textContent = originalLabel;
+  }
+}
+
 function renderTable() {
   const raw = modeSelect.value === "raw";
   document.querySelector("#pitch-table").innerHTML = currentProfile.pitch_types.map(pitch => {
@@ -239,3 +271,4 @@ yearSelect.addEventListener("change", () => {
 throwsSelect.addEventListener("change", handleSearch);
 searchForm.addEventListener("submit", handleSearch);
 modeSelect.addEventListener("change", () => { if (currentProfile) { renderMovement(); renderTable(); } });
+exportButton.addEventListener("click", exportProfileImage);
