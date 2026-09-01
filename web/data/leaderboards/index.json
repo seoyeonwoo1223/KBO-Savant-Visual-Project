@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "seasons": [
+    2026,
+    2025,
+    2024,
+    2023,
+    2022,
+    2021,
+    2020
+  ],
+  "availability": {
+    "2020": [
+      "fielding"
+    ],
+    "2021": [
+      "fielding"
+    ],
+    "2022": [
+      "fielding"
+    ],
+    "2023": [
+      "fielding"
+    ],
+    "2024": [
+      "fielding"
+    ],
+    "2025": [
+      "batting",
+      "batting-advanced",
+      "fielding",
+      "pitching",
+      "pitching-advanced",
+      "pitch-value"
+    ],
+    "2026": [
+      "batting",
+      "batting-advanced",
+      "fielding",
+      "pitching",
+      "pitching-advanced",
+      "pitch-value"
+    ]
+  }
+}
