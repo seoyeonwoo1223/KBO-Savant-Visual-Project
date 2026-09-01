@@ -266,7 +266,7 @@ function renderTable() {
   document.querySelector("#pitch-table").innerHTML = currentProfile.pitch_types.map(pitch => {
     const horizontal = movementHorizontal(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
-    return `<tr><td><span class="pitch-key"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td><td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td><td>${fmt(pitch.velocity_kmh?.average)} km/h</td><td>${fmt(vertical?.average)} in</td><td>${fmt(horizontal?.average)} in</td><td>${pitch.movement_n.toLocaleString()} / ${pitch.movement_total_n.toLocaleString()}</td></tr>`;
+    return `<tr><td><span class="pitch-key"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td><td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td><td>${fmt(pitch.velocity_kmh?.average)} km/h</td><td>${fmt(vertical?.average)} in</td><td>${fmt(horizontal?.average)} in</td></tr>`;
   }).join("");
 }
 
