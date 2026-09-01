@@ -18,7 +18,7 @@
 
 GitHub는 `.xlsx`를 셀 단위로 미리보기하지 않는 바이너리 파일로 취급합니다. 따라서 Excel은 저장소의 [`exports/`](exports/)에서 **Download raw file**로 내려받는 방식이며, 누락된 파일이 아닙니다. `web/`는 같은 데이터를 표와 무브먼트 산점도로 열람할 GitHub Pages 뷰어입니다. Pages를 한 번 활성화하면 아래 주소에서 볼 수 있습니다.
 
-`https://seoyeonwoo1223.github.io/KBO-Savant-Project/`
+`https://seoyeonwoo1223.github.io/KBO-Swing-Take-Project/`
 
 개인 저장소라면 저장소 권한이 있는 계정으로 로그인해야 Excel과 Pages 데이터를 볼 수 있습니다. 더 큰 분석이나 스프레드시트 작업에는 `web/data/movement.csv`를 내려받거나 Excel을 사용하면 됩니다.
 
