@@ -1,6 +1,6 @@
 const $ = selector => document.querySelector(selector);
 const state = { catalog:null, payload:null, dataset:null, sortKey:null, direction:-1 };
-const labels = { batting:"타격 · 기본", "batting-advanced":"타격 · 확장", fielding:"수비", pitching:"투수 · 기본", "pitching-advanced":"투수 · 확장", "pitch-value":"구종 가치" };
+const labels = { batting:"타격 · 기본", "batting-advanced":"타격 · 확장", fielding:"수비", pitching:"투수 · 기본", "pitching-advanced":"투수 · 확장", "pitch-value":"투구 지표" };
 const warDatasets = new Set(["batting", "pitching"]);
 const hiddenColumns = {
   batting: new Set(["whiff%", "chase%", "WPA", "RE24", "REW", "RC27", "OAA"]),
@@ -82,6 +82,10 @@ async function loadSeason(season) {
   const response=await fetch(`../data/leaderboards/${season}.json`);
   if(!response.ok) throw new Error("leaderboard data unavailable");
   state.payload=await response.json();
+  const notes=Array.isArray(state.payload.notes) ? state.payload.notes : [];
+  $("#source-note").textContent=notes.length
+    ? `${state.payload.as_of || season} 기준 · ${notes.join(" ")}`
+    : "제공된 시즌별 KBO 통계 자료를 기준으로 표시합니다. 빈 값은 —로 표기합니다.";
   $("#dataset-select").innerHTML=state.payload.datasets.map(item=>`<option value="${item.id}">${labels[item.id]||item.title}</option>`).join("");
   selectDataset($("#dataset-select").value);
 }
