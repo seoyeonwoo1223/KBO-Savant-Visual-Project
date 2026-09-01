@@ -2,6 +2,10 @@ const $ = selector => document.querySelector(selector);
 const state = { catalog:null, payload:null, dataset:null, sortKey:null, direction:-1 };
 const labels = { batting:"타격 · 기본", "batting-advanced":"타격 · 확장", fielding:"수비", pitching:"투수 · 기본", "pitching-advanced":"투수 · 확장", "pitch-value":"구종 가치" };
 const warDatasets = new Set(["batting", "pitching"]);
+const hiddenColumns = {
+  batting: new Set(["whiff%", "chase%", "WPA", "RE24", "REW", "RC27", "OAA"]),
+  "batting-advanced": new Set(["WPA", "RE24", "RC27", "REW", "whiff%", "chase%"]),
+};
 const normalize = value => String(value ?? "").replace(/\s+/g, "").toLowerCase();
 const isNumber = value => typeof value === "number" && Number.isFinite(value);
 
@@ -46,7 +50,7 @@ function filteredRows() {
 }
 
 function render() {
-  const columns = state.dataset.columns.filter(column => column.key !== "Year");
+  const columns = state.dataset.columns.filter(column => column.key !== "Year" && !hiddenColumns[state.dataset.id]?.has(column.key));
   const rows = filteredRows();
   const maximumWar = warDatasets.has(state.dataset.id)
     ? Math.max(1, ...state.dataset.rows.map(row => Math.abs(Number(row.WAR) || 0)))
