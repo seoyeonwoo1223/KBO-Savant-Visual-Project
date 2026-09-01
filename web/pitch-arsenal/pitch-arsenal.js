@@ -191,7 +191,7 @@ function renderMovement() {
   }
   for (let value = -30; value <= 30; value += 6) {
     svg.append(svgElement("line", {x1: bounds.left, x2: bounds.right, y1: y(value), y2: y(value), class: value === 0 ? "zero-line" : "grid-line"}));
-    const label = svgElement("text", {x: 58, y: y(value) + 4, "text-anchor": "end", class: "axis-text"}); label.textContent = value; svg.append(label);
+    const label = svgElement("text", {x: 58, y: y(value) + 4, "text-anchor": "end", class: "axis-text"}); label.textContent = formatMovement(value); svg.append(label);
   }
   const xTitle = svgElement("text", {x: 345, y: 665, "text-anchor": "middle", class: "axis-title"}); xTitle.textContent = `Horizontal Break (${movementView} view)`; svg.append(xTitle);
   const yTitle = svgElement("text", {x: 17, y: 325, transform: "rotate(-90 17 325)", "text-anchor": "middle", class: "axis-title"}); yTitle.textContent = "Induced Vertical Break"; svg.append(yTitle);
