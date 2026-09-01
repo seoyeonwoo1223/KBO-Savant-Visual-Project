@@ -27,7 +27,7 @@ function filteredRows() {
 }
 
 function render() {
-  const columns = state.dataset.columns;
+  const columns = state.dataset.columns.filter(column => column.key !== "Year");
   const rows = filteredRows();
   $("#table-title").textContent = `${state.payload.season} ${labels[state.dataset.id] || state.dataset.title}`;
   $("#row-count").textContent = `${rows.length.toLocaleString("ko-KR")}명`;
