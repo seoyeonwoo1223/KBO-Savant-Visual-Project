@@ -25,6 +25,12 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.045em; }
 #profile-meta { margin: 0; color: #666; font-size: .86rem; }
 .toolbar { display: flex; align-items: end; gap: 16px; padding: 11px 14px; border: 1px solid #d7d7d7; background: #fff; }
 .toolbar span { padding-bottom: 4px; color: #666; font-size: .78rem; }
+.pov-toggle { display: grid; gap: 5px; }
+.pov-label { color: #555; font-size: .76rem; font-weight: 700; }
+.pov-options { display: flex; }
+.pov-options button { height: 40px; padding: 0 10px; border-color: #bfc4c8; background: #fff; color: #555; font-size: .78rem; }
+.pov-options button + button { margin-left: -1px; }
+.pov-options button[aria-pressed="true"] { position: relative; z-index: 1; border-color: #14729a; background: #14729a; color: #fff; }
 .export-button { margin-left: auto; border-color: #303030; background: #303030; white-space: nowrap; }
 .export-button:hover { background: #555; }
 .export-button:disabled { cursor: wait; opacity: .65; }
@@ -72,6 +78,8 @@ th:first-child, td:first-child { text-align: left; }
   #profile-meta { margin-top: 8px; }
   .toolbar { display: block; }
   .toolbar span { display: block; margin-top: 7px; }
+  .pov-toggle { margin-top: 12px; }
+  .pov-options button { flex: 1; }
   .export-button { width: 100%; margin: 12px 0 0; }
   .arsenal-grid { grid-template-columns: 1fr; }
   .movement-panel { grid-column: auto; padding: 10px; }
