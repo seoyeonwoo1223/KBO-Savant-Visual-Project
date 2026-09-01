@@ -19,9 +19,6 @@ import pyarrow.parquet as pq
 from openpyxl import load_workbook
 
 SEASON = 2026
-# The source workbook does not include club or batting-side fields. Keep only
-# verified overrides here; every player name and profile payload comes from its
-# Pitches sheet, not from a hand-maintained profile list.
 PLAYER_METADATA = {
     "박준순": {"romanized_name": "Park Junsoon", "team": "두산 베어스", "bats": "Right"},
     "홍창기": {"romanized_name": "Hong Changki", "team": "LG 트윈스", "bats": "Left"},
@@ -29,7 +26,6 @@ PLAYER_METADATA = {
 PLATE_HALF_WIDTH_FT = 10 / 12  # ABS strike-zone half width used by Visual Baseball.
 GRID_STEP = 0.25
 MIN_LOCATION_CELL_PITCHES = 25
-# FanGraphs has used 300 pitches seen as an illustrative Swing/Take cutoff.
 MIN_PROFILE_PITCHES = 300
 REGION_ORDER = ("Heart", "Shadow", "Chase", "Waste")
 ACTIONS = ("Swing", "Take")
@@ -88,7 +84,6 @@ def _relative_location(row):
     px, pz, top, bottom = (_number(row.get(key)) for key in ("px", "pz", "sz_top", "sz_bottom"))
     if None in (px, pz, top, bottom) or top <= bottom:
         return None
-    # 0 is plate/zone centre and 1 is the nearest strike-zone edge.
     return px / PLATE_HALF_WIDTH_FT, (pz - (top + bottom) / 2) / ((top - bottom) / 2)
 
 
@@ -119,7 +114,6 @@ def _eligible(row):
     if row.get("parse_status") != "ok" or _action(row) is None or _relative_location(row) is None:
         return False
     before, after = _state(row, "before"), _state(row, "after")
-    # Three outs is only legal as an after-state; it is an RE of zero.
     return bool(before and after and before[1] < 3)
 
 
@@ -271,9 +265,6 @@ def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None
         name = str(profile_rows[0]["batter_name"])
         player = {"id": batter_id, "name": name, "romanized_name": "", "team": "—", "bats": "Unknown"} | PLAYER_METADATA.get(name, {})
         profile_data = _summary(profile_rows, player, season, counts, dict(excluded), source_metadata, league)
-        # Keep Excel as the sole source. Pages publishes only the pitch fields
-        # required to aggregate the requested player in the browser; it does
-        # not prebuild a completed profile for every batter.
         pitch_payload = {
             "player": player,
             "minimum_pitches": MIN_PROFILE_PITCHES,

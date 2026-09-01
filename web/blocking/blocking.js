@@ -52,9 +52,6 @@ function renderTable() {
   }));
 }
 
-// Front-facing pitch coordinates. The source grid is 6 inches wide by 9 inches high.
-// Diagram reference: strike zone ±10 in / 18–42 in; Heart ±6.7 in / 22–38 in;
-// Chase boundary ±13.3 in / 14–46 in; Waste begins outside that boundary.
 const MAP = { left: 155, top: 42, width: 420, height: 504, xMin: -24, xMax: 24, zMin: 0, zMax: 60 };
 const sx = inches => MAP.left + (inches - MAP.xMin) / (MAP.xMax - MAP.xMin) * MAP.width;
 const sy = inches => MAP.top + (MAP.zMax - inches) / (MAP.zMax - MAP.zMin) * MAP.height;
@@ -64,7 +61,6 @@ function rectFor(x0, z0, x1, z1) {
 }
 
 function gridCell(x, z) {
-  // x bins: -18..18 inches, z bins: 0..54 inches.
   return rectFor(x * 6, z * 9, (x + 1) * 6, (z + 1) * 9);
 }
 

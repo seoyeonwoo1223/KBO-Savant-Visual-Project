@@ -84,9 +84,6 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
         for pa in half.get("pas") or []:
             pa_counter += 1; pa_id = f"{game_id}-{pa_counter:03d}"; state.balls = state.strikes = 0
             if state.outs >= 3:
-                # Some source payloads append a duplicate PA after the third out.
-                # Retain that limitation explicitly, but do not manufacture an
-                # impossible pitch state with three outs before a pitch.
                 snapshot = state.snapshot(); event_seq += 1
                 events.append(_event(game, event_seq, pa_id, "state_adjustment", "SOURCE_POST_THIRD_OUT", "Source included a plate appearance after three outs; its pitches were not represented.", pa, snapshot, snapshot, 0, "unknown"))
                 unknown += 1
@@ -119,8 +116,6 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
                 state.balls = state.strikes = 0
             after = state.snapshot(); event_seq += 1
             events.append(_event(game, event_seq, pa_id, "plate_appearance_result", str(pa.get("type", "")), str(pa.get("result", "")), pa, after if pitch_list else terminal_before, after, 0 if pitch_list else runs, "informational" if pitch_list and pa_status == "ok" else pa_status))
-            # A catcher can enter while batting, then receives the following
-            # half-inning.  The VB substitution object supplies the player ID.
             for sub in pa.get("subs") or []:
                 if _is_catcher(sub.get("pos")):
                     active_catchers[offense] = {"id": str(sub.get("toId", "")), "name": str(sub.get("toName", "")), "source": "vb_substitution"}

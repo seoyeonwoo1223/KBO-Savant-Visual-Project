@@ -132,8 +132,6 @@ class NaverSportsClient:
         raise RuntimeError(f"Naver GET failed after retries: {path}: {error}") from error
 
     def fetch_enrichment(self, game_id: str, season: int, innings: int) -> NaverEnrichment:
-        # Naver's KBO game ID is the VB 13-character ID plus the season.  The
-        # schedule endpoint can be used to audit this convention when needed.
         naver_game_id = f"{game_id}{season}"
         record_path = f"/schedule/games/{naver_game_id}/record"
         record = self.get_json(record_path)

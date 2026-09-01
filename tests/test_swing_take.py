@@ -41,14 +41,11 @@ def test_swing_take_contract_cases(tmp_path):
     processed = tmp_path / "data" / "processed"
     processed.mkdir(parents=True)
     rows = [
-        # Heart take, Chase take, Chase swing, then a two-strike foul that
-        # intentionally leaves the 2-2 state unchanged.
         pitch(1, "B", 0, 0, 1, 0, 0.0, 2.5),
         pitch(2, "B", 1, 0, 2, 0, 1.5, 2.5),
         pitch(3, "F", 2, 0, 2, 1, 1.5, 2.5),
         pitch(4, "S", 2, 1, 2, 2, 1.0, 2.5),
         pitch(5, "F", 2, 2, 2, 2, 1.0, 2.5),
-        # The final pitch ends the inning, so its next RE288 is zero.
         pitch(6, "S", 2, 2, 0, 0, 0.0, 2.5, outs_after=3),
     ]
     pq.write_table(pa.Table.from_pylist(rows), processed / "pitches.parquet")

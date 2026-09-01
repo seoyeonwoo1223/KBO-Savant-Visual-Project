@@ -31,8 +31,6 @@ class VisualBaseballClient:
                 if response.status_code == 429 or response.status_code >= 500:
                     raise requests.HTTPError(f"transient HTTP {response.status_code}", response=response)
                 response.raise_for_status()
-                # The API omits a reliable charset. Decode its UTF-8 bytes explicitly so
-                # Korean final-status text (종료) is not mojibake and skipped as non-final.
                 payload = json.loads(response.content.decode("utf-8-sig"))
                 time.sleep(1)
                 return payload

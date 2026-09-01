@@ -13,7 +13,6 @@ on:
       - ".github/workflows/daily_update.yml"
       - ".github/refresh-completed-request"
   schedule:
-    # 12:07 Asia/Seoul (UTC+9)
     - cron: "7 3 * * *"
   workflow_dispatch:
     inputs:
@@ -81,7 +80,6 @@ jobs:
           fi
         env:
           PYTHONPATH: src
-      # Rebuild every season after a Pitch Arsenal calculation change.
       - name: Rebuild all Pitch Arsenal seasons
         run: |
           for season in 2022 2023 2024 2025 2026; do

@@ -120,7 +120,6 @@ def _pitch_code(row: dict) -> str:
 def _throws(release_x: list[float]) -> str:
     if not release_x:
         return ""
-    # Visual Baseball uses catcher-view coordinates: RHP releases are negative x0.
     return "R" if median(release_x) < 0 else "L"
 
 

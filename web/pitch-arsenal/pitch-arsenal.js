@@ -181,7 +181,6 @@ function renderVelocity() {
 function renderMovement() {
   const svg = document.querySelector("#movement-chart");
   svg.querySelectorAll(":scope > :not(title):not(desc)").forEach(element => element.remove());
-  // The plotting area is square, so every inch has identical x/y length on screen.
   const bounds = {left: 70, right: 620, top: 50, bottom: 600, xMin: -30, xMax: 30, yMin: -30, yMax: 30};
   const x = value => bounds.left + (value - bounds.xMin) / (bounds.xMax - bounds.xMin) * (bounds.right - bounds.left);
   const y = value => bounds.bottom - (value - bounds.yMin) / (bounds.yMax - bounds.yMin) * (bounds.bottom - bounds.top);
@@ -201,7 +200,6 @@ function renderMovement() {
   const raw = modeSelect.value === "raw";
   const visualOpacity = usage => {
     const scale = Math.min(1, Math.max(0, Number(usage) || 0) / 10);
-    // A quadratic curve keeps rare pitches clearly subordinate until they approach 10%.
     const emphasis = scale * scale;
     return {
       fill: 0.02 + 0.25 * emphasis,

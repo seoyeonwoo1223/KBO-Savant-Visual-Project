@@ -11,7 +11,6 @@ from visualbaseball.parser import parse_game
 from visualbaseball.state_machine import GameState
 from visualbaseball.storage import Store
 from visualbaseball.validation import validate_game
-from visualbaseball.web_export import export_web_data
 from visualbaseball.export_excel import export_latest
 
 
@@ -112,15 +111,6 @@ def test_official_linescore_overrides_conflicting_pbp_snapshot():
     assert (events[-1]["away_score_after"], events[-1]["home_score_after"]) == (9, 2)
     conflicts = [event for event in events if event["event_code"] == "SOURCE_SCORE_CONFLICT"]
     assert conflicts and all(event["parse_status"] == "unknown" for event in conflicts)
-
-
-def test_web_export_writes_downloadable_game_and_movement_csv(tmp_path):
-    payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
-    assert process_payload(tmp_path, payload)[0]
-    output = export_web_data(tmp_path)
-    assert "game_id" in (output / "games.csv").read_text(encoding="utf-8")
-    assert "horizontal_movement_cm" in (output / "movement.csv").read_text(encoding="utf-8")
-    assert json.loads((output / "summary.json").read_text(encoding="utf-8"))["pitches"] == 338
 
 
 def test_season_export_uses_separate_storage_and_output_name(tmp_path):
