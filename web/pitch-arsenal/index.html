@@ -35,6 +35,13 @@
       </div>
       <div class="toolbar">
         <label>무브먼트<select id="movement-mode"><option value="adjusted">구장 보정</option><option value="raw">원측정값</option></select></label>
+        <div class="pov-toggle" role="group" aria-label="무브먼트 시점">
+          <span class="pov-label">시점</span>
+          <div class="pov-options">
+            <button type="button" data-movement-view="pitcher" aria-pressed="true">Pitcher’s POV</button>
+            <button type="button" data-movement-view="catcher" aria-pressed="false">Catcher’s POV</button>
+          </div>
+        </div>
         <span id="coverage"></span>
         <button id="export-profile" class="export-button" type="button">프로필 이미지 저장</button>
       </div>
@@ -42,7 +49,7 @@
         <section class="panel frequency-panel"><h3>Pitch Type Frequency</h3><div id="frequency"></div></section>
         <section class="panel velocity-panel"><h3>Speed</h3><div id="velocity"></div></section>
         <section class="panel movement-panel">
-          <div class="panel-heading"><h3>Pitch Movement</h3><span>투수 시점 · inches</span></div>
+          <div class="panel-heading"><h3>Pitch Movement</h3><span id="movement-view-label">투수 시점 · inches</span></div>
           <svg id="movement-chart" viewBox="0 0 680 680" role="img" aria-labelledby="movement-title movement-desc">
             <title id="movement-title">구종별 수평 무브먼트와 IVB</title>
             <desc id="movement-desc">점은 평균이고 타원은 중앙 75퍼센트 범위이며, 구사율 10% 미만 구종은 옅게 표시합니다.</desc>
@@ -61,6 +68,6 @@
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="pitch-arsenal.js?v=20260831-1"></script>
+  <script src="pitch-arsenal.js?v=20260901-1"></script>
 </body>
 </html>
