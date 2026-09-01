@@ -7,6 +7,7 @@ const matches = document.querySelector("#matches");
 const message = document.querySelector("#message");
 const profileSection = document.querySelector("#profile");
 const modeSelect = document.querySelector("#movement-mode");
+const movementViewButtons = document.querySelectorAll("[data-movement-view]");
 const exportButton = document.querySelector("#export-profile");
 const SVG_NS = "http://www.w3.org/2000/svg";
 const normalize = value => String(value || "").replace(/\s+/g, "").toLowerCase();
@@ -16,6 +17,7 @@ const escapeHtml = value => String(value).replace(/[&<>'"]/g, character => ({"&"
 let seasonIndex = null;
 let currentProfile = null;
 let seasonLoadPromise = null;
+let movementView = "pitcher";
 
 function svgElement(name, attributes = {}) {
   const element = document.createElementNS(SVG_NS, name);
@@ -31,6 +33,19 @@ function toPitcherView(horizontal) {
     low_75: -horizontal.high_75,
     high_75: -horizontal.low_75,
   };
+}
+
+function movementHorizontal(horizontal) {
+  return movementView === "pitcher" ? toPitcherView(horizontal) : horizontal;
+}
+
+function renderMovementViewControl() {
+  const isPitcherView = movementView === "pitcher";
+  movementViewButtons.forEach(button => {
+    const selected = button.dataset.movementView === movementView;
+    button.setAttribute("aria-pressed", String(selected));
+  });
+  document.querySelector("#movement-view-label").textContent = `${isPitcherView ? "투수" : "포수"} 시점 · inches`;
 }
 
 async function loadSeason(year) {
@@ -163,7 +178,7 @@ function renderMovement() {
     svg.append(svgElement("line", {x1: bounds.left, x2: bounds.right, y1: y(value), y2: y(value), class: value === 0 ? "zero-line" : "grid-line"}));
     const label = svgElement("text", {x: 58, y: y(value) + 4, "text-anchor": "end", class: "axis-text"}); label.textContent = value; svg.append(label);
   }
-  const xTitle = svgElement("text", {x: 345, y: 665, "text-anchor": "middle", class: "axis-title"}); xTitle.textContent = "Horizontal Break (pitcher view, in.)"; svg.append(xTitle);
+  const xTitle = svgElement("text", {x: 345, y: 665, "text-anchor": "middle", class: "axis-title"}); xTitle.textContent = `Horizontal Break (${movementView} view, in.)`; svg.append(xTitle);
   const yTitle = svgElement("text", {x: 17, y: 325, transform: "rotate(-90 17 325)", "text-anchor": "middle", class: "axis-title"}); yTitle.textContent = "Induced Vertical Break (in.)"; svg.append(yTitle);
 
   const raw = modeSelect.value === "raw";
@@ -178,7 +193,7 @@ function renderMovement() {
     };
   };
   currentProfile.pitch_types.forEach(pitch => {
-    const horizontal = toPitcherView(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
+    const horizontal = movementHorizontal(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
     if (!horizontal || !vertical) return;
     const opacity = visualOpacity(pitch.usage);
@@ -249,7 +264,7 @@ async function exportProfileImage() {
 function renderTable() {
   const raw = modeSelect.value === "raw";
   document.querySelector("#pitch-table").innerHTML = currentProfile.pitch_types.map(pitch => {
-    const horizontal = toPitcherView(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
+    const horizontal = movementHorizontal(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
     return `<tr><td><span class="pitch-key"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td><td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td><td>${fmt(pitch.velocity_kmh?.average)} km/h</td><td>${fmt(vertical?.average)} in</td><td>${fmt(horizontal?.average)} in</td><td>${pitch.movement_n.toLocaleString()} / ${pitch.movement_total_n.toLocaleString()}</td></tr>`;
   }).join("");
@@ -271,4 +286,10 @@ yearSelect.addEventListener("change", () => {
 throwsSelect.addEventListener("change", handleSearch);
 searchForm.addEventListener("submit", handleSearch);
 modeSelect.addEventListener("change", () => { if (currentProfile) { renderMovement(); renderTable(); } });
+movementViewButtons.forEach(button => button.addEventListener("click", () => {
+  movementView = button.dataset.movementView;
+  renderMovementViewControl();
+  if (currentProfile) { renderMovement(); renderTable(); }
+}));
+renderMovementViewControl();
 exportButton.addEventListener("click", exportProfileImage);
