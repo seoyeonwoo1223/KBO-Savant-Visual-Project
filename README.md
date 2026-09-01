@@ -50,6 +50,8 @@ python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
 
 PF는 주 사용 홈구장을 기준으로 `(해당 팀들의 홈 경기 양 팀 득점/경기) ÷ (같은 팀들의 원정 경기 양 팀 득점/경기)`로 계산한다. 잠실은 LG·두산을 합산하고, 문학은 리더보드의 인천 항목에 연결한다. 사용한 기준일·누적 합계·출처는 `data/leaderboards/source/2026_inputs.json`에 기록한다.
 
+2026 라이브 리더보드는 `PYTHONPATH=src python -m visualbaseball.leaderboard_vb`로 Visual Baseball PBP를 직접 재집계한다. 타자는 200 PA, 투수는 50 IP 이상만 싣는다. 원자료에서 정확히 복원할 수 없는 도루·도실·자책점·승패·세이브·홀드와 타구 유형은 제외한다. `WAR*`는 타자의 수비·주루를 제외한 공격·포지션 보정 추정치와 투수의 FIP 기반 추정치다. 집계 기준일을 검증할 수 없는 2026 OAA 수비 자료는 리더보드에서 제외한다.
+
 ### 포수·폭투·포일 보강
 
 `Pitches`에는 VB의 `y0`와 기존 운동학 필드(`x0`, `z0`, `vx0`…`az`)를 그대로 보존한다. Naver Sports 릴레이의 이닝별 투구 ID를 VB의 이닝·공수·타자·투수·투구 순번에 결합해 `catcher_id`, `catcher_name`, `is_wild_pitch`, `is_passed_ball`, `naver_pitch_id`를 추가한다. `naver_match_status=unavailable` 또는 `unmatched`는 **0이 아니라 미확인**이다.

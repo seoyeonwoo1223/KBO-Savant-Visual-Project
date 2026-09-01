@@ -32,7 +32,7 @@ td.null { color:#a2ada6; }
 .war-cell { background:var(--war-color); font-weight:700; }
 .status { margin:0; padding:28px; color:var(--muted); text-align:center; }
 .status:empty { display:none; }
-.source-note { margin:12px 2px 0; color:var(--muted); font-size:.78rem; }
+.source-note { margin:12px 2px 0; color:var(--muted); font-size:.78rem; line-height:1.65; }
 @media (max-width:760px) {
   .leaderboard-page { width:min(100% - 20px, 1500px); padding-top:18px; }
   header { margin:30px 2px 18px; }
