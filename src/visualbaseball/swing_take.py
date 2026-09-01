@@ -211,8 +211,13 @@ PROFILE_PAGE = """<!doctype html>
 <body data-profile=\"{slug}\"><main><p class=\"back\"><a href=\"../index.html\">← 선수 선택</a></p><header class=\"profile-header\"><p class=\"eyebrow\">Visual Baseball ABS · 2026 KBO</p><h1 id=\"player-name\">{name}</h1><p id=\"bats\"></p><p id=\"meta\">프로필을 불러오는 중입니다.</p></header><section class=\"profile-card\" aria-label=\"Swing Take 프로필\"><div class=\"score-line\"><span class=\"score-label\">Decision Run</span><strong id=\"total-decision-run\">—</strong><span id=\"score-detail\">위치·카운트 중립</span></div><div class=\"profile-dashboard\"><section class=\"zone-panel\" aria-labelledby=\"zone-title\"><h2 id=\"zone-title\">Strike Zone</h2><div class=\"zone-visual\" aria-label=\"Heart, Shadow, Chase, Waste 구역과 스트라이크존\"><div class=\"zone-waste\"></div><div class=\"zone-chase\"></div><div class=\"zone-shadow\"></div><div class=\"zone-heart\"></div><div class=\"strike-zone\" aria-label=\"Strike Zone\"></div></div><p class=\"zone-key\"><i></i>Strike Zone</p><p class=\"zone-note\">직사각형 상대 거리 기준 · Heart 0–66.7% · Shadow 66.7–133.3% · Chase 133.3–200%</p></section><section class=\"regions-panel\" aria-labelledby=\"regions-title\"><div class=\"panel-heading\"><h2 id=\"regions-title\">Zone Decisions</h2><p id=\"pitch-total\"></p></div><div class=\"region-columns\" aria-hidden=\"true\"><span></span><span>Pitch<br>Frequency</span><span class=\"split-head\"><span>Swing</span><span>Take</span></span><span>Decision Run</span></div><div id=\"regions\" class=\"region-list\"></div><div class=\"decision-legend\"><span class=\"swing-key\">■</span> Swing Decision Run <span class=\"take-key\">■</span> Take Decision Run</div></section></div></section><p class=\"method-note\">Decision Run은 각 투구의 Raw Run Value에서 같은 볼카운트·상대 위치의 리그 평균을 뺀 값입니다. 타자 기준으로 양수일수록 좋습니다.</p></main><script src=\"profile.js\"></script></body></html>\n"""
 
 
-def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None = None) -> tuple[int, int]:
-    """Build profiles from the published Excel workbook, never a parallel raw input."""
+def build_decision_pitches(
+    root: Path,
+    season: int = SEASON,
+    excel_source: Path | None = None,
+    output_path: Path | None = None,
+) -> tuple[list[dict], list[dict], dict, Counter, dict, dict]:
+    """Build a season's RE288 pitch table without requiring profile output."""
     source = excel_source or root / "data" / "processed" / "pitches.parquet"
     rows = _excel_rows(source, season) if excel_source else [
         dict(row) for row in pq.read_table(source).to_pylist() if row.get("season") == season
@@ -246,9 +251,20 @@ def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None
         x, z = row["_relative_location"]; key = (row["balls_before"], row["strikes_before"], *_cell(x, z))
         row.update({"x_relative": x, "z_relative": z, "attack_region": _region(x, z), "decision_type": _action(row), "decision_run": row["raw_run_value"] - baseline[key], "location_count_baseline": baseline[key]})
         output_rows.append({key: value for key, value in row.items() if not key.startswith("_")})
-    if season == SEASON:
-        pq.write_table(pa.Table.from_pylist(output_rows), processed / "decision_pitches.parquet")
+    output_path = output_path or processed / (
+        "decision_pitches.parquet" if season == SEASON else f"decision_pitches_{season}.parquet"
+    )
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    pq.write_table(pa.Table.from_pylist(output_rows), output_path)
     league = _league_action_rates(valued)
+    return output_rows, valued, counts, excluded, source_metadata, league
+
+
+def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None = None) -> tuple[int, int]:
+    """Build profiles from the published Excel workbook, never a parallel raw input."""
+    output_rows, valued, counts, excluded, source_metadata, league = build_decision_pitches(
+        root, season, excel_source
+    )
     output = root / "web" / "data" / "swing_take" / str(season)
     output.mkdir(parents=True, exist_ok=True)
     pitch_output = output / "players"; pitch_output.mkdir(parents=True, exist_ok=True)
