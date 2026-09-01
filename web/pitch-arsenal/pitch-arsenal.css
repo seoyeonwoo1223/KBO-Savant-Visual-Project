@@ -57,6 +57,7 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.045em; }
 .zero-line { stroke: #aaa; stroke-width: 1.4; }
 .axis-text { fill: #555; font-size: 13px; }
 .axis-title { fill: #222; font-size: 14px; font-weight: 700; }
+.axis-direction { fill: #555; font-size: 12px; font-weight: 700; letter-spacing: .04em; }
 .movement-ellipse { cursor: pointer; transition: opacity .15s, stroke-width .15s; }
 .movement-ellipse:hover, .movement-ellipse:focus { opacity: 1; stroke-width: 5; outline: none; }
 .tooltip { position: absolute; z-index: 4; width: min(280px, calc(100% - 30px)); padding: 13px 15px; border: 1px solid #333; background: rgba(255,255,255,.97); box-shadow: 0 5px 18px #0002; font-size: .78rem; line-height: 1.45; pointer-events: none; }
