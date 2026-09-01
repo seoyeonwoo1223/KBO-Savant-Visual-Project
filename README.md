@@ -9,6 +9,7 @@
 | `src/visualbaseball/` | 현재 사용 중인 Python 수집기와 검증·내보내기 코드 |
 | `data/raw/` | Visual Baseball 게임별 원본 PBP JSON 및 `raw/naver/`의 정규화된 Naver 릴레이 조인 캐시 |
 | `data/processed/` | 신뢰 가능한 분석 원본: `games`, `events`, `pitches` Parquet |
+| `data/leaderboards/source/` | 2026 리더보드 계산 원본, 리그 상수, PF 산출 입력 |
 | `exports/visualbaseball_savant_2026_latest.xlsx` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
 | `web/` | GitHub Pages에서 리더보드와 피치 트래킹 시각화를 제공하는 정적 뷰어 |
 | `web/blocking/` | 실험적 KBO Catcher Blocks Above Average 리더보드·위치 맵 |
@@ -42,6 +43,12 @@ python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
 ```
 
 이 명령은 `seasons/2025/data/`에 2025 수집 상태를 저장하고, `exports/visualbaseball_savant_2025_latest.xlsx`를 만듭니다.
+
+### 2026 리더보드 계산 원본
+
+`data/leaderboards/source/constants.xlsx`는 2026 KBO 리그 누적 상수와 VB 경기 결과로 계산한 구장 PF를 보관한다. `2026_leaderboard.xlsx`에는 이 상수 시트들을 숨김 시트로 통합했으며 외부 Excel 링크는 없다. 따라서 로컬 파일 경로나 `STATBASE/KBO리그/정규시즌/상수.xlsx` 없이도 수식을 다시 계산할 수 있다.
+
+PF는 주 사용 홈구장을 기준으로 `(해당 팀들의 홈 경기 양 팀 득점/경기) ÷ (같은 팀들의 원정 경기 양 팀 득점/경기)`로 계산한다. 잠실은 LG·두산을 합산하고, 문학은 리더보드의 인천 항목에 연결한다. 사용한 기준일·누적 합계·출처는 `data/leaderboards/source/2026_inputs.json`에 기록한다.
 
 ### 포수·폭투·포일 보강
 

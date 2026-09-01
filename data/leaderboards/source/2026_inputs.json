@@ -1,0 +1,57 @@
+{
+  "season": 2026,
+  "as_of": "2026-08-30",
+  "games": 576,
+  "park_factor_method": "(home team runs scored + allowed per home game) / (same teams' runs scored + allowed per away game)",
+  "park_factors": {
+    "잠실": 0.871842,
+    "고척": 0.931727,
+    "인천": 0.943387,
+    "수원": 1.069855,
+    "대전": 1.170772,
+    "광주": 0.919389,
+    "대구": 1.055356,
+    "사직": 1.163773,
+    "창원": 0.968492
+  },
+  "league_batting": {
+    "PA": 45514,
+    "AB": 39688,
+    "R": 5900,
+    "H": 10689,
+    "2B": 1831,
+    "3B": 156,
+    "HR": 1090,
+    "SB": 744,
+    "CS": 234,
+    "BB": 4303,
+    "HBP": 681,
+    "IB": 118,
+    "GDP": 851,
+    "SF": 357
+  },
+  "league_pitching": {
+    "GS": 1152,
+    "IP": 10210,
+    "ER": 5323,
+    "RA": 5900,
+    "TBF": 45514,
+    "H": 10689,
+    "2B": 1831,
+    "3B": 156,
+    "HR": 1090,
+    "BB": 4303,
+    "HBP": 681,
+    "IB": 118,
+    "K": 8789,
+    "BIP": 30166
+  },
+  "sources": {
+    "park_factors": "exports/visualbaseball_savant_2026_latest.xlsx",
+    "kbo_team_batting": "https://www.koreabaseball.com/Record/Team/Hitter/Basic1.aspx",
+    "kbo_team_batting_detail": "https://www.koreabaseball.com/Record/Team/Hitter/Basic2.aspx",
+    "kbo_team_pitching": "https://www.koreabaseball.com/Record/Team/Pitcher/Basic1.aspx",
+    "kbo_team_pitching_detail": "https://www.koreabaseball.com/Record/Team/Pitcher/Basic2.aspx",
+    "kbo_team_running": "https://www.koreabaseball.com/Record/Team/Runner/Basic.aspx"
+  }
+}
