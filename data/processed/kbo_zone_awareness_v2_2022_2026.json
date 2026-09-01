@@ -1,0 +1,228 @@
+{
+  "schema_version": 2,
+  "seasons": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "season_summaries": [
+    {
+      "schema_version": 2,
+      "season": 2022,
+      "source": "data/processed/decision_pitches_2022.parquet",
+      "pitches": 214637,
+      "batters": 279,
+      "qualified_batters": 163,
+      "minimum_pitches": 300,
+      "model": {
+        "model": "Staged HistGradientBoosting outcome tree",
+        "tree": {
+          "swing": "Whiff / Contact; Contact -> Foul / InPlay",
+          "take": "Ball / CalledStrike / HBP",
+          "terminal_value": "Separate expected RE288 Run Value model for all six outcomes"
+        },
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before",
+          "outs_before",
+          "base_state_code_before",
+          "velocity_kmh",
+          "horizontal_movement_cm",
+          "vertical_movement_cm",
+          "release_height_cm",
+          "drop_angle",
+          "pitch_type",
+          "batter_stance",
+          "stadium"
+        ],
+        "branch_samples": {
+          "Whiff": 21427,
+          "Foul": 37693,
+          "InPlay": 39451,
+          "Ball": 78208,
+          "CalledStrike": 37143,
+          "HBP": 715
+        }
+      },
+      "excluded": {},
+      "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
+    },
+    {
+      "schema_version": 2,
+      "season": 2023,
+      "source": "data/processed/decision_pitches_2023.parquet",
+      "pitches": 215392,
+      "batters": 293,
+      "qualified_batters": 173,
+      "minimum_pitches": 300,
+      "model": {
+        "model": "Staged HistGradientBoosting outcome tree",
+        "tree": {
+          "swing": "Whiff / Contact; Contact -> Foul / InPlay",
+          "take": "Ball / CalledStrike / HBP",
+          "terminal_value": "Separate expected RE288 Run Value model for all six outcomes"
+        },
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before",
+          "outs_before",
+          "base_state_code_before",
+          "velocity_kmh",
+          "horizontal_movement_cm",
+          "vertical_movement_cm",
+          "release_height_cm",
+          "drop_angle",
+          "pitch_type",
+          "batter_stance",
+          "stadium"
+        ],
+        "branch_samples": {
+          "Whiff": 19858,
+          "Foul": 37303,
+          "InPlay": 39658,
+          "Ball": 79890,
+          "CalledStrike": 38001,
+          "HBP": 682
+        }
+      },
+      "excluded": {},
+      "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
+    },
+    {
+      "schema_version": 2,
+      "season": 2024,
+      "source": "data/processed/decision_pitches_2024.parquet",
+      "pitches": 222225,
+      "batters": 298,
+      "qualified_batters": 155,
+      "minimum_pitches": 300,
+      "model": {
+        "model": "Staged HistGradientBoosting outcome tree",
+        "tree": {
+          "swing": "Whiff / Contact; Contact -> Foul / InPlay",
+          "take": "Ball / CalledStrike / HBP",
+          "terminal_value": "Separate expected RE288 Run Value model for all six outcomes"
+        },
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before",
+          "outs_before",
+          "base_state_code_before",
+          "velocity_kmh",
+          "horizontal_movement_cm",
+          "vertical_movement_cm",
+          "release_height_cm",
+          "drop_angle",
+          "pitch_type",
+          "batter_stance",
+          "stadium"
+        ],
+        "branch_samples": {
+          "Whiff": 21731,
+          "Foul": 39156,
+          "InPlay": 40226,
+          "Ball": 81386,
+          "CalledStrike": 38945,
+          "HBP": 781
+        }
+      },
+      "excluded": {},
+      "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
+    },
+    {
+      "schema_version": 2,
+      "season": 2025,
+      "source": "data/processed/decision_pitches_2025.parquet",
+      "pitches": 217623,
+      "batters": 299,
+      "qualified_batters": 171,
+      "minimum_pitches": 300,
+      "model": {
+        "model": "Staged HistGradientBoosting outcome tree",
+        "tree": {
+          "swing": "Whiff / Contact; Contact -> Foul / InPlay",
+          "take": "Ball / CalledStrike / HBP",
+          "terminal_value": "Separate expected RE288 Run Value model for all six outcomes"
+        },
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before",
+          "outs_before",
+          "base_state_code_before",
+          "velocity_kmh",
+          "horizontal_movement_cm",
+          "vertical_movement_cm",
+          "release_height_cm",
+          "drop_angle",
+          "pitch_type",
+          "batter_stance",
+          "stadium"
+        ],
+        "branch_samples": {
+          "Whiff": 21613,
+          "Foul": 37669,
+          "InPlay": 39030,
+          "Ball": 79258,
+          "CalledStrike": 39247,
+          "HBP": 806
+        }
+      },
+      "excluded": {},
+      "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
+    },
+    {
+      "schema_version": 2,
+      "season": 2026,
+      "source": "data/processed/decision_pitches.parquet",
+      "pitches": 177272,
+      "batters": 280,
+      "qualified_batters": 159,
+      "minimum_pitches": 300,
+      "model": {
+        "model": "Staged HistGradientBoosting outcome tree",
+        "tree": {
+          "swing": "Whiff / Contact; Contact -> Foul / InPlay",
+          "take": "Ball / CalledStrike / HBP",
+          "terminal_value": "Separate expected RE288 Run Value model for all six outcomes"
+        },
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before",
+          "outs_before",
+          "base_state_code_before",
+          "velocity_kmh",
+          "horizontal_movement_cm",
+          "vertical_movement_cm",
+          "release_height_cm",
+          "drop_angle",
+          "pitch_type",
+          "batter_stance",
+          "stadium"
+        ],
+        "branch_samples": {
+          "Whiff": 17330,
+          "Foul": 30087,
+          "InPlay": 31715,
+          "Ball": 65320,
+          "CalledStrike": 32139,
+          "HBP": 681
+        }
+      },
+      "excluded": {},
+      "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
+    }
+  ],
+  "player_seasons": 1449
+}

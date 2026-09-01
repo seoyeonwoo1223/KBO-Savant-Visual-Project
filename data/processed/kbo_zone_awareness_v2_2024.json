@@ -1,0 +1,43 @@
+{
+  "schema_version": 2,
+  "season": 2024,
+  "source": "data/processed/decision_pitches_2024.parquet",
+  "pitches": 222225,
+  "batters": 298,
+  "qualified_batters": 155,
+  "minimum_pitches": 300,
+  "model": {
+    "model": "Staged HistGradientBoosting outcome tree",
+    "tree": {
+      "swing": "Whiff / Contact; Contact -> Foul / InPlay",
+      "take": "Ball / CalledStrike / HBP",
+      "terminal_value": "Separate expected RE288 Run Value model for all six outcomes"
+    },
+    "features": [
+      "x_relative",
+      "z_relative",
+      "balls_before",
+      "strikes_before",
+      "outs_before",
+      "base_state_code_before",
+      "velocity_kmh",
+      "horizontal_movement_cm",
+      "vertical_movement_cm",
+      "release_height_cm",
+      "drop_angle",
+      "pitch_type",
+      "batter_stance",
+      "stadium"
+    ],
+    "branch_samples": {
+      "Whiff": 21731,
+      "Foul": 39156,
+      "InPlay": 40226,
+      "Ball": 81386,
+      "CalledStrike": 38945,
+      "HBP": 781
+    }
+  },
+  "excluded": {},
+  "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
+}

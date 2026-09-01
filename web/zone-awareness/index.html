@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="KBO 타자의 투구별 Swing·Take Decision Value와 Zone Awareness">
+  <title>Zone Awareness | KBO Savant</title>
+  <link rel="stylesheet" href="zone-awareness.css?v=20260902-1">
+</head>
+<body>
+  <main>
+    <nav><a href="../">← KBO Savant</a></nav>
+    <header class="hero">
+      <div><p class="eyebrow">BATTING DECISIONS</p><h1>Zone Awareness</h1><p>같은 투구에서 Swing과 Take의 기대 득점가치를 비교한 타자 판단 프로필</p></div>
+      <label>시즌<select id="season"></select></label>
+    </header>
+
+    <section class="overview">
+      <article class="card scatter-card">
+        <div class="card-head"><div><p class="eyebrow">LEAGUE MAP</p><h2>인존 × 아웃존 판단</h2></div><span class="legend"><i></i>타자에게 유리 <i></i>불리</span></div>
+        <div class="canvas-wrap"><canvas id="scatter" width="760" height="560" aria-label="zZA+와 oZA+ 리그 산점도"></canvas><div class="tooltip" id="scatter-tip"></div></div>
+      </article>
+      <article class="card leaderboard-card">
+        <div class="card-head"><div><p class="eyebrow">QUALIFIED</p><h2>Zone Awareness 순위</h2></div><span id="qualified-count"></span></div>
+        <label class="search"><span>선수 검색</span><input id="player-search" type="search" placeholder="이름 또는 팀"></label>
+        <div class="table-wrap"><table><thead><tr><th data-sort="rank">#</th><th data-sort="batter_name">선수</th><th data-sort="zone_awareness_plus">ZA+</th><th data-sort="z_zone_awareness_plus">zZA+</th><th data-sort="o_zone_awareness_plus">oZA+</th><th data-sort="pitches_seen">P</th></tr></thead><tbody id="leaderboard"></tbody></table></div>
+      </article>
+    </section>
+
+    <section class="player" id="player-section">
+      <header class="player-head">
+        <div><p class="eyebrow" id="player-meta"></p><h2 id="player-name">선수</h2></div>
+        <div class="score-row"><div><span>ZA+</span><strong id="score-za">—</strong></div><div><span>zZA+</span><strong id="score-z">—</strong></div><div><span>oZA+</span><strong id="score-o">—</strong></div></div>
+      </header>
+      <div class="tabs" role="tablist"><button class="active" data-tab="profile">Zone Profile</button><button data-tab="map">Decision Map</button><button data-tab="outcome">Outcome Path</button></div>
+
+      <div class="tab active" id="tab-profile">
+        <div class="profile-grid">
+          <article class="card zone-card"><div class="card-head"><div><p class="eyebrow">REGION VALUE</p><h3>존별 판단가치</h3></div><span>DV / 100구</span></div><canvas id="region-map" width="600" height="600"></canvas></article>
+          <article class="card detail-card">
+            <div><p class="eyebrow">ACTION VALUE</p><h3>Swing과 Take</h3></div>
+            <div class="zero-bars" id="action-bars"></div>
+            <table class="region-table"><thead><tr><th>Region</th><th>Pitches</th><th>Total</th><th>Swing</th><th>Take</th></tr></thead><tbody id="region-table"></tbody></table>
+          </article>
+        </div>
+      </div>
+
+      <div class="tab" id="tab-map">
+        <article class="card map-card">
+          <div class="card-head"><div><p class="eyebrow">LOCATION CELLS</p><h3>투구 위치별 의사결정</h3></div><label>표시<select id="map-metric"><option value="dv100">Decision Value / 100</option><option value="delta">Swing RV − Take RV</option><option value="swing_gap">Swing% − Expected</option></select></label></div>
+          <div class="map-layout"><div class="canvas-wrap"><canvas id="decision-map" width="680" height="680"></canvas><div class="tooltip" id="map-tip"></div></div><div class="map-note"><strong>셀을 선택하세요</strong><p>선택한 위치의 단계별 결과 확률을 Outcome Path에서 확인할 수 있습니다.</p><div class="gradient"><span>불리</span><i></i><span>유리</span></div></div></div>
+        </article>
+      </div>
+
+      <div class="tab" id="tab-outcome">
+        <div class="outcome-head"><div><p class="eyebrow">SELECTED LOCATION</p><h3 id="cell-label">맵 전체 평균</h3></div><button id="reset-cell">맵 전체</button></div>
+        <div class="outcome-grid">
+          <article class="card branch"><h3>Swing</h3><p>스윙했을 때의 결과 확률</p><div id="swing-path"></div></article>
+          <article class="card branch"><h3>Take</h3><p>지켜봤을 때의 결과 확률</p><div id="take-path"></div></article>
+        </div>
+        <div class="rv-row"><div><span>Expected Swing RV</span><strong id="swing-rv">—</strong></div><div><span>Expected Take RV</span><strong id="take-rv">—</strong></div><div><span>Swing − Take</span><strong id="rv-gap">—</strong></div></div>
+      </div>
+    </section>
+
+    <section class="method card"><p class="eyebrow">METHOD</p><h2>읽는 법</h2><div><p><strong>ZA+</strong>는 실제 선택이 반대 선택보다 확보한 기대 득점가치를 투구당 계산해 시즌 내 100 기준으로 환산합니다.</p><p><strong>zZA+ / oZA+</strong>는 인존과 아웃존 판단을 따로 표준화합니다. 115는 해당 시즌 규정 표본보다 1표준편차 우수하다는 뜻입니다.</p><p>모델은 위치·카운트·주자·구종·구속·무브먼트 등을 사용합니다. 인플레이 가치는 타구속도·발사각 없이 추정하므로 관측 기반 counterfactual 근사치입니다.</p></div></section>
+  </main>
+  <script src="zone-awareness.js?v=20260902-1"></script>
+</body>
+</html>

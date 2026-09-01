@@ -5,6 +5,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from threading import local
 
+import pyarrow.parquet as pq
+
 from .collector import _load_naver, cache_payload, prepare_game, process_payload, rebuild_from_raw
 from .export_excel import export_latest
 from .http_client import VisualBaseballClient
@@ -14,14 +16,19 @@ from .zone_profile import build_zone_profiles
 from .blocking import build_blocking
 from .pitch_arsenal import build_pitch_arsenal
 from .plate_discipline import build_plate_discipline
+from .zone_awareness_v2 import build_zone_awareness_v2
 
 
 def _exports(root: Path, season: int, storage_root: Path) -> None:
     workbook = export_latest(root, season, storage_root)
     build_swing_take(storage_root, season, excel_source=workbook)
-    decision_source = storage_root / "data" / "processed" / "decision_pitches.parquet"
+    decision_source = storage_root / "data" / "processed" / (
+        "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
+    )
     if decision_source.exists():
         build_plate_discipline(storage_root, season, decision_source)
+        if pq.read_metadata(decision_source).num_rows >= 1_000:
+            build_zone_awareness_v2(storage_root, season, decision_source, web_root=root / "web")
     build_zone_profiles(root, season, excel_source=workbook)
     build_pitch_arsenal(root, season, excel_source=workbook)
     build_blocking(root, season, storage_root)

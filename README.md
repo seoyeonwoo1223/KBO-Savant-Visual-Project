@@ -14,6 +14,7 @@
 | `web/` | GitHub Pages에서 리더보드와 피치 트래킹 시각화를 제공하는 정적 뷰어 |
 | `web/blocking/` | 실험적 KBO Catcher Blocks Above Average 리더보드·위치 맵 |
 | `exports/plate_discipline_research_2026.csv` | 타자별 선구안 베이스 스탯·회귀 잔차·프로필 클러스터 연구표 |
+| `web/zone-awareness/` | 2022~2026 Swing/Take Decision Value 기반 Zone Awareness 탐색기 |
 
 ## GitHub에서 열람·다운로드
 
@@ -87,6 +88,12 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 `src/visualbaseball/plate_discipline.py`는 Swing/Take 산출 직후 타자별 연구용 데이터를 만든다. `data/processed/plate_discipline_pitches.parquet`에는 정규화 좌표와 Heart·Shadow-in·Shadow-out·Chase·Waste 구역, 스윙·컨택·단순 정답 여부를 저장한다. `data/processed/plate_discipline_batters.parquet`와 `exports/plate_discipline_research_2026.csv`에는 Z-Swing%, O-Swing%, 구역별 Swing%, Contact%, 단순 Strikezone Judgment%, Simple SEAGER 기준선, 기존 observed Decision Run, 회귀 잔차와 숫자형 클러스터를 저장한다.
 
 회귀식과 클러스터 중심값·표본 기준·정의는 `data/processed/plate_discipline_research.json`에 기록한다. 클러스터 번호는 우열 등급이 아니며, 타구속도·발사각이 없는 현재 원자료로는 PLV처럼 타자별로 좋은 타구가 될 확률까지 분리하지 않는다. 기존 Decision Run은 실제 선택의 결과가 포함된 진단값이므로 counterfactual Decision Value로 부르지 않는다.
+
+## Zone Awareness v2
+
+`src/visualbaseball/zone_awareness_v2.py`는 투구마다 Swing과 Take의 기대 득점가치를 따로 추정한다. Swing은 Whiff/Contact와 Contact 뒤 Foul/InPlay, Take는 Ball/Called Strike/HBP의 단계형 확률 모델을 거치며, 여섯 결과별 RE288 Run Value 모델을 결합한다. 실제 선택과 반대 선택의 기대가치 차이를 타자별로 집계한 뒤, 300구 이상 타자를 기준으로 시즌 평균 100·표준편차 15의 `ZA+`, `zZA+`, `oZA+`로 환산한다.
+
+`web/zone-awareness/`에서는 리그 산점도와 순위표, Heart·Shadow·Chase·Waste 프로필, 위치별 Decision Map, 단계별 Outcome Path를 제공한다. 인플레이 가치는 공개 원본에 타구속도와 발사각이 없어 관측 자료 기반 counterfactual 근사치이며, Plus 점수는 다른 시즌과 원점수를 직접 비교하는 척도가 아니다.
 
 ## Pitcher Zone Profile
 
