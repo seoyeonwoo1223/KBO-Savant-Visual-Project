@@ -29,6 +29,7 @@ thead th:nth-child(2) { z-index:3; background:var(--header); }
 tbody tr:hover td { background:#f7f8f7; }
 tbody tr:hover td:nth-child(2) { background:#f7f8f7; }
 td.null { color:#a2ada6; }
+.war-cell { background:var(--war-color); font-weight:700; }
 .status { margin:0; padding:28px; color:var(--muted); text-align:center; }
 .status:empty { display:none; }
 .source-note { margin:12px 2px 0; color:var(--muted); font-size:.78rem; }

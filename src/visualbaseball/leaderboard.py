@@ -24,6 +24,8 @@ HEADER_LABELS = {
     "Team": "팀", "Year": "연도", "Runs Prevented": "Runs Prevented",
 }
 
+PLAYER_NAME_FIXES = {"오태콘": "오태곤"}
+
 
 def _clean_header(value: object) -> str:
     text = re.sub(r"\s+", " ", str(value)).strip()
@@ -75,6 +77,7 @@ def workbook_payload(path: Path) -> dict:
         rows = []
         for values in frame.itertuples(index=False, name=None):
             row = {column["key"]: _json_value(value) for column, value in zip(columns, values)}
+            row["Player"] = PLAYER_NAME_FIXES.get(row.get("Player"), row.get("Player"))
             if row.get("Player"):
                 rows.append(row)
         datasets.append({"id": dataset_id, "title": title, "columns": columns, "rows": rows})
