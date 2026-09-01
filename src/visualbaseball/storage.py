@@ -54,13 +54,10 @@ class Store:
             return True
         saved_path = Path(entry.get("raw_path", ""))
         raw_path = saved_path if saved_path.is_absolute() else self.root / saved_path
-        # Older manifests stored a machine-specific absolute path. The repository
-        # cache is portable, so recover it by game ID when running in Actions.
         if not raw_path.exists():
             raw_path = self.raw_path(int(game_date[:4]), game_id)
         if not raw_path.exists():
             return True
-        # Recent final games are deliberately rechecked because source corrections are possible.
         from datetime import date
         return (date.today() - date.fromisoformat(game_date)).days <= recheck_days
 
@@ -75,8 +72,6 @@ class Store:
         for name, rows, key in (("games", games, "game_id"), ("events", events, "game_id"), ("pitches", pitches, "game_id")):
             path = self.processed / f"{name}.parquet"; old = pq.read_table(path).to_pylist() if path.exists() else []
             combined = [row for row in old if row.get(key) not in game_ids] + rows
-            # Schema additions must also reach prior-game rows; PyArrow otherwise
-            # uses the first (older) row's keys and silently drops new columns.
             columns = sorted({column for row in combined for column in row})
             combined = [{column: row.get(column) for column in columns} for row in combined]
             temporary = path.with_suffix(".parquet.tmp")

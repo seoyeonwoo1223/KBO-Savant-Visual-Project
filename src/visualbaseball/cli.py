@@ -7,7 +7,6 @@ from threading import local
 
 from .collector import _load_naver, cache_payload, prepare_game, process_payload, rebuild_from_raw
 from .export_excel import export_latest
-from .web_export import export_web_data
 from .http_client import VisualBaseballClient
 from .storage import Store
 from .swing_take import build_swing_take
@@ -17,15 +16,11 @@ from .pitch_arsenal import build_pitch_arsenal
 
 
 def _exports(root: Path, season: int, storage_root: Path) -> None:
-    # Publish source tables first, then derive all Swing/Take artifacts from
-    # the workbook's Pitches sheet. Derived decision rows stay out of Excel.
     workbook = export_latest(root, season, storage_root)
     build_swing_take(storage_root, season, excel_source=workbook)
     build_zone_profiles(root, season, excel_source=workbook)
     build_pitch_arsenal(root, season, excel_source=workbook)
     build_blocking(root, season, storage_root)
-    if storage_root == root:
-        export_web_data(root)
 
 
 def main() -> None:
@@ -89,8 +84,6 @@ def main() -> None:
         innings = max((int(half.get("inning") or 0) for half in payload.get("pbpData", [])), default=9)
         naver_enrichment = _load_naver(store, args.season, game_id, innings, None, args.refresh_naver)
         if naver_enrichment is None:
-            # New final games get the supplementary flags as part of the
-            # ordinary daily pass; a later raw rebuild can retry failures.
             from .naver import NaverSportsClient
             naver_enrichment = _load_naver(
                 store, args.season, game_id, innings, NaverSportsClient(), args.refresh_naver

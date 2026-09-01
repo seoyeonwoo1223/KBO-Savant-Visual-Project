@@ -2,15 +2,12 @@ name: Historical Visual Baseball refresh
 
 on:
   schedule:
-    # Every Monday 12:37 Asia/Seoul (UTC+9), after the daily incremental run.
     - cron: "37 3 * * 1"
   workflow_dispatch:
 
 permissions:
   contents: write
 
-# Share the daily updater's lock so a full refresh cannot overwrite an
-# incremental update that is still producing the derived files.
 concurrency:
   group: visualbaseball-daily-update
   cancel-in-progress: false

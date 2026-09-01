@@ -10,17 +10,16 @@
 | `data/raw/` | Visual Baseball 게임별 원본 PBP JSON 및 `raw/naver/`의 정규화된 Naver 릴레이 조인 캐시 |
 | `data/processed/` | 신뢰 가능한 분석 원본: `games`, `events`, `pitches` Parquet |
 | `exports/visualbaseball_savant_2026_latest.xlsx` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
-| `web/` | GitHub Pages에서 표와 무브먼트 플롯을 제공할 정적 뷰어 |
+| `web/` | GitHub Pages에서 리더보드와 피치 트래킹 시각화를 제공하는 정적 뷰어 |
 | `web/blocking/` | 실험적 KBO Catcher Blocks Above Average 리더보드·위치 맵 |
-| `legacy/vba/` | 보존용 기존 VBA, `.xlsm`, 원본 `.xlsx`, Windows 실행 스크립트 |
 
 ## GitHub에서 열람·다운로드
 
 GitHub는 `.xlsx`를 셀 단위로 미리보기하지 않는 바이너리 파일로 취급합니다. 따라서 Excel은 저장소의 [`exports/`](exports/)에서 **Download raw file**로 내려받는 방식이며, 누락된 파일이 아닙니다. `web/`는 같은 데이터를 표와 무브먼트 산점도로 열람할 GitHub Pages 뷰어입니다. Pages를 한 번 활성화하면 아래 주소에서 볼 수 있습니다.
 
-`https://seoyeonwoo1223.github.io/KBO-Swing-Take-Project/`
+`https://seoyeonwoo1223.github.io/KBO-Savant-Visual-Project/`
 
-개인 저장소라면 저장소 권한이 있는 계정으로 로그인해야 Excel과 Pages 데이터를 볼 수 있습니다. 더 큰 분석이나 스프레드시트 작업에는 `web/data/movement.csv`를 내려받거나 Excel을 사용하면 됩니다.
+개인 저장소라면 저장소 권한이 있는 계정으로 로그인해야 Excel과 Pages 데이터를 볼 수 있습니다. 더 큰 분석이나 스프레드시트 작업에는 Excel 파일을 사용하면 됩니다.
 
 ## 데이터 갱신 방식
 
@@ -84,7 +83,3 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 ## Arm Angle Movement Zones
 
 `web/movement-zones/`는 제공된 팔각도별 범위표를 바탕으로 15°·30°·45°·60°의 구종별 Elite·Average·Dead Zone을 HB×IVB 평면에 표시한다. 슬라이더 또는 자동 재생으로 팔각도에 따른 범위 변화를 비교할 수 있다. HB는 투수 시점이며 양수는 암사이드, 음수는 글러브사이드다.
-
-## 데스크톱 VBA
-
-기존 Excel 매크로 수집기는 [`legacy/vba/README.md`](legacy/vba/README.md)에 분리해 보존했습니다. 이 경로는 GitHub Actions 수집기와 독립적입니다.

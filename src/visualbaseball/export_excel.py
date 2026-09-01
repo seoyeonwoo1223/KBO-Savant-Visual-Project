@@ -14,15 +14,11 @@ def export_latest(root: Path, season: int = 2026, source_root: Path | None = Non
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix(".xlsx.tmp")
     workbook = xlsxwriter.Workbook(temporary, {"strings_to_urls": False})
-    # A stable core timestamp prevents a no-change scheduled run from creating
-    # a byte-different workbook and an unnecessary profile commit.
     workbook.set_properties({"created": datetime(2026, 1, 1, tzinfo=timezone.utc)})
     header = workbook.add_format(
         {"bold": True, "font_color": "#FFFFFF", "bg_color": "#1F4E79", "align": "center"}
     )
 
-    # "decision_pitches" duplicates the full pitch table and is deliberately
-    # not published in Excel: it is a derived analysis artifact, not source data.
     for name in ("games", "events", "pitches"):
         path = source_root / "data" / "processed" / f"{name}.parquet"
         rows = pq.read_table(path).to_pylist() if path.exists() else []

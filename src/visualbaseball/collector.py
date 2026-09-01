@@ -65,8 +65,6 @@ def _load_naver(store: Store, season: int, game_id: str, innings: int, client: N
         store.write_naver(season, game_id, enrichment.to_dict())
         return enrichment
     except RuntimeError as error:
-        # VB rows remain usable when the supplementary source is temporarily
-        # unavailable; the nullable match fields make that absence explicit.
         print(f"Naver enrichment unavailable for {game_id}: {error}")
         return None
 
