@@ -8,6 +8,7 @@ const message = document.querySelector("#message");
 const profileSection = document.querySelector("#profile");
 const modeSelect = document.querySelector("#movement-mode");
 const movementViewButtons = document.querySelectorAll("[data-movement-view]");
+const movementUnitButtons = document.querySelectorAll("[data-movement-unit]");
 const exportButton = document.querySelector("#export-profile");
 const SVG_NS = "http://www.w3.org/2000/svg";
 const normalize = value => String(value || "").replace(/\s+/g, "").toLowerCase();
@@ -18,6 +19,7 @@ let seasonIndex = null;
 let currentProfile = null;
 let seasonLoadPromise = null;
 let movementView = "pitcher";
+let movementUnit = "in";
 
 function svgElement(name, attributes = {}) {
   const element = document.createElementNS(SVG_NS, name);
@@ -39,13 +41,26 @@ function movementHorizontal(horizontal) {
   return movementView === "pitcher" ? toPitcherView(horizontal) : horizontal;
 }
 
+function movementUnitLabel() {
+  return movementUnit === "cm" ? "cm" : "in.";
+}
+
+function formatMovement(value) {
+  if (value == null) return "—";
+  return fmt(value * (movementUnit === "cm" ? 2.54 : 1));
+}
+
 function renderMovementViewControl() {
   const isPitcherView = movementView === "pitcher";
   movementViewButtons.forEach(button => {
     const selected = button.dataset.movementView === movementView;
     button.setAttribute("aria-pressed", String(selected));
   });
-  document.querySelector("#movement-view-label").textContent = `${isPitcherView ? "투수" : "포수"} 시점 · inches`;
+  movementUnitButtons.forEach(button => {
+    const selected = button.dataset.movementUnit === movementUnit;
+    button.setAttribute("aria-pressed", String(selected));
+  });
+  document.querySelector("#movement-view-label").textContent = `${isPitcherView ? "투수" : "포수"} 시점 · ${movementUnitLabel()}`;
 }
 
 async function loadSeason(year) {
@@ -172,14 +187,14 @@ function renderMovement() {
   const y = value => bounds.bottom - (value - bounds.yMin) / (bounds.yMax - bounds.yMin) * (bounds.bottom - bounds.top);
   for (let value = -30; value <= 30; value += 6) {
     svg.append(svgElement("line", {x1: x(value), x2: x(value), y1: bounds.top, y2: bounds.bottom, class: value === 0 ? "zero-line" : "grid-line"}));
-    const label = svgElement("text", {x: x(value), y: 622, "text-anchor": "middle", class: "axis-text"}); label.textContent = value; svg.append(label);
+    const label = svgElement("text", {x: x(value), y: 622, "text-anchor": "middle", class: "axis-text"}); label.textContent = formatMovement(value); svg.append(label);
   }
   for (let value = -30; value <= 30; value += 6) {
     svg.append(svgElement("line", {x1: bounds.left, x2: bounds.right, y1: y(value), y2: y(value), class: value === 0 ? "zero-line" : "grid-line"}));
     const label = svgElement("text", {x: 58, y: y(value) + 4, "text-anchor": "end", class: "axis-text"}); label.textContent = value; svg.append(label);
   }
-  const xTitle = svgElement("text", {x: 345, y: 665, "text-anchor": "middle", class: "axis-title"}); xTitle.textContent = `Horizontal Break (${movementView} view, in.)`; svg.append(xTitle);
-  const yTitle = svgElement("text", {x: 17, y: 325, transform: "rotate(-90 17 325)", "text-anchor": "middle", class: "axis-title"}); yTitle.textContent = "Induced Vertical Break (in.)"; svg.append(yTitle);
+  const xTitle = svgElement("text", {x: 345, y: 665, "text-anchor": "middle", class: "axis-title"}); xTitle.textContent = `Horizontal Break (${movementView} view)`; svg.append(xTitle);
+  const yTitle = svgElement("text", {x: 17, y: 325, transform: "rotate(-90 17 325)", "text-anchor": "middle", class: "axis-title"}); yTitle.textContent = "Induced Vertical Break"; svg.append(yTitle);
 
   const raw = modeSelect.value === "raw";
   const visualOpacity = usage => {
@@ -202,7 +217,7 @@ function renderMovement() {
       rx: Math.max(8, Math.abs(x(horizontal.high_75) - x(horizontal.low_75)) / 2),
       ry: Math.max(8, Math.abs(y(vertical.high_75) - y(vertical.low_75)) / 2),
       fill: pitch.color, "fill-opacity": opacity.fill, stroke: pitch.color, "stroke-opacity": opacity.stroke, "stroke-width": 4, class: "movement-ellipse", tabindex: 0,
-      "aria-label": `${pitch.name}, 평균 IVB ${fmt(vertical.average)}인치, 평균 HB ${fmt(horizontal.average)}인치`,
+      "aria-label": `${pitch.name}, 평균 IVB ${formatMovement(vertical.average)}${movementUnitLabel()}, 평균 HB ${formatMovement(horizontal.average)}${movementUnitLabel()}`,
     });
     const dot = svgElement("circle", {cx: x(horizontal.average), cy: y(vertical.average), r: 3.5, fill: pitch.color, "fill-opacity": opacity.dot});
     const show = event => showTooltip(event, pitch, horizontal, vertical);
@@ -216,8 +231,8 @@ function showTooltip(event, pitch, horizontal, vertical) {
   const tooltip = document.querySelector("#tooltip");
   tooltip.innerHTML = `<strong>${escapeHtml(pitch.name)}: ${pitch.usage.toFixed(1)}%</strong>
     <p>구속 ${fmt(pitch.velocity_kmh?.average)} km/h · 75% ${fmt(pitch.velocity_kmh?.low_75)}–${fmt(pitch.velocity_kmh?.high_75)}</p>
-    <p>IVB ${fmt(vertical.average)} in · 75% ${fmt(vertical.low_75)}–${fmt(vertical.high_75)}</p>
-    <p>HB ${fmt(horizontal.average)} in · 75% ${fmt(horizontal.low_75)}–${fmt(horizontal.high_75)}</p>
+    <p>IVB ${formatMovement(vertical.average)} ${movementUnitLabel()} · 75% ${formatMovement(vertical.low_75)}–${formatMovement(vertical.high_75)}</p>
+    <p>HB ${formatMovement(horizontal.average)} ${movementUnitLabel()} · 75% ${formatMovement(horizontal.low_75)}–${formatMovement(horizontal.high_75)}</p>
     <p>무브먼트 표본 ${pitch.movement_n.toLocaleString()} / ${pitch.movement_total_n.toLocaleString()}</p>`;
   tooltip.hidden = false;
   const panel = document.querySelector(".movement-panel");
@@ -266,7 +281,7 @@ function renderTable() {
   document.querySelector("#pitch-table").innerHTML = currentProfile.pitch_types.map(pitch => {
     const horizontal = movementHorizontal(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
-    return `<tr><td><span class="pitch-key"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td><td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td><td>${fmt(pitch.velocity_kmh?.average)} km/h</td><td>${fmt(vertical?.average)} in</td><td>${fmt(horizontal?.average)} in</td></tr>`;
+    return `<tr><td><span class="pitch-key"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td><td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td><td>${fmt(pitch.velocity_kmh?.average)} km/h</td><td>${formatMovement(vertical?.average)} ${movementUnitLabel()}</td><td>${formatMovement(horizontal?.average)} ${movementUnitLabel()}</td></tr>`;
   }).join("");
 }
 
@@ -288,6 +303,11 @@ searchForm.addEventListener("submit", handleSearch);
 modeSelect.addEventListener("change", () => { if (currentProfile) { renderMovement(); renderTable(); } });
 movementViewButtons.forEach(button => button.addEventListener("click", () => {
   movementView = button.dataset.movementView;
+  renderMovementViewControl();
+  if (currentProfile) { renderMovement(); renderTable(); }
+}));
+movementUnitButtons.forEach(button => button.addEventListener("click", () => {
+  movementUnit = button.dataset.movementUnit;
   renderMovementViewControl();
   if (currentProfile) { renderMovement(); renderTable(); }
 }));
