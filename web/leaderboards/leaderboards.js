@@ -1,6 +1,7 @@
 const $ = selector => document.querySelector(selector);
 const state = { catalog:null, payload:null, dataset:null, sortKey:null, direction:-1 };
 const labels = { batting:"타격 · 기본", "batting-advanced":"타격 · 확장", fielding:"수비", pitching:"투수 · 기본", "pitching-advanced":"투수 · 확장", "pitch-value":"구종 가치" };
+const warDatasets = new Set(["batting", "pitching"]);
 const normalize = value => String(value ?? "").replace(/\s+/g, "").toLowerCase();
 const isNumber = value => typeof value === "number" && Number.isFinite(value);
 
@@ -10,6 +11,24 @@ function formatValue(value, key) {
   if (["RK", "rk", "Year", "G", "GS", "PA", "AB", "BIP"].includes(key)) return Math.round(value).toLocaleString("ko-KR");
   if (Number.isInteger(value)) return value.toLocaleString("ko-KR");
   return value.toLocaleString("ko-KR", { maximumFractionDigits:3 });
+}
+
+function warColor(value, maximum) {
+  const ratio = Math.min(1, Math.abs(value) / maximum);
+  const target = value >= 0 ? [216, 73, 81] : [58, 102, 169];
+  const channel = index => Math.round(255 + (target[index] - 255) * ratio);
+  return `rgb(${channel(0)} ${channel(1)} ${channel(2)})`;
+}
+
+function cellMarkup(row, column, maximumWar) {
+  const value = row[column.key];
+  const classes = [value == null ? "null" : ""];
+  let style = "";
+  if (column.key === "WAR" && maximumWar && isNumber(value)) {
+    classes.push("war-cell");
+    style = ` style="--war-color:${warColor(value, maximumWar)}"`;
+  }
+  return `<td class="${classes.join(" ").trim()}"${style}>${formatValue(value, column.key)}</td>`;
 }
 
 function filteredRows() {
@@ -29,10 +48,13 @@ function filteredRows() {
 function render() {
   const columns = state.dataset.columns.filter(column => column.key !== "Year");
   const rows = filteredRows();
+  const maximumWar = warDatasets.has(state.dataset.id)
+    ? Math.max(1, ...state.dataset.rows.map(row => Math.abs(Number(row.WAR) || 0)))
+    : 0;
   $("#table-title").textContent = `${state.payload.season} ${labels[state.dataset.id] || state.dataset.title}`;
   $("#row-count").textContent = `${rows.length.toLocaleString("ko-KR")}명`;
   $("#leaderboard-head").innerHTML = `<tr>${columns.map(column => `<th data-key="${column.key}" aria-sort="${state.sortKey===column.key ? (state.direction===1?"ascending":"descending") : "none"}"><button type="button">${column.label}</button></th>`).join("")}</tr>`;
-  $("#leaderboard-body").innerHTML = rows.map(row => `<tr>${columns.map(column => `<td class="${row[column.key] == null ? "null" : ""}">${formatValue(row[column.key], column.key)}</td>`).join("")}</tr>`).join("");
+  $("#leaderboard-body").innerHTML = rows.map(row => `<tr>${columns.map(column => cellMarkup(row, column, maximumWar)).join("")}</tr>`).join("");
   $("#status").textContent = rows.length ? "" : "조건에 맞는 선수가 없습니다.";
   $("#leaderboard-head").querySelectorAll("th").forEach(th => th.addEventListener("click", () => {
     const key=th.dataset.key;
