@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Pitch Arsenal</title>
-  <link rel="stylesheet" href="pitch-arsenal.css?v=20260901-1">
+  <link rel="stylesheet" href="pitch-arsenal.css?v=20260901-2">
 </head>
 <body>
   <main>
@@ -46,8 +46,17 @@
         <button id="export-profile" class="export-button" type="button">프로필 이미지 저장</button>
       </div>
       <div class="arsenal-grid">
-        <section class="panel frequency-panel"><h3>Pitch Type Frequency</h3><div id="frequency"></div></section>
-        <section class="panel velocity-panel"><h3>Speed</h3><div id="velocity"></div></section>
+        <div class="arsenal-left">
+          <section class="panel frequency-panel"><h3>Pitch Type Frequency</h3><div id="frequency"></div></section>
+          <section class="panel velocity-panel"><h3>Speed</h3><div id="velocity"></div></section>
+          <section class="table-card">
+            <h3>구종별 수치</h3>
+            <div class="table-wrap"><table>
+              <thead><tr><th>구종</th><th>투구</th><th>구사율</th><th>평균 구속</th><th>IVB</th><th>HB</th></tr></thead>
+              <tbody id="pitch-table"></tbody>
+            </table></div>
+          </section>
+        </div>
         <section class="panel movement-panel">
           <div class="panel-heading"><h3>Pitch Movement</h3><span id="movement-view-label">투수 시점 · inches</span></div>
           <svg id="movement-chart" viewBox="0 0 680 680" role="img" aria-labelledby="movement-title movement-desc">
@@ -57,17 +66,10 @@
           <div id="tooltip" class="tooltip" hidden></div>
         </section>
       </div>
-      <section class="table-card">
-        <h3>구종별 수치</h3>
-        <div class="table-wrap"><table>
-          <thead><tr><th>구종</th><th>투구</th><th>구사율</th><th>평균 구속</th><th>IVB</th><th>HB</th><th>보정 표본</th></tr></thead>
-          <tbody id="pitch-table"></tbody>
-        </table></div>
-      </section>
       <p class="method">중앙 75%는 12.5~87.5 백분위 구간입니다. IVB·HB 원자료와 보정표 단위는 cm이며, 화면에서는 inches로 환산합니다. 보정값 = 측정값 + 구장·구종 오프셋.</p>
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="pitch-arsenal.js?v=20260901-1"></script>
+  <script src="pitch-arsenal.js?v=20260901-2"></script>
 </body>
 </html>
