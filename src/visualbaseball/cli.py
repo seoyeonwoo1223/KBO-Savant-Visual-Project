@@ -13,11 +13,15 @@ from .swing_take import build_swing_take
 from .zone_profile import build_zone_profiles
 from .blocking import build_blocking
 from .pitch_arsenal import build_pitch_arsenal
+from .plate_discipline import build_plate_discipline
 
 
 def _exports(root: Path, season: int, storage_root: Path) -> None:
     workbook = export_latest(root, season, storage_root)
     build_swing_take(storage_root, season, excel_source=workbook)
+    decision_source = storage_root / "data" / "processed" / "decision_pitches.parquet"
+    if decision_source.exists():
+        build_plate_discipline(storage_root, season, decision_source)
     build_zone_profiles(root, season, excel_source=workbook)
     build_pitch_arsenal(root, season, excel_source=workbook)
     build_blocking(root, season, storage_root)

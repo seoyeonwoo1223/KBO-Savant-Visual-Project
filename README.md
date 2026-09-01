@@ -12,6 +12,7 @@
 | `exports/visualbaseball_savant_2026_latest.xlsx` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
 | `web/` | GitHub Pages에서 리더보드와 피치 트래킹 시각화를 제공하는 정적 뷰어 |
 | `web/blocking/` | 실험적 KBO Catcher Blocks Above Average 리더보드·위치 맵 |
+| `exports/plate_discipline_research_2026.csv` | 타자별 선구안 베이스 스탯·회귀 잔차·프로필 클러스터 연구표 |
 
 ## GitHub에서 열람·다운로드
 
@@ -71,6 +72,12 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 프로필은 2026 KBO 정규시즌의 검증된 투구만 사용한다. 스윙은 헛스윙·파울·인플레이, 테이크는 콜드볼·콜드스트라이크와 타석 종료 사구로 분류한다. 최소 표시 기준은 **300 pitches seen**이며, 이 수치는 FanGraphs의 Swing/Take 분석에서 사용된 하한을 따른다. 300구 미만은 수치를 숨기지 않고 표본 미달로 표시한다.
 
 검색 화면에서는 2022~2026 연도를 선택할 수 있다. 각 연도 Run Value와 리그 평균은 해당 시즌 Excel만으로 별도 계산하므로 서로 섞이지 않는다.
+
+## Plate Discipline 연구 테이블
+
+`src/visualbaseball/plate_discipline.py`는 Swing/Take 산출 직후 타자별 연구용 데이터를 만든다. `data/processed/plate_discipline_pitches.parquet`에는 정규화 좌표와 Heart·Shadow-in·Shadow-out·Chase·Waste 구역, 스윙·컨택·단순 정답 여부를 저장한다. `data/processed/plate_discipline_batters.parquet`와 `exports/plate_discipline_research_2026.csv`에는 Z-Swing%, O-Swing%, 구역별 Swing%, Contact%, 단순 Strikezone Judgment%, Simple SEAGER 기준선, 기존 observed Decision Run, 회귀 잔차와 숫자형 클러스터를 저장한다.
+
+회귀식과 클러스터 중심값·표본 기준·정의는 `data/processed/plate_discipline_research.json`에 기록한다. 클러스터 번호는 우열 등급이 아니며, 타구속도·발사각이 없는 현재 원자료로는 PLV처럼 타자별로 좋은 타구가 될 확률까지 분리하지 않는다. 기존 Decision Run은 실제 선택의 결과가 포함된 진단값이므로 counterfactual Decision Value로 부르지 않는다.
 
 ## Pitcher Zone Profile
 
