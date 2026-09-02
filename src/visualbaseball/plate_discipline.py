@@ -74,6 +74,9 @@ def _compact_pitch(row: dict) -> dict:
         "batter_stance": row.get("batter_stance"),
         "pitcher_id": str(row.get("pitcher_id") or ""),
         "pitch_type": row.get("pitch_type"),
+        "is_pa_terminal": bool(row.get("is_pa_terminal")),
+        "pa_type": row.get("pa_type"),
+        "pa_result": row.get("pa_result"),
         "balls": int(row["balls_before"]),
         "strikes": int(row["strikes_before"]),
         "x_relative": float(row["x_relative"]),
@@ -102,6 +105,10 @@ def _player_row(items: list[dict]) -> dict:
     o_swings = [item for item in out_zone if item["swing"]]
     zone_takes = len(in_zone) - len(z_swings)
     out_takes = len(out_zone) - len(o_swings)
+    terminal = [item for item in items if item["is_pa_terminal"]]
+    walks = [item for item in terminal if item["pa_result"] in {"볼넷", "고의사"}]
+    strikeouts = [item for item in terminal if item["pa_type"] == "k" or item["pa_result"] == "삼진"]
+    hit_by_pitch = [item for item in terminal if item["pa_result"] == "사구"]
     selection_tendency = _pct(out_takes, len(z_swings) + out_takes)
     hittable_take = _pct(zone_takes, zone_takes + out_takes)
 
@@ -119,6 +126,13 @@ def _player_row(items: list[dict]) -> dict:
         "batter_stance": first["batter_stance"],
         "pitches_seen": len(items),
         "plate_appearances": len({item["pa_id"] for item in items}),
+        "terminal_plate_appearances": len(terminal),
+        "walks": len(walks),
+        "strikeouts": len(strikeouts),
+        "hit_by_pitch": len(hit_by_pitch),
+        "bb_pct": _pct(len(walks), len(terminal)),
+        "k_pct": _pct(len(strikeouts), len(terminal)),
+        "hbp_pct": _pct(len(hit_by_pitch), len(terminal)),
         "qualified_300": len(items) >= MIN_PITCHES,
         "swing_pct": _pct(len(swings), len(items)),
         "take_pct": _pct(len(items) - len(swings), len(items)),
@@ -241,7 +255,7 @@ def _mark_outliers(rows: list[dict], fields: tuple[str, ...]) -> None:
                 continue
             z = (row[field] - mean) / std
             row[f"{field}_z"] = round(float(z), 6)
-            row[f"{field}_outlier"] = abs(z) >= OUTLIER_Z
+            row[f"{field}_outlier"] = bool(abs(z) >= OUTLIER_Z)
 
 
 def _assign_zscore(players: list[dict], qualified: list[dict], source: str, target: str) -> None:
@@ -341,14 +355,32 @@ def build_pure_zone_awareness(raw_rows: list[dict], season: int) -> tuple[list[d
             row[f"{signal}_adjusted"] = round(
                 float(value - CLUSTER_ADJUSTMENT_WEIGHT * center.get(signal, 0.0)), 6
             ) if value is not None else None
-        h, z = row.get("pure_hc_residual_z_adjusted"), row.get("pure_zo_residual_z_adjusted")
-        row["zone_awareness_raw"] = round((h + z) / 2, 6) if h is not None and z is not None else None
-        row["z_zone_awareness_raw"] = row.get("pure_z_attack_z_adjusted")
-        row["o_zone_awareness_raw"] = row.get("pure_o_restraint_z_adjusted")
+    _assign_zscore(players, qualified, "pure_z_attack_z_adjusted", "pure_z_attack_z_final")
+    _assign_zscore(players, qualified, "pure_o_restraint_z_adjusted", "pure_o_restraint_z_final")
+    for row in players:
+        z_attack = row.get("pure_z_attack_z_final")
+        o_restraint = row.get("pure_o_restraint_z_final")
+        row["zone_awareness_raw"] = round((z_attack + o_restraint) / 2, 6) \
+            if z_attack is not None and o_restraint is not None else None
+        row["z_zone_awareness_raw"] = z_attack
+        row["o_zone_awareness_raw"] = o_restraint
 
     _assign_plus(players, qualified, "zone_awareness_raw", "zone_awareness_plus")
     _assign_plus(players, qualified, "z_zone_awareness_raw", "z_zone_awareness_plus")
     _assign_plus(players, qualified, "o_zone_awareness_raw", "o_zone_awareness_plus")
+    for row in players:
+        for field in (
+            "bb_vs_oza_residual", "bb_vs_oza_residual_z", "bb_vs_oza_residual_outlier",
+            "k_vs_zza_residual", "k_vs_zza_residual_z", "k_vs_zza_residual_outlier",
+        ):
+            row[field] = None
+    outcome_regressions = [
+        _ols(qualified, "BB% vs oZA+", "o_zone_awareness_plus", "bb_pct", "bb_vs_oza_residual"),
+        _ols(qualified, "K% vs zZA+", "z_zone_awareness_plus", "k_pct", "k_vs_zza_residual"),
+        _ols(qualified, "BB% vs ZA+", "zone_awareness_plus", "bb_pct"),
+        _ols(qualified, "K% vs ZA+", "zone_awareness_plus", "k_pct"),
+    ]
+    _mark_outliers(qualified, ("bb_vs_oza_residual", "k_vs_zza_residual"))
     metadata = {
         "metric": "Outcome-free Zone Awareness beta",
         "contact_or_in_play_used": False,
@@ -356,10 +388,16 @@ def build_pure_zone_awareness(raw_rows: list[dict], season: int) -> tuple[list[d
         "regressions": regressions,
         "clustering": cluster_metadata,
         "cluster_adjustment_weight": CLUSTER_ADJUSTMENT_WEIGHT,
-        "formula": "mean(global residual z - 0.5 * approach-cluster residual-z mean)",
+        "formula": "0.5 * restandardized cluster-adjusted Z-Swing% z + 0.5 * restandardized cluster-adjusted O-Take% z",
         "z_component": "Z-Swing% z-score with the same cluster-centering adjustment",
         "o_component": "O-Take% z-score with the same cluster-centering adjustment",
         "location_weights": "No additional Heart/Shadow/Chase/Waste weights; pending baseball review",
+        "outcome_diagnostics": {
+            "used_in_score": False,
+            "rates": ["BB% (including intentional walk, excluding HBP)", "K%", "HBP%"],
+            "regressions": outcome_regressions,
+            "outlier_threshold": "absolute residual z >= 1.5",
+        },
     }
     return players, metadata
 
@@ -405,6 +443,9 @@ def build_plate_discipline(root: Path, season: int = 2026, source: Path | None =
     pure_fields = {
         "out_zone_take_pct", "zone_awareness_raw", "z_zone_awareness_raw", "o_zone_awareness_raw",
         "zone_awareness_plus", "z_zone_awareness_plus", "o_zone_awareness_plus",
+        "terminal_plate_appearances", "walks", "strikeouts", "hit_by_pitch", "bb_pct", "k_pct", "hbp_pct",
+        "bb_vs_oza_residual", "bb_vs_oza_residual_z", "bb_vs_oza_residual_outlier",
+        "k_vs_zza_residual", "k_vs_zza_residual_z", "k_vs_zza_residual_outlier",
     }
     for row in players:
         pure = pure_by_id.get(row["batter_id"], {})

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="KBO 타자의 투구별 Swing·Take Decision Value와 Zone Awareness">
   <title>Zone Awareness | KBO Savant</title>
-  <link rel="stylesheet" href="zone-awareness.css?v=20260902-2">
+  <link rel="stylesheet" href="zone-awareness.css?v=20260902-3">
 </head>
 <body>
   <main>
@@ -39,6 +39,7 @@
           <article class="card zone-card"><div class="card-head"><div><p class="eyebrow">OUTCOME-FREE</p><h3>존별 선택 정확도</h3></div><span>추가 위치 가중치 없음</span></div><canvas id="region-map" width="600" height="600"></canvas></article>
           <article class="card detail-card">
             <div><p class="eyebrow">REGRESSION × APPROACH TYPE</p><h3>회귀·클러스터 조정</h3><p id="cluster-label"></p></div>
+            <p id="outcome-label"></p>
             <div class="zero-bars" id="action-bars"></div>
             <table class="region-table"><thead><tr><th>Region</th><th>Pitches</th><th>Swing%</th><th>Correct%</th></tr></thead><tbody id="region-table"></tbody></table>
           </article>
@@ -62,8 +63,8 @@
       </div>
     </section>
 
-    <section class="method card"><p class="eyebrow">METHOD · BETA</p><h2>읽는 법</h2><div><p><strong>ZA+</strong>는 컨택 결과를 쓰지 않습니다. Heart~Chase와 Z~O-Swing 회귀 잔차를 접근 유형 클러스터 안에서 중심화해 순수 선택 성향을 비교합니다.</p><p><strong>zZA+ / oZA+</strong>는 각각 인존 스윙과 아웃존 테이크를 같은 방식으로 조정합니다. 현재 구역별 추가 가중치는 적용하지 않았습니다.</p><p><strong>ZAwithCon+</strong>는 Whiff·Contact·Foul·InPlay와 Ball·Called Strike·HBP의 기대 득점가치를 결합한 별도 지표입니다.</p></div></section>
+    <section class="method card"><p class="eyebrow">METHOD · BETA</p><h2>읽는 법</h2><div><p><strong>ZA+</strong>는 클러스터 조정 zZA와 oZA를 50:50으로 합친 순수 존 인식 지표입니다. 컨택·타구 결과는 사용하지 않습니다.</p><p><strong>회귀·클러스터</strong>는 Heart~Chase와 Z~O-Swing 관계에서 접근 유형을 구분합니다. 현재 구역별 추가 가중치는 적용하지 않았습니다.</p><p><strong>BB%·K%·HBP%</strong>는 결과 진단과 이상치 확인에만 사용하며 ZA 점수에는 넣지 않습니다. HBP는 BB에서 분리합니다.</p><p><strong>ZAwithCon+</strong>는 Whiff·Contact·Foul·InPlay와 Ball·Called Strike·HBP의 기대 득점가치를 결합한 별도 지표입니다.</p></div></section>
   </main>
-  <script src="zone-awareness.js?v=20260902-2"></script>
+  <script src="zone-awareness.js?v=20260902-3"></script>
 </body>
 </html>
