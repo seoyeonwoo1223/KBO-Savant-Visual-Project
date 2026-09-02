@@ -91,7 +91,9 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 ## Zone Awareness v3 beta
 
-`ZA+`는 컨택·파울·인플레이 결과를 사용하지 않는 순수 존 인식 지표다. 300구 이상 타자를 대상으로 `Heart Swing% ~ Chase Swing%`와 `Z-Swing% ~ O-Swing%` 회귀 잔차를 각각 표준화하고, 잔차·Shadow-in/out Swing%·Waste Swing%로 만든 4개 접근 유형 클러스터 평균의 50%를 차감한다. 두 조정 잔차의 평균을 시즌 평균 100·표준편차 15로 환산한다. `zZA+`는 Z-Swing%, `oZA+`는 O-Take%를 같은 클러스터 중심화 방식으로 조정한 보조 지표다. 구역별 추가 가중치는 야구 관점 검토 전까지 적용하지 않는다.
+`ZA+`는 컨택·파울·인플레이 결과를 사용하지 않는 순수 존 인식 지표다. 300구 이상 타자를 대상으로 Z-Swing%와 O-Take%를 각각 표준화하고, 순수 스윙/테이크 특성으로 만든 4개 접근 유형 클러스터 평균의 50%를 차감한다. 조정 후 두 성분을 다시 표준화해 `zZA+`와 `oZA+`를 정확히 50:50으로 합친 뒤 시즌 평균 100·표준편차 15로 환산한다. `Heart Swing% ~ Chase Swing%`와 `Z-Swing% ~ O-Swing%` 회귀 잔차는 접근 유형 및 이상치 진단에 사용한다. 구역별 추가 가중치는 야구 관점 검토 전까지 적용하지 않는다.
+
+BB%·K%·HBP%와 ZA 계열의 회귀 및 잔차 이상치도 연구 테이블에 저장하지만 ZA 산식에는 사용하지 않는다. BB는 일반 볼넷과 고의사구를 포함하고 몸에 맞는 공은 HBP로 별도 집계한다.
 
 `ZAwithCon+`는 기존 단계형 Decision Value 모델을 별도 보존한 지표다. Swing은 Whiff/Contact와 Contact 뒤 Foul/InPlay, Take는 Ball/Called Strike/HBP 확률을 거쳐 여섯 결과별 RE288 Run Value를 결합한다. `web/zone-awareness/`의 순위표와 Zone Profile은 순수 `ZA+`를, 위치별 Decision Map과 Outcome Path는 `ZAwithCon+` 모델을 보여준다. 인플레이 가치는 타구속도·발사각이 없는 관측 자료 기반 근사치이며, 모든 Plus 점수는 시즌별 표준화 값이다.
 

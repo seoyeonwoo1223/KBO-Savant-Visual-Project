@@ -66,6 +66,7 @@ def test_staged_zone_awareness_and_web_contract(tmp_path):
     assert all(player["zone_awareness_plus"] is not None for player in leaderboard["players"])
     assert all(player["za_with_contact_plus"] is not None for player in leaderboard["players"])
     assert leaderboard["pure_model"]["contact_or_in_play_used"] is False
+    assert leaderboard["pure_model"]["outcome_diagnostics"]["used_in_score"] is False
     shard = json.loads(
         (tmp_path / "web/data/zone_awareness/2026/players/6.json").read_text()
     )

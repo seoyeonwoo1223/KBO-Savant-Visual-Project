@@ -31,6 +31,9 @@ def test_plate_discipline_exports_base_rates_and_metadata(tmp_path):
                 "batter_stance": "R",
                 "pitcher_id": "p",
                 "pitch_type": "4-Seam Fastball",
+                "is_pa_terminal": index % 4 == 3,
+                "pa_type": "k" if index % 40 == 3 else ("bb" if index % 40 == 7 else "out"),
+                "pa_result": "삼진" if index % 40 == 3 else ("볼넷" if index % 40 == 7 else "범타"),
                 "balls_before": 0,
                 "strikes_before": 0,
                 "x_relative": x,
@@ -52,6 +55,13 @@ def test_plate_discipline_exports_base_rates_and_metadata(tmp_path):
     assert all(row["simple_seager"] is not None for row in player_rows)
     assert all(row["zone_awareness_plus"] is not None for row in player_rows)
     assert all(row["pure_cluster_id"] is not None for row in player_rows)
+    assert all(row["bb_pct"] is not None and row["k_pct"] is not None for row in player_rows)
+    assert all(
+        abs(row["zone_awareness_raw"] - (
+            row["pure_z_attack_z_final"] + row["pure_o_restraint_z_final"]
+        ) / 2) < 1e-5
+        for row in player_rows
+    )
     assert all(
         row["seager_a_zone_swings"] + row["seager_b_out_swings"]
         + row["seager_c_zone_takes"] + row["seager_d_out_takes"] == row["pitches_seen"]
@@ -61,4 +71,5 @@ def test_plate_discipline_exports_base_rates_and_metadata(tmp_path):
     assert metadata["qualified_batters"] == 10
     assert metadata["regressions"][0]["x"] == "chase_swing_pct"
     assert metadata["pure_zone_awareness_beta"]["contact_or_in_play_used"] is False
+    assert metadata["pure_zone_awareness_beta"]["outcome_diagnostics"]["used_in_score"] is False
     assert (tmp_path / "exports" / "plate_discipline_research_2026.csv").exists()

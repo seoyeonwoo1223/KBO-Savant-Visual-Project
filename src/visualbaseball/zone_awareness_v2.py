@@ -324,7 +324,7 @@ def _write_web_data(
         key=lambda player: player["zone_awareness_plus"], reverse=True,
     )
     leaderboard = {
-        "schema_version": 3,
+        "schema_version": 4,
         "season": season,
         "minimum_pitches": MIN_PITCHES,
         "qualified_batters": len(qualified),
@@ -357,10 +357,10 @@ def _write_web_data(
         )
 
     catalog_path = web_root / "data" / "zone_awareness" / "index.json"
-    catalog = {"schema_version": 3, "seasons": []}
+    catalog = {"schema_version": 4, "seasons": []}
     if catalog_path.exists():
         catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
-    catalog["schema_version"] = 3
+    catalog["schema_version"] = 4
     catalog["seasons"] = sorted(set(catalog.get("seasons", [])) | {season}, reverse=True)
     catalog["default_season"] = max(catalog["seasons"])
     catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -425,6 +425,10 @@ def build_zone_awareness_v2(
         "z_swing_pct", "o_swing_pct", "heart_swing_pct", "shadow_in_swing_pct",
         "shadow_out_swing_pct", "chase_swing_pct", "waste_swing_pct",
         "shadow_in_pitches", "shadow_out_pitches",
+        "terminal_plate_appearances", "walks", "strikeouts", "hit_by_pitch",
+        "bb_pct", "k_pct", "hbp_pct",
+        "bb_vs_oza_residual", "bb_vs_oza_residual_z", "bb_vs_oza_residual_outlier",
+        "k_vs_zza_residual", "k_vs_zza_residual_z", "k_vs_zza_residual_outlier",
     }
     for player in players:
         pure = pure_by_id.get(player["batter_id"], {})
@@ -439,7 +443,7 @@ def build_zone_awareness_v2(
     pq.write_table(pa.Table.from_pylist(players), processed / f"zone_awareness_v2_batters_{season}.parquet")
     _write_csv(root / "exports" / f"kbo_zone_awareness_v2_{season}.csv", players)
     metadata = {
-        "schema_version": 3,
+        "schema_version": 4,
         "season": season,
         "source": str(source.relative_to(root)),
         "pitches": len(pitches),
@@ -478,7 +482,7 @@ def build_zone_awareness_v2_series(
     combined.sort(key=lambda row: (row["season"], row["batter_name"], row["batter_id"]))
     _write_csv(root / "exports" / "kbo_zone_awareness_v2_2022_2026.csv", combined)
     result = {
-        "schema_version": 3,
+        "schema_version": 4,
         "seasons": [summary["season"] for summary in summaries],
         "season_summaries": summaries,
         "player_seasons": len(combined),
