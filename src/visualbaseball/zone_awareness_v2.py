@@ -16,6 +16,7 @@ from .plate_discipline import build_pure_zone_awareness
 
 MIN_PITCHES = 300
 GRID_STEP = 0.5
+SEAGER_FEATURES = ("x_relative", "z_relative", "balls_before", "strikes_before")
 REGIONS = ("Heart", "Shadow", "Chase", "Waste")
 NUMERIC_FEATURES = (
     "x_relative", "z_relative", "balls_before", "strikes_before", "outs_before",
@@ -114,6 +115,62 @@ def _regressor() -> HistGradientBoostingRegressor:
         )),
         random_state=20260901,
     )
+
+
+def _seager_matrix(rows: list[dict]) -> np.ndarray:
+    return np.column_stack([
+        np.array([
+            float(row[field]) if row.get(field) is not None else np.nan for row in rows
+        ], dtype=float)
+        for field in SEAGER_FEATURES
+    ])
+
+
+def _fit_seager_models(rows: list[dict]) -> tuple[dict[str, np.ndarray], dict]:
+    """Fit BP-style smoothed Swing/Take RV surfaces by count and location."""
+    matrix = _seager_matrix(rows)
+    actions = np.array([row["decision_type"] for row in rows])
+    target = np.array([float(row["raw_run_value"]) for row in rows], dtype=float)
+    predictions = {}
+    samples = {}
+    for action, key in (("Swing", "expected_swing_rv"), ("Take", "expected_take_rv")):
+        mask = actions == action
+        if int(mask.sum()) < 100:
+            raise ValueError(f"SEAGER {action} sample is too small: {int(mask.sum())}")
+        model = HistGradientBoostingRegressor(
+            learning_rate=0.06,
+            max_iter=180,
+            max_leaf_nodes=24,
+            min_samples_leaf=60,
+            l2_regularization=2.0,
+            random_state=20260902,
+        )
+        model.fit(matrix[mask], target[mask])
+        predictions[key] = model.predict(matrix)
+        samples[action] = int(mask.sum())
+    predictions["swing_minus_take_rv"] = (
+        predictions["expected_swing_rv"] - predictions["expected_take_rv"]
+    )
+    return predictions, {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": list(SEAGER_FEATURES),
+        "samples": samples,
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+            "A": "Swing at a hittable pitch",
+            "B": "Swing at an avoid pitch",
+            "C": "Take a hittable pitch",
+            "D": "Take an avoid pitch",
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": False,
+        "league_outcomes_used_for_hittable_surface": True,
+        "minimum_pitches": MIN_PITCHES,
+    }
 
 
 def _probability(model: HistGradientBoostingClassifier, matrix: np.ndarray, label) -> np.ndarray:
@@ -243,6 +300,27 @@ def _player_rows(pitches: list[dict]) -> list[dict]:
             "out_zone_pitches": len(out_zone),
             "out_zone_decision_value_per_100": _per_100(out_zone),
         }
+        a = sum(item["seager_bucket"] == "A" for item in items)
+        b = sum(item["seager_bucket"] == "B" for item in items)
+        c = sum(item["seager_bucket"] == "C" for item in items)
+        d = sum(item["seager_bucket"] == "D" for item in items)
+        selection = 100 * d / (a + d) if a + d else None
+        hittable_taken = 100 * c / (c + d) if c + d else None
+        row.update({
+            "seager_a_hittable_swings": a,
+            "seager_b_avoid_swings": b,
+            "seager_c_hittable_takes": c,
+            "seager_d_avoid_takes": d,
+            "hittable_pitches": a + c,
+            "avoid_pitches": b + d,
+            "selection_tendency_pct": round(selection, 6) if selection is not None else None,
+            "hittable_pitches_taken_pct": round(hittable_taken, 6) if hittable_taken is not None else None,
+            "hittable_avoidance_pct": round(100 - hittable_taken, 6)
+            if hittable_taken is not None else None,
+            "seager_raw": round(selection - hittable_taken, 6)
+            if selection is not None and hittable_taken is not None else None,
+            "seager_correct_pct": round(100 * (a + d) / len(items), 6),
+        })
         for region in REGIONS:
             selected = [item for item in items if item["region"] == region]
             region_swings = [item for item in selected if item["decision_type"] == "Swing"]
@@ -253,9 +331,21 @@ def _player_rows(pitches: list[dict]) -> list[dict]:
             row[f"{prefix}_swing_decision_value_per_100"] = _per_100(region_swings)
             row[f"{prefix}_take_decision_value_per_100"] = _per_100(region_takes)
         players.append(row)
+    _standardize(players, "seager_raw", "seager_plus")
+    _standardize(players, "selection_tendency_pct", "selection_tendency_plus")
+    _standardize(players, "hittable_avoidance_pct", "hittable_avoidance_plus")
     _standardize(players, "decision_value_per_100", "za_with_contact_plus")
     _standardize(players, "in_zone_decision_value_per_100", "z_za_with_contact_plus")
     _standardize(players, "out_zone_decision_value_per_100", "o_za_with_contact_plus")
+    for row in players:
+        # Schema-v5 compatibility aliases. These fields are SEAGER components,
+        # not the former Z-Swing/O-Take composite.
+        row["zone_awareness_raw"] = row["seager_raw"]
+        row["zone_awareness_plus"] = row["seager_plus"]
+        row["z_zone_awareness_raw"] = row["selection_tendency_pct"]
+        row["z_zone_awareness_plus"] = row["selection_tendency_plus"]
+        row["o_zone_awareness_raw"] = row["hittable_avoidance_pct"]
+        row["o_zone_awareness_plus"] = row["hittable_avoidance_plus"]
     return players
 
 
@@ -304,6 +394,9 @@ def _grid(items: list[dict]) -> list[dict]:
             "expected_swing_pct": _mean(selected, "expected_swing_probability", 100),
             "expected_swing_rv": _mean(selected, "expected_swing_rv"),
             "expected_take_rv": _mean(selected, "expected_take_rv"),
+            "seager_hittable_pct": round(
+                100 * sum(item["seager_hittable"] for item in selected) / len(selected), 3
+            ),
         }
         for field in PROBABILITY_FIELDS:
             cell[field] = _mean(selected, field, 100)
@@ -324,12 +417,13 @@ def _write_web_data(
         key=lambda player: player["zone_awareness_plus"], reverse=True,
     )
     leaderboard = {
-        "schema_version": 4,
+        "schema_version": 5,
         "season": season,
         "minimum_pitches": MIN_PITCHES,
         "qualified_batters": len(qualified),
         "players": players,
-        "pure_model": metadata["pure_model"],
+        "seager_model": metadata["seager_model"],
+        "pure_model": metadata["seager_model"],
         "contact_model": metadata["contact_model"],
         "limitation": metadata["limitation"],
     }
@@ -357,10 +451,10 @@ def _write_web_data(
         )
 
     catalog_path = web_root / "data" / "zone_awareness" / "index.json"
-    catalog = {"schema_version": 4, "seasons": []}
+    catalog = {"schema_version": 5, "seasons": []}
     if catalog_path.exists():
         catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
-    catalog["schema_version"] = 4
+    catalog["schema_version"] = 5
     catalog["seasons"] = sorted(set(catalog.get("seasons", [])) | {season}, reverse=True)
     catalog["default_season"] = max(catalog["seasons"])
     catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -376,7 +470,7 @@ def build_zone_awareness_v2(
         "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
     )
     source_rows = pq.read_table(source).to_pylist()
-    pure_players, pure_model = build_pure_zone_awareness(source_rows, season)
+    diagnostic_players, _ = build_pure_zone_awareness(source_rows, season)
     rows, excluded = [], Counter()
     for row in source_rows:
         outcome = _outcome(row)
@@ -391,6 +485,7 @@ def build_zone_awareness_v2(
             continue
         row["model_outcome"] = outcome
         rows.append(row)
+    seager_predictions, seager_model = _fit_seager_models(rows)
     predictions, model = _fit_staged_models(rows)
     pitches = []
     for index, row in enumerate(rows):
@@ -398,6 +493,13 @@ def build_zone_awareness_v2(
         take = float(predictions["expected_take_rv"][index])
         preference = swing - take
         swung = row["decision_type"] == "Swing"
+        seager_preference = float(seager_predictions["swing_minus_take_rv"][index])
+        seager_hittable = seager_preference > 0
+        seager_bucket = (
+            "A" if swung and seager_hittable else
+            "B" if swung else
+            "C" if seager_hittable else "D"
+        )
         pitch = {
             "season": season,
             "batter_id": str(row.get("batter_id") or ""),
@@ -412,16 +514,23 @@ def build_zone_awareness_v2(
             "swing_minus_take_rv": round(preference, 8),
             "decision_value": round(preference if swung else -preference, 8),
             "decision_opportunity": round(abs(preference), 8),
+            "seager_expected_swing_rv": round(
+                float(seager_predictions["expected_swing_rv"][index]), 8
+            ),
+            "seager_expected_take_rv": round(
+                float(seager_predictions["expected_take_rv"][index]), 8
+            ),
+            "seager_swing_minus_take_rv": round(seager_preference, 8),
+            "seager_hittable": seager_hittable,
+            "seager_bucket": seager_bucket,
         }
         for field, values in predictions.items():
             pitch[field] = round(float(values[index]), 8)
         pitches.append(pitch)
     players = _player_rows(pitches)
-    pure_by_id = {row["batter_id"]: row for row in pure_players}
+    diagnostic_by_id = {row["batter_id"]: row for row in diagnostic_players}
     pure_fields = {
         "heart_vs_chase_residual", "zone_vs_out_residual", "out_zone_take_pct",
-        "zone_awareness_raw", "z_zone_awareness_raw", "o_zone_awareness_raw",
-        "zone_awareness_plus", "z_zone_awareness_plus", "o_zone_awareness_plus",
         "z_swing_pct", "o_swing_pct", "heart_swing_pct", "shadow_in_swing_pct",
         "shadow_out_swing_pct", "chase_swing_pct", "waste_swing_pct",
         "shadow_in_pitches", "shadow_out_pitches",
@@ -431,9 +540,9 @@ def build_zone_awareness_v2(
         "k_vs_zza_residual", "k_vs_zza_residual_z", "k_vs_zza_residual_outlier",
     }
     for player in players:
-        pure = pure_by_id.get(player["batter_id"], {})
-        for field, value in pure.items():
-            if field in pure_fields or field.startswith("pure_"):
+        diagnostic = diagnostic_by_id.get(player["batter_id"], {})
+        for field, value in diagnostic.items():
+            if field in pure_fields:
                 player[field] = value
         player["za_with_contact_value"] = player["decision_value"]
         player["za_with_contact_per_100"] = player["decision_value_per_100"]
@@ -443,14 +552,15 @@ def build_zone_awareness_v2(
     pq.write_table(pa.Table.from_pylist(players), processed / f"zone_awareness_v2_batters_{season}.parquet")
     _write_csv(root / "exports" / f"kbo_zone_awareness_v2_{season}.csv", players)
     metadata = {
-        "schema_version": 4,
+        "schema_version": 5,
         "season": season,
         "source": str(source.relative_to(root)),
         "pitches": len(pitches),
         "batters": len(players),
         "qualified_batters": sum(row["qualified_300"] for row in players),
         "minimum_pitches": MIN_PITCHES,
-        "pure_model": pure_model,
+        "seager_model": seager_model,
+        "pure_model": seager_model,
         "contact_model": model,
         "excluded": dict(excluded),
         "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation.",
@@ -482,7 +592,7 @@ def build_zone_awareness_v2_series(
     combined.sort(key=lambda row: (row["season"], row["batter_name"], row["batter_id"]))
     _write_csv(root / "exports" / "kbo_zone_awareness_v2_2022_2026.csv", combined)
     result = {
-        "schema_version": 4,
+        "schema_version": 5,
         "seasons": [summary["season"] for summary in summaries],
         "season_summaries": summaries,
         "player_seasons": len(combined),

@@ -89,13 +89,13 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 회귀식과 클러스터 중심값·표본 기준·정의는 `data/processed/plate_discipline_research.json`에 기록한다. 클러스터 번호는 우열 등급이 아니며, 타구속도·발사각이 없는 현재 원자료로는 PLV처럼 타자별로 좋은 타구가 될 확률까지 분리하지 않는다. 기존 Decision Run은 실제 선택의 결과가 포함된 진단값이므로 counterfactual Decision Value로 부르지 않는다.
 
-## Zone Awareness v3 beta
+## BP-style SEAGER · Zone Awareness v4 beta
 
-`ZA+`는 컨택·파울·인플레이 결과를 사용하지 않는 순수 존 인식 지표다. 300구 이상 타자를 대상으로 Z-Swing%와 O-Take%를 각각 표준화하고, 순수 스윙/테이크 특성으로 만든 4개 접근 유형 클러스터 평균의 50%를 차감한다. 조정 후 두 성분을 다시 표준화해 `zZA+`와 `oZA+`를 정확히 50:50으로 합친 뒤 시즌 평균 100·표준편차 15로 환산한다. `Heart Swing% ~ Chase Swing%`와 `Z-Swing% ~ O-Swing%` 회귀 잔차는 접근 유형 및 이상치 진단에 사용한다. 구역별 추가 가중치는 야구 관점 검토 전까지 적용하지 않는다.
+`SEAGER`는 [Baseball Prospectus의 원문](https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/) 구조를 Visual Baseball 데이터에 맞춰 재현한 접근 지표다. 시즌별 리그 투구로 정규화 위치·볼카운트에 따른 Expected Swing RV와 Expected Take RV 곡면을 각각 추정하고, Swing RV가 더 높은 투구를 `칠 공`, 반대를 `피할 공`으로 판정한다. A=칠 공 스윙, B=피할 공 스윙, C=칠 공 테이크, D=피할 공 테이크이며 산식은 `D/(A+D) - C/(C+D)`다. `Selection Tendency = D/(A+D)`, `Hittable Pitches Taken = C/(C+D)`도 함께 제공한다.
 
-BB%·K%·HBP%와 ZA 계열의 회귀 및 잔차 이상치도 연구 테이블에 저장하지만 ZA 산식에는 사용하지 않는다. BB는 일반 볼넷과 고의사구를 포함하고 몸에 맞는 공은 HBP로 별도 집계한다.
+선수 개인의 실제 컨택·타구 결과는 A/B/C/D 집계에 직접 넣지 않는다. 다만 칠 공 경계를 만드는 리그 Swing RV 곡면은 리그 전체의 관측 결과에서 학습하므로 완전한 outcome-free 지표는 아니다. `SEAGER+`는 300구 이상 타자를 시즌 평균 100·표준편차 15로 환산한 값이다. 기존 `zone_awareness_plus` 필드는 호환성을 위해 `seager_plus`의 별칭으로 유지한다.
 
-`ZAwithCon+`는 기존 단계형 Decision Value 모델을 별도 보존한 지표다. Swing은 Whiff/Contact와 Contact 뒤 Foul/InPlay, Take는 Ball/Called Strike/HBP 확률을 거쳐 여섯 결과별 RE288 Run Value를 결합한다. `web/zone-awareness/`의 순위표와 Zone Profile은 순수 `ZA+`를, 위치별 Decision Map과 Outcome Path는 `ZAwithCon+` 모델을 보여준다. 인플레이 가치는 타구속도·발사각이 없는 관측 자료 기반 근사치이며, 모든 Plus 점수는 시즌별 표준화 값이다.
+`ZAwithCon+`는 단계형 Decision Value 모델을 별도 보존한 지표다. Swing은 Whiff/Contact와 Contact 뒤 Foul/InPlay, Take는 Ball/Called Strike/HBP 확률을 거쳐 여섯 결과별 RE288 Run Value를 결합한다. 위치별 Decision Map과 Outcome Path는 계속 `ZAwithCon+` 모델을 보여준다. 인플레이 가치는 타구속도·발사각이 없는 관측 자료 기반 근사치이며, 모든 Plus 점수는 시즌별 표준화 값이다.
 
 ## Pitcher Zone Profile
 
