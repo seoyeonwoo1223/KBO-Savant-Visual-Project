@@ -50,6 +50,8 @@ def test_plate_discipline_exports_base_rates_and_metadata(tmp_path):
     assert all(row["heart_pitches"] == 80 for row in player_rows)
     assert all(row["cluster_id"] >= 1 for row in player_rows)
     assert all(row["simple_seager"] is not None for row in player_rows)
+    assert all(row["zone_awareness_plus"] is not None for row in player_rows)
+    assert all(row["pure_cluster_id"] is not None for row in player_rows)
     assert all(
         row["seager_a_zone_swings"] + row["seager_b_out_swings"]
         + row["seager_c_zone_takes"] + row["seager_d_out_takes"] == row["pitches_seen"]
@@ -58,4 +60,5 @@ def test_plate_discipline_exports_base_rates_and_metadata(tmp_path):
     metadata = json.loads((processed / "plate_discipline_research.json").read_text())
     assert metadata["qualified_batters"] == 10
     assert metadata["regressions"][0]["x"] == "chase_swing_pct"
+    assert metadata["pure_zone_awareness_beta"]["contact_or_in_play_used"] is False
     assert (tmp_path / "exports" / "plate_discipline_research_2026.csv").exists()

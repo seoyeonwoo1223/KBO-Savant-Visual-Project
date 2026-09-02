@@ -156,5 +156,84 @@
       "3": 43,
       "4": 27
     }
+  },
+  "pure_zone_awareness_beta": {
+    "metric": "Outcome-free Zone Awareness beta",
+    "contact_or_in_play_used": false,
+    "minimum_pitches": 300,
+    "regressions": [
+      {
+        "name": "heart swing vs chase swing",
+        "x": "chase_swing_pct",
+        "y": "heart_swing_pct",
+        "n": 159,
+        "available": true,
+        "intercept": 64.17133128,
+        "slope": 0.22651536,
+        "r_squared": 0.05996711
+      },
+      {
+        "name": "zone swing vs out-of-zone swing",
+        "x": "o_swing_pct",
+        "y": "z_swing_pct",
+        "n": 159,
+        "available": true,
+        "intercept": 48.08867237,
+        "slope": 0.58293636,
+        "r_squared": 0.27402744
+      }
+    ],
+    "clustering": {
+      "available": true,
+      "k": 4,
+      "features": [
+        "heart_vs_chase_residual",
+        "zone_vs_out_residual",
+        "shadow_in_swing_pct",
+        "shadow_out_swing_pct",
+        "waste_swing_pct"
+      ],
+      "sizes": {
+        "1": 28,
+        "2": 53,
+        "3": 58,
+        "4": 20
+      },
+      "centroids_z": [
+        {
+          "heart_vs_chase_residual": -0.879261,
+          "zone_vs_out_residual": -0.947699,
+          "shadow_in_swing_pct": -0.092701,
+          "shadow_out_swing_pct": 0.252985,
+          "waste_swing_pct": 1.091595
+        },
+        {
+          "heart_vs_chase_residual": -0.620082,
+          "zone_vs_out_residual": -0.624686,
+          "shadow_in_swing_pct": -0.980193,
+          "shadow_out_swing_pct": -0.885578,
+          "waste_swing_pct": -0.5182
+        },
+        {
+          "heart_vs_chase_residual": 0.739243,
+          "zone_vs_out_residual": 0.789241,
+          "shadow_in_swing_pct": 0.444012,
+          "shadow_out_swing_pct": 0.182484,
+          "waste_swing_pct": -0.443157
+        },
+        {
+          "heart_vs_chase_residual": 0.730378,
+          "zone_vs_out_residual": 0.693397,
+          "shadow_in_swing_pct": 1.43966,
+          "shadow_out_swing_pct": 1.4634,
+          "waste_swing_pct": 1.130155
+        }
+      ]
+    },
+    "cluster_adjustment_weight": 0.5,
+    "formula": "mean(global residual z - 0.5 * approach-cluster residual-z mean)",
+    "z_component": "Z-Swing% z-score with the same cluster-centering adjustment",
+    "o_component": "O-Take% z-score with the same cluster-centering adjustment",
+    "location_weights": "No additional Heart/Shadow/Chase/Waste weights; pending baseball review"
   }
 }

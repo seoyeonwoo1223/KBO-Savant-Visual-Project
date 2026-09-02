@@ -1,12 +1,91 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "season": 2022,
   "source": "data/processed/decision_pitches_2022.parquet",
   "pitches": 214637,
   "batters": 279,
   "qualified_batters": 163,
   "minimum_pitches": 300,
-  "model": {
+  "pure_model": {
+    "metric": "Outcome-free Zone Awareness beta",
+    "contact_or_in_play_used": false,
+    "minimum_pitches": 300,
+    "regressions": [
+      {
+        "name": "heart swing vs chase swing",
+        "x": "chase_swing_pct",
+        "y": "heart_swing_pct",
+        "n": 163,
+        "available": true,
+        "intercept": 67.75604919,
+        "slope": 0.15867469,
+        "r_squared": 0.03436541
+      },
+      {
+        "name": "zone swing vs out-of-zone swing",
+        "x": "o_swing_pct",
+        "y": "z_swing_pct",
+        "n": 163,
+        "available": true,
+        "intercept": 53.39174307,
+        "slope": 0.45652389,
+        "r_squared": 0.22293702
+      }
+    ],
+    "clustering": {
+      "available": true,
+      "k": 4,
+      "features": [
+        "heart_vs_chase_residual",
+        "zone_vs_out_residual",
+        "shadow_in_swing_pct",
+        "shadow_out_swing_pct",
+        "waste_swing_pct"
+      ],
+      "sizes": {
+        "1": 29,
+        "2": 45,
+        "3": 52,
+        "4": 37
+      },
+      "centroids_z": [
+        {
+          "heart_vs_chase_residual": -1.258037,
+          "zone_vs_out_residual": -1.411798,
+          "shadow_in_swing_pct": -0.608508,
+          "shadow_out_swing_pct": 0.251985,
+          "waste_swing_pct": 0.753444
+        },
+        {
+          "heart_vs_chase_residual": -0.362443,
+          "zone_vs_out_residual": -0.360962,
+          "shadow_in_swing_pct": -0.875987,
+          "shadow_out_swing_pct": -0.943148,
+          "waste_swing_pct": -0.764068
+        },
+        {
+          "heart_vs_chase_residual": 0.342109,
+          "zone_vs_out_residual": 0.442482,
+          "shadow_in_swing_pct": 0.200883,
+          "shadow_out_swing_pct": -0.084013,
+          "waste_swing_pct": -0.346823
+        },
+        {
+          "heart_vs_chase_residual": 0.946037,
+          "zone_vs_out_residual": 0.923686,
+          "shadow_in_swing_pct": 1.260006,
+          "shadow_out_swing_pct": 1.067642,
+          "waste_swing_pct": 0.826161
+        }
+      ]
+    },
+    "cluster_adjustment_weight": 0.5,
+    "formula": "mean(global residual z - 0.5 * approach-cluster residual-z mean)",
+    "z_component": "Z-Swing% z-score with the same cluster-centering adjustment",
+    "o_component": "O-Take% z-score with the same cluster-centering adjustment",
+    "location_weights": "No additional Heart/Shadow/Chase/Waste weights; pending baseball review"
+  },
+  "contact_model": {
     "model": "Staged HistGradientBoosting outcome tree",
     "tree": {
       "swing": "Whiff / Contact; Contact -> Foul / InPlay",

@@ -58,12 +58,14 @@ def test_staged_zone_awareness_and_web_contract(tmp_path):
 
     assert metadata["pitches"] == 2_400
     assert metadata["qualified_batters"] == 4
-    assert set(metadata["model"]["branch_samples"].values()) == {400}
+    assert set(metadata["contact_model"]["branch_samples"].values()) == {400}
     leaderboard = json.loads(
         (tmp_path / "web/data/zone_awareness/2026/leaderboard.json").read_text()
     )
     assert len(leaderboard["players"]) == 4
     assert all(player["zone_awareness_plus"] is not None for player in leaderboard["players"])
+    assert all(player["za_with_contact_plus"] is not None for player in leaderboard["players"])
+    assert leaderboard["pure_model"]["contact_or_in_play_used"] is False
     shard = json.loads(
         (tmp_path / "web/data/zone_awareness/2026/players/6.json").read_text()
     )

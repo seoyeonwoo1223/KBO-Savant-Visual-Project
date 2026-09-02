@@ -11,6 +11,8 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 from sklearn.ensemble import HistGradientBoostingClassifier, HistGradientBoostingRegressor
 
+from .plate_discipline import build_pure_zone_awareness
+
 
 MIN_PITCHES = 300
 GRID_STEP = 0.5
@@ -251,9 +253,9 @@ def _player_rows(pitches: list[dict]) -> list[dict]:
             row[f"{prefix}_swing_decision_value_per_100"] = _per_100(region_swings)
             row[f"{prefix}_take_decision_value_per_100"] = _per_100(region_takes)
         players.append(row)
-    _standardize(players, "decision_value_per_100", "zone_awareness_plus")
-    _standardize(players, "in_zone_decision_value_per_100", "z_zone_awareness_plus")
-    _standardize(players, "out_zone_decision_value_per_100", "o_zone_awareness_plus")
+    _standardize(players, "decision_value_per_100", "za_with_contact_plus")
+    _standardize(players, "in_zone_decision_value_per_100", "z_za_with_contact_plus")
+    _standardize(players, "out_zone_decision_value_per_100", "o_za_with_contact_plus")
     return players
 
 
@@ -322,12 +324,13 @@ def _write_web_data(
         key=lambda player: player["zone_awareness_plus"], reverse=True,
     )
     leaderboard = {
-        "schema_version": 2,
+        "schema_version": 3,
         "season": season,
         "minimum_pitches": MIN_PITCHES,
         "qualified_batters": len(qualified),
         "players": players,
-        "model": metadata["model"],
+        "pure_model": metadata["pure_model"],
+        "contact_model": metadata["contact_model"],
         "limitation": metadata["limitation"],
     }
     (season_root / "leaderboard.json").write_text(
@@ -354,9 +357,10 @@ def _write_web_data(
         )
 
     catalog_path = web_root / "data" / "zone_awareness" / "index.json"
-    catalog = {"schema_version": 2, "seasons": []}
+    catalog = {"schema_version": 3, "seasons": []}
     if catalog_path.exists():
         catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    catalog["schema_version"] = 3
     catalog["seasons"] = sorted(set(catalog.get("seasons", [])) | {season}, reverse=True)
     catalog["default_season"] = max(catalog["seasons"])
     catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -371,8 +375,10 @@ def build_zone_awareness_v2(
     source = source or root / "data" / "processed" / (
         "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
     )
+    source_rows = pq.read_table(source).to_pylist()
+    pure_players, pure_model = build_pure_zone_awareness(source_rows, season)
     rows, excluded = [], Counter()
-    for row in pq.read_table(source).to_pylist():
+    for row in source_rows:
         outcome = _outcome(row)
         if (
             int(row.get("season") or season) != season
@@ -411,20 +417,37 @@ def build_zone_awareness_v2(
             pitch[field] = round(float(values[index]), 8)
         pitches.append(pitch)
     players = _player_rows(pitches)
+    pure_by_id = {row["batter_id"]: row for row in pure_players}
+    pure_fields = {
+        "heart_vs_chase_residual", "zone_vs_out_residual", "out_zone_take_pct",
+        "zone_awareness_raw", "z_zone_awareness_raw", "o_zone_awareness_raw",
+        "zone_awareness_plus", "z_zone_awareness_plus", "o_zone_awareness_plus",
+        "z_swing_pct", "o_swing_pct", "heart_swing_pct", "shadow_in_swing_pct",
+        "shadow_out_swing_pct", "chase_swing_pct", "waste_swing_pct",
+        "shadow_in_pitches", "shadow_out_pitches",
+    }
+    for player in players:
+        pure = pure_by_id.get(player["batter_id"], {})
+        for field, value in pure.items():
+            if field in pure_fields or field.startswith("pure_"):
+                player[field] = value
+        player["za_with_contact_value"] = player["decision_value"]
+        player["za_with_contact_per_100"] = player["decision_value_per_100"]
 
     processed = root / "data" / "processed"
     processed.mkdir(parents=True, exist_ok=True)
     pq.write_table(pa.Table.from_pylist(players), processed / f"zone_awareness_v2_batters_{season}.parquet")
     _write_csv(root / "exports" / f"kbo_zone_awareness_v2_{season}.csv", players)
     metadata = {
-        "schema_version": 2,
+        "schema_version": 3,
         "season": season,
         "source": str(source.relative_to(root)),
         "pitches": len(pitches),
         "batters": len(players),
         "qualified_batters": sum(row["qualified_300"] for row in players),
         "minimum_pitches": MIN_PITCHES,
-        "model": model,
+        "pure_model": pure_model,
+        "contact_model": model,
         "excluded": dict(excluded),
         "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation.",
     }
@@ -455,7 +478,7 @@ def build_zone_awareness_v2_series(
     combined.sort(key=lambda row: (row["season"], row["batter_name"], row["batter_id"]))
     _write_csv(root / "exports" / "kbo_zone_awareness_v2_2022_2026.csv", combined)
     result = {
-        "schema_version": 2,
+        "schema_version": 3,
         "seasons": [summary["season"] for summary in summaries],
         "season_summaries": summaries,
         "player_seasons": len(combined),
