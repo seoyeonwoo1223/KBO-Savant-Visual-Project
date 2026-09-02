@@ -89,11 +89,11 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 회귀식과 클러스터 중심값·표본 기준·정의는 `data/processed/plate_discipline_research.json`에 기록한다. 클러스터 번호는 우열 등급이 아니며, 타구속도·발사각이 없는 현재 원자료로는 PLV처럼 타자별로 좋은 타구가 될 확률까지 분리하지 않는다. 기존 Decision Run은 실제 선택의 결과가 포함된 진단값이므로 counterfactual Decision Value로 부르지 않는다.
 
-## Zone Awareness v2
+## Zone Awareness v3 beta
 
-`src/visualbaseball/zone_awareness_v2.py`는 투구마다 Swing과 Take의 기대 득점가치를 따로 추정한다. Swing은 Whiff/Contact와 Contact 뒤 Foul/InPlay, Take는 Ball/Called Strike/HBP의 단계형 확률 모델을 거치며, 여섯 결과별 RE288 Run Value 모델을 결합한다. 실제 선택과 반대 선택의 기대가치 차이를 타자별로 집계한 뒤, 300구 이상 타자를 기준으로 시즌 평균 100·표준편차 15의 `ZA+`, `zZA+`, `oZA+`로 환산한다.
+`ZA+`는 컨택·파울·인플레이 결과를 사용하지 않는 순수 존 인식 지표다. 300구 이상 타자를 대상으로 `Heart Swing% ~ Chase Swing%`와 `Z-Swing% ~ O-Swing%` 회귀 잔차를 각각 표준화하고, 잔차·Shadow-in/out Swing%·Waste Swing%로 만든 4개 접근 유형 클러스터 평균의 50%를 차감한다. 두 조정 잔차의 평균을 시즌 평균 100·표준편차 15로 환산한다. `zZA+`는 Z-Swing%, `oZA+`는 O-Take%를 같은 클러스터 중심화 방식으로 조정한 보조 지표다. 구역별 추가 가중치는 야구 관점 검토 전까지 적용하지 않는다.
 
-`web/zone-awareness/`에서는 리그 산점도와 순위표, Heart·Shadow·Chase·Waste 프로필, 위치별 Decision Map, 단계별 Outcome Path를 제공한다. 인플레이 가치는 공개 원본에 타구속도와 발사각이 없어 관측 자료 기반 counterfactual 근사치이며, Plus 점수는 다른 시즌과 원점수를 직접 비교하는 척도가 아니다.
+`ZAwithCon+`는 기존 단계형 Decision Value 모델을 별도 보존한 지표다. Swing은 Whiff/Contact와 Contact 뒤 Foul/InPlay, Take는 Ball/Called Strike/HBP 확률을 거쳐 여섯 결과별 RE288 Run Value를 결합한다. `web/zone-awareness/`의 순위표와 Zone Profile은 순수 `ZA+`를, 위치별 Decision Map과 Outcome Path는 `ZAwithCon+` 모델을 보여준다. 인플레이 가치는 타구속도·발사각이 없는 관측 자료 기반 근사치이며, 모든 Plus 점수는 시즌별 표준화 값이다.
 
 ## Pitcher Zone Profile
 
