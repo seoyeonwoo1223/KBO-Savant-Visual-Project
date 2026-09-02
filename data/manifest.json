@@ -2879,6 +2879,31 @@
       "status": "completed",
       "raw_path": "data/raw/2026/20260830WOOB0.json",
       "message": "PASS"
+    },
+    "20260901SKWO0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260901SKWO0.json",
+      "message": "PASS"
+    },
+    "20260901LTSS0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260901LTSS0.json",
+      "message": "PASS"
+    },
+    "20260901LGOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260901LGOB0.json",
+      "message": "PASS"
+    },
+    "20260901HTNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260901HTNC0.json",
+      "message": "PASS"
+    },
+    "20260901HHKT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260901HHKT0.json",
+      "message": "PASS"
     }
   }
 }
