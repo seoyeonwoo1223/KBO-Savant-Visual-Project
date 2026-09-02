@@ -1,5 +1,5 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "seasons": [
     2022,
     2023,
@@ -9,142 +9,68 @@
   ],
   "season_summaries": [
     {
-      "schema_version": 4,
+      "schema_version": 5,
       "season": 2022,
       "source": "data/processed/decision_pitches_2022.parquet",
       "pitches": 214637,
       "batters": 279,
       "qualified_batters": 163,
       "minimum_pitches": 300,
-      "pure_model": {
-        "metric": "Outcome-free Zone Awareness beta",
-        "contact_or_in_play_used": false,
-        "minimum_pitches": 300,
-        "regressions": [
-          {
-            "name": "heart swing vs chase swing",
-            "x": "chase_swing_pct",
-            "y": "heart_swing_pct",
-            "n": 163,
-            "available": true,
-            "intercept": 67.75604919,
-            "slope": 0.15867469,
-            "r_squared": 0.03436541
-          },
-          {
-            "name": "zone swing vs out-of-zone swing",
-            "x": "o_swing_pct",
-            "y": "z_swing_pct",
-            "n": 163,
-            "available": true,
-            "intercept": 53.39174307,
-            "slope": 0.45652389,
-            "r_squared": 0.22293702
-          }
+      "seager_model": {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before"
         ],
-        "clustering": {
-          "available": true,
-          "k": 4,
-          "features": [
-            "heart_vs_chase_residual",
-            "zone_vs_out_residual",
-            "shadow_in_swing_pct",
-            "shadow_out_swing_pct",
-            "waste_swing_pct"
-          ],
-          "sizes": {
-            "1": 29,
-            "2": 45,
-            "3": 52,
-            "4": 37
-          },
-          "centroids_z": [
-            {
-              "heart_vs_chase_residual": -1.258037,
-              "zone_vs_out_residual": -1.411798,
-              "shadow_in_swing_pct": -0.608508,
-              "shadow_out_swing_pct": 0.251985,
-              "waste_swing_pct": 0.753444
-            },
-            {
-              "heart_vs_chase_residual": -0.362443,
-              "zone_vs_out_residual": -0.360962,
-              "shadow_in_swing_pct": -0.875987,
-              "shadow_out_swing_pct": -0.943148,
-              "waste_swing_pct": -0.764068
-            },
-            {
-              "heart_vs_chase_residual": 0.342109,
-              "zone_vs_out_residual": 0.442482,
-              "shadow_in_swing_pct": 0.200883,
-              "shadow_out_swing_pct": -0.084013,
-              "waste_swing_pct": -0.346823
-            },
-            {
-              "heart_vs_chase_residual": 0.946037,
-              "zone_vs_out_residual": 0.923686,
-              "shadow_in_swing_pct": 1.260006,
-              "shadow_out_swing_pct": 1.067642,
-              "waste_swing_pct": 0.826161
-            }
-          ]
+        "samples": {
+          "Swing": 98571,
+          "Take": 116066
         },
-        "cluster_adjustment_weight": 0.5,
-        "formula": "0.5 * restandardized cluster-adjusted Z-Swing% z + 0.5 * restandardized cluster-adjusted O-Take% z",
-        "z_component": "Z-Swing% z-score with the same cluster-centering adjustment",
-        "o_component": "O-Take% z-score with the same cluster-centering adjustment",
-        "location_weights": "No additional Heart/Shadow/Chase/Waste weights; pending baseball review",
-        "outcome_diagnostics": {
-          "used_in_score": false,
-          "rates": [
-            "BB% (including intentional walk, excluding HBP)",
-            "K%",
-            "HBP%"
-          ],
-          "regressions": [
-            {
-              "name": "BB% vs oZA+",
-              "x": "o_zone_awareness_plus",
-              "y": "bb_pct",
-              "n": 163,
-              "available": true,
-              "intercept": -4.75576637,
-              "slope": 0.13107785,
-              "r_squared": 0.46865694
-            },
-            {
-              "name": "K% vs zZA+",
-              "x": "z_zone_awareness_plus",
-              "y": "k_pct",
-              "n": 163,
-              "available": true,
-              "intercept": 12.9743271,
-              "slope": 0.07184097,
-              "r_squared": 0.02391551
-            },
-            {
-              "name": "BB% vs ZA+",
-              "x": "zone_awareness_plus",
-              "y": "bb_pct",
-              "n": 163,
-              "available": true,
-              "intercept": 0.81148218,
-              "slope": 0.07540536,
-              "r_squared": 0.15509656
-            },
-            {
-              "name": "K% vs ZA+",
-              "x": "zone_awareness_plus",
-              "y": "k_pct",
-              "n": 163,
-              "available": true,
-              "intercept": 20.58916458,
-              "slope": -0.0043074,
-              "r_squared": 8.597e-05
-            }
-          ],
-          "outlier_threshold": "absolute residual z >= 1.5"
-        }
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+          "A": "Swing at a hittable pitch",
+          "B": "Swing at an avoid pitch",
+          "C": "Take a hittable pitch",
+          "D": "Take an avoid pitch"
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": false,
+        "league_outcomes_used_for_hittable_surface": true,
+        "minimum_pitches": 300
+      },
+      "pure_model": {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before"
+        ],
+        "samples": {
+          "Swing": 98571,
+          "Take": 116066
+        },
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+          "A": "Swing at a hittable pitch",
+          "B": "Swing at an avoid pitch",
+          "C": "Take a hittable pitch",
+          "D": "Take an avoid pitch"
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": false,
+        "league_outcomes_used_for_hittable_surface": true,
+        "minimum_pitches": 300
       },
       "contact_model": {
         "model": "Staged HistGradientBoosting outcome tree",
@@ -182,142 +108,68 @@
       "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
     },
     {
-      "schema_version": 4,
+      "schema_version": 5,
       "season": 2023,
       "source": "data/processed/decision_pitches_2023.parquet",
       "pitches": 215392,
       "batters": 293,
       "qualified_batters": 173,
       "minimum_pitches": 300,
-      "pure_model": {
-        "metric": "Outcome-free Zone Awareness beta",
-        "contact_or_in_play_used": false,
-        "minimum_pitches": 300,
-        "regressions": [
-          {
-            "name": "heart swing vs chase swing",
-            "x": "chase_swing_pct",
-            "y": "heart_swing_pct",
-            "n": 173,
-            "available": true,
-            "intercept": 63.44333323,
-            "slope": 0.28757905,
-            "r_squared": 0.08567614
-          },
-          {
-            "name": "zone swing vs out-of-zone swing",
-            "x": "o_swing_pct",
-            "y": "z_swing_pct",
-            "n": 173,
-            "available": true,
-            "intercept": 49.30840416,
-            "slope": 0.56488502,
-            "r_squared": 0.24506098
-          }
+      "seager_model": {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before"
         ],
-        "clustering": {
-          "available": true,
-          "k": 4,
-          "features": [
-            "heart_vs_chase_residual",
-            "zone_vs_out_residual",
-            "shadow_in_swing_pct",
-            "shadow_out_swing_pct",
-            "waste_swing_pct"
-          ],
-          "sizes": {
-            "1": 28,
-            "2": 46,
-            "3": 65,
-            "4": 34
-          },
-          "centroids_z": [
-            {
-              "heart_vs_chase_residual": -1.290754,
-              "zone_vs_out_residual": -1.304661,
-              "shadow_in_swing_pct": -1.256333,
-              "shadow_out_swing_pct": -0.727936,
-              "waste_swing_pct": -0.405097
-            },
-            {
-              "heart_vs_chase_residual": -0.515278,
-              "zone_vs_out_residual": -0.629337,
-              "shadow_in_swing_pct": 0.113724,
-              "shadow_out_swing_pct": 0.743846,
-              "waste_swing_pct": 0.926524
-            },
-            {
-              "heart_vs_chase_residual": 0.326623,
-              "zone_vs_out_residual": 0.385295,
-              "shadow_in_swing_pct": -0.213864,
-              "shadow_out_swing_pct": -0.694714,
-              "waste_swing_pct": -0.506165
-            },
-            {
-              "heart_vs_chase_residual": 1.135688,
-              "zone_vs_out_residual": 1.18929,
-              "shadow_in_swing_pct": 1.289624,
-              "shadow_out_swing_pct": 0.921226,
-              "waste_swing_pct": 0.047745
-            }
-          ]
+        "samples": {
+          "Swing": 96819,
+          "Take": 118573
         },
-        "cluster_adjustment_weight": 0.5,
-        "formula": "0.5 * restandardized cluster-adjusted Z-Swing% z + 0.5 * restandardized cluster-adjusted O-Take% z",
-        "z_component": "Z-Swing% z-score with the same cluster-centering adjustment",
-        "o_component": "O-Take% z-score with the same cluster-centering adjustment",
-        "location_weights": "No additional Heart/Shadow/Chase/Waste weights; pending baseball review",
-        "outcome_diagnostics": {
-          "used_in_score": false,
-          "rates": [
-            "BB% (including intentional walk, excluding HBP)",
-            "K%",
-            "HBP%"
-          ],
-          "regressions": [
-            {
-              "name": "BB% vs oZA+",
-              "x": "o_zone_awareness_plus",
-              "y": "bb_pct",
-              "n": 173,
-              "available": true,
-              "intercept": -3.5429577,
-              "slope": 0.12505322,
-              "r_squared": 0.41496379
-            },
-            {
-              "name": "K% vs zZA+",
-              "x": "z_zone_awareness_plus",
-              "y": "k_pct",
-              "n": 173,
-              "available": true,
-              "intercept": 13.00887329,
-              "slope": 0.06120896,
-              "r_squared": 0.01725262
-            },
-            {
-              "name": "BB% vs ZA+",
-              "x": "zone_awareness_plus",
-              "y": "bb_pct",
-              "n": 173,
-              "available": true,
-              "intercept": 2.17536049,
-              "slope": 0.06787003,
-              "r_squared": 0.12223025
-            },
-            {
-              "name": "K% vs ZA+",
-              "x": "zone_awareness_plus",
-              "y": "k_pct",
-              "n": 173,
-              "available": true,
-              "intercept": 19.22165958,
-              "slope": -0.00091891,
-              "r_squared": 3.89e-06
-            }
-          ],
-          "outlier_threshold": "absolute residual z >= 1.5"
-        }
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+          "A": "Swing at a hittable pitch",
+          "B": "Swing at an avoid pitch",
+          "C": "Take a hittable pitch",
+          "D": "Take an avoid pitch"
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": false,
+        "league_outcomes_used_for_hittable_surface": true,
+        "minimum_pitches": 300
+      },
+      "pure_model": {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before"
+        ],
+        "samples": {
+          "Swing": 96819,
+          "Take": 118573
+        },
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+          "A": "Swing at a hittable pitch",
+          "B": "Swing at an avoid pitch",
+          "C": "Take a hittable pitch",
+          "D": "Take an avoid pitch"
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": false,
+        "league_outcomes_used_for_hittable_surface": true,
+        "minimum_pitches": 300
       },
       "contact_model": {
         "model": "Staged HistGradientBoosting outcome tree",
@@ -355,142 +207,68 @@
       "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
     },
     {
-      "schema_version": 4,
+      "schema_version": 5,
       "season": 2024,
       "source": "data/processed/decision_pitches_2024.parquet",
       "pitches": 222225,
       "batters": 298,
       "qualified_batters": 155,
       "minimum_pitches": 300,
-      "pure_model": {
-        "metric": "Outcome-free Zone Awareness beta",
-        "contact_or_in_play_used": false,
-        "minimum_pitches": 300,
-        "regressions": [
-          {
-            "name": "heart swing vs chase swing",
-            "x": "chase_swing_pct",
-            "y": "heart_swing_pct",
-            "n": 155,
-            "available": true,
-            "intercept": 65.91518707,
-            "slope": 0.22941797,
-            "r_squared": 0.05620749
-          },
-          {
-            "name": "zone swing vs out-of-zone swing",
-            "x": "o_swing_pct",
-            "y": "z_swing_pct",
-            "n": 155,
-            "available": true,
-            "intercept": 51.61193573,
-            "slope": 0.51960329,
-            "r_squared": 0.2282612
-          }
+      "seager_model": {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before"
         ],
-        "clustering": {
-          "available": true,
-          "k": 4,
-          "features": [
-            "heart_vs_chase_residual",
-            "zone_vs_out_residual",
-            "shadow_in_swing_pct",
-            "shadow_out_swing_pct",
-            "waste_swing_pct"
-          ],
-          "sizes": {
-            "1": 30,
-            "2": 53,
-            "3": 56,
-            "4": 16
-          },
-          "centroids_z": [
-            {
-              "heart_vs_chase_residual": -0.628414,
-              "zone_vs_out_residual": -0.760495,
-              "shadow_in_swing_pct": 0.113711,
-              "shadow_out_swing_pct": 0.721198,
-              "waste_swing_pct": 1.213488
-            },
-            {
-              "heart_vs_chase_residual": -0.752334,
-              "zone_vs_out_residual": -0.654445,
-              "shadow_in_swing_pct": -0.831595,
-              "shadow_out_swing_pct": -0.884501,
-              "waste_swing_pct": -0.613601
-            },
-            {
-              "heart_vs_chase_residual": 0.62019,
-              "zone_vs_out_residual": 0.599862,
-              "shadow_in_swing_pct": 0.253631,
-              "shadow_out_swing_pct": 0.059935,
-              "waste_swing_pct": -0.296547
-            },
-            {
-              "heart_vs_chase_residual": 1.499718,
-              "zone_vs_out_residual": 1.49426,
-              "shadow_in_swing_pct": 1.653743,
-              "shadow_out_swing_pct": 1.367889,
-              "waste_swing_pct": 0.795177
-            }
-          ]
+        "samples": {
+          "Swing": 101113,
+          "Take": 121112
         },
-        "cluster_adjustment_weight": 0.5,
-        "formula": "0.5 * restandardized cluster-adjusted Z-Swing% z + 0.5 * restandardized cluster-adjusted O-Take% z",
-        "z_component": "Z-Swing% z-score with the same cluster-centering adjustment",
-        "o_component": "O-Take% z-score with the same cluster-centering adjustment",
-        "location_weights": "No additional Heart/Shadow/Chase/Waste weights; pending baseball review",
-        "outcome_diagnostics": {
-          "used_in_score": false,
-          "rates": [
-            "BB% (including intentional walk, excluding HBP)",
-            "K%",
-            "HBP%"
-          ],
-          "regressions": [
-            {
-              "name": "BB% vs oZA+",
-              "x": "o_zone_awareness_plus",
-              "y": "bb_pct",
-              "n": 155,
-              "available": true,
-              "intercept": -5.47525983,
-              "slope": 0.14424524,
-              "r_squared": 0.58196636
-            },
-            {
-              "name": "K% vs zZA+",
-              "x": "z_zone_awareness_plus",
-              "y": "k_pct",
-              "n": 155,
-              "available": true,
-              "intercept": 3.93703715,
-              "slope": 0.15754484,
-              "r_squared": 0.11904992
-            },
-            {
-              "name": "BB% vs ZA+",
-              "x": "zone_awareness_plus",
-              "y": "bb_pct",
-              "n": 155,
-              "available": true,
-              "intercept": 1.18242653,
-              "slope": 0.07766836,
-              "r_squared": 0.16872715
-            },
-            {
-              "name": "K% vs ZA+",
-              "x": "zone_awareness_plus",
-              "y": "k_pct",
-              "n": 155,
-              "available": true,
-              "intercept": 12.7701007,
-              "slope": 0.06921422,
-              "r_squared": 0.02297786
-            }
-          ],
-          "outlier_threshold": "absolute residual z >= 1.5"
-        }
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+          "A": "Swing at a hittable pitch",
+          "B": "Swing at an avoid pitch",
+          "C": "Take a hittable pitch",
+          "D": "Take an avoid pitch"
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": false,
+        "league_outcomes_used_for_hittable_surface": true,
+        "minimum_pitches": 300
+      },
+      "pure_model": {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before"
+        ],
+        "samples": {
+          "Swing": 101113,
+          "Take": 121112
+        },
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+          "A": "Swing at a hittable pitch",
+          "B": "Swing at an avoid pitch",
+          "C": "Take a hittable pitch",
+          "D": "Take an avoid pitch"
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": false,
+        "league_outcomes_used_for_hittable_surface": true,
+        "minimum_pitches": 300
       },
       "contact_model": {
         "model": "Staged HistGradientBoosting outcome tree",
@@ -528,142 +306,68 @@
       "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
     },
     {
-      "schema_version": 4,
+      "schema_version": 5,
       "season": 2025,
       "source": "data/processed/decision_pitches_2025.parquet",
       "pitches": 217623,
       "batters": 299,
       "qualified_batters": 171,
       "minimum_pitches": 300,
-      "pure_model": {
-        "metric": "Outcome-free Zone Awareness beta",
-        "contact_or_in_play_used": false,
-        "minimum_pitches": 300,
-        "regressions": [
-          {
-            "name": "heart swing vs chase swing",
-            "x": "chase_swing_pct",
-            "y": "heart_swing_pct",
-            "n": 171,
-            "available": true,
-            "intercept": 62.20625303,
-            "slope": 0.28753088,
-            "r_squared": 0.10803299
-          },
-          {
-            "name": "zone swing vs out-of-zone swing",
-            "x": "o_swing_pct",
-            "y": "z_swing_pct",
-            "n": 171,
-            "available": true,
-            "intercept": 47.55570948,
-            "slope": 0.59217623,
-            "r_squared": 0.30979332
-          }
+      "seager_model": {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before"
         ],
-        "clustering": {
-          "available": true,
-          "k": 4,
-          "features": [
-            "heart_vs_chase_residual",
-            "zone_vs_out_residual",
-            "shadow_in_swing_pct",
-            "shadow_out_swing_pct",
-            "waste_swing_pct"
-          ],
-          "sizes": {
-            "1": 46,
-            "2": 36,
-            "3": 52,
-            "4": 37
-          },
-          "centroids_z": [
-            {
-              "heart_vs_chase_residual": -1.058545,
-              "zone_vs_out_residual": -0.998544,
-              "shadow_in_swing_pct": -0.979187,
-              "shadow_out_swing_pct": -0.654104,
-              "waste_swing_pct": -0.396903
-            },
-            {
-              "heart_vs_chase_residual": -0.261395,
-              "zone_vs_out_residual": -0.43416,
-              "shadow_in_swing_pct": 0.48358,
-              "shadow_out_swing_pct": 0.920075,
-              "waste_swing_pct": 1.253841
-            },
-            {
-              "heart_vs_chase_residual": 0.192841,
-              "zone_vs_out_residual": 0.23696,
-              "shadow_in_swing_pct": -0.252664,
-              "shadow_out_swing_pct": -0.580293,
-              "waste_swing_pct": -0.413268
-            },
-            {
-              "heart_vs_chase_residual": 1.299339,
-              "zone_vs_out_residual": 1.330833,
-              "shadow_in_swing_pct": 1.101952,
-              "shadow_out_swing_pct": 0.733549,
-              "waste_swing_pct": -0.145696
-            }
-          ]
+        "samples": {
+          "Swing": 98312,
+          "Take": 119311
         },
-        "cluster_adjustment_weight": 0.5,
-        "formula": "0.5 * restandardized cluster-adjusted Z-Swing% z + 0.5 * restandardized cluster-adjusted O-Take% z",
-        "z_component": "Z-Swing% z-score with the same cluster-centering adjustment",
-        "o_component": "O-Take% z-score with the same cluster-centering adjustment",
-        "location_weights": "No additional Heart/Shadow/Chase/Waste weights; pending baseball review",
-        "outcome_diagnostics": {
-          "used_in_score": false,
-          "rates": [
-            "BB% (including intentional walk, excluding HBP)",
-            "K%",
-            "HBP%"
-          ],
-          "regressions": [
-            {
-              "name": "BB% vs oZA+",
-              "x": "o_zone_awareness_plus",
-              "y": "bb_pct",
-              "n": 171,
-              "available": true,
-              "intercept": -7.32956306,
-              "slope": 0.15875081,
-              "r_squared": 0.54860076
-            },
-            {
-              "name": "K% vs zZA+",
-              "x": "z_zone_awareness_plus",
-              "y": "k_pct",
-              "n": 171,
-              "available": true,
-              "intercept": 10.29535047,
-              "slope": 0.10371686,
-              "r_squared": 0.05868811
-            },
-            {
-              "name": "BB% vs ZA+",
-              "x": "zone_awareness_plus",
-              "y": "bb_pct",
-              "n": 171,
-              "available": true,
-              "intercept": 0.47933495,
-              "slope": 0.08066187,
-              "r_squared": 0.14163249
-            },
-            {
-              "name": "K% vs ZA+",
-              "x": "zone_awareness_plus",
-              "y": "k_pct",
-              "n": 171,
-              "available": true,
-              "intercept": 19.20746269,
-              "slope": 0.01459572,
-              "r_squared": 0.00116226
-            }
-          ],
-          "outlier_threshold": "absolute residual z >= 1.5"
-        }
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+          "A": "Swing at a hittable pitch",
+          "B": "Swing at an avoid pitch",
+          "C": "Take a hittable pitch",
+          "D": "Take an avoid pitch"
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": false,
+        "league_outcomes_used_for_hittable_surface": true,
+        "minimum_pitches": 300
+      },
+      "pure_model": {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before"
+        ],
+        "samples": {
+          "Swing": 98312,
+          "Take": 119311
+        },
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+          "A": "Swing at a hittable pitch",
+          "B": "Swing at an avoid pitch",
+          "C": "Take a hittable pitch",
+          "D": "Take an avoid pitch"
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": false,
+        "league_outcomes_used_for_hittable_surface": true,
+        "minimum_pitches": 300
       },
       "contact_model": {
         "model": "Staged HistGradientBoosting outcome tree",
@@ -701,142 +405,68 @@
       "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
     },
     {
-      "schema_version": 4,
+      "schema_version": 5,
       "season": 2026,
       "source": "data/processed/decision_pitches.parquet",
       "pitches": 178773,
       "batters": 280,
       "qualified_batters": 159,
       "minimum_pitches": 300,
-      "pure_model": {
-        "metric": "Outcome-free Zone Awareness beta",
-        "contact_or_in_play_used": false,
-        "minimum_pitches": 300,
-        "regressions": [
-          {
-            "name": "heart swing vs chase swing",
-            "x": "chase_swing_pct",
-            "y": "heart_swing_pct",
-            "n": 159,
-            "available": true,
-            "intercept": 64.17133128,
-            "slope": 0.22651536,
-            "r_squared": 0.05996711
-          },
-          {
-            "name": "zone swing vs out-of-zone swing",
-            "x": "o_swing_pct",
-            "y": "z_swing_pct",
-            "n": 159,
-            "available": true,
-            "intercept": 48.08867237,
-            "slope": 0.58293636,
-            "r_squared": 0.27402744
-          }
+      "seager_model": {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before"
         ],
-        "clustering": {
-          "available": true,
-          "k": 4,
-          "features": [
-            "heart_vs_chase_residual",
-            "zone_vs_out_residual",
-            "shadow_in_swing_pct",
-            "shadow_out_swing_pct",
-            "waste_swing_pct"
-          ],
-          "sizes": {
-            "1": 28,
-            "2": 53,
-            "3": 58,
-            "4": 20
-          },
-          "centroids_z": [
-            {
-              "heart_vs_chase_residual": -0.879261,
-              "zone_vs_out_residual": -0.947699,
-              "shadow_in_swing_pct": -0.092701,
-              "shadow_out_swing_pct": 0.252985,
-              "waste_swing_pct": 1.091595
-            },
-            {
-              "heart_vs_chase_residual": -0.620082,
-              "zone_vs_out_residual": -0.624686,
-              "shadow_in_swing_pct": -0.980193,
-              "shadow_out_swing_pct": -0.885578,
-              "waste_swing_pct": -0.5182
-            },
-            {
-              "heart_vs_chase_residual": 0.739243,
-              "zone_vs_out_residual": 0.789241,
-              "shadow_in_swing_pct": 0.444012,
-              "shadow_out_swing_pct": 0.182484,
-              "waste_swing_pct": -0.443157
-            },
-            {
-              "heart_vs_chase_residual": 0.730378,
-              "zone_vs_out_residual": 0.693397,
-              "shadow_in_swing_pct": 1.43966,
-              "shadow_out_swing_pct": 1.4634,
-              "waste_swing_pct": 1.130155
-            }
-          ]
+        "samples": {
+          "Swing": 79798,
+          "Take": 98975
         },
-        "cluster_adjustment_weight": 0.5,
-        "formula": "0.5 * restandardized cluster-adjusted Z-Swing% z + 0.5 * restandardized cluster-adjusted O-Take% z",
-        "z_component": "Z-Swing% z-score with the same cluster-centering adjustment",
-        "o_component": "O-Take% z-score with the same cluster-centering adjustment",
-        "location_weights": "No additional Heart/Shadow/Chase/Waste weights; pending baseball review",
-        "outcome_diagnostics": {
-          "used_in_score": false,
-          "rates": [
-            "BB% (including intentional walk, excluding HBP)",
-            "K%",
-            "HBP%"
-          ],
-          "regressions": [
-            {
-              "name": "BB% vs oZA+",
-              "x": "o_zone_awareness_plus",
-              "y": "bb_pct",
-              "n": 159,
-              "available": true,
-              "intercept": -4.53894576,
-              "slope": 0.13691602,
-              "r_squared": 0.45250019
-            },
-            {
-              "name": "K% vs zZA+",
-              "x": "z_zone_awareness_plus",
-              "y": "k_pct",
-              "n": 159,
-              "available": true,
-              "intercept": 9.58797164,
-              "slope": 0.10330731,
-              "r_squared": 0.06117221
-            },
-            {
-              "name": "BB% vs ZA+",
-              "x": "zone_awareness_plus",
-              "y": "bb_pct",
-              "n": 159,
-              "available": true,
-              "intercept": 2.86192943,
-              "slope": 0.0629073,
-              "r_squared": 0.09552507
-            },
-            {
-              "name": "K% vs ZA+",
-              "x": "zone_awareness_plus",
-              "y": "k_pct",
-              "n": 159,
-              "available": true,
-              "intercept": 18.17934703,
-              "slope": 0.01739355,
-              "r_squared": 0.00173409
-            }
-          ],
-          "outlier_threshold": "absolute residual z >= 1.5"
-        }
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+          "A": "Swing at a hittable pitch",
+          "B": "Swing at an avoid pitch",
+          "C": "Take a hittable pitch",
+          "D": "Take an avoid pitch"
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": false,
+        "league_outcomes_used_for_hittable_surface": true,
+        "minimum_pitches": 300
+      },
+      "pure_model": {
+        "metric": "Visual Baseball BP-style SEAGER",
+        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+        "model": "Separate smoothed league Swing RV and Take RV surfaces",
+        "features": [
+          "x_relative",
+          "z_relative",
+          "balls_before",
+          "strikes_before"
+        ],
+        "samples": {
+          "Swing": 79798,
+          "Take": 98975
+        },
+        "hittable_rule": "Expected Swing RV > Expected Take RV",
+        "quadrants": {
+          "A": "Swing at a hittable pitch",
+          "B": "Swing at an avoid pitch",
+          "C": "Take a hittable pitch",
+          "D": "Take an avoid pitch"
+        },
+        "selection_tendency": "100 * D / (A + D)",
+        "hittable_pitches_taken": "100 * C / (C + D)",
+        "formula": "SEAGER = D / (A + D) - C / (C + D)",
+        "player_outcomes_used_in_score": false,
+        "league_outcomes_used_for_hittable_surface": true,
+        "minimum_pitches": 300
       },
       "contact_model": {
         "model": "Staged HistGradientBoosting outcome tree",

@@ -64,9 +64,20 @@ def test_staged_zone_awareness_and_web_contract(tmp_path):
     )
     assert len(leaderboard["players"]) == 4
     assert all(player["zone_awareness_plus"] is not None for player in leaderboard["players"])
+    assert all(player["seager_plus"] is not None for player in leaderboard["players"])
     assert all(player["za_with_contact_plus"] is not None for player in leaderboard["players"])
-    assert leaderboard["pure_model"]["contact_or_in_play_used"] is False
-    assert leaderboard["pure_model"]["outcome_diagnostics"]["used_in_score"] is False
+    assert leaderboard["schema_version"] == 5
+    assert leaderboard["seager_model"]["player_outcomes_used_in_score"] is False
+    assert leaderboard["seager_model"]["league_outcomes_used_for_hittable_surface"] is True
+    for player in leaderboard["players"]:
+        assert (
+            player["seager_a_hittable_swings"] + player["seager_b_avoid_swings"]
+            + player["seager_c_hittable_takes"] + player["seager_d_avoid_takes"]
+        ) == player["pitches_seen"]
+        assert abs(
+            player["seager_raw"]
+            - (player["selection_tendency_pct"] - player["hittable_pitches_taken_pct"])
+        ) < 1e-5
     shard = json.loads(
         (tmp_path / "web/data/zone_awareness/2026/players/6.json").read_text()
     )

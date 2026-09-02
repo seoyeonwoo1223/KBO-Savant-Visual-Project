@@ -1,140 +1,66 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "season": 2022,
   "source": "data/processed/decision_pitches_2022.parquet",
   "pitches": 214637,
   "batters": 279,
   "qualified_batters": 163,
   "minimum_pitches": 300,
-  "pure_model": {
-    "metric": "Outcome-free Zone Awareness beta",
-    "contact_or_in_play_used": false,
-    "minimum_pitches": 300,
-    "regressions": [
-      {
-        "name": "heart swing vs chase swing",
-        "x": "chase_swing_pct",
-        "y": "heart_swing_pct",
-        "n": 163,
-        "available": true,
-        "intercept": 67.75604919,
-        "slope": 0.15867469,
-        "r_squared": 0.03436541
-      },
-      {
-        "name": "zone swing vs out-of-zone swing",
-        "x": "o_swing_pct",
-        "y": "z_swing_pct",
-        "n": 163,
-        "available": true,
-        "intercept": 53.39174307,
-        "slope": 0.45652389,
-        "r_squared": 0.22293702
-      }
+  "seager_model": {
+    "metric": "Visual Baseball BP-style SEAGER",
+    "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+    "model": "Separate smoothed league Swing RV and Take RV surfaces",
+    "features": [
+      "x_relative",
+      "z_relative",
+      "balls_before",
+      "strikes_before"
     ],
-    "clustering": {
-      "available": true,
-      "k": 4,
-      "features": [
-        "heart_vs_chase_residual",
-        "zone_vs_out_residual",
-        "shadow_in_swing_pct",
-        "shadow_out_swing_pct",
-        "waste_swing_pct"
-      ],
-      "sizes": {
-        "1": 29,
-        "2": 45,
-        "3": 52,
-        "4": 37
-      },
-      "centroids_z": [
-        {
-          "heart_vs_chase_residual": -1.258037,
-          "zone_vs_out_residual": -1.411798,
-          "shadow_in_swing_pct": -0.608508,
-          "shadow_out_swing_pct": 0.251985,
-          "waste_swing_pct": 0.753444
-        },
-        {
-          "heart_vs_chase_residual": -0.362443,
-          "zone_vs_out_residual": -0.360962,
-          "shadow_in_swing_pct": -0.875987,
-          "shadow_out_swing_pct": -0.943148,
-          "waste_swing_pct": -0.764068
-        },
-        {
-          "heart_vs_chase_residual": 0.342109,
-          "zone_vs_out_residual": 0.442482,
-          "shadow_in_swing_pct": 0.200883,
-          "shadow_out_swing_pct": -0.084013,
-          "waste_swing_pct": -0.346823
-        },
-        {
-          "heart_vs_chase_residual": 0.946037,
-          "zone_vs_out_residual": 0.923686,
-          "shadow_in_swing_pct": 1.260006,
-          "shadow_out_swing_pct": 1.067642,
-          "waste_swing_pct": 0.826161
-        }
-      ]
+    "samples": {
+      "Swing": 98571,
+      "Take": 116066
     },
-    "cluster_adjustment_weight": 0.5,
-    "formula": "0.5 * restandardized cluster-adjusted Z-Swing% z + 0.5 * restandardized cluster-adjusted O-Take% z",
-    "z_component": "Z-Swing% z-score with the same cluster-centering adjustment",
-    "o_component": "O-Take% z-score with the same cluster-centering adjustment",
-    "location_weights": "No additional Heart/Shadow/Chase/Waste weights; pending baseball review",
-    "outcome_diagnostics": {
-      "used_in_score": false,
-      "rates": [
-        "BB% (including intentional walk, excluding HBP)",
-        "K%",
-        "HBP%"
-      ],
-      "regressions": [
-        {
-          "name": "BB% vs oZA+",
-          "x": "o_zone_awareness_plus",
-          "y": "bb_pct",
-          "n": 163,
-          "available": true,
-          "intercept": -4.75576637,
-          "slope": 0.13107785,
-          "r_squared": 0.46865694
-        },
-        {
-          "name": "K% vs zZA+",
-          "x": "z_zone_awareness_plus",
-          "y": "k_pct",
-          "n": 163,
-          "available": true,
-          "intercept": 12.9743271,
-          "slope": 0.07184097,
-          "r_squared": 0.02391551
-        },
-        {
-          "name": "BB% vs ZA+",
-          "x": "zone_awareness_plus",
-          "y": "bb_pct",
-          "n": 163,
-          "available": true,
-          "intercept": 0.81148218,
-          "slope": 0.07540536,
-          "r_squared": 0.15509656
-        },
-        {
-          "name": "K% vs ZA+",
-          "x": "zone_awareness_plus",
-          "y": "k_pct",
-          "n": 163,
-          "available": true,
-          "intercept": 20.58916458,
-          "slope": -0.0043074,
-          "r_squared": 8.597e-05
-        }
-      ],
-      "outlier_threshold": "absolute residual z >= 1.5"
-    }
+    "hittable_rule": "Expected Swing RV > Expected Take RV",
+    "quadrants": {
+      "A": "Swing at a hittable pitch",
+      "B": "Swing at an avoid pitch",
+      "C": "Take a hittable pitch",
+      "D": "Take an avoid pitch"
+    },
+    "selection_tendency": "100 * D / (A + D)",
+    "hittable_pitches_taken": "100 * C / (C + D)",
+    "formula": "SEAGER = D / (A + D) - C / (C + D)",
+    "player_outcomes_used_in_score": false,
+    "league_outcomes_used_for_hittable_surface": true,
+    "minimum_pitches": 300
+  },
+  "pure_model": {
+    "metric": "Visual Baseball BP-style SEAGER",
+    "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
+    "model": "Separate smoothed league Swing RV and Take RV surfaces",
+    "features": [
+      "x_relative",
+      "z_relative",
+      "balls_before",
+      "strikes_before"
+    ],
+    "samples": {
+      "Swing": 98571,
+      "Take": 116066
+    },
+    "hittable_rule": "Expected Swing RV > Expected Take RV",
+    "quadrants": {
+      "A": "Swing at a hittable pitch",
+      "B": "Swing at an avoid pitch",
+      "C": "Take a hittable pitch",
+      "D": "Take an avoid pitch"
+    },
+    "selection_tendency": "100 * D / (A + D)",
+    "hittable_pitches_taken": "100 * C / (C + D)",
+    "formula": "SEAGER = D / (A + D) - C / (C + D)",
+    "player_outcomes_used_in_score": false,
+    "league_outcomes_used_for_hittable_surface": true,
+    "minimum_pitches": 300
   },
   "contact_model": {
     "model": "Staged HistGradientBoosting outcome tree",
