@@ -1,5 +1,5 @@
 {
-  "schema_version": 5,
+  "schema_version": 2,
   "seasons": [
     2022,
     2023,
@@ -9,70 +9,14 @@
   ],
   "season_summaries": [
     {
-      "schema_version": 5,
+      "schema_version": 2,
       "season": 2022,
       "source": "data/processed/decision_pitches_2022.parquet",
       "pitches": 214637,
       "batters": 279,
       "qualified_batters": 163,
       "minimum_pitches": 300,
-      "seager_model": {
-        "metric": "Visual Baseball BP-style SEAGER",
-        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-        "model": "Separate smoothed league Swing RV and Take RV surfaces",
-        "features": [
-          "x_relative",
-          "z_relative",
-          "balls_before",
-          "strikes_before"
-        ],
-        "samples": {
-          "Swing": 98571,
-          "Take": 116066
-        },
-        "hittable_rule": "Expected Swing RV > Expected Take RV",
-        "quadrants": {
-          "A": "Swing at a hittable pitch",
-          "B": "Swing at an avoid pitch",
-          "C": "Take a hittable pitch",
-          "D": "Take an avoid pitch"
-        },
-        "selection_tendency": "100 * D / (A + D)",
-        "hittable_pitches_taken": "100 * C / (C + D)",
-        "formula": "SEAGER = D / (A + D) - C / (C + D)",
-        "player_outcomes_used_in_score": false,
-        "league_outcomes_used_for_hittable_surface": true,
-        "minimum_pitches": 300
-      },
-      "pure_model": {
-        "metric": "Visual Baseball BP-style SEAGER",
-        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-        "model": "Separate smoothed league Swing RV and Take RV surfaces",
-        "features": [
-          "x_relative",
-          "z_relative",
-          "balls_before",
-          "strikes_before"
-        ],
-        "samples": {
-          "Swing": 98571,
-          "Take": 116066
-        },
-        "hittable_rule": "Expected Swing RV > Expected Take RV",
-        "quadrants": {
-          "A": "Swing at a hittable pitch",
-          "B": "Swing at an avoid pitch",
-          "C": "Take a hittable pitch",
-          "D": "Take an avoid pitch"
-        },
-        "selection_tendency": "100 * D / (A + D)",
-        "hittable_pitches_taken": "100 * C / (C + D)",
-        "formula": "SEAGER = D / (A + D) - C / (C + D)",
-        "player_outcomes_used_in_score": false,
-        "league_outcomes_used_for_hittable_surface": true,
-        "minimum_pitches": 300
-      },
-      "contact_model": {
+      "model": {
         "model": "Staged HistGradientBoosting outcome tree",
         "tree": {
           "swing": "Whiff / Contact; Contact -> Foul / InPlay",
@@ -108,70 +52,14 @@
       "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
     },
     {
-      "schema_version": 5,
+      "schema_version": 2,
       "season": 2023,
       "source": "data/processed/decision_pitches_2023.parquet",
       "pitches": 215392,
       "batters": 293,
       "qualified_batters": 173,
       "minimum_pitches": 300,
-      "seager_model": {
-        "metric": "Visual Baseball BP-style SEAGER",
-        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-        "model": "Separate smoothed league Swing RV and Take RV surfaces",
-        "features": [
-          "x_relative",
-          "z_relative",
-          "balls_before",
-          "strikes_before"
-        ],
-        "samples": {
-          "Swing": 96819,
-          "Take": 118573
-        },
-        "hittable_rule": "Expected Swing RV > Expected Take RV",
-        "quadrants": {
-          "A": "Swing at a hittable pitch",
-          "B": "Swing at an avoid pitch",
-          "C": "Take a hittable pitch",
-          "D": "Take an avoid pitch"
-        },
-        "selection_tendency": "100 * D / (A + D)",
-        "hittable_pitches_taken": "100 * C / (C + D)",
-        "formula": "SEAGER = D / (A + D) - C / (C + D)",
-        "player_outcomes_used_in_score": false,
-        "league_outcomes_used_for_hittable_surface": true,
-        "minimum_pitches": 300
-      },
-      "pure_model": {
-        "metric": "Visual Baseball BP-style SEAGER",
-        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-        "model": "Separate smoothed league Swing RV and Take RV surfaces",
-        "features": [
-          "x_relative",
-          "z_relative",
-          "balls_before",
-          "strikes_before"
-        ],
-        "samples": {
-          "Swing": 96819,
-          "Take": 118573
-        },
-        "hittable_rule": "Expected Swing RV > Expected Take RV",
-        "quadrants": {
-          "A": "Swing at a hittable pitch",
-          "B": "Swing at an avoid pitch",
-          "C": "Take a hittable pitch",
-          "D": "Take an avoid pitch"
-        },
-        "selection_tendency": "100 * D / (A + D)",
-        "hittable_pitches_taken": "100 * C / (C + D)",
-        "formula": "SEAGER = D / (A + D) - C / (C + D)",
-        "player_outcomes_used_in_score": false,
-        "league_outcomes_used_for_hittable_surface": true,
-        "minimum_pitches": 300
-      },
-      "contact_model": {
+      "model": {
         "model": "Staged HistGradientBoosting outcome tree",
         "tree": {
           "swing": "Whiff / Contact; Contact -> Foul / InPlay",
@@ -207,70 +95,14 @@
       "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
     },
     {
-      "schema_version": 5,
+      "schema_version": 2,
       "season": 2024,
       "source": "data/processed/decision_pitches_2024.parquet",
       "pitches": 222225,
       "batters": 298,
       "qualified_batters": 155,
       "minimum_pitches": 300,
-      "seager_model": {
-        "metric": "Visual Baseball BP-style SEAGER",
-        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-        "model": "Separate smoothed league Swing RV and Take RV surfaces",
-        "features": [
-          "x_relative",
-          "z_relative",
-          "balls_before",
-          "strikes_before"
-        ],
-        "samples": {
-          "Swing": 101113,
-          "Take": 121112
-        },
-        "hittable_rule": "Expected Swing RV > Expected Take RV",
-        "quadrants": {
-          "A": "Swing at a hittable pitch",
-          "B": "Swing at an avoid pitch",
-          "C": "Take a hittable pitch",
-          "D": "Take an avoid pitch"
-        },
-        "selection_tendency": "100 * D / (A + D)",
-        "hittable_pitches_taken": "100 * C / (C + D)",
-        "formula": "SEAGER = D / (A + D) - C / (C + D)",
-        "player_outcomes_used_in_score": false,
-        "league_outcomes_used_for_hittable_surface": true,
-        "minimum_pitches": 300
-      },
-      "pure_model": {
-        "metric": "Visual Baseball BP-style SEAGER",
-        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-        "model": "Separate smoothed league Swing RV and Take RV surfaces",
-        "features": [
-          "x_relative",
-          "z_relative",
-          "balls_before",
-          "strikes_before"
-        ],
-        "samples": {
-          "Swing": 101113,
-          "Take": 121112
-        },
-        "hittable_rule": "Expected Swing RV > Expected Take RV",
-        "quadrants": {
-          "A": "Swing at a hittable pitch",
-          "B": "Swing at an avoid pitch",
-          "C": "Take a hittable pitch",
-          "D": "Take an avoid pitch"
-        },
-        "selection_tendency": "100 * D / (A + D)",
-        "hittable_pitches_taken": "100 * C / (C + D)",
-        "formula": "SEAGER = D / (A + D) - C / (C + D)",
-        "player_outcomes_used_in_score": false,
-        "league_outcomes_used_for_hittable_surface": true,
-        "minimum_pitches": 300
-      },
-      "contact_model": {
+      "model": {
         "model": "Staged HistGradientBoosting outcome tree",
         "tree": {
           "swing": "Whiff / Contact; Contact -> Foul / InPlay",
@@ -306,70 +138,14 @@
       "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
     },
     {
-      "schema_version": 5,
+      "schema_version": 2,
       "season": 2025,
       "source": "data/processed/decision_pitches_2025.parquet",
       "pitches": 217623,
       "batters": 299,
       "qualified_batters": 171,
       "minimum_pitches": 300,
-      "seager_model": {
-        "metric": "Visual Baseball BP-style SEAGER",
-        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-        "model": "Separate smoothed league Swing RV and Take RV surfaces",
-        "features": [
-          "x_relative",
-          "z_relative",
-          "balls_before",
-          "strikes_before"
-        ],
-        "samples": {
-          "Swing": 98312,
-          "Take": 119311
-        },
-        "hittable_rule": "Expected Swing RV > Expected Take RV",
-        "quadrants": {
-          "A": "Swing at a hittable pitch",
-          "B": "Swing at an avoid pitch",
-          "C": "Take a hittable pitch",
-          "D": "Take an avoid pitch"
-        },
-        "selection_tendency": "100 * D / (A + D)",
-        "hittable_pitches_taken": "100 * C / (C + D)",
-        "formula": "SEAGER = D / (A + D) - C / (C + D)",
-        "player_outcomes_used_in_score": false,
-        "league_outcomes_used_for_hittable_surface": true,
-        "minimum_pitches": 300
-      },
-      "pure_model": {
-        "metric": "Visual Baseball BP-style SEAGER",
-        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-        "model": "Separate smoothed league Swing RV and Take RV surfaces",
-        "features": [
-          "x_relative",
-          "z_relative",
-          "balls_before",
-          "strikes_before"
-        ],
-        "samples": {
-          "Swing": 98312,
-          "Take": 119311
-        },
-        "hittable_rule": "Expected Swing RV > Expected Take RV",
-        "quadrants": {
-          "A": "Swing at a hittable pitch",
-          "B": "Swing at an avoid pitch",
-          "C": "Take a hittable pitch",
-          "D": "Take an avoid pitch"
-        },
-        "selection_tendency": "100 * D / (A + D)",
-        "hittable_pitches_taken": "100 * C / (C + D)",
-        "formula": "SEAGER = D / (A + D) - C / (C + D)",
-        "player_outcomes_used_in_score": false,
-        "league_outcomes_used_for_hittable_surface": true,
-        "minimum_pitches": 300
-      },
-      "contact_model": {
+      "model": {
         "model": "Staged HistGradientBoosting outcome tree",
         "tree": {
           "swing": "Whiff / Contact; Contact -> Foul / InPlay",
@@ -405,70 +181,14 @@
       "limitation": "In-play value is estimated without exit velocity or launch angle; this is an observational counterfactual approximation."
     },
     {
-      "schema_version": 5,
+      "schema_version": 2,
       "season": 2026,
       "source": "data/processed/decision_pitches.parquet",
-      "pitches": 178773,
+      "pitches": 177272,
       "batters": 280,
       "qualified_batters": 159,
       "minimum_pitches": 300,
-      "seager_model": {
-        "metric": "Visual Baseball BP-style SEAGER",
-        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-        "model": "Separate smoothed league Swing RV and Take RV surfaces",
-        "features": [
-          "x_relative",
-          "z_relative",
-          "balls_before",
-          "strikes_before"
-        ],
-        "samples": {
-          "Swing": 79798,
-          "Take": 98975
-        },
-        "hittable_rule": "Expected Swing RV > Expected Take RV",
-        "quadrants": {
-          "A": "Swing at a hittable pitch",
-          "B": "Swing at an avoid pitch",
-          "C": "Take a hittable pitch",
-          "D": "Take an avoid pitch"
-        },
-        "selection_tendency": "100 * D / (A + D)",
-        "hittable_pitches_taken": "100 * C / (C + D)",
-        "formula": "SEAGER = D / (A + D) - C / (C + D)",
-        "player_outcomes_used_in_score": false,
-        "league_outcomes_used_for_hittable_surface": true,
-        "minimum_pitches": 300
-      },
-      "pure_model": {
-        "metric": "Visual Baseball BP-style SEAGER",
-        "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-        "model": "Separate smoothed league Swing RV and Take RV surfaces",
-        "features": [
-          "x_relative",
-          "z_relative",
-          "balls_before",
-          "strikes_before"
-        ],
-        "samples": {
-          "Swing": 79798,
-          "Take": 98975
-        },
-        "hittable_rule": "Expected Swing RV > Expected Take RV",
-        "quadrants": {
-          "A": "Swing at a hittable pitch",
-          "B": "Swing at an avoid pitch",
-          "C": "Take a hittable pitch",
-          "D": "Take an avoid pitch"
-        },
-        "selection_tendency": "100 * D / (A + D)",
-        "hittable_pitches_taken": "100 * C / (C + D)",
-        "formula": "SEAGER = D / (A + D) - C / (C + D)",
-        "player_outcomes_used_in_score": false,
-        "league_outcomes_used_for_hittable_surface": true,
-        "minimum_pitches": 300
-      },
-      "contact_model": {
+      "model": {
         "model": "Staged HistGradientBoosting outcome tree",
         "tree": {
           "swing": "Whiff / Contact; Contact -> Foul / InPlay",
@@ -492,12 +212,12 @@
           "stadium"
         ],
         "branch_samples": {
-          "Whiff": 17481,
-          "Foul": 30353,
-          "InPlay": 31964,
-          "Ball": 65870,
-          "CalledStrike": 32417,
-          "HBP": 688
+          "Whiff": 17330,
+          "Foul": 30087,
+          "InPlay": 31715,
+          "Ball": 65320,
+          "CalledStrike": 32139,
+          "HBP": 681
         }
       },
       "excluded": {},

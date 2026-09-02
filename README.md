@@ -89,13 +89,11 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 회귀식과 클러스터 중심값·표본 기준·정의는 `data/processed/plate_discipline_research.json`에 기록한다. 클러스터 번호는 우열 등급이 아니며, 타구속도·발사각이 없는 현재 원자료로는 PLV처럼 타자별로 좋은 타구가 될 확률까지 분리하지 않는다. 기존 Decision Run은 실제 선택의 결과가 포함된 진단값이므로 counterfactual Decision Value로 부르지 않는다.
 
-## BP-style SEAGER · Zone Awareness v4 beta
+## Zone Awareness v2
 
-`SEAGER`는 [Baseball Prospectus의 원문](https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/) 구조를 Visual Baseball 데이터에 맞춰 재현한 접근 지표다. 시즌별 리그 투구로 정규화 위치·볼카운트에 따른 Expected Swing RV와 Expected Take RV 곡면을 각각 추정하고, Swing RV가 더 높은 투구를 `칠 공`, 반대를 `피할 공`으로 판정한다. A=칠 공 스윙, B=피할 공 스윙, C=칠 공 테이크, D=피할 공 테이크이며 산식은 `D/(A+D) - C/(C+D)`다. `Selection Tendency = D/(A+D)`, `Hittable Pitches Taken = C/(C+D)`도 함께 제공한다.
+`src/visualbaseball/zone_awareness_v2.py`는 투구마다 Swing과 Take의 기대 득점가치를 따로 추정한다. Swing은 Whiff/Contact와 Contact 뒤 Foul/InPlay, Take는 Ball/Called Strike/HBP의 단계형 확률 모델을 거치며, 여섯 결과별 RE288 Run Value 모델을 결합한다. 실제 선택과 반대 선택의 기대가치 차이를 타자별로 집계한 뒤, 300구 이상 타자를 기준으로 시즌 평균 100·표준편차 15의 `ZA+`, `zZA+`, `oZA+`로 환산한다.
 
-선수 개인의 실제 컨택·타구 결과는 A/B/C/D 집계에 직접 넣지 않는다. 다만 칠 공 경계를 만드는 리그 Swing RV 곡면은 리그 전체의 관측 결과에서 학습하므로 완전한 outcome-free 지표는 아니다. `SEAGER+`는 300구 이상 타자를 시즌 평균 100·표준편차 15로 환산한 값이다. 기존 `zone_awareness_plus` 필드는 호환성을 위해 `seager_plus`의 별칭으로 유지한다.
-
-`ZAwithCon+`는 단계형 Decision Value 모델을 별도 보존한 지표다. Swing은 Whiff/Contact와 Contact 뒤 Foul/InPlay, Take는 Ball/Called Strike/HBP 확률을 거쳐 여섯 결과별 RE288 Run Value를 결합한다. 위치별 Decision Map과 Outcome Path는 계속 `ZAwithCon+` 모델을 보여준다. 인플레이 가치는 타구속도·발사각이 없는 관측 자료 기반 근사치이며, 모든 Plus 점수는 시즌별 표준화 값이다.
+`web/zone-awareness/`에서는 리그 산점도와 순위표, Heart·Shadow·Chase·Waste 프로필, 위치별 Decision Map, 단계별 Outcome Path를 제공한다. 인플레이 가치는 공개 원본에 타구속도와 발사각이 없어 관측 자료 기반 counterfactual 근사치이며, Plus 점수는 다른 시즌과 원점수를 직접 비교하는 척도가 아니다.
 
 ## Pitcher Zone Profile
 

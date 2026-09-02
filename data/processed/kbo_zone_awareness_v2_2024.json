@@ -1,68 +1,12 @@
 {
-  "schema_version": 5,
+  "schema_version": 2,
   "season": 2024,
   "source": "data/processed/decision_pitches_2024.parquet",
   "pitches": 222225,
   "batters": 298,
   "qualified_batters": 155,
   "minimum_pitches": 300,
-  "seager_model": {
-    "metric": "Visual Baseball BP-style SEAGER",
-    "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-    "model": "Separate smoothed league Swing RV and Take RV surfaces",
-    "features": [
-      "x_relative",
-      "z_relative",
-      "balls_before",
-      "strikes_before"
-    ],
-    "samples": {
-      "Swing": 101113,
-      "Take": 121112
-    },
-    "hittable_rule": "Expected Swing RV > Expected Take RV",
-    "quadrants": {
-      "A": "Swing at a hittable pitch",
-      "B": "Swing at an avoid pitch",
-      "C": "Take a hittable pitch",
-      "D": "Take an avoid pitch"
-    },
-    "selection_tendency": "100 * D / (A + D)",
-    "hittable_pitches_taken": "100 * C / (C + D)",
-    "formula": "SEAGER = D / (A + D) - C / (C + D)",
-    "player_outcomes_used_in_score": false,
-    "league_outcomes_used_for_hittable_surface": true,
-    "minimum_pitches": 300
-  },
-  "pure_model": {
-    "metric": "Visual Baseball BP-style SEAGER",
-    "reference": "https://www.baseballprospectus.com/news/article/87395/best-of-bp-quantifying-the-corey-seager-approach/",
-    "model": "Separate smoothed league Swing RV and Take RV surfaces",
-    "features": [
-      "x_relative",
-      "z_relative",
-      "balls_before",
-      "strikes_before"
-    ],
-    "samples": {
-      "Swing": 101113,
-      "Take": 121112
-    },
-    "hittable_rule": "Expected Swing RV > Expected Take RV",
-    "quadrants": {
-      "A": "Swing at a hittable pitch",
-      "B": "Swing at an avoid pitch",
-      "C": "Take a hittable pitch",
-      "D": "Take an avoid pitch"
-    },
-    "selection_tendency": "100 * D / (A + D)",
-    "hittable_pitches_taken": "100 * C / (C + D)",
-    "formula": "SEAGER = D / (A + D) - C / (C + D)",
-    "player_outcomes_used_in_score": false,
-    "league_outcomes_used_for_hittable_surface": true,
-    "minimum_pitches": 300
-  },
-  "contact_model": {
+  "model": {
     "model": "Staged HistGradientBoosting outcome tree",
     "tree": {
       "swing": "Whiff / Contact; Contact -> Foul / InPlay",
