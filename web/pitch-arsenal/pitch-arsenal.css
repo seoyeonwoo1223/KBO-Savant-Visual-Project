@@ -84,9 +84,7 @@ th:first-child, td:first-child { text-align: left; }
   .pov-toggle, .unit-toggle { margin-top: 12px; }
   .pov-options button, .unit-options button { flex: 1; }
   .export-button { width: 100%; margin: 12px 0 0; }
-  .arsenal-grid, .arsenal-left, .arsenal-summary { grid-template-columns: 1fr; }
-  .velocity-panel { border-top: 3px solid #262626; border-left: 0; }
+  .arsenal-grid, .arsenal-left { grid-template-columns: 1fr; }
   .movement-panel { padding: 10px; }
   .panel { padding: 14px; }
 }
-
