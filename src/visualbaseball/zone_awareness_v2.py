@@ -15,6 +15,17 @@ from sklearn.ensemble import HistGradientBoostingClassifier, HistGradientBoostin
 MIN_PITCHES = 300
 GRID_STEP = 0.5
 REGIONS = ("Heart", "Shadow", "Chase", "Waste")
+TEAM_CODES = {
+    "두산": "DOO", "삼성": "SAM", "키움": "KIW", "롯데": "LOT", "한화": "HAN",
+    "KIA": "KIA", "KT": "KT", "LG": "LG", "NC": "NC", "SSG": "SSG",
+}
+# VB game IDs retain the historical two-letter club code, including the former
+# SK code used before the SSG rename.  This keeps archived season exports
+# independent from the much smaller leaderboard source tables.
+GAME_TEAM_CODES = {
+    "OB": "DOO", "SS": "SAM", "WO": "KIW", "LT": "LOT", "HH": "HAN",
+    "HT": "KIA", "SK": "SSG", "LG": "LG", "NC": "NC", "KT": "KT",
+}
 NUMERIC_FEATURES = (
     "x_relative", "z_relative", "balls_before", "strikes_before", "outs_before",
     "base_state_code_before", "velocity_kmh", "horizontal_movement_cm",
@@ -222,6 +233,7 @@ def _player_rows(pitches: list[dict]) -> list[dict]:
             "batter_id": first["batter_id"],
             "batter_name": first["batter_name"],
             "batter_stance": first.get("batter_stance"),
+            "team": _team_history(items),
             "pitches_seen": len(items),
             "qualified_300": len(items) >= MIN_PITCHES,
             "swing_pct": round(100 * len(swings) / len(items), 6),
@@ -257,26 +269,34 @@ def _player_rows(pitches: list[dict]) -> list[dict]:
     return players
 
 
+def _team_code(row: dict) -> str | None:
+    """Return the batting club for a source row, without guessing by name."""
+    direct = str(row.get("batter_team") or "").strip()
+    if direct:
+        return TEAM_CODES.get(direct, direct if direct in TEAM_CODES.values() else None)
+    game_id, half = str(row.get("game_id") or ""), str(row.get("inning_half") or "")
+    if len(game_id) >= 12 and half in {"top", "bottom"}:
+        raw_code = game_id[8:10] if half == "top" else game_id[10:12]
+        return GAME_TEAM_CODES.get(raw_code)
+    return None
+
+
+def _team_history(items: list[dict]) -> str:
+    """Join each club a batter represented in first-appearance order."""
+    teams: list[str] = []
+    for item in sorted(items, key=lambda row: (str(row.get("game_date") or row.get("game_id") or ""), int(row.get("event_seq") or 0))):
+        team = _team_code(item)
+        if team and team not in teams:
+            teams.append(team)
+    return " · ".join(teams) if teams else "—"
+
+
 def _write_csv(path: Path, rows: list[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8-sig", newline="") as file:
         writer = csv.DictWriter(file, fieldnames=list(rows[0]) if rows else [], lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
-
-
-def _team_lookup(web_root: Path, season: int) -> dict[str, str]:
-    path = web_root / "data" / "leaderboards" / f"{season}.json"
-    if not path.exists():
-        return {}
-    data = json.loads(path.read_text(encoding="utf-8"))
-    result = {}
-    for dataset in data.get("datasets", []):
-        for row in dataset.get("rows", []):
-            name, team = str(row.get("Player") or "").strip(), str(row.get("Team") or "").strip()
-            if name and team and name not in result:
-                result[name] = team
-    return result
 
 
 def _mean(items: list[dict], field: str, scale: float = 1.0) -> float:
@@ -314,9 +334,6 @@ def _write_web_data(
 ) -> None:
     season_root = web_root / "data" / "zone_awareness" / str(season)
     season_root.mkdir(parents=True, exist_ok=True)
-    teams = _team_lookup(web_root, season)
-    for player in players:
-        player["team"] = teams.get(player["batter_name"], "—")
     qualified = sorted(
         [player for player in players if player["qualified_300"]],
         key=lambda player: player["zone_awareness_plus"], reverse=True,
@@ -332,6 +349,14 @@ def _write_web_data(
     }
     (season_root / "leaderboard.json").write_text(
         json.dumps(leaderboard, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+    (season_root / "teams.json").write_text(
+        json.dumps(
+            {"season": season, "teams": {player["batter_id"]: player["team"] for player in players}},
+            ensure_ascii=False,
+            separators=(",", ":"),
+        ) + "\n",
         encoding="utf-8",
     )
 
@@ -360,6 +385,51 @@ def _write_web_data(
     catalog["seasons"] = sorted(set(catalog.get("seasons", [])) | {season}, reverse=True)
     catalog["default_season"] = max(catalog["seasons"])
     catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def refresh_zone_awareness_team_labels(
+    source: Path, web_root: Path, season: int,
+) -> int:
+    """Backfill existing web exports without rerunning the ZA model.
+
+    This is used when the presentation metadata changes while the underlying
+    metric is unchanged.  It updates both the leaderboard and player shards.
+    """
+    available = set(pq.read_schema(source).names)
+    columns = [
+        column for column in ("batter_id", "batter_team", "game_id", "inning_half", "game_date", "event_seq")
+        if column in available
+    ]
+    source_rows = pq.read_table(source, columns=columns).to_pylist()
+    by_batter = defaultdict(list)
+    for row in source_rows:
+        batter_id = str(row.get("batter_id") or "")
+        if batter_id:
+            by_batter[batter_id].append(row)
+    teams = {batter_id: _team_history(rows) for batter_id, rows in by_batter.items()}
+
+    season_root = web_root / "data" / "zone_awareness" / str(season)
+    leaderboard_path = season_root / "leaderboard.json"
+    leaderboard = json.loads(leaderboard_path.read_text(encoding="utf-8"))
+    for player in leaderboard.get("players", []):
+        player["team"] = teams.get(str(player.get("batter_id") or ""), "—")
+    leaderboard_path.write_text(
+        json.dumps(leaderboard, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+    (season_root / "teams.json").write_text(
+        json.dumps({"season": season, "teams": teams}, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+    for shard_path in (season_root / "players").glob("*.json"):
+        shard = json.loads(shard_path.read_text(encoding="utf-8"))
+        for batter_id, profile in shard.get("players", {}).items():
+            profile.get("summary", {})["team"] = teams.get(str(batter_id), "—")
+        shard_path.write_text(
+            json.dumps(shard, ensure_ascii=False, separators=(",", ":")) + "\n",
+            encoding="utf-8",
+        )
+    return len(teams)
 
 
 def build_zone_awareness_v2(
@@ -473,10 +543,15 @@ if __name__ == "__main__":
     parser.add_argument("--root", default=".")
     parser.add_argument("--season", type=int, default=2026)
     parser.add_argument("--seasons", nargs="+", type=int)
+    parser.add_argument("--refresh-teams", action="store_true")
     args = parser.parse_args()
     root = Path(args.root).resolve()
+    source = root / "data" / "processed" / (
+        "decision_pitches.parquet" if args.season == 2026 else f"decision_pitches_{args.season}.parquet"
+    )
     result = (
-        build_zone_awareness_v2_series(root, tuple(args.seasons))
+        {"season": args.season, "batters": refresh_zone_awareness_team_labels(source, root / "web", args.season)}
+        if args.refresh_teams else build_zone_awareness_v2_series(root, tuple(args.seasons))
         if args.seasons else build_zone_awareness_v2(root, args.season)
     )
     print(json.dumps(result, ensure_ascii=False))
