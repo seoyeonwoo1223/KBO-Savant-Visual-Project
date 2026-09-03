@@ -24,7 +24,11 @@ function plusColor(value){return diverge((+value-100)/15,2);}
 
 async function loadSeason(season) {
   state.season=+season; state.profile=null; state.cell=null;
-  const data=await fetch(`../data/zone_awareness/${season}/leaderboard.json`).then(r=>r.json());
+  const [data, teamData]=await Promise.all([
+    fetch(`../data/zone_awareness/${season}/leaderboard.json`).then(r=>r.json()),
+    fetch(`../data/zone_awareness/${season}/teams.json`).then(r=>r.ok?r.json():{teams:{}}),
+  ]);
+  data.players.forEach(player=>{player.team=teamData.teams?.[player.batter_id]||player.team||"—";});
   state.players=data.players.filter(p=>p.qualified_300);
   $("#qualified-count").textContent=`${data.qualified_batters}명 · 300구 이상`;
   renderLeaderboard(); drawScatter();
