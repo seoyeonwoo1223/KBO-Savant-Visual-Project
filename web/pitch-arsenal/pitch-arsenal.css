@@ -88,9 +88,7 @@ h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.6rem); letter-spacing: -.045em;
 .tooltip strong { display: block; margin-bottom: 6px; font-size: .94rem; }
 .tooltip p { margin: 3px 0; }
 
-.pitch-legend { display: flex; justify-content: center; gap: 8px 20px; margin: 10px 0; padding: 8px 15px; border: 1px solid var(--line); border-radius: 10px; background: #fff; flex-wrap: wrap; }
-.pitch-legend span { display: inline-flex; align-items: center; gap: 7px; color: #46586e; font-size: .88rem; }
-.pitch-legend i, .pitch-key i { width: 10px; height: 10px; border-radius: 50%; }
+.pitch-key i { width: 10px; height: 10px; border-radius: 50%; }
 
 .table-card { padding: 11px 13px; }
 .table-heading { margin-bottom: 8px; }
@@ -134,7 +132,6 @@ th:first-child, td:first-child { min-width: 108px; text-align: center; }
   .chart-grid { grid-template-columns: 1fr; }
   .movement-card { grid-row: auto; }
   .card { padding: 14px 11px 10px; }
-  .pitch-legend { justify-content: flex-start; }
   .table-card { padding: 13px 10px; }
   .table-heading { align-items: flex-start; }
   .table-heading > span { max-width: 145px; }
