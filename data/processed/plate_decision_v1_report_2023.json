@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "season": 2023,
+  "source": "data/processed/decision_pitches_2023.parquet",
+  "pitches": 215392,
+  "batters": 293,
+  "qualified_batters": 173,
+  "minimum_pitches": 300,
+  "cross_validation": "5-fold GroupKFold by game_id; all displayed model predictions are out-of-fold",
+  "movement": {
+    "movement_available": 215392,
+    "movement_adjusted": 215385,
+    "adjustment_coverage_pct": 99.9968,
+    "formula": "adjusted movement = Visual Baseball measurement + stadium/pitch offset",
+    "x_features": [
+      "x_relative",
+      "z_relative",
+      "balls_before",
+      "strikes_before",
+      "outs_before",
+      "base_state_code_before",
+      "velocity_kmh",
+      "release_height_cm",
+      "pitch_type",
+      "batter_stance",
+      "stadium"
+    ],
+    "o_features": [
+      "x_relative",
+      "z_relative",
+      "balls_before",
+      "strikes_before",
+      "outs_before",
+      "base_state_code_before",
+      "velocity_kmh",
+      "release_height_cm",
+      "adjusted_hb_cm",
+      "adjusted_ivb_cm",
+      "pitch_type",
+      "batter_stance",
+      "stadium"
+    ],
+    "movement_x": {
+      "log_loss": 0.46803902,
+      "brier": 0.15465709,
+      "roc_auc": 0.85466658,
+      "mean_expected_swing_pct": 44.943567,
+      "sd_expected_swing_pct": 29.626456
+    },
+    "movement_o": {
+      "log_loss": 0.45675483,
+      "brier": 0.15034334,
+      "roc_auc": 0.86266479,
+      "mean_expected_swing_pct": 44.957034,
+      "sd_expected_swing_pct": 30.123749
+    },
+    "log_loss_improvement_x_minus_o": 0.01128419,
+    "game_cluster_bootstrap_95pct_ci": [
+      0.01062812,
+      0.01198289
+    ],
+    "selection_rule": "Choose Movement O only when O lowers OOF log loss and the game-cluster bootstrap 95% CI excludes zero",
+    "selected": "Movement O"
+  },
+  "metrics": {
+    "swing_aggression": "100 * mean(actual swing indicator - selected OOF expected swing probability); percentage points",
+    "za_raw": "100 * mean(actual zone-aligned judgment - league expected judgment); percentage points",
+    "za_percentile": "empirical percentile of ZA Raw among hitters with at least 300 pitches",
+    "dv_per_100": "100 * mean((V_Swing - V_Take) for swings; sign reversed for takes); runs per 100 pitches"
+  },
+  "p_zone": {
+    "target": "called strike vs ball/HBP among taken pitches",
+    "features": [
+      "x_relative",
+      "z_relative",
+      "sz_top",
+      "sz_bottom"
+    ],
+    "purpose": "smooth zone-aligned probability only; no run value or batted-ball outcome"
+  },
+  "base_stats": {
+    "meatball": "max(abs(x_relative), abs(z_relative)) <= 1/3",
+    "heart": "<= 2/3",
+    "shadow": "> 2/3 and <= 4/3",
+    "chase": "> 4/3 and <= 2",
+    "waste": "> 2"
+  },
+  "regressions": [
+    {
+      "x": "za_raw",
+      "y": "z_swing_pct",
+      "n": 173,
+      "available": true,
+      "pearson_r": 0.50802426,
+      "r_squared": 0.25808865,
+      "slope": 1.18439294,
+      "intercept": 63.25050565
+    },
+    {
+      "x": "za_raw",
+      "y": "o_swing_pct",
+      "n": 173,
+      "available": true,
+      "pearson_r": -0.39426585,
+      "r_squared": 0.15544556,
+      "slope": -0.80552283,
+      "intercept": 26.59233817
+    },
+    {
+      "x": "za_raw",
+      "y": "heart_swing_pct",
+      "n": 173,
+      "available": true,
+      "pearson_r": 0.65016245,
+      "r_squared": 0.42271121,
+      "slope": 1.63489414,
+      "intercept": 68.43800023
+    },
+    {
+      "x": "za_raw",
+      "y": "meatball_swing_pct",
+      "n": 173,
+      "available": true,
+      "pearson_r": 0.53484113,
+      "r_squared": 0.28605503,
+      "slope": 1.79357,
+      "intercept": 71.836537
+    },
+    {
+      "x": "za_raw",
+      "y": "waste_swing_pct",
+      "n": 173,
+      "available": true,
+      "pearson_r": -0.4408337,
+      "r_squared": 0.19433435,
+      "slope": -0.6068465,
+      "intercept": 6.02572258
+    },
+    {
+      "x": "za_raw",
+      "y": "shadow_swing_pct",
+      "n": 173,
+      "available": true,
+      "pearson_r": 0.01551508,
+      "r_squared": 0.00024072,
+      "slope": 0.03769808,
+      "intercept": 49.94673205
+    },
+    {
+      "x": "swing_aggression",
+      "y": "swing_pct",
+      "n": 173,
+      "available": true,
+      "pearson_r": 0.92932176,
+      "r_squared": 0.86363894,
+      "slope": 0.8437826,
+      "intercept": 45.18093278
+    },
+    {
+      "x": "za_raw",
+      "y": "dv_per_100",
+      "n": 173,
+      "available": true,
+      "pearson_r": 0.49545996,
+      "r_squared": 0.24548057,
+      "slope": 0.14374754,
+      "intercept": 4.78742695
+    },
+    {
+      "x": "swing_aggression",
+      "y": "dv_per_100",
+      "n": 173,
+      "available": true,
+      "pearson_r": -0.50210251,
+      "r_squared": 0.25210693,
+      "slope": -0.07342865,
+      "intercept": 4.87170224
+    }
+  ],
+  "clustering": {
+    "features": [
+      "z_swing_residual",
+      "o_swing_residual",
+      "heart_swing_residual",
+      "meatball_swing_residual",
+      "waste_swing_residual",
+      "shadow_swing_residual"
+    ],
+    "standardization": "qualified-batter z-scores",
+    "selected_k": 2,
+    "selection": "maximum silhouette among k=2..6",
+    "silhouette_by_k": {
+      "2": 0.382224,
+      "3": 0.300849,
+      "4": 0.268645,
+      "5": 0.233924,
+      "6": 0.221353
+    },
+    "distance_outlier_threshold": "95th percentile within-cluster Euclidean distance",
+    "residual_outlier_threshold": "absolute residual z >= 2.0",
+    "clusters": [
+      {
+        "cluster_id": 1,
+        "players": 62,
+        "mean_z_swing_residual": 5.291171,
+        "mean_o_swing_residual": 4.535378,
+        "mean_heart_swing_residual": 4.769584,
+        "mean_meatball_swing_residual": 5.9598,
+        "mean_waste_swing_residual": 1.549185,
+        "mean_shadow_swing_residual": 5.945546,
+        "mean_za_raw": 0.521007,
+        "mean_swing_aggression": 4.830485,
+        "mean_swing_pct": 49.569785,
+        "mean_dv_per_100": 4.501203
+      },
+      {
+        "cluster_id": 2,
+        "players": 111,
+        "mean_z_swing_residual": -2.955429,
+        "mean_o_swing_residual": -2.533274,
+        "mean_heart_swing_residual": -2.664092,
+        "mean_meatball_swing_residual": -3.328897,
+        "mean_waste_swing_residual": -0.865311,
+        "mean_shadow_swing_residual": -3.320936,
+        "mean_za_raw": 0.735248,
+        "mean_swing_aggression": -2.918384,
+        "mean_swing_pct": 42.543638,
+        "mean_dv_per_100": 5.094822
+      }
+    ],
+    "dv_joint_diagnostic": {
+      "formula": "DV/100 ~ intercept + ZA Raw + Swing Aggression",
+      "intercept": 4.76781043,
+      "za_coefficient": 0.15642225,
+      "sa_coefficient": -0.07974539,
+      "r_squared": 0.54092002,
+      "mean_residual_by_cluster": {
+        "1": 0.037105,
+        "2": -0.020725
+      },
+      "interpretation": "Near-zero residual cluster means indicate the residual clusters add no material DV bias after ZA and SA."
+    }
+  },
+  "excluded": {},
+  "limitations": [
+    "Counterfactual action values are observational conditional expectations; unmeasured pitch traits can leave selection bias.",
+    "Visual Baseball lacks exit velocity and launch angle, so V_Swing estimates do not condition on contact quality measurements.",
+    "Cluster labels diagnose model behavior and are not player grades or adjustment factors."
+  ]
+}

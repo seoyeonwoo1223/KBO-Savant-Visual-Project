@@ -1,4 +1,4 @@
-"""Cross-fitted 2026 KBO swing-decision research metrics.
+"""Cross-fitted KBO swing-decision research metrics.
 
 The public outputs are deliberately limited to Swing Aggression, neutral Zone
 Awareness (raw and percentile), and Decision Value per 100 pitches.  Supporting
@@ -166,12 +166,11 @@ def _bootstrap_logloss_improvement(
     losses_o = -(y * np.log(p_o) + (1 - y) * np.log(1 - p_o))
     deltas = losses_x - losses_o
     unique = np.unique(groups)
-    per_group = {group: deltas[groups == group] for group in unique}
+    group_sums = np.array([deltas[groups == group].sum() for group in unique])
+    group_counts = np.array([(groups == group).sum() for group in unique])
     rng = np.random.default_rng(RANDOM_STATE)
-    samples = np.empty(iterations)
-    for index in range(iterations):
-        selected = rng.choice(unique, size=len(unique), replace=True)
-        samples[index] = np.concatenate([per_group[group] for group in selected]).mean()
+    selected = rng.integers(0, len(unique), size=(iterations, len(unique)))
+    samples = group_sums[selected].sum(axis=1) / group_counts[selected].sum(axis=1)
     low, high = np.quantile(samples, [0.025, 0.975])
     return float(low), float(high)
 
@@ -375,7 +374,9 @@ def _write_csv(path: Path, rows: list[dict]) -> None:
 
 
 def build_plate_decision_v1(root: Path, season: int = 2026, source: Path | None = None) -> dict:
-    source = source or root / "data" / "processed" / "decision_pitches.parquet"
+    source = source or root / "data" / "processed" / (
+        "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
+    )
     rows, excluded = _valid_rows(source, season)
     movement_meta = _movement_adjust(rows, root, season)
     actions = np.array([row["decision_type"] == "Swing" for row in rows], dtype=int)
