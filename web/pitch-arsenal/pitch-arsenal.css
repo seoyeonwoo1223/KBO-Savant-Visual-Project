@@ -63,7 +63,7 @@ h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.6rem); letter-spacing: -.045em;
 .card h3, .table-card h3 { margin: 0; color: #162a43; font-size: 1.12rem; }
 .card-heading > span, .table-heading > span { display: block; margin-top: 3px; color: #738195; font-size: .82rem; text-align: center; }
 .card svg { display: block; width: 100%; height: auto; margin-top: 4px; overflow: visible; }
-.movement-card svg { max-height: 330px; }
+.movement-card svg { max-height: 560px; }
 
 .chart-grid-line { stroke: #dfe6ee; stroke-width: 1; }
 .chart-zero-line { stroke: #9eabba; stroke-width: 1.25; }
@@ -79,6 +79,7 @@ h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.6rem); letter-spacing: -.045em;
 .movement-ellipse { cursor: pointer; transition: stroke-width .15s, fill-opacity .15s; }
 .movement-ellipse:hover, .movement-ellipse:focus { stroke-width: 4; fill-opacity: .18; outline: none; }
 .frequency-center { stroke: #8e9cad; stroke-width: 1.2; }
+.frequency-guide { stroke: #c9d3de; stroke-width: 1; stroke-dasharray: 3 4; opacity: .65; }
 .frequency-bar { opacity: .92; }
 .frequency-label { fill: #253b54; font-size: 13px; font-weight: 700; }
 .frequency-count { fill: #7b8999; font-size: 10px; }
