@@ -160,8 +160,8 @@ function renderVelocity() {
   clearSvg(svg);
   const pitches = currentProfile.pitch_types.filter(pitch => pitch.velocity_distribution_kmh?.counts?.length);
   const width = 420;
-  const rowHeight = 60;
-  const height = Math.max(330, 70 + pitches.length * rowHeight);
+  const rowHeight = 50;
+  const height = Math.max(270, 60 + pitches.length * rowHeight);
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   if (!pitches.length) {
     svgText(svg, "구속 분포 자료가 없습니다.", {x: width / 2, y: height / 2, "text-anchor": "middle", class: "empty-chart"});
@@ -179,7 +179,7 @@ function renderVelocity() {
     const histogram = pitch.velocity_distribution_kmh;
     const smooth = histogram.counts.map((count, bin) => ((histogram.counts[bin - 1] || 0) + count * 2 + (histogram.counts[bin + 1] || 0)) / 4);
     const peak = Math.max(...smooth, 1);
-    const baseline = 53 + index * rowHeight;
+    const baseline = 45 + index * rowHeight;
     const points = smooth.map((count, bin) => [x(histogram.start + bin * histogram.step), baseline - count / peak * 31]);
     const pathData = [`M ${points[0][0]} ${baseline}`, ...points.map(point => `L ${point[0]} ${point[1]}`), `L ${points.at(-1)[0]} ${baseline}`, "Z"].join(" ");
     svg.append(svgElement("path", {d: pathData, fill: pitch.color, "fill-opacity": .26, stroke: pitch.color, class: "velocity-area"}));
@@ -251,8 +251,8 @@ function renderFrequency() {
   const sideTotals = currentProfile.player.batter_side_pitches || {L: 0, R: 0};
   const hasSplit = sideTotals.L + sideTotals.R > 0;
   const width = 400;
-  const rowHeight = 61;
-  const height = Math.max(330, 78 + pitches.length * rowHeight);
+  const rowHeight = 50;
+  const height = Math.max(270, 62 + pitches.length * rowHeight);
   const center = width / 2;
   const halfWidth = 134;
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
@@ -266,7 +266,7 @@ function renderFrequency() {
     }
     svg.append(svgElement("line", {x1: center, x2: center, y1: 45, y2: height - 16, class: "frequency-center"}));
     pitches.forEach((pitch, index) => {
-      const y = 65 + index * rowHeight;
+      const y = 53 + index * rowHeight;
       const left = pitch.usage_by_batter?.L || {n: 0, usage: null};
       const right = pitch.usage_by_batter?.R || {n: 0, usage: null};
       const leftWidth = (left.usage || 0) / 100 * halfWidth;
@@ -289,7 +289,7 @@ function renderFrequency() {
       svgText(svg, `${tick}%`, {x: tickX, y: 39, "text-anchor": "middle", class: "chart-axis-text"});
     }
     pitches.forEach((pitch, index) => {
-      const y = 61 + index * rowHeight;
+      const y = 51 + index * rowHeight;
       svgText(svg, pitch.name, {x: 5, y: y + 14, class: "chart-row-label"});
       svg.append(svgElement("rect", {x: left, y, width: pitch.usage / 100 * chartWidth, height: 22, rx: 2, fill: pitch.color, class: "frequency-bar"}));
       svgText(svg, `${fmt(pitch.usage)}%`, {x: Math.min(width - 4, left + pitch.usage / 100 * chartWidth + 5), y: y + 14, class: "frequency-label"});
