@@ -32,8 +32,8 @@ button:hover { filter: brightness(.96); }
 .message { flex-basis: 100%; min-height: 1em; margin: 0; color: #a04a3a; font-size: .8rem; }
 
 .profile { margin-top: 14px; }
-.profile-banner { display: flex; align-items: center; justify-content: space-between; gap: 28px; min-height: 118px; padding: 17px 31px; border-radius: 14px 14px 0 0; background: linear-gradient(115deg, #102944, #173c67 66%, #1c507b); color: #fff; box-shadow: 0 12px 28px #17355320; }
-.profile-identity { text-align: center; }
+.profile-banner { display: flex; align-items: center; justify-content: space-between; gap: 28px; min-height: 118px; padding: 17px 31px 17px 18px; border-radius: 14px 14px 0 0; background: linear-gradient(115deg, #102944, #173c67 66%, #1c507b); color: #fff; box-shadow: 0 12px 28px #17355320; }
+.profile-identity { text-align: left; }
 .profile-identity .eyebrow { color: #8fc4e4; }
 h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.6rem); letter-spacing: -.045em; }
 #profile-meta { margin: 5px 0 0; color: #c7d8e8; font-size: 1rem; }
