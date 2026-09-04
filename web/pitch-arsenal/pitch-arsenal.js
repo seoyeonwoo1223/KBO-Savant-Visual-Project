@@ -139,18 +139,14 @@ function renderProfile() {
   profileSection.hidden = false;
   document.querySelector("#profile-season").textContent = `${currentProfile.season} KBO SEASON`;
   document.querySelector("#player-name").textContent = player.name;
-  document.querySelector("#profile-meta").textContent = `${player.throws || "?"}HP · ${currentProfile.pitch_types.length} PITCH TYPES`;
+  document.querySelector("#profile-meta").textContent = `${player.throws || "?"}HP`;
   document.querySelector("#summary-hand").textContent = `${player.throws || "?"}HP`;
-  document.querySelector("#summary-pitches").textContent = player.pitches.toLocaleString();
-  document.querySelector("#summary-vrel").textContent = `${fmt(overall.release?.v_rel_ft?.average, 2)} ft`;
-  document.querySelector("#summary-hrel").textContent = `${fmt(overall.release?.h_rel_ft?.average, 2)} ft`;
   const adjusted = currentProfile.pitch_types.reduce((sum, pitch) => sum + pitch.movement_n, 0);
   const total = currentProfile.pitch_types.reduce((sum, pitch) => sum + pitch.movement_total_n, 0);
   document.querySelector("#coverage").textContent = `보정 무브먼트 ${adjusted.toLocaleString()} / ${total.toLocaleString()} (${total ? (adjusted / total * 100).toFixed(1) : "0.0"}%)`;
   renderVelocity();
   renderMovement();
   renderFrequency();
-  renderLegend();
   renderTable();
   profileSection.scrollIntoView({behavior: "smooth", block: "start"});
 }
@@ -167,8 +163,10 @@ function renderVelocity() {
     svgText(svg, "구속 분포 자료가 없습니다.", {x: width / 2, y: height / 2, "text-anchor": "middle", class: "empty-chart"});
     return;
   }
-  const minValue = Math.floor(Math.min(...pitches.map(pitch => pitch.velocity_distribution_kmh.start)) / 5) * 5;
-  const maxValue = Math.ceil(Math.max(...pitches.map(pitch => pitch.velocity_distribution_kmh.start + (pitch.velocity_distribution_kmh.counts.length - 1) * pitch.velocity_distribution_kmh.step)) / 5) * 5;
+  // Isolated tracking errors must not stretch the shared axis or draw outside the card.
+  // Central-75% bounds retain the meaningful shape while five km/h padding keeps tails visible.
+  const minValue = Math.floor(Math.min(...pitches.map(pitch => pitch.velocity_kmh.low_75 - 5)) / 5) * 5;
+  const maxValue = Math.ceil(Math.max(...pitches.map(pitch => pitch.velocity_kmh.high_75 + 5)) / 5) * 5;
   const bounds = {left: 61, right: 405, top: 22, bottom: height - 34};
   const x = value => bounds.left + (value - minValue) / Math.max(1, maxValue - minValue) * (bounds.right - bounds.left);
   for (let value = minValue; value <= maxValue; value += 5) {
@@ -180,9 +178,15 @@ function renderVelocity() {
     const smooth = histogram.counts.map((count, bin) => ((histogram.counts[bin - 1] || 0) + count * 2 + (histogram.counts[bin + 1] || 0)) / 4);
     const peak = Math.max(...smooth, 1);
     const baseline = 45 + index * rowHeight;
-    const points = smooth.map((count, bin) => [x(histogram.start + bin * histogram.step), baseline - count / peak * 31]);
-    const pathData = [`M ${points[0][0]} ${baseline}`, ...points.map(point => `L ${point[0]} ${point[1]}`), `L ${points.at(-1)[0]} ${baseline}`, "Z"].join(" ");
-    svg.append(svgElement("path", {d: pathData, fill: pitch.color, "fill-opacity": .26, stroke: pitch.color, class: "velocity-area"}));
+    const points = smooth.map((count, bin) => [histogram.start + bin * histogram.step, count])
+      .filter(([value]) => value >= minValue && value <= maxValue)
+      .map(([value, count]) => [x(value), baseline - count / peak * 31]);
+    if (points.length > 1) {
+      const pathData = [`M ${points[0][0]} ${baseline}`, ...points.map(point => `L ${point[0]} ${point[1]}`), `L ${points.at(-1)[0]} ${baseline}`, "Z"].join(" ");
+      svg.append(svgElement("path", {d: pathData, fill: pitch.color, "fill-opacity": .26, stroke: pitch.color, class: "velocity-area"}));
+    } else if (points.length === 1) {
+      svg.append(svgElement("circle", {cx: points[0][0], cy: baseline - 15, r: 4, fill: pitch.color}));
+    }
     const averageX = x(pitch.velocity_kmh.average);
     svg.append(svgElement("line", {x1: averageX, x2: averageX, y1: baseline - 35, y2: baseline + 2, stroke: pitch.color, class: "velocity-average"}));
     svgText(svg, pitch.name, {x: 3, y: baseline - 12, class: "chart-row-label"});
@@ -297,9 +301,6 @@ function renderFrequency() {
   }
 }
 
-function renderLegend() {
-  document.querySelector("#pitch-legend").innerHTML = currentProfile.pitch_types.map(pitch => `<span><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span>`).join("");
-}
 
 function showTooltip(event, pitch, horizontal, vertical) {
   const tooltip = document.querySelector("#tooltip");
@@ -347,7 +348,7 @@ function renderTable() {
       <td><span class="pitch-key"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td>
       <td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td><td>${fmt(pitch.velocity_kmh?.average)} km/h</td>
       <td>${formatMovement(vertical?.average)} ${movementUnitLabel()}</td><td>${formatMovement(horizontal?.average)} ${movementUnitLabel()}</td>
-      <td>${fmt(pitch.release?.v_rel_ft?.average, 2)} ft</td><td>${fmt(pitch.release?.h_rel_ft?.average, 2)} ft</td>
+      <td>${fmt(pitch.release?.v_rel_ft?.average * 30.48, 1)} cm</td><td>${fmt(pitch.release?.h_rel_ft?.average * 30.48, 1)} cm</td>
       ${metricCell(pitch.rates?.zone_pct, pitch.percentiles?.zone_pct, pitch.percentile_qualified)}
       ${metricCell(pitch.rates?.chase_pct, pitch.percentiles?.chase_pct, pitch.percentile_qualified)}
       ${metricCell(pitch.rates?.swstr_pct, pitch.percentiles?.swstr_pct, pitch.percentile_qualified)}
@@ -356,7 +357,7 @@ function renderTable() {
   const overall = currentProfile.overall || {};
   const overallRow = `<tr class="overall-row">
     <td>전체</td><td>${currentProfile.player.pitches.toLocaleString()}</td><td>100.0%</td><td>${fmt(overall.velocity_kmh?.average)} km/h</td>
-    <td>—</td><td>—</td><td>${fmt(overall.release?.v_rel_ft?.average, 2)} ft</td><td>${fmt(overall.release?.h_rel_ft?.average, 2)} ft</td>
+    <td>—</td><td>—</td><td>${fmt(overall.release?.v_rel_ft?.average * 30.48, 1)} cm</td><td>${fmt(overall.release?.h_rel_ft?.average * 30.48, 1)} cm</td>
     ${metricCell(overall.rates?.zone_pct, overall.percentiles?.zone_pct, overall.percentile_qualified)}
     ${metricCell(overall.rates?.chase_pct, overall.percentiles?.chase_pct, overall.percentile_qualified)}
     ${metricCell(overall.rates?.swstr_pct, overall.percentiles?.swstr_pct, overall.percentile_qualified)}
