@@ -13,7 +13,7 @@ on:
       - ".github/workflows/daily_update.yml"
       - ".github/refresh-completed-request"
   schedule:
-    - cron: "7 3 * * *"
+    - cron: "0 15 * * *"
   workflow_dispatch:
     inputs:
       refresh_completed:
