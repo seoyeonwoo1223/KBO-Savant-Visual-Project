@@ -15,12 +15,13 @@
 
 ## 최종 지표
 
-공개 산출 지표는 요청대로 다음 네 개뿐이다.
+공개 산출 지표는 다음과 같다. Raw DV를 주 표시값으로 두고 DV/100은 표본 수 보정용 보조 지표로 둔다.
 
 - `Swing Aggression`: `100 × mean(Swing_i − pSwing_i)`. `+`는 더 적극적, `−`는 더 소극적이며 우열 등급이 아니다.
 - `ZA Raw`: `100 × mean(SJ_i − E[SJ_i])`. 득점 가치, 타구 결과, 비대칭 가중치, 선수 유형 보정을 포함하지 않는다.
 - `ZA Percentile`: 시즌 내 300구 이상 타자의 ZA Raw 경험적 백분위다.
-- `DV/100`: 실제 선택이 Swing이면 `ΔV`, Take면 `−ΔV`를 적용한 100구당 합이다. 개별 안타·아웃 결과를 직접 선수 점수로 쓰지 않는다.
+- `Raw DV`: 실제 선택이 Swing이면 `ΔV`, Take면 `−ΔV`를 적용한 시즌 누적 합이다. 개별 안타·아웃 결과를 직접 선수 점수로 쓰지 않는다.
+- `DV/100`: `Raw DV / N × 100`. 누적 기여량이 아니라 결정 효율을 비교하기 위한 보조 지표다.
 
 Swing%, Z/O-Swing%, Z−O, Heart/Meatball/Shadow/Chase/Waste Swing%는 모델 검토용으로만 함께 저장했다.
 
@@ -54,12 +55,12 @@ ZA와 SA를 함께 설명한 뒤 군집별 DV 잔차 평균은 전 시즌에서 
 2. ZA와 SA를 함께 통제한 뒤 DV의 군집별 평균 잔차가 네 시즌 모두 실질적으로 0에 가깝다.
 3. Movement O의 개선은 전 시즌에서 안정적이지만, 이것이 선수 유형별 사후 보정까지 정당화하지는 않는다.
 
-따라서 1차 사양의 네 지표를 유지한다. 다음 검토는 시즌 간 순위 안정성, 2025→2026 외부검증, DV 행동가치 모델의 관측적 선택편향 완화에 집중하는 편이 낫다.
+따라서 ZA와 DV 산식 자체는 유지한다. 다음 검토는 시즌 간 순위 안정성, 2025→2026 외부검증, DV 행동가치 모델의 관측적 선택편향 완화에 집중하는 편이 낫다.
 
 ## 산출물
 
 - `exports/plate_decision_v1_2022_2025.xlsx`: 통합 요약, 최종 지표, Movement 비교, 회귀, 군집·이상치, 시즌별 전체 테이블, 방법론
-- `exports/plate_decision_v1_players_YYYY.csv`: 선수별 네 지표와 검토용 Base Stats
+- `exports/plate_decision_v1_players_YYYY.csv`: 선수별 SA·ZA·Raw DV·DV/100과 검토용 Base Stats
 - `exports/plate_decision_v1_movement_comparison_YYYY.csv`: 선수별 Expected Swing X/O와 순위 변화
 - `exports/plate_decision_v1_outliers_YYYY.csv`: residual 및 군집 거리 이상치
 - `data/processed/plate_decision_v1_report_YYYY.json`: 시즌별 모델·회귀·군집 메타데이터
@@ -74,4 +75,3 @@ ZA와 SA를 함께 설명한 뒤 군집별 DV 잔차 평균은 전 시즌에서 
 - 이상치 군집은 진단 장치이며 선수 등급이나 보정 계수가 아니다.
 
 프로젝트: https://github.com/seoyeonwoo1223/KBO-Savant-Visual-Project
-

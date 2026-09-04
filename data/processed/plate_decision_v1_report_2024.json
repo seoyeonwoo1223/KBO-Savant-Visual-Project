@@ -66,6 +66,7 @@
     "swing_aggression": "100 * mean(actual swing indicator - selected OOF expected swing probability); percentage points",
     "za_raw": "100 * mean(actual zone-aligned judgment - league expected judgment); percentage points",
     "za_percentile": "empirical percentile of ZA Raw among hitters with at least 300 pitches",
+    "raw_dv": "sum of per-pitch Decision Value across all eligible pitches; cumulative runs and primary DV display",
     "dv_per_100": "100 * mean((V_Swing - V_Take) for swings; sign reversed for takes); runs per 100 pitches"
   },
   "p_zone": {

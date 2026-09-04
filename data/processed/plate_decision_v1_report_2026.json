@@ -2,15 +2,15 @@
   "schema_version": 1,
   "season": 2026,
   "source": "data/processed/decision_pitches.parquet",
-  "pitches": 180261,
-  "batters": 282,
+  "pitches": 183044,
+  "batters": 283,
   "qualified_batters": 159,
   "minimum_pitches": 300,
   "cross_validation": "5-fold GroupKFold by game_id; all displayed model predictions are out-of-fold",
   "movement": {
-    "movement_available": 180261,
-    "movement_adjusted": 179640,
-    "adjustment_coverage_pct": 99.6555,
+    "movement_available": 183044,
+    "movement_adjusted": 182423,
+    "adjustment_coverage_pct": 99.6607,
     "formula": "adjusted movement = Visual Baseball measurement + stadium/pitch offset",
     "x_features": [
       "x_relative",
@@ -41,23 +41,23 @@
       "stadium"
     ],
     "movement_x": {
-      "log_loss": 0.45851486,
-      "brier": 0.15122763,
-      "roc_auc": 0.86101969,
-      "mean_expected_swing_pct": 44.61996,
-      "sd_expected_swing_pct": 30.01129
+      "log_loss": 0.45811542,
+      "brier": 0.1510659,
+      "roc_auc": 0.86130718,
+      "mean_expected_swing_pct": 44.651179,
+      "sd_expected_swing_pct": 30.043011
     },
     "movement_o": {
-      "log_loss": 0.44592095,
-      "brier": 0.14645453,
-      "roc_auc": 0.86971847,
-      "mean_expected_swing_pct": 44.625656,
-      "sd_expected_swing_pct": 30.525462
+      "log_loss": 0.44617182,
+      "brier": 0.14654181,
+      "roc_auc": 0.86954903,
+      "mean_expected_swing_pct": 44.642435,
+      "sd_expected_swing_pct": 30.533884
     },
-    "log_loss_improvement_x_minus_o": 0.01259391,
+    "log_loss_improvement_x_minus_o": 0.0119436,
     "game_cluster_bootstrap_95pct_ci": [
-      0.01171352,
-      0.01344319
+      0.0110847,
+      0.01283864
     ],
     "selection_rule": "Choose Movement O only when O lowers OOF log loss and the game-cluster bootstrap 95% CI excludes zero",
     "selected": "Movement O"
@@ -66,6 +66,7 @@
     "swing_aggression": "100 * mean(actual swing indicator - selected OOF expected swing probability); percentage points",
     "za_raw": "100 * mean(actual zone-aligned judgment - league expected judgment); percentage points",
     "za_percentile": "empirical percentile of ZA Raw among hitters with at least 300 pitches",
+    "raw_dv": "sum of per-pitch Decision Value across all eligible pitches; cumulative runs and primary DV display",
     "dv_per_100": "100 * mean((V_Swing - V_Take) for swings; sign reversed for takes); runs per 100 pitches"
   },
   "p_zone": {
@@ -91,90 +92,90 @@
       "y": "z_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.53561388,
-      "r_squared": 0.28688223,
-      "slope": 1.22792765,
-      "intercept": 64.48188722
+      "pearson_r": 0.53681512,
+      "r_squared": 0.28817048,
+      "slope": 1.24805986,
+      "intercept": 64.48118804
     },
     {
       "x": "za_raw",
       "y": "o_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": -0.34162202,
-      "r_squared": 0.11670561,
-      "slope": -0.70441383,
-      "intercept": 28.92400168
+      "pearson_r": -0.3375118,
+      "r_squared": 0.11391422,
+      "slope": -0.70539452,
+      "intercept": 28.94407963
     },
     {
       "x": "za_raw",
       "y": "heart_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.63522302,
-      "r_squared": 0.40350828,
-      "slope": 1.56404837,
-      "intercept": 69.57598596
+      "pearson_r": 0.6332315,
+      "r_squared": 0.40098213,
+      "slope": 1.57395454,
+      "intercept": 69.5592532
     },
     {
       "x": "za_raw",
       "y": "meatball_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.50820225,
-      "r_squared": 0.25826952,
-      "slope": 1.4880854,
-      "intercept": 72.76606538
+      "pearson_r": 0.50712359,
+      "r_squared": 0.25717434,
+      "slope": 1.51113451,
+      "intercept": 72.78639091
     },
     {
       "x": "za_raw",
       "y": "waste_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": -0.47563913,
-      "r_squared": 0.22623259,
-      "slope": -0.74152203,
-      "intercept": 8.44216665
+      "pearson_r": -0.46835199,
+      "r_squared": 0.21935359,
+      "slope": -0.73690278,
+      "intercept": 8.42015524
     },
     {
       "x": "za_raw",
       "y": "shadow_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.1496627,
-      "r_squared": 0.02239892,
-      "slope": 0.36729764,
-      "intercept": 52.48516398
+      "pearson_r": 0.15216209,
+      "r_squared": 0.0231533,
+      "slope": 0.37858577,
+      "intercept": 52.48798825
     },
     {
       "x": "swing_aggression",
       "y": "swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.94810348,
-      "r_squared": 0.89890021,
-      "slope": 0.92276892,
-      "intercept": 44.70784344
+      "pearson_r": 0.94927478,
+      "r_squared": 0.90112262,
+      "slope": 0.92490689,
+      "intercept": 44.72411951
     },
     {
       "x": "za_raw",
       "y": "dv_per_100",
       "n": 159,
       "available": true,
-      "pearson_r": 0.56416116,
-      "r_squared": 0.31827782,
-      "slope": 0.17281531,
-      "intercept": 6.18763694
+      "pearson_r": 0.54230115,
+      "r_squared": 0.29409054,
+      "slope": 0.17254089,
+      "intercept": 6.22809261
     },
     {
       "x": "swing_aggression",
       "y": "dv_per_100",
       "n": 159,
       "available": true,
-      "pearson_r": -0.53852563,
-      "r_squared": 0.29000986,
-      "slope": -0.08673842,
-      "intercept": 6.26075218
+      "pearson_r": -0.55602881,
+      "r_squared": 0.30916804,
+      "slope": -0.0918505,
+      "intercept": 6.30077315
     }
   ],
   "clustering": {
@@ -190,53 +191,53 @@
     "selected_k": 2,
     "selection": "maximum silhouette among k=2..6",
     "silhouette_by_k": {
-      "2": 0.333383,
-      "3": 0.278147,
-      "4": 0.25119,
-      "5": 0.251894,
-      "6": 0.231979
+      "2": 0.326828,
+      "3": 0.28447,
+      "4": 0.249354,
+      "5": 0.246694,
+      "6": 0.22369
     },
     "distance_outlier_threshold": "95th percentile within-cluster Euclidean distance",
     "residual_outlier_threshold": "absolute residual z >= 2.0",
     "clusters": [
       {
         "cluster_id": 1,
-        "players": 85,
-        "mean_z_swing_residual": 3.782182,
-        "mean_o_swing_residual": 3.792584,
-        "mean_heart_swing_residual": 3.549192,
-        "mean_meatball_swing_residual": 3.387768,
-        "mean_waste_swing_residual": 1.890588,
-        "mean_shadow_swing_residual": 4.285333,
-        "mean_za_raw": 0.500639,
-        "mean_swing_aggression": 3.765622,
-        "mean_swing_pct": 48.615068,
-        "mean_dv_per_100": 5.928079
+        "players": 77,
+        "mean_z_swing_residual": -4.17041,
+        "mean_o_swing_residual": -4.258404,
+        "mean_heart_swing_residual": -3.813665,
+        "mean_meatball_swing_residual": -3.387734,
+        "mean_waste_swing_residual": -2.163061,
+        "mean_shadow_swing_residual": -4.809079,
+        "mean_za_raw": 0.077554,
+        "mean_swing_aggression": -3.729682,
+        "mean_swing_pct": 40.810765,
+        "mean_dv_per_100": 6.669924
       },
       {
         "cluster_id": 2,
-        "players": 74,
-        "mean_z_swing_residual": -4.344399,
-        "mean_o_swing_residual": -4.356346,
-        "mean_heart_swing_residual": -4.076774,
-        "mean_meatball_swing_residual": -3.891355,
-        "mean_waste_swing_residual": -2.171621,
-        "mean_shadow_swing_residual": -4.922342,
-        "mean_za_raw": 0.086614,
-        "mean_swing_aggression": -3.832494,
-        "mean_swing_pct": 40.674631,
-        "mean_dv_per_100": 6.600124
+        "players": 82,
+        "mean_z_swing_residual": 3.916117,
+        "mean_o_swing_residual": 3.998745,
+        "mean_heart_swing_residual": 3.581125,
+        "mean_meatball_swing_residual": 3.181165,
+        "mean_waste_swing_residual": 2.031167,
+        "mean_shadow_swing_residual": 4.515842,
+        "mean_za_raw": 0.518714,
+        "mean_swing_aggression": 3.925392,
+        "mean_swing_pct": 48.790211,
+        "mean_dv_per_100": 5.915267
       }
     ],
     "dv_joint_diagnostic": {
       "formula": "DV/100 ~ intercept + ZA Raw + Swing Aggression",
-      "intercept": 6.20498292,
-      "za_coefficient": 0.18679882,
-      "sa_coefficient": -0.09438943,
-      "r_squared": 0.65962258,
+      "intercept": 6.2450371,
+      "za_coefficient": 0.18850288,
+      "sa_coefficient": -0.09996432,
+      "r_squared": 0.65777634,
       "mean_residual_by_cluster": {
-        "1": -0.014987,
-        "2": 0.017215
+        "1": 0.037432,
+        "2": -0.03515
       },
       "interpretation": "Near-zero residual cluster means indicate the residual clusters add no material DV bias after ZA and SA."
     }

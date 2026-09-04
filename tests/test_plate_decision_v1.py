@@ -3,6 +3,7 @@ import numpy as np
 from visualbaseball.plate_decision_v1 import (
     RANDOM_STATE,
     _bootstrap_logloss_improvement,
+    _decision_value,
     _model_metrics,
     _region,
 )
@@ -21,6 +22,12 @@ def test_model_metrics_rewards_better_probabilities():
     bad = _model_metrics(target, np.array([0.4, 0.4, 0.6, 0.6]))
     assert good["log_loss"] < bad["log_loss"]
     assert good["brier"] < bad["brier"]
+
+
+def test_raw_decision_value_is_primary_total_and_per_100_is_normalized():
+    raw, per_100 = _decision_value([{"dv": 0.2}, {"dv": -0.1}, {"dv": 0.4}, {"dv": 0.5}])
+    assert raw == 1.0
+    assert per_100 == 25.0
 
 
 def test_vectorized_game_bootstrap_matches_cluster_resampling():
