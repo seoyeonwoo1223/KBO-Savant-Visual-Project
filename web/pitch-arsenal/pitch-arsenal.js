@@ -265,8 +265,14 @@ function renderFrequency() {
     svgText(svg, "vs LHH", {x: center - halfWidth, y: 19, "text-anchor": "middle", class: "chart-row-label"});
     svgText(svg, "vs RHH", {x: center + halfWidth, y: 19, "text-anchor": "middle", class: "chart-row-label"});
     for (const tick of [0, 50, 100]) {
-      svgText(svg, `${tick}%`, {x: center - tick / 100 * halfWidth, y: 39, "text-anchor": "middle", class: "chart-axis-text"});
-      if (tick) svgText(svg, `${tick}%`, {x: center + tick / 100 * halfWidth, y: 39, "text-anchor": "middle", class: "chart-axis-text"});
+      const leftX = center - tick / 100 * halfWidth;
+      const rightX = center + tick / 100 * halfWidth;
+      svg.append(svgElement("line", {x1: leftX, x2: leftX, y1: 45, y2: height - 16, class: "frequency-guide"}));
+      svgText(svg, `${tick}%`, {x: leftX, y: 39, "text-anchor": "middle", class: "chart-axis-text"});
+      if (tick) {
+        svg.append(svgElement("line", {x1: rightX, x2: rightX, y1: 45, y2: height - 16, class: "frequency-guide"}));
+        svgText(svg, `${tick}%`, {x: rightX, y: 39, "text-anchor": "middle", class: "chart-axis-text"});
+      }
     }
     svg.append(svgElement("line", {x1: center, x2: center, y1: 45, y2: height - 16, class: "frequency-center"}));
     pitches.forEach((pitch, index) => {
@@ -275,26 +281,22 @@ function renderFrequency() {
       const right = pitch.usage_by_batter?.R || {n: 0, usage: null};
       const leftWidth = (left.usage || 0) / 100 * halfWidth;
       const rightWidth = (right.usage || 0) / 100 * halfWidth;
-      svgText(svg, pitch.name, {x: center, y: y - 8, "text-anchor": "middle", class: "chart-row-label"});
       svg.append(svgElement("rect", {x: center - leftWidth, y, width: leftWidth, height: 22, rx: 2, fill: pitch.color, class: "frequency-bar"}));
       svg.append(svgElement("rect", {x: center, y, width: rightWidth, height: 22, rx: 2, fill: pitch.color, class: "frequency-bar"}));
-      svgText(svg, `${fmt(left.usage)}%`, {x: Math.max(5, center - leftWidth - 5), y: y + 10, "text-anchor": "end", class: "frequency-label"});
-      svgText(svg, `${left.n.toLocaleString()}구`, {x: Math.max(5, center - leftWidth - 5), y: y + 22, "text-anchor": "end", class: "frequency-count"});
-      svgText(svg, `${fmt(right.usage)}%`, {x: Math.min(width - 5, center + rightWidth + 5), y: y + 10, class: "frequency-label"});
-      svgText(svg, `${right.n.toLocaleString()}구`, {x: Math.min(width - 5, center + rightWidth + 5), y: y + 22, class: "frequency-count"});
+      svgText(svg, `${fmt(left.usage)}%`, {x: Math.max(5, center - leftWidth - 5), y: y + 15, "text-anchor": "end", class: "frequency-label"});
+      svgText(svg, `${fmt(right.usage)}%`, {x: Math.min(width - 5, center + rightWidth + 5), y: y + 15, class: "frequency-label"});
     });
   } else {
     svgText(svg, "해당 연도는 타자 손 데이터가 없어 전체 구사율로 표시", {x: width / 2, y: 25, "text-anchor": "middle", class: "chart-row-sub"});
     const left = 80;
     const chartWidth = 270;
-    for (const tick of [0, 25, 50, 75, 100]) {
+    for (const tick of [0, 50, 100]) {
       const tickX = left + tick / 100 * chartWidth;
-      svg.append(svgElement("line", {x1: tickX, x2: tickX, y1: 43, y2: height - 18, class: "chart-grid-line"}));
+      svg.append(svgElement("line", {x1: tickX, x2: tickX, y1: 43, y2: height - 18, class: "frequency-guide"}));
       svgText(svg, `${tick}%`, {x: tickX, y: 39, "text-anchor": "middle", class: "chart-axis-text"});
     }
     pitches.forEach((pitch, index) => {
       const y = 51 + index * rowHeight;
-      svgText(svg, pitch.name, {x: 5, y: y + 14, class: "chart-row-label"});
       svg.append(svgElement("rect", {x: left, y, width: pitch.usage / 100 * chartWidth, height: 22, rx: 2, fill: pitch.color, class: "frequency-bar"}));
       svgText(svg, `${fmt(pitch.usage)}%`, {x: Math.min(width - 4, left + pitch.usage / 100 * chartWidth + 5), y: y + 14, class: "frequency-label"});
     });
@@ -336,7 +338,7 @@ function metricCell(value, percentile, qualified = true) {
   const strength = Math.abs(percentile - 50) / 50 * .9;
   const background = mixColor("#f7f8fa", endpoint, strength);
   const ink = percentile <= 12 || percentile >= 88 ? "#ffffff" : "#1d3148";
-  return `<td class="metric-cell" style="--metric-bg:${background};--metric-ink:${ink}"><span>${fmt(value)}%</span><small>P${percentile}</small></td>`;
+  return `<td class="metric-cell" style="--metric-bg:${background};--metric-ink:${ink}"><span>${fmt(value)}%</span></td>`;
 }
 
 function renderTable() {
