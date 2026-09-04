@@ -4,19 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Pitch Arsenal</title>
-  <link rel="stylesheet" href="pitch-arsenal.css?v=20260901-4">
+  <link rel="stylesheet" href="pitch-arsenal.css?v=20260905-1">
 </head>
 <body>
   <main>
     <nav><a href="../">← 홈</a></nav>
-    <header>
+    <header class="page-header">
       <p class="eyebrow">VISUAL BASEBALL · PARK ADJUSTED</p>
       <h1>KBO Pitch Arsenal</h1>
       <p>구종 사용률·구속·무브먼트</p>
     </header>
-    <section class="notice">
-      <p>HB·IVB는 구장·구종별 오프셋을 더한 보정값. 원 안의 점은 평균, 원의 폭과 높이는 각각 중앙 75%.</p>
-    </section>
+
     <section class="search-panel" aria-label="투수 검색">
       <label>연도<select id="year"></select></label>
       <label>투구 손<select id="throws"><option value="">전체</option><option value="R">우투</option><option value="L">좌투</option></select></label>
@@ -28,54 +26,81 @@
       <div id="matches" class="matches"></div>
       <p id="message" class="message" aria-live="polite">선수 목록을 불러오는 중입니다.</p>
     </section>
+
     <section id="profile" class="profile" hidden>
-      <div class="profile-title">
-        <div><p class="eyebrow" id="profile-season"></p><h2 id="player-name"></h2></div>
-        <p id="profile-meta"></p>
+      <div class="profile-banner">
+        <div class="profile-identity">
+          <p class="eyebrow" id="profile-season"></p>
+          <h2 id="player-name"></h2>
+          <p id="profile-meta"></p>
+        </div>
+        <div class="profile-summary" aria-label="선수 요약">
+          <div><span>투구 손</span><strong id="summary-hand">—</strong></div>
+          <div><span>투구 수</span><strong id="summary-pitches">—</strong></div>
+          <div><span>vRel</span><strong id="summary-vrel">—</strong></div>
+          <div><span>hRel</span><strong id="summary-hrel">—</strong></div>
+        </div>
       </div>
+
       <div class="toolbar">
         <label>무브먼트<select id="movement-mode"><option value="adjusted">구장 보정</option><option value="raw">원측정값</option></select></label>
-        <div class="pov-toggle" role="group" aria-label="무브먼트 시점">
-          <span class="pov-label">시점</span>
-          <div class="pov-options">
-            <button type="button" data-movement-view="pitcher" aria-pressed="true">Pitcher’s POV</button>
-            <button type="button" data-movement-view="catcher" aria-pressed="false">Catcher’s POV</button>
-          </div>
+        <div class="segmented-control" role="group" aria-label="무브먼트 시점">
+          <span>시점</span>
+          <div><button type="button" data-movement-view="pitcher" aria-pressed="true">Pitcher’s POV</button><button type="button" data-movement-view="catcher" aria-pressed="false">Catcher’s POV</button></div>
         </div>
-        <div class="unit-toggle" role="group" aria-label="무브먼트 단위">
-          <span class="unit-label">단위</span>
-          <div class="unit-options">
-            <button type="button" data-movement-unit="in" aria-pressed="true">in.</button>
-            <button type="button" data-movement-unit="cm" aria-pressed="false">cm</button>
-          </div>
+        <div class="segmented-control unit-control" role="group" aria-label="무브먼트 단위">
+          <span>단위</span>
+          <div><button type="button" data-movement-unit="in" aria-pressed="true">in.</button><button type="button" data-movement-unit="cm" aria-pressed="false">cm</button></div>
         </div>
         <span id="coverage"></span>
-        <button id="export-profile" class="export-button" type="button">프로필 이미지 저장</button>
+        <button id="export-profile" class="export-button" type="button">이미지 저장</button>
       </div>
-      <div class="arsenal-grid">
-        <div class="arsenal-left">
-          <section class="panel frequency-panel"><h3>Pitch Type Frequency</h3><div id="frequency"></div></section>
-          <section class="panel velocity-panel"><h3>Speed</h3><div id="velocity"></div></section>
-          <section class="table-card">
-            <h3>구종별 수치</h3>
-            <div class="table-wrap"><table>
-              <thead><tr><th>구종</th><th>투구</th><th>구사율</th><th>평균 구속</th><th>IVB</th><th>HB</th></tr></thead>
-              <tbody id="pitch-table"></tbody>
-            </table></div>
-          </section>
-        </div>
-        <section class="panel movement-panel">
-          <div class="panel-heading"><h3>Pitch Movement</h3><span id="movement-view-label">투수 시점 · inches</span></div>
-          <svg id="movement-chart" viewBox="0 0 680 680" role="img" aria-labelledby="movement-title movement-desc">
+
+      <div class="chart-grid">
+        <section class="card velocity-card">
+          <div class="card-heading"><div><p>VELOCITY</p><h3>Pitch Velocity Distribution</h3></div><span>km/h</span></div>
+          <svg id="velocity-chart" role="img" aria-label="구종별 구속 분포"></svg>
+        </section>
+
+        <section class="card movement-card">
+          <div class="card-heading"><div><p>MOVEMENT</p><h3>Pitch Movement</h3></div><span id="movement-view-label">투수 시점 · in.</span></div>
+          <svg id="movement-chart" viewBox="0 0 620 620" role="img" aria-labelledby="movement-title movement-desc">
             <title id="movement-title">구종별 수평 무브먼트와 IVB</title>
-            <desc id="movement-desc">점은 평균이고 타원은 중앙 75퍼센트 범위이며, 구사율 10% 미만 구종은 옅게 표시합니다.</desc>
+            <desc id="movement-desc">반투명 점은 표본 투구, 타원은 중앙 75퍼센트, 큰 점은 평균입니다.</desc>
           </svg>
           <div id="tooltip" class="tooltip" hidden></div>
         </section>
+
+        <section class="card frequency-card">
+          <div class="card-heading"><div><p>USAGE</p><h3>Pitch Frequency</h3></div><span id="frequency-sample">LHH · RHH</span></div>
+          <svg id="frequency-chart" role="img" aria-label="좌타자와 우타자 상대 구종 구사율"></svg>
+        </section>
       </div>
-          </section>
+
+      <div id="pitch-legend" class="pitch-legend" aria-label="구종 범례"></div>
+
+      <section class="table-card">
+        <div class="table-heading">
+          <div><p>ARSENAL</p><h3>구종별 수치</h3></div>
+          <span>Zone% · Chase% · SwStr% 색상은 리그 백분위</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>구종</th><th>#</th><th>구사율</th><th>구속</th><th>IVB</th><th>HB</th><th>vRel</th><th>hRel</th>
+                <th class="graded-head">Zone%</th><th class="graded-head">Chase%</th><th class="graded-head">SwStr%</th>
+              </tr>
+            </thead>
+            <tbody id="pitch-table"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <p class="method-note">HB·IVB는 구장·구종 오프셋을 더한 보정값입니다. 무브먼트의 큰 점은 평균, 타원은 중앙 75%입니다. 백분위는 동일 구종 100구 이상 투수-구종 표본끼리 비교하며, 전체 행은 100구 이상 투수끼리 비교합니다. Zone%는 ABS 존 안 투구 비율, Chase%는 존 밖 스윙 비율, SwStr%는 전체 투구 대비 헛스윙 비율입니다.</p>
+    </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="pitch-arsenal.js?v=20260901-5"></script>
+  <script src="pitch-arsenal.js?v=20260905-1"></script>
 </body>
 </html>
