@@ -7,3 +7,4 @@ __pycache__/
 data/pending/
 data/raw/naver/
 data/processed/plate_decision_v1_pitches_*.parquet
+data/processed/decision_pitches_20*.parquet

@@ -1,6 +1,11 @@
 import numpy as np
 
-from visualbaseball.plate_decision_v1 import _model_metrics, _region
+from visualbaseball.plate_decision_v1 import (
+    RANDOM_STATE,
+    _bootstrap_logloss_improvement,
+    _model_metrics,
+    _region,
+)
 
 
 def test_region_contract_and_meatball_center():
@@ -16,3 +21,26 @@ def test_model_metrics_rewards_better_probabilities():
     bad = _model_metrics(target, np.array([0.4, 0.4, 0.6, 0.6]))
     assert good["log_loss"] < bad["log_loss"]
     assert good["brier"] < bad["brier"]
+
+
+def test_vectorized_game_bootstrap_matches_cluster_resampling():
+    target = np.array([0, 1, 0, 1, 1, 0])
+    probability_x = np.array([0.3, 0.6, 0.4, 0.55, 0.7, 0.2])
+    probability_o = np.array([0.2, 0.7, 0.3, 0.65, 0.8, 0.1])
+    groups = np.array(["a", "a", "b", "b", "c", "c"])
+    actual = _bootstrap_logloss_improvement(
+        target, probability_x, probability_o, groups, iterations=50
+    )
+
+    loss_x = -(target * np.log(probability_x) + (1 - target) * np.log(1 - probability_x))
+    loss_o = -(target * np.log(probability_o) + (1 - target) * np.log(1 - probability_o))
+    deltas = loss_x - loss_o
+    unique = np.unique(groups)
+    rng = np.random.default_rng(RANDOM_STATE)
+    selected = rng.integers(0, len(unique), size=(50, len(unique)))
+    expected_samples = np.array([
+        np.concatenate([deltas[groups == unique[index]] for index in draw]).mean()
+        for draw in selected
+    ])
+    expected = tuple(float(value) for value in np.quantile(expected_samples, [0.025, 0.975]))
+    assert np.allclose(actual, expected)

@@ -1,5 +1,7 @@
 # Plate Decision v1 — 2026 KBO 1차 브리핑
 
+> 동일 사양의 2022–2025 역사 시즌 결과는 [`HISTORICAL_2022_2025.md`](HISTORICAL_2022_2025.md)와 `exports/plate_decision_v1_2022_2025.xlsx`에 정리했다.
+
 ## 범위
 
 - 데이터: Visual Baseball 2026 정규시즌, 2026-09-02 경기까지
