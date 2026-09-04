@@ -3,7 +3,7 @@ import json
 
 import xlsxwriter
 
-from visualbaseball.pitch_arsenal import _load_park_factors, build_pitch_arsenal
+from visualbaseball.pitch_arsenal import _load_park_factors, _pitch_code, build_pitch_arsenal
 
 
 def _write_pitch_workbook(path: Path) -> None:
@@ -72,3 +72,12 @@ def test_legacy_duplicate_headers_use_fixed_pitch_order():
     factors = _load_park_factors(root, 2022)
     assert factors[("고척", "FF")] == (-0.226, -8.394)
     assert factors[("고척", "SL")] == (-4.434, -9.319)
+
+
+def test_video_review_pitch_type_override():
+    row = {
+        "pitch_id": "20260708SKOB0-20260708SKOB0-037-01",
+        "pitch_type_code": "FS",
+        "pitch_type_kr": "포크",
+    }
+    assert _pitch_code(row) == "FC"
