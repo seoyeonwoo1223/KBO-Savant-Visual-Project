@@ -13,13 +13,18 @@ def _write_pitch_workbook(path: Path) -> None:
             "season": 2026, "parse_status": "ok", "pitcher_id": "55146", "pitcher_name": "치리노스",
             "pitch_type_code": "FF", "pitch_type_kr": "포심", "stadium": "잠실",
             "velocity_kmh": 145 + number, "horizontal_movement_cm": 0.263 + 2.54,
-            "vertical_movement_cm": 1.584 + 2.54, "x0": -1.9,
+            "vertical_movement_cm": 1.584 + 2.54, "x0": -1.9, "z0": 6.1,
+            "batter_stance": "L" if number % 2 else "R",
+            "px": 0.0, "pz": 2.5, "sz_bottom": 1.5, "sz_top": 3.5,
+            "is_swing": number % 2 == 0, "is_contact": number == 0,
         })
     rows.append({
         "season": 2026, "parse_status": "ok", "pitcher_id": "55146", "pitcher_name": "치리노스",
         "pitch_type_code": "ST", "pitch_type_kr": "스위퍼", "stadium": "잠실",
         "velocity_kmh": 132, "horizontal_movement_cm": -0.861 + 5.08,
-        "vertical_movement_cm": 1.499 + 5.08, "x0": -2.0,
+        "vertical_movement_cm": 1.499 + 5.08, "x0": -2.0, "z0": 5.9,
+        "batter_stance": "R", "px": 1.0, "pz": 2.5,
+        "sz_bottom": 1.5, "sz_top": 3.5, "is_swing": True, "is_contact": False,
     })
     path.parent.mkdir(parents=True)
     workbook = xlsxwriter.Workbook(path)
@@ -51,9 +56,15 @@ def test_pitch_arsenal_builds_adjusted_profiles(tmp_path: Path):
     assert four_seam["usage"] == 80.0
     assert four_seam["horizontal_break_in"]["average"] == 1.2
     assert four_seam["ivb_in"]["average"] == 2.2
+    assert four_seam["usage_by_batter"]["L"] == {"n": 2, "usage": 100.0}
+    assert four_seam["usage_by_batter"]["R"] == {"n": 2, "usage": 66.7}
+    assert four_seam["release"]["v_rel_ft"]["average"] == 6.1
+    assert four_seam["rates"] == {"zone_pct": 100.0, "chase_pct": None, "swstr_pct": 25.0}
+    assert four_seam["percentile_qualified"] is False
     assert sweeper["park_factor_code"] == "SL"
     assert sweeper["horizontal_break_in"]["average"] == 1.3
     assert sweeper["ivb_in"]["average"] == 3.2
+    assert sweeper["rates"] == {"zone_pct": 0.0, "chase_pct": 100.0, "swstr_pct": 100.0}
 
 
 def test_legacy_duplicate_headers_use_fixed_pitch_order():
