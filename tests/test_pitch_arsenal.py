@@ -3,7 +3,9 @@ import json
 
 import xlsxwriter
 
-from visualbaseball.pitch_arsenal import _load_park_factors, _pitch_code, build_pitch_arsenal
+from visualbaseball.pitch_arsenal import (
+    _load_park_factors, _pitch_code, _resolved_batter_stance, build_pitch_arsenal,
+)
 
 
 def _write_pitch_workbook(path: Path) -> None:
@@ -81,3 +83,10 @@ def test_video_review_pitch_type_override():
         "pitch_type_kr": "포크",
     }
     assert _pitch_code(row) == "FC"
+
+
+def test_legacy_batter_stance_uses_observed_hand_and_switch_matchup():
+    assert _resolved_batter_stance({"batter_id": "1"}, {"1": "L"}) == "L"
+    assert _resolved_batter_stance({"batter_id": "2", "x0": -1.8}, {"2": "S"}) == "L"
+    assert _resolved_batter_stance({"batter_id": "2", "x0": 1.8}, {"2": "S"}) == "R"
+    assert _resolved_batter_stance({"batter_id": "2", "batter_stance": "R", "x0": -1.8}, {"2": "S"}) == "R"
