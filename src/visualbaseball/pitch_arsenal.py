@@ -176,6 +176,32 @@ def _pitch_code(row: dict) -> str:
     return KOREAN_TO_CODE.get(str(row.get("pitch_type_kr") or "").strip(), "")
 
 
+def _load_batter_hands(root: Path, season: int) -> dict[str, str]:
+    """Load PBP-observed batter handedness for legacy workbooks without stance."""
+    source = root / "data" / "batter_handedness.json"
+    if not source.exists():
+        return {}
+    payload = json.loads(source.read_text(encoding="utf-8"))
+    return {
+        str(player_id): str(values.get("bats") or "")
+        for player_id, values in payload.get("seasons", {}).get(str(season), {}).get("players", {}).items()
+    }
+
+
+def _resolved_batter_stance(row: dict, batter_hands: dict[str, str]) -> str:
+    stance = str(row.get("batter_stance") or "").strip().upper()
+    if stance in {"L", "R"}:
+        return stance
+    bats = batter_hands.get(str(row.get("batter_id") or "").strip(), "")
+    if bats in {"L", "R"}:
+        return bats
+    if bats == "S":
+        release_x = _number(row.get("x0"))
+        if release_x is not None and abs(release_x) >= 0.1:
+            return "L" if release_x < 0 else "R"
+    return ""
+
+
 def _throws(release_x: list[float]) -> str:
     if not release_x:
         return ""
@@ -188,6 +214,7 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
     if not source.exists():
         raise FileNotFoundError(f"Pitch Arsenal input workbook is missing: {source}")
     factors = _load_park_factors(root, season)
+    batter_hands = _load_batter_hands(root, season)
 
     workbook = load_workbook(source, read_only=True, data_only=True)
     pitchers: dict[str, dict] = {}
@@ -240,7 +267,7 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                 pitcher["release_z"].append(release_z)
                 group["release_z"].append(release_z)
 
-            stance = str(row.get("batter_stance") or "").strip().upper()
+            stance = _resolved_batter_stance(row, batter_hands)
             if stance in {"L", "R"}:
                 pitcher["side_totals"][stance] += 1
                 group["side_counts"][stance] += 1
