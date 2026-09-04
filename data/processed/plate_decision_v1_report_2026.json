@@ -41,23 +41,23 @@
       "stadium"
     ],
     "movement_x": {
-      "log_loss": 0.45811542,
-      "brier": 0.1510659,
-      "roc_auc": 0.86130718,
-      "mean_expected_swing_pct": 44.651179,
-      "sd_expected_swing_pct": 30.043011
+      "log_loss": 0.45834,
+      "brier": 0.15115561,
+      "roc_auc": 0.86114844,
+      "mean_expected_swing_pct": 44.639307,
+      "sd_expected_swing_pct": 30.030795
     },
     "movement_o": {
-      "log_loss": 0.44617182,
-      "brier": 0.14654181,
-      "roc_auc": 0.86954903,
-      "mean_expected_swing_pct": 44.642435,
-      "sd_expected_swing_pct": 30.533884
+      "log_loss": 0.44621187,
+      "brier": 0.14656431,
+      "roc_auc": 0.86951553,
+      "mean_expected_swing_pct": 44.623803,
+      "sd_expected_swing_pct": 30.516994
     },
-    "log_loss_improvement_x_minus_o": 0.0119436,
+    "log_loss_improvement_x_minus_o": 0.01212813,
     "game_cluster_bootstrap_95pct_ci": [
-      0.0110847,
-      0.01283864
+      0.01128306,
+      0.01299103
     ],
     "selection_rule": "Choose Movement O only when O lowers OOF log loss and the game-cluster bootstrap 95% CI excludes zero",
     "selected": "Movement O"
@@ -93,70 +93,70 @@
       "y": "z_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.53681512,
-      "r_squared": 0.28817048,
-      "slope": 1.24805986,
-      "intercept": 64.48118804
+      "pearson_r": 0.53659851,
+      "r_squared": 0.28793796,
+      "slope": 1.2476648,
+      "intercept": 64.45113577
     },
     {
       "x": "za_raw",
       "y": "o_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": -0.3375118,
-      "r_squared": 0.11391422,
-      "slope": -0.70539452,
-      "intercept": 28.94407963
+      "pearson_r": -0.33829452,
+      "r_squared": 0.11444318,
+      "slope": -0.70709191,
+      "intercept": 28.96169734
     },
     {
       "x": "za_raw",
       "y": "heart_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.6332315,
-      "r_squared": 0.40098213,
-      "slope": 1.57395454,
-      "intercept": 69.5592532
+      "pearson_r": 0.63354895,
+      "r_squared": 0.40138427,
+      "slope": 1.57488061,
+      "intercept": 69.5208847
     },
     {
       "x": "za_raw",
       "y": "meatball_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.50712359,
-      "r_squared": 0.25717434,
-      "slope": 1.51113451,
-      "intercept": 72.78639091
+      "pearson_r": 0.50525881,
+      "r_squared": 0.25528647,
+      "slope": 1.5057088,
+      "intercept": 72.75163296
     },
     {
       "x": "za_raw",
       "y": "waste_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": -0.46835199,
-      "r_squared": 0.21935359,
-      "slope": -0.73690278,
-      "intercept": 8.42015524
+      "pearson_r": -0.46857991,
+      "r_squared": 0.21956713,
+      "slope": -0.73732553,
+      "intercept": 8.43811525
     },
     {
       "x": "za_raw",
       "y": "shadow_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.15216209,
-      "r_squared": 0.0231533,
-      "slope": 0.37858577,
-      "intercept": 52.48798825
+      "pearson_r": 0.15307158,
+      "r_squared": 0.02343091,
+      "slope": 0.38088176,
+      "intercept": 52.47807679
     },
     {
       "x": "za_raw",
       "y": "heart_only_swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.59650472,
-      "r_squared": 0.35581788,
-      "slope": 1.58956286,
-      "intercept": 68.28857964,
+      "pearson_r": 0.59789329,
+      "r_squared": 0.35747639,
+      "slope": 1.59340175,
+      "intercept": 68.24887463,
       "diagnostic_spec": "separated Heart-only sensitivity"
     },
     {
@@ -164,30 +164,30 @@
       "y": "swing_pct",
       "n": 159,
       "available": true,
-      "pearson_r": 0.94927478,
-      "r_squared": 0.90112262,
-      "slope": 0.92490689,
-      "intercept": 44.72411951
+      "pearson_r": 0.9484179,
+      "r_squared": 0.89949652,
+      "slope": 0.92593715,
+      "intercept": 44.71353828
     },
     {
       "x": "za_raw",
       "y": "dv_per_100",
       "n": 159,
       "available": true,
-      "pearson_r": 0.54230115,
-      "r_squared": 0.29409054,
-      "slope": 0.17254089,
-      "intercept": 6.22809261
+      "pearson_r": 0.54804927,
+      "r_squared": 0.300358,
+      "slope": 0.17464543,
+      "intercept": 6.21069215
     },
     {
       "x": "swing_aggression",
       "y": "dv_per_100",
       "n": 159,
       "available": true,
-      "pearson_r": -0.55602881,
-      "r_squared": 0.30916804,
-      "slope": -0.0918505,
-      "intercept": 6.30077315
+      "pearson_r": -0.55596769,
+      "r_squared": 0.30910008,
+      "slope": -0.09216326,
+      "intercept": 6.28933732
     }
   ],
   "clustering": {
@@ -203,46 +203,46 @@
     "selected_k": 2,
     "selection": "maximum silhouette among k=2..6",
     "silhouette_by_k": {
-      "2": 0.326828,
-      "3": 0.28447,
-      "4": 0.249354,
-      "5": 0.246694,
-      "6": 0.22369
+      "2": 0.328139,
+      "3": 0.283672,
+      "4": 0.249454,
+      "5": 0.246952,
+      "6": 0.226789
     },
     "distance_outlier_threshold": "95th percentile of Euclidean distance within each assigned cluster",
     "distance_outlier_cutoff_by_cluster": {
-      "1": 2.923126,
-      "2": 2.85683
+      "1": 2.876602,
+      "2": 2.912539
     },
     "residual_outlier_threshold": "absolute residual z >= 2.0",
     "clusters": [
       {
         "cluster_id": 1,
-        "players": 77,
-        "mean_z_swing_residual": -4.17041,
-        "mean_o_swing_residual": -4.258404,
-        "mean_heart_swing_residual": -3.813665,
-        "mean_meatball_swing_residual": -3.387734,
-        "mean_waste_swing_residual": -2.163061,
-        "mean_shadow_swing_residual": -4.809079,
-        "mean_za_raw": 0.077554,
-        "mean_swing_aggression": -3.729682,
-        "mean_swing_pct": 40.810765,
-        "mean_dv_per_100": 6.669924
+        "players": 87,
+        "mean_z_swing_residual": 3.646497,
+        "mean_o_swing_residual": 3.678958,
+        "mean_heart_swing_residual": 3.411533,
+        "mean_meatball_swing_residual": 3.366288,
+        "mean_waste_swing_residual": 1.863253,
+        "mean_shadow_swing_residual": 4.129232,
+        "mean_za_raw": 0.573087,
+        "mean_swing_aggression": 3.710843,
+        "mean_swing_pct": 48.491961,
+        "mean_dv_per_100": 5.9402
       },
       {
         "cluster_id": 2,
-        "players": 82,
-        "mean_z_swing_residual": 3.916117,
-        "mean_o_swing_residual": 3.998745,
-        "mean_heart_swing_residual": 3.581125,
-        "mean_meatball_swing_residual": 3.181165,
-        "mean_waste_swing_residual": 2.031167,
-        "mean_shadow_swing_residual": 4.515842,
-        "mean_za_raw": 0.518714,
-        "mean_swing_aggression": 3.925392,
-        "mean_swing_pct": 48.790211,
-        "mean_dv_per_100": 5.915267
+        "players": 72,
+        "mean_z_swing_residual": -4.406183,
+        "mean_o_swing_residual": -4.445407,
+        "mean_heart_swing_residual": -4.122268,
+        "mean_meatball_swing_residual": -4.067598,
+        "mean_waste_swing_residual": -2.25143,
+        "mean_shadow_swing_residual": -4.989488,
+        "mean_za_raw": 0.034621,
+        "mean_swing_aggression": -3.977337,
+        "mean_swing_pct": 40.617022,
+        "mean_dv_per_100": 6.664522
       }
     ],
     "heart_meatball_sensitivity": {
@@ -265,26 +265,26 @@
       "heart_only_definition": "1/3 < max(abs(x_relative), abs(z_relative)) <= 2/3",
       "selected_k": 2,
       "silhouette_by_k": {
-        "2": 0.322771,
-        "3": 0.286825,
-        "4": 0.241377,
-        "5": 0.22919,
-        "6": 0.221491
+        "2": 0.323399,
+        "3": 0.287097,
+        "4": 0.241021,
+        "5": 0.227,
+        "6": 0.224846
       },
-      "adjusted_rand_index_vs_official": 0.974842,
+      "adjusted_rand_index_vs_official": 0.8774,
       "distance_outliers": 9,
-      "any_outliers": 26,
+      "any_outliers": 25,
       "purpose": "diagnostic sensitivity only; does not replace the official inclusive-Heart clustering"
     },
     "dv_joint_diagnostic": {
       "formula": "DV/100 ~ intercept + ZA Raw + Swing Aggression",
-      "intercept": 6.2450371,
-      "za_coefficient": 0.18850288,
-      "sa_coefficient": -0.09996432,
-      "r_squared": 0.65777634,
+      "intercept": 6.22843095,
+      "za_coefficient": 0.19074946,
+      "sa_coefficient": -0.10043952,
+      "r_squared": 0.66491124,
       "mean_residual_by_cluster": {
-        "1": 0.037432,
-        "2": -0.03515
+        "1": -0.024832,
+        "2": 0.030006
       },
       "interpretation": "Near-zero residual cluster means indicate the residual clusters add no material DV bias after ZA and SA."
     }
