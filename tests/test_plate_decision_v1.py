@@ -3,6 +3,7 @@ import numpy as np
 from visualbaseball.plate_decision_v1 import (
     RANDOM_STATE,
     _bootstrap_logloss_improvement,
+    _cluster_residuals,
     _decision_value,
     _model_metrics,
     _region,
@@ -28,6 +29,20 @@ def test_raw_decision_value_is_primary_total_and_per_100_is_normalized():
     raw, per_100 = _decision_value([{"dv": 0.2}, {"dv": -0.1}, {"dv": 0.4}, {"dv": 0.5}])
     assert raw == 1.0
     assert per_100 == 25.0
+
+
+def test_cluster_distance_cutoff_is_computed_for_each_cluster():
+    rows = []
+    for index in range(24):
+        center = -5 if index < 12 else 5
+        rows.append({
+            "a": center + (index % 12) * 0.02,
+            "b": center + (index % 12) ** 2 * (0.002 if index < 12 else 0.02),
+        })
+    result = _cluster_residuals(rows, ["a", "b"])
+    labels = result["model"].labels_
+    assert len(result["cutoffs"]) == result["best_k"]
+    assert all(result["distance_outliers"][labels == cluster].any() for cluster in result["cutoffs"])
 
 
 def test_vectorized_game_bootstrap_matches_cluster_resampling():

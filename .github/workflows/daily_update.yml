@@ -88,7 +88,7 @@ jobs:
         env:
           PYTHONPATH: src
       - run: |
-          git add data web/data exports/visualbaseball_savant_2026_latest.xlsx exports/plate_discipline_research_2026.csv exports/kbo_zone_awareness_v2_2026.csv
+          git add data web/data exports/visualbaseball_savant_2026_latest.xlsx exports/plate_discipline_research_2026.csv exports/plate_decision_v1_players_2026.csv exports/plate_decision_v1_movement_comparison_2026.csv exports/plate_decision_v1_outliers_2026.csv
           if [ -f .github/refresh-completed-request ]; then
             git rm .github/refresh-completed-request
           fi
