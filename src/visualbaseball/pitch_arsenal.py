@@ -12,6 +12,10 @@ from openpyxl import load_workbook
 
 
 CM_PER_INCH = 2.54
+FEET_PER_CM = 1 / 30.48
+PLATE_HALF_WIDTH_FT = 10 / 12
+MIN_PERCENTILE_PITCHES = 100
+MAX_MOVEMENT_POINTS = 140
 PITCH_CODES = ("FF", "FT", "SI", "FC", "SL", "ST", "CH", "CU", "FS")
 PARK_FACTOR_CODES = ("FF", "SI", "FC", "SL", "CH", "CU", "FS")
 PARK_FACTOR_CODE = {"FT": "SI", "ST": "SL"}
@@ -73,6 +77,54 @@ def _summary(values: list[float], digits: int = 1) -> dict | None:
     }
 
 
+def _histogram(values: list[float]) -> dict | None:
+    """Return compact 1 km/h bins for the browser-side velocity ridgeline."""
+    if not values:
+        return None
+    low, high = math.floor(min(values)), math.ceil(max(values))
+    centers = list(range(low, high + 1))
+    counts = [0] * len(centers)
+    for value in values:
+        index = min(len(counts) - 1, max(0, int(math.floor(value - low + 0.5))))
+        counts[index] += 1
+    return {"start": low, "step": 1, "counts": counts}
+
+
+def _sample_points(values: list[tuple[float, float, float, float]]) -> dict:
+    """Evenly sample paired raw/adjusted movement points for a lightweight scatter."""
+    if not values:
+        return {"raw": [], "adjusted": []}
+    if len(values) <= MAX_MOVEMENT_POINTS:
+        sampled = values
+    else:
+        sampled = [values[round(index * (len(values) - 1) / (MAX_MOVEMENT_POINTS - 1))]
+                   for index in range(MAX_MOVEMENT_POINTS)]
+    return {
+        "raw": [[round(item[0], 2), round(item[1], 2)] for item in sampled],
+        "adjusted": [[round(item[2], 2), round(item[3], 2)] for item in sampled],
+    }
+
+
+def _rate(numerator: int, denominator: int) -> float | None:
+    return round(100 * numerator / denominator, 1) if denominator else None
+
+
+def _rates(bucket: dict) -> dict:
+    return {
+        "zone_pct": _rate(bucket["in_zone"], bucket["location_n"]),
+        "chase_pct": _rate(bucket["chase_swings"], bucket["out_zone"]),
+        "swstr_pct": _rate(bucket["swstr"], bucket.get("n", bucket.get("pitches", 0))),
+    }
+
+
+def _percentile(value: float | None, population: list[float]) -> int | None:
+    if value is None or not population:
+        return None
+    below = sum(item < value for item in population)
+    tied = sum(item == value for item in population)
+    return round(100 * (below + 0.5 * tied) / len(population))
+
+
 def _load_park_factors(root: Path, season: int) -> dict[tuple[str, str], tuple[float, float]]:
     """Return {(stadium, pitch code): (HB offset cm, IVB offset cm)}.
 
@@ -124,7 +176,7 @@ def _throws(release_x: list[float]) -> str:
 
 
 def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = None) -> tuple[int, int]:
-    """Export searchable pitcher profiles with usage, velocity, HB and IVB."""
+    """Export searchable pitcher profiles and compact chart-ready distributions."""
     source = excel_source or root / "exports" / f"visualbaseball_savant_{season}_latest.xlsx"
     if not source.exists():
         raise FileNotFoundError(f"Pitch Arsenal input workbook is missing: {source}")
@@ -147,10 +199,17 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                 continue
             pitcher_id = str(row.get("pitcher_id") or pitcher_name).strip()
             pitcher = pitchers.setdefault(pitcher_id, {
-                "id": pitcher_id, "name": pitcher_name, "release_x": [],
-                "pitches": 0, "groups": defaultdict(lambda: {
+                "id": pitcher_id, "name": pitcher_name, "release_x": [], "hand_release_x": [],
+                "release_z": [], "velocity": [], "pitches": 0,
+                "side_totals": {"L": 0, "R": 0},
+                "location_n": 0, "in_zone": 0, "out_zone": 0,
+                "chase_swings": 0, "swstr": 0,
+                "groups": defaultdict(lambda: {
                     "n": 0, "velocity": [], "hb": [], "ivb": [], "raw_hb": [], "raw_ivb": [],
-                    "movement_total": 0, "movement_adjusted": 0,
+                    "release_x": [], "release_z": [], "side_counts": {"L": 0, "R": 0},
+                    "location_n": 0, "in_zone": 0, "out_zone": 0,
+                    "chase_swings": 0, "swstr": 0,
+                    "movement_total": 0, "movement_adjusted": 0, "movement_points": [],
                 }),
             })
             group = pitcher["groups"][code]
@@ -158,10 +217,41 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
             group["n"] += 1
             velocity = _number(row.get("velocity_kmh"))
             release_x = _number(row.get("x0"))
+            release_z = _number(row.get("z0"))
+            if release_z is None:
+                release_height = _number(row.get("release_height_cm"))
+                release_z = release_height * FEET_PER_CM if release_height is not None else None
             if velocity is not None:
                 group["velocity"].append(velocity)
-            if release_x is not None and abs(release_x) >= 0.1:
+                pitcher["velocity"].append(velocity)
+            if release_x is not None:
                 pitcher["release_x"].append(release_x)
+                group["release_x"].append(abs(release_x))
+                if abs(release_x) >= 0.1:
+                    pitcher["hand_release_x"].append(release_x)
+            if release_z is not None:
+                pitcher["release_z"].append(release_z)
+                group["release_z"].append(release_z)
+
+            stance = str(row.get("batter_stance") or "").strip().upper()
+            if stance in {"L", "R"}:
+                pitcher["side_totals"][stance] += 1
+                group["side_counts"][stance] += 1
+
+            px, pz = _number(row.get("px")), _number(row.get("pz"))
+            sz_top, sz_bottom = _number(row.get("sz_top")), _number(row.get("sz_bottom"))
+            swing = row.get("is_swing") is True or str(row.get("is_swing") or "").lower() in {"1", "true"}
+            contact = row.get("is_contact") is True or str(row.get("is_contact") or "").lower() in {"1", "true"}
+            if swing and not contact:
+                pitcher["swstr"] += 1
+                group["swstr"] += 1
+            if None not in (px, pz, sz_top, sz_bottom):
+                in_zone = abs(px) <= PLATE_HALF_WIDTH_FT and sz_bottom <= pz <= sz_top
+                for bucket in (pitcher, group):
+                    bucket["location_n"] += 1
+                    bucket["in_zone" if in_zone else "out_zone"] += 1
+                    if not in_zone and swing:
+                        bucket["chase_swings"] += 1
 
             raw_hb = _number(row.get("horizontal_movement_cm"))
             raw_ivb = _number(row.get("vertical_movement_cm"))
@@ -174,15 +264,17 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                     group["raw_ivb"].append(raw_ivb / CM_PER_INCH)
                     group["hb"].append((raw_hb + offset[0]) / CM_PER_INCH)
                     group["ivb"].append((raw_ivb + offset[1]) / CM_PER_INCH)
+                    group["movement_points"].append((
+                        raw_hb / CM_PER_INCH, raw_ivb / CM_PER_INCH,
+                        (raw_hb + offset[0]) / CM_PER_INCH,
+                        (raw_ivb + offset[1]) / CM_PER_INCH,
+                    ))
                     group["movement_adjusted"] += 1
             eligible += 1
     finally:
         workbook.close()
 
-    output = root / "web" / "data" / "pitch_arsenal" / str(season) / "players"
-    output.mkdir(parents=True, exist_ok=True)
-    shards = defaultdict(dict)
-    player_index = []
+    profiles = []
     for pitcher_id, pitcher in sorted(pitchers.items(), key=lambda item: item[1]["name"]):
         pitch_types = []
         for code, group in sorted(pitcher["groups"].items(), key=lambda item: item[1]["n"], reverse=True):
@@ -194,19 +286,34 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                 "color": PITCH_COLORS[code],
                 "n": group["n"],
                 "usage": round(group["n"] / pitcher["pitches"] * 100, 1),
+                "usage_by_batter": {
+                    side: {
+                        "n": group["side_counts"][side],
+                        "usage": _rate(group["side_counts"][side], pitcher["side_totals"][side]),
+                    } for side in ("L", "R")
+                },
                 "velocity_kmh": _summary(group["velocity"]),
+                "velocity_distribution_kmh": _histogram(group["velocity"]),
                 "horizontal_break_in": _summary(group["hb"]),
                 "ivb_in": _summary(group["ivb"]),
                 "raw_horizontal_break_in": _summary(group["raw_hb"]),
                 "raw_ivb_in": _summary(group["raw_ivb"]),
+                "movement_points_in": _sample_points(group["movement_points"]),
+                "release": {
+                    "v_rel_ft": _summary(group["release_z"], 2),
+                    "h_rel_ft": _summary(group["release_x"], 2),
+                },
+                "rates": _rates(group),
+                "percentiles": {"zone_pct": None, "chase_pct": None, "swstr_pct": None},
+                "percentile_qualified": group["n"] >= MIN_PERCENTILE_PITCHES,
                 "movement_n": movement_adjusted,
                 "movement_total_n": movement_total,
                 "movement_coverage": round(movement_adjusted / movement_total * 100, 1) if movement_total else 0.0,
                 "park_factor_code": PARK_FACTOR_CODE.get(code, code),
             })
-        throws = _throws(pitcher["release_x"])
+        throws = _throws(pitcher["hand_release_x"] or pitcher["release_x"])
         payload = {
-            "schema_version": 1,
+            "schema_version": 2,
             "season": season,
             "source": {
                 "workbook": f"exports/{source.name}",
@@ -217,15 +324,73 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                 "interval": "central 75% (12.5th to 87.5th percentile)",
                 "units": {"velocity": "km/h", "movement": "in"},
                 "factor_aliases": {"FT": "SI", "ST": "SL"},
+                "zone": "abs(px) <= 10/12 ft and sz_bottom <= pz <= sz_top",
+                "rates": {
+                    "zone_pct": "in-zone pitches / pitches with valid ABS location",
+                    "chase_pct": "swings outside the ABS zone / pitches outside the ABS zone",
+                    "swstr_pct": "swings without contact / all pitches",
+                },
+                "percentiles": f"same pitch type, pitcher-pitch groups with at least {MIN_PERCENTILE_PITCHES} pitches",
             },
-            "player": {"id": pitcher_id, "name": pitcher["name"], "throws": throws, "pitches": pitcher["pitches"]},
+            "player": {
+                "id": pitcher_id, "name": pitcher["name"], "throws": throws,
+                "pitches": pitcher["pitches"], "batter_side_pitches": pitcher["side_totals"],
+            },
+            "overall": {
+                "n": pitcher["pitches"],
+                "velocity_kmh": _summary(pitcher["velocity"]),
+                "release": {
+                    "v_rel_ft": _summary(pitcher["release_z"], 2),
+                    "h_rel_ft": _summary([abs(value) for value in pitcher["release_x"]], 2),
+                },
+                "rates": _rates(pitcher),
+                "percentiles": {"zone_pct": None, "chase_pct": None, "swstr_pct": None},
+                "percentile_qualified": pitcher["pitches"] >= MIN_PERCENTILE_PITCHES,
+            },
             "pitch_types": pitch_types,
         }
+        profiles.append(payload)
+
+    metrics = ("zone_pct", "chase_pct", "swstr_pct")
+    pitch_populations = defaultdict(lambda: defaultdict(list))
+    overall_populations = defaultdict(list)
+    for profile in profiles:
+        for pitch in profile["pitch_types"]:
+            if pitch["percentile_qualified"]:
+                for metric in metrics:
+                    value = pitch["rates"][metric]
+                    if value is not None:
+                        pitch_populations[pitch["code"]][metric].append(value)
+        if profile["overall"]["percentile_qualified"]:
+            for metric in metrics:
+                value = profile["overall"]["rates"][metric]
+                if value is not None:
+                    overall_populations[metric].append(value)
+    for profile in profiles:
+        for pitch in profile["pitch_types"]:
+            if pitch["percentile_qualified"]:
+                pitch["percentiles"] = {
+                    metric: _percentile(pitch["rates"][metric], pitch_populations[pitch["code"]][metric])
+                    for metric in metrics
+                }
+        if profile["overall"]["percentile_qualified"]:
+            profile["overall"]["percentiles"] = {
+                metric: _percentile(profile["overall"]["rates"][metric], overall_populations[metric])
+                for metric in metrics
+            }
+
+    output = root / "web" / "data" / "pitch_arsenal" / str(season) / "players"
+    output.mkdir(parents=True, exist_ok=True)
+    shards = defaultdict(dict)
+    player_index = []
+    for payload in profiles:
+        pitcher_id = payload["player"]["id"]
+        throws = payload["player"]["throws"]
         shard = pitcher_id[0] if pitcher_id and pitcher_id[0].isdigit() else "other"
         shards[shard][pitcher_id] = payload
         player_index.append({
-            "id": pitcher_id, "name": pitcher["name"], "throws": throws,
-            "pitches": pitcher["pitches"], "file": f"players/{shard}.json",
+            "id": pitcher_id, "name": payload["player"]["name"], "throws": throws,
+            "pitches": payload["player"]["pitches"], "file": f"players/{shard}.json",
         })
 
     current_files = set()
