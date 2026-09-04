@@ -1,8 +1,8 @@
 """Cross-fitted KBO swing-decision research metrics.
 
-The public outputs are deliberately limited to Swing Aggression, neutral Zone
-Awareness (raw and percentile), and Decision Value per 100 pitches.  Supporting
-rates, regressions, residuals, and clusters are diagnostics only.
+The public outputs are Swing Aggression, neutral Zone Awareness (raw and
+percentile), cumulative Decision Value, and Decision Value per 100 pitches.
+Supporting rates, regressions, residuals, and clusters are diagnostics only.
 """
 from __future__ import annotations
 
@@ -200,6 +200,12 @@ def _pct(items: list[dict], predicate) -> float | None:
     return round(100 * sum(predicate(item) for item in items) / len(items), 6) if items else None
 
 
+def _decision_value(items: list[dict]) -> tuple[float, float]:
+    """Return cumulative DV first and playing-time-neutral DV/100 second."""
+    raw = float(np.sum([item["dv"] for item in items]))
+    return round(raw, 6), round(100 * raw / len(items), 6)
+
+
 def _ols(rows: list[dict], x_field: str, y_field: str, residual_field: str | None = None) -> dict:
     usable = [row for row in rows if row.get(x_field) is not None and row.get(y_field) is not None]
     x = np.array([row[x_field] for row in usable], dtype=float)
@@ -242,6 +248,7 @@ def _player_tables(rows: list[dict]) -> tuple[list[dict], list[dict]]:
         swing_pct = _pct(items, lambda item: item["swing"] == 1)
         z_swing = _pct(in_zone, lambda item: item["swing"] == 1)
         o_swing = _pct(out_zone, lambda item: item["swing"] == 1)
+        raw_dv, dv_per_100 = _decision_value(items)
         player = {
             "season": int(first["season"]), "batter_id": str(first["batter_id"]),
             "batter_name": str(first["batter_name"]), "team": _team_history(items),
@@ -250,7 +257,7 @@ def _player_tables(rows: list[dict]) -> tuple[list[dict], list[dict]]:
             "swing_aggression": round(100 * float(np.mean([item["swing"] - item["p_swing"] for item in items])), 6),
             "za_raw": round(100 * float(np.mean([item["za"] for item in items])), 6),
             "za_percentile": None,
-            "dv_per_100": round(100 * float(np.mean([item["dv"] for item in items])), 6),
+            "raw_dv": raw_dv, "dv_per_100": dv_per_100,
             "swing_pct": swing_pct, "z_swing_pct": z_swing, "o_swing_pct": o_swing,
             "z_minus_o_swing": round(z_swing - o_swing, 6) if z_swing is not None and o_swing is not None else None,
             "heart_swing_pct": _pct(by_region["heart"], lambda item: item["swing"] == 1),
@@ -441,6 +448,7 @@ def build_plate_decision_v1(root: Path, season: int = 2026, source: Path | None 
             "swing_aggression": "100 * mean(actual swing indicator - selected OOF expected swing probability); percentage points",
             "za_raw": "100 * mean(actual zone-aligned judgment - league expected judgment); percentage points",
             "za_percentile": "empirical percentile of ZA Raw among hitters with at least 300 pitches",
+            "raw_dv": "sum of per-pitch Decision Value across all eligible pitches; cumulative runs and primary DV display",
             "dv_per_100": "100 * mean((V_Swing - V_Take) for swings; sign reversed for takes); runs per 100 pitches",
         },
         "p_zone": {
