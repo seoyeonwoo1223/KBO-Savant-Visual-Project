@@ -28,6 +28,10 @@ PITCH_COLORS = {
     "SL": "#b5b516", "ST": "#3aa8a6", "CH": "#4bb783", "CU": "#76c8c5", "FS": "#7556b8",
 }
 KOREAN_TO_CODE = {name: code for code, name in PITCH_NAMES.items()}
+PITCH_TYPE_OVERRIDES = {
+    # Video review: 2026-07-08 SSG at Doosan, top 5th, Lee Ji-young PA, pitch 1.
+    "20260708SKOB0-20260708SKOB0-037-01": "FC",
+}
 
 
 def _number(value):
@@ -163,6 +167,9 @@ def _load_park_factors(root: Path, season: int) -> dict[tuple[str, str], tuple[f
 
 
 def _pitch_code(row: dict) -> str:
+    override = PITCH_TYPE_OVERRIDES.get(str(row.get("pitch_id") or "").strip())
+    if override:
+        return override
     code = str(row.get("pitch_type_code") or "").strip().upper()
     if code in PITCH_CODES:
         return code
