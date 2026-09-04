@@ -58,12 +58,12 @@
 
       <div class="chart-grid">
         <section class="card velocity-card">
-          <div class="card-heading"><div><p>VELOCITY</p><h3>Pitch Velocity Distribution</h3></div><span>km/h</span></div>
+          <div class="card-heading"><div><p>VELOCITY</p><h3>구속 분포</h3></div><span>km/h</span></div>
           <svg id="velocity-chart" role="img" aria-label="구종별 구속 분포"></svg>
         </section>
 
         <section class="card movement-card">
-          <div class="card-heading"><div><p>MOVEMENT</p><h3>Pitch Movement</h3></div><span id="movement-view-label">투수 시점 · in.</span></div>
+          <div class="card-heading"><div><p>MOVEMENT</p><h3>무브먼트</h3></div><span id="movement-view-label">투수 시점 · in.</span></div>
           <svg id="movement-chart" viewBox="0 0 620 620" role="img" aria-labelledby="movement-title movement-desc">
             <title id="movement-title">구종별 수평 무브먼트와 IVB</title>
             <desc id="movement-desc">반투명 점은 표본 투구, 타원은 중앙 75퍼센트, 큰 점은 평균입니다.</desc>
@@ -72,7 +72,7 @@
         </section>
 
         <section class="card frequency-card">
-          <div class="card-heading"><div><p>USAGE</p><h3>Pitch Frequency</h3></div><span id="frequency-sample">LHH · RHH</span></div>
+          <div class="card-heading"><div><p>USAGE</p><h3>좌·우타 구사율</h3></div><span id="frequency-sample">LHH · RHH</span></div>
           <svg id="frequency-chart" role="img" aria-label="좌타자와 우타자 상대 구종 구사율"></svg>
         </section>
       </div>
@@ -97,7 +97,7 @@
         </div>
       </section>
 
-      <p class="method-note">HB·IVB는 구장·구종 오프셋을 더한 보정값입니다. 무브먼트의 큰 점은 평균, 타원은 중앙 75%입니다. 백분위는 동일 구종 100구 이상 투수-구종 표본끼리 비교하며, 전체 행은 100구 이상 투수끼리 비교합니다. Zone%는 ABS 존 안 투구 비율, Chase%는 존 밖 스윙 비율, SwStr%는 전체 투구 대비 헛스윙 비율입니다.</p>
+      <p class="method-note">HB·IVB: 구장·구종 보정값 · 큰 점: 평균 · 타원: 중앙 75% · 백분위: 100구 이상 표본 비교 · Zone%: ABS 존 안 · Chase%: 존 밖 스윙 · SwStr%: 전체 투구 대비 헛스윙</p>
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
