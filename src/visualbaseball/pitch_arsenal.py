@@ -29,7 +29,7 @@ PITCH_COLORS = {
 }
 KOREAN_TO_CODE = {name: code for code, name in PITCH_NAMES.items()}
 PITCH_TYPE_OVERRIDES = {
-    # Video review: 2026-07-08 SSG at Doosan, top 5th, Lee Ji-young PA, pitch 1.
+    # Confirmed by video review: 2026-07-08 SSG at Doosan, top 5th, Lee Ji-young PA, pitch 1.
     "20260708SKOB0-20260708SKOB0-037-01": "FC",
 }
 
