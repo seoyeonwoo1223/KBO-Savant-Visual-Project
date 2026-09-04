@@ -2,8 +2,8 @@
   "schema_version": 2,
   "season": 2026,
   "source": "data/processed/decision_pitches.parquet",
-  "pitches": 181486,
-  "batters": 282,
+  "pitches": 183044,
+  "batters": 283,
   "qualified_batters": 159,
   "minimum_pitches": 300,
   "model": {
@@ -30,12 +30,12 @@
       "stadium"
     ],
     "branch_samples": {
-      "Whiff": 17765,
-      "Foul": 30809,
-      "InPlay": 32451,
-      "Ball": 66867,
-      "CalledStrike": 32899,
-      "HBP": 695
+      "Whiff": 17934,
+      "Foul": 31069,
+      "InPlay": 32715,
+      "Ball": 67446,
+      "CalledStrike": 33184,
+      "HBP": 696
     }
   },
   "excluded": {},
