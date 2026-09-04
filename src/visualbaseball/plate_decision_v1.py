@@ -16,7 +16,13 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 from sklearn.cluster import KMeans
 from sklearn.ensemble import HistGradientBoostingClassifier, HistGradientBoostingRegressor
-from sklearn.metrics import brier_score_loss, log_loss, roc_auc_score, silhouette_score
+from sklearn.metrics import (
+    adjusted_rand_score,
+    brier_score_loss,
+    log_loss,
+    roc_auc_score,
+    silhouette_score,
+)
 from sklearn.model_selection import GroupKFold
 
 from .pitch_arsenal import PARK_FACTOR_CODE, _load_park_factors, _pitch_code, _stadium
@@ -28,6 +34,7 @@ N_SPLITS = 5
 RANDOM_STATE = 20260903
 OUTLIER_Z = 2.0
 REGIONS = ("heart", "shadow", "chase", "waste")
+GRID_STEP = 0.5
 
 BASE_NUMERIC = (
     "x_relative", "z_relative", "balls_before", "strikes_before", "outs_before",
@@ -245,6 +252,10 @@ def _player_tables(rows: list[dict]) -> tuple[list[dict], list[dict]]:
         out_zone = [item for item in items if not (abs(float(item["x_relative"])) <= 1 and abs(float(item["z_relative"])) <= 1)]
         by_region = {region: [item for item in items if item["region"] == region] for region in REGIONS}
         meatball = [item for item in items if max(abs(float(item["x_relative"])), abs(float(item["z_relative"]))) <= 1 / 3]
+        heart_only = [
+            item for item in items
+            if 1 / 3 < max(abs(float(item["x_relative"])), abs(float(item["z_relative"]))) <= 2 / 3
+        ]
         swing_pct = _pct(items, lambda item: item["swing"] == 1)
         z_swing = _pct(in_zone, lambda item: item["swing"] == 1)
         o_swing = _pct(out_zone, lambda item: item["swing"] == 1)
@@ -262,6 +273,8 @@ def _player_tables(rows: list[dict]) -> tuple[list[dict], list[dict]]:
             "z_minus_o_swing": round(z_swing - o_swing, 6) if z_swing is not None and o_swing is not None else None,
             "heart_swing_pct": _pct(by_region["heart"], lambda item: item["swing"] == 1),
             "meatball_swing_pct": _pct(meatball, lambda item: item["swing"] == 1),
+            "heart_only_swing_pct": _pct(heart_only, lambda item: item["swing"] == 1),
+            "heart_only_pitches": len(heart_only), "meatball_pitches": len(meatball),
             "shadow_swing_pct": _pct(by_region["shadow"], lambda item: item["swing"] == 1),
             "chase_swing_pct": _pct(by_region["chase"], lambda item: item["swing"] == 1),
             "waste_swing_pct": _pct(by_region["waste"], lambda item: item["swing"] == 1),
@@ -287,20 +300,7 @@ def _player_tables(rows: list[dict]) -> tuple[list[dict], list[dict]]:
     return players, movement
 
 
-def _diagnostics(players: list[dict]) -> tuple[list[dict], dict, list[dict]]:
-    qualified = [row for row in players if row["qualified_300"]]
-    residual_specs = (
-        ("z_swing_pct", "z_swing_residual"), ("o_swing_pct", "o_swing_residual"),
-        ("heart_swing_pct", "heart_swing_residual"), ("meatball_swing_pct", "meatball_swing_residual"),
-        ("waste_swing_pct", "waste_swing_residual"), ("shadow_swing_pct", "shadow_swing_residual"),
-    )
-    regressions = [_ols(qualified, "za_raw", y, residual) for y, residual in residual_specs]
-    regressions += [
-        _ols(qualified, "swing_aggression", "swing_pct"),
-        _ols(qualified, "za_raw", "dv_per_100"),
-        _ols(qualified, "swing_aggression", "dv_per_100"),
-    ]
-    residual_fields = [residual for _, residual in residual_specs]
+def _cluster_residuals(qualified: list[dict], residual_fields: list[str]) -> dict:
     matrix = np.array([[row[field] for field in residual_fields] for row in qualified], dtype=float)
     means, stds = matrix.mean(axis=0), matrix.std(axis=0)
     stds[stds == 0] = 1
@@ -312,15 +312,66 @@ def _diagnostics(players: list[dict]) -> tuple[list[dict], dict, list[dict]]:
     best_k = max(candidates, key=candidates.get)
     model = KMeans(n_clusters=best_k, random_state=RANDOM_STATE, n_init=50).fit(standardized)
     distances = np.linalg.norm(standardized - model.cluster_centers_[model.labels_], axis=1)
-    distance_cut = float(np.quantile(distances, 0.95))
+    cutoffs = {
+        cluster: float(np.quantile(distances[model.labels_ == cluster], 0.95))
+        for cluster in range(best_k)
+    }
+    distance_outliers = np.array([
+        distance >= cutoffs[int(label)] for label, distance in zip(model.labels_, distances)
+    ])
+    residual_outliers = np.any(np.abs(standardized) >= OUTLIER_Z, axis=1)
+    return {
+        "best_k": best_k, "candidates": candidates, "model": model,
+        "standardized": standardized, "distances": distances, "cutoffs": cutoffs,
+        "distance_outliers": distance_outliers, "residual_outliers": residual_outliers,
+        "any_outliers": distance_outliers | residual_outliers,
+    }
+
+
+def _diagnostics(players: list[dict]) -> tuple[list[dict], dict, list[dict]]:
+    qualified = [row for row in players if row["qualified_300"]]
+    residual_specs = (
+        ("z_swing_pct", "z_swing_residual"), ("o_swing_pct", "o_swing_residual"),
+        ("heart_swing_pct", "heart_swing_residual"), ("meatball_swing_pct", "meatball_swing_residual"),
+        ("waste_swing_pct", "waste_swing_residual"), ("shadow_swing_pct", "shadow_swing_residual"),
+    )
+    regressions = [_ols(qualified, "za_raw", y, residual) for y, residual in residual_specs]
+    heart_only_regression = _ols(
+        qualified, "za_raw", "heart_only_swing_pct", "heart_only_swing_residual"
+    )
+    heart_only_regression["diagnostic_spec"] = "separated Heart-only sensitivity"
+    regressions.append(heart_only_regression)
+    regressions += [
+        _ols(qualified, "swing_aggression", "swing_pct"),
+        _ols(qualified, "za_raw", "dv_per_100"),
+        _ols(qualified, "swing_aggression", "dv_per_100"),
+    ]
+    residual_fields = [residual for _, residual in residual_specs]
+    official = _cluster_residuals(qualified, residual_fields)
+    separated_fields = [
+        "heart_only_swing_residual" if field == "heart_swing_residual" else field
+        for field in residual_fields
+    ]
+    separated = _cluster_residuals(qualified, separated_fields)
+    best_k, candidates, model = official["best_k"], official["candidates"], official["model"]
+    standardized, distances = official["standardized"], official["distances"]
     outliers = []
-    for row, label, distance, vector in zip(qualified, model.labels_, distances, standardized):
+    for index, (row, label, distance, vector) in enumerate(
+        zip(qualified, model.labels_, distances, standardized)
+    ):
         row["cluster_id"] = int(label) + 1
         row["cluster_distance"] = round(float(distance), 6)
-        row["cluster_distance_outlier"] = bool(distance >= distance_cut)
+        row["cluster_distance_outlier"] = bool(official["distance_outliers"][index])
+        row["sensitivity_cluster_id"] = int(separated["model"].labels_[index]) + 1
+        row["sensitivity_cluster_distance"] = round(float(separated["distances"][index]), 6)
+        row["sensitivity_cluster_distance_outlier"] = bool(separated["distance_outliers"][index])
+        row["sensitivity_residual_outlier"] = bool(separated["residual_outliers"][index])
         for field, z in zip(residual_fields, vector):
             row[f"{field}_z"] = round(float(z), 6)
-        if distance >= distance_cut or np.any(np.abs(vector) >= OUTLIER_Z):
+        row["heart_only_swing_residual_z"] = round(float(
+            separated["standardized"][index, separated_fields.index("heart_only_swing_residual")]
+        ), 6)
+        if official["any_outliers"][index]:
             outliers.append(row.copy())
     cluster_rows = []
     for cluster in range(best_k):
@@ -351,9 +402,27 @@ def _diagnostics(players: list[dict]) -> tuple[list[dict], dict, list[dict]]:
         "features": residual_fields, "standardization": "qualified-batter z-scores",
         "selected_k": best_k, "selection": "maximum silhouette among k=2..6",
         "silhouette_by_k": {str(k): round(value, 6) for k, value in candidates.items()},
-        "distance_outlier_threshold": "95th percentile within-cluster Euclidean distance",
+        "distance_outlier_threshold": "95th percentile of Euclidean distance within each assigned cluster",
+        "distance_outlier_cutoff_by_cluster": {
+            str(cluster + 1): round(cutoff, 6) for cluster, cutoff in official["cutoffs"].items()
+        },
         "residual_outlier_threshold": f"absolute residual z >= {OUTLIER_Z}",
         "clusters": cluster_rows,
+        "heart_meatball_sensitivity": {
+            "official_features": residual_fields,
+            "separated_features": separated_fields,
+            "heart_only_definition": "1/3 < max(abs(x_relative), abs(z_relative)) <= 2/3",
+            "selected_k": separated["best_k"],
+            "silhouette_by_k": {
+                str(k): round(value, 6) for k, value in separated["candidates"].items()
+            },
+            "adjusted_rand_index_vs_official": round(float(adjusted_rand_score(
+                model.labels_, separated["model"].labels_
+            )), 6),
+            "distance_outliers": int(separated["distance_outliers"].sum()),
+            "any_outliers": int(separated["any_outliers"].sum()),
+            "purpose": "diagnostic sensitivity only; does not replace the official inclusive-Heart clustering",
+        },
         "dv_joint_diagnostic": {
             "formula": "DV/100 ~ intercept + ZA Raw + Swing Aggression",
             "intercept": round(float(coefficients[0]), 8),
@@ -375,12 +444,122 @@ def _write_csv(path: Path, rows: list[dict]) -> None:
             if field not in fields:
                 fields.append(field)
     with path.open("w", encoding="utf-8-sig", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=fields, extrasaction="ignore")
+        writer = csv.DictWriter(
+            file, fieldnames=fields, extrasaction="ignore", lineterminator="\n"
+        )
         writer.writeheader()
         writer.writerows(rows)
 
 
-def build_plate_decision_v1(root: Path, season: int = 2026, source: Path | None = None) -> dict:
+def _web_mean(items: list[dict], field: str, scale: float = 1.0) -> float | None:
+    return round(scale * float(np.mean([item[field] for item in items])), 4) if items else None
+
+
+def _web_dv100(items: list[dict]) -> float | None:
+    return _web_mean(items, "dv", 100)
+
+
+def _web_summary(player: dict, items: list[dict]) -> dict:
+    summary = dict(player)
+    swings = [item for item in items if item["swing"] == 1]
+    takes = [item for item in items if item["swing"] == 0]
+    summary.update({
+        "swing_pitches": len(swings), "take_pitches": len(takes),
+        "swing_decision_value_per_100": _web_dv100(swings),
+        "take_decision_value_per_100": _web_dv100(takes),
+    })
+    for region in REGIONS:
+        selected = [item for item in items if item["region"] == region]
+        region_swings = [item for item in selected if item["swing"] == 1]
+        region_takes = [item for item in selected if item["swing"] == 0]
+        summary.update({
+            f"{region}_pitches": len(selected),
+            f"{region}_raw_dv": round(float(sum(item["dv"] for item in selected)), 6),
+            f"{region}_decision_value_per_100": _web_dv100(selected),
+            f"{region}_swing_decision_value_per_100": _web_dv100(region_swings),
+            f"{region}_take_decision_value_per_100": _web_dv100(region_takes),
+        })
+    return summary
+
+
+def _web_grid(items: list[dict]) -> list[dict]:
+    cells = defaultdict(list)
+    for item in items:
+        x, z = float(item["x_relative"]), float(item["z_relative"])
+        if abs(x) <= 2.5 and abs(z) <= 2.5:
+            cells[(round(x / GRID_STEP), round(z / GRID_STEP))].append(item)
+    result = []
+    for (cx, cz), selected in sorted(cells.items()):
+        result.append({
+            "x": round(cx * GRID_STEP, 3), "z": round(cz * GRID_STEP, 3),
+            "n": len(selected), "raw_dv": round(float(sum(item["dv"] for item in selected)), 6),
+            "dv100": _web_dv100(selected), "delta": _web_mean(selected, "delta_v"),
+            "swing_pct": _web_mean(selected, "swing", 100),
+            "expected_swing_pct": _web_mean(selected, "p_swing", 100),
+            "p_zone_pct": _web_mean(selected, "p_zone", 100),
+            "zone_judgment_pct": _web_mean(selected, "zone_judgment", 100),
+            "expected_zone_judgment_pct": _web_mean(selected, "expected_zone_judgment", 100),
+            "za_raw": _web_mean(selected, "za", 100),
+            "expected_swing_rv": _web_mean(selected, "v_swing"),
+            "expected_take_rv": _web_mean(selected, "v_take"),
+        })
+    return result
+
+
+def _write_web_data(
+    web_root: Path, season: int, players: list[dict], pitches: list[dict], metadata: dict
+) -> None:
+    season_root = web_root / "data" / "zone_awareness" / str(season)
+    season_root.mkdir(parents=True, exist_ok=True)
+    leaderboard = {
+        "schema_version": 3, "season": season, "minimum_pitches": MIN_PITCHES,
+        "qualified_batters": sum(player["qualified_300"] for player in players),
+        "players": players, "selected_swing_model": metadata["movement"]["selected"],
+        "metric_contract": metadata["metrics"],
+    }
+    (season_root / "leaderboard.json").write_text(
+        json.dumps(leaderboard, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8"
+    )
+    (season_root / "teams.json").write_text(
+        json.dumps(
+            {"season": season, "teams": {player["batter_id"]: player["team"] for player in players}},
+            ensure_ascii=False, separators=(",", ":"),
+        ) + "\n", encoding="utf-8",
+    )
+    summaries = {player["batter_id"]: player for player in players}
+    by_batter = defaultdict(list)
+    for pitch in pitches:
+        by_batter[str(pitch["batter_id"])].append(pitch)
+    shards = defaultdict(dict)
+    for batter_id, items in by_batter.items():
+        shard = batter_id[:2] if batter_id and batter_id[0].isdigit() else "other"
+        shards[shard][batter_id] = {
+            "summary": _web_summary(summaries[batter_id], items), "grid": _web_grid(items)
+        }
+    players_root = season_root / "players"
+    players_root.mkdir(exist_ok=True)
+    for path in players_root.glob("*.json"):
+        path.unlink()
+    for shard, payload in shards.items():
+        (players_root / f"{shard}.json").write_text(
+            json.dumps(
+                {"schema_version": 3, "season": season, "players": payload},
+                ensure_ascii=False, separators=(",", ":"),
+            ) + "\n", encoding="utf-8",
+        )
+    catalog_path = web_root / "data" / "zone_awareness" / "index.json"
+    catalog = {"schema_version": 3, "seasons": []}
+    if catalog_path.exists():
+        catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    catalog["schema_version"] = 3
+    catalog["seasons"] = sorted(set(catalog.get("seasons", [])) | {season}, reverse=True)
+    catalog["default_season"] = max(catalog["seasons"])
+    catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def build_plate_decision_v1(
+    root: Path, season: int = 2026, source: Path | None = None, web_root: Path | None = None
+) -> dict:
     source = source or root / "data" / "processed" / (
         "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
     )
@@ -459,6 +638,7 @@ def build_plate_decision_v1(root: Path, season: int = 2026, source: Path | None 
         "base_stats": {
             "meatball": "max(abs(x_relative), abs(z_relative)) <= 1/3",
             "heart": "<= 2/3", "shadow": "> 2/3 and <= 4/3",
+            "heart_only": "> 1/3 and <= 2/3; sensitivity diagnostic only",
             "chase": "> 4/3 and <= 2", "waste": "> 2",
         },
         "regressions": regressions, "clustering": clustering, "excluded": excluded,
@@ -471,6 +651,8 @@ def build_plate_decision_v1(root: Path, season: int = 2026, source: Path | None 
     (processed / f"plate_decision_v1_report_{season}.json").write_text(
         json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
+    if web_root is not None:
+        _write_web_data(web_root, season, players, pitch_output, metadata)
     return metadata
 
 

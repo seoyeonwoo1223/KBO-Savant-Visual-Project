@@ -5,34 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="KBO 타자의 투구별 Swing·Take Decision Value와 Zone Awareness">
   <title>Zone Awareness | KBO Savant</title>
-  <link rel="stylesheet" href="zone-awareness.css?v=20260902-1">
+  <link rel="stylesheet" href="zone-awareness.css?v=20260905-1">
 </head>
 <body>
   <main>
     <nav><a href="../">← KBO Savant</a></nav>
     <header class="hero">
-      <div><p class="eyebrow">BATTING DECISIONS</p><h1>Zone Awareness</h1><p>같은 투구에서 Swing과 Take의 기대 득점가치를 비교한 타자 판단 프로필</p></div>
+      <div><p class="eyebrow">BATTING DECISIONS</p><h1>Zone Awareness</h1><p>같은 공을 받은 평균 타자와 비교한 스윙 성향·존 판단·누적 의사결정 가치</p></div>
       <label>시즌<select id="season"></select></label>
     </header>
 
     <section class="overview">
       <article class="card scatter-card">
-        <div class="card-head"><div><p class="eyebrow">LEAGUE MAP</p><h2>인존 × 아웃존 판단</h2></div><span class="legend"><i></i>타자에게 유리 <i></i>불리</span></div>
-        <div class="canvas-wrap"><canvas id="scatter" width="760" height="560" aria-label="zZA+와 oZA+ 리그 산점도"></canvas><div class="tooltip" id="scatter-tip"></div></div>
+        <div class="card-head"><div><p class="eyebrow">LEAGUE MAP</p><h2>스윙 적극성 × 존 판단</h2></div><span class="legend"><i></i>높은 ZA <i></i>낮은 ZA</span></div>
+        <div class="canvas-wrap"><canvas id="scatter" width="760" height="560" aria-label="Swing Aggression과 ZA Raw 리그 산점도"></canvas><div class="tooltip" id="scatter-tip"></div></div>
       </article>
       <article class="card leaderboard-card">
         <div class="card-head"><div><p class="eyebrow">QUALIFIED</p><h2>Zone Awareness 순위</h2></div><span id="qualified-count"></span></div>
         <label class="search"><span>선수 검색</span><input id="player-search" type="search" placeholder="이름 또는 팀"></label>
-        <div class="table-wrap"><table><thead><tr><th data-sort="rank">#</th><th data-sort="batter_name">선수</th><th data-sort="zone_awareness_plus">ZA+</th><th data-sort="z_zone_awareness_plus">zZA+</th><th data-sort="o_zone_awareness_plus">oZA+</th><th data-sort="pitches_seen">P</th></tr></thead><tbody id="leaderboard"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th data-sort="rank">#</th><th data-sort="batter_name">선수</th><th data-sort="za_percentile">ZA %ile</th><th data-sort="za_raw">ZA Raw</th><th data-sort="swing_aggression">SA</th><th data-sort="raw_dv">Raw DV</th><th data-sort="dv_per_100">DV/100</th><th data-sort="pitches_seen">P</th></tr></thead><tbody id="leaderboard"></tbody></table></div>
       </article>
     </section>
 
     <section class="player" id="player-section">
       <header class="player-head">
         <div><p class="eyebrow" id="player-meta"></p><h2 id="player-name">선수</h2></div>
-        <div class="score-row"><div><span>ZA+</span><strong id="score-za">—</strong></div><div><span>zZA+</span><strong id="score-z">—</strong></div><div><span>oZA+</span><strong id="score-o">—</strong></div></div>
+        <div class="score-row"><div><span>Swing Aggression</span><strong id="score-sa">—</strong></div><div><span>ZA Raw</span><strong id="score-za">—</strong></div><div><span>ZA Percentile</span><strong id="score-percentile">—</strong></div><div><span>Raw DV</span><strong id="score-dv">—</strong></div><div><span>DV / 100</span><strong id="score-dv100">—</strong></div></div>
       </header>
-      <div class="tabs" role="tablist"><button class="active" data-tab="profile">Zone Profile</button><button data-tab="map">Decision Map</button><button data-tab="outcome">Outcome Path</button></div>
+      <div class="tabs" role="tablist"><button class="active" data-tab="profile">Zone Profile</button><button data-tab="map">Decision Map</button><button data-tab="outcome">Pitch Detail</button></div>
 
       <div class="tab active" id="tab-profile">
         <div class="profile-grid">
@@ -55,15 +55,15 @@
       <div class="tab" id="tab-outcome">
         <div class="outcome-head"><div><p class="eyebrow">SELECTED LOCATION</p><h3 id="cell-label">맵 전체 평균</h3></div><button id="reset-cell">맵 전체</button></div>
         <div class="outcome-grid">
-          <article class="card branch"><h3>Swing</h3><p>스윙했을 때의 결과 확률</p><div id="swing-path"></div></article>
-          <article class="card branch"><h3>Take</h3><p>지켜봤을 때의 결과 확률</p><div id="take-path"></div></article>
+          <article class="card branch"><h3>Swing Tendency</h3><p>실제 스윙과 동일 투구 조건의 리그 기대</p><div id="swing-path"></div></article>
+          <article class="card branch"><h3>Zone Judgment</h3><p>스트라이크 가능성과 실제·기대 판단</p><div id="take-path"></div></article>
         </div>
         <div class="rv-row"><div><span>Expected Swing RV</span><strong id="swing-rv">—</strong></div><div><span>Expected Take RV</span><strong id="take-rv">—</strong></div><div><span>Swing − Take</span><strong id="rv-gap">—</strong></div></div>
       </div>
     </section>
 
-    <section class="method card"><p class="eyebrow">METHOD</p><h2>읽는 법</h2><div><p><strong>ZA+</strong>는 실제 선택이 반대 선택보다 확보한 기대 득점가치를 투구당 계산해 시즌 내 100 기준으로 환산합니다.</p><p><strong>zZA+ / oZA+</strong>는 인존과 아웃존 판단을 따로 표준화합니다. 115는 해당 시즌 규정 표본보다 1표준편차 우수하다는 뜻입니다.</p><p>모델은 위치·카운트·주자·구종·구속·무브먼트 등을 사용합니다. 인플레이 가치는 타구속도·발사각 없이 추정하므로 관측 기반 counterfactual 근사치입니다.</p></div></section>
+    <section class="method card"><p class="eyebrow">METHOD</p><h2>읽는 법</h2><div><p><strong>Swing Aggression</strong>은 실제 Swing%에서 동일 투구 조건의 기대 Swing%를 뺀 값입니다. +는 더 적극적, −는 더 소극적이라는 뜻이며 우열 점수가 아닙니다.</p><p><strong>ZA Raw</strong>는 같은 공을 받은 평균 타자보다 존에 맞는 판단을 얼마나 더 했는지 나타냅니다. Percentile은 시즌 300구 이상 타자 내 상대 위치입니다.</p><p><strong>Raw DV</strong>는 실제 Swing·Take 결정가치의 시즌 누적 합이며, DV/100은 표본 수가 다른 선수를 비교하는 보조지표입니다. Heart/Meatball 분리 사양은 이상치 민감도 진단에만 사용합니다.</p></div></section>
   </main>
-  <script src="zone-awareness.js?v=20260902-1"></script>
+  <script src="zone-awareness.js?v=20260905-1"></script>
 </body>
 </html>
