@@ -1,0 +1,120 @@
+{
+  "schema_version": 4,
+  "season": 2026,
+  "source": {
+    "source": "data/processed/pitches.parquet",
+    "excluded": {
+      "invalid_state_location_action_or_identity": 181
+    },
+    "movement": {
+      "movement_available": 183044,
+      "movement_adjusted": 182423,
+      "adjustment_coverage_pct": 99.6607,
+      "formula": "adjusted movement = Visual Baseball measurement + stadium/pitch offset"
+    },
+    "unknown_stance": 4
+  },
+  "pitches": 183044,
+  "validation": {
+    "split_date": "20260716",
+    "train_pitches": 130079,
+    "test_pitches": 52965,
+    "swing_log_loss": 0.4474557660489826,
+    "swing_brier": 0.14710152266706905,
+    "action_value": {
+      "direct": {
+        "mse": 0.06781524956340478,
+        "swing_mse": 0.14639473825274021,
+        "take_mse": 0.003568292870768628
+      },
+      "staged": {
+        "mse": 0.06674782167598635,
+        "swing_mse": 0.14463808414063042,
+        "take_mse": 0.003064379561362281
+      }
+    },
+    "event_probability": {
+      "swing_log_loss": 0.9516993971125576,
+      "take_log_loss": 0.04492071305302709
+    },
+    "selected": "staged",
+    "selection_rule": "lower held-out observed-action MSE, neither swing nor take MSE worse by more than 2%; player ranks and SA correlation are not selection targets",
+    "counterfactual_validation": "unobserved opposite actions cannot be directly validated"
+  },
+  "period_reproducibility": [
+    {
+      "blocks": [
+        1,
+        2
+      ],
+      "batters_150_pitches_each": 107,
+      "pearson_r": 0.6013389865402157,
+      "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
+    },
+    {
+      "blocks": [
+        2,
+        3
+      ],
+      "batters_150_pitches_each": 100,
+      "pearson_r": 0.4301972460365338,
+      "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
+    }
+  ],
+  "opposite_action_support": {
+    "heart": {
+      "pitches": 43470,
+      "opposite_action_under_30": 11198
+    },
+    "shadow_in": {
+      "pitches": 38652,
+      "opposite_action_under_30": 6216
+    },
+    "shadow_out": {
+      "pitches": 34916,
+      "opposite_action_under_30": 5725
+    },
+    "chase": {
+      "pitches": 43032,
+      "opposite_action_under_30": 20749
+    },
+    "waste": {
+      "pitches": 22974,
+      "opposite_action_under_30": 21333
+    }
+  },
+  "support_definition": "training pitches for opposite action in normalized 0.5 location cell x count; under 30 flagged, not removed or score-clipped",
+  "crossfit_blocks": [
+    {
+      "start": "20260328",
+      "end": "20260516",
+      "pitches": 63962
+    },
+    {
+      "start": "20260517",
+      "end": "20260704",
+      "pitches": 61441
+    },
+    {
+      "start": "20260705",
+      "end": "20260904",
+      "pitches": 57641
+    }
+  ],
+  "metric_contract": {
+    "za_raw": "100 * mean((S - p_swing) * (V_swing - V_take)); runs per 100 pitches",
+    "raw_dv": "sum((S - p_swing) * (V_swing - V_take)); cumulative runs",
+    "dv_per_100": "same as za_raw; retained for backward-compatible consumers",
+    "zone_judgment_raw": "100 * mean((S - p_swing) * (2*p_called_strike_if_take - 1)); percentage points",
+    "swing_aggression": "100 * mean(S - p_swing); percentage points, tendency only",
+    "za_percentile": "midrank percentile among season hitters with at least 300 eligible pitches",
+    "region_contributions": "100 * sum(D in region/action) / ALL eligible player pitches; additive"
+  },
+  "shrinkage": "RE state -> base/out -> outs; event RV state -> event/count -> event, 50 prior pitches; InPlay regression blends toward event/state prior with n/(n+50) local InPlay support",
+  "limitations": [
+    "리그 평균 실행 능력을 기준으로 추정한 의사결정 가치이며 개인별 최적 판단의 정답이 아닙니다.",
+    "관측하지 못한 반대 행동과 누락된 투구 특성에 따른 선택 편향이 남습니다. 실제 타구속도·발사각·해당 투구의 안타/홈런은 판단 점수의 입력이 아닙니다.",
+    "시즌 표시값은 날짜 블록 교차적합으로 해당 경기 결과를 제외하지만 다른 블록의 미래 경기를 사용할 수 있습니다. 순수한 사전 예측 성능은 별도 시간 분리 평가에서 확인합니다."
+  ],
+  "batters": 283
+}
