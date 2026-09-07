@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Pitch Arsenal</title>
-  <link rel="stylesheet" href="pitch-arsenal.css?v=20260905-5">
+  <link rel="stylesheet" href="pitch-arsenal.css?v=20260908-1">
 </head>
 <body>
   <main>
@@ -34,23 +34,19 @@
           <h2 id="player-name"></h2>
           <p id="profile-meta"></p>
         </div>
-        <div class="profile-summary" aria-label="선수 요약">
-          <div><span>투구 손</span><strong id="summary-hand">—</strong></div>
+        <div class="toolbar">
+          <label>무브먼트<select id="movement-mode"><option value="adjusted">구장 보정</option><option value="raw">원측정값</option></select></label>
+          <div class="segmented-control" role="group" aria-label="무브먼트 시점">
+            <span>시점</span>
+            <div><button type="button" data-movement-view="pitcher" aria-pressed="true">Pitcher’s POV</button><button type="button" data-movement-view="catcher" aria-pressed="false">Catcher’s POV</button></div>
+          </div>
+          <div class="segmented-control unit-control" role="group" aria-label="무브먼트 단위">
+            <span>단위</span>
+            <div><button type="button" data-movement-unit="in" aria-pressed="true">in.</button><button type="button" data-movement-unit="cm" aria-pressed="false">cm</button></div>
+          </div>
+          <span id="coverage"></span>
+          <button id="export-profile" class="export-button" type="button">이미지 저장</button>
         </div>
-      </div>
-
-      <div class="toolbar">
-        <label>무브먼트<select id="movement-mode"><option value="adjusted">구장 보정</option><option value="raw">원측정값</option></select></label>
-        <div class="segmented-control" role="group" aria-label="무브먼트 시점">
-          <span>시점</span>
-          <div><button type="button" data-movement-view="pitcher" aria-pressed="true">Pitcher’s POV</button><button type="button" data-movement-view="catcher" aria-pressed="false">Catcher’s POV</button></div>
-        </div>
-        <div class="segmented-control unit-control" role="group" aria-label="무브먼트 단위">
-          <span>단위</span>
-          <div><button type="button" data-movement-unit="in" aria-pressed="true">in.</button><button type="button" data-movement-unit="cm" aria-pressed="false">cm</button></div>
-        </div>
-        <span id="coverage"></span>
-        <button id="export-profile" class="export-button" type="button">이미지 저장</button>
       </div>
 
       <div class="chart-grid">
@@ -76,10 +72,6 @@
 
 
       <section class="table-card">
-        <div class="table-heading">
-          <div><p>ARSENAL</p><h3>구종별 수치</h3></div>
-          <span>Zone% · Chase% · SwStr% 색상은 리그 백분위</span>
-        </div>
         <div class="table-wrap">
           <table>
             <thead>
@@ -96,6 +88,6 @@
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="pitch-arsenal.js?v=20260908-2"></script>
+  <script src="pitch-arsenal.js?v=20260908-3"></script>
 </body>
 </html>

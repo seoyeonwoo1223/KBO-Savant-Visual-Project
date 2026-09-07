@@ -30,6 +30,8 @@ for (const count of [1, 2, 4, 5, 6, 9]) {
     assert.equal(frequency.viewBox, '0 0 400 400');
     const bars = frequency.children.filter(e => e.class === 'frequency-bar');
     assert.equal(bars.length, count * (split ? 2 : 1));
+    const centerLine = frequency.children.find(e => e.class === 'frequency-center');
+    if (split) assert.ok(frequency.children.indexOf(centerLine) > Math.max(...bars.map(bar => frequency.children.indexOf(bar))), 'center line must be drawn over the bars');
     assert.ok(bars.every(b => b.y >= 43 && b.y + b.height <= 384));
     assert.ok(bars.at(-1).y + bars.at(-1).height > 350, 'last row must fill the panel');
     assert.ok(Math.abs(bars[0].width - (split ? 134 : 270) / count) < 1e-8, 'usage scale preserved');

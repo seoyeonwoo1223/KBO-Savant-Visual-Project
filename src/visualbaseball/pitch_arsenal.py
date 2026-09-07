@@ -27,6 +27,10 @@ PITCH_COLORS = {
     "FF": "#d62f4b", "FT": "#b9415e", "SI": "#f09a22", "FC": "#8d6d61",
     "SL": "#b5b516", "ST": "#3aa8a6", "CH": "#4bb783", "CU": "#76c8c5", "FS": "#7556b8",
 }
+TEAM_NAMES = {
+    "OB": "두산 베어스", "SS": "삼성 라이온즈", "WO": "키움 히어로즈", "LT": "롯데 자이언츠", "HH": "한화 이글스",
+    "HT": "KIA 타이거즈", "SK": "SSG 랜더스", "LG": "LG 트윈스", "NC": "NC 다이노스", "KT": "KT 위즈",
+}
 KOREAN_TO_CODE = {name: code for code, name in PITCH_NAMES.items()}
 PITCH_TYPE_OVERRIDES = {
     # Confirmed by video review: 2026-07-08 SSG at Doosan, top 5th, Lee Ji-young PA, pitch 1.
@@ -57,6 +61,14 @@ def _stadium(value) -> str:
         ("사직", "사직"), ("수원", "수원"), ("잠실", "잠실"), ("창원", "창원"),
     )
     return next((canonical for token, canonical in aliases if token in name), name)
+
+
+def _pitcher_team(row: dict) -> str:
+    game_id = str(row.get("game_id") or "")
+    if len(game_id) < 12:
+        return ""
+    code = game_id[10:12] if row.get("inning_half") == "top" else game_id[8:10]
+    return TEAM_NAMES.get(code, "")
 
 
 def _quantile(values: list[float], probability: float) -> float | None:
@@ -235,6 +247,7 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
             pitcher = pitchers.setdefault(pitcher_id, {
                 "id": pitcher_id, "name": pitcher_name, "release_x": [], "hand_release_x": [],
                 "release_z": [], "velocity": [], "pitches": 0,
+                "teams": [],
                 "side_totals": {"L": 0, "R": 0},
                 "location_n": 0, "in_zone": 0, "out_zone": 0,
                 "chase_swings": 0, "swstr": 0,
@@ -246,6 +259,9 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                     "movement_total": 0, "movement_adjusted": 0, "movement_points": [],
                 }),
             })
+            team = _pitcher_team(row)
+            if team and team not in pitcher["teams"]:
+                pitcher["teams"].append(team)
             group = pitcher["groups"][code]
             pitcher["pitches"] += 1
             group["n"] += 1
@@ -368,6 +384,7 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
             },
             "player": {
                 "id": pitcher_id, "name": pitcher["name"], "throws": throws,
+                "team": " · ".join(pitcher["teams"]),
                 "pitches": pitcher["pitches"], "batter_side_pitches": pitcher["side_totals"],
             },
             "overall": {
@@ -424,6 +441,7 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
         shards[shard][pitcher_id] = payload
         player_index.append({
             "id": pitcher_id, "name": payload["player"]["name"], "throws": throws,
+            "team": payload["player"]["team"],
             "pitches": payload["player"]["pitches"], "file": f"players/{shard}.json",
         })
 

@@ -139,8 +139,7 @@ function renderProfile() {
   profileSection.hidden = false;
   document.querySelector("#profile-season").textContent = `${currentProfile.season} KBO SEASON`;
   document.querySelector("#player-name").textContent = player.name;
-  document.querySelector("#profile-meta").textContent = `${player.throws || "?"}HP`;
-  document.querySelector("#summary-hand").textContent = `${player.throws || "?"}HP`;
+  document.querySelector("#profile-meta").textContent = [player.team, `${player.throws || "?"}HP`].filter(Boolean).join(" · ");
   const adjusted = currentProfile.pitch_types.reduce((sum, pitch) => sum + pitch.movement_n, 0);
   const total = currentProfile.pitch_types.reduce((sum, pitch) => sum + pitch.movement_total_n, 0);
   document.querySelector("#coverage").textContent = `보정 무브먼트 ${adjusted.toLocaleString()} / ${total.toLocaleString()} (${total ? (adjusted / total * 100).toFixed(1) : "0.0"}%)`;
@@ -276,7 +275,6 @@ function renderFrequency() {
         svgText(svg, `${tick}%`, {x: rightX, y: 39, "text-anchor": "middle", class: "chart-axis-text"});
       }
     }
-    svg.append(svgElement("line", {x1: center, x2: center, y1: 45, y2: height - 16, class: "frequency-center"}));
     pitches.forEach((pitch, index) => {
       const y = 45 + index * rowHeight + (rowHeight - barHeight) / 2;
       const left = pitch.usage_by_batter?.L || {n: 0, usage: null};
@@ -288,6 +286,7 @@ function renderFrequency() {
       svgText(svg, `${fmt(left.usage)}%`, {x: Math.max(5, center - leftWidth - 5), y: y + barHeight / 2 + 4, "text-anchor": "end", class: "frequency-label"});
       svgText(svg, `${fmt(right.usage)}%`, {x: Math.min(width - 5, center + rightWidth + 5), y: y + barHeight / 2 + 4, class: "frequency-label"});
     });
+    svg.append(svgElement("line", {x1: center, x2: center, y1: 45, y2: height - 16, class: "frequency-center"}));
   } else {
     svgText(svg, "해당 연도는 타자 손 데이터가 없어 전체 구사율로 표시", {x: width / 2, y: 25, "text-anchor": "middle", class: "chart-row-sub"});
     const left = 80;

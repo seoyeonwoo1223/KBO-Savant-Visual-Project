@@ -13,6 +13,7 @@ def _write_pitch_workbook(path: Path) -> None:
     for number in range(4):
         rows.append({
             "season": 2026, "parse_status": "ok", "pitcher_id": "55146", "pitcher_name": "치리노스",
+            "game_id": "20260328HTOB0", "inning_half": "top",
             "pitch_type_code": "FF", "pitch_type_kr": "포심", "stadium": "잠실",
             "velocity_kmh": 145 + number, "horizontal_movement_cm": 0.263 + 2.54,
             "vertical_movement_cm": 1.584 + 2.54, "x0": -1.9, "z0": 6.1,
@@ -22,6 +23,7 @@ def _write_pitch_workbook(path: Path) -> None:
         })
     rows.append({
         "season": 2026, "parse_status": "ok", "pitcher_id": "55146", "pitcher_name": "치리노스",
+        "game_id": "20260328HTOB0", "inning_half": "top",
         "pitch_type_code": "ST", "pitch_type_kr": "스위퍼", "stadium": "잠실",
         "velocity_kmh": 132, "horizontal_movement_cm": -0.861 + 5.08,
         "vertical_movement_cm": 1.499 + 5.08, "x0": -2.0, "z0": 5.9,
@@ -55,6 +57,8 @@ def test_pitch_arsenal_builds_adjusted_profiles(tmp_path: Path):
 
     assert (pitches, players) == (5, 1)
     assert index["players"][0]["throws"] == "R"
+    assert index["players"][0]["team"] == "두산 베어스"
+    assert profile["player"]["team"] == "두산 베어스"
     assert four_seam["usage"] == 80.0
     assert four_seam["horizontal_break_in"]["average"] == 1.2
     assert four_seam["ivb_in"]["average"] == 2.2
