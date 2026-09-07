@@ -156,8 +156,7 @@ function renderVelocity() {
   clearSvg(svg);
   const pitches = currentProfile.pitch_types.filter(pitch => pitch.velocity_distribution_kmh?.counts?.length);
   const width = 420;
-  const rowHeight = 50;
-  const height = Math.max(270, 60 + pitches.length * rowHeight);
+  const height = width;
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   if (!pitches.length) {
     svgText(svg, "구속 분포 자료가 없습니다.", {x: width / 2, y: height / 2, "text-anchor": "middle", class: "empty-chart"});
@@ -168,6 +167,8 @@ function renderVelocity() {
   const minValue = Math.floor(Math.min(...pitches.map(pitch => pitch.velocity_kmh.low_75 - 5)) / 5) * 5;
   const maxValue = Math.ceil(Math.max(...pitches.map(pitch => pitch.velocity_kmh.high_75 + 5)) / 5) * 5;
   const bounds = {left: 61, right: 405, top: 22, bottom: height - 34};
+  const rowHeight = (bounds.bottom - bounds.top) / pitches.length;
+  const amplitude = rowHeight * .68;
   const x = value => bounds.left + (value - minValue) / Math.max(1, maxValue - minValue) * (bounds.right - bounds.left);
   for (let value = minValue; value <= maxValue; value += 5) {
     svg.append(svgElement("line", {x1: x(value), x2: x(value), y1: bounds.top, y2: bounds.bottom, class: "chart-grid-line"}));
@@ -177,21 +178,21 @@ function renderVelocity() {
     const histogram = pitch.velocity_distribution_kmh;
     const smooth = histogram.counts.map((count, bin) => ((histogram.counts[bin - 1] || 0) + count * 2 + (histogram.counts[bin + 1] || 0)) / 4);
     const peak = Math.max(...smooth, 1);
-    const baseline = 45 + index * rowHeight;
+    const baseline = bounds.top + (index + .82) * rowHeight;
     const points = smooth.map((count, bin) => [histogram.start + bin * histogram.step, count])
       .filter(([value]) => value >= minValue && value <= maxValue)
-      .map(([value, count]) => [x(value), baseline - count / peak * 31]);
+      .map(([value, count]) => [x(value), baseline - count / peak * amplitude]);
     if (points.length > 1) {
       const pathData = [`M ${points[0][0]} ${baseline}`, ...points.map(point => `L ${point[0]} ${point[1]}`), `L ${points.at(-1)[0]} ${baseline}`, "Z"].join(" ");
       svg.append(svgElement("path", {d: pathData, fill: pitch.color, "fill-opacity": .26, stroke: pitch.color, class: "velocity-area"}));
     } else if (points.length === 1) {
-      svg.append(svgElement("circle", {cx: points[0][0], cy: baseline - 15, r: 4, fill: pitch.color}));
+      svg.append(svgElement("circle", {cx: points[0][0], cy: baseline - amplitude / 2, r: 4, fill: pitch.color}));
     }
     const averageX = x(pitch.velocity_kmh.average);
-    svg.append(svgElement("line", {x1: averageX, x2: averageX, y1: baseline - 35, y2: baseline + 2, stroke: pitch.color, class: "velocity-average"}));
-    svgText(svg, pitch.name, {x: 3, y: baseline - 12, class: "chart-row-label"});
-    svgText(svg, `${fmt(pitch.velocity_kmh.average)} km/h`, {x: 3, y: baseline + 5, class: "chart-row-sub"});
-    if (index < pitches.length - 1) svg.append(svgElement("line", {x1: bounds.left, x2: bounds.right, y1: baseline + 17, y2: baseline + 17, class: "chart-grid-line"}));
+    svg.append(svgElement("line", {x1: averageX, x2: averageX, y1: baseline - amplitude - 3, y2: baseline + 2, stroke: pitch.color, class: "velocity-average"}));
+    svgText(svg, pitch.name, {x: 3, y: bounds.top + (index + .5) * rowHeight - 3, class: "chart-row-label"});
+    svgText(svg, `${fmt(pitch.velocity_kmh.average)} km/h`, {x: 3, y: bounds.top + (index + .5) * rowHeight + 14, class: "chart-row-sub"});
+    if (index < pitches.length - 1) svg.append(svgElement("line", {x1: bounds.left, x2: bounds.right, y1: bounds.top + (index + 1) * rowHeight, y2: bounds.top + (index + 1) * rowHeight, class: "chart-grid-line"}));
   });
 }
 
@@ -255,8 +256,9 @@ function renderFrequency() {
   const sideTotals = currentProfile.player.batter_side_pitches || {L: 0, R: 0};
   const hasSplit = sideTotals.L + sideTotals.R > 0;
   const width = 400;
-  const rowHeight = 50;
-  const height = Math.max(270, 62 + pitches.length * rowHeight);
+  const height = width;
+  const rowHeight = (height - 61) / Math.max(1, pitches.length);
+  const barHeight = rowHeight * .84;
   const center = width / 2;
   const halfWidth = 134;
   svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
@@ -276,15 +278,15 @@ function renderFrequency() {
     }
     svg.append(svgElement("line", {x1: center, x2: center, y1: 45, y2: height - 16, class: "frequency-center"}));
     pitches.forEach((pitch, index) => {
-      const y = 53 + index * rowHeight;
+      const y = 45 + index * rowHeight + (rowHeight - barHeight) / 2;
       const left = pitch.usage_by_batter?.L || {n: 0, usage: null};
       const right = pitch.usage_by_batter?.R || {n: 0, usage: null};
       const leftWidth = (left.usage || 0) / 100 * halfWidth;
       const rightWidth = (right.usage || 0) / 100 * halfWidth;
-      svg.append(svgElement("rect", {x: center - leftWidth, y, width: leftWidth, height: 22, rx: 2, fill: pitch.color, class: "frequency-bar"}));
-      svg.append(svgElement("rect", {x: center, y, width: rightWidth, height: 22, rx: 2, fill: pitch.color, class: "frequency-bar"}));
-      svgText(svg, `${fmt(left.usage)}%`, {x: Math.max(5, center - leftWidth - 5), y: y + 15, "text-anchor": "end", class: "frequency-label"});
-      svgText(svg, `${fmt(right.usage)}%`, {x: Math.min(width - 5, center + rightWidth + 5), y: y + 15, class: "frequency-label"});
+      svg.append(svgElement("rect", {x: center - leftWidth, y, width: leftWidth, height: barHeight, rx: 2, fill: pitch.color, class: "frequency-bar"}));
+      svg.append(svgElement("rect", {x: center, y, width: rightWidth, height: barHeight, rx: 2, fill: pitch.color, class: "frequency-bar"}));
+      svgText(svg, `${fmt(left.usage)}%`, {x: Math.max(5, center - leftWidth - 5), y: y + barHeight / 2 + 4, "text-anchor": "end", class: "frequency-label"});
+      svgText(svg, `${fmt(right.usage)}%`, {x: Math.min(width - 5, center + rightWidth + 5), y: y + barHeight / 2 + 4, class: "frequency-label"});
     });
   } else {
     svgText(svg, "해당 연도는 타자 손 데이터가 없어 전체 구사율로 표시", {x: width / 2, y: 25, "text-anchor": "middle", class: "chart-row-sub"});
@@ -296,9 +298,9 @@ function renderFrequency() {
       svgText(svg, `${tick}%`, {x: tickX, y: 39, "text-anchor": "middle", class: "chart-axis-text"});
     }
     pitches.forEach((pitch, index) => {
-      const y = 51 + index * rowHeight;
-      svg.append(svgElement("rect", {x: left, y, width: pitch.usage / 100 * chartWidth, height: 22, rx: 2, fill: pitch.color, class: "frequency-bar"}));
-      svgText(svg, `${fmt(pitch.usage)}%`, {x: Math.min(width - 4, left + pitch.usage / 100 * chartWidth + 5), y: y + 14, class: "frequency-label"});
+      const y = 43 + index * rowHeight + (rowHeight - barHeight) / 2;
+      svg.append(svgElement("rect", {x: left, y, width: pitch.usage / 100 * chartWidth, height: barHeight, rx: 2, fill: pitch.color, class: "frequency-bar"}));
+      svgText(svg, `${fmt(pitch.usage)}%`, {x: Math.min(width - 4, left + pitch.usage / 100 * chartWidth + 5), y: y + barHeight / 2 + 4, class: "frequency-label"});
     });
   }
 }
