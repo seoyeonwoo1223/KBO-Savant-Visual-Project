@@ -89,8 +89,6 @@ h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.6rem); letter-spacing: -.045em;
 .tooltip strong { display: block; margin-bottom: 6px; font-size: .94rem; }
 .tooltip p { margin: 3px 0; }
 
-.pitch-key i { width: 10px; height: 10px; border-radius: 50%; }
-
 .table-card { padding: 11px 13px; }
 .table-heading { margin-bottom: 8px; }
 .table-wrap { overflow-x: auto; border: 1px solid #dce4ec; border-radius: 8px; }
@@ -98,11 +96,10 @@ table { width: 100%; border-collapse: collapse; font-size: .86rem; text-align: c
 th, td { min-width: 70px; padding: 7px 8px; border-right: 1px solid #e4eaf0; border-bottom: 1px solid #e4eaf0; text-align: center; white-space: nowrap; }
 th:last-child, td:last-child { border-right: 0; }
 tbody tr:last-child td { border-bottom: 0; }
-th { background: #f4f7fa; color: #5c6b7e; font-size: .76rem; letter-spacing: .01em; }
+th { background: #f4f7fa; color: #5c6b7e; font-size: .9rem; letter-spacing: .01em; }
 th:first-child, td:first-child { min-width: 108px; text-align: center; }
 .graded-head { background: #e9eff5; color: #2e4864; }
-.pitch-key { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; }
-.pitch-key i { flex: 0 0 auto; }
+.pitch-key { display: inline-flex; align-items: center; justify-content: center; font-weight: 800; }
 .overall-row td { background: #f6f8fb; font-weight: 800; }
 .overall-row td.metric-cell { background: var(--metric-bg, #f6f8fb); }
 .metric-cell { min-width: 84px; background: var(--metric-bg, #fff); color: var(--metric-ink, #23364d); }
