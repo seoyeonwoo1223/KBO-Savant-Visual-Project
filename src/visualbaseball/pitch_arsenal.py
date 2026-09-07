@@ -14,7 +14,7 @@ from openpyxl import load_workbook
 CM_PER_INCH = 2.54
 FEET_PER_CM = 1 / 30.48
 PLATE_HALF_WIDTH_FT = 10 / 12
-MIN_PERCENTILE_PITCHES = 100
+MIN_PERCENTILE_PITCHES = 50
 MAX_MOVEMENT_POINTS = 140
 PITCH_CODES = ("FF", "FT", "SI", "FC", "SL", "ST", "CH", "CU", "FS")
 PARK_FACTOR_CODES = ("FF", "SI", "FC", "SL", "CH", "CU", "FS")
@@ -354,7 +354,7 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                     "h_rel_ft": _summary(group["release_x"], 2),
                 },
                 "rates": _rates(group),
-                "percentiles": {"zone_pct": None, "chase_pct": None, "swstr_pct": None},
+                "percentiles": {"velocity_kmh": None, "zone_pct": None, "chase_pct": None, "swstr_pct": None},
                 "percentile_qualified": group["n"] >= MIN_PERCENTILE_PITCHES,
                 "movement_n": movement_adjusted,
                 "movement_total_n": movement_total,
@@ -395,7 +395,7 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                     "h_rel_ft": _summary([abs(value) for value in pitcher["release_x"]], 2),
                 },
                 "rates": _rates(pitcher),
-                "percentiles": {"zone_pct": None, "chase_pct": None, "swstr_pct": None},
+                "percentiles": {"velocity_kmh": None, "zone_pct": None, "chase_pct": None, "swstr_pct": None},
                 "percentile_qualified": pitcher["pitches"] >= MIN_PERCENTILE_PITCHES,
             },
             "pitch_types": pitch_types,
@@ -408,11 +408,17 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
     for profile in profiles:
         for pitch in profile["pitch_types"]:
             if pitch["percentile_qualified"]:
+                velocity = pitch["velocity_kmh"]["average"] if pitch["velocity_kmh"] else None
+                if velocity is not None:
+                    pitch_populations[pitch["code"]]["velocity_kmh"].append(velocity)
                 for metric in metrics:
                     value = pitch["rates"][metric]
                     if value is not None:
                         pitch_populations[pitch["code"]][metric].append(value)
         if profile["overall"]["percentile_qualified"]:
+            velocity = profile["overall"]["velocity_kmh"]["average"] if profile["overall"]["velocity_kmh"] else None
+            if velocity is not None:
+                overall_populations["velocity_kmh"].append(velocity)
             for metric in metrics:
                 value = profile["overall"]["rates"][metric]
                 if value is not None:
@@ -421,13 +427,13 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
         for pitch in profile["pitch_types"]:
             if pitch["percentile_qualified"]:
                 pitch["percentiles"] = {
-                    metric: _percentile(pitch["rates"][metric], pitch_populations[pitch["code"]][metric])
-                    for metric in metrics
+                    "velocity_kmh": _percentile(pitch["velocity_kmh"]["average"], pitch_populations[pitch["code"]]["velocity_kmh"]) if pitch["velocity_kmh"] else None,
+                    **{metric: _percentile(pitch["rates"][metric], pitch_populations[pitch["code"]][metric]) for metric in metrics},
                 }
         if profile["overall"]["percentile_qualified"]:
             profile["overall"]["percentiles"] = {
-                metric: _percentile(profile["overall"]["rates"][metric], overall_populations[metric])
-                for metric in metrics
+                "velocity_kmh": _percentile(profile["overall"]["velocity_kmh"]["average"], overall_populations["velocity_kmh"]) if profile["overall"]["velocity_kmh"] else None,
+                **{metric: _percentile(profile["overall"]["rates"][metric], overall_populations[metric]) for metric in metrics},
             }
 
     output = root / "web" / "data" / "pitch_arsenal" / str(season) / "players"
