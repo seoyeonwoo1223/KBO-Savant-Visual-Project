@@ -180,7 +180,7 @@ function renderVelocity() {
     const peak = Math.max(...smooth, 1);
     const baseline = bounds.top + (index + .82) * rowHeight;
     const points = smooth.map((count, bin) => [histogram.start + bin * histogram.step, count])
-      .filter(([value]) => value >= minValue && value <= maxValue)
+      .filter(([value, count]) => count > 0 && value >= minValue && value <= maxValue)
       .map(([value, count]) => [x(value), baseline - count / peak * amplitude]);
     if (points.length > 1) {
       const pathData = [`M ${points[0][0]} ${baseline}`, ...points.map(point => `L ${point[0]} ${point[1]}`), `L ${points.at(-1)[0]} ${baseline}`, "Z"].join(" ");
@@ -190,7 +190,7 @@ function renderVelocity() {
     }
     const averageX = x(pitch.velocity_kmh.average);
     svg.append(svgElement("line", {x1: averageX, x2: averageX, y1: baseline - amplitude - 3, y2: baseline + 2, stroke: pitch.color, class: "velocity-average"}));
-    svgText(svg, pitch.name, {x: 3, y: bounds.top + (index + .5) * rowHeight - 3, class: "chart-row-label"});
+    svgText(svg, pitch.name, {x: 3, y: bounds.top + (index + .5) * rowHeight - 3, fill: pitch.color, class: "chart-row-label"});
     svgText(svg, `${fmt(pitch.velocity_kmh.average)} km/h`, {x: 3, y: bounds.top + (index + .5) * rowHeight + 14, class: "chart-row-sub"});
     if (index < pitches.length - 1) svg.append(svgElement("line", {x1: bounds.left, x2: bounds.right, y1: bounds.top + (index + 1) * rowHeight, y2: bounds.top + (index + 1) * rowHeight, class: "chart-grid-line"}));
   });
@@ -349,7 +349,7 @@ function renderTable() {
     const horizontal = movementHorizontal(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
     return `<tr>
-      <td><span class="pitch-key"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td>
+      <td><span class="pitch-key" style="color:${pitch.color}"><i style="background:${pitch.color}"></i>${escapeHtml(pitch.name)}</span></td>
       <td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td><td>${fmt(pitch.velocity_kmh?.average)} km/h</td>
       <td>${formatMovement(vertical?.average)} ${movementUnitLabel()}</td><td>${formatMovement(horizontal?.average)} ${movementUnitLabel()}</td>
       <td>${fmt(pitch.release?.v_rel_ft?.average * 30.48, 1)} cm</td><td>${fmt(pitch.release?.h_rel_ft?.average * 30.48, 1)} cm</td>

@@ -45,4 +45,17 @@ for (const count of [1, 2, 4, 5, 6, 9]) {
 context.currentProfile = {player: {}, pitch_types: []};
 vm.runInContext('renderVelocity(); renderFrequency();', context);
 assert.ok(charts['#velocity-chart'].children.some(e => e.class === 'empty-chart'));
+context.currentProfile = {
+  player: {},
+  pitch_types: [{name: '체인지업', color: '#4bb783', usage: 100,
+    velocity_kmh: {average: 135, low_75: 133, high_75: 138},
+    velocity_distribution_kmh: {start: 105, step: 1, counts: [1, ...Array(20).fill(0), 1, 4, 8, 17, 30]},
+  }, {name: '커브', color: '#76c8c5', usage: 1,
+    velocity_kmh: {average: 122, low_75: 118, high_75: 127},
+    velocity_distribution_kmh: {start: 113, step: 1, counts: [3, 8, 22, 29, 28]},
+  }],
+};
+vm.runInContext('renderVelocity();', context);
+const anomalyPath = charts['#velocity-chart'].children.find(e => e.class === 'velocity-area');
+assert.ok(Number(anomalyPath.d.match(/^M ([\d.]+)/)[1]) > 61, 'zero-count bins must not drag the distribution to the axis edge');
 console.log('PASS: 1/2/4/5/6/9 pitches, split/overall usage, proportional bars, chart bounds, empty data');
