@@ -37,6 +37,8 @@ for (const count of [1, 2, 4, 5, 6, 9]) {
     const paths = velocity.children.filter(e => e.class === 'velocity-area');
     assert.equal(paths.length, count);
     assert.ok(paths.every(p => !/NaN|Infinity/.test(p.d)));
+    const labels = velocity.children.filter(e => e.class === 'chart-row-label');
+    assert.ok(labels.every(label => label.x === 30.5 && label['text-anchor'] === 'middle' && label.style === 'fill:#c00'));
     const averages = velocity.children.filter(e => e.class === 'velocity-average');
     assert.ok(averages.every(e => e.y1 >= 22 && e.y2 <= 386));
     assert.ok(averages.at(-1).y2 > 320);
