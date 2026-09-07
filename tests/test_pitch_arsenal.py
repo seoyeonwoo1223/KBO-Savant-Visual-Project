@@ -4,7 +4,7 @@ import json
 import xlsxwriter
 
 from visualbaseball.pitch_arsenal import (
-    _load_park_factors, _pitch_code, _resolved_batter_stance, build_pitch_arsenal,
+    MIN_PERCENTILE_PITCHES, _load_park_factors, _pitch_code, _resolved_batter_stance, build_pitch_arsenal,
 )
 
 
@@ -41,6 +41,7 @@ def _write_pitch_workbook(path: Path) -> None:
 
 
 def test_pitch_arsenal_builds_adjusted_profiles(tmp_path: Path):
+    assert MIN_PERCENTILE_PITCHES == 50
     source_adjustments = Path(__file__).parents[1] / "data" / "park_adjustments"
     adjustment_output = tmp_path / "data" / "park_adjustments"
     adjustment_output.mkdir(parents=True)
@@ -67,6 +68,7 @@ def test_pitch_arsenal_builds_adjusted_profiles(tmp_path: Path):
     assert four_seam["release"]["v_rel_ft"]["average"] == 6.1
     assert four_seam["rates"] == {"zone_pct": 100.0, "chase_pct": None, "swstr_pct": 25.0}
     assert four_seam["percentile_qualified"] is False
+    assert four_seam["percentiles"]["velocity_kmh"] is None
     assert sweeper["park_factor_code"] == "SL"
     assert sweeper["horizontal_break_in"]["average"] == 1.3
     assert sweeper["ivb_in"]["average"] == 3.2
