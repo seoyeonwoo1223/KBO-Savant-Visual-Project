@@ -37,6 +37,8 @@ jobs:
     env:
       OMP_NUM_THREADS: 2
       OPENBLAS_NUM_THREADS: 2
+      # Phase 6: CI/production remains legacy until Phase 7 approval.
+      ZA_INPUT_MODE: legacy
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

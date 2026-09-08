@@ -4,6 +4,8 @@
   "season": 2025,
   "source": {
     "source": "visualbaseball_savant_2025_latest.xlsx",
+    "input_mode": "legacy",
+    "curated_version": null,
     "sha256": {
       "visualbaseball_savant_2025_latest.xlsx": "409b604e46000fb646dc08c28ca1617b3a95fcad2e5446d8d6f944580e8a89b7",
       "batter_handedness.json": "adf2b3138a5529b230768c02ae969252a9c7da719ee565adb5988e175f4dd4c8",
@@ -15,8 +17,8 @@
       "excluded_pitches": 3098,
       "re_complete_halves": 12576,
       "reason_counts": {
-        "untimed_score_repair": 148,
-        "unresolved_nonpitch_runs": 148
+        "unresolved_nonpitch_runs": 148,
+        "untimed_score_repair": 148
       },
       "included_timed_nonpitch_runs": 0.0,
       "policy": "Unresolved scoring halves are excluded; incomplete innings do not train RE. No invented scoring timestamps."
@@ -371,7 +373,7 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "d3ba64866128c666dfaf26074cadb24b43b05dbefa2fb6831116949f4c6ee8f3",
+      "zone_decision.py": "c40044631dd46c063bfdf3ed9f2a4c3fa0285c40d934ce6a77dcc0ebfbdcf263",
       "plate_decision_v1.py": "f0a96153454701947a0bbd30408bebc68c48bac62ca4479e1e7248290757cc9e",
       "swing_take.py": "816ea4419d8662350e5633dde0def288f148a22ca65a1b47ddb572b731c0f507",
       "pitch_arsenal.py": "c005adb894752a328924cda4bddec61ae3b6cefb47803a87f1d1eec74f1855dc"

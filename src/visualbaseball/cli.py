@@ -18,9 +18,16 @@ from .pitch_arsenal import build_pitch_arsenal
 from .plate_discipline import build_plate_discipline
 from .plate_decision_v1 import build_plate_decision_v1
 from .zone_decision import build_zone_decision
+from .za_inputs import INPUT_MODES, resolve_za_input
 
 
-def _exports(root: Path, season: int, storage_root: Path) -> None:
+def _exports(root: Path, season: int, storage_root: Path, za_input_mode: str | None = None,
+             za_curated_version: str | None = None) -> None:
+    # Resolve curated input before any export is written. A bad curated release
+    # must fail the complete production job, not fail after partial publication.
+    selected_za_input = resolve_za_input(
+        root, season, za_input_mode, za_curated_version, storage_root
+    )
     workbook = export_latest(root, season, storage_root)
     build_swing_take(storage_root, season, excel_source=workbook)
     decision_source = storage_root / "data" / "processed" / (
@@ -30,7 +37,13 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
         build_plate_discipline(storage_root, season, decision_source)
         if pq.read_metadata(decision_source).num_rows >= 1_000:
             if season in (2024, 2025, 2026):
-                build_zone_decision(root, season, storage_root=storage_root)
+                build_zone_decision(
+                    root,
+                    season,
+                    storage_root=storage_root,
+                    input_mode=selected_za_input.mode,
+                    curated_version=selected_za_input.version,
+                )
             else:
                 build_plate_decision_v1(storage_root, season, decision_source, web_root=root / "web")
     build_zone_profiles(root, season, excel_source=workbook)
@@ -59,6 +72,14 @@ def main() -> None:
         help="Fetch and cache Naver relay flags while rebuilding raw games",
     )
     parser.add_argument("--naver-workers", type=int, default=1)
+    parser.add_argument(
+        "--za-input-mode", choices=INPUT_MODES,
+        help="ZA source selection; defaults to ZA_INPUT_MODE, then legacy",
+    )
+    parser.add_argument(
+        "--za-curated-version",
+        help="Version below data/curated/zone_awareness (required for curated mode)",
+    )
     args = parser.parse_args()
     root = Path(args.root).resolve()
     storage_root = Path(args.storage_root).resolve() if args.storage_root else root
@@ -66,7 +87,7 @@ def main() -> None:
         games, pitches = rebuild_from_raw(
             storage_root, args.season, args.refresh_naver, args.game_id, max(1, args.naver_workers)
         )
-        _exports(root, args.season, storage_root)
+        _exports(root, args.season, storage_root, args.za_input_mode, args.za_curated_version)
         print(f"rebuilt {games} games and {pitches} pitches")
         return
     if args.fixture:
@@ -74,7 +95,7 @@ def main() -> None:
         ok, message, pitches = process_payload(storage_root, payload, season=args.season)
         if not ok:
             raise SystemExit(message)
-        _exports(root, args.season, storage_root)
+        _exports(root, args.season, storage_root, args.za_input_mode, args.za_curated_version)
         print(f"processed {pitches} pitches")
         return
 
@@ -152,7 +173,7 @@ def main() -> None:
             if len(pending_games) >= 25:
                 flush()
     flush()
-    _exports(root, args.season, storage_root)
+    _exports(root, args.season, storage_root, args.za_input_mode, args.za_curated_version)
 
 
 if __name__ == "__main__":

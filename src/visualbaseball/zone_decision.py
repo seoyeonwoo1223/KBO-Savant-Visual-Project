@@ -24,6 +24,7 @@ from . import plate_decision_v1 as old
 from .pitch_arsenal import _load_batter_hands, _resolved_batter_stance
 from .swing_take import _eligible, _relative_location, _state
 from .zone_awareness_v2 import _team_history
+from .za_inputs import INPUT_MODES, resolve_za_input
 
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
@@ -93,7 +94,7 @@ def reliable_halves(rows, events):
   accepted.extend(items)
  return accepted,{'halves':len(halves),'excluded_halves':sum(bool(bad[k]) for k in halves),
    'excluded_pitches':len(rows)-len(accepted),'re_complete_halves':complete,
-   'reason_counts':dict(reasons),'included_timed_nonpitch_runs':known_runs,
+   'reason_counts':{reason:reasons[reason] for reason in sorted(reasons)},'included_timed_nonpitch_runs':known_runs,
    'policy':'Unresolved scoring halves are excluded; incomplete innings do not train RE. No invented scoring timestamps.'}
 
 
@@ -114,19 +115,22 @@ def outcome(row):
  return {'S':'Whiff', 'F':'Foul', 'X':'InPlay', 'B':'Ball', 'T':'CalledStrike'}.get(code)
 
 
-def load_rows(root, season, storage_root=None):
- cache = root / '.cache' / f'za_source_{season}.parquet'
+def load_rows(root, season, storage_root=None, input_mode=None, curated_version=None):
+ selected_input=resolve_za_input(root,season,input_mode,curated_version,storage_root)
+ cache_root=(root/'.cache' if selected_input.mode=='legacy' else
+             root/'data/curated/zone_awareness'/selected_input.version/'.cache')
+ cache = cache_root / f'za_source_{season}.parquet'
  cache.parent.mkdir(parents=True,exist_ok=True)
- source = (storage_root or root) / 'data/processed/pitches.parquet'
+ source=selected_input.path
  hashes={}
  if season == 2026:
   rows = pq.read_table(source).to_pylist()
-  event_source=source.with_name('events.parquet')
+  event_source=selected_input.events_path
   events=pq.read_table(event_source).to_pylist()
-  hashes={p.name:file_hash(p) for p in (source,event_source)}
+  hashes={source.name:selected_input.sha256 or file_hash(source),
+          event_source.name:selected_input.events_sha256 or file_hash(event_source)}
  else:
-  source=root/'exports'/f'visualbaseball_savant_{season}_latest.xlsx'
-  fingerprint=file_hash(source);hashes[source.name]=fingerprint
+  fingerprint=selected_input.sha256 or file_hash(source);hashes[source.name]=fingerprint
   marker=cache.with_suffix('.sha256');event_cache=cache.with_name(f'za_events_{season}.parquet')
   if cache.exists() and event_cache.exists() and marker.exists() and marker.read_text()==fingerprint:
    rows=pq.read_table(cache).to_pylist();events=pq.read_table(event_cache).to_pylist()
@@ -165,7 +169,7 @@ def load_rows(root, season, storage_root=None):
  valid = [{k:v for k,v in r.items() if k in keep} for r in valid]
  for p in (root/'data/batter_handedness.json',root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'):
   if p.exists():hashes[p.name]=file_hash(p)
- return sorted(valid, key=lambda r:r['game_id']), {'source':source.name, 'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'unknown_stance':sum(not r['batter_stance'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
+ return sorted(valid, key=lambda r:r['game_id']), {'source':source.name,'input_mode':selected_input.mode,'curated_version':selected_input.version,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'unknown_stance':sum(not r['batter_stance'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
 
 
 def walk_state(s):
@@ -424,8 +428,9 @@ def cell_summary(items):
  return {'n':len(items),'low_opposite_support_pct':r6(100*np.mean([r['opposite_support']<30 for r in items])),'raw_dv':r6(sum(r['dv'] for r in items)),'dv100':mean(items,'dv',100),'za_raw':mean(items,'dv',100),'delta':mean(items,'delta_v'),'swing_pct':mean(items,'swing',100),'expected_swing_pct':mean(items,'p_swing',100),'p_zone_pct':mean(items,'p_zone',100),'zone_judgment_pct':r6(100*np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])),'expected_zone_judgment_pct':r6(100*np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])),'expected_swing_rv':mean(items,'v_swing'),'expected_take_rv':mean(items,'v_take'),**{f'p_{e}':mean(items,f'p_{e}',100) for e in EVENTS}}
 
 
-def write_web(root,season,pitches,report):
- dest=root/'web/data/zone_awareness'/str(season); dest.mkdir(parents=True,exist_ok=True)
+def write_web(root,season,pitches,report,output_root=None):
+ output_root=output_root or root
+ dest=output_root/'web/data/zone_awareness'/str(season); dest.mkdir(parents=True,exist_ok=True)
  by_batter=defaultdict(list)
  for r in pitches: by_batter[str(r['batter_id'])].append(r)
  players=[profile_summary(items) for items in by_batter.values()]
@@ -444,17 +449,19 @@ def write_web(root,season,pitches,report):
  pd=dest/'players';pd.mkdir(exist_ok=True)
  for path in pd.glob('*.json'): path.unlink()
  for shard,entries in shards.items(): dump(pd/f'{shard}.json',{'schema_version':5,'season':season,'players':entries})
- catalog=root/'web/data/zone_awareness/index.json'
+ catalog=output_root/'web/data/zone_awareness/index.json'
  previous=json.loads(catalog.read_text(encoding='utf-8')) if catalog.exists() else {'seasons':[]}
  previous.update({'schema_version':5,'seasons':sorted(set(previous['seasons'])|{season},reverse=True)})
  previous['default_season']=max(previous['seasons']);dump(catalog,previous)
- old._write_csv(root/'exports'/f'zone_decision_players_{season}.csv',players)
+ old._write_csv(output_root/'exports'/f'zone_decision_players_{season}.csv',players)
  return players
 
 
-def build_zone_decision(root,season=2026,storage_root=None):
+def build_zone_decision(root,season=2026,storage_root=None,input_mode=None,curated_version=None):
  print('ZA season',season,flush=True)
- rows,source=load_rows(root,season,storage_root)
+ rows,source=load_rows(root,season,storage_root,input_mode,curated_version)
+ output_root=(root/'data/curated/zone_awareness'/source['curated_version']/'outputs'
+              if source['input_mode']=='curated' else root)
  validation=temporal_evaluation(rows)
  selected=validation['selected'];print('  Selected:',selected,flush=True)
  dates=np.array(sorted({r['game_id'][:8] for r in rows})); result=[]; fold_meta=[]
@@ -488,14 +495,16 @@ def build_zone_decision(root,season=2026,storage_root=None):
   'crossfit_blocks':fold_meta,'metric_contract':CONTRACT,'shrinkage':'Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.',
   'reproducibility':{'python':platform.python_version(),'packages':{p:version(p) for p in ('numpy','pandas','pyarrow','scikit-learn','scipy','openpyxl')},'source_sha256':{p.name:file_hash(p) for p in (Path(__file__),Path(old.__file__),Path(__file__).with_name('swing_take.py'),Path(__file__).with_name('pitch_arsenal.py'))}},
   'limitations':LIMITATIONS}
- players=write_web(root,season,result,report)
+ players=write_web(root,season,result,report,output_root)
  report['batters']=len(players)
- path=root/'data/processed'/f'zone_decision_report_{season}.json';path.parent.mkdir(parents=True,exist_ok=True)
+ path=output_root/'data/processed'/f'zone_decision_report_{season}.json';path.parent.mkdir(parents=True,exist_ok=True)
  path.write_text(json.dumps(report,ensure_ascii=False,indent=2,allow_nan=False)+'\n',encoding='utf-8')
  # Compact pitch evidence is reproducible; not committed as a large binary.
- pq.write_table(pa.Table.from_pylist([{k:v for k,v in r.items() if k not in ('adjusted_hb_cm','adjusted_ivb_cm')} for r in result]),root/'.cache'/f'zone_decision_pitches_{season}.parquet')
+ evidence_cache=(root/'.cache' if source['input_mode']=='legacy' else output_root/'.cache')
+ evidence_cache.mkdir(parents=True,exist_ok=True)
+ pq.write_table(pa.Table.from_pylist([{k:v for k,v in r.items() if k not in ('adjusted_hb_cm','adjusted_ivb_cm')} for r in result]),evidence_cache/f'zone_decision_pitches_{season}.parquet')
  return report
 
 if __name__=='__main__':
- parser=argparse.ArgumentParser();parser.add_argument('--root',default='.');parser.add_argument('--seasons',nargs='+',type=int,default=[2024,2025,2026]);args=parser.parse_args()
- for year in args.seasons: build_zone_decision(Path(args.root).resolve(),year)
+ parser=argparse.ArgumentParser();parser.add_argument('--root',default='.');parser.add_argument('--seasons',nargs='+',type=int,default=[2024,2025,2026]);parser.add_argument('--input-mode',choices=INPUT_MODES);parser.add_argument('--curated-version');args=parser.parse_args()
+ for year in args.seasons: build_zone_decision(Path(args.root).resolve(),year,input_mode=args.input_mode,curated_version=args.curated_version)
