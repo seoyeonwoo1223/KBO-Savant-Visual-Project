@@ -33,9 +33,14 @@ async function loadSeason(season) {
   document.querySelector('th[data-sort="za_raw"]').textContent=state.modern?"ZA / 100":"기존 ZA Raw";
   document.querySelector('.contribution-note').textContent=state.modern?"모든 값은 선수의 전체 투구 100구당 기여도입니다. 존·행동별 값을 합하면 종합 ZA가 됩니다.":"개편 전 시즌입니다. 각 존·행동 100구당 기존 DV이며, 값을 더해 전체 지표를 구할 수 없습니다.";
   $("#season-method").textContent=state.modern ? `이벤트 확률은 Swing·Take 각각의 조건부 확률입니다. 채택 모델: ${data.selected_value_model==="staged"?"이벤트 분해":"직접 행동 가치"}.` : "이 시즌은 개편 전 지표입니다. ZA는 존 판단, 누적 가치는 기존 DV 산식이며 2024–2026과 직접 비교할 수 없습니다.";
+  if(data.schema_version>=5){
+    const q=data.data_quality;
+    $("#season-method").textContent=`ZA v5 · 득점 시점을 확정할 수 없는 ${q.excluded_halves.toLocaleString()}개 공격 이닝, ${q.excluded_pitches.toLocaleString()}구를 제외했습니다. 비투구 사건의 확인된 ${fmt(q.included_timed_nonpitch_runs,0)}득점은 이닝 잔여 득점에 반영했습니다. 일반 볼·스트라이크·파울은 규칙에 따른 상태 전이로 계산하고, 스윙 표본이 적으면 더 넓은 조건의 결과 분포를 함께 사용합니다. 순위는 추정값의 순서이며 선수 간 우열이 확정되었다는 뜻은 아닙니다.`;
+  }
   $("#score-za").previousElementSibling.textContent=state.modern?"ZA / 100":"기존 ZA Raw";
   data.players.forEach(player=>{player.team=teamData.teams?.[player.batter_id]||player.team||"—";});
   state.players=data.players.filter(p=>p.qualified_300);
+  [...state.players].sort((a,b)=>b.za_raw-a.za_raw).forEach((p,i)=>p.rank=i+1);
   $("#qualified-count").textContent=`${data.qualified_batters}명 · 300구 이상`;
   renderLeaderboard(); drawScatter();
   const params=new URLSearchParams(location.search), requested=params.get("player");
@@ -51,7 +56,7 @@ function renderLeaderboard(){
     const av=a[state.sort], bv=b[state.sort];
     return typeof av==="string" ? state.direction*av.localeCompare(bv,"ko") : state.direction*((av??-Infinity)-(bv??-Infinity));
   });
-  $("#leaderboard").innerHTML=rows.map((p,i)=>`<tr data-id="${p.batter_id}" class="${p.batter_id===state.selected?'selected':''}"><td>${i+1}</td><td><strong>${p.batter_name}</strong><br><small>${p.team}</small></td><td class="${p.za_percentile>=50?'good':'bad'}">${fmt(p.za_percentile,1)}</td><td>${signed(p.za_raw,2)}</td><td>${signed(p.swing_aggression,2)}</td><td>${fmt(p.raw_dv,2)}</td><td>${signed(p.zone_judgment_raw ?? (state.modern ? null : p.za_raw),2)}</td><td>${p.pitches_seen.toLocaleString()}</td></tr>`).join("");
+  $("#leaderboard").innerHTML=rows.map(p=>`<tr data-id="${p.batter_id}" class="${p.batter_id===state.selected?'selected':''}"><td>${p.rank}</td><td><strong>${p.batter_name}</strong><br><small>${p.team}</small></td><td class="${p.za_percentile>=50?'good':'bad'}">${fmt(p.za_percentile,1)}</td><td>${signed(p.za_raw,2)}</td><td>${signed(p.swing_aggression,2)}</td><td>${fmt(p.raw_dv,2)}</td><td>${signed(p.zone_judgment_raw ?? (state.modern ? null : p.za_raw),2)}</td><td>${p.pitches_seen.toLocaleString()}</td></tr>`).join("");
   $("#leaderboard").querySelectorAll("tr").forEach(row=>row.onclick=()=>selectPlayer(row.dataset.id));
 }
 
@@ -83,6 +88,8 @@ async function selectPlayer(id, update=true){
   const shard=/^\d/.test(state.selected)?state.selected.slice(0,2):"other";
   const data=await fetch(`../data/zone_awareness/${state.season}/players/${shard}.json`).then(r=>r.json());
   state.profile=data.players[state.selected];state.cell=null;renderPlayer();
+  const summary=state.profile.summary;
+  $("#player-confidence").textContent=summary.low_opposite_support_pct==null?"이 시즌에는 표본 부족 비율과 재표집 구간이 제공되지 않습니다.":`ZA / 100의 경기 재표집 95% 구간: ${signed(summary.za_ci_low,2)} ~ ${signed(summary.za_ci_high,2)} · 반대 선택의 유사 조건 표본이 30구 미만인 투구 ${fmt(summary.low_opposite_support_pct,1)}%. 구간은 학습 모델을 고정한 값으로, 반대 선택의 추정 오차까지 포함하지 않습니다.`;
   if(update){const u=new URL(location.href);u.searchParams.set("year",state.season);u.searchParams.set("player",state.selected);history.replaceState(null,"",u);$("#player-section").scrollIntoView({behavior:"smooth",block:"start"});}
 }
 

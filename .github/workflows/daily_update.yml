@@ -10,6 +10,7 @@ on:
       - "web/zones/**"
       - "web/pitch-arsenal/**"
       - "requirements.txt"
+      - "constraints-za.txt"
       - ".github/workflows/daily_update.yml"
       - ".github/refresh-completed-request"
   schedule:
@@ -36,12 +37,14 @@ jobs:
     env:
       OMP_NUM_THREADS: 2
       OPENBLAS_NUM_THREADS: 2
+      # Phase 6: CI/production remains legacy until Phase 7 approval.
+      ZA_INPUT_MODE: legacy
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python -m pip install --disable-pip-version-check -r requirements.txt
+      - run: python -m pip install --disable-pip-version-check -r requirements.txt -c constraints-za.txt
       - run: python -m pytest
         env:
           PYTHONPATH: src

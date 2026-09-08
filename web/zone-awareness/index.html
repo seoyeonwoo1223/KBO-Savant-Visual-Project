@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="KBO 타자의 투구별 Swing·Take Decision Value와 Zone Awareness">
   <title>Zone Awareness | KBO Savant</title>
-  <link rel="stylesheet" href="zone-awareness.css?v=20260905-za4">
+  <link rel="stylesheet" href="zone-awareness.css?v=20260908-za5">
 </head>
 <body>
   <main>
@@ -32,6 +32,7 @@
         <div><p class="eyebrow" id="player-meta"></p><h2 id="player-name">선수</h2></div>
         <div class="score-row"><div><span>Swing Aggression</span><strong id="score-sa">—</strong></div><div><span>ZA / 100</span><strong id="score-za">—</strong></div><div><span>ZA Percentile</span><strong id="score-percentile">—</strong></div><div><span>누적 가치</span><strong id="score-dv">—</strong></div><div><span>존 판단 (보조)</span><strong id="score-dv100">—</strong></div></div>
       </header>
+      <p id="player-confidence" class="contribution-note" aria-live="polite"></p>
       <div class="tabs" role="tablist"><button class="active" data-tab="profile">Zone Profile</button><button data-tab="map">Decision Map</button><button data-tab="outcome">Pitch Detail</button></div>
 
       <div class="tab active" id="tab-profile">
@@ -64,6 +65,6 @@
 
     <section class="method card"><p class="eyebrow">METHOD · 2024–2026</p><h2>읽는 법</h2><div><p><strong>종합 ZA</strong>는 (실제 스윙 − 기대 스윙률) × (Swing 기대가치 − Take 기대가치)를 합산한 뒤 전체 100구당으로 환산합니다. +는 같은 공을 받은 평균 타자보다 높은 기대득점입니다. 누적 가치는 환산 전 합계이며, Percentile은 시즌 300구 이상 타자 내 상대 위치입니다.</p><p><strong>SA</strong>는 실제와 기대 스윙률의 차이로, 성향만 나타냅니다. <strong>존 판단</strong>은 루킹 스트라이크 확률에 따른 기존 방식의 보조지표입니다. Heart / Shadow 안쪽 / Shadow 바깥쪽 / Chase / Waste는 설명용 집계이며, 모델은 세부 위치와 카운트·주자·아웃·구종·구속·보정 무브먼트·타석 방향 등을 사용합니다.</p><p>타구속도·발사각과 해당 투구의 실제 안타·홈런을 점수에 직접 반영하지 않습니다. 반대 선택의 결과는 관측할 수 없으므로 <strong>개인별 최적 판단의 정답이 아닌 리그 평균 실행 능력 기준 추정치</strong>입니다. 시즌값은 경기 결과를 제외한 날짜 블록 교차적합으로 산출하며 미래 블록이 학습에 포함될 수 있습니다. 시간 분리 평가는 별도로 수행했습니다.</p></div><p id="season-method"></p></section>
   </main>
-  <script src="zone-awareness.js?v=20260905-za4"></script>
+  <script src="zone-awareness.js?v=20260908-za5"></script>
 </body>
 </html>
