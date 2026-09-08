@@ -89,6 +89,9 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
                 unknown += 1
                 continue
             bases_before, bases_after = pa.get("basesBefore") or {}, pa.get("basesAfter") or {}
+            pa_runs = int(pa.get("rbi") or 0)
+            if str(pa.get("type") or "").lower() == "hr" and not pa_runs:
+                pa_runs = sum(bool(bases_before.get(base)) for base in ("b1", "b2", "b3")) + 1
             before_snapshot = GameState(); before_snapshot.set_bases(bases_before)
             if state.base_state_code != before_snapshot.base_state_code or any(getattr(state, x) != getattr(before_snapshot, x) for x in ("runner_1b_id", "runner_2b_id", "runner_3b_id")):
                 event_seq += 1; before, state_before = state.snapshot(), deepcopy(state.snapshot()); state.set_bases(bases_before); after = state.snapshot()
@@ -101,7 +104,7 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
             for index, pitch in enumerate(pitch_list, 1):
                 game_pitch += 1; before = state.snapshot(); runs = 0
                 if index == len(pitch_list):
-                    terminal_before = deepcopy(before); runs = state.infer_runs(bases_after, int(pa.get("outsAfter", state.outs))); state.set_bases(bases_after); state.outs = int(pa.get("outsAfter", state.outs));
+                    terminal_before = deepcopy(before); runs = pa_runs; state.set_bases(bases_after); state.outs = int(pa.get("outsAfter", state.outs));
                     if state.inning_half == "top": state.away_score += runs
                     else: state.home_score += runs
                     state.balls = state.strikes = 0
@@ -110,7 +113,7 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
                 events.append(_event(game, event_seq, pa_id, "pitch", str(pitch.get("r", "")), _description(str(pitch.get("r", "")), str(pa.get("result", ""))), pa, before, after, runs, pa_status))
                 pitches.append(_pitch(game, event_seq, pa_id, index, game_pitch, pa, pitch, before, after, runs, index == len(pitch_list), pa_status, offense, active_catchers.get(defense, {}), naver_enrichment, naver_occurrences))
             if terminal_before is None:
-                terminal_before = state.snapshot(); runs = state.infer_runs(bases_after, int(pa.get("outsAfter", state.outs))); state.set_bases(bases_after); state.outs = int(pa.get("outsAfter", state.outs));
+                terminal_before = state.snapshot(); runs = pa_runs; state.set_bases(bases_after); state.outs = int(pa.get("outsAfter", state.outs));
                 if state.inning_half == "top": state.away_score += runs
                 else: state.home_score += runs
                 state.balls = state.strikes = 0
