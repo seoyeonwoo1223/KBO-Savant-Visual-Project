@@ -29,7 +29,7 @@ GitHub는 `.xlsx`를 셀 단위로 미리보기하지 않는 바이너리 파일
 수집기는 시즌 일정에서 **신규·미완료·실패 게임**과 최근 2일의 확정 경기를 다시 확인합니다. 정상 검증된 게임은 기존 Parquet에서 그 게임 ID의 행만 교체합니다. 그 뒤 Excel과 웹 CSV는 전체 검증 Parquet로부터 다시 만들어지므로, Excel은 누적 추가 파일이 아니라 최신 데이터의 재생성본입니다.
 
 ```powershell
-python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt -c constraints-za.txt
 $env:PYTHONPATH = "src"
 python -m visualbaseball.cli
 pytest
@@ -89,11 +89,11 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 회귀식과 클러스터 중심값·표본 기준·정의는 `data/processed/plate_discipline_research.json`에 기록한다. 클러스터 번호는 우열 등급이 아니며, 타구속도·발사각이 없는 현재 원자료로는 PLV처럼 타자별로 좋은 타구가 될 확률까지 분리하지 않는다. 기존 Decision Run은 실제 선택의 결과가 포함된 진단값이므로 counterfactual Decision Value로 부르지 않는다.
 
-## Plate Decision v1 / Zone Awareness
+## Zone Awareness v5 · 2024–2026
 
-`src/visualbaseball/plate_decision_v1.py`는 경기 단위 out-of-fold 모델로 Expected Swing, 중립 Zone Awareness, Swing·Take 조건부 기대가치를 계산한다. 공개 주지표는 Swing Aggression, ZA Raw, ZA Percentile, 누적 Raw DV이며 DV/100은 표본 수가 다른 선수를 비교하는 보조지표다.
+`src/visualbaseball/zone_decision.py`는 경기 결과를 제외한 날짜 블록 교차적합으로 `(실제 스윙 − 기대 스윙률) × (Swing RV − Take RV)`를 계산한다. ZA는 전체 100구당 가치, 누적 가치는 환산 전 합계다. 득점 시점을 확인할 수 없는 공격 이닝은 제외하고, 일반 볼·스트라이크·파울은 제약된 공통 RE 표의 규칙 전이로 계산한다. 반대 선택 표본 부족과 경기 재표집 구간을 함께 표시한다.
 
-`web/zone-awareness/`에서는 Swing Aggression×ZA Raw 리그 산점도와 순위표, Heart·Shadow·Chase·Waste DV 프로필, 위치별 Decision Map과 투구 조건별 판단 세부값을 제공한다. 공식 이상치 클러스터는 포괄 Heart를 유지하고, Heart-only와 Meatball을 분리한 사양은 민감도 진단으로 병행한다. 중심거리 이상치는 각 군집 내부 거리 분포의 95백분위를 적용한다.
+`web/zone-awareness/`는 SA×ZA 산점도, 순위표, 다섯 구역의 가산 기여도와 위치별 판단 지도를 제공한다. 2022–2023은 개편 전 지표다. 학습·보정·60/20/20 날짜 평가 및 잔여 한계는 [모델 설명](analysis/zone_decision/README.md)에 기록한다. 반대 선택의 실제 결과와 개인별 최적 판단은 관측자료만으로 확정할 수 없다.
 
 ## Pitcher Zone Profile
 

@@ -30,7 +30,7 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
         build_plate_discipline(storage_root, season, decision_source)
         if pq.read_metadata(decision_source).num_rows >= 1_000:
             if season in (2024, 2025, 2026):
-                build_zone_decision(root, season)
+                build_zone_decision(root, season, storage_root=storage_root)
             else:
                 build_plate_decision_v1(storage_root, season, decision_source, web_root=root / "web")
     build_zone_profiles(root, season, excel_source=workbook)
