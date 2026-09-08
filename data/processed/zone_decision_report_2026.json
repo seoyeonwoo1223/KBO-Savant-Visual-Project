@@ -1,268 +1,265 @@
 {
   "schema_version": 5,
-  "model_version": "za5-state-transitions",
+  "model_version": "za6-selective-aggression",
   "season": 2026,
   "source": {
     "source": "pitches.parquet",
     "input_mode": "legacy",
     "curated_version": null,
     "sha256": {
-      "pitches.parquet": "ba7caf0fee9258b2b9f6ced444ff410ecde53d12004aee9d47f6560430ce3b3d",
-      "events.parquet": "82a9992158857c1aa57cea7bfb18f0720a769827dc751372a8f6e5376ca294d2",
+      "pitches.parquet": "31a13fa81c6b4c9db91bf8c7206f5fc9dd3a1b05bbd9a97a642c6ac55337378b",
+      "events.parquet": "1ef1896b3ca60da27c55e406cc22b2201fba22f57c6b5f4ab870c9862327b180",
       "batter_handedness.json": "adf2b3138a5529b230768c02ae969252a9c7da719ee565adb5988e175f4dd4c8",
       "2026_VB_Park_Adjustment_v1.0.xlsx": "8c147711fb502314c70720a343a3d5a1966e0bb4719100915c6d2459a7291639"
     },
     "quality": {
-      "halves": 10748,
-      "excluded_halves": 115,
-      "excluded_pitches": 2411,
-      "re_complete_halves": 10577,
-      "reason_counts": {
-        "unresolved_nonpitch_runs": 115,
-        "untimed_score_repair": 115
-      },
+      "halves": 10568,
+      "excluded_halves": 0,
+      "excluded_pitches": 0,
+      "re_complete_halves": 10469,
+      "reason_counts": {},
       "included_timed_nonpitch_runs": 0.0,
       "policy": "Unresolved scoring halves are excluded; incomplete innings do not train RE. No invented scoring timestamps."
     },
     "excluded": {
-      "invalid_state_location_action_or_identity": 179
+      "invalid_state_location_action_or_identity": 181
     },
     "movement": {
-      "movement_available": 183782,
-      "movement_adjusted": 183189,
-      "adjustment_coverage_pct": 99.6773,
+      "movement_available": 183044,
+      "movement_adjusted": 182423,
+      "adjustment_coverage_pct": 99.6607,
       "formula": "adjusted movement = Visual Baseball measurement + stadium/pitch offset"
     },
     "unknown_stance": 4,
-    "latest_game": "20260906SSLG0"
+    "latest_game": "20260904SSLG0"
   },
-  "pitches": 183782,
+  "pitches": 183044,
   "validation": {
     "selected": "staged",
     "settings": {
       "calibration": true,
       "support_prior": 50
     },
-    "development_start": "20260626",
-    "split_date": "20260801",
-    "train_pitches": 148988,
-    "test_pitches": 34794,
+    "development_start": "20260625",
+    "split_date": "20260730",
+    "train_pitches": 147838,
+    "test_pitches": 35206,
     "development": {
-      "pitches": 37124,
-      "swing_log_loss": 0.44674848598034766,
-      "swing_brier": 0.14711561491241723,
-      "raw_swing_log_loss": 0.4479047078738741,
-      "raw_swing_brier": 0.14713300679225888,
+      "pitches": 35901,
+      "swing_log_loss": 0.44760084626509206,
+      "swing_brier": 0.14728741953593694,
+      "raw_swing_log_loss": 0.44873812475823627,
+      "raw_swing_brier": 0.1473544184553499,
       "action_value": {
         "direct": {
-          "mse": 0.06666155864478432,
-          "swing_mse": 0.14469248207171856,
-          "take_mse": 0.0028375287735692757
+          "mse": 0.06738459230761633,
+          "swing_mse": 0.14631809911028854,
+          "take_mse": 0.0027622821030577516
         },
         "staged": {
-          "mse": 0.06549365248876964,
-          "swing_mse": 0.1436515011606442,
-          "take_mse": 0.0015658063320524668
+          "mse": 0.06638176056089803,
+          "swing_mse": 0.14564370977726976,
+          "take_mse": 0.0014905568483457045
         },
         "unsmoothed": {
-          "mse": 0.06534518708681043,
-          "swing_mse": 0.14332152273866416,
-          "take_mse": 0.0015658063320524668
+          "mse": 0.06618679588477512,
+          "swing_mse": 0.14521060372953204,
+          "take_mse": 0.0014905568483457045
         }
       },
       "event_probability": {
-        "swing_log_loss": 0.9882134200355962,
-        "take_log_loss": 0.04315880785246276
+        "swing_log_loss": 0.9880216612859489,
+        "take_log_loss": 0.042758516354537986
       },
       "calibration_bins": [
         {
           "low": 0.0,
-          "n": 7637,
-          "predicted": 0.03571655096659176,
-          "observed": 0.03875867487233207
+          "n": 6877,
+          "predicted": 0.030530434615939184,
+          "observed": 0.035625999709175515
         },
         {
           "low": 0.1,
-          "n": 3255,
-          "predicted": 0.15182273432784166,
-          "observed": 0.14285714285714285
+          "n": 3341,
+          "predicted": 0.14123957128703785,
+          "observed": 0.13109847351092488
         },
         {
           "low": 0.2,
-          "n": 3692,
-          "predicted": 0.25537124019788077,
-          "observed": 0.26327193932827736
+          "n": 4125,
+          "predicted": 0.25948639848302535,
+          "observed": 0.25381818181818183
         },
         {
           "low": 0.3,
-          "n": 3667,
-          "predicted": 0.3652523297340252,
-          "observed": 0.3727842923370603
+          "n": 2577,
+          "predicted": 0.3543732114439962,
+          "observed": 0.3698098564221963
         },
         {
           "low": 0.4,
-          "n": 3121,
-          "predicted": 0.4587066735331729,
-          "observed": 0.4617109900672861
+          "n": 3366,
+          "predicted": 0.4439089236072561,
+          "observed": 0.45781342840166367
         },
         {
           "low": 0.5,
-          "n": 2332,
-          "predicted": 0.5592231657310444,
-          "observed": 0.5596054888507719
+          "n": 3082,
+          "predicted": 0.5539793986953634,
+          "observed": 0.5496430889033095
         },
         {
           "low": 0.6,
-          "n": 3219,
-          "predicted": 0.645386032351454,
-          "observed": 0.6396396396396397
+          "n": 2449,
+          "predicted": 0.6501552534159427,
+          "observed": 0.6537362188648428
         },
         {
           "low": 0.7,
-          "n": 2313,
-          "predicted": 0.7357809385838823,
-          "observed": 0.737137916126243
+          "n": 3729,
+          "predicted": 0.7502889282116605,
+          "observed": 0.7527487262000536
         },
         {
           "low": 0.8,
-          "n": 3388,
-          "predicted": 0.8415752636943806,
-          "observed": 0.8409090909090909
+          "n": 1760,
+          "predicted": 0.8591270354603524,
+          "observed": 0.8630681818181818
         },
         {
           "low": 0.9,
-          "n": 4500,
-          "predicted": 0.9503937690777904,
-          "observed": 0.9431111111111111
+          "n": 4595,
+          "predicted": 0.9457685556012804,
+          "observed": 0.9392818280739935
         }
       ],
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 2.7755575615628914e-17,
-        "weighted_adjustment_rmse": 0.019332672182227284
+        "max_constraint_violation": 2.220446049250313e-16,
+        "weighted_adjustment_rmse": 0.019010891778249637
       },
       "calibration_applied": true
     },
     "final_test": {
-      "pitches": 34794,
-      "swing_log_loss": 0.4453455197937009,
-      "swing_brier": 0.14683434765101014,
-      "raw_swing_log_loss": 0.4469148652709784,
-      "raw_swing_brier": 0.14692696804166502,
+      "pitches": 35206,
+      "swing_log_loss": 0.4465827927163659,
+      "swing_brier": 0.1473407899623223,
+      "raw_swing_log_loss": 0.44797956807926176,
+      "raw_swing_brier": 0.1473537297955104,
       "action_value": {
         "direct": {
-          "mse": 0.06610932748287342,
-          "swing_mse": 0.14399095269950157,
-          "take_mse": 0.002840141792773823
+          "mse": 0.06728309910216863,
+          "swing_mse": 0.14620590242196244,
+          "take_mse": 0.0028335487750758997
         },
         "staged": {
-          "mse": 0.06516644463191465,
-          "swing_mse": 0.14363914442040665,
-          "take_mse": 0.0014170839744856675
+          "mse": 0.06614757621837328,
+          "swing_mse": 0.14535662328822127,
+          "take_mse": 0.0014642749321290116
         },
         "unsmoothed": {
-          "mse": 0.06491154220463528,
-          "swing_mse": 0.14307046815375124,
-          "take_mse": 0.0014170839744856675
+          "mse": 0.06593656214716237,
+          "swing_mse": 0.14488720831342966,
+          "take_mse": 0.0014642749321290116
         }
       },
       "event_probability": {
-        "swing_log_loss": 0.9926449040637941,
-        "take_log_loss": 0.04261439580873567
+        "swing_log_loss": 0.9933037714039559,
+        "take_log_loss": 0.04266915836065796
       },
       "calibration_bins": [
         {
           "low": 0.0,
-          "n": 6610,
-          "predicted": 0.0289100035955467,
-          "observed": 0.031164901664145234
+          "n": 7262,
+          "predicted": 0.03572761948400316,
+          "observed": 0.03662902781602864
         },
         {
           "low": 0.1,
-          "n": 3672,
-          "predicted": 0.14027678458417348,
-          "observed": 0.14678649237472766
+          "n": 2629,
+          "predicted": 0.14016735881485068,
+          "observed": 0.14758463294028148
         },
         {
           "low": 0.2,
-          "n": 2813,
-          "predicted": 0.2465317039726288,
-          "observed": 0.2580874511198009
+          "n": 3713,
+          "predicted": 0.2437139103352467,
+          "observed": 0.26528413681659035
         },
         {
           "low": 0.3,
-          "n": 3399,
-          "predicted": 0.34619825027018797,
-          "observed": 0.3453957046190056
+          "n": 2843,
+          "predicted": 0.35256123450102994,
+          "observed": 0.3323953570172353
         },
         {
           "low": 0.4,
-          "n": 3118,
-          "predicted": 0.4461437332093553,
-          "observed": 0.4397049390635022
+          "n": 3266,
+          "predicted": 0.4440633412249454,
+          "observed": 0.44764237599510104
         },
         {
           "low": 0.5,
-          "n": 3225,
-          "predicted": 0.5537541915818477,
-          "observed": 0.5485271317829458
+          "n": 3162,
+          "predicted": 0.5415076106963659,
+          "observed": 0.5442757748260595
         },
         {
           "low": 0.6,
-          "n": 2263,
-          "predicted": 0.6537022870948457,
-          "observed": 0.6433937251436147
+          "n": 2544,
+          "predicted": 0.6542578728975826,
+          "observed": 0.6356132075471698
         },
         {
           "low": 0.7,
-          "n": 2982,
-          "predicted": 0.7460430289720901,
-          "observed": 0.7505030181086519
+          "n": 3408,
+          "predicted": 0.7505519265764334,
+          "observed": 0.7585093896713615
         },
         {
           "low": 0.8,
-          "n": 2580,
-          "predicted": 0.8537075416101505,
-          "observed": 0.8453488372093023
+          "n": 2200,
+          "predicted": 0.8581455248761788,
+          "observed": 0.8513636363636363
         },
         {
           "low": 0.9,
-          "n": 4132,
-          "predicted": 0.951816006544554,
-          "observed": 0.952565343659245
+          "n": 4179,
+          "predicted": 0.95057394673899,
+          "observed": 0.9533381191672649
         }
       ],
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.0194166791216197
+        "max_constraint_violation": 5.551115123125783e-17,
+        "weighted_adjustment_rmse": 0.019344721304237346
       },
       "calibration_applied": true
     },
-    "swing_log_loss": 0.4453455197937009,
-    "swing_brier": 0.14683434765101014,
+    "swing_log_loss": 0.4465827927163659,
+    "swing_brier": 0.1473407899623223,
     "action_value": {
       "direct": {
-        "mse": 0.06610932748287342,
-        "swing_mse": 0.14399095269950157,
-        "take_mse": 0.002840141792773823
+        "mse": 0.06728309910216863,
+        "swing_mse": 0.14620590242196244,
+        "take_mse": 0.0028335487750758997
       },
       "staged": {
-        "mse": 0.06516644463191465,
-        "swing_mse": 0.14363914442040665,
-        "take_mse": 0.0014170839744856675
+        "mse": 0.06614757621837328,
+        "swing_mse": 0.14535662328822127,
+        "take_mse": 0.0014642749321290116
       },
       "unsmoothed": {
-        "mse": 0.06491154220463528,
-        "swing_mse": 0.14307046815375124,
-        "take_mse": 0.0014170839744856675
+        "mse": 0.06593656214716237,
+        "swing_mse": 0.14488720831342966,
+        "take_mse": 0.0014642749321290116
       }
     },
     "event_probability": {
-      "swing_log_loss": 0.9926449040637941,
-      "take_log_loss": 0.04261439580873567
+      "swing_log_loss": 0.9933037714039559,
+      "take_log_loss": 0.04266915836065796
     },
     "selection_rule": "60/20/20 dates: development diagnostics, then final evaluation with frozen algorithm. Each fit selects optional calibration using only training-game OOF probabilities. Final 20% never selects settings. Direct and unpooled RVs are diagnostic baselines.",
     "counterfactual_validation": "Observed-action errors and conditional intervals do not identify unobserved opposite-action outcomes."
@@ -273,8 +270,8 @@
         1,
         2
       ],
-      "batters_150_pitches_each": 103,
-      "pearson_r": 0.6118779910663291,
+      "batters_150_pitches_each": 107,
+      "pearson_r": 0.5490268638940482,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     },
     {
@@ -283,30 +280,30 @@
         3
       ],
       "batters_150_pitches_each": 100,
-      "pearson_r": 0.3407618521370287,
+      "pearson_r": 0.38666981830854,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     }
   ],
   "opposite_action_support": {
     "heart": {
-      "pitches": 43674,
-      "opposite_action_under_30": 43674
+      "pitches": 43470,
+      "opposite_action_under_30": 43470
     },
     "shadow_in": {
-      "pitches": 38906,
-      "opposite_action_under_30": 38906
+      "pitches": 38652,
+      "opposite_action_under_30": 38652
     },
     "shadow_out": {
-      "pitches": 35000,
-      "opposite_action_under_30": 35000
+      "pitches": 34916,
+      "opposite_action_under_30": 34916
     },
     "chase": {
-      "pitches": 43237,
-      "opposite_action_under_30": 43237
+      "pitches": 43032,
+      "opposite_action_under_30": 43032
     },
     "waste": {
-      "pitches": 22965,
-      "opposite_action_under_30": 22965
+      "pitches": 22974,
+      "opposite_action_under_30": 22974
     }
   },
   "support_definition": "Opposite-action counts: normalized 0.5 location cell x count x pitch type x stance x 10 km/h velocity x 10 cm HB/IVB bins. Diagnostic neighborhood, not proof of causal overlap.",
@@ -318,53 +315,52 @@
   "crossfit_blocks": [
     {
       "start": "20260328",
-      "end": "20260517",
-      "pitches": 64336,
+      "end": "20260516",
+      "pitches": 63962,
       "re": {
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.0160732452945815
+        "weighted_adjustment_rmse": 0.016232289391578072
       },
       "calibration_applied": true
     },
     {
-      "start": "20260519",
-      "end": "20260707",
-      "pitches": 61621,
+      "start": "20260517",
+      "end": "20260704",
+      "pitches": 61441,
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.019481554893871097
+        "max_constraint_violation": 4.440892098500626e-16,
+        "weighted_adjustment_rmse": 0.01967200376519063
       },
       "calibration_applied": true
     },
     {
-      "start": "20260708",
-      "end": "20260906",
-      "pitches": 57825,
+      "start": "20260705",
+      "end": "20260904",
+      "pitches": 57641,
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.017930321648223325
+        "max_constraint_violation": 2.220446049250313e-16,
+        "weighted_adjustment_rmse": 0.018495759568950235
       },
       "calibration_applied": true
     }
   ],
   "metric_contract": {
-    "za_raw": "100 * mean((S - p_swing) * (V_swing - V_take)); runs per 100 pitches",
-    "raw_dv": "sum((S - p_swing) * (V_swing - V_take)); cumulative runs",
-    "dv_per_100": "same as za_raw; retained for backward-compatible consumers",
-    "zone_judgment_raw": "100 * mean((S - p_swing) * (2*p_called_strike_if_take - 1)); percentage points",
+    "za_raw": "100 * (swing rate when V_swing > V_take - swing rate when V_swing < V_take); percentage points",
+    "raw_dv": "sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs",
+    "dv_per_100": "100 * raw_dv / eligible pitches; runs per 100 pitches",
     "swing_aggression": "100 * mean(S - p_swing); percentage points, tendency only",
     "za_percentile": "midrank percentile among season hitters with at least 300 eligible pitches",
-    "region_contributions": "100 * sum(D in region/action) / ALL eligible player pitches; additive"
+    "region_contributions": "100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100"
   },
   "shrinkage": "Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.",
   "reproducibility": {
-    "python": "3.12.14",
+    "python": "3.12.10",
     "packages": {
       "numpy": "2.5.3",
       "pandas": "2.3.3",
@@ -374,10 +370,10 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "5220f4ba54c29b70cd906e1e4efcaac8e855c452926f38d6b70d09767be4f477",
-      "plate_decision_v1.py": "19391aedef955ead09511be35f0b432bcc201d890c03cf4a7ccdf41cab1eba3d",
-      "swing_take.py": "3da8c454e757e898aa8be667b27eaa20f0efb3a7af417504f56c88f66695dfbb",
-      "pitch_arsenal.py": "14976c1ce39275fd817e98f47254c66314bcb94a9809815d946f00052581e00c"
+      "zone_decision.py": "0c879604a955bbb4a4747c0d8f206cdfab6d3f0c96756d6d35e64c19de84bb57",
+      "plate_decision_v1.py": "f0a96153454701947a0bbd30408bebc68c48bac62ca4479e1e7248290757cc9e",
+      "swing_take.py": "816ea4419d8662350e5633dde0def288f148a22ca65a1b47ddb572b731c0f507",
+      "pitch_arsenal.py": "c005adb894752a328924cda4bddec61ae3b6cefb47803a87f1d1eec74f1855dc"
     }
   },
   "limitations": [
@@ -387,5 +383,5 @@
     "표본 부족 구간은 상위 조건의 결과 분포로 완화합니다. 반대 선택의 정확성과 누락된 실행 능력·번트 의도의 영향까지 검증된 것은 아닙니다.",
     "95% 구간은 경기 단위 재표집이며 학습 모델을 고정합니다. 모델 추정 오차까지 포함하는 전체 신뢰구간이 아닙니다."
   ],
-  "batters": 285
+  "batters": 283
 }

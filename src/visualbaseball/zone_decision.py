@@ -1,4 +1,4 @@
-"""League-execution ZA: (actual swing - expected swing) * (swing RV - take RV).
+"""Zone Awareness selectivity and realized Swing/Take Decision Value.
 
 Chronological development and final holdouts evaluate event-decomposed values.
 Three date-block cross-fits score every pitch without its own game's outcomes.
@@ -29,22 +29,22 @@ from .za_inputs import INPUT_MODES, resolve_za_input
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
 NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
-MODEL_VERSION = 'za5-state-transitions'
+MODEL_VERSION = 'za6-selective-aggression'
+SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
+CROSSFIT_FOLDS = 3
 CONTRACT = {
- 'za_raw': '100 * mean((S - p_swing) * (V_swing - V_take)); runs per 100 pitches',
- 'raw_dv': 'sum((S - p_swing) * (V_swing - V_take)); cumulative runs',
- 'dv_per_100': 'same as za_raw; retained for backward-compatible consumers',
- 'zone_judgment_raw': '100 * mean((S - p_swing) * (2*p_called_strike_if_take - 1)); percentage points',
+ 'za_raw': '100 * (swing rate when V_swing > V_take - swing rate when V_swing < V_take); percentage points',
+ 'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
+ 'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
  'swing_aggression': '100 * mean(S - p_swing); percentage points, tendency only',
  'za_percentile': 'midrank percentile among season hitters with at least 300 eligible pitches',
- 'region_contributions': '100 * sum(D in region/action) / ALL eligible player pitches; additive',
+ 'region_contributions': '100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100',
 }
 LIMITATIONS = [
  '리그 평균 실행 능력을 기준으로 추정한 의사결정 가치이며 개인별 최적 판단의 정답이 아닙니다.',
  '관측하지 못한 반대 행동과 누락된 투구 특성에 따른 선택 편향이 남습니다. 실제 타구속도·발사각·해당 투구의 안타/홈런은 판단 점수의 입력이 아닙니다.',
  '시즌 표시값은 날짜 블록 교차적합으로 해당 경기 결과를 제외하지만 다른 블록의 미래 경기를 사용할 수 있습니다. 순수한 사전 예측 성능은 별도 시간 분리 평가에서 확인합니다.',
  '표본 부족 구간은 상위 조건의 결과 분포로 완화합니다. 반대 선택의 정확성과 누락된 실행 능력·번트 의도의 영향까지 검증된 것은 아닙니다.',
- '95% 구간은 경기 단위 재표집이며 학습 모델을 고정합니다. 모델 추정 오차까지 포함하는 전체 신뢰구간이 아닙니다.',
 ]
 
 
@@ -98,8 +98,15 @@ def reliable_halves(rows, events):
    'policy':'Unresolved scoring halves are excluded; incomplete innings do not train RE. No invented scoring timestamps.'}
 
 
-def decision_value(swing, probability, swing_value, take_value):
- return (np.asarray(swing) - np.asarray(probability)) * (np.asarray(swing_value) - np.asarray(take_value))
+def decision_value(swing, swing_value, take_value):
+ delta=np.asarray(swing_value)-np.asarray(take_value)
+ return np.where(np.asarray(swing),delta,-delta)
+
+
+def zone_awareness(items):
+ hittable=[r['swing'] for r in items if r['delta_v']>0]
+ avoidable=[r['swing'] for r in items if r['delta_v']<0]
+ return r6(100*((np.mean(hittable) if hittable else 0)-(np.mean(avoidable) if avoidable else 0))) if hittable or avoidable else None
 
 
 def region(row):
@@ -381,7 +388,7 @@ def temporal_evaluation(rows):
  development=evaluation_metrics(dev,predicted)
  # Same algorithm as season scoring. Optional probability calibration is gated
  # inside each training set, never with a scored/development/final-test outcome.
- settings={'calibration':True,'support_prior':50}
+ settings=dict(SCORE_SETTINGS)
  print('  Final untouched test',test_date,len(test),settings,flush=True)
  predicted=fit_predict(train+dev,test,**settings)
  final=evaluation_metrics(test,predicted)
@@ -396,20 +403,31 @@ def r6(x): return round(float(x),6)
 def mean(items,key,scale=1): return r6(scale*np.mean([r[key] for r in items])) if items else None
 
 
+def score_crossfit(rows, selected, settings=SCORE_SETTINGS):
+ """Score every pitch with a model that excludes its date block."""
+ dates=np.array(sorted({r['game_id'][:8] for r in rows})); result=[]; fold_meta=[]
+ for fold,block in enumerate(np.array_split(dates,CROSSFIT_FOLDS)):
+  held=set(block); train=[r for r in rows if r['game_id'][:8] not in held]; test=[r for r in rows if r['game_id'][:8] in held]
+  print('  Scoring block',fold+1,len(test),flush=True)
+  pred=fit_predict(train,test,**settings)
+  action=np.array([r['decision_type']=='Swing' for r in test],dtype=int)
+  values=pred[selected]; dv=decision_value(action,values[:,1],values[:,0])
+  for i,r in enumerate(test):
+   pzone=pred['probs'][i,4]
+   r.update({'swing':int(action[i]),'p_swing':float(pred['p'][i]),'raw_p_swing':float(pred['raw_p'][i]),'p_zone':float(pzone),'judgment':float((action[i]-pred['p'][i])*(2*pzone-1)),'v_swing':float(values[i,1]),'v_take':float(values[i,0]),'delta_v':float(values[i,1]-values[i,0]),'dv':float(dv[i]),'opposite_support':int(pred['detailed_support'][i,1-action[i]]),'coarse_opposite_support':int(pred['support'][i,1-action[i]]),'fold':fold})
+   for j,e in enumerate(EVENTS): r[f'p_{e}']=float(pred['probs'][i,j])
+  result.extend(test); fold_meta.append({'start':str(block[0]),'end':str(block[-1]),'pitches':len(test),'re':pred['re_diagnostics'],'calibration_applied':pred['calibration_applied']})
+ return result,fold_meta
+
+
 def profile_summary(items):
  n=len(items); first=items[0]
  total=sum(r['dv'] for r in items)
- s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':r6(100*total/n),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'zone_judgment_raw':mean(items,'judgment',100),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
+ s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
  s['low_opposite_support_pct']=r6(100*s['low_opposite_support_pitches']/n)
- s['za_ci_low']=s['za_ci_high']=None
  games=defaultdict(list)
  for r in items:games[r['game_id']].append(r['dv'])
  s['games_seen']=len(games)
- if n>=300 and len(games)>1:
-  sums=np.array([sum(v) for v in games.values()]);counts=np.array([len(v) for v in games.values()])
-  sampled=np.random.default_rng(old.RANDOM_STATE).integers(0,len(games),(1000,len(games)))
-  estimates=100*sums[sampled].sum(axis=1)/counts[sampled].sum(axis=1)
-  s['za_ci_low'],s['za_ci_high']=map(r6,np.quantile(estimates,[.025,.975]))
  for action in ('swing','take'):
   selected=[r for r in items if r['swing']==(action=='swing')]
   s[action+'_pitches']=len(selected)
@@ -425,7 +443,7 @@ def profile_summary(items):
 
 
 def cell_summary(items):
- return {'n':len(items),'low_opposite_support_pct':r6(100*np.mean([r['opposite_support']<30 for r in items])),'raw_dv':r6(sum(r['dv'] for r in items)),'dv100':mean(items,'dv',100),'za_raw':mean(items,'dv',100),'delta':mean(items,'delta_v'),'swing_pct':mean(items,'swing',100),'expected_swing_pct':mean(items,'p_swing',100),'p_zone_pct':mean(items,'p_zone',100),'zone_judgment_pct':r6(100*np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])),'expected_zone_judgment_pct':r6(100*np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])),'expected_swing_rv':mean(items,'v_swing'),'expected_take_rv':mean(items,'v_take'),**{f'p_{e}':mean(items,f'p_{e}',100) for e in EVENTS}}
+ return {'n':len(items),'low_opposite_support_pct':r6(100*np.mean([r['opposite_support']<30 for r in items])),'raw_dv':r6(sum(r['dv'] for r in items)),'dv100':mean(items,'dv',100),'za_raw':zone_awareness(items),'delta':mean(items,'delta_v'),'swing_pct':mean(items,'swing',100),'expected_swing_pct':mean(items,'p_swing',100),'p_zone_pct':mean(items,'p_zone',100),'zone_judgment_pct':r6(100*np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])),'expected_zone_judgment_pct':r6(100*np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])),'expected_swing_rv':mean(items,'v_swing'),'expected_take_rv':mean(items,'v_take'),**{f'p_{e}':mean(items,f'p_{e}',100) for e in EVENTS}}
 
 
 def write_web(root,season,pitches,report,output_root=None):
@@ -434,8 +452,8 @@ def write_web(root,season,pitches,report,output_root=None):
  by_batter=defaultdict(list)
  for r in pitches: by_batter[str(r['batter_id'])].append(r)
  players=[profile_summary(items) for items in by_batter.values()]
- scores=np.array([p['za_raw'] for p in players if p['qualified_300']])
- for p in players: p['za_percentile']=r6(100*(np.sum(scores<p['za_raw'])+.5*np.sum(scores==p['za_raw']))/len(scores)) if len(scores) else None
+ scores=np.array([p['za_raw'] for p in players if p['qualified_300'] and p['za_raw'] is not None])
+ for p in players: p['za_percentile']=r6(100*(np.sum(scores<p['za_raw'])+.5*np.sum(scores==p['za_raw']))/len(scores)) if len(scores) and p['za_raw'] is not None else None
  def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
  dump(dest/'leaderboard.json',{'schema_version':5,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'settings':report['validation']['settings']})
  dump(dest/'teams.json',{'season':season,'teams':{p['batter_id']:p['team'] for p in players}})
@@ -464,21 +482,9 @@ def build_zone_decision(root,season=2026,storage_root=None,input_mode=None,curat
               if source['input_mode']=='curated' else root)
  validation=temporal_evaluation(rows)
  selected=validation['selected'];print('  Selected:',selected,flush=True)
- dates=np.array(sorted({r['game_id'][:8] for r in rows})); result=[]; fold_meta=[]
- for fold,block in enumerate(np.array_split(dates,3)):
-  held=set(block);train=[r for r in rows if r['game_id'][:8] not in held];test=[r for r in rows if r['game_id'][:8] in held]
-  print('  Scoring block',fold+1,len(test),flush=True)
-  # Fix score-model settings before seeing any season outcomes. The separate
-  # development gate is for prospective evaluation, never a feedback path from
-  # a scored game's outcome into that game's hyperparameters.
-  pred=fit_predict(train,test,calibration=True,support_prior=50)
-  action=np.array([r['decision_type']=='Swing' for r in test],dtype=int)
-  values=pred[selected]; dv=decision_value(action,pred['p'],values[:,1],values[:,0])
-  for i,r in enumerate(test):
-   pzone=pred['probs'][i,4]
-   r.update({'swing':int(action[i]),'p_swing':float(pred['p'][i]),'raw_p_swing':float(pred['raw_p'][i]),'p_zone':float(pzone),'judgment':float((action[i]-pred['p'][i])*(2*pzone-1)),'v_swing':float(values[i,1]),'v_take':float(values[i,0]),'delta_v':float(values[i,1]-values[i,0]),'dv':float(dv[i]),'opposite_support':int(pred['detailed_support'][i,1-action[i]]),'coarse_opposite_support':int(pred['support'][i,1-action[i]]),'fold':fold})
-   for j,e in enumerate(EVENTS): r[f'p_{e}']=float(pred['probs'][i,j])
-  result.extend(test);fold_meta.append({'start':str(block[0]),'end':str(block[-1]),'pitches':len(test),'re':pred['re_diagnostics'],'calibration_applied':pred['calibration_applied']})
+ # Metric changes stay local to zone_awareness(), decision_value(), and
+ # profile_summary(); this function only orchestrates model output.
+ result,fold_meta=score_crossfit(rows,selected,SCORE_SETTINGS)
  # One report: observed fit, period reproducibility and opposite-action support.
  periods=defaultdict(lambda:defaultdict(list))
  for r in result: periods[r['fold']][str(r['batter_id'])].append(r['dv'])
@@ -491,7 +497,7 @@ def build_zone_decision(root,season=2026,storage_root=None,input_mode=None,curat
  support={reg:{'pitches':sum(r['region']==reg for r in result),'opposite_action_under_30':sum(r['region']==reg and r['opposite_support']<30 for r in result)} for reg in REGIONS}
  report={'schema_version':5,'model_version':MODEL_VERSION,'season':season,'source':source,'pitches':len(result),'validation':validation,'period_reproducibility':stability,'opposite_action_support':support,
   'support_definition':'Opposite-action counts: normalized 0.5 location cell x count x pitch type x stance x 10 km/h velocity x 10 cm HB/IVB bins. Diagnostic neighborhood, not proof of causal overlap.',
-  'score_settings':{'calibration':True,'support_prior':50,'policy':'Fixed before outcome inspection; game-block exclusions apply to calibration, RE, models and priors.'},
+  'score_settings':{**SCORE_SETTINGS,'policy':'Fixed before outcome inspection; game-block exclusions apply to calibration, RE, models and priors.'},
   'crossfit_blocks':fold_meta,'metric_contract':CONTRACT,'shrinkage':'Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.',
   'reproducibility':{'python':platform.python_version(),'packages':{p:version(p) for p in ('numpy','pandas','pyarrow','scikit-learn','scipy','openpyxl')},'source_sha256':{p.name:file_hash(p) for p in (Path(__file__),Path(old.__file__),Path(__file__).with_name('swing_take.py'),Path(__file__).with_name('pitch_arsenal.py'))}},
   'limitations':LIMITATIONS}

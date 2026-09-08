@@ -1,6 +1,10 @@
-# ZA v5 · league-relative decision value · 2024–2026
+# ZA v6 · selective aggression and decision value · 2024–2026
 
-`D = (S - p_swing) * (V_swing - V_take)`. ZA = `100 * sum(D) / N`; cumulative value = `sum(D)`. No player-rank targets, action-allocation targets or SA decorrelation.
+ZA is `100 * (Swing% when V_swing > V_take - Swing% when V_swing < V_take)`. Decision Value is `V_swing - V_take` for a swing and the sign-reversed value for a take; DV is its cumulative sum and DV/100 is `100 * DV / N`. SA remains `100 * mean(S - p_swing)`.
+
+## Model change map
+
+Keep metric edits to `zone_awareness()`, `decision_value()`, and `profile_summary()` in `src/visualbaseball/zone_decision.py`. `SCORE_SETTINGS` and `score_crossfit()` own fixed model settings and out-of-block scoring; `write_web()` only serializes the five displayed metrics. Rebuild a changed season with `python -m visualbaseball.zone_decision --seasons YEAR` after its season Excel is current.
 
 ## Inputs and scoring states
 

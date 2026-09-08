@@ -31,7 +31,10 @@ def test_sample_game_and_idempotency(tmp_path):
     assert not any("spin" in key.lower() for row in rows for key in row)
     game_stadium = pq.read_table(tmp_path / "data/processed/games.parquet").to_pylist()[0]["stadium"]
     assert {row["stadium"] for row in rows} == {game_stadium}
-    assert {row["stadium"] for row in pq.read_table(tmp_path / "data/processed/events.parquet").to_pylist()} == {game_stadium}
+    events = pq.read_table(tmp_path / "data/processed/events.parquet").to_pylist()
+    assert {row["stadium"] for row in events} == {game_stadium}
+    assert not any(row["event_code"] == "OFFICIAL_LINESCORE_RECONCILIATION" for row in events)
+    assert sum(row["runs_on_pitch"] for row in rows) == 13
 
 
 def test_y0_catcher_and_naver_wp_pb_fields_are_retained():
@@ -111,6 +114,7 @@ def test_official_linescore_overrides_conflicting_pbp_snapshot():
     assert (events[-1]["away_score_after"], events[-1]["home_score_after"]) == (9, 2)
     conflicts = [event for event in events if event["event_code"] == "SOURCE_SCORE_CONFLICT"]
     assert conflicts and all(event["parse_status"] == "unknown" for event in conflicts)
+    assert not any(event["event_code"] == "OFFICIAL_LINESCORE_RECONCILIATION" for event in events)
 
 
 def test_season_export_uses_separate_storage_and_output_name(tmp_path):

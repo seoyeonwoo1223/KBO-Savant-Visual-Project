@@ -1,6 +1,6 @@
 {
   "schema_version": 5,
-  "model_version": "za5-state-transitions",
+  "model_version": "za6-selective-aggression",
   "season": 2024,
   "source": {
     "source": "visualbaseball_savant_2024_latest.xlsx",
@@ -52,18 +52,18 @@
       "action_value": {
         "direct": {
           "mse": 0.07105118983948318,
-          "swing_mse": 0.15116182039203674,
+          "swing_mse": 0.15116182039203677,
           "take_mse": 0.0036250450194277987
         },
         "staged": {
           "mse": 0.07013630365055913,
           "swing_mse": 0.15116962930184324,
-          "take_mse": 0.0019335606072386341
+          "take_mse": 0.0019335606072386343
         },
         "unsmoothed": {
           "mse": 0.0698095376700176,
           "swing_mse": 0.15045462477060056,
-          "take_mse": 0.0019335606072386341
+          "take_mse": 0.0019335606072386343
         }
       },
       "event_probability": {
@@ -270,7 +270,7 @@
         2
       ],
       "batters_150_pitches_each": 109,
-      "pearson_r": 0.7144223989241023,
+      "pearson_r": 0.5175961654449364,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     },
     {
@@ -279,7 +279,7 @@
         3
       ],
       "batters_150_pitches_each": 112,
-      "pearson_r": 0.5091727649136821,
+      "pearson_r": 0.35977961730597424,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     }
   ],
@@ -319,7 +319,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 2.220446049250313e-16,
         "weighted_adjustment_rmse": 0.023854701713873567
       },
       "calibration_applied": false
@@ -331,7 +331,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 1.1102230246251565e-16,
         "weighted_adjustment_rmse": 0.01954852154430024
       },
       "calibration_applied": true
@@ -343,20 +343,19 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 1.1102230246251565e-16,
+        "max_constraint_violation": 0.0,
         "weighted_adjustment_rmse": 0.01668427139378753
       },
       "calibration_applied": true
     }
   ],
   "metric_contract": {
-    "za_raw": "100 * mean((S - p_swing) * (V_swing - V_take)); runs per 100 pitches",
-    "raw_dv": "sum((S - p_swing) * (V_swing - V_take)); cumulative runs",
-    "dv_per_100": "same as za_raw; retained for backward-compatible consumers",
-    "zone_judgment_raw": "100 * mean((S - p_swing) * (2*p_called_strike_if_take - 1)); percentage points",
+    "za_raw": "100 * (swing rate when V_swing > V_take - swing rate when V_swing < V_take); percentage points",
+    "raw_dv": "sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs",
+    "dv_per_100": "100 * raw_dv / eligible pitches; runs per 100 pitches",
     "swing_aggression": "100 * mean(S - p_swing); percentage points, tendency only",
     "za_percentile": "midrank percentile among season hitters with at least 300 eligible pitches",
-    "region_contributions": "100 * sum(D in region/action) / ALL eligible player pitches; additive"
+    "region_contributions": "100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100"
   },
   "shrinkage": "Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.",
   "reproducibility": {
@@ -370,7 +369,7 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "c40044631dd46c063bfdf3ed9f2a4c3fa0285c40d934ce6a77dcc0ebfbdcf263",
+      "zone_decision.py": "0c879604a955bbb4a4747c0d8f206cdfab6d3f0c96756d6d35e64c19de84bb57",
       "plate_decision_v1.py": "f0a96153454701947a0bbd30408bebc68c48bac62ca4479e1e7248290757cc9e",
       "swing_take.py": "816ea4419d8662350e5633dde0def288f148a22ca65a1b47ddb572b731c0f507",
       "pitch_arsenal.py": "c005adb894752a328924cda4bddec61ae3b6cefb47803a87f1d1eec74f1855dc"

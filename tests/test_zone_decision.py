@@ -1,15 +1,22 @@
 import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
-from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, EVENTS
+from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, EVENTS
 
 
-def test_expected_policy_is_neutral_and_take_can_beat_called_strike():
- # Same offered pitch: averaging the two decisions using league p gives zero.
- p=np.array([.2,.7,.95]);vs=np.array([-.2,.1,.01]);vt=np.array([-.1,-.1,.009])
- swing=decision_value(1,p,vs,vt);take=decision_value(0,p,vs,vt)
- np.testing.assert_allclose(p*swing+(1-p)*take,0,atol=1e-15)
+def test_decision_value_credits_the_actual_choice():
+ vs=np.array([-.2,.1,.01]);vt=np.array([-.1,-.1,.009])
+ swing=decision_value(1,vs,vt);take=decision_value(0,vs,vt)
+ np.testing.assert_allclose(swing,vs-vt)
+ np.testing.assert_allclose(take,vt-vs)
  assert take[0]>0 and swing[0]<0
- assert abs(take[2])<abs(take[1])
+
+
+def test_zone_awareness_rewards_hittable_swings_and_avoidable_takes():
+ items=[{'swing':1,'delta_v':.4},{'swing':1,'delta_v':.2},{'swing':0,'delta_v':.1},
+        {'swing':0,'delta_v':-.3},{'swing':0,'delta_v':-.2},{'swing':1,'delta_v':-.1}]
+ assert zone_awareness(items)==33.333333
+ assert zone_awareness([{'swing':1,'delta_v':.2}])==100
+ assert zone_awareness([{'swing':1,'delta_v':-.2}])==-100
 
 
 def test_five_regions_and_hbp_not_future_pa_result():
@@ -21,12 +28,12 @@ def test_five_regions_and_hbp_not_future_pa_result():
 def test_additive_contributions_use_all_pitches():
  rows=[]
  for i,reg in enumerate(REGIONS):
-  rows.append({'season':2026,'batter_id':'1','batter_name':'Test','game_id':'20260601OBLG0','inning_half':'top','region':reg,'dv':(i-2)/10,'swing':i%2,'p_swing':.4,'judgment':.1,'opposite_support':25})
+  rows.append({'season':2026,'batter_id':'1','batter_name':'Test','game_id':'20260601OBLG0','inning_half':'top','region':reg,'dv':(i-2)/10,'delta_v':(i-2)/10 or .1,'swing':i%2,'p_swing':.4,'judgment':.1,'opposite_support':25})
  s=profile_summary(rows)
- assert abs(sum(s[r+'_decision_value_per_100'] for r in REGIONS)-s['za_raw'])<1e-5
+ assert abs(sum(s[r+'_decision_value_per_100'] for r in REGIONS)-s['dv_per_100'])<1e-5
  for reg in REGIONS:
   assert abs(s[reg+'_swing_decision_value_per_100']+s[reg+'_take_decision_value_per_100']-s[reg+'_decision_value_per_100'])<1e-5
- assert abs(s['swing_decision_value_per_100']+s['take_decision_value_per_100']-s['za_raw'])<1e-5
+ assert abs(s['swing_decision_value_per_100']+s['take_decision_value_per_100']-s['dv_per_100'])<1e-5
 
 
 def test_target_events_are_not_model_features():

@@ -93,9 +93,9 @@ manifest와 SHA-256 검증에 실패할 때 legacy로 fallback하지 않고 작�
 
 회귀식과 클러스터 중심값·표본 기준·정의는 `data/processed/plate_discipline_research.json`에 기록한다. 클러스터 번호는 우열 등급이 아니며, 타구속도·발사각이 없는 현재 원자료로는 PLV처럼 타자별로 좋은 타구가 될 확률까지 분리하지 않는다. 기존 Decision Run은 실제 선택의 결과가 포함된 진단값이므로 counterfactual Decision Value로 부르지 않는다.
 
-## Zone Awareness v5 · 2024–2026
+## Zone Awareness v6 · 2024–2026
 
-`src/visualbaseball/zone_decision.py`는 경기 결과를 제외한 날짜 블록 교차적합으로 `(실제 스윙 − 기대 스윙률) × (Swing RV − Take RV)`를 계산한다. ZA는 전체 100구당 가치, 누적 가치는 환산 전 합계다. 득점 시점을 확인할 수 없는 공격 이닝은 제외하고, 일반 볼·스트라이크·파울은 제약된 공통 RE 표의 규칙 전이로 계산한다. 반대 선택 표본 부족과 경기 재표집 구간을 함께 표시한다.
+`src/visualbaseball/zone_decision.py`는 날짜 블록 교차적합으로 Swing RV와 Take RV를 추정한다. ZA는 `V_swing > V_take`일 때의 스윙률에서 `V_swing < V_take`일 때의 스윙률을 뺀 비누적 선택성 지표다. DV는 실제 선택의 투구별 가치 합계이며, DV/100은 100구 환산값이다. 득점 시점이 원천 기록으로 확정되지 않는 공격 이닝만 제외한다.
 
 `web/zone-awareness/`는 SA×ZA 산점도, 순위표, 다섯 구역의 가산 기여도와 위치별 판단 지도를 제공한다. 2022–2023은 개편 전 지표다. 학습·보정·60/20/20 날짜 평가 및 잔여 한계는 [모델 설명](analysis/zone_decision/README.md)에 기록한다. 반대 선택의 실제 결과와 개인별 최적 판단은 관측자료만으로 확정할 수 없다.
 
