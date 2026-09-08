@@ -79,6 +79,10 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 ## Swing/Take 프로필 기준
 
+Zone Awareness curated 입력 전환은 [8단계 운영 runbook](docs/za-curated-rollout.md)을
+따릅니다. 승인 전 CI·production 기본값은 `legacy`이며, `curated`를 명시하면 versioned
+manifest와 SHA-256 검증에 실패할 때 legacy로 fallback하지 않고 작업을 중단합니다.
+
 프로필은 2026 KBO 정규시즌의 검증된 투구만 사용한다. 스윙은 헛스윙·파울·인플레이, 테이크는 콜드볼·콜드스트라이크와 타석 종료 사구로 분류한다. 최소 표시 기준은 **300 pitches seen**이며, 이 수치는 FanGraphs의 Swing/Take 분석에서 사용된 하한을 따른다. 300구 미만은 수치를 숨기지 않고 표본 미달로 표시한다.
 
 검색 화면에서는 2022~2026 연도를 선택할 수 있다. 각 연도 Run Value와 리그 평균은 해당 시즌 Excel만으로 별도 계산하므로 서로 섞이지 않는다.

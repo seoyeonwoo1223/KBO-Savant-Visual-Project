@@ -17,6 +17,7 @@ from . import plate_decision_v1 as old
 from .pitch_arsenal import _load_batter_hands, _resolved_batter_stance
 from .swing_take import _excel_rows, _eligible, _relative_location, _action, _state
 from .zone_awareness_v2 import _team_history
+from .za_inputs import INPUT_MODES, resolve_za_input
 
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
@@ -54,15 +55,18 @@ def outcome(row):
  return {'S':'Whiff', 'F':'Foul', 'X':'InPlay', 'B':'Ball', 'T':'CalledStrike'}.get(code)
 
 
-def load_rows(root, season):
- cache = root / '.cache' / f'za_source_{season}.parquet'
- source = root / 'data/processed/pitches.parquet'
- if season == 2026:
+def load_rows(root, season, input_mode=None, curated_version=None):
+ selected_input = resolve_za_input(root, season, input_mode, curated_version)
+ cache_root = (root/'.cache' if selected_input.mode == 'legacy' else
+               root/'data/curated/zone_awareness'/selected_input.version/'.cache')
+ cache = cache_root / f'za_source_{season}.parquet'
+ source = selected_input.path
+ if source.suffix == '.parquet':
   rows = pq.read_table(source).to_pylist()
- elif cache.exists() and cache.stat().st_mtime >= (root/'exports'/f'visualbaseball_savant_{season}_latest.xlsx').stat().st_mtime:
+ elif cache.exists() and cache.stat().st_mtime >= source.stat().st_mtime:
   rows = pq.read_table(cache).to_pylist()
  else:
-  rows = _excel_rows(root/'exports'/f'visualbaseball_savant_{season}_latest.xlsx', season)
+  rows = _excel_rows(source, season)
   cache.parent.mkdir(exist_ok=True)
   pq.write_table(pa.Table.from_pylist(rows), cache)
  # Include all recorded pitches in inning run totals, including nondecision rows.
@@ -91,7 +95,7 @@ def load_rows(root, season):
  keep = set(NUMERIC + old.CATEGORICAL + ('game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','runs_on_pitch'))
  keep.update(f'{k}_{w}' for k in ('base_state_code','outs','balls','strikes') for w in ('before','after'))
  valid = [{k:v for k,v in r.items() if k in keep} for r in valid]
- return sorted(valid, key=lambda r:r['game_id']), {'source':str(source.relative_to(root)) if season==2026 else f'exports/visualbaseball_savant_{season}_latest.xlsx', 'excluded':dict(excluded), 'movement':movement, 'unknown_stance':sum(not r['batter_stance'] for r in valid)}
+ return sorted(valid, key=lambda r:r['game_id']), {'source':str(source.relative_to(root)), 'input_mode':selected_input.mode, 'curated_version':selected_input.version, 'source_sha256':selected_input.sha256, 'excluded':dict(excluded), 'movement':movement, 'unknown_stance':sum(not r['batter_stance'] for r in valid)}
 
 
 class RunExpectancy:
@@ -208,8 +212,9 @@ def cell_summary(items):
  return {'n':len(items),'raw_dv':r6(sum(r['dv'] for r in items)),'dv100':mean(items,'dv',100),'za_raw':mean(items,'dv',100),'delta':mean(items,'delta_v'),'swing_pct':mean(items,'swing',100),'expected_swing_pct':mean(items,'p_swing',100),'p_zone_pct':mean(items,'p_zone',100),'zone_judgment_pct':r6(100*np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])),'expected_zone_judgment_pct':r6(100*np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])),'expected_swing_rv':mean(items,'v_swing'),'expected_take_rv':mean(items,'v_take'),**{f'p_{e}':mean(items,f'p_{e}',100) for e in EVENTS}}
 
 
-def write_web(root,season,pitches,report):
- dest=root/'web/data/zone_awareness'/str(season); dest.mkdir(parents=True,exist_ok=True)
+def write_web(root,season,pitches,report,output_root=None):
+ output_root = output_root or root
+ dest=output_root/'web/data/zone_awareness'/str(season); dest.mkdir(parents=True,exist_ok=True)
  by_batter=defaultdict(list)
  for r in pitches: by_batter[str(r['batter_id'])].append(r)
  players=[profile_summary(items) for items in by_batter.values()]
@@ -228,17 +233,21 @@ def write_web(root,season,pitches,report):
  pd=dest/'players';pd.mkdir(exist_ok=True)
  for path in pd.glob('*.json'): path.unlink()
  for shard,entries in shards.items(): dump(pd/f'{shard}.json',{'schema_version':4,'season':season,'players':entries})
- catalog=root/'web/data/zone_awareness/index.json'
+ catalog=output_root/'web/data/zone_awareness/index.json'
  previous=json.loads(catalog.read_text()) if catalog.exists() else {'seasons':[]}
  previous.update({'schema_version':4,'seasons':sorted(set(previous['seasons'])|{season},reverse=True)})
  previous['default_season']=max(previous['seasons']);dump(catalog,previous)
- old._write_csv(root/'exports'/f'zone_decision_players_{season}.csv',players)
+ old._write_csv(output_root/'exports'/f'zone_decision_players_{season}.csv',players)
  return players
 
 
-def build_zone_decision(root,season=2026):
+def build_zone_decision(root,season=2026,input_mode=None,curated_version=None):
  print('ZA season',season,flush=True)
- rows,source=load_rows(root,season)
+ rows,source=load_rows(root,season,input_mode,curated_version)
+ # Curated runs are staged beside their immutable input. They cannot overwrite
+ # production web, exports, or processed files before the Phase 7 promotion.
+ output_root = (root/'data/curated/zone_awareness'/source['curated_version']/'outputs'
+                if source['input_mode']=='curated' else root)
  validation=temporal_evaluation(rows)
  selected=validation['selected'];print('  Selected:',selected,flush=True)
  dates=np.array(sorted({r['game_id'][:8] for r in rows})); result=[]; fold_meta=[]
@@ -264,14 +273,16 @@ def build_zone_decision(root,season=2026):
   stability.append({'blocks':[a+1,b+1],'batters_150_pitches_each':len(ids),'pearson_r':corr,'interpretation':'descriptive repeatability; cross-fit training overlaps, not independent prospective validation'})
  support={reg:{'pitches':sum(r['region']==reg for r in result),'opposite_action_under_30':sum(r['region']==reg and r['opposite_support']<30 for r in result)} for reg in REGIONS}
  report={'schema_version':4,'season':season,'source':source,'pitches':len(result),'validation':validation,'period_reproducibility':stability,'opposite_action_support':support,'support_definition':'training pitches for opposite action in normalized 0.5 location cell x count; under 30 flagged, not removed or score-clipped','crossfit_blocks':fold_meta,'metric_contract':CONTRACT,'shrinkage':'RE state -> base/out -> outs; event RV state -> event/count -> event, 50 prior pitches; InPlay regression blends toward event/state prior with n/(n+50) local InPlay support','limitations':LIMITATIONS}
- players=write_web(root,season,result,report)
+ players=write_web(root,season,result,report,output_root)
  report['batters']=len(players)
- path=root/'data/processed'/f'zone_decision_report_{season}.json';path.parent.mkdir(parents=True,exist_ok=True)
+ path=output_root/'data/processed'/f'zone_decision_report_{season}.json';path.parent.mkdir(parents=True,exist_ok=True)
  path.write_text(json.dumps(report,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
  # Compact pitch evidence is reproducible; not committed as a large binary.
- pq.write_table(pa.Table.from_pylist([{k:v for k,v in r.items() if k not in ('adjusted_hb_cm','adjusted_ivb_cm')} for r in result]),root/'.cache'/f'zone_decision_pitches_{season}.parquet')
+ evidence_cache = (root/'.cache' if source['input_mode']=='legacy' else output_root/'.cache')
+ evidence_cache.mkdir(parents=True,exist_ok=True)
+ pq.write_table(pa.Table.from_pylist([{k:v for k,v in r.items() if k not in ('adjusted_hb_cm','adjusted_ivb_cm')} for r in result]),evidence_cache/f'zone_decision_pitches_{season}.parquet')
  return report
 
 if __name__=='__main__':
- parser=argparse.ArgumentParser();parser.add_argument('--root',default='.');parser.add_argument('--seasons',nargs='+',type=int,default=[2024,2025,2026]);args=parser.parse_args()
- for year in args.seasons: build_zone_decision(Path(args.root).resolve(),year)
+ parser=argparse.ArgumentParser();parser.add_argument('--root',default='.');parser.add_argument('--seasons',nargs='+',type=int,default=[2024,2025,2026]);parser.add_argument('--input-mode',choices=INPUT_MODES);parser.add_argument('--curated-version');args=parser.parse_args()
+ for year in args.seasons: build_zone_decision(Path(args.root).resolve(),year,args.input_mode,args.curated_version)
