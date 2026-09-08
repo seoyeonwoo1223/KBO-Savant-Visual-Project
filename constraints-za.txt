@@ -1,0 +1,7 @@
+# ZA v5 reference environment: Python 3.12.10. Rebuild reports record versions.
+numpy==2.5.3
+pandas==2.3.3
+pyarrow==19.0.1
+scikit-learn==1.9.0
+scipy==1.18.1
+openpyxl==3.1.5
