@@ -55,8 +55,8 @@ def outcome(row):
  return {'S':'Whiff', 'F':'Foul', 'X':'InPlay', 'B':'Ball', 'T':'CalledStrike'}.get(code)
 
 
-def load_rows(root, season, input_mode=None, curated_version=None):
- selected_input = resolve_za_input(root, season, input_mode, curated_version)
+def load_rows(root, season, input_mode=None, curated_version=None, storage_root=None):
+ selected_input = resolve_za_input(root, season, input_mode, curated_version, storage_root)
  cache_root = (root/'.cache' if selected_input.mode == 'legacy' else
                root/'data/curated/zone_awareness'/selected_input.version/'.cache')
  cache = cache_root / f'za_source_{season}.parquet'
@@ -241,9 +241,9 @@ def write_web(root,season,pitches,report,output_root=None):
  return players
 
 
-def build_zone_decision(root,season=2026,input_mode=None,curated_version=None):
+def build_zone_decision(root,season=2026,input_mode=None,curated_version=None,storage_root=None):
  print('ZA season',season,flush=True)
- rows,source=load_rows(root,season,input_mode,curated_version)
+ rows,source=load_rows(root,season,input_mode,curated_version,storage_root)
  # Curated runs are staged beside their immutable input. They cannot overwrite
  # production web, exports, or processed files before the Phase 7 promotion.
  output_root = (root/'data/curated/zone_awareness'/source['curated_version']/'outputs'

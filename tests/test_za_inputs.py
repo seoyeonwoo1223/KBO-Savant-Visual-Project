@@ -12,6 +12,12 @@ def test_legacy_is_the_default(tmp_path):
     assert selected.path == tmp_path / "data/processed/pitches.parquet"
 
 
+def test_legacy_2026_uses_separate_storage_root(tmp_path):
+    storage_root = tmp_path / "season"
+    selected = resolve_za_input(tmp_path, 2026, storage_root=storage_root)
+    assert selected.path == storage_root / "data/processed/pitches.parquet"
+
+
 def test_curated_requires_a_valid_manifest_and_checksum(tmp_path):
     version_root = tmp_path / "data/curated/zone_awareness/za-v1"
     version_root.mkdir(parents=True)

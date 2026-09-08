@@ -25,7 +25,9 @@ def _exports(root: Path, season: int, storage_root: Path, za_input_mode: str | N
              za_curated_version: str | None = None) -> None:
     # Resolve curated input before any export is written. A bad curated release
     # must fail the complete production job, not fail after partial publication.
-    selected_za_input = resolve_za_input(root, season, za_input_mode, za_curated_version)
+    selected_za_input = resolve_za_input(
+        root, season, za_input_mode, za_curated_version, storage_root
+    )
     workbook = export_latest(root, season, storage_root)
     build_swing_take(storage_root, season, excel_source=workbook)
     decision_source = storage_root / "data" / "processed" / (
@@ -36,7 +38,7 @@ def _exports(root: Path, season: int, storage_root: Path, za_input_mode: str | N
         if pq.read_metadata(decision_source).num_rows >= 1_000:
             if season in (2024, 2025, 2026):
                 build_zone_decision(
-                    root, season, selected_za_input.mode, selected_za_input.version
+                    root, season, selected_za_input.mode, selected_za_input.version, storage_root
                 )
             else:
                 build_plate_decision_v1(storage_root, season, decision_source, web_root=root / "web")

@@ -33,13 +33,13 @@ def _safe_version(value: str) -> str:
 
 
 def resolve_za_input(root: Path, season: int, mode: str | None = None,
-                     version: str | None = None) -> ZAInput:
+                     version: str | None = None, storage_root: Path | None = None) -> ZAInput:
     """Resolve a ZA input; curated selection is validated and fail-closed."""
     selected = (mode or os.environ.get("ZA_INPUT_MODE") or "legacy").lower()
     if selected not in INPUT_MODES:
         raise ValueError(f"ZA input mode must be one of {INPUT_MODES}, got {selected!r}")
     if selected == "legacy":
-        path = (root / "data/processed/pitches.parquet" if season == 2026 else
+        path = ((storage_root or root) / "data/processed/pitches.parquet" if season == 2026 else
                 root / "exports" / f"visualbaseball_savant_{season}_latest.xlsx")
         return ZAInput(selected, path, None, None)
 
