@@ -1,6 +1,6 @@
 {
   "schema_version": 5,
-  "model_version": "za6-selective-aggression",
+  "model_version": "za7-strikezone-judgment",
   "season": 2025,
   "source": {
     "source": "visualbaseball_savant_2025_latest.xlsx",
@@ -350,9 +350,10 @@
     }
   ],
   "metric_contract": {
-    "za_raw": "100 * (swing rate when V_swing > V_take - swing rate when V_swing < V_take); percentage points",
+    "za_raw": "100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points",
     "raw_dv": "sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs",
     "dv_per_100": "100 * raw_dv / eligible pitches; runs per 100 pitches",
+    "dv_plus": "100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation",
     "swing_aggression": "100 * mean(S - p_swing); percentage points, tendency only",
     "za_percentile": "midrank percentile among season hitters with at least 300 eligible pitches",
     "region_contributions": "100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100"
@@ -369,8 +370,8 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "0c879604a955bbb4a4747c0d8f206cdfab6d3f0c96756d6d35e64c19de84bb57",
-      "plate_decision_v1.py": "f0a96153454701947a0bbd30408bebc68c48bac62ca4479e1e7248290757cc9e",
+      "zone_decision.py": "703237812eda83094e9da6336e98b0208408165f6ea752f95d49518d70fb7c69",
+      "plate_decision_v1.py": "aa89dc11dc2326f3e134ebe5bc87a5a2f12ac4e92c3b89dae8110674ad1ccf2f",
       "swing_take.py": "816ea4419d8662350e5633dde0def288f148a22ca65a1b47ddb572b731c0f507",
       "pitch_arsenal.py": "c005adb894752a328924cda4bddec61ae3b6cefb47803a87f1d1eec74f1855dc"
     }
@@ -379,8 +380,7 @@
     "리그 평균 실행 능력을 기준으로 추정한 의사결정 가치이며 개인별 최적 판단의 정답이 아닙니다.",
     "관측하지 못한 반대 행동과 누락된 투구 특성에 따른 선택 편향이 남습니다. 실제 타구속도·발사각·해당 투구의 안타/홈런은 판단 점수의 입력이 아닙니다.",
     "시즌 표시값은 날짜 블록 교차적합으로 해당 경기 결과를 제외하지만 다른 블록의 미래 경기를 사용할 수 있습니다. 순수한 사전 예측 성능은 별도 시간 분리 평가에서 확인합니다.",
-    "표본 부족 구간은 상위 조건의 결과 분포로 완화합니다. 반대 선택의 정확성과 누락된 실행 능력·번트 의도의 영향까지 검증된 것은 아닙니다.",
-    "95% 구간은 경기 단위 재표집이며 학습 모델을 고정합니다. 모델 추정 오차까지 포함하는 전체 신뢰구간이 아닙니다."
+    "표본 부족 구간은 상위 조건의 결과 분포로 완화합니다. 반대 선택의 정확성과 누락된 실행 능력·번트 의도의 영향까지 검증된 것은 아닙니다."
   ],
   "batters": 299
 }

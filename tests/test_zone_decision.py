@@ -1,6 +1,6 @@
 import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
-from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, EVENTS
+from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_dv_plus, EVENTS
 
 
 def test_decision_value_credits_the_actual_choice():
@@ -11,12 +11,23 @@ def test_decision_value_credits_the_actual_choice():
  assert take[0]>0 and swing[0]<0
 
 
-def test_zone_awareness_rewards_hittable_swings_and_avoidable_takes():
- items=[{'swing':1,'delta_v':.4},{'swing':1,'delta_v':.2},{'swing':0,'delta_v':.1},
-        {'swing':0,'delta_v':-.3},{'swing':0,'delta_v':-.2},{'swing':1,'delta_v':-.1}]
- assert zone_awareness(items)==33.333333
- assert zone_awareness([{'swing':1,'delta_v':.2}])==100
- assert zone_awareness([{'swing':1,'delta_v':-.2}])==-100
+def test_zone_awareness_is_outcome_independent_and_value_version_is_retained():
+ items=[{'swing':1,'p_swing':.4,'p_zone':.8,'judgment':.36,'delta_v':.4,'raw_run_value':2},
+        {'swing':0,'p_swing':.3,'p_zone':.2,'judgment':.18,'delta_v':-.2,'raw_run_value':-1}]
+ assert zone_awareness(items)==27
+ changed=[{**r,'delta_v':-99*r['delta_v'],'raw_run_value':999} for r in items]
+ assert zone_awareness(changed)==zone_awareness(items)
+ assert value_based_zone_awareness(changed)!=value_based_zone_awareness(items)
+
+
+def test_sa_dv_stay_unchanged_and_dv_plus_is_standardized():
+ base={'season':2026,'batter_name':'Test','team':'T','game_id':'20260601A','region':'heart','opposite_support':50,'delta_v':.2,'p_zone':.7,'judgment':.1}
+ rows=[{**base,'batter_id':'1','swing':1,'p_swing':.4,'dv':.2},{**base,'batter_id':'1','swing':0,'p_swing':.4,'dv':-.1}]
+ summary=profile_summary(rows)
+ assert summary['swing_aggression']==10 and summary['raw_dv']==.1 and summary['dv_per_100']==5
+ players=[{'qualified_300':True,'dv_per_100':v} for v in (-2,0,4,8)]
+ add_dv_plus(players);values=np.array([p['dv_plus'] for p in players])
+ assert abs(values.mean()-100)<1e-6 and abs(values.std()-15)<1e-6
 
 
 def test_five_regions_and_hbp_not_future_pa_result():

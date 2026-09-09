@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="KBO 타자의 투구별 Swing·Take Decision Value와 Zone Awareness">
   <title>Zone Awareness | KBO Savant</title>
-  <link rel="stylesheet" href="zone-awareness.css?v=20260909-za6">
+  <link rel="stylesheet" href="zone-awareness.css?v=20260909-za7">
 </head>
 <body>
   <main>
@@ -23,14 +23,14 @@
       <article class="card leaderboard-card">
         <div class="card-head"><div><p class="eyebrow">QUALIFIED</p><h2>Zone Awareness 순위</h2></div><span id="qualified-count"></span></div>
         <label class="search"><span>선수 검색</span><input id="player-search" type="search" placeholder="이름 또는 팀"></label>
-        <div class="table-wrap"><table><thead><tr><th data-sort="rank">#</th><th data-sort="batter_name">선수</th><th data-sort="za_raw">ZA</th><th data-sort="za_percentile">ZA %ile</th><th data-sort="swing_aggression">SA</th><th data-sort="raw_dv">DV</th><th data-sort="dv_per_100">DV/100</th><th data-sort="pitches_seen">P</th></tr></thead><tbody id="leaderboard"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th data-sort="rank">#</th><th data-sort="batter_name">선수</th><th data-sort="za_raw">ZA</th><th data-sort="za_percentile">ZA %ile</th><th data-sort="swing_aggression">SA</th><th data-sort="raw_dv">DV</th><th data-sort="dv_per_100">DV/100</th><th data-sort="dv_plus">DV+</th><th data-sort="pitches_seen">P</th></tr></thead><tbody id="leaderboard"></tbody></table></div>
       </article>
     </section>
 
     <section class="player" id="player-section">
       <header class="player-head">
         <div><p class="eyebrow" id="player-meta"></p><h2 id="player-name">선수</h2></div>
-        <div class="score-row"><div><span>ZA</span><strong id="score-za">—</strong></div><div><span>ZA Percentile</span><strong id="score-percentile">—</strong></div><div><span>SA</span><strong id="score-sa">—</strong></div><div><span>DV</span><strong id="score-dv">—</strong></div><div><span>DV/100</span><strong id="score-dv100">—</strong></div></div>
+        <div class="score-row"><div><span>ZA</span><strong id="score-za">—</strong></div><div><span>ZA Percentile</span><strong id="score-percentile">—</strong></div><div><span>SA</span><strong id="score-sa">—</strong></div><div><span>DV</span><strong id="score-dv">—</strong></div><div><span>DV/100</span><strong id="score-dv100">—</strong></div><div><span>DV+</span><strong id="score-dvplus">—</strong></div></div>
       </header>
       <div class="tabs" role="tablist"><button class="active" data-tab="profile">Zone Profile</button><button data-tab="map">Decision Map</button><button data-tab="outcome">Pitch Detail</button></div>
 
@@ -62,8 +62,8 @@
       </div>
     </section>
 
-    <section class="method card"><p class="eyebrow">METHOD · 2024–2026</p><h2>읽는 법</h2><div><p><strong>ZA</strong>는 공격 가능한 공의 스윙률에서 피해야 할 공의 스윙률을 뺀 비율 지표입니다. <strong>DV</strong>는 실제 Swing·Take 선택의 기대득점 누적값이며, <strong>DV/100</strong>은 전체 100구당 환산값입니다. Percentile은 시즌 300구 이상 타자 내 ZA 상대 위치입니다.</p><p><strong>SA</strong>는 실제와 기대 스윙률의 차이로 성향만 나타냅니다. 공격 가능 여부는 Swing 기대가치가 Take 기대가치보다 높은지로 구분합니다.</p><p>타구속도·발사각과 해당 투구의 실제 안타·홈런을 직접 반영하지 않습니다. 반대 선택의 결과는 리그 평균 실행 능력으로 추정합니다.</p></div><p id="season-method"></p></section>
+    <section class="method card"><p class="eyebrow">METHOD · 2024–2026</p><h2>읽는 법</h2><div><p><strong>ZA</strong>는 기대 스윙 대비 실제 선택과 스트라이크 확률로 계산한 순수 존 판단 지표입니다. <strong>DV</strong>는 실제 Swing·Take 선택의 기대득점 누적값이며, <strong>DV/100</strong>은 전체 100구당 환산값, <strong>DV+</strong>는 300구 이상 타자 평균 100·표준편차 15의 리그 상대 지표입니다. Percentile은 시즌 300구 이상 타자 내 ZA 상대 위치입니다.</p><p><strong>SA</strong>는 실제와 기대 스윙률의 차이로 성향만 나타냅니다.</p><p>ZA에는 타격 결과와 득점 가치가 사용되지 않습니다. DV의 반대 선택 결과는 리그 평균 실행 능력으로 추정합니다.</p></div><p id="season-method"></p></section>
   </main>
-  <script src="zone-awareness.js?v=20260909-za6"></script>
+  <script src="zone-awareness.js?v=20260909-za7"></script>
 </body>
 </html>

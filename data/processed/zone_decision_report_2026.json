@@ -1,6 +1,6 @@
 {
   "schema_version": 5,
-  "model_version": "za6-selective-aggression",
+  "model_version": "za7-strikezone-judgment",
   "season": 2026,
   "source": {
     "source": "pitches.parquet",
@@ -58,11 +58,11 @@
         },
         "staged": {
           "mse": 0.06713016441177047,
-          "swing_mse": 0.14716998681831542,
+          "swing_mse": 0.14716998681831536,
           "take_mse": 0.0016509075642115545
         },
         "unsmoothed": {
-          "mse": 0.06699522205782313,
+          "mse": 0.06699522205782314,
           "swing_mse": 0.1468700950962008,
           "take_mse": 0.0016509075642115545
         }
@@ -136,7 +136,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 5.551115123125783e-17,
         "weighted_adjustment_rmse": 0.018938613368107645
       },
       "calibration_applied": true
@@ -151,17 +151,17 @@
         "direct": {
           "mse": 0.06662412387526034,
           "swing_mse": 0.14479105453659927,
-          "take_mse": 0.0029943478894672707
+          "take_mse": 0.002994347889467272
         },
         "staged": {
           "mse": 0.06560865592344392,
           "swing_mse": 0.14447073182375741,
-          "take_mse": 0.0014130148658191783
+          "take_mse": 0.0014130148658191785
         },
         "unsmoothed": {
           "mse": 0.06537064445547135,
           "swing_mse": 0.14394033168042994,
-          "take_mse": 0.0014130148658191783
+          "take_mse": 0.0014130148658191785
         }
       },
       "event_probability": {
@@ -244,17 +244,17 @@
       "direct": {
         "mse": 0.06662412387526034,
         "swing_mse": 0.14479105453659927,
-        "take_mse": 0.0029943478894672707
+        "take_mse": 0.002994347889467272
       },
       "staged": {
         "mse": 0.06560865592344392,
         "swing_mse": 0.14447073182375741,
-        "take_mse": 0.0014130148658191783
+        "take_mse": 0.0014130148658191785
       },
       "unsmoothed": {
         "mse": 0.06537064445547135,
         "swing_mse": 0.14394033168042994,
-        "take_mse": 0.0014130148658191783
+        "take_mse": 0.0014130148658191785
       }
     },
     "event_probability": {
@@ -280,7 +280,7 @@
         3
       ],
       "batters_150_pitches_each": 100,
-      "pearson_r": 0.3483008109919657,
+      "pearson_r": 0.34830081099196575,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     }
   ],
@@ -320,7 +320,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 5.551115123125783e-17,
         "weighted_adjustment_rmse": 0.015739352650097276
       },
       "calibration_applied": true
@@ -344,23 +344,24 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 5.551115123125783e-17,
+        "max_constraint_violation": 2.220446049250313e-16,
         "weighted_adjustment_rmse": 0.017956670682483494
       },
       "calibration_applied": true
     }
   ],
   "metric_contract": {
-    "za_raw": "100 * (swing rate when V_swing > V_take - swing rate when V_swing < V_take); percentage points",
+    "za_raw": "100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points",
     "raw_dv": "sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs",
     "dv_per_100": "100 * raw_dv / eligible pitches; runs per 100 pitches",
+    "dv_plus": "100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation",
     "swing_aggression": "100 * mean(S - p_swing); percentage points, tendency only",
     "za_percentile": "midrank percentile among season hitters with at least 300 eligible pitches",
     "region_contributions": "100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100"
   },
   "shrinkage": "Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.",
   "reproducibility": {
-    "python": "3.12.14",
+    "python": "3.12.10",
     "packages": {
       "numpy": "2.5.3",
       "pandas": "2.3.3",
@@ -370,10 +371,10 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "247eef5dcca661752bcbcb4a9f2267b788ab1580ece25c09b05cc65748d05a15",
-      "plate_decision_v1.py": "19391aedef955ead09511be35f0b432bcc201d890c03cf4a7ccdf41cab1eba3d",
-      "swing_take.py": "3da8c454e757e898aa8be667b27eaa20f0efb3a7af417504f56c88f66695dfbb",
-      "pitch_arsenal.py": "14976c1ce39275fd817e98f47254c66314bcb94a9809815d946f00052581e00c"
+      "zone_decision.py": "8158516bab186a4516fe06e9c7788876051777ca874d5653c8aaa7de69b726eb",
+      "plate_decision_v1.py": "078d9dd6a4fefba686aca0a999d3ac370671959399e2e9f7bb007628edac1090",
+      "swing_take.py": "816ea4419d8662350e5633dde0def288f148a22ca65a1b47ddb572b731c0f507",
+      "pitch_arsenal.py": "c005adb894752a328924cda4bddec61ae3b6cefb47803a87f1d1eec74f1855dc"
     }
   },
   "limitations": [
