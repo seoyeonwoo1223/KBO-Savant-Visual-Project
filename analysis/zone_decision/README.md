@@ -1,6 +1,6 @@
-# ZA v6 · selective aggression and decision value · 2024–2026
+# ZA v7 · strike-zone judgment and decision value · 2024–2026
 
-ZA is `100 * (Swing% when V_swing > V_take - Swing% when V_swing < V_take)`. Decision Value is `V_swing - V_take` for a swing and the sign-reversed value for a take; DV is its cumulative sum and DV/100 is `100 * DV / N`. SA remains `100 * mean(S - p_swing)`.
+ZA is `100 * mean((S - p_swing) * (2*p_zone - 1))`, where p_zone comes from the take-only CalledStrike vs Ball/HBP model reused from `plate_decision_v1`. Decision Value remains `V_swing - V_take` for a swing and the sign-reversed value for a take; DV is its cumulative sum and DV/100 is `100 * DV / N`. SA remains `100 * mean(S - p_swing)`. DV+ standardizes qualified DV/100 to mean 100 and population standard deviation 15.
 
 ## Model change map
 

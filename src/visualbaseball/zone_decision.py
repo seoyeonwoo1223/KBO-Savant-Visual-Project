@@ -1,4 +1,4 @@
-"""Zone Awareness selectivity and realized Swing/Take Decision Value.
+"""Strike-zone judgment and realized Swing/Take Decision Value.
 
 Chronological development and final holdouts evaluate event-decomposed values.
 Three date-block cross-fits score every pitch without its own game's outcomes.
@@ -29,13 +29,14 @@ from .za_inputs import INPUT_MODES, resolve_za_input
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
 NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
-MODEL_VERSION = 'za6-selective-aggression'
+MODEL_VERSION = 'za7-strikezone-judgment'
 SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 CONTRACT = {
- 'za_raw': '100 * (swing rate when V_swing > V_take - swing rate when V_swing < V_take); percentage points',
+ 'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
+ 'dv_plus': '100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
  'swing_aggression': '100 * mean(S - p_swing); percentage points, tendency only',
  'za_percentile': 'midrank percentile among season hitters with at least 300 eligible pitches',
  'region_contributions': '100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100',
@@ -103,10 +104,14 @@ def decision_value(swing, swing_value, take_value):
  return np.where(np.asarray(swing),delta,-delta)
 
 
-def zone_awareness(items):
+def value_based_zone_awareness(items):
  hittable=[r['swing'] for r in items if r['delta_v']>0]
  avoidable=[r['swing'] for r in items if r['delta_v']<0]
  return r6(100*((np.mean(hittable) if hittable else 0)-(np.mean(avoidable) if avoidable else 0))) if hittable or avoidable else None
+
+
+def zone_awareness(items):
+ return mean(items,'judgment',100)
 
 
 def region(row):
@@ -171,7 +176,7 @@ def load_rows(root, season, storage_root=None, input_mode=None, curated_version=
   valid.append(r)
  movement = old._movement_adjust(valid, root, season)
  # Retain pre-pitch features, transitions, identity and training target only.
- keep = set(NUMERIC + old.CATEGORICAL + ('game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
+ keep = set(NUMERIC + old.PZONE_NUMERIC + old.CATEGORICAL + ('game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
  keep.update(f'{k}_{w}' for k in ('base_state_code','outs','balls','strikes') for w in ('before','after'))
  valid = [{k:v for k,v in r.items() if k in keep} for r in valid]
  for p in (root/'data/batter_handedness.json',root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'):
@@ -410,11 +415,11 @@ def score_crossfit(rows, selected, settings=SCORE_SETTINGS):
   held=set(block); train=[r for r in rows if r['game_id'][:8] not in held]; test=[r for r in rows if r['game_id'][:8] in held]
   print('  Scoring block',fold+1,len(test),flush=True)
   pred=fit_predict(train,test,**settings)
+  pzone=old.predict_pzone(train,test)
   action=np.array([r['decision_type']=='Swing' for r in test],dtype=int)
   values=pred[selected]; dv=decision_value(action,values[:,1],values[:,0])
   for i,r in enumerate(test):
-   pzone=pred['probs'][i,4]
-   r.update({'swing':int(action[i]),'p_swing':float(pred['p'][i]),'raw_p_swing':float(pred['raw_p'][i]),'p_zone':float(pzone),'judgment':float((action[i]-pred['p'][i])*(2*pzone-1)),'v_swing':float(values[i,1]),'v_take':float(values[i,0]),'delta_v':float(values[i,1]-values[i,0]),'dv':float(dv[i]),'opposite_support':int(pred['detailed_support'][i,1-action[i]]),'coarse_opposite_support':int(pred['support'][i,1-action[i]]),'fold':fold})
+   r.update({'swing':int(action[i]),'p_swing':float(pred['p'][i]),'raw_p_swing':float(pred['raw_p'][i]),'p_zone':float(pzone[i]),'judgment':float((action[i]-pred['p'][i])*(2*pzone[i]-1)),'v_swing':float(values[i,1]),'v_take':float(values[i,0]),'delta_v':float(values[i,1]-values[i,0]),'dv':float(dv[i]),'opposite_support':int(pred['detailed_support'][i,1-action[i]]),'coarse_opposite_support':int(pred['support'][i,1-action[i]]),'fold':fold})
    for j,e in enumerate(EVENTS): r[f'p_{e}']=float(pred['probs'][i,j])
   result.extend(test); fold_meta.append({'start':str(block[0]),'end':str(block[-1]),'pitches':len(test),'re':pred['re_diagnostics'],'calibration_applied':pred['calibration_applied']})
  return result,fold_meta
@@ -446,12 +451,21 @@ def cell_summary(items):
  return {'n':len(items),'low_opposite_support_pct':r6(100*np.mean([r['opposite_support']<30 for r in items])),'raw_dv':r6(sum(r['dv'] for r in items)),'dv100':mean(items,'dv',100),'za_raw':zone_awareness(items),'delta':mean(items,'delta_v'),'swing_pct':mean(items,'swing',100),'expected_swing_pct':mean(items,'p_swing',100),'p_zone_pct':mean(items,'p_zone',100),'zone_judgment_pct':r6(100*np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])),'expected_zone_judgment_pct':r6(100*np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])),'expected_swing_rv':mean(items,'v_swing'),'expected_take_rv':mean(items,'v_take'),**{f'p_{e}':mean(items,f'p_{e}',100) for e in EVENTS}}
 
 
+def add_dv_plus(players):
+ qualified=np.array([p['dv_per_100'] for p in players if p['qualified_300']],dtype=float)
+ center=float(qualified.mean()) if len(qualified) else 0
+ spread=float(qualified.std()) if len(qualified) else 0
+ for p in players: p['dv_plus']=r6(100+15*(p['dv_per_100']-center)/spread) if spread else (100 if p['qualified_300'] else None)
+ return center,spread
+
+
 def write_web(root,season,pitches,report,output_root=None):
  output_root=output_root or root
  dest=output_root/'web/data/zone_awareness'/str(season); dest.mkdir(parents=True,exist_ok=True)
  by_batter=defaultdict(list)
  for r in pitches: by_batter[str(r['batter_id'])].append(r)
  players=[profile_summary(items) for items in by_batter.values()]
+ add_dv_plus(players)
  scores=np.array([p['za_raw'] for p in players if p['qualified_300'] and p['za_raw'] is not None])
  for p in players: p['za_percentile']=r6(100*(np.sum(scores<p['za_raw'])+.5*np.sum(scores==p['za_raw']))/len(scores)) if len(scores) and p['za_raw'] is not None else None
  def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
