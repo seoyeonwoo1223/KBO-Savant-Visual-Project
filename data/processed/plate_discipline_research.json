@@ -2,9 +2,9 @@
   "schema_version": 1,
   "season": 2026,
   "source": "data/processed/decision_pitches.parquet",
-  "pitches": 187655,
+  "pitches": 188879,
   "batters": 285,
-  "qualified_batters": 159,
+  "qualified_batters": 160,
   "minimum_pitches": 300,
   "zone_contract": {
     "coordinates": "Visual Baseball ABS px/pz normalized to each pitch's sz_top/sz_bottom; plate half-width 10/12 ft",
@@ -31,56 +31,56 @@
       "name": "heart swing vs chase swing",
       "x": "chase_swing_pct",
       "y": "heart_swing_pct",
-      "n": 159,
+      "n": 160,
       "available": true,
-      "intercept": 63.79872304,
-      "slope": 0.23963219,
-      "r_squared": 0.06605408
+      "intercept": 63.82672179,
+      "slope": 0.23914128,
+      "r_squared": 0.06639289
     },
     {
       "name": "zone swing vs out-of-zone swing",
       "x": "o_swing_pct",
       "y": "z_swing_pct",
-      "n": 159,
+      "n": 160,
       "available": true,
-      "intercept": 48.12228173,
-      "slope": 0.58314494,
-      "r_squared": 0.27618276
+      "intercept": 48.21747626,
+      "slope": 0.57914427,
+      "r_squared": 0.27338454
     },
     {
       "name": "observed decision run vs selective aggression",
       "x": "heart_minus_chase_swing",
       "y": "observed_decision_run_per_100",
-      "n": 159,
+      "n": 160,
       "available": true,
-      "intercept": -1.37218407,
-      "slope": 0.02825967,
-      "r_squared": 0.04017003
+      "intercept": -1.39032844,
+      "slope": 0.02862884,
+      "r_squared": 0.04138763
     },
     {
       "name": "observed decision run vs simple judgment",
       "x": "simple_judgment_pct",
       "y": "observed_decision_run_per_100",
-      "n": 159,
+      "n": 160,
       "available": true,
-      "intercept": -7.83614343,
-      "slope": 0.11277708,
-      "r_squared": 0.0750761
+      "intercept": -7.90747502,
+      "slope": 0.11380654,
+      "r_squared": 0.07699803
     },
     {
       "name": "observed decision run vs Simple SEAGER",
       "x": "simple_seager",
       "y": "observed_decision_run_per_100",
-      "n": 159,
+      "n": 160,
       "available": true,
-      "intercept": -2.48998691,
-      "slope": 0.08162587,
-      "r_squared": 0.10782191
+      "intercept": -2.51256584,
+      "slope": 0.08239061,
+      "r_squared": 0.11084383
     }
   ],
   "clustering": {
     "available": true,
-    "n": 159,
+    "n": 160,
     "k": 4,
     "features": [
       "heart_vs_chase_residual",
@@ -93,68 +93,68 @@
     "standardization": {
       "heart_vs_chase_residual": {
         "mean": -0.0,
-        "std": 6.697793
+        "std": 6.667681
       },
       "shadow_in_swing_pct": {
-        "mean": 59.048282,
-        "std": 7.34052
+        "mean": 58.990834,
+        "std": 7.328141
       },
       "shadow_out_swing_pct": {
-        "mean": 45.484408,
-        "std": 7.66896
+        "mean": 45.417279,
+        "std": 7.665835
       },
       "waste_swing_pct": {
-        "mean": 8.143938,
-        "std": 4.419797
+        "mean": 8.189076,
+        "std": 4.410605
       },
       "z_contact_pct": {
-        "mean": 86.534146,
-        "std": 5.760977
+        "mean": 86.502025,
+        "std": 5.720273
       },
       "o_contact_pct": {
-        "mean": 61.509196,
-        "std": 10.47533
+        "mean": 61.438561,
+        "std": 10.515848
       }
     },
     "centroids_z": [
       {
-        "heart_vs_chase_residual": -1.005063,
-        "shadow_in_swing_pct": -1.193724,
-        "shadow_out_swing_pct": -1.159312,
-        "waste_swing_pct": -0.547669,
-        "z_contact_pct": 0.745178,
-        "o_contact_pct": 0.768274
+        "heart_vs_chase_residual": -0.787868,
+        "shadow_in_swing_pct": -0.949264,
+        "shadow_out_swing_pct": -0.889634,
+        "waste_swing_pct": -0.473626,
+        "z_contact_pct": 0.856938,
+        "o_contact_pct": 0.859869
       },
       {
-        "heart_vs_chase_residual": 0.22766,
-        "shadow_in_swing_pct": 0.003817,
-        "shadow_out_swing_pct": -0.016469,
-        "waste_swing_pct": -0.415916,
-        "z_contact_pct": 0.616015,
-        "o_contact_pct": 0.491535
+        "heart_vs_chase_residual": -0.512485,
+        "shadow_in_swing_pct": 0.648168,
+        "shadow_out_swing_pct": 1.046708,
+        "waste_swing_pct": 1.492749,
+        "z_contact_pct": 0.180297,
+        "o_contact_pct": 0.106744
       },
       {
-        "heart_vs_chase_residual": 0.680205,
-        "shadow_in_swing_pct": 0.451894,
-        "shadow_out_swing_pct": 0.269473,
-        "waste_swing_pct": 0.021027,
-        "z_contact_pct": -1.086207,
-        "o_contact_pct": -0.950414
+        "heart_vs_chase_residual": 0.381269,
+        "shadow_in_swing_pct": -0.015659,
+        "shadow_out_swing_pct": -0.042153,
+        "waste_swing_pct": -0.360001,
+        "z_contact_pct": 0.050261,
+        "o_contact_pct": -0.102432
       },
       {
-        "heart_vs_chase_residual": -0.50315,
-        "shadow_in_swing_pct": 0.658274,
-        "shadow_out_swing_pct": 1.036342,
-        "waste_swing_pct": 1.482173,
-        "z_contact_pct": 0.131208,
-        "o_contact_pct": 0.045939
+        "heart_vs_chase_residual": 0.808949,
+        "shadow_in_swing_pct": 0.830259,
+        "shadow_out_swing_pct": 0.52572,
+        "waste_swing_pct": 0.15318,
+        "z_contact_pct": -1.312973,
+        "o_contact_pct": -1.042966
       }
     ],
     "sizes": {
-      "1": 34,
-      "2": 47,
+      "1": 47,
+      "2": 24,
       "3": 53,
-      "4": 25
+      "4": 36
     }
   },
   "pure_zone_awareness_beta": {
@@ -166,21 +166,21 @@
         "name": "heart swing vs chase swing",
         "x": "chase_swing_pct",
         "y": "heart_swing_pct",
-        "n": 159,
+        "n": 160,
         "available": true,
-        "intercept": 63.79872304,
-        "slope": 0.23963219,
-        "r_squared": 0.06605408
+        "intercept": 63.82672179,
+        "slope": 0.23914128,
+        "r_squared": 0.06639289
       },
       {
         "name": "zone swing vs out-of-zone swing",
         "x": "o_swing_pct",
         "y": "z_swing_pct",
-        "n": 159,
+        "n": 160,
         "available": true,
-        "intercept": 48.12228173,
-        "slope": 0.58314494,
-        "r_squared": 0.27618276
+        "intercept": 48.21747626,
+        "slope": 0.57914427,
+        "r_squared": 0.27338454
       }
     ],
     "clustering": {
@@ -194,39 +194,39 @@
         "waste_swing_pct"
       ],
       "sizes": {
-        "1": 19,
-        "2": 48,
-        "3": 35,
-        "4": 57
+        "1": 41,
+        "2": 31,
+        "3": 50,
+        "4": 38
       },
       "centroids_z": [
         {
-          "heart_vs_chase_residual": -1.291297,
-          "zone_vs_out_residual": -1.521507,
-          "shadow_in_swing_pct": -0.788699,
-          "shadow_out_swing_pct": 0.096862,
-          "waste_swing_pct": 0.865342
+          "heart_vs_chase_residual": -0.890729,
+          "zone_vs_out_residual": -0.980011,
+          "shadow_in_swing_pct": -1.239449,
+          "shadow_out_swing_pct": -0.92361,
+          "waste_swing_pct": -0.349595
         },
         {
-          "heart_vs_chase_residual": -0.581033,
-          "zone_vs_out_residual": -0.531263,
-          "shadow_in_swing_pct": -0.914216,
-          "shadow_out_swing_pct": -0.929898,
-          "waste_swing_pct": -0.604342
+          "heart_vs_chase_residual": -0.513294,
+          "zone_vs_out_residual": -0.556766,
+          "shadow_in_swing_pct": 0.5213,
+          "shadow_out_swing_pct": 0.866859,
+          "waste_swing_pct": 1.345643
         },
         {
-          "heart_vs_chase_residual": -0.042555,
-          "zone_vs_out_residual": -0.072009,
-          "shadow_in_swing_pct": 0.726903,
-          "shadow_out_swing_pct": 0.835759,
-          "waste_swing_pct": 0.972008
+          "heart_vs_chase_residual": 0.179396,
+          "zone_vs_out_residual": 0.201344,
+          "shadow_in_swing_pct": -0.061742,
+          "shadow_out_swing_pct": -0.191494,
+          "waste_swing_pct": -0.41982
         },
         {
-          "heart_vs_chase_residual": 0.945853,
-          "zone_vs_out_residual": 0.998765,
-          "shadow_in_swing_pct": 0.586422,
-          "shadow_out_swing_pct": 0.237599,
-          "waste_swing_pct": -0.376374
+          "heart_vs_chase_residual": 1.143741,
+          "zone_vs_out_residual": 1.246657,
+          "shadow_in_swing_pct": 0.993268,
+          "shadow_out_swing_pct": 0.541317,
+          "waste_swing_pct": -0.168172
         }
       ]
     },
@@ -247,41 +247,41 @@
           "name": "BB% vs oZA+",
           "x": "o_zone_awareness_plus",
           "y": "bb_pct",
-          "n": 159,
+          "n": 160,
           "available": true,
-          "intercept": -4.15047123,
-          "slope": 0.13313965,
-          "r_squared": 0.44141505
+          "intercept": -5.20376507,
+          "slope": 0.14325112,
+          "r_squared": 0.49765649
         },
         {
           "name": "K% vs zZA+",
           "x": "z_zone_awareness_plus",
           "y": "k_pct",
-          "n": 159,
+          "n": 160,
           "available": true,
-          "intercept": 10.26083446,
-          "slope": 0.09669358,
-          "r_squared": 0.05340478
+          "intercept": 8.52632544,
+          "slope": 0.11479288,
+          "r_squared": 0.07506638
         },
         {
           "name": "BB% vs ZA+",
           "x": "zone_awareness_plus",
           "y": "bb_pct",
-          "n": 159,
+          "n": 160,
           "available": true,
-          "intercept": 3.26901577,
-          "slope": 0.0589448,
-          "r_squared": 0.08652155
+          "intercept": 2.92783448,
+          "slope": 0.06193513,
+          "r_squared": 0.09302677
         },
         {
           "name": "K% vs ZA+",
           "x": "zone_awareness_plus",
           "y": "k_pct",
-          "n": 159,
+          "n": 160,
           "available": true,
-          "intercept": 18.72540504,
-          "slope": 0.01204787,
-          "r_squared": 0.00082911
+          "intercept": 17.48884177,
+          "slope": 0.02516772,
+          "r_squared": 0.00360832
         }
       ],
       "outlier_threshold": "absolute residual z >= 1.5"
