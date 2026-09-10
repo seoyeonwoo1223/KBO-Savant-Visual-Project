@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "season": 2026,
+  "metric": "Pickoff attempts per 100 runner-pitches",
+  "definition": {
+    "pickoff_throws": "Naver relay events containing 견제, attributed to the defensive team",
+    "pickoffs_received": "Same events attributed to the offensive team",
+    "runner_pitch": "A regular pitch with at least one runner on 1B, 2B or 3B before the pitch",
+    "pickoff_rate_per_100_runner_pitches": "pickoff_throws / defensive_runner_pitches * 100",
+    "received_pickoff_rate_per_100_runner_pitches": "pickoffs_received / offensive_runner_pitches * 100"
+  },
+  "coverage": {
+    "games_with_curated_pitch_data": 618,
+    "games_with_pickoff_relay_cache": 141,
+    "pickoff_events": 174
+  },
+  "teams": [
+    {
+      "season": 2026,
+      "team": "두산",
+      "pickoff_throws": 21,
+      "pickoffs_received": 15,
+      "defensive_runner_pitches": 8784,
+      "offensive_runner_pitches": 8904,
+      "pickoff_rate_per_100_runner_pitches": 0.239,
+      "received_pickoff_rate_per_100_runner_pitches": 0.168
+    },
+    {
+      "season": 2026,
+      "team": "KT",
+      "pickoff_throws": 19,
+      "pickoffs_received": 16,
+      "defensive_runner_pitches": 8417,
+      "offensive_runner_pitches": 9731,
+      "pickoff_rate_per_100_runner_pitches": 0.226,
+      "received_pickoff_rate_per_100_runner_pitches": 0.164
+    },
+    {
+      "season": 2026,
+      "team": "삼성",
+      "pickoff_throws": 19,
+      "pickoffs_received": 20,
+      "defensive_runner_pitches": 8412,
+      "offensive_runner_pitches": 9595,
+      "pickoff_rate_per_100_runner_pitches": 0.226,
+      "received_pickoff_rate_per_100_runner_pitches": 0.208
+    },
+    {
+      "season": 2026,
+      "team": "한화",
+      "pickoff_throws": 20,
+      "pickoffs_received": 14,
+      "defensive_runner_pitches": 9392,
+      "offensive_runner_pitches": 9382,
+      "pickoff_rate_per_100_runner_pitches": 0.213,
+      "received_pickoff_rate_per_100_runner_pitches": 0.149
+    },
+    {
+      "season": 2026,
+      "team": "LG",
+      "pickoff_throws": 19,
+      "pickoffs_received": 23,
+      "defensive_runner_pitches": 9160,
+      "offensive_runner_pitches": 8945,
+      "pickoff_rate_per_100_runner_pitches": 0.207,
+      "received_pickoff_rate_per_100_runner_pitches": 0.257
+    },
+    {
+      "season": 2026,
+      "team": "NC",
+      "pickoff_throws": 17,
+      "pickoffs_received": 30,
+      "defensive_runner_pitches": 8641,
+      "offensive_runner_pitches": 8633,
+      "pickoff_rate_per_100_runner_pitches": 0.197,
+      "received_pickoff_rate_per_100_runner_pitches": 0.348
+    },
+    {
+      "season": 2026,
+      "team": "KIA",
+      "pickoff_throws": 16,
+      "pickoffs_received": 17,
+      "defensive_runner_pitches": 8499,
+      "offensive_runner_pitches": 8539,
+      "pickoff_rate_per_100_runner_pitches": 0.188,
+      "received_pickoff_rate_per_100_runner_pitches": 0.199
+    },
+    {
+      "season": 2026,
+      "team": "SSG",
+      "pickoff_throws": 17,
+      "pickoffs_received": 14,
+      "defensive_runner_pitches": 9661,
+      "offensive_runner_pitches": 9125,
+      "pickoff_rate_per_100_runner_pitches": 0.176,
+      "received_pickoff_rate_per_100_runner_pitches": 0.153
+    },
+    {
+      "season": 2026,
+      "team": "롯데",
+      "pickoff_throws": 16,
+      "pickoffs_received": 17,
+      "defensive_runner_pitches": 9098,
+      "offensive_runner_pitches": 8254,
+      "pickoff_rate_per_100_runner_pitches": 0.176,
+      "received_pickoff_rate_per_100_runner_pitches": 0.206
+    },
+    {
+      "season": 2026,
+      "team": "키움",
+      "pickoff_throws": 10,
+      "pickoffs_received": 8,
+      "defensive_runner_pitches": 9986,
+      "offensive_runner_pitches": 8942,
+      "pickoff_rate_per_100_runner_pitches": 0.1,
+      "received_pickoff_rate_per_100_runner_pitches": 0.089
+    }
+  ]
+}
