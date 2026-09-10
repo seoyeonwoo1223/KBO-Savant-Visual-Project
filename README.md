@@ -77,7 +77,7 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 ## 자동 갱신
 
-`.github/workflows/daily_update.yml`은 테스트 후 수집기를 실행합니다. canonical pitch shard가 Swing/Take 프로필의 단일 입력이며, 분석 입력이 바뀌면 프로필 JSON과 `data/metrics/swing_take/2026/decision_pitches.parquet`가 함께 재생성됩니다. 중간 분석 테이블인 Decision Pitches는 Excel에 넣지 않습니다. 분석 hash가 같으면 metric을 다시 만들지 않습니다.
+`.github/workflows/daily_update.yml`은 한국 시간 매일 00:00에 테스트 후 신규·미완료·최근 7일 확정 경기만 갱신합니다. 전체 reconcile은 주간 workflow 또는 수동 요청으로만 실행합니다. canonical pitch shard가 Swing/Take 프로필의 단일 입력이며, 분석 입력이 바뀌면 프로필 JSON과 `data/metrics/swing_take/2026/decision_pitches.parquet`가 함께 재생성됩니다. 중간 분석 테이블인 Decision Pitches는 Excel에 넣지 않습니다. 분석 hash가 같으면 metric을 다시 만들지 않습니다.
 
 ## Swing/Take 프로필 기준
 
