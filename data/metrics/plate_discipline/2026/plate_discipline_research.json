@@ -1,0 +1,290 @@
+{
+  "schema_version": 1,
+  "season": 2026,
+  "source": "data\\metrics\\swing_take\\2026\\decision_pitches.parquet",
+  "pitches": 188879,
+  "batters": 285,
+  "qualified_batters": 160,
+  "minimum_pitches": 300,
+  "zone_contract": {
+    "coordinates": "Visual Baseball ABS px/pz normalized to each pitch's sz_top/sz_bottom; plate half-width 10/12 ft",
+    "distance": "max(abs(x_relative), abs(z_relative))",
+    "heart": "0–66.7%",
+    "shadow_in": "66.7–100%",
+    "shadow_out": "100–133.3%",
+    "chase": "133.3–200%",
+    "waste": ">200%"
+  },
+  "metric_notes": {
+    "simple_judgment_pct": "Swing in the rule-book zone or take outside it; intentionally binary and outcome-free.",
+    "simple_seager": "100 × [D/(A+D) - C/(C+D)], where A=zone swing, B=out-of-zone swing, C=zone take, D=out-of-zone take.",
+    "observed_decision_run": "Existing RE288 location/count-neutral observed result. It is diagnostic, not a counterfactual swing-versus-take value.",
+    "clusters": "Unsupervised profile groups on standardized qualified-hitter features. Cluster numbers are not ordered grades."
+  },
+  "limitations": [
+    "Visual Baseball does not provide exit velocity or launch angle, so hittable-pitch quality cannot yet be individualized like a full PLV model.",
+    "Observed swing/take outcomes are subject to selection bias; the unchosen action is not observed.",
+    "Cluster labels are deliberately left numeric until baseball interpretation is reviewed."
+  ],
+  "regressions": [
+    {
+      "name": "heart swing vs chase swing",
+      "x": "chase_swing_pct",
+      "y": "heart_swing_pct",
+      "n": 160,
+      "available": true,
+      "intercept": 63.82672179,
+      "slope": 0.23914128,
+      "r_squared": 0.06639289
+    },
+    {
+      "name": "zone swing vs out-of-zone swing",
+      "x": "o_swing_pct",
+      "y": "z_swing_pct",
+      "n": 160,
+      "available": true,
+      "intercept": 48.21747626,
+      "slope": 0.57914427,
+      "r_squared": 0.27338454
+    },
+    {
+      "name": "observed decision run vs selective aggression",
+      "x": "heart_minus_chase_swing",
+      "y": "observed_decision_run_per_100",
+      "n": 160,
+      "available": true,
+      "intercept": -1.39032844,
+      "slope": 0.02862884,
+      "r_squared": 0.04138763
+    },
+    {
+      "name": "observed decision run vs simple judgment",
+      "x": "simple_judgment_pct",
+      "y": "observed_decision_run_per_100",
+      "n": 160,
+      "available": true,
+      "intercept": -7.90747502,
+      "slope": 0.11380654,
+      "r_squared": 0.07699803
+    },
+    {
+      "name": "observed decision run vs Simple SEAGER",
+      "x": "simple_seager",
+      "y": "observed_decision_run_per_100",
+      "n": 160,
+      "available": true,
+      "intercept": -2.51256584,
+      "slope": 0.08239061,
+      "r_squared": 0.11084383
+    }
+  ],
+  "clustering": {
+    "available": true,
+    "n": 160,
+    "k": 4,
+    "features": [
+      "heart_vs_chase_residual",
+      "shadow_in_swing_pct",
+      "shadow_out_swing_pct",
+      "waste_swing_pct",
+      "z_contact_pct",
+      "o_contact_pct"
+    ],
+    "standardization": {
+      "heart_vs_chase_residual": {
+        "mean": -0.0,
+        "std": 6.667681
+      },
+      "shadow_in_swing_pct": {
+        "mean": 58.990834,
+        "std": 7.328141
+      },
+      "shadow_out_swing_pct": {
+        "mean": 45.417279,
+        "std": 7.665835
+      },
+      "waste_swing_pct": {
+        "mean": 8.189076,
+        "std": 4.410605
+      },
+      "z_contact_pct": {
+        "mean": 86.502025,
+        "std": 5.720273
+      },
+      "o_contact_pct": {
+        "mean": 61.438561,
+        "std": 10.515848
+      }
+    },
+    "centroids_z": [
+      {
+        "heart_vs_chase_residual": -0.787868,
+        "shadow_in_swing_pct": -0.949264,
+        "shadow_out_swing_pct": -0.889634,
+        "waste_swing_pct": -0.473626,
+        "z_contact_pct": 0.856938,
+        "o_contact_pct": 0.859869
+      },
+      {
+        "heart_vs_chase_residual": -0.512485,
+        "shadow_in_swing_pct": 0.648168,
+        "shadow_out_swing_pct": 1.046708,
+        "waste_swing_pct": 1.492749,
+        "z_contact_pct": 0.180297,
+        "o_contact_pct": 0.106744
+      },
+      {
+        "heart_vs_chase_residual": 0.381269,
+        "shadow_in_swing_pct": -0.015659,
+        "shadow_out_swing_pct": -0.042153,
+        "waste_swing_pct": -0.360001,
+        "z_contact_pct": 0.050261,
+        "o_contact_pct": -0.102432
+      },
+      {
+        "heart_vs_chase_residual": 0.808949,
+        "shadow_in_swing_pct": 0.830259,
+        "shadow_out_swing_pct": 0.52572,
+        "waste_swing_pct": 0.15318,
+        "z_contact_pct": -1.312973,
+        "o_contact_pct": -1.042966
+      }
+    ],
+    "sizes": {
+      "1": 47,
+      "2": 24,
+      "3": 53,
+      "4": 36
+    }
+  },
+  "pure_zone_awareness_beta": {
+    "metric": "Outcome-free Zone Awareness beta",
+    "contact_or_in_play_used": false,
+    "minimum_pitches": 300,
+    "regressions": [
+      {
+        "name": "heart swing vs chase swing",
+        "x": "chase_swing_pct",
+        "y": "heart_swing_pct",
+        "n": 160,
+        "available": true,
+        "intercept": 63.82672179,
+        "slope": 0.23914128,
+        "r_squared": 0.06639289
+      },
+      {
+        "name": "zone swing vs out-of-zone swing",
+        "x": "o_swing_pct",
+        "y": "z_swing_pct",
+        "n": 160,
+        "available": true,
+        "intercept": 48.21747626,
+        "slope": 0.57914427,
+        "r_squared": 0.27338454
+      }
+    ],
+    "clustering": {
+      "available": true,
+      "k": 4,
+      "features": [
+        "heart_vs_chase_residual",
+        "zone_vs_out_residual",
+        "shadow_in_swing_pct",
+        "shadow_out_swing_pct",
+        "waste_swing_pct"
+      ],
+      "sizes": {
+        "1": 41,
+        "2": 31,
+        "3": 50,
+        "4": 38
+      },
+      "centroids_z": [
+        {
+          "heart_vs_chase_residual": -0.890729,
+          "zone_vs_out_residual": -0.980011,
+          "shadow_in_swing_pct": -1.239449,
+          "shadow_out_swing_pct": -0.92361,
+          "waste_swing_pct": -0.349595
+        },
+        {
+          "heart_vs_chase_residual": -0.513294,
+          "zone_vs_out_residual": -0.556766,
+          "shadow_in_swing_pct": 0.5213,
+          "shadow_out_swing_pct": 0.866859,
+          "waste_swing_pct": 1.345643
+        },
+        {
+          "heart_vs_chase_residual": 0.179396,
+          "zone_vs_out_residual": 0.201344,
+          "shadow_in_swing_pct": -0.061742,
+          "shadow_out_swing_pct": -0.191494,
+          "waste_swing_pct": -0.41982
+        },
+        {
+          "heart_vs_chase_residual": 1.143741,
+          "zone_vs_out_residual": 1.246657,
+          "shadow_in_swing_pct": 0.993268,
+          "shadow_out_swing_pct": 0.541317,
+          "waste_swing_pct": -0.168172
+        }
+      ]
+    },
+    "cluster_adjustment_weight": 0.5,
+    "formula": "0.5 * restandardized cluster-adjusted Z-Swing% z + 0.5 * restandardized cluster-adjusted O-Take% z",
+    "z_component": "Z-Swing% z-score with the same cluster-centering adjustment",
+    "o_component": "O-Take% z-score with the same cluster-centering adjustment",
+    "location_weights": "No additional Heart/Shadow/Chase/Waste weights; pending baseball review",
+    "outcome_diagnostics": {
+      "used_in_score": false,
+      "rates": [
+        "BB% (including intentional walk, excluding HBP)",
+        "K%",
+        "HBP%"
+      ],
+      "regressions": [
+        {
+          "name": "BB% vs oZA+",
+          "x": "o_zone_awareness_plus",
+          "y": "bb_pct",
+          "n": 160,
+          "available": true,
+          "intercept": -5.20376507,
+          "slope": 0.14325112,
+          "r_squared": 0.49765649
+        },
+        {
+          "name": "K% vs zZA+",
+          "x": "z_zone_awareness_plus",
+          "y": "k_pct",
+          "n": 160,
+          "available": true,
+          "intercept": 8.52632544,
+          "slope": 0.11479288,
+          "r_squared": 0.07506638
+        },
+        {
+          "name": "BB% vs ZA+",
+          "x": "zone_awareness_plus",
+          "y": "bb_pct",
+          "n": 160,
+          "available": true,
+          "intercept": 2.92783448,
+          "slope": 0.06193513,
+          "r_squared": 0.09302677
+        },
+        {
+          "name": "K% vs ZA+",
+          "x": "zone_awareness_plus",
+          "y": "k_pct",
+          "n": 160,
+          "available": true,
+          "intercept": 17.48884177,
+          "slope": 0.02516772,
+          "r_squared": 0.00360832
+        }
+      ],
+      "outlier_threshold": "absolute residual z >= 1.5"
+    }
+  }
+}

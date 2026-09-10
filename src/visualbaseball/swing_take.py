@@ -8,7 +8,6 @@ calculation rather than filling their game state by inference.
 from __future__ import annotations
 
 from collections import Counter, defaultdict
-from hashlib import sha256
 import json
 import math
 from pathlib import Path
@@ -16,7 +15,7 @@ from statistics import mean
 
 import pyarrow as pa
 import pyarrow.parquet as pq
-from openpyxl import load_workbook
+from .curated import load_rows, schema_sha256
 
 SEASON = 2026
 PLAYER_METADATA = {
@@ -40,33 +39,11 @@ def _number(value):
 
 
 
-def _excel_rows(source: Path, season: int) -> list[dict]:
-    """Read the published workbook's authoritative Pitches sheet."""
-    if not source.exists():
-        raise FileNotFoundError(f"Profile input workbook is missing: {source}")
-    workbook = load_workbook(source, read_only=True, data_only=True)
-    try:
-        sheet = workbook["Pitches"]
-    except KeyError as error:
-        raise ValueError(f"Profile input workbook has no Pitches sheet: {source}") from error
-    iterator = sheet.iter_rows(values_only=True)
-    headers = next(iterator, None)
-    if not headers:
-        return []
-    columns = [str(value) if value is not None else "" for value in headers]
-    rows = []
-    for values in iterator:
-        row = {column: value for column, value in zip(columns, values)}
-        if row.get("season") == season:
-            rows.append(row)
-    return rows
-
-
-def _source_metadata(rows: list[dict], source: Path | None) -> dict:
+def _source_metadata(rows: list[dict]) -> dict:
     updated_at = max((str(row.get("fetched_at") or "") for row in rows), default="")
     return {
-        "workbook": f"exports/{source.name}" if source else "data/processed/pitches.parquet",
-        "sha256": sha256(source.read_bytes()).hexdigest() if source else None,
+        "dataset": "data/curated/pitches",
+        "schema_sha256": schema_sha256(),
         "updated_at": updated_at or None,
     }
 
@@ -214,15 +191,11 @@ PROFILE_PAGE = """<!doctype html>
 def build_decision_pitches(
     root: Path,
     season: int = SEASON,
-    excel_source: Path | None = None,
     output_path: Path | None = None,
 ) -> tuple[list[dict], list[dict], dict, Counter, dict, dict]:
     """Build a season's RE288 pitch table without requiring profile output."""
-    source = excel_source or root / "data" / "processed" / "pitches.parquet"
-    rows = _excel_rows(source, season) if excel_source else [
-        dict(row) for row in pq.read_table(source).to_pylist() if row.get("season") == season
-    ]
-    source_metadata = _source_metadata(rows, excel_source)
+    rows = load_rows(root, "pitches", season)
+    source_metadata = _source_metadata(rows)
     excluded = Counter(); valid = []
     for row in rows:
         if not _eligible(row):
@@ -231,7 +204,7 @@ def build_decision_pitches(
         row["_relative_location"] = _relative_location(row)
         valid.append(row)
     re288, counts = _re288(valid)
-    processed = root / "data" / "processed"
+    processed = root / "data" / "metrics" / "swing_take" / str(season)
     if season == SEASON:
         processed.mkdir(parents=True, exist_ok=True)
         (processed / "re288.json").write_text(json.dumps({
@@ -260,10 +233,10 @@ def build_decision_pitches(
     return output_rows, valued, counts, excluded, source_metadata, league
 
 
-def build_swing_take(root: Path, season: int = SEASON, excel_source: Path | None = None) -> tuple[int, int]:
-    """Build profiles from the published Excel workbook, never a parallel raw input."""
+def build_swing_take(root: Path, season: int = SEASON) -> tuple[int, int]:
+    """Build profiles from the canonical pitch shards."""
     output_rows, valued, counts, excluded, source_metadata, league = build_decision_pitches(
-        root, season, excel_source
+        root, season
     )
     output = root / "web" / "data" / "swing_take" / str(season)
     output.mkdir(parents=True, exist_ok=True)

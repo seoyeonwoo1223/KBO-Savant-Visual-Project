@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "schema_sha256": "a552d7d64b006e91c5f6a56487479084ed1f59c761f48e573f31f3c28d8403b3",
+  "season": 2026,
+  "games": 614,
+  "raw_pitches": 189070,
+  "curated_pitches": 189063,
+  "parse_excluded": 7,
+  "parse_exclusion_reasons": {
+    "SOURCE_POST_THIRD_OUT": 7
+  },
+  "pitch_id_duplicates": 0,
+  "trajectory_status": {
+    "missing:y0": 86,
+    "valid": 188977
+  },
+  "source_y0": {
+    "50.0": 130150,
+    "55.0": 58827,
+    "None": 86
+  },
+  "plate_x_error": {
+    "n": 188977,
+    "median_abs_cm": 0.4936218931199946,
+    "p95_abs_cm": 1.558023300000006
+  },
+  "plate_z_error": {
+    "n": 188977,
+    "median_abs_cm": 0.1028700000000039,
+    "p95_abs_cm": 0.27598039800000695
+  },
+  "relh_minus_z50": {
+    "n": 188977,
+    "median_abs_cm": 0.024992065399601415,
+    "p95_abs_cm": 0.052960000000013
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "game_id": "20250722HHOB0",
+  "season": 2025,
+  "first_collected_at": "2026-09-09T16:11:45+00:00",
+  "last_collected_at": "2026-09-10T13:38:12+00:00",
+  "last_checked_at": "2026-09-10T13:38:12+00:00",
+  "raw_sha256": "0162048f70eaa2844b9e0e9974982ccd819b6915f1d5622876c70ebf25dff02e",
+  "pitch_sha256": "0a460dc8b6b11e3370be73d79e6c7c49c5cba9cf73991f2848b1a351a46647dd",
+  "schema_sha256": "a552d7d64b006e91c5f6a56487479084ed1f59c761f48e573f31f3c28d8403b3",
+  "revision": 3,
+  "observed_y0": [
+    50.0
+  ],
+  "raw_pitch_count": null,
+  "curated_pitch_count": 286,
+  "parse_excluded": 0,
+  "parse_exclusion_reasons": {},
+  "provenance": {
+    "type": "legacy_excel_one_time_conversion",
+    "path": "exports/visualbaseball_savant_2025_latest.xlsx",
+    "source_sha256": "4b828be23517f75ffb17fb2b5ee632f4914f906e869189aabeab545a851d9591",
+    "raw_available": false,
+    "coordinate_assumption": "missing y0 in historical export; x0/z0 documented and treated as y=50 ft"
+  }
+}

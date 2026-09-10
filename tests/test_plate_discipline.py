@@ -9,8 +9,7 @@ from visualbaseball.plate_discipline import build_plate_discipline
 
 
 def test_plate_discipline_exports_base_rates_and_metadata(tmp_path):
-    processed = tmp_path / "data" / "processed"
-    processed.mkdir(parents=True)
+    processed = tmp_path / "data" / "metrics" / "plate_discipline" / "2026"
     rows = []
     zones = [(0.0, 0.0), (0.8, 0.8), (1.15, 1.15), (1.6, 1.6), (2.2, 2.2)]
     for batter in range(10):
@@ -42,7 +41,9 @@ def test_plate_discipline_exports_base_rates_and_metadata(tmp_path):
                 "is_contact": swing and index % 3 != 0,
                 "decision_run": (0.01 if swing else -0.005) * (batter + 1),
             })
-    pq.write_table(pa.Table.from_pylist(rows), processed / "decision_pitches.parquet")
+    source = tmp_path / "data/metrics/swing_take/2026/decision_pitches.parquet"
+    source.parent.mkdir(parents=True)
+    pq.write_table(pa.Table.from_pylist(rows), source)
 
     pitches, batters = build_plate_discipline(tmp_path)
 
@@ -67,7 +68,7 @@ def test_plate_discipline_exports_base_rates_and_metadata(tmp_path):
         + row["seager_c_zone_takes"] + row["seager_d_out_takes"] == row["pitches_seen"]
         for row in player_rows
     )
-    metadata = json.loads((processed / "plate_discipline_research.json").read_text())
+    metadata = json.loads((processed / "plate_discipline_research.json").read_text(encoding="utf-8"))
     assert metadata["qualified_batters"] == 10
     assert metadata["regressions"][0]["x"] == "chase_swing_pct"
     assert metadata["pure_zone_awareness_beta"]["contact_or_in_play_used"] is False

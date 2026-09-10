@@ -565,7 +565,7 @@ def _write_web_data(
 def build_plate_decision_v1(
     root: Path, season: int = 2026, source: Path | None = None, web_root: Path | None = None
 ) -> dict:
-    source = source or root / "data" / "processed" / (
+    source = source or root / "data" / "metrics" / "swing_take" / str(season) / (
         "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
     )
     rows, excluded = _valid_rows(source, season)
@@ -606,7 +606,7 @@ def build_plate_decision_v1(
         pitch_output.append(row)
     players, movement_players = _player_tables(pitch_output)
     regressions, clustering, outliers = _diagnostics(players)
-    processed, exports = root / "data" / "processed", root / "exports"
+    processed, exports = root / "data" / "metrics" / "plate_decision" / str(season), root / "exports"
     processed.mkdir(parents=True, exist_ok=True)
     exports.mkdir(parents=True, exist_ok=True)
     pq.write_table(pa.Table.from_pylist(pitch_output), processed / f"plate_decision_v1_pitches_{season}.parquet")

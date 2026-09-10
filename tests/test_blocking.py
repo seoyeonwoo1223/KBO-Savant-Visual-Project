@@ -5,10 +5,11 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 from visualbaseball.blocking import build_blocking
+from visualbaseball.curated import write_game
 
 
 def test_blocking_builds_leaderboard_and_pitch_values(tmp_path: Path):
-    processed = tmp_path / "data" / "processed"
+    processed = tmp_path / "data" / "metrics" / "blocking" / "2026"
     processed.mkdir(parents=True)
     games, pitches = [], []
     for game_number in range(15):
@@ -31,8 +32,9 @@ def test_blocking_builds_leaderboard_and_pitch_values(tmp_path: Path):
                 "sz_bottom": 1.5, "pitch_type_code": "FF" if pitch_number % 2 else "SL",
                 "pitch_type_kr": "포심" if pitch_number % 2 else "슬라이더", "batter_stance": "L" if pitch_number % 2 else "R",
             })
-    pq.write_table(pa.Table.from_pylist(games), processed / "games.parquet")
-    pq.write_table(pa.Table.from_pylist(pitches), processed / "pitches.parquet")
+    for game in games:
+        game["season"] = 2026
+        write_game(tmp_path, game, [], [pitch for pitch in pitches if pitch["game_id"] == game["game_id"]])
     output = build_blocking(tmp_path, 2026)
     payload = json.loads(output.read_text(encoding="utf-8"))
     assert payload["status"] == "experimental"
@@ -40,5 +42,5 @@ def test_blocking_builds_leaderboard_and_pitch_values(tmp_path: Path):
     assert len(payload["players"]) == 2
     assert payload["method"]["formula"].startswith("sum(")
     assert payload["details"]["10"]["cells"]
-    table = pq.read_table(processed / "blocking_pitches.parquet")
+    table = pq.read_table(processed / "pitches.parquet")
     assert {"expected_pbwp", "actual_pbwp", "block_value", "difficulty"} <= set(table.column_names)

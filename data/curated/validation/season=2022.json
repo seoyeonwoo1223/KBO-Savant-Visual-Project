@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "schema_sha256": "a552d7d64b006e91c5f6a56487479084ed1f59c761f48e573f31f3c28d8403b3",
+  "season": 2022,
+  "games": 720,
+  "raw_pitches": 217025,
+  "curated_pitches": 217025,
+  "parse_excluded": 0,
+  "parse_exclusion_reasons": {},
+  "pitch_id_duplicates": 0,
+  "trajectory_status": {
+    "no_solution": 2254,
+    "valid": 214771
+  },
+  "source_y0": {
+    "50.0": 217025
+  },
+  "plate_x_error": {
+    "n": 214771,
+    "median_abs_cm": 0.07680277248000597,
+    "p95_abs_cm": 0.1655663846399969
+  },
+  "plate_z_error": {
+    "n": 214771,
+    "median_abs_cm": 0.10255300800000156,
+    "p95_abs_cm": 0.27390547200001203
+  },
+  "relh_minus_z50": {
+    "n": 214771,
+    "median_abs_cm": 0.024959999999964566,
+    "p95_abs_cm": 0.052880000000016025
+  }
+}

@@ -7,6 +7,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 from visualbaseball.swing_take import build_swing_take
+from visualbaseball.curated import write_game
 
 
 def pitch(seq, call, balls, strikes, after_balls, after_strikes, px, pz, *, outs_after=0, runs=0):
@@ -38,8 +39,7 @@ def pitch(seq, call, balls, strikes, after_balls, after_strikes, px, pz, *, outs
 
 
 def test_swing_take_contract_cases(tmp_path):
-    processed = tmp_path / "data" / "processed"
-    processed.mkdir(parents=True)
+    processed = tmp_path / "data" / "metrics" / "swing_take" / "2026"
     rows = [
         pitch(1, "B", 0, 0, 1, 0, 0.0, 2.5),
         pitch(2, "B", 1, 0, 2, 0, 1.5, 2.5),
@@ -48,13 +48,13 @@ def test_swing_take_contract_cases(tmp_path):
         pitch(5, "F", 2, 2, 2, 2, 1.0, 2.5),
         pitch(6, "S", 2, 2, 0, 0, 0.0, 2.5, outs_after=3),
     ]
-    pq.write_table(pa.Table.from_pylist(rows), processed / "pitches.parquet")
+    write_game(tmp_path, {"season": 2026, "game_id": "g"}, [], rows)
 
     eligible, targeted = build_swing_take(tmp_path)
-    index = json.loads((tmp_path / "web/data/swing_take/2026/index.json").read_text())
+    index = json.loads((tmp_path / "web/data/swing_take/2026/index.json").read_text(encoding="utf-8"))
     player = next(player for player in index["players"] if player["name"] == "박준순")
     shard_name = player["id"][0] if player["id"][0].isdigit() else "other"
-    shard = json.loads((tmp_path / f"web/data/swing_take/2026/players/{shard_name}.json").read_text())
+    shard = json.loads((tmp_path / f"web/data/swing_take/2026/players/{shard_name}.json").read_text(encoding="utf-8"))
     payload = shard["players"][player["id"]]
     pitches = payload["pitches"]
     decision_rows = pq.read_table(processed / "decision_pitches.parquet").to_pylist()

@@ -3,13 +3,13 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from pathlib import Path
 
-import pyarrow.parquet as pq
 import xlsxwriter
 
+from .curated import load_rows
 
-def export_latest(root: Path, season: int = 2026, source_root: Path | None = None) -> Path:
+
+def export_latest(root: Path, season: int = 2026) -> Path:
     """Publish only source tables; decision output stays in Parquet and profile JSON."""
-    source_root = source_root or root
     output = root / "exports" / f"visualbaseball_savant_{season}_latest.xlsx"
     output.parent.mkdir(parents=True, exist_ok=True)
     temporary = output.with_suffix(".xlsx.tmp")
@@ -20,8 +20,7 @@ def export_latest(root: Path, season: int = 2026, source_root: Path | None = Non
     )
 
     for name in ("games", "events", "pitches"):
-        path = source_root / "data" / "processed" / f"{name}.parquet"
-        rows = pq.read_table(path).to_pylist() if path.exists() else []
+        rows = load_rows(root, name, season)
         sheet = workbook.add_worksheet(name.title())
         sheet.freeze_panes(1, 0)
         sheet.hide_gridlines(2)

@@ -7,7 +7,7 @@ import json
 import math
 from pathlib import Path
 
-from openpyxl import load_workbook
+from .curated import load_rows
 
 
 X_MIN = -2.0
@@ -47,7 +47,7 @@ def _pitch_type(row: dict) -> str:
 
 def _pitcher_throws(row: dict) -> str:
     """Infer throwing side from release position used by the published feed."""
-    release_x = _number(row.get("x0"))
+    release_x = _number(row.get("release_x_50"))
     if release_x is None or abs(release_x) < 0.1:
         return ""
     return "L" if release_x > 0 else "R"
@@ -63,24 +63,14 @@ def _batting_result(row: dict) -> tuple[int, int]:
     return 1, int(hit)
 
 
-def build_zone_profiles(root: Path, season: int, excel_source: Path | None = None) -> tuple[int, int]:
+def build_zone_profiles(root: Path, season: int) -> tuple[int, int]:
     """Export compact batter and pitcher JSON profiles plus a shared search index."""
-    source = excel_source or root / "exports" / f"visualbaseball_savant_{season}_latest.xlsx"
-    if not source.exists():
-        raise FileNotFoundError(f"Zone profile input workbook is missing: {source}")
-
-    workbook = load_workbook(source, read_only=True, data_only=True)
-    try:
-        sheet = workbook["Pitches"]
-        iterator = sheet.iter_rows(values_only=True)
-        headers = next(iterator, None)
-        if not headers:
-            return 0, 0
-        columns = [str(value) if value is not None else "" for value in headers]
-        players_by_role: dict[str, dict[str, dict]] = {"batter": {}, "pitcher": {}}
-        eligible = 0
-        for values in iterator:
-            row = {column: value for column, value in zip(columns, values)}
+    rows = load_rows(root, "pitches", season)
+    if not rows:
+        return 0, 0
+    players_by_role: dict[str, dict[str, dict]] = {"batter": {}, "pitcher": {}}
+    eligible = 0
+    for row in rows:
             if row.get("season") != season or str(row.get("parse_status") or "") != "ok":
                 continue
             px, pz = _number(row.get("px")), _number(row.get("pz"))
@@ -131,8 +121,6 @@ def build_zone_profiles(root: Path, season: int, excel_source: Path | None = Non
                 aggregate[9] += at_bat
                 aggregate[10] += hit
             eligible += 1
-    finally:
-        workbook.close()
 
     index_players = {}
     for role, players in players_by_role.items():
@@ -163,7 +151,7 @@ def build_zone_profiles(root: Path, season: int, excel_source: Path | None = Non
                 "schema_version": schema_version,
                 "season": season,
                 "role": role,
-                "source": f"exports/{source.name}",
+                "source": f"data/curated/pitches/season={season}",
                 "player": {"id": player_id, "name": player["name"], "file": filename},
                 "coordinates": {"x_min": X_MIN, "x_max": X_MAX, "z_min": Z_MIN, "z_max": Z_MAX, "bucket_size": BUCKET_SIZE},
                 "strike_zone": SAVANT_STRIKE_ZONE,
@@ -202,7 +190,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=".")
     parser.add_argument("--season", type=int, required=True)
-    parser.add_argument("--source")
     args = parser.parse_args()
-    rows, players = build_zone_profiles(Path(args.root).resolve(), args.season, Path(args.source).resolve() if args.source else None)
+    rows, players = build_zone_profiles(Path(args.root).resolve(), args.season)
     print(f"exported {rows} pitches for {players} batter/pitcher profiles")

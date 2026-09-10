@@ -26,14 +26,7 @@ jobs:
         env:
           PYTHONPATH: src
       - name: Re-fetch every completed current-season game
-        run: python -m visualbaseball.cli --refresh-completed --refresh-workers 3
-        env:
-          PYTHONPATH: src
-      - name: Rebuild all Pitch Arsenal seasons
-        run: |
-          for season in 2022 2023 2024 2025 2026; do
-            python -c "from pathlib import Path; from visualbaseball.pitch_arsenal import build_pitch_arsenal; build_pitch_arsenal(Path('.'), \${season})"
-          done
+        run: python -m visualbaseball.cli --collection-mode reconcile --refresh-workers 3
         env:
           PYTHONPATH: src
       - run: |

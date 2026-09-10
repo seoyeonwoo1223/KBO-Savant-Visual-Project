@@ -65,7 +65,7 @@ def test_staged_zone_awareness_and_web_contract(tmp_path):
             "pitch_type": ("직구", "슬라이더", "체인지업")[index % 3],
             "stadium": ("잠실", "문학")[index % 2],
         })
-    source = tmp_path / "data" / "processed" / "decision_pitches.parquet"
+    source = tmp_path / "data" / "metrics" / "swing_take" / "2026" / "decision_pitches.parquet"
     source.parent.mkdir(parents=True)
     pq.write_table(pa.Table.from_pylist(rows), source)
 
@@ -75,12 +75,12 @@ def test_staged_zone_awareness_and_web_contract(tmp_path):
     assert metadata["qualified_batters"] == 4
     assert set(metadata["model"]["branch_samples"].values()) == {400}
     leaderboard = json.loads(
-        (tmp_path / "web/data/zone_awareness/2026/leaderboard.json").read_text()
+        (tmp_path / "web/data/zone_awareness/2026/leaderboard.json").read_text(encoding="utf-8")
     )
     assert len(leaderboard["players"]) == 4
     assert all(player["zone_awareness_plus"] is not None for player in leaderboard["players"])
     shard = json.loads(
-        (tmp_path / "web/data/zone_awareness/2026/players/6.json").read_text()
+            (tmp_path / "web/data/zone_awareness/2026/players/6.json").read_text(encoding="utf-8")
     )
     cell = next(iter(shard["players"].values()))["grid"][0]
     assert abs(cell["p_whiff_if_swing"] + cell["p_contact_if_swing"] - 100) < 0.01

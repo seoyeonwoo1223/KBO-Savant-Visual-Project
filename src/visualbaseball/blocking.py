@@ -12,6 +12,8 @@ import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
 
+from .curated import load_rows
+
 
 PITCH_TYPES = ("FF", "FT", "SI", "FC", "SL", "ST", "CU", "CH", "FS", "UN")
 CONTINUOUS = (
@@ -65,8 +67,10 @@ def _feature_rows(rows: list[dict[str, Any]]) -> tuple[np.ndarray, np.ndarray]:
         raw.append(values)
     matrix = np.asarray(raw, dtype=float)
     continuous = matrix[:, :len(CONTINUOUS)]
-    medians = np.nanmedian(continuous, axis=0)
-    medians = np.where(np.isfinite(medians), medians, 0.0)
+    medians = np.asarray([
+        np.median(column[np.isfinite(column)]) if np.isfinite(column).any() else 0.0
+        for column in continuous.T
+    ])
     missing = ~np.isfinite(continuous)
     continuous[missing] = np.take(medians, np.where(missing)[1])
     scales = continuous.std(axis=0)
@@ -135,11 +139,8 @@ def _auc(probabilities: np.ndarray, target: np.ndarray) -> float:
 
 def build_blocking(root: Path, season: int = 2026, source_root: Path | None = None) -> Path:
     """Build cross-fitted BAA results and browser-friendly JSON."""
-    source_root = source_root or root
-    pitch_path = source_root / "data" / "processed" / "pitches.parquet"
-    game_path = source_root / "data" / "processed" / "games.parquet"
-    pitches = pq.read_table(pitch_path).to_pylist() if pitch_path.exists() else []
-    games = pq.read_table(game_path).to_pylist() if game_path.exists() else []
+    pitches = load_rows(root, "pitches", season)
+    games = load_rows(root, "games", season)
     game_lookup = {str(game.get("game_id")): game for game in games}
     opportunities = [row for row in pitches if int(row.get("season") or season) == season and _opportunity(row)]
     output = root / "web" / "data" / "blocking" / str(season)
@@ -164,7 +165,8 @@ def build_blocking(root: Path, season: int = 2026, source_root: Path | None = No
             "difficulty": _difficulty(float(probability)),
         })
 
-    processed = source_root / "data" / "processed" / "blocking_pitches.parquet"
+    processed = root / "data" / "metrics" / "blocking" / str(season) / "pitches.parquet"
+    processed.parent.mkdir(parents=True, exist_ok=True)
     temporary = processed.with_suffix(".parquet.tmp")
     pq.write_table(pa.Table.from_pylist(detail_rows), temporary); temporary.replace(processed)
 
