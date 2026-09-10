@@ -20,6 +20,7 @@ from .plate_discipline import build_plate_discipline
 from .plate_decision_v1 import build_plate_decision_v1
 from .zone_decision import build_zone_decision
 from .arm_angle import build_arm_angle_input
+from .pickoff import build_pickoff
 from .curated import normalize_trajectory, pitch_sha256, schema_sha256, source_manifest_path
 
 
@@ -74,6 +75,8 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
     build_zone_profiles(root, season)
     build_pitch_arsenal(root, season)
     build_blocking(root, season)
+    if season == 2026:
+        build_pickoff(root, season, storage_root)
 
 
 def main() -> None:
@@ -84,6 +87,8 @@ def main() -> None:
     parser.add_argument("--season", type=int, default=2026)
     parser.add_argument("--game-id")
     parser.add_argument("--rebuild-from-raw", action="store_true")
+    parser.add_argument("--backfill-pickoffs", action="store_true",
+                        help="Refresh complete Naver relays and rebuild 100 runner-pitches pickoff metrics")
     parser.add_argument("--refresh-completed", action="store_true")
     parser.add_argument("--collection-mode", choices=("recent", "sample", "reconcile"), default="recent")
     parser.add_argument("--auto-reconcile", action="store_true")
@@ -102,6 +107,14 @@ def main() -> None:
     args = parser.parse_args()
     root = Path(args.root).resolve()
     storage_root = Path(args.storage_root).resolve() if args.storage_root else root
+    if args.backfill_pickoffs:
+        games, pitches = rebuild_from_raw(
+            storage_root, args.season, True, args.game_id,
+            max(1, args.naver_workers), root
+        )
+        output = build_pickoff(root, args.season, storage_root)
+        print(f"backfilled Naver relays for {games} games and {pitches} pitches; pickoff output: {output}")
+        return
     if args.rebuild_from_raw:
         games, pitches = rebuild_from_raw(
             storage_root, args.season, args.refresh_naver, args.game_id,
@@ -217,6 +230,8 @@ def main() -> None:
     flush()
     if changed_games or not (root / "data" / "metrics" / "arm_angle" / str(args.season) / "input.parquet").exists():
         _exports(root, args.season, storage_root)
+    elif args.season == 2026:
+        build_pickoff(root, args.season, storage_root)
     print(f"reconciled {len(target_games)} games; {changed_games} curated shards changed")
 
 
