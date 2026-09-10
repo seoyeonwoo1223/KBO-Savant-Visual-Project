@@ -44,38 +44,9 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install --disable-pip-version-check -r requirements.txt -c constraints-za.txt
       - run: python -m pytest
-      - name: Check whether the blocking-data backfill is required
-        id: blocking_backfill
-        run: |
-          python - <<'PY'
-          import os
-
-          from pathlib import Path
-          from visualbaseball.curated import load_table
-
-          required = {"catcher_id", "catcher_name", "is_wild_pitch", "is_passed_ball", "naver_match_status"}
-          try:
-              table = load_table(Path("."), "pitches", 2026, columns=list(required))
-              schema = set(table.schema.names)
-              if not required.issubset(schema):
-                  raise ValueError("blocking columns are absent")
-              statuses = table.column("naver_match_status").to_pylist()
-              confirmed = sum(status in {"matched", "record_no_event"} for status in statuses)
-              coverage = confirmed / len(statuses) if statuses else 0.0
-          except (FileNotFoundError, OSError):
-              coverage = 0.0
-          except ValueError:
-              coverage = 0.0
-          needs_backfill = coverage < 0.95
-          print(f"Confirmed Naver WP/PB coverage: {coverage:.1%}")
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
-              output.write(f"required={str(needs_backfill).lower()}\n")
-          PY
       - name: Update Visual Baseball data
         run: |
-          if [ "${{ steps.blocking_backfill.outputs.required }}" = "true" ]; then
-            python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --naver-workers 10
-          elif [ -f .github/refresh-completed-request ]; then
+          if [ -f .github/refresh-completed-request ]; then
             python -m visualbaseball.cli --refresh-completed --refresh-workers 3
           else
             python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
