@@ -36,6 +36,7 @@ jobs:
     env:
       OMP_NUM_THREADS: 2
       OPENBLAS_NUM_THREADS: 2
+      PYTHONPATH: src
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -43,8 +44,6 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install --disable-pip-version-check -r requirements.txt -c constraints-za.txt
       - run: python -m pytest
-        env:
-          PYTHONPATH: src
       - name: Check whether the blocking-data backfill is required
         id: blocking_backfill
         run: |
@@ -81,8 +80,6 @@ jobs:
           else
             python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
           fi
-        env:
-          PYTHONPATH: src
       - name: Publish latest Excel
         env:
           GH_TOKEN: ${{ github.token }}
