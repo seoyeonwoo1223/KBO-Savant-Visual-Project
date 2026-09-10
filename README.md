@@ -11,7 +11,7 @@
 | `data/curated/` | 경기별 canonical `games`, `events`, `pitches` Parquet와 source manifest/audit |
 | `data/metrics/` | Swing/Take, ZA, Blocking, Arm Angle 등 지표별 파생 결과 |
 | `data/leaderboards/source/` | 2026 리더보드 계산 원본, 리그 상수, PF 산출 입력 |
-| `exports/visualbaseball_savant_2026_latest.xlsx` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
+| GitHub Release `visualbaseball-data-latest` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
 | `web/` | GitHub Pages에서 리더보드와 피치 트래킹 시각화를 제공하는 정적 뷰어 |
 | `web/blocking/` | 실험적 KBO Catcher Blocks Above Average 리더보드·위치 맵 |
 | `exports/plate_discipline_research_2026.csv` | 타자별 선구안 베이스 스탯·회귀 잔차·프로필 클러스터 연구표 |
@@ -19,7 +19,7 @@
 
 ## GitHub에서 열람·다운로드
 
-GitHub는 `.xlsx`를 셀 단위로 미리보기하지 않는 바이너리 파일로 취급합니다. 따라서 Excel은 저장소의 [`exports/`](exports/)에서 **Download raw file**로 내려받는 방식이며, 누락된 파일이 아닙니다. `web/`는 같은 데이터를 표와 무브먼트 산점도로 열람할 GitHub Pages 뷰어입니다. Pages를 한 번 활성화하면 아래 주소에서 볼 수 있습니다.
+최신 Excel은 저장소에 커밋하지 않고 [Latest KBO Savant data 릴리스](https://github.com/seoyeonwoo1223/KBO-Savant-Visual-Project/releases/tag/visualbaseball-data-latest)의 첨부 파일로 제공합니다. 이는 GitHub의 대용량 파일 제한을 피하면서 Git clone과 분석 작업의 불필요한 파일 읽기를 줄입니다. `web/`는 같은 데이터를 표와 무브먼트 산점도로 열람할 GitHub Pages 뷰어입니다. Pages를 한 번 활성화하면 아래 주소에서 볼 수 있습니다.
 
 `https://seoyeonwoo1223.github.io/KBO-Savant-Visual-Project/`
 
