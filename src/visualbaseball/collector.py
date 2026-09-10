@@ -58,7 +58,7 @@ def _load_naver(store: Store, season: int, game_id: str, innings: int, client: N
     cached = store.read_naver(season, game_id)
     if cached:
         enrichment = NaverEnrichment.from_dict(cached)
-        if not refresh:
+        if not refresh or enrichment.coverage == "record_no_event":
             return enrichment
     if not client:
         return None
