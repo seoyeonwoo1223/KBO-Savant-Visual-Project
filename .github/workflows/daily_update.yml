@@ -3,7 +3,6 @@ name: Daily Visual Baseball update
 on:
   push:
     paths:
-      - "exports/visualbaseball_savant_2026_latest.xlsx"
       - "src/visualbaseball/**"
       - "data/park_adjustments/**"
       - "web/profiles/**"
@@ -84,9 +83,15 @@ jobs:
           fi
         env:
           PYTHONPATH: src
+      - name: Publish latest Excel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view visualbaseball-data-latest >/dev/null 2>&1 || gh release create visualbaseball-data-latest --title "Latest KBO Savant data" --notes "Automatically regenerated Excel download."
+          gh release upload visualbaseball-data-latest exports/visualbaseball_savant_2026_latest.xlsx --clobber
       - run: |
           git add exports/zone_decision_players_2026.csv
-          git add data web/data exports/visualbaseball_savant_2026_latest.xlsx exports/plate_discipline_research_2026.csv exports/plate_decision_v1_players_2026.csv exports/plate_decision_v1_movement_comparison_2026.csv exports/plate_decision_v1_outliers_2026.csv
+          git add data web/data exports/plate_discipline_research_2026.csv exports/plate_decision_v1_players_2026.csv exports/plate_decision_v1_movement_comparison_2026.csv exports/plate_decision_v1_outliers_2026.csv
           if [ -f .github/refresh-completed-request ]; then
             git rm .github/refresh-completed-request
           fi
