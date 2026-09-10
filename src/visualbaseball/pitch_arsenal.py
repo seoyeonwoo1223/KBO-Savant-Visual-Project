@@ -10,6 +10,8 @@ from statistics import fmean, median
 
 from openpyxl import load_workbook
 
+from .curated import load_rows
+
 
 CM_PER_INCH = 2.54
 FEET_PER_CM = 1 / 30.48
@@ -189,15 +191,12 @@ def _pitch_code(row: dict) -> str:
 
 
 def _load_batter_hands(root: Path, season: int) -> dict[str, str]:
-    """Load PBP-observed batter handedness for legacy workbooks without stance."""
-    source = root / "data" / "batter_handedness.json"
+    """Load handedness from the canonical player dimension."""
+    source = root / "data" / "curated" / "players" / "player_bio.parquet"
     if not source.exists():
         return {}
-    payload = json.loads(source.read_text(encoding="utf-8"))
-    return {
-        str(player_id): str(values.get("bats") or "")
-        for player_id, values in payload.get("seasons", {}).get(str(season), {}).get("players", {}).items()
-    }
+    import pyarrow.parquet as pq
+    return {str(row["player_id"]): str(row.get("bats") or "") for row in pq.read_table(source, columns=["player_id", "bats"]).to_pylist()}
 
 
 def _resolved_batter_stance(row: dict, batter_hands: dict[str, str]) -> str:
@@ -208,7 +207,7 @@ def _resolved_batter_stance(row: dict, batter_hands: dict[str, str]) -> str:
     if bats in {"L", "R"}:
         return bats
     if bats == "S":
-        release_x = _number(row.get("x0"))
+        release_x = _number(row.get("release_x_50"))
         if release_x is not None and abs(release_x) >= 0.1:
             return "L" if release_x < 0 else "R"
     return ""
@@ -220,23 +219,14 @@ def _throws(release_x: list[float]) -> str:
     return "R" if median(release_x) < 0 else "L"
 
 
-def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = None) -> tuple[int, int]:
+def build_pitch_arsenal(root: Path, season: int) -> tuple[int, int]:
     """Export searchable pitcher profiles and compact chart-ready distributions."""
-    source = excel_source or root / "exports" / f"visualbaseball_savant_{season}_latest.xlsx"
-    if not source.exists():
-        raise FileNotFoundError(f"Pitch Arsenal input workbook is missing: {source}")
     factors = _load_park_factors(root, season)
     batter_hands = _load_batter_hands(root, season)
-
-    workbook = load_workbook(source, read_only=True, data_only=True)
+    rows = load_rows(root, "pitches", season)
     pitchers: dict[str, dict] = {}
     eligible = 0
-    try:
-        sheet = workbook["Pitches"]
-        iterator = sheet.iter_rows(values_only=True)
-        headers = [str(value or "") for value in next(iterator, ())]
-        for values in iterator:
-            row = dict(zip(headers, values))
+    for row in rows:
             if _season(row.get("season")) != season or str(row.get("parse_status") or "") != "ok":
                 continue
             code = _pitch_code(row)
@@ -266,11 +256,10 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
             pitcher["pitches"] += 1
             group["n"] += 1
             velocity = _number(row.get("velocity_kmh"))
-            release_x = _number(row.get("x0"))
-            release_z = _number(row.get("z0"))
-            if release_z is None:
-                release_height = _number(row.get("release_height_cm"))
-                release_z = release_height * FEET_PER_CM if release_height is not None else None
+            release_x_cm = _number(row.get("release_x_50"))
+            release_z_cm = _number(row.get("release_z_50"))
+            release_x = release_x_cm * FEET_PER_CM if release_x_cm is not None else None
+            release_z = release_z_cm * FEET_PER_CM if release_z_cm is not None else None
             if velocity is not None:
                 group["velocity"].append(velocity)
                 pitcher["velocity"].append(velocity)
@@ -321,8 +310,6 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
                     ))
                     group["movement_adjusted"] += 1
             eligible += 1
-    finally:
-        workbook.close()
 
     profiles = []
     for pitcher_id, pitcher in sorted(pitchers.items(), key=lambda item: item[1]["name"]):
@@ -366,13 +353,14 @@ def build_pitch_arsenal(root: Path, season: int, excel_source: Path | None = Non
             "schema_version": 2,
             "season": season,
             "source": {
-                "workbook": f"exports/{source.name}",
+                "dataset": f"data/curated/pitches/season={season}",
                 "park_adjustment": f"data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx",
             },
             "method": {
                 "movement": "park-adjusted HB and IVB; adjusted = measured + stadium/pitch offset",
                 "interval": "central 75% (12.5th to 87.5th percentile)",
                 "units": {"velocity": "km/h", "movement": "in"},
+                "release": "hRel/vRel are the normalized y=50 ft release_x_50/release_z_50 values",
                 "factor_aliases": {"FT": "SI", "ST": "SL"},
                 "zone": "abs(px) <= 10/12 ft and sz_bottom <= pz <= sz_top",
                 "rates": {
@@ -482,10 +470,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=".")
     parser.add_argument("--season", type=int, required=True)
-    parser.add_argument("--source")
     args = parser.parse_args()
-    rows, players = build_pitch_arsenal(
-        Path(args.root).resolve(), args.season,
-        Path(args.source).resolve() if args.source else None,
-    )
+    rows, players = build_pitch_arsenal(Path(args.root).resolve(), args.season)
     print(f"exported {rows} pitches for {players} pitcher arsenal profiles")

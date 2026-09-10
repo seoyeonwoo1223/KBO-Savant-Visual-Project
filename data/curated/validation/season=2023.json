@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "schema_sha256": "a552d7d64b006e91c5f6a56487479084ed1f59c761f48e573f31f3c28d8403b3",
+  "season": 2023,
+  "games": 720,
+  "raw_pitches": 219839,
+  "curated_pitches": 219839,
+  "parse_excluded": 0,
+  "parse_exclusion_reasons": {},
+  "pitch_id_duplicates": 0,
+  "trajectory_status": {
+    "no_solution": 4299,
+    "valid": 215540
+  },
+  "source_y0": {
+    "50.0": 219839
+  },
+  "plate_x_error": {
+    "n": 215540,
+    "median_abs_cm": 0.0768095999999956,
+    "p95_abs_cm": 0.1656252872399841
+  },
+  "plate_z_error": {
+    "n": 215540,
+    "median_abs_cm": 0.10237598016002705,
+    "p95_abs_cm": 0.27431999999999007
+  },
+  "relh_minus_z50": {
+    "n": 215540,
+    "median_abs_cm": 0.02503999999998996,
+    "p95_abs_cm": 0.052960000000013
+  }
+}

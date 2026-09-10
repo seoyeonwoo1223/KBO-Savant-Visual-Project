@@ -11,6 +11,8 @@ from pathlib import Path
 import pandas as pd
 from openpyxl import load_workbook
 
+from .curated import load_rows, load_table
+
 
 TEAM_CODES = {
     "두산": "DOO", "삼성": "SAM", "키움": "KIW", "롯데": "LOT", "한화": "HAN",
@@ -46,30 +48,6 @@ def _hit_bases(pa_type: str, result: str) -> int:
     if result.endswith("이") and result not in {"이안", "이내안", "이번안"}:
         return 2
     return 1
-
-
-def _raw_metadata(raw_dir: Path):
-    pa_metadata, starters, game_teams = {}, set(), {}
-    for path in sorted(raw_dir.glob("*.json")):
-        source = json.loads(path.read_text(encoding="utf-8"))
-        game = source["gameData"]
-        game_id = game["gameId"]
-        game_teams[game_id] = {
-            "top": TEAM_CODES[game["away"]["team"]],
-            "bottom": TEAM_CODES[game["home"]["team"]],
-        }
-        starters.add((game_id, str(game["away"].get("starter") or "")))
-        starters.add((game_id, str(game["home"].get("starter") or "")))
-        sequence = 0
-        for inning in source.get("pbpData", []):
-            for pa in inning.get("pas", []):
-                sequence += 1
-                pa_metadata[f"{game_id}-{sequence:03d}"] = {
-                    "team": TEAM_CODES[inning["team"]],
-                    "position": POSITIONS.get(str(pa.get("pos") or "")),
-                    "rbi": int(pa.get("rbi") or 0),
-                }
-    return pa_metadata, starters, game_teams
 
 
 def _constants(path: Path):
@@ -111,10 +89,13 @@ def _pitch_rates(pitches: pd.DataFrame, player_column: str):
 
 
 def _aggregate(root: Path, season: int):
-    pitches = pd.read_parquet(root / "data" / "processed" / "pitches.parquet")
-    pitches = pitches[(pitches["season"] == season) & pitches["game_date"].notna()].copy()
+    pitches = load_table(root, "pitches", season).to_pandas()
+    pitches = pitches[pitches["game_date"].notna()].copy()
     terminal = pitches[pitches["is_pa_terminal"]].sort_values(["game_date", "game_id", "inning", "inning_half", "event_seq"])
-    metadata, starters, game_teams = _raw_metadata(root / "data" / "raw" / str(season))
+    games = load_rows(root, "games", season)
+    game_teams = {game["game_id"]: {"top": TEAM_CODES[game["away_team"]], "bottom": TEAM_CODES[game["home_team"]]} for game in games}
+    starters = {(game["game_id"], str(game.get(field) or "")) for game in games for field in ("away_starter_name", "home_starter_name")}
+    metadata = {row.pa_id: {"team": TEAM_CODES.get(row.batter_team, ""), "position": POSITIONS.get(str(row.batter_position or "")), "rbi": int(row.pa_rbi or 0)} for row in terminal.itertuples(index=False)}
     batting, pitching = defaultdict(Counter), defaultdict(Counter)
     batter_games, pitcher_games, pitcher_starts = defaultdict(set), defaultdict(set), defaultdict(set)
     batter_positions, runner_pitcher = defaultdict(Counter), {}

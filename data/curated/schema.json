@@ -1,0 +1,734 @@
+{
+  "schema_version": 1,
+  "schema_sha256": "a552d7d64b006e91c5f6a56487479084ed1f59c761f48e573f31f3c28d8403b3",
+  "pitch_identity": "provider-stable game_id + plate-appearance sequence + pitch_number; existing pitch_id is retained",
+  "tables": {
+    "pitches": [
+      {
+        "name": "arrival_time_s",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "away_score_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "away_score_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "ax",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "ay",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "az",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "balls_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "balls_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "base_state_after",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "base_state_before",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "base_state_code_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "base_state_code_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "batter_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "batter_name",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "batter_position",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "batter_stance",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "batter_team",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "catcher_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "catcher_name",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "catcher_source",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "drop_angle",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "event_seq",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "fetched_at",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "game_date",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "game_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "game_pitch_number",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "home_score_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "home_score_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "horizontal_movement_cm",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "inning",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "inning_half",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "is_contact",
+        "type": "bool",
+        "nullable": true
+      },
+      {
+        "name": "is_in_play",
+        "type": "bool",
+        "nullable": true
+      },
+      {
+        "name": "is_pa_terminal",
+        "type": "bool",
+        "nullable": true
+      },
+      {
+        "name": "is_passed_ball",
+        "type": "bool",
+        "nullable": true
+      },
+      {
+        "name": "is_swing",
+        "type": "bool",
+        "nullable": true
+      },
+      {
+        "name": "is_take",
+        "type": "bool",
+        "nullable": true
+      },
+      {
+        "name": "is_wild_pitch",
+        "type": "bool",
+        "nullable": true
+      },
+      {
+        "name": "naver_match_status",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "naver_pitch_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "outs_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "outs_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "pa_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pa_rbi",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "pa_result",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pa_type",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "parse_status",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pitch_call_code",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pitch_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pitch_number",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "pitch_result",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pitch_type",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pitch_type_code",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pitch_type_kr",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pitcher_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pitcher_name",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "plate_x_error_cm",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "plate_z_error_cm",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "px",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "pz",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "re24_state_code_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "re24_state_code_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "re288_state_code_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "re288_state_code_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "release_height_cm",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "release_x_50",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "release_x_55",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "release_z_50",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "release_z_55",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "relh_minus_z50_cm",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "runner_1b_id_after",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "runner_1b_id_before",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "runner_2b_id_after",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "runner_2b_id_before",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "runner_3b_id_after",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "runner_3b_id_before",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "runs_on_pitch",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "season",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "source_url",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "source_y0",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "stadium",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "strikes_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "strikes_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "sz_bottom",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "sz_top",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "trajectory_status",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "trajectory_valid",
+        "type": "bool",
+        "nullable": true
+      },
+      {
+        "name": "velocity_kmh",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "velocity_mph",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "vertical_movement_cm",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "vx0",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "vx_50",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "vx_55",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "vy0",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "vy_50",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "vy_55",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "vz0",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "vz_50",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "vz_55",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "x0",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "y0",
+        "type": "double",
+        "nullable": true
+      },
+      {
+        "name": "z0",
+        "type": "double",
+        "nullable": true
+      }
+    ],
+    "events": [
+      {
+        "name": "away_score_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "away_score_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "base_state_after",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "base_state_before",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "batter_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "batter_name",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "event_code",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "event_seq",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "event_type",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "game_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "home_score_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "home_score_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "inning",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "inning_half",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "outs_after",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "outs_before",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "pa_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "parse_status",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pitcher_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "pitcher_name",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "runs_on_event",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "stadium",
+        "type": "string",
+        "nullable": true
+      }
+    ],
+    "games": [
+      {
+        "name": "away_score",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "away_starter_name",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "away_team",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "fetched_at",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "game_date",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "game_id",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "game_status",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "home_score",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "home_starter_name",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "home_team",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "is_final",
+        "type": "bool",
+        "nullable": true
+      },
+      {
+        "name": "season",
+        "type": "int64",
+        "nullable": true
+      },
+      {
+        "name": "source_hash",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "source_url",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "stadium",
+        "type": "string",
+        "nullable": true
+      },
+      {
+        "name": "validation_status",
+        "type": "string",
+        "nullable": true
+      }
+    ]
+  },
+  "coordinates": {
+    "source_y0": "feet from the plate origin; copied from raw pitch.y0",
+    "release_x_50": "centimetres at y=50 ft, catcher-view x convention",
+    "release_z_50": "centimetres at y=50 ft",
+    "release_x_55": "centimetres at y=55 ft, catcher-view x convention",
+    "release_z_55": "centimetres at y=55 ft",
+    "vx_50/vy_50/vz_50": "feet per second at y=50 ft",
+    "vx_55/vy_55/vz_55": "feet per second at y=55 ft",
+    "release_height_cm": "raw provider relH; not recomputed",
+    "missing": "null means absent/uncomputable; false remains an observed boolean"
+  }
+}

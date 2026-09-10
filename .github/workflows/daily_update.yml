@@ -37,8 +37,6 @@ jobs:
     env:
       OMP_NUM_THREADS: 2
       OPENBLAS_NUM_THREADS: 2
-      # Phase 6: CI/production remains legacy until Phase 7 approval.
-      ZA_INPUT_MODE: legacy
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -54,16 +52,16 @@ jobs:
           python - <<'PY'
           import os
 
-          import pyarrow.parquet as pq
+          from pathlib import Path
+          from visualbaseball.curated import load_table
 
           required = {"catcher_id", "catcher_name", "is_wild_pitch", "is_passed_ball", "naver_match_status"}
           try:
-              schema = set(pq.read_schema("data/processed/pitches.parquet").names)
+              table = load_table(Path("."), "pitches", 2026, columns=list(required))
+              schema = set(table.schema.names)
               if not required.issubset(schema):
                   raise ValueError("blocking columns are absent")
-              statuses = pq.read_table(
-                  "data/processed/pitches.parquet", columns=["naver_match_status"]
-              ).column("naver_match_status").to_pylist()
+              statuses = table.column("naver_match_status").to_pylist()
               confirmed = sum(status in {"matched", "record_no_event"} for status in statuses)
               coverage = confirmed / len(statuses) if statuses else 0.0
           except (FileNotFoundError, OSError):
@@ -84,13 +82,6 @@ jobs:
           else
             python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
           fi
-        env:
-          PYTHONPATH: src
-      - name: Rebuild all Pitch Arsenal seasons
-        run: |
-          for season in 2022 2023 2024 2025 2026; do
-            python -c "from pathlib import Path; from visualbaseball.pitch_arsenal import build_pitch_arsenal; build_pitch_arsenal(Path('.'), ${season})"
-          done
         env:
           PYTHONPATH: src
       - run: |

@@ -8,7 +8,8 @@
 |---|---|
 | `src/visualbaseball/` | 현재 사용 중인 Python 수집기와 검증·내보내기 코드 |
 | `data/raw/` | Visual Baseball 게임별 원본 PBP JSON 및 `raw/naver/`의 정규화된 Naver 릴레이 조인 캐시 |
-| `data/processed/` | 신뢰 가능한 분석 원본: `games`, `events`, `pitches` Parquet |
+| `data/curated/` | 경기별 canonical `games`, `events`, `pitches` Parquet와 source manifest/audit |
+| `data/metrics/` | Swing/Take, ZA, Blocking, Arm Angle 등 지표별 파생 결과 |
 | `data/leaderboards/source/` | 2026 리더보드 계산 원본, 리그 상수, PF 산출 입력 |
 | `exports/visualbaseball_savant_2026_latest.xlsx` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
 | `web/` | GitHub Pages에서 리더보드와 피치 트래킹 시각화를 제공하는 정적 뷰어 |
@@ -26,12 +27,13 @@ GitHub는 `.xlsx`를 셀 단위로 미리보기하지 않는 바이너리 파일
 
 ## 데이터 갱신 방식
 
-수집기는 시즌 일정에서 **신규·미완료·실패 게임**과 최근 2일의 확정 경기를 다시 확인합니다. 정상 검증된 게임은 기존 Parquet에서 그 게임 ID의 행만 교체합니다. 그 뒤 Excel과 웹 CSV는 전체 검증 Parquet로부터 다시 만들어지므로, Excel은 누적 추가 파일이 아니라 최신 데이터의 재생성본입니다.
+수집기는 시즌 일정에서 **신규·미완료·실패 게임**과 최근 7일의 확정 경기를 다시 확인합니다. 정상 검증된 게임은 `data/curated/*/season=YYYY/<game_id>.parquet`의 해당 경기 shard만 교체합니다. 그 뒤 모든 metric과 Excel·웹 출력은 공통 curated loader를 사용합니다. 세부 schema·hash·복구 계약은 [canonical data 문서](docs/curated-data.md)를 참고하십시오.
 
 ```powershell
 python -m pip install -r requirements.txt -c constraints-za.txt
 $env:PYTHONPATH = "src"
 python -m visualbaseball.cli
+python -m visualbaseball.build_curated --season 2026 --validate
 pytest
 ```
 
@@ -51,7 +53,7 @@ python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
 
 PF는 주 사용 홈구장을 기준으로 `(해당 팀들의 홈 경기 양 팀 득점/경기) ÷ (같은 팀들의 원정 경기 양 팀 득점/경기)`로 계산한다. 잠실은 LG·두산을 합산하고, 문학은 리더보드의 인천 항목에 연결한다. 사용한 기준일·누적 합계·출처는 `data/leaderboards/source/2026_inputs.json`에 기록한다.
 
-2026 라이브 리더보드는 `PYTHONPATH=src python -m visualbaseball.leaderboard_vb`로 Visual Baseball PBP를 직접 재집계한다. 타자는 200 PA, 투수는 50 IP 이상만 싣는다. 원자료에서 정확히 복원할 수 없는 도루·도실·자책점·승패·세이브·홀드와 타구 유형은 제외한다. `WAR*`는 타자의 수비·주루를 제외한 공격·포지션 보정 추정치와 투수의 FIP 기반 추정치다. 집계 기준일을 검증할 수 없는 2026 OAA 수비 자료는 리더보드에서 제외한다.
+2026 라이브 리더보드는 `PYTHONPATH=src python -m visualbaseball.leaderboard_vb`로 canonical games/pitches shard를 재집계한다. 타자는 200 PA, 투수는 50 IP 이상만 싣는다. 원자료에서 정확히 복원할 수 없는 도루·도실·자책점·승패·세이브·홀드와 타구 유형은 제외한다. `WAR*`는 타자의 수비·주루를 제외한 공격·포지션 보정 추정치와 투수의 FIP 기반 추정치다. 집계 기준일을 검증할 수 없는 2026 OAA 수비 자료는 리더보드에서 제외한다.
 
 ### 포수·폭투·포일 보강
 
@@ -67,7 +69,7 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 `web/blocking/`은 주자가 있거나 2스트라이크인 비접촉 투구를 블로킹 기회로 정의한다. 5-fold 경기 단위 교차검증 로지스틱 모델이 위치·구속·무브먼트·구종·릴리스 방향·타자 손잡이·주자/카운트 상태로 PB+WP 확률을 추정한다. 투구별 `예상 PB+WP - 실제 PB+WP`를 포수별로 합산한 값이 KBO BAA이며, 블로킹 런은 MLB와 같은 0.25 runs/block로 환산한다.
 
-이 결과는 Baseball Savant의 개념과 표시 방식을 KBO 공개 데이터에 적용한 **실험 지표**다. 공개 원본에 포수의 사전 위치가 없으므로 MLB Statcast 지표와 동일한 모델 또는 상호 비교 가능한 값이 아니다. `data/processed/blocking_pitches.parquet`에 투구별 예상 확률과 기여도를, `web/data/blocking/2026/leaderboard.json`에 리더보드와 시각화 집계를 저장한다.
+이 결과는 Baseball Savant의 개념과 표시 방식을 KBO 공개 데이터에 적용한 **실험 지표**다. 공개 원본에 포수의 사전 위치가 없으므로 MLB Statcast 지표와 동일한 모델 또는 상호 비교 가능한 값이 아니다. `data/metrics/blocking/2026/pitches.parquet`에 투구별 예상 확률과 기여도를, `web/data/blocking/2026/leaderboard.json`에 리더보드와 시각화 집계를 저장한다.
 
 ## 검증 원칙
 
@@ -75,23 +77,21 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 ## 자동 갱신
 
-`.github/workflows/daily_update.yml`은 매일 12:07 Asia/Seoul에 테스트 후 수집기를 실행합니다. 최신 Excel의 `Pitches` 시트가 Swing/Take 프로필의 단일 입력이며, Excel이 갱신되면 박준순·홍창기 프로필 JSON과 `data/processed/decision_pitches.parquet`가 함께 재생성됩니다. 중간 분석 테이블인 Decision Pitches는 Excel에 넣지 않습니다. 데이터 내용이 같으면 Excel과 프로필 파일도 바뀌지 않아 커밋하지 않습니다.
+`.github/workflows/daily_update.yml`은 테스트 후 수집기를 실행합니다. canonical pitch shard가 Swing/Take 프로필의 단일 입력이며, 분석 입력이 바뀌면 프로필 JSON과 `data/metrics/swing_take/2026/decision_pitches.parquet`가 함께 재생성됩니다. 중간 분석 테이블인 Decision Pitches는 Excel에 넣지 않습니다. 분석 hash가 같으면 metric을 다시 만들지 않습니다.
 
 ## Swing/Take 프로필 기준
 
-Zone Awareness curated 입력 전환은 [8단계 운영 runbook](docs/za-curated-rollout.md)을
-따릅니다. 승인 전 CI·production 기본값은 `legacy`이며, `curated`를 명시하면 versioned
-manifest와 SHA-256 검증에 실패할 때 legacy로 fallback하지 않고 작업을 중단합니다.
+Zone Awareness는 canonical pitch/event shard만 입력으로 받으며 Excel·legacy cache로 fallback하지 않습니다.
 
 프로필은 2026 KBO 정규시즌의 검증된 투구만 사용한다. 스윙은 헛스윙·파울·인플레이, 테이크는 콜드볼·콜드스트라이크와 타석 종료 사구로 분류한다. 최소 표시 기준은 **300 pitches seen**이며, 이 수치는 FanGraphs의 Swing/Take 분석에서 사용된 하한을 따른다. 300구 미만은 수치를 숨기지 않고 표본 미달로 표시한다.
 
-검색 화면에서는 2022~2026 연도를 선택할 수 있다. 각 연도 Run Value와 리그 평균은 해당 시즌 Excel만으로 별도 계산하므로 서로 섞이지 않는다.
+검색 화면에서는 2022~2026 연도를 선택할 수 있다. 각 연도 Run Value와 리그 평균은 해당 시즌 canonical shard만으로 별도 계산하므로 서로 섞이지 않는다.
 
 ## Plate Discipline 연구 테이블
 
-`src/visualbaseball/plate_discipline.py`는 Swing/Take 산출 직후 타자별 연구용 데이터를 만든다. `data/processed/plate_discipline_pitches.parquet`에는 정규화 좌표와 Heart·Shadow-in·Shadow-out·Chase·Waste 구역, 스윙·컨택·단순 정답 여부를 저장한다. `data/processed/plate_discipline_batters.parquet`와 `exports/plate_discipline_research_2026.csv`에는 Z-Swing%, O-Swing%, 구역별 Swing%, Contact%, 단순 Strikezone Judgment%, Simple SEAGER 기준선, 기존 observed Decision Run, 회귀 잔차와 숫자형 클러스터를 저장한다.
+`src/visualbaseball/plate_discipline.py`는 Swing/Take 산출 직후 타자별 연구용 데이터를 만든다. `data/metrics/plate_discipline/2026/plate_discipline_pitches.parquet`에는 정규화 좌표와 Heart·Shadow-in·Shadow-out·Chase·Waste 구역, 스윙·컨택·단순 정답 여부를 저장한다. 같은 metric 디렉터리의 batter Parquet과 `exports/plate_discipline_research_2026.csv`에는 Z-Swing%, O-Swing%, 구역별 Swing%, Contact%, 단순 Strikezone Judgment%, Simple SEAGER 기준선, 기존 observed Decision Run, 회귀 잔차와 숫자형 클러스터를 저장한다.
 
-회귀식과 클러스터 중심값·표본 기준·정의는 `data/processed/plate_discipline_research.json`에 기록한다. 클러스터 번호는 우열 등급이 아니며, 타구속도·발사각이 없는 현재 원자료로는 PLV처럼 타자별로 좋은 타구가 될 확률까지 분리하지 않는다. 기존 Decision Run은 실제 선택의 결과가 포함된 진단값이므로 counterfactual Decision Value로 부르지 않는다.
+회귀식과 클러스터 중심값·표본 기준·정의는 `data/metrics/plate_discipline/2026/plate_discipline_research.json`에 기록한다. 클러스터 번호는 우열 등급이 아니며, 타구속도·발사각이 없는 현재 원자료로는 PLV처럼 타자별로 좋은 타구가 될 확률까지 분리하지 않는다. 기존 Decision Run은 실제 선택의 결과가 포함된 진단값이므로 counterfactual Decision Value로 부르지 않는다.
 
 ## Zone Awareness v7 · 2024–2026
 

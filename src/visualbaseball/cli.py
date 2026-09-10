@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse, json
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import date
 from pathlib import Path
 from threading import local
 
@@ -18,37 +19,61 @@ from .pitch_arsenal import build_pitch_arsenal
 from .plate_discipline import build_plate_discipline
 from .plate_decision_v1 import build_plate_decision_v1
 from .zone_decision import build_zone_decision
-from .za_inputs import INPUT_MODES, resolve_za_input
+from .arm_angle import build_arm_angle_input
+from .curated import normalize_trajectory, pitch_sha256, schema_sha256, source_manifest_path
 
 
-def _exports(root: Path, season: int, storage_root: Path, za_input_mode: str | None = None,
-             za_curated_version: str | None = None) -> None:
-    # Resolve curated input before any export is written. A bad curated release
-    # must fail the complete production job, not fail after partial publication.
-    selected_za_input = resolve_za_input(
-        root, season, za_input_mode, za_curated_version, storage_root
-    )
-    workbook = export_latest(root, season, storage_root)
-    build_swing_take(storage_root, season, excel_source=workbook)
-    decision_source = storage_root / "data" / "processed" / (
+def _is_final(game: dict) -> bool:
+    status = str(game.get("status", ""))
+    return status.lower() in {"final", "finished", "end"} or (chr(0xC885) + chr(0xB8CC)) in status
+
+
+def select_target_games(schedule: dict, store: Store, season: int, mode: str = "recent",
+                        game_id: str | None = None, today: date | None = None) -> list[dict]:
+    """Select recent, eight time-stratified samples, or every completed game."""
+    today = today or date.today()
+    all_games = []
+    for game_date, games in schedule.items():
+        for game in games:
+            if game_id and game.get("gameId") != game_id:
+                continue
+            all_games.append((date.fromisoformat(game_date), game))
+    completed = [item for item in all_games if _is_final(item[1])]
+    if mode == "reconcile":
+        return [game for _, game in completed]
+    if mode == "sample":
+        eligible = [item for item in completed if (today - item[0]).days > 30]
+        if len(eligible) <= 8:
+            return [game for _, game in eligible]
+        indexes = sorted({round(index * (len(eligible) - 1) / 7) for index in range(8)})
+        return [eligible[index][1] for index in indexes]
+    manifest = store.manifest().get("games", {})
+    return [
+        game for game_date, game in all_games
+        if (game_date <= today and (
+            store.should_fetch(game["gameId"], game_date.isoformat(), 7) if _is_final(game)
+            else manifest.get(game["gameId"], {}).get("status") in {None, "incomplete", "failed"}
+        ))
+    ]
+
+
+def _exports(root: Path, season: int, storage_root: Path) -> None:
+    export_latest(root, season)
+    build_arm_angle_input(root, season)
+    build_swing_take(root, season)
+    decision_source = root / "data" / "metrics" / "swing_take" / str(season) / (
         "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
     )
     if decision_source.exists():
-        build_plate_discipline(storage_root, season, decision_source)
+        build_plate_discipline(root, season, decision_source)
         if pq.read_metadata(decision_source).num_rows >= 1_000:
             if season in (2024, 2025, 2026):
-                build_zone_decision(
-                    root,
-                    season,
-                    storage_root=storage_root,
-                    input_mode=selected_za_input.mode,
-                    curated_version=selected_za_input.version,
-                )
+                build_zone_decision(root, season)
             else:
-                build_plate_decision_v1(storage_root, season, decision_source, web_root=root / "web")
-    build_zone_profiles(root, season, excel_source=workbook)
-    build_pitch_arsenal(root, season, excel_source=workbook)
-    build_blocking(root, season, storage_root)
+                build_plate_decision_v1(root, season, decision_source, web_root=root / "web")
+    build_zone_profiles(root, season)
+    build_pitch_arsenal(root, season)
+    build_blocking(root, season)
 
 
 def main() -> None:
@@ -60,6 +85,8 @@ def main() -> None:
     parser.add_argument("--game-id")
     parser.add_argument("--rebuild-from-raw", action="store_true")
     parser.add_argument("--refresh-completed", action="store_true")
+    parser.add_argument("--collection-mode", choices=("recent", "sample", "reconcile"), default="recent")
+    parser.add_argument("--auto-reconcile", action="store_true")
     parser.add_argument(
         "--refresh-workers",
         type=int,
@@ -72,47 +99,31 @@ def main() -> None:
         help="Fetch and cache Naver relay flags while rebuilding raw games",
     )
     parser.add_argument("--naver-workers", type=int, default=1)
-    parser.add_argument(
-        "--za-input-mode", choices=INPUT_MODES,
-        help="ZA source selection; defaults to ZA_INPUT_MODE, then legacy",
-    )
-    parser.add_argument(
-        "--za-curated-version",
-        help="Version below data/curated/zone_awareness (required for curated mode)",
-    )
     args = parser.parse_args()
     root = Path(args.root).resolve()
     storage_root = Path(args.storage_root).resolve() if args.storage_root else root
     if args.rebuild_from_raw:
         games, pitches = rebuild_from_raw(
-            storage_root, args.season, args.refresh_naver, args.game_id, max(1, args.naver_workers)
+            storage_root, args.season, args.refresh_naver, args.game_id,
+            max(1, args.naver_workers), root
         )
-        _exports(root, args.season, storage_root, args.za_input_mode, args.za_curated_version)
+        _exports(root, args.season, storage_root)
         print(f"rebuilt {games} games and {pitches} pitches")
         return
     if args.fixture:
         payload = json.loads(Path(args.fixture).read_text(encoding="utf-8-sig"))
-        ok, message, pitches = process_payload(storage_root, payload, season=args.season)
+        ok, message, pitches = process_payload(storage_root, payload, season=args.season, curated_root=root)
         if not ok:
             raise SystemExit(message)
-        _exports(root, args.season, storage_root, args.za_input_mode, args.za_curated_version)
+        _exports(root, args.season, storage_root)
         print(f"processed {pitches} pitches")
         return
 
     client = VisualBaseballClient()
-    store = Store(storage_root)
+    store = Store(storage_root, root)
     schedule = client.get_json(f"/api/schedule/season?y={args.season}")["schedule"]
-    target_games: list[dict] = []
-    for game_date, games in schedule.items():
-        for game in games:
-            if args.game_id and game.get("gameId") != args.game_id:
-                continue
-            status = str(game.get("status", ""))
-            if status.lower() not in {"final", "finished", "end"} and (chr(0xC885) + chr(0xB8CC)) not in status:
-                continue
-            if not args.refresh_completed and not store.should_fetch(game["gameId"], game_date):
-                continue
-            target_games.append(game)
+    mode = "reconcile" if args.refresh_completed else args.collection_mode
+    target_games = select_target_games(schedule, store, args.season, mode, args.game_id)
 
     def fetch_game(game: dict, request_client: VisualBaseballClient) -> tuple[object, dict]:
         game_id = game["gameId"]
@@ -124,7 +135,8 @@ def main() -> None:
             naver_enrichment = _load_naver(
                 store, args.season, game_id, innings, NaverSportsClient(), args.refresh_naver
             )
-        return prepare_game(payload, game, args.season, naver_enrichment), payload
+        # The retained payload is the canonical parse input; schedule data only selects targets.
+        return prepare_game(payload, None, args.season, naver_enrichment), payload
 
     workers = max(1, args.refresh_workers)
     fetched: list[tuple[object, dict] | None] = [None] * len(target_games)
@@ -153,11 +165,41 @@ def main() -> None:
                 if completed % 25 == 0 or completed == len(futures):
                     print(f"Visual Baseball fetch: {completed}/{len(futures)} games", flush=True)
 
+    if mode == "sample" and fetched:
+        changed_pitches = 0
+        schema_or_y0_change = False
+        for prepared, payload in fetched:
+            manifest_path = source_manifest_path(root, args.season, prepared.game["game_id"])
+            previous = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
+            current_hash = pitch_sha256(
+                prepared.game, prepared.events,
+                [normalize_trajectory(row) for row in prepared.pitches],
+            )
+            changed_pitches += int(bool(previous) and previous.get("pitch_sha256") != current_hash)
+            observed_y0 = sorted({float(row["y0"]) for row in prepared.pitches if row.get("y0") is not None})
+            schema_or_y0_change |= bool(previous) and (
+                previous.get("schema_sha256") != schema_sha256()
+                or previous.get("observed_y0") != observed_y0
+            )
+        if schema_or_y0_change or changed_pitches >= 2:
+            if args.auto_reconcile:
+                sampled_ids = {game["gameId"] for game in target_games}
+                remaining = [game for game in select_target_games(schedule, store, args.season, "reconcile", args.game_id)
+                             if game["gameId"] not in sampled_ids]
+                print(f"sample triggered automatic reconcile of {len(remaining)} games", flush=True)
+                for index, game in enumerate(remaining, 1):
+                    fetched.append(fetch_game(game, client))
+                    if index % 25 == 0 or index == len(remaining):
+                        print(f"Reconcile fetch: {index}/{len(remaining)} games", flush=True)
+            else:
+                print("WARNING: sample detected schema/y0 or multiple pitch-input changes; rerun with --auto-reconcile", flush=True)
+
     pending_games, pending_events, pending_pitches, pending_completions = [], [], [], []
+    changed_games = 0
 
     def flush() -> None:
-        nonlocal pending_games, pending_events, pending_pitches, pending_completions
-        store.replace_games(pending_games, pending_events, pending_pitches)
+        nonlocal pending_games, pending_events, pending_pitches, pending_completions, changed_games
+        changed_games += store.replace_games(pending_games, pending_events, pending_pitches)
         for prepared, raw_path in pending_completions:
             store.mark(prepared.game["game_id"], "completed", raw_path, prepared.message)
         pending_games, pending_events, pending_pitches, pending_completions = [], [], [], []
@@ -173,7 +215,9 @@ def main() -> None:
             if len(pending_games) >= 25:
                 flush()
     flush()
-    _exports(root, args.season, storage_root, args.za_input_mode, args.za_curated_version)
+    if changed_games or not (root / "data" / "metrics" / "arm_angle" / str(args.season) / "input.parquet").exists():
+        _exports(root, args.season, storage_root)
+    print(f"reconciled {len(target_games)} games; {changed_games} curated shards changed")
 
 
 if __name__ == "__main__":

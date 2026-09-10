@@ -438,7 +438,7 @@ def build_zone_awareness_v2(
     source: Path | None = None,
     web_root: Path | None = None,
 ) -> dict:
-    source = source or root / "data" / "processed" / (
+    source = source or root / "data" / "metrics" / "swing_take" / str(season) / (
         "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
     )
     rows, excluded = [], Counter()
@@ -482,7 +482,7 @@ def build_zone_awareness_v2(
         pitches.append(pitch)
     players = _player_rows(pitches)
 
-    processed = root / "data" / "processed"
+    processed = root / "data" / "metrics" / "zone_awareness_v2" / str(season)
     processed.mkdir(parents=True, exist_ok=True)
     pq.write_table(pa.Table.from_pylist(players), processed / f"zone_awareness_v2_batters_{season}.parquet")
     _write_csv(root / "exports" / f"kbo_zone_awareness_v2_{season}.csv", players)
@@ -512,15 +512,14 @@ def build_zone_awareness_v2_series(
 
     summaries, combined = [], []
     for season in sorted(set(seasons)):
-        source = root / "data" / "processed" / (
+        source = root / "data" / "metrics" / "swing_take" / str(season) / (
             "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
         )
         if not source.exists():
-            workbook = root / "exports" / f"visualbaseball_savant_{season}_latest.xlsx"
-            build_decision_pitches(root, season, workbook, source)
+            build_decision_pitches(root, season, output_path=source)
         summaries.append(build_zone_awareness_v2(root, season, source))
         combined.extend(pq.read_table(
-            root / "data" / "processed" / f"zone_awareness_v2_batters_{season}.parquet"
+            root / "data" / "metrics" / "zone_awareness_v2" / str(season) / f"zone_awareness_v2_batters_{season}.parquet"
         ).to_pylist())
     combined.sort(key=lambda row: (row["season"], row["batter_name"], row["batter_id"]))
     _write_csv(root / "exports" / "kbo_zone_awareness_v2_2022_2026.csv", combined)
@@ -530,7 +529,9 @@ def build_zone_awareness_v2_series(
         "season_summaries": summaries,
         "player_seasons": len(combined),
     }
-    (root / "data" / "processed" / "kbo_zone_awareness_v2_2022_2026.json").write_text(
+    output = root / "data" / "metrics" / "zone_awareness_v2" / "series.json"
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     return result
@@ -546,7 +547,7 @@ if __name__ == "__main__":
     parser.add_argument("--refresh-teams", action="store_true")
     args = parser.parse_args()
     root = Path(args.root).resolve()
-    source = root / "data" / "processed" / (
+    source = root / "data" / "metrics" / "swing_take" / str(args.season) / (
         "decision_pitches.parquet" if args.season == 2026 else f"decision_pitches_{args.season}.parquet"
     )
     result = (

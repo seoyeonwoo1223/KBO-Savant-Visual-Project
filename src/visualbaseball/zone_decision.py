@@ -19,12 +19,11 @@ from sklearn.metrics import log_loss, brier_score_loss
 from sklearn.isotonic import IsotonicRegression
 from sklearn.model_selection import GroupKFold
 from scipy.optimize import minimize, LinearConstraint
-from openpyxl import load_workbook
 from . import plate_decision_v1 as old
 from .pitch_arsenal import _load_batter_hands, _resolved_batter_stance
 from .swing_take import _eligible, _relative_location, _state
 from .zone_awareness_v2 import _team_history
-from .za_inputs import INPUT_MODES, resolve_za_input
+from .curated import load_rows as load_curated_rows, schema_sha256
 
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
@@ -127,40 +126,10 @@ def outcome(row):
  return {'S':'Whiff', 'F':'Foul', 'X':'InPlay', 'B':'Ball', 'T':'CalledStrike'}.get(code)
 
 
-def load_rows(root, season, storage_root=None, input_mode=None, curated_version=None):
- selected_input=resolve_za_input(root,season,input_mode,curated_version,storage_root)
- cache_root=(root/'.cache' if selected_input.mode=='legacy' else
-             root/'data/curated/zone_awareness'/selected_input.version/'.cache')
- cache = cache_root / f'za_source_{season}.parquet'
- cache.parent.mkdir(parents=True,exist_ok=True)
- source=selected_input.path
- hashes={}
- if season == 2026:
-  rows = pq.read_table(source).to_pylist()
-  event_source=selected_input.events_path
-  events=pq.read_table(event_source).to_pylist()
-  hashes={source.name:selected_input.sha256 or file_hash(source),
-          event_source.name:selected_input.events_sha256 or file_hash(event_source)}
- else:
-  fingerprint=selected_input.sha256 or file_hash(source);hashes[source.name]=fingerprint
-  marker=cache.with_suffix('.sha256');event_cache=cache.with_name(f'za_events_{season}.parquet')
-  if cache.exists() and event_cache.exists() and marker.exists() and marker.read_text()==fingerprint:
-   rows=pq.read_table(cache).to_pylist();events=pq.read_table(event_cache).to_pylist()
-  else:
-   workbook=load_workbook(source,read_only=True,data_only=True)
-   try:
-    tables=[]
-    for sheet in ('Pitches','Events'):
-     iterator=workbook[sheet].iter_rows(values_only=True);headers=next(iterator)
-     tables.append([dict(zip(headers,values)) for values in iterator])
-    rows,events=tables
-   finally:
-    workbook.close()
-   rows=[r for r in rows if r.get('season')==season]
-   pq.write_table(pa.Table.from_pylist(rows),cache)
-   pq.write_table(pa.Table.from_pylist(events),event_cache)
-   marker.write_text(fingerprint,encoding='utf-8')
- rows=[r for r in rows if int(r.get('season') or season)==season]
+def load_rows(root, season):
+ rows=load_curated_rows(root,'pitches',season)
+ events=load_curated_rows(root,'events',season)
+ hashes={'schema_sha256':schema_sha256()}
  rows,quality=reliable_halves(rows,events)
  hands = _load_batter_hands(root, season)
  valid, excluded = [], Counter()
@@ -179,9 +148,9 @@ def load_rows(root, season, storage_root=None, input_mode=None, curated_version=
  keep = set(NUMERIC + old.PZONE_NUMERIC + old.CATEGORICAL + ('game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
  keep.update(f'{k}_{w}' for k in ('base_state_code','outs','balls','strikes') for w in ('before','after'))
  valid = [{k:v for k,v in r.items() if k in keep} for r in valid]
- for p in (root/'data/batter_handedness.json',root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'):
+ for p in (root/'data/curated/players/player_bio.parquet',root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'):
   if p.exists():hashes[p.name]=file_hash(p)
- return sorted(valid, key=lambda r:r['game_id']), {'source':source.name,'input_mode':selected_input.mode,'curated_version':selected_input.version,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'unknown_stance':sum(not r['batter_stance'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
+ return sorted(valid, key=lambda r:r['game_id']), {'source':f'data/curated/pitches/season={season}','input_mode':'curated','curated_version':None,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'unknown_stance':sum(not r['batter_stance'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
 
 
 def walk_state(s):
@@ -489,11 +458,10 @@ def write_web(root,season,pitches,report,output_root=None):
  return players
 
 
-def build_zone_decision(root,season=2026,storage_root=None,input_mode=None,curated_version=None):
+def build_zone_decision(root,season=2026):
  print('ZA season',season,flush=True)
- rows,source=load_rows(root,season,storage_root,input_mode,curated_version)
- output_root=(root/'data/curated/zone_awareness'/source['curated_version']/'outputs'
-              if source['input_mode']=='curated' else root)
+ rows,source=load_rows(root,season)
+ output_root=root
  validation=temporal_evaluation(rows)
  selected=validation['selected'];print('  Selected:',selected,flush=True)
  # Metric changes stay local to zone_awareness(), decision_value(), and
@@ -517,14 +485,14 @@ def build_zone_decision(root,season=2026,storage_root=None,input_mode=None,curat
   'limitations':LIMITATIONS}
  players=write_web(root,season,result,report,output_root)
  report['batters']=len(players)
- path=output_root/'data/processed'/f'zone_decision_report_{season}.json';path.parent.mkdir(parents=True,exist_ok=True)
+ path=root/'data/metrics/zone_awareness'/str(season)/'report.json';path.parent.mkdir(parents=True,exist_ok=True)
  path.write_text(json.dumps(report,ensure_ascii=False,indent=2,allow_nan=False)+'\n',encoding='utf-8')
  # Compact pitch evidence is reproducible; not committed as a large binary.
- evidence_cache=(root/'.cache' if source['input_mode']=='legacy' else output_root/'.cache')
+ evidence_cache=root/'data/metrics/zone_awareness'/str(season)
  evidence_cache.mkdir(parents=True,exist_ok=True)
- pq.write_table(pa.Table.from_pylist([{k:v for k,v in r.items() if k not in ('adjusted_hb_cm','adjusted_ivb_cm')} for r in result]),evidence_cache/f'zone_decision_pitches_{season}.parquet')
+ pq.write_table(pa.Table.from_pylist([{k:v for k,v in r.items() if k not in ('adjusted_hb_cm','adjusted_ivb_cm')} for r in result]),evidence_cache/'pitches.parquet')
  return report
 
 if __name__=='__main__':
- parser=argparse.ArgumentParser();parser.add_argument('--root',default='.');parser.add_argument('--seasons',nargs='+',type=int,default=[2024,2025,2026]);parser.add_argument('--input-mode',choices=INPUT_MODES);parser.add_argument('--curated-version');args=parser.parse_args()
- for year in args.seasons: build_zone_decision(Path(args.root).resolve(),year,input_mode=args.input_mode,curated_version=args.curated_version)
+ parser=argparse.ArgumentParser();parser.add_argument('--root',default='.');parser.add_argument('--seasons',nargs='+',type=int,default=[2024,2025,2026]);args=parser.parse_args()
+ for year in args.seasons: build_zone_decision(Path(args.root).resolve(),year)

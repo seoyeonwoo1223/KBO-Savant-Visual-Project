@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "game_id": "20260523WOLG0",
+  "season": 2026,
+  "first_collected_at": "2026-09-09T16:10:42+00:00",
+  "last_collected_at": "2026-09-10T03:52:07+00:00",
+  "last_checked_at": "2026-09-10T13:42:43+00:00",
+  "raw_sha256": "966679ba98e4e12a3f1b08a8caf5b4d683954e0a029ccfee6dfc96c42cc64cfb",
+  "pitch_sha256": "3f50c13551b9fdcfe659a4c7b9c2c5f9f4143e37af31b8e2a3ff8aed703b1754",
+  "schema_sha256": "a552d7d64b006e91c5f6a56487479084ed1f59c761f48e573f31f3c28d8403b3",
+  "revision": 4,
+  "observed_y0": [
+    50.0
+  ],
+  "raw_pitch_count": 249,
+  "curated_pitch_count": 249,
+  "parse_excluded": 0,
+  "parse_exclusion_reasons": {},
+  "provenance": {
+    "type": "visualbaseball_json",
+    "path": "data/raw/2026/20260523WOLG0.json"
+  }
+}

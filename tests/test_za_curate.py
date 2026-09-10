@@ -1,37 +1,32 @@
 import json
+from pathlib import Path
 
-import pytest
-
-from visualbaseball.za_curate import curate, inventory, sha256
-from visualbaseball.za_inputs import resolve_za_input
-
-
-def test_inventory_is_read_only(tmp_path):
-    source = tmp_path / "data/processed/pitches.parquet"
-    source.parent.mkdir(parents=True)
-    source.write_bytes(b"legacy")
-    events = source.with_name("events.parquet")
-    events.write_bytes(b"events")
-    before = sorted(path.relative_to(tmp_path) for path in tmp_path.rglob("*"))
-    result = inventory(tmp_path, 2026)
-    assert result["legacy_sha256"] == sha256(source)
-    assert result["events_sha256"] == sha256(events)
-    assert sorted(path.relative_to(tmp_path) for path in tmp_path.rglob("*")) == before
+from visualbaseball.build_curated import build_curated
+from visualbaseball.curated import load_table
 
 
-def test_curate_creates_only_versioned_copy_and_manifest(tmp_path):
-    source = tmp_path / "data/processed/pitches.parquet"
-    source.parent.mkdir(parents=True)
-    source.write_bytes(b"legacy stays unchanged")
-    events = source.with_name("events.parquet")
-    events.write_bytes(b"events stay unchanged")
-    manifest_path = curate(tmp_path, 2026, "za-v1")
-    manifest = json.loads(manifest_path.read_text())
-    assert source.read_bytes() == b"legacy stays unchanged"
-    assert manifest["seasons"]["2026"]["sha256"] == sha256(source)
-    assert manifest["seasons"]["2026"]["events_sha256"] == sha256(events)
-    selected = resolve_za_input(tmp_path, 2026, "curated", "za-v1")
-    assert selected.path.read_bytes() == source.read_bytes()
-    assert selected.events_path.read_bytes() == events.read_bytes()
-    with pytest.raises(FileExistsError, match="immutable"):
-        curate(tmp_path, 2026, "za-v1")
+ROOT = Path(__file__).parents[1]
+
+
+def test_raw_build_creates_game_shards_and_provenance(tmp_path):
+    raw = tmp_path / "storage/data/raw/2026/20260328HTSK0.json"
+    raw.parent.mkdir(parents=True)
+    raw.write_bytes((ROOT / "data/raw/2026/20260328HTSK0.json").read_bytes())
+    result = build_curated(tmp_path, 2026, storage_root=tmp_path / "storage", validate=True)
+    assert result["games"] == result["changed"] == 1
+    assert result["pitches"] == 338
+    assert load_table(tmp_path, "pitches", 2026).num_rows == 338
+    manifest = json.loads((tmp_path / "data/curated/sources/season=2026/20260328HTSK0.json").read_text(encoding="utf-8"))
+    assert manifest["raw_pitch_count"] == manifest["curated_pitch_count"] == 338
+    assert len(manifest["raw_sha256"]) == len(manifest["pitch_sha256"]) == len(manifest["schema_sha256"]) == 64
+
+
+def test_unchanged_build_is_a_noop(tmp_path):
+    raw = tmp_path / "data/raw/2026/20260328HTSK0.json"
+    raw.parent.mkdir(parents=True)
+    raw.write_bytes((ROOT / "data/raw/2026/20260328HTSK0.json").read_bytes())
+    assert build_curated(tmp_path, 2026)["changed"] == 1
+    shard = tmp_path / "data/curated/pitches/season=2026/20260328HTSK0.parquet"
+    before = shard.read_bytes()
+    assert build_curated(tmp_path, 2026)["changed"] == 0
+    assert shard.read_bytes() == before

@@ -42,9 +42,11 @@ def cache_payload(store: Store, season: int, payload: dict, prepared: PreparedGa
     return raw_path
 
 
-def process_payload(root: Path, payload: dict, schedule_game: dict | None = None, season: int = 2026, naver_enrichment: NaverEnrichment | None = None) -> tuple[bool, str, int]:
+def process_payload(root: Path, payload: dict, schedule_game: dict | None = None, season: int = 2026,
+                    naver_enrichment: NaverEnrichment | None = None,
+                    curated_root: Path | None = None) -> tuple[bool, str, int]:
     prepared = prepare_game(payload, schedule_game, season, naver_enrichment)
-    store = Store(root)
+    store = Store(root, curated_root)
     raw_path = cache_payload(store, season, payload, prepared)
     if raw_path:
         store.replace_game(prepared.game, prepared.events, prepared.pitches)
@@ -69,9 +71,11 @@ def _load_naver(store: Store, season: int, game_id: str, innings: int, client: N
         return None
 
 
-def rebuild_from_raw(root: Path, season: int = 2026, refresh_naver: bool = False, game_id: str | None = None, naver_workers: int = 1) -> tuple[int, int]:
+def rebuild_from_raw(root: Path, season: int = 2026, refresh_naver: bool = False,
+                     game_id: str | None = None, naver_workers: int = 1,
+                     curated_root: Path | None = None) -> tuple[int, int]:
     """Reparse retained source payloads after a schema or parser change."""
-    store = Store(root)
+    store = Store(root, curated_root)
     requested_game_id = game_id
     completed: list[tuple[PreparedGame, Path]] = []
     paths = sorted((root / "data" / "raw" / str(season)).glob("*.json"))

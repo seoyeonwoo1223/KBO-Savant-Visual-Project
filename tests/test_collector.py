@@ -2,13 +2,14 @@ import json
 from pathlib import Path
 from unittest.mock import patch
 
-import pyarrow.parquet as pq
 import pytest
+from openpyxl import load_workbook
 
 from visualbaseball.collector import process_payload
 from visualbaseball.naver import NaverEnrichment, build_enrichment, pitch_key
 from visualbaseball.parser import parse_game
 from visualbaseball.state_machine import GameState
+from visualbaseball.curated import load_rows
 from visualbaseball.storage import Store
 from visualbaseball.validation import validate_game
 from visualbaseball.export_excel import export_latest
@@ -22,16 +23,16 @@ def test_sample_game_and_idempotency(tmp_path):
     payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
     ok, message, pitches = process_payload(tmp_path, payload)
     assert ok and message == "PASS" and pitches == 338
-    first = pq.read_table(tmp_path / "data/processed/pitches.parquet").num_rows
+    first = len(load_rows(tmp_path, "pitches", 2026))
     ok, message, pitches = process_payload(tmp_path, payload)
     assert ok and message == "PASS" and pitches == 338
-    assert pq.read_table(tmp_path / "data/processed/pitches.parquet").num_rows == first
-    rows = pq.read_table(tmp_path / "data/processed/pitches.parquet").to_pylist()
+    assert len(load_rows(tmp_path, "pitches", 2026)) == first
+    rows = load_rows(tmp_path, "pitches", 2026)
     assert len({row["pitch_id"] for row in rows}) == 338
     assert not any("spin" in key.lower() for row in rows for key in row)
-    game_stadium = pq.read_table(tmp_path / "data/processed/games.parquet").to_pylist()[0]["stadium"]
+    game_stadium = load_rows(tmp_path, "games", 2026)[0]["stadium"]
     assert {row["stadium"] for row in rows} == {game_stadium}
-    events = pq.read_table(tmp_path / "data/processed/events.parquet").to_pylist()
+    events = load_rows(tmp_path, "events", 2026)
     assert {row["stadium"] for row in events} == {game_stadium}
     assert not any(row["event_code"] == "OFFICIAL_LINESCORE_RECONCILIATION" for row in events)
     assert sum(row["runs_on_pitch"] for row in rows) == 13
@@ -120,7 +121,10 @@ def test_official_linescore_overrides_conflicting_pbp_snapshot():
 def test_season_export_uses_separate_storage_and_output_name(tmp_path):
     storage_root, output_root = tmp_path / "season", tmp_path / "output"
     payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
-    assert process_payload(storage_root, payload, season=2025)[0]
-    output = export_latest(output_root, 2025, storage_root)
+    assert process_payload(storage_root, payload, season=2025, curated_root=output_root)[0]
+    output = export_latest(output_root, 2025)
     assert output.name == "visualbaseball_savant_2025_latest.xlsx"
     assert output.exists()
+    workbook = load_workbook(output, read_only=True)
+    assert workbook["Pitches"].max_row == 339
+    workbook.close()

@@ -1,9 +1,8 @@
-from pathlib import Path
 import json
+from pathlib import Path
 import tempfile
 
-import xlsxwriter
-
+from visualbaseball.curated import write_game
 from visualbaseball.swing_take import build_swing_take
 
 
@@ -22,23 +21,17 @@ def pitch(seq, call, balls, strikes, after_balls, after_strikes, px, pz, outs_af
 
 with tempfile.TemporaryDirectory() as directory:
     root = Path(directory)
-    workbook_path = root / "exports" / "visualbaseball_savant_2026_latest.xlsx"
-    workbook_path.parent.mkdir(parents=True)
     rows = [
         pitch(1, "B", 0, 0, 1, 0, 0, 2.5),
         pitch(2, "F", 1, 0, 1, 1, 1.0, 2.5),
         pitch(3, "S", 1, 1, 1, 2, 1.5, 2.5),
         pitch(4, "S", 1, 2, 0, 0, 0, 2.5, outs_after=3),
     ]
-    workbook = xlsxwriter.Workbook(workbook_path)
-    sheet = workbook.add_worksheet("Pitches")
-    columns = list(rows[0])
-    sheet.write_row(0, 0, columns)
     for index, row in enumerate(rows, 1):
-        sheet.write_row(index, 0, [row[column] for column in columns])
-    workbook.close()
+        row["pitch_id"] = f"p{index}"
+    write_game(root, {"season": 2026, "game_id": "g"}, [], rows)
 
-    eligible, targeted = build_swing_take(root, excel_source=workbook_path)
+    eligible, targeted = build_swing_take(root)
     index = json.loads((root / "web/data/swing_take/2026/index.json").read_text(encoding="utf-8"))
     player = next(player for player in index["players"] if player["name"] == "홍창기")
     shard_name = player["id"][0] if player["id"][0].isdigit() else "other"
@@ -47,5 +40,5 @@ with tempfile.TemporaryDirectory() as directory:
 
     assert eligible == 4 and targeted == 4
     assert len(pitches["pitches"]) == 4
-    assert shard["source"]["workbook"].endswith("visualbaseball_savant_2026_latest.xlsx")
-    assert shard["source"]["sha256"]
+    assert shard["source"]["dataset"] == "data/curated/pitches"
+    assert shard["source"]["schema_sha256"]

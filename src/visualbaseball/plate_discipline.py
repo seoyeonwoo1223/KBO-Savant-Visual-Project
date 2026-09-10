@@ -404,7 +404,7 @@ def build_pure_zone_awareness(raw_rows: list[dict], season: int) -> tuple[list[d
 
 def build_plate_discipline(root: Path, season: int = 2026, source: Path | None = None) -> tuple[int, int]:
     """Export pitch/player research tables, regression metadata, and clusters."""
-    source = source or root / "data" / "processed" / "decision_pitches.parquet"
+    source = source or root / "data" / "metrics" / "swing_take" / str(season) / "decision_pitches.parquet"
     raw_rows = pq.read_table(source).to_pylist()
     compact = [
         _compact_pitch(row) for row in raw_rows
@@ -453,7 +453,7 @@ def build_plate_discipline(root: Path, season: int = 2026, source: Path | None =
             if field in pure_fields or field.startswith("pure_"):
                 row[field] = value
 
-    processed = root / "data" / "processed"
+    processed = root / "data" / "metrics" / "plate_discipline" / str(season)
     exports = root / "exports"
     processed.mkdir(parents=True, exist_ok=True)
     exports.mkdir(parents=True, exist_ok=True)
