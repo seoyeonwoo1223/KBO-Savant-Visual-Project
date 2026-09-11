@@ -45,8 +45,9 @@ Team-level outputs:
 
 Definition: runner-present `투수판 이탈` events / runner-pitches × 100.
 
+- Numerator and denominator are restricted to the same 618 games with curated pitch data.
+- 70 crawled games without a curated pitch denominator are excluded from both sides of the rate.
 - Numerator excludes `투수판 이탈` records whose Naver `currentGameState` has all bases empty.
 - Denominator is a curated pitch with `base_state_code_before != 0` or any runner-before id present.
-- Defensive rate is attributed to the pitching team.
-- Received rate is attributed to the batting team.
+- Defensive rate is attributed to the pitching team; received rate is attributed to the batting team.
 - Keep the label `Disengagements`, not literal `Pickoff Throws`, because a disengagement can include a step-off without an actual throw.
