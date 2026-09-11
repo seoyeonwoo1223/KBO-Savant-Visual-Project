@@ -1,26 +1,36 @@
 # 2026 pickoff experiment
 
-This directory archives a one-off exploratory pickoff dataset built from Naver Sports relay text and the project's 2026 curated pitch data.
+This directory archives exploratory 2026 pickoff/disengagement work built from Naver Sports relay text and the project's pitch data.
 
 ## Status
 
 - Experimental archive only.
-- Do not publish this as a production metric or use it as a true count of routine pickoff throws.
-- Naver relay text materially under-records routine pickoff attempts that do not produce an out, error, review, or other notable runner event.
+- Do not interpret `견제`-text events as a complete count of routine pickoff throws.
+- The newer `투수판 이탈` crawl is a broader pitcher-disengagement signal and is substantially more complete for routine runner-control actions, but it is still not identical to literal pickoff throws.
 
 ## Files
 
-- `team_summary.json`: team-level exploratory counts and rates per 100 runner-pitches.
-- `team_summary.parquet`: parquet copy of the team summary.
-- `events.parquet`: normalized Naver-recorded pickoff-related events.
-- `audit.json`: audit used to diagnose source coverage.
+- `team_summary.json`: original `견제`-text exploratory team counts/rates.
+- `team_summary.parquet`: parquet copy of the original team summary.
+- `events.parquet`: normalized original `견제`-related events.
+- `audit.json`: audit used to diagnose the original source coverage.
+- `disengagement_summary.json`: 2026 full-season Naver `투수판 이탈` crawl summary, team/game distribution, and base-occupancy validation.
+- `disengagement_events.json`: full `투수판 이탈` event records including `currentGameState.base1/base2/base3`.
+- `disengagement_events.csv`: flat event export for inspection.
 
-## Metric definition used in the experiment
+## Original `견제` text experiment
 
 - Runner pitch: a regular pitch with at least one runner on 1B, 2B, or 3B immediately before the pitch.
-- Exploratory rate: Naver-recorded pickoff-related events / defensive runner-pitches × 100.
-- Received rate: the same events attributed to the offensive team / offensive runner-pitches × 100.
+- Exploratory rate: Naver-recorded `견제`-related events / defensive runner-pitches × 100.
+- The 2026 audit found only 174 `견제`-containing relay entries, mostly outs/errors/reviews, so this cannot represent routine pickoff-attempt frequency.
 
-## Known limitation
+## `투수판 이탈` follow-up
 
-The 2026 backfill found 174 Naver relay entries containing `견제`; the audit showed that most were associated with outs or throwing errors, with very few routine no-out/no-error attempts. The source therefore cannot support a true team pickoff-attempt frequency leaderboard.
+The full 2026 crawl searched every available Naver `textRelayData` inning for `투수판 이탈`.
+
+- 688 games and 6,254 innings were fetched with zero fetch-error games.
+- 7,171 disengagement events were found; 7,168 were the exact routine text `투수 투수판 이탈` and 3 were explicit disengagement warnings.
+- 6,153? No: use the summary as the canonical source for all counts; the validated count is 7,153 events with at least one runner on base and 18 with bases empty.
+- Runner-present share: 99.749%.
+
+This strongly suggests `투수판 이탈` is the useful relay signal for measuring how often a pitcher disengages while controlling runners. Keep the metric name aligned with that meaning (for example, `Disengagements / 100 runner-pitches`) unless broadcast/manual validation demonstrates that every such event is a literal pickoff throw.
