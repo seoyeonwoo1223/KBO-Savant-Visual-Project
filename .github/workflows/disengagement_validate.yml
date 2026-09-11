@@ -19,7 +19,7 @@ jobs:
         with:
           ref: feature/pickoff-runner-pitches
           fetch-depth: 1
-          filter: blob:none
+          filter: "blob:none"
           sparse-checkout: |
             .github/workflows/disengagement_validate.yml
             data/experimental/pickoff/2026
@@ -41,14 +41,14 @@ jobs:
               return value not in (None, '', 0, '0', False, {}, [])
 
           combos = Counter()
+          base_counts = Counter()
           any_runner = 0
           empty = 0
-          base_counts = Counter()
           empty_examples = []
           for e in events:
               state = e.get('current_game_state') or {}
-              flags = tuple(occupied(state.get(base)) for base in ('base1','base2','base3'))
-              combo = ''.join(str(i+1) for i, flag in enumerate(flags) if flag) or 'empty'
+              flags = tuple(occupied(state.get(base)) for base in ('base1', 'base2', 'base3'))
+              combo = ''.join(str(i + 1) for i, flag in enumerate(flags) if flag) or 'empty'
               combos[combo] += 1
               for i, flag in enumerate(flags, 1):
                   if flag:
@@ -59,9 +59,12 @@ jobs:
                   empty += 1
                   if len(empty_examples) < 20:
                       empty_examples.append({
-                          'game_id': e.get('game_id'), 'inning': e.get('inning'),
-                          'inning_half': e.get('inning_half'), 'pitching_team': e.get('pitching_team'),
-                          'text': e.get('text'), 'seqno': e.get('seqno'),
+                          'game_id': e.get('game_id'),
+                          'inning': e.get('inning'),
+                          'inning_half': e.get('inning_half'),
+                          'pitching_team': e.get('pitching_team'),
+                          'text': e.get('text'),
+                          'seqno': e.get('seqno'),
                           'current_game_state': state,
                       })
 
@@ -76,34 +79,14 @@ jobs:
           }
           summary['base_occupancy_validation'] = validation
           summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding='utf-8')
-
           print('BASE_VALIDATION', json.dumps(validation, ensure_ascii=False), flush=True)
           PY
 
-      - name: Update README, commit validation, and remove workflow
+      - name: Commit validation and remove temporary workflow
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path('data/experimental/pickoff/2026/README.md')
-          text = p.read_text(encoding='utf-8')
-          add = '''
-
-## Disengagement follow-up
-
-A second crawl searched every 2026 Naver `textRelayData` inning for `투수판 이탈`. This is a different signal from the earlier `견제`-text experiment: it records pitcher disengagement events, including routine step-offs/pickoff-related actions that are not described with the word `견제`.
-
-- `disengagement_summary.json`: league/team/game counts and base-occupancy validation.
-- `disengagement_events.json`: full event records including `currentGameState.base1/base2/base3`.
-- `disengagement_events.csv`: flat event export.
-
-Treat this as **pitcher disengagement frequency**, not automatically as literal pickoff throws. The base-occupancy validation in the summary should be used when restricting the metric to runner-on-base situations.
-'''
-          if '## Disengagement follow-up' not in text:
-              p.write_text(text.rstrip() + add, encoding='utf-8')
-          PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm .github/workflows/disengagement_validate.yml
-          git add data/experimental/pickoff/2026/disengagement_summary.json data/experimental/pickoff/2026/README.md
+          git add data/experimental/pickoff/2026/disengagement_summary.json
           git commit -m "data: validate disengagement runner occupancy"
           git push origin HEAD:feature/pickoff-runner-pitches
