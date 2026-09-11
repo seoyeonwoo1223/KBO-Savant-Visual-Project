@@ -1,0 +1,222 @@
+name: Crawl 2026 Naver disengagement events
+
+on:
+  push:
+    branches:
+      - feature/pickoff-runner-pitches
+    paths:
+      - ".github/workflows/disengagement_crawl.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/pickoff-runner-pitches
+          fetch-depth: 0
+
+      - name: Crawl Naver relay for pitcher disengagements
+        run: |
+          python3 - <<'PY'
+          import csv
+          import json
+          import time
+          import urllib.error
+          import urllib.request
+          from collections import Counter, defaultdict
+          from concurrent.futures import ThreadPoolExecutor, as_completed
+          from pathlib import Path
+
+          SEASON = 2026
+          ROOT = Path('.')
+          RAW = ROOT / 'data' / 'raw' / str(SEASON)
+          OUT = ROOT / 'data' / 'experimental' / 'pickoff' / str(SEASON)
+          OUT.mkdir(parents=True, exist_ok=True)
+          BASE = 'https://api-gw.sports.naver.com'
+          USER_AGENT = 'kbo-savant-disengagement-audit/1.0'
+          KEYWORD = '투수판 이탈'
+
+          def get_json(url, retries=4):
+              last = None
+              for attempt in range(retries):
+                  try:
+                      req = urllib.request.Request(url, headers={'User-Agent': USER_AGENT})
+                      with urllib.request.urlopen(req, timeout=25) as resp:
+                          return json.loads(resp.read().decode('utf-8-sig'))
+                  except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError, json.JSONDecodeError) as exc:
+                      last = exc
+                      status = getattr(exc, 'code', None)
+                      if status not in (None, 429, 500, 502, 503, 504):
+                          break
+                      time.sleep(min(8, 1.25 * (2 ** attempt)))
+              raise RuntimeError(f'GET failed: {url}: {last}')
+
+          games = []
+          for path in sorted(RAW.glob('*.json')):
+              try:
+                  payload = json.loads(path.read_text(encoding='utf-8-sig'))
+              except Exception as exc:
+                  print('RAW_READ_FAIL', path, exc, flush=True)
+                  continue
+              gd = payload.get('gameData') or {}
+              game_id = str(gd.get('gameId') or path.stem)
+              innings = max((int(half.get('inning') or 0) for half in payload.get('pbpData') or []), default=9)
+              games.append({
+                  'game_id': game_id,
+                  'date': str(gd.get('fullDate') or gd.get('date') or game_id[:8]),
+                  'stadium': str(gd.get('stadium') or ''),
+                  'away_team': str((gd.get('away') or {}).get('team') or ''),
+                  'home_team': str((gd.get('home') or {}).get('team') or ''),
+                  'innings': max(1, innings),
+              })
+
+          print('GAMES_FOUND', len(games), flush=True)
+
+          def crawl_game(meta):
+              events = []
+              fetched = 0
+              errors = []
+              naver_game_id = f"{meta['game_id']}{SEASON}"
+              for inning in range(1, meta['innings'] + 1):
+                  url = f'{BASE}/schedule/games/{naver_game_id}/relay?inning={inning}'
+                  try:
+                      payload = get_json(url)
+                      fetched += 1
+                  except Exception as exc:
+                      errors.append({'inning': inning, 'error': str(exc)})
+                      continue
+                  relay = (payload.get('result') or {}).get('textRelayData') or {}
+                  for pa in relay.get('textRelays') or []:
+                      half = 'top' if str(pa.get('homeOrAway')) == '0' else 'bottom'
+                      batting = meta['away_team'] if half == 'top' else meta['home_team']
+                      pitching = meta['home_team'] if half == 'top' else meta['away_team']
+                      for opt in pa.get('textOptions') or []:
+                          text = str(opt.get('text') or '').strip()
+                          if KEYWORD not in text:
+                              continue
+                          state = opt.get('currentGameState') or {}
+                          events.append({
+                              'game_id': meta['game_id'],
+                              'date': meta['date'],
+                              'stadium': meta['stadium'],
+                              'away_team': meta['away_team'],
+                              'home_team': meta['home_team'],
+                              'inning': int(pa.get('inn') or inning),
+                              'inning_half': half,
+                              'batting_team': batting,
+                              'pitching_team': pitching,
+                              'seqno': opt.get('seqno'),
+                              'type': opt.get('type'),
+                              'text': text,
+                              'pts_pitch_id': opt.get('ptsPitchId'),
+                              'pitch_num': opt.get('pitchNum'),
+                              'pitcher_id': state.get('pitcher'),
+                              'batter_id': state.get('batter'),
+                              'current_game_state': state,
+                              'current_players_info': opt.get('currentPlayersInfo'),
+                          })
+              return meta, events, fetched, errors
+
+          all_events = []
+          game_rows = []
+          fetch_errors = []
+          total_innings_fetched = 0
+          with ThreadPoolExecutor(max_workers=8) as pool:
+              futures = [pool.submit(crawl_game, meta) for meta in games]
+              for done, future in enumerate(as_completed(futures), 1):
+                  meta, events, fetched, errors = future.result()
+                  all_events.extend(events)
+                  total_innings_fetched += fetched
+                  if errors:
+                      fetch_errors.append({'game_id': meta['game_id'], 'errors': errors})
+                  by_pitching = Counter(e['pitching_team'] for e in events)
+                  game_rows.append({
+                      **meta,
+                      'disengagements': len(events),
+                      'by_pitching_team': dict(by_pitching),
+                      'innings_fetched': fetched,
+                      'fetch_error_count': len(errors),
+                  })
+                  if done % 25 == 0 or done == len(futures):
+                      print(f'CRAWL_PROGRESS {done}/{len(futures)} events={len(all_events)}', flush=True)
+
+          all_events.sort(key=lambda e: (e['game_id'], e['inning'], e['inning_half'], int(e['seqno'] or 0)))
+          game_rows.sort(key=lambda g: g['game_id'])
+
+          pitching_counts = Counter(e['pitching_team'] for e in all_events)
+          batting_counts = Counter(e['batting_team'] for e in all_events)
+          text_counts = Counter(e['text'] for e in all_events)
+          type_counts = Counter(str(e['type']) for e in all_events)
+          state_key_counts = Counter(k for e in all_events for k in (e.get('current_game_state') or {}).keys())
+          histogram = Counter(g['disengagements'] for g in game_rows)
+          games_with = sum(1 for g in game_rows if g['disengagements'] > 0)
+
+          team_names = sorted(set(pitching_counts) | set(batting_counts))
+          team_summary = [
+              {
+                  'team': team,
+                  'disengagements_made': pitching_counts.get(team, 0),
+                  'disengagements_received': batting_counts.get(team, 0),
+              }
+              for team in team_names
+          ]
+
+          summary = {
+              'season': SEASON,
+              'source': 'Naver Sports public textRelayData',
+              'match_rule': f'text contains {KEYWORD!r}',
+              'games_scanned': len(game_rows),
+              'games_with_disengagement': games_with,
+              'games_without_disengagement': len(game_rows) - games_with,
+              'innings_fetched': total_innings_fetched,
+              'games_with_fetch_errors': len(fetch_errors),
+              'total_disengagements': len(all_events),
+              'team_summary': team_summary,
+              'per_game_histogram': {str(k): histogram[k] for k in sorted(histogram)},
+              'type_counts': dict(type_counts),
+              'current_game_state_key_counts': dict(state_key_counts),
+              'top_texts': [{'text': text, 'count': count} for text, count in text_counts.most_common(50)],
+              'per_game': game_rows,
+              'fetch_errors': fetch_errors,
+          }
+
+          (OUT / 'disengagement_events.json').write_text(
+              json.dumps(all_events, ensure_ascii=False, indent=2), encoding='utf-8'
+          )
+          (OUT / 'disengagement_summary.json').write_text(
+              json.dumps(summary, ensure_ascii=False, indent=2), encoding='utf-8'
+          )
+
+          with (OUT / 'disengagement_events.csv').open('w', encoding='utf-8-sig', newline='') as f:
+              fields = ['game_id','date','stadium','away_team','home_team','inning','inning_half','batting_team','pitching_team','seqno','type','text','pts_pitch_id','pitch_num','pitcher_id','batter_id']
+              writer = csv.DictWriter(f, fieldnames=fields)
+              writer.writeheader()
+              for event in all_events:
+                  writer.writerow({k: event.get(k) for k in fields})
+
+          print('TOTAL_DISENGAGEMENTS', len(all_events), flush=True)
+          print('GAMES_WITH_DISENGAGEMENT', games_with, flush=True)
+          print('TEAM_MADE', json.dumps(dict(pitching_counts), ensure_ascii=False, sort_keys=True), flush=True)
+          print('TEAM_RECEIVED', json.dumps(dict(batting_counts), ensure_ascii=False, sort_keys=True), flush=True)
+          print('GAME_HISTOGRAM', json.dumps({str(k): histogram[k] for k in sorted(histogram)}, ensure_ascii=False), flush=True)
+          print('TYPE_COUNTS', json.dumps(dict(type_counts), ensure_ascii=False), flush=True)
+          print('STATE_KEYS', json.dumps(dict(state_key_counts), ensure_ascii=False), flush=True)
+          if fetch_errors:
+              print('FETCH_ERROR_GAMES', len(fetch_errors), flush=True)
+          PY
+
+      - name: Commit crawl results and remove temporary workflow
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/disengagement_crawl.yml
+          git add data/experimental/pickoff/2026/disengagement_events.json \
+                  data/experimental/pickoff/2026/disengagement_events.csv \
+                  data/experimental/pickoff/2026/disengagement_summary.json
+          git commit -m "data: archive 2026 Naver disengagement crawl"
+          git push origin HEAD:feature/pickoff-runner-pitches
