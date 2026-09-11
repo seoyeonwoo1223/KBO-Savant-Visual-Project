@@ -30,7 +30,7 @@ The full 2026 crawl searched every available Naver `textRelayData` inning for `�
 
 - 688 games and 6,254 innings were fetched with zero fetch-error games.
 - 7,171 disengagement events were found; 7,168 were the exact routine text `투수 투수판 이탈` and 3 were explicit disengagement warnings.
-- 6,153? No: use the summary as the canonical source for all counts; the validated count is 7,153 events with at least one runner on base and 18 with bases empty.
+- 7,153 events had at least one runner on base; 18 had the bases empty.
 - Runner-present share: 99.749%.
 
 This strongly suggests `투수판 이탈` is the useful relay signal for measuring how often a pitcher disengages while controlling runners. Keep the metric name aligned with that meaning (for example, `Disengagements / 100 runner-pitches`) unless broadcast/manual validation demonstrates that every such event is a literal pickoff throw.
