@@ -2,15 +2,16 @@
   "season": 2026,
   "metric": "Disengagements / 100 Runner Pitches",
   "definition": "Naver relay '투수판 이탈' events with at least one runner on base / curated pitches with at least one runner immediately before the pitch * 100",
+  "coverage_rule": "Numerator and denominator are restricted to the identical set of games that have both Naver disengagement crawl coverage and curated pitch data.",
   "source": {
     "numerator": "Naver Sports public textRelayData",
     "denominator": "data/curated/pitches/season=2026/*.parquet"
   },
   "coverage": {
     "crawl_games": 688,
-    "games_with_curated_pitch_data": 618,
-    "covered_games": 618,
-    "missing_curated_games": [
+    "metric_games": 618,
+    "games_excluded_missing_curated_pitch_data": 70,
+    "excluded_game_ids": [
       "20260409HHSK0",
       "20260409KTLT0",
       "20260409LGNC0",
@@ -86,15 +87,18 @@
     "pitch_rows_scanned": 190241
   },
   "league_totals": {
-    "all_disengagement_events": 7171,
-    "runner_present_disengagement_events": 7153,
-    "bases_empty_disengagement_events_excluded": 18,
+    "source_disengagement_events_all_688_games": 7171,
+    "covered_disengagement_events_all_base_states": 7166,
+    "covered_runner_present_disengagement_events": 7148,
+    "covered_bases_empty_disengagement_events_excluded": 18,
+    "disengagement_events_excluded_for_missing_denominator_coverage": 5,
     "runner_pitches": 90050,
-    "disengagements_per_100_runner_pitches": 7.943
+    "disengagements_per_100_runner_pitches": 7.938
   },
   "invariants": {
     "made_equals_received": true,
-    "defensive_runner_pitches_equal_offensive": true
+    "defensive_runner_pitches_equal_offensive": true,
+    "numerator_and_denominator_game_sets_match": true
   },
   "teams": [
     {
@@ -132,9 +136,9 @@
     },
     {
       "team": "KT",
-      "disengagements_made": 717,
+      "disengagements_made": 716,
       "defensive_runner_pitches": 8417,
-      "disengagements_per_100_runner_pitches": 8.518,
+      "disengagements_per_100_runner_pitches": 8.507,
       "disengagements_received": 657,
       "offensive_runner_pitches": 9731,
       "received_disengagements_per_100_runner_pitches": 6.752,
@@ -143,9 +147,9 @@
     },
     {
       "team": "롯데",
-      "disengagements_made": 704,
+      "disengagements_made": 702,
       "defensive_runner_pitches": 9098,
-      "disengagements_per_100_runner_pitches": 7.738,
+      "disengagements_per_100_runner_pitches": 7.716,
       "disengagements_received": 654,
       "offensive_runner_pitches": 8254,
       "received_disengagements_per_100_runner_pitches": 7.923,
@@ -154,12 +158,12 @@
     },
     {
       "team": "NC",
-      "disengagements_made": 614,
+      "disengagements_made": 613,
       "defensive_runner_pitches": 8641,
-      "disengagements_per_100_runner_pitches": 7.106,
-      "disengagements_received": 949,
+      "disengagements_per_100_runner_pitches": 7.094,
+      "disengagements_received": 948,
       "offensive_runner_pitches": 8633,
-      "received_disengagements_per_100_runner_pitches": 10.993,
+      "received_disengagements_per_100_runner_pitches": 10.981,
       "disengagement_rate_rank": 6,
       "received_disengagement_rate_rank": 1
     },
@@ -176,12 +180,12 @@
     },
     {
       "team": "LG",
-      "disengagements_made": 610,
+      "disengagements_made": 609,
       "defensive_runner_pitches": 9160,
-      "disengagements_per_100_runner_pitches": 6.659,
-      "disengagements_received": 774,
+      "disengagements_per_100_runner_pitches": 6.648,
+      "disengagements_received": 772,
       "offensive_runner_pitches": 8945,
-      "received_disengagements_per_100_runner_pitches": 8.653,
+      "received_disengagements_per_100_runner_pitches": 8.631,
       "disengagement_rate_rank": 8,
       "received_disengagement_rate_rank": 3
     },
@@ -201,9 +205,9 @@
       "disengagements_made": 579,
       "defensive_runner_pitches": 9392,
       "disengagements_per_100_runner_pitches": 6.165,
-      "disengagements_received": 684,
+      "disengagements_received": 682,
       "offensive_runner_pitches": 9382,
-      "received_disengagements_per_100_runner_pitches": 7.291,
+      "received_disengagements_per_100_runner_pitches": 7.269,
       "disengagement_rate_rank": 10,
       "received_disengagement_rate_rank": 8
     }
