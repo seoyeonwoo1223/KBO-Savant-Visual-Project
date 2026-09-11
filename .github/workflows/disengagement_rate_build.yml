@@ -1,0 +1,270 @@
+name: Build 2026 disengagement rate
+
+on:
+  push:
+    branches:
+      - feature/pickoff-runner-pitches
+    paths:
+      - ".github/workflows/disengagement_rate_build.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/pickoff-runner-pitches
+          fetch-depth: 1
+          filter: blob:none
+          sparse-checkout: |
+            .github/workflows/disengagement_rate_build.yml
+            data/raw/2026
+            data/curated/pitches/season=2026
+            data/experimental/pickoff/2026
+
+      - name: Install parquet dependency
+        run: python3 -m pip install --quiet pyarrow
+
+      - name: Build team disengagement rates
+        run: |
+          python3 - <<'PY'
+          import csv
+          import json
+          from collections import Counter
+          from pathlib import Path
+
+          import pyarrow as pa
+          import pyarrow.parquet as pq
+
+          ROOT = Path('.')
+          RAW = ROOT / 'data' / 'raw' / '2026'
+          PITCHES = ROOT / 'data' / 'curated' / 'pitches' / 'season=2026'
+          OUT = ROOT / 'data' / 'experimental' / 'pickoff' / '2026'
+
+          events = json.loads((OUT / 'disengagement_events.json').read_text(encoding='utf-8'))
+          crawl = json.loads((OUT / 'disengagement_summary.json').read_text(encoding='utf-8'))
+          crawl_game_ids = {str(row['game_id']) for row in crawl.get('per_game', [])}
+
+          def occupied(value):
+              return value not in (None, '', 0, '0', False, {}, [])
+
+          runner_events = []
+          empty_events = []
+          for event in events:
+              state = event.get('current_game_state') or {}
+              if any(occupied(state.get(base)) for base in ('base1', 'base2', 'base3')):
+                  runner_events.append(event)
+              else:
+                  empty_events.append(event)
+
+          made = Counter(str(e.get('pitching_team') or '') for e in runner_events)
+          received = Counter(str(e.get('batting_team') or '') for e in runner_events)
+
+          game_meta = {}
+          for path in RAW.glob('*.json'):
+              if path.stem not in crawl_game_ids:
+                  continue
+              payload = json.loads(path.read_text(encoding='utf-8-sig'))
+              gd = payload.get('gameData') or {}
+              game_id = str(gd.get('gameId') or path.stem)
+              game_meta[game_id] = {
+                  'away': str((gd.get('away') or {}).get('team') or ''),
+                  'home': str((gd.get('home') or {}).get('team') or ''),
+              }
+
+          def has_runner(code, r1, r2, r3):
+              if code not in (None, 0, '0', ''):
+                  try:
+                      if int(code) != 0:
+                          return True
+                  except (TypeError, ValueError):
+                      pass
+              return any(v not in (None, '', 0, '0') for v in (r1, r2, r3))
+
+          defensive_rp = Counter()
+          offensive_rp = Counter()
+          games_with_pitch_data = set()
+          missing_meta = set()
+          rows_scanned = 0
+          runner_pitch_rows = 0
+
+          columns = [
+              'inning_half', 'base_state_code_before',
+              'runner_1b_id_before', 'runner_2b_id_before', 'runner_3b_id_before'
+          ]
+
+          for path in sorted(PITCHES.glob('*.parquet')):
+              game_id = path.stem
+              if game_id not in crawl_game_ids:
+                  continue
+              meta = game_meta.get(game_id)
+              if not meta or not meta['away'] or not meta['home']:
+                  missing_meta.add(game_id)
+                  continue
+              table = pq.read_table(path, columns=columns)
+              data = table.to_pydict()
+              games_with_pitch_data.add(game_id)
+              n = table.num_rows
+              rows_scanned += n
+              for i in range(n):
+                  if not has_runner(
+                      data['base_state_code_before'][i],
+                      data['runner_1b_id_before'][i],
+                      data['runner_2b_id_before'][i],
+                      data['runner_3b_id_before'][i],
+                  ):
+                      continue
+                  half = str(data['inning_half'][i] or '').lower()
+                  if half == 'top':
+                      offense, defense = meta['away'], meta['home']
+                  elif half == 'bottom':
+                      offense, defense = meta['home'], meta['away']
+                  else:
+                      raise RuntimeError(f'unknown inning_half {half!r} in {game_id}')
+                  offensive_rp[offense] += 1
+                  defensive_rp[defense] += 1
+                  runner_pitch_rows += 1
+
+          teams = sorted(
+              (set(made) | set(received) | set(defensive_rp) | set(offensive_rp)) - {''}
+          )
+
+          rows = []
+          for team in teams:
+              drp = int(defensive_rp[team])
+              orp = int(offensive_rp[team])
+              m = int(made[team])
+              r = int(received[team])
+              rows.append({
+                  'team': team,
+                  'disengagements_made': m,
+                  'defensive_runner_pitches': drp,
+                  'disengagements_per_100_runner_pitches': round(m * 100 / drp, 3) if drp else None,
+                  'disengagements_received': r,
+                  'offensive_runner_pitches': orp,
+                  'received_disengagements_per_100_runner_pitches': round(r * 100 / orp, 3) if orp else None,
+              })
+
+          by_made = sorted(rows, key=lambda x: (-(x['disengagements_per_100_runner_pitches'] or -1), x['team']))
+          by_received = sorted(rows, key=lambda x: (-(x['received_disengagements_per_100_runner_pitches'] or -1), x['team']))
+          made_rank = {row['team']: i + 1 for i, row in enumerate(by_made)}
+          received_rank = {row['team']: i + 1 for i, row in enumerate(by_received)}
+          for row in rows:
+              row['disengagement_rate_rank'] = made_rank[row['team']]
+              row['received_disengagement_rate_rank'] = received_rank[row['team']]
+
+          rows.sort(key=lambda x: x['disengagement_rate_rank'])
+
+          covered_games = crawl_game_ids & games_with_pitch_data
+          missing_curated = sorted(crawl_game_ids - games_with_pitch_data)
+          extra_curated = sorted(games_with_pitch_data - crawl_game_ids)
+          total_made = sum(made.values())
+          total_received = sum(received.values())
+          total_def_rp = sum(defensive_rp.values())
+          total_off_rp = sum(offensive_rp.values())
+
+          assert total_made == total_received, (total_made, total_received)
+          assert total_def_rp == total_off_rp == runner_pitch_rows, (total_def_rp, total_off_rp, runner_pitch_rows)
+
+          result = {
+              'season': 2026,
+              'metric': 'Disengagements / 100 Runner Pitches',
+              'definition': "Naver relay events containing '투수판 이탈' while at least one base is occupied, divided by regular pitches with at least one runner immediately before the pitch, times 100.",
+              'source': {
+                  'numerator': 'Naver Sports public textRelayData',
+                  'denominator': 'data/curated/pitches/season=2026/*.parquet',
+              },
+              'coverage': {
+                  'crawl_games': len(crawl_game_ids),
+                  'games_with_curated_pitch_data': len(games_with_pitch_data),
+                  'covered_games': len(covered_games),
+                  'missing_curated_games': missing_curated,
+                  'missing_game_metadata': sorted(missing_meta),
+                  'extra_curated_games': extra_curated,
+                  'pitch_rows_scanned': rows_scanned,
+              },
+              'league_totals': {
+                  'all_disengagement_events': len(events),
+                  'runner_present_disengagement_events': len(runner_events),
+                  'bases_empty_disengagement_events_excluded': len(empty_events),
+                  'runner_pitches': runner_pitch_rows,
+                  'disengagements_per_100_runner_pitches': round(total_made * 100 / total_def_rp, 3) if total_def_rp else None,
+              },
+              'invariants': {
+                  'made_equals_received': total_made == total_received,
+                  'defensive_runner_pitches_equal_offensive': total_def_rp == total_off_rp,
+              },
+              'teams': rows,
+          }
+
+          json_path = OUT / 'disengagement_rate_team_summary.json'
+          csv_path = OUT / 'disengagement_rate_team_summary.csv'
+          parquet_path = OUT / 'disengagement_rate_team_summary.parquet'
+
+          json_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+
+          fields = [
+              'disengagement_rate_rank', 'team', 'disengagements_made', 'defensive_runner_pitches',
+              'disengagements_per_100_runner_pitches', 'disengagements_received', 'offensive_runner_pitches',
+              'received_disengagements_per_100_runner_pitches', 'received_disengagement_rate_rank'
+          ]
+          with csv_path.open('w', encoding='utf-8-sig', newline='') as f:
+              writer = csv.DictWriter(f, fieldnames=fields)
+              writer.writeheader()
+              writer.writerows(rows)
+
+          pq.write_table(pa.Table.from_pylist(rows), parquet_path)
+
+          print('COVERAGE', json.dumps(result['coverage'], ensure_ascii=False), flush=True)
+          print('LEAGUE_TOTALS', json.dumps(result['league_totals'], ensure_ascii=False), flush=True)
+          print('TEAM_RATES')
+          for row in rows:
+              print(json.dumps(row, ensure_ascii=False), flush=True)
+          PY
+
+      - name: Update README and push results
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('data/experimental/pickoff/2026/README.md')
+          text = p.read_text(encoding='utf-8')
+          section = '''
+
+## Disengagements / 100 Runner Pitches
+
+Team-level rate files:
+
+- `disengagement_rate_team_summary.json`
+- `disengagement_rate_team_summary.csv`
+- `disengagement_rate_team_summary.parquet`
+
+Definition:
+
+`runner-present 투수판 이탈 events / runner-pitches × 100`
+
+- Numerator excludes `투수판 이탈` records whose Naver `currentGameState` has all bases empty.
+- Denominator is a regular curated pitch with at least one runner immediately before the pitch (`base_state_code_before != 0` or a non-empty runner-before id).
+- Defensive rate attributes the event and runner-pitch exposure to the pitching team.
+- Received rate attributes the same event and exposure to the batting team.
+- Keep the label `Disengagements`, not literal `Pickoff Throws`, because a disengagement can include a step-off without an actual throw.
+'''
+          marker = '## Disengagements / 100 Runner Pitches'
+          if marker in text:
+              text = text.split(marker)[0].rstrip() + section
+          else:
+              text = text.rstrip() + section
+          p.write_text(text, encoding='utf-8')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/disengagement_rate_build.yml
+          git add data/experimental/pickoff/2026/README.md \
+                  data/experimental/pickoff/2026/disengagement_rate_team_summary.json \
+                  data/experimental/pickoff/2026/disengagement_rate_team_summary.csv \
+                  data/experimental/pickoff/2026/disengagement_rate_team_summary.parquet
+          git commit -m "data: add disengagement rates per 100 runner pitches"
+          git push origin HEAD:feature/pickoff-runner-pitches
