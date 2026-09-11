@@ -1,0 +1,14 @@
+name: Disengagement workflow smoke
+
+on:
+  push:
+    branches:
+      - feature/pickoff-runner-pitches
+    paths:
+      - ".github/workflows/disengagement_rate_smoke.yml"
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok
