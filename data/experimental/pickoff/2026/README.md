@@ -34,3 +34,19 @@ The full 2026 crawl searched every available Naver `textRelayData` inning for `�
 - Runner-present share: 99.749%.
 
 This strongly suggests `투수판 이탈` is the useful relay signal for measuring how often a pitcher disengages while controlling runners. Keep the metric name aligned with that meaning (for example, `Disengagements / 100 runner-pitches`) unless broadcast/manual validation demonstrates that every such event is a literal pickoff throw.
+
+## Disengagements / 100 Runner Pitches
+
+Team-level outputs:
+
+- `disengagement_rate_team_summary.json`
+- `disengagement_rate_team_summary.csv`
+- `disengagement_rate_team_summary.parquet`
+
+Definition: runner-present `투수판 이탈` events / runner-pitches × 100.
+
+- Numerator excludes `투수판 이탈` records whose Naver `currentGameState` has all bases empty.
+- Denominator is a curated pitch with `base_state_code_before != 0` or any runner-before id present.
+- Defensive rate is attributed to the pitching team.
+- Received rate is attributed to the batting team.
+- Keep the label `Disengagements`, not literal `Pickoff Throws`, because a disengagement can include a step-off without an actual throw.
