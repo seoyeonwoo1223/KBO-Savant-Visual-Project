@@ -16,8 +16,12 @@ def compact(root: Path, season: int) -> dict:
     index_path = root / "data" / "curated" / "partition-index.json"
     index = json.loads(index_path.read_text(encoding="utf-8")) if index_path.exists() else {"schema_version": 1, "seasons": {}}
     directories = [root / "data" / "curated" / kind / f"season={season}" for kind in SCHEMAS]
+    months = {str(entry.get("month")) for entry in index.get("seasons", {}).get(str(season), {}).get("games", {}).values()}
     if (index.get("layout") == "month" and str(season) in index.get("seasons", {})
-            and all(any(path.glob("month=*.parquet")) for path in directories)):
+            and months and all(all((directory / f"month={month}.parquet").is_file() for month in months) for directory in directories)):
+        for directory in directories:
+            for path in directory.glob("*.parquet"):
+                if not path.name.startswith("month="): path.unlink()
         return {"season": season, "changed": 0, "reason": "already compact"}
     manifests = sorted((root / "data" / "curated" / "sources" / f"season={season}").glob("*.json"))
     games = {path.stem: json.loads(path.read_text(encoding="utf-8")) for path in manifests}

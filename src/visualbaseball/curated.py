@@ -286,6 +286,14 @@ def _monthly_game_exists(root: Path, season: int, month: str, game_id: str) -> b
     return True
 
 
+def _month_has_games(index: dict, season: int, month: str) -> bool:
+    return any(str(value.get("month")) == month for value in index.get("seasons", {}).get(str(season), {}).get("games", {}).values())
+
+
+def _monthly_files_exist(root: Path, season: int, month: str) -> bool:
+    return all(_monthly_path(root, kind, season, month).is_file() for kind in SCHEMAS)
+
+
 def source_manifest_path(root: Path, season: int, game_id: str) -> Path:
     return root / "data" / "curated" / "sources" / f"season={season}" / f"{game_id}.json"
 
@@ -302,9 +310,13 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
     index = _partition_index(root)
     compact = index.get("layout") == "month"
     prior = index.get("seasons", {}).get(str(season), {}).get("games", {}).get(game_id, {})
-    if compact and prior and not _monthly_game_exists(root, season, str(prior.get("month") or _month(game)), game_id):
+    monthly_valid = _monthly_game_exists(root, season, str(prior.get("month") or _month(game)), game_id) if compact and prior else False
+    if compact and prior and not monthly_valid:
         raise FileNotFoundError(f"compact partition is missing or corrupt for {game_id}; rebuild the month from retained raw data")
-    shards_exist = (_monthly_game_exists(root, season, str(prior.get("month") or _month(game)), game_id) if compact and prior
+    target_month = _month(game)
+    if compact and not prior and _month_has_games(index, season, target_month) and not _monthly_files_exist(root, season, target_month):
+        raise FileNotFoundError(f"compact partition is missing or corrupt for month={target_month}; rebuild the month from retained raw data")
+    shards_exist = (monthly_valid if compact and prior
                     else all(curated_path(root, kind, season, game_id).is_file() for kind in SCHEMAS))
     changed = force or not shards_exist or previous.get("pitch_sha256") != digest or previous.get("schema_sha256") != schema_digest
     if changed:
@@ -396,8 +408,11 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
     directory = root / "data" / "curated" / kind / f"season={season}"
     index = _partition_index(root)
     entry = index.get("seasons", {}).get(str(season), {}).get("games", {}).get(str(game_id)) if game_id else None
+    if entry and index.get("layout") == "month" and not _monthly_path(root, kind, season, str(entry["month"])).is_file():
+        raise FileNotFoundError(f"indexed compact partition is missing: {kind}/season={season}/month={entry['month']}")
     files = ([_monthly_path(root, kind, season, str(entry["month"]))] if entry and index.get("layout") == "month"
              else [directory / f"{game_id}.parquet"] if game_id else sorted(directory.glob("*.parquet")))
+    if not game_id and index.get("layout") == "month": files = sorted(directory.glob("month=*.parquet"))
     files = [path for path in files if path.is_file()]
     selected = list(columns) if columns is not None else None
     if not files:

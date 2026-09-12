@@ -9,13 +9,20 @@ from .curated import file_sha256, schema_sha256, value_sha256
 SPECS = {
  "excel": (("games", "events", "pitches"), (), ("exports/visualbaseball_savant_{season}_latest.xlsx",)),
  "arm_angle": (("pitches",), ("data/batter_handedness.json",), ("data/metrics/arm_angle/{season}/input.parquet",)),
- "swing_take": (("pitches",), (), ("data/metrics/swing_take/{season}/decision_pitches.parquet", "web/data/swing_take/{season}/index.json")),
+ "swing_take": (("pitches",), (), ("web/data/swing_take/{season}/index.json",)),
  "plate_discipline": (("pitches",), (), ("data/metrics/plate_discipline/{season}/plate_discipline_pitches.parquet",)),
  "zone_decision": (("pitches", "events"), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("data/metrics/zone_awareness/{season}/report.json", "web/data/zone_awareness/{season}/leaderboard.json")),
  "plate_decision": (("pitches",), ("data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx",), ("data/metrics/plate_decision/{season}/plate_decision_v1_report_{season}.json",)),
  "zone_profiles": (("pitches",), (), ("web/data/zones/index.json",)),
  "pitch_arsenal": (("pitches",), ("data/batter_handedness.json", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("web/data/pitch_arsenal/{season}/index.json",)),
  "blocking": (("games", "pitches"), (), ("data/metrics/blocking/{season}/pitches.parquet", "web/data/blocking/{season}/leaderboard.json")),
+}
+CODE = {
+ "excel": ("export_excel.py", "curated.py"), "arm_angle": ("arm_angle.py", "curated.py"),
+ "swing_take": ("swing_take.py", "curated.py"), "plate_discipline": ("plate_discipline.py", "swing_take.py", "curated.py"),
+ "zone_decision": ("zone_decision.py", "plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "swing_take.py", "curated.py"),
+ "plate_decision": ("plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "swing_take.py", "curated.py"),
+ "zone_profiles": ("zone_profile.py", "curated.py"), "pitch_arsenal": ("pitch_arsenal.py", "curated.py"), "blocking": ("blocking.py", "curated.py"),
 }
 
 def _index(root: Path) -> dict:
@@ -32,7 +39,7 @@ def metric_input_hash(root: Path, season: int, name: str) -> str:
  source = {game: {table: value.get("tables", {}).get(table) for table in tables} for game, value in sorted(games.items())}
  package = root / "src" / "visualbaseball"
  if not package.exists(): package = Path(__file__).parent
- code = {p.name: file_sha256(p) for p in sorted(package.glob("*.py"))}
+ code = {name: file_sha256(package / name) for name in CODE[name]}
  files = {item: (file_sha256(path) if (path := root / item.format(season=season)).exists() else None) for item in extras}
  return value_sha256({"metric": name, "season": season, "source": source, "schema_sha256": schema_sha256(), "code": code, "extras": files})
 
@@ -41,8 +48,20 @@ def _path(root: Path, season: int, name: str) -> Path: return root / "data" / "m
 def needs_build(root: Path, season: int, name: str) -> bool:
  _, _, outputs = SPECS[name]
  if any(not (root / output.format(season=season)).is_file() for output in outputs): return True
+ if name == "swing_take" and not (root / "data/metrics/swing_take" / str(season) / ("decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet")).is_file(): return True
+ if name in {"swing_take", "pitch_arsenal", "zone_profiles"} and not _web_shards_exist(root, season, name): return True
  try: return json.loads(_path(root, season, name).read_text(encoding="utf-8")).get("input_sha256") != metric_input_hash(root, season, name)
  except (OSError, json.JSONDecodeError): return True
+
+def _web_shards_exist(root: Path, season: int, name: str) -> bool:
+ try:
+  if name == "zone_profiles":
+   data = json.loads((root / "web/data/zones/index.json").read_text(encoding="utf-8")); groups = data["players"][str(season)].items(); base = root / "web/data/zones" / str(season)
+   return all((base / role / player["file"]).is_file() for role, players in groups for player in players)
+  base = root / "web/data" / name / str(season); data = json.loads((base / "index.json").read_text(encoding="utf-8"))
+  if name == "swing_take": return all((base / "players" / f"{str(player['id'])[0] if str(player['id'])[0].isdigit() else 'other'}.json").is_file() for player in data.get("players", []))
+  return all((base / player["file"]).is_file() for player in data.get("players", []))
+ except (KeyError, OSError, json.JSONDecodeError): return False
 
 def mark_built(root: Path, season: int, name: str) -> None:
  path = _path(root, season, name); path.parent.mkdir(parents=True, exist_ok=True)
