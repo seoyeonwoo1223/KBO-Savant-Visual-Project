@@ -1,0 +1,60 @@
+:root {
+  --kbo-ink: #13233b;
+  --kbo-bg: #edf2f7;
+  --kbo-bg-top: #f7f9fc;
+  --kbo-surface: #ffffff;
+  --kbo-navy: #122d50;
+  --kbo-navy-2: #1c426f;
+  --kbo-blue: #1e6ca1;
+  --kbo-line: #d9e2ec;
+  --kbo-line-strong: #c4d0dd;
+  --kbo-muted: #66758a;
+}
+
+html { background: var(--kbo-bg); }
+body {
+  min-height: 100vh;
+  color: var(--kbo-ink);
+  background: linear-gradient(180deg, var(--kbo-bg-top) 0, var(--kbo-bg) 320px);
+}
+
+a { color: #334b67; }
+a:hover { color: var(--kbo-blue); }
+.eyebrow { color: #64809c; }
+
+input,
+select,
+textarea {
+  border-color: var(--kbo-line-strong);
+  background: var(--kbo-surface);
+  color: #17263a;
+}
+
+button,
+.button {
+  border-color: var(--kbo-blue);
+}
+
+.search-panel,
+.controls,
+.filters,
+.card,
+.table-card,
+.chart-card,
+.comparison-card,
+.method-card,
+.field-card,
+.profile-card,
+.player-card,
+.reading-note,
+.side-panel {
+  border-color: var(--kbo-line);
+}
+
+table th,
+table td {
+  border-color: #e4eaf0;
+}
+
+/* The Swing/Take profile season is repeated elsewhere; hide the old branded kicker. */
+.profile-header #profile-season { display: none; }
