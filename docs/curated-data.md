@@ -5,10 +5,10 @@ The production flow is `raw -> curated Parquet -> metric`.
 ## Storage contract
 
 - Raw Visual Baseball responses remain at `data/raw/<season>/<game_id>.json` (2025 uses its existing `seasons/2025` storage root).
-- Canonical tables are game shards at `data/curated/{pitches,events,games}/season=<year>/<game_id>.parquet`.
+- Canonical tables use monthly Parquet partitions at `data/curated/{pitches,events,games}/season=<year>/month=MM.parquet`. `partition-index.json` maps each game to its month and table hashes, so readers and build planning do not enumerate data files. Migrate an existing game-shard season with `python -m visualbaseball.compact_curated --season YYYY`.
 - `data/curated/sources/season=<year>/<game_id>.json` records first/last collection and check times, revision, observed y0, row reconciliation, provenance, and `raw_sha256`, `pitch_sha256`, `schema_sha256`.
 - Before an existing raw file changes, `data/curated/audit/season=<year>/<game_id>.jsonl` receives both raw hashes, pitch counts, and changed field paths. Raw history is not duplicated.
-- Metric-owned results live below `data/metrics/<metric>/<season>/`. Excel and web JSON remain publication outputs only.
+- Metric-owned results live below `data/metrics/<metric>/<season>/`. Excel and web JSON remain publication outputs only. `data/metrics/_state/<season>/` stores independent input/code hashes for each production metric; unchanged metrics are skipped.
 
 `pitch_id` retains the existing stable `game_id + plate-appearance sequence + pitch number` identity. A provider field unrelated to parsed game/event/pitch values therefore changes `raw_sha256` but not `pitch_sha256`, and does not rewrite the shard.
 

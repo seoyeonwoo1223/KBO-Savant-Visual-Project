@@ -27,7 +27,7 @@
 
 ## 데이터 갱신 방식
 
-수집기는 시즌 일정에서 **신규·미완료·실패 게임**과 최근 7일의 확정 경기를 다시 확인합니다. 정상 검증된 게임은 `data/curated/*/season=YYYY/<game_id>.parquet`의 해당 경기 shard만 교체합니다. 그 뒤 모든 metric과 Excel·웹 출력은 공통 curated loader를 사용합니다. 세부 schema·hash·복구 계약은 [canonical data 문서](docs/curated-data.md)를 참고하십시오.
+수집기는 시즌 일정에서 **신규·미완료·실패 게임**과 최근 7일의 확정 경기를 다시 확인합니다. canonical 데이터는 월별 Parquet partition으로 저장되며, 변경 게임의 월 partition만 원자적으로 교체합니다. `data/curated/partition-index.json`이 게임·월·테이블 hash를 보유하므로 metric dependency 계산과 도구 탐색은 수천 개의 Parquet 파일을 순회하지 않습니다. metric별 input/code hash가 같으면 해당 metric과 웹·Excel 출력은 건너뜁니다. 세부 schema·hash·복구 계약은 [canonical data 문서](docs/curated-data.md)를 참고하십시오.
 
 ```powershell
 python -m pip install -r requirements.txt -c constraints-za.txt
