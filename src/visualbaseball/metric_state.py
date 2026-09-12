@@ -4,17 +4,16 @@ import json
 from pathlib import Path
 from .curated import file_sha256, schema_sha256, value_sha256
 
-# A package-wide code fingerprint is deliberately conservative: helper edits
-# cannot leave a production metric stale through an incomplete hand-written DAG.
+# Each metric records its transitive builder/helper dependency set.
 SPECS = {
  "excel": (("games", "events", "pitches"), (), ("exports/visualbaseball_savant_{season}_latest.xlsx",)),
  "arm_angle": (("pitches",), ("data/batter_handedness.json",), ("data/metrics/arm_angle/{season}/input.parquet",)),
  "swing_take": (("pitches",), (), ("web/data/swing_take/{season}/index.json",)),
  "plate_discipline": (("pitches",), (), ("data/metrics/plate_discipline/{season}/plate_discipline_pitches.parquet",)),
- "zone_decision": (("pitches", "events"), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("data/metrics/zone_awareness/{season}/report.json", "web/data/zone_awareness/{season}/leaderboard.json")),
- "plate_decision": (("pitches",), ("data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx",), ("data/metrics/plate_decision/{season}/plate_decision_v1_report_{season}.json",)),
+ "zone_decision": (("pitches", "events"), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("data/metrics/zone_awareness/{season}/report.json", "web/data/zone_awareness/{season}/leaderboard.json", "web/data/zone_awareness/{season}/teams.json", "web/data/zone_awareness/index.json")),
+ "plate_decision": (("pitches",), ("data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx",), ("data/metrics/plate_decision/{season}/plate_decision_v1_report_{season}.json", "web/data/zone_awareness/{season}/leaderboard.json", "web/data/zone_awareness/{season}/teams.json", "web/data/zone_awareness/index.json")),
  "zone_profiles": (("pitches",), (), ("web/data/zones/index.json",)),
- "pitch_arsenal": (("pitches",), ("data/batter_handedness.json", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("web/data/pitch_arsenal/{season}/index.json",)),
+ "pitch_arsenal": (("pitches",), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("web/data/pitch_arsenal/{season}/index.json",)),
  "blocking": (("games", "pitches"), (), ("data/metrics/blocking/{season}/pitches.parquet", "web/data/blocking/{season}/leaderboard.json")),
 }
 CODE = {
@@ -49,7 +48,7 @@ def needs_build(root: Path, season: int, name: str) -> bool:
  _, _, outputs = SPECS[name]
  if any(not (root / output.format(season=season)).is_file() for output in outputs): return True
  if name == "swing_take" and not (root / "data/metrics/swing_take" / str(season) / ("decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet")).is_file(): return True
- if name in {"swing_take", "pitch_arsenal", "zone_profiles"} and not _web_shards_exist(root, season, name): return True
+ if name in {"swing_take", "pitch_arsenal", "zone_profiles", "zone_decision", "plate_decision"} and not _web_shards_exist(root, season, name): return True
  try: return json.loads(_path(root, season, name).read_text(encoding="utf-8")).get("input_sha256") != metric_input_hash(root, season, name)
  except (OSError, json.JSONDecodeError): return True
 
@@ -58,8 +57,10 @@ def _web_shards_exist(root: Path, season: int, name: str) -> bool:
   if name == "zone_profiles":
    data = json.loads((root / "web/data/zones/index.json").read_text(encoding="utf-8")); groups = data["players"][str(season)].items(); base = root / "web/data/zones" / str(season)
    return all((base / role / player["file"]).is_file() for role, players in groups for player in players)
-  base = root / "web/data" / name / str(season); data = json.loads((base / "index.json").read_text(encoding="utf-8"))
+  base = root / "web/data" / ("zone_awareness" if name in {"zone_decision", "plate_decision"} else name) / str(season)
+  data = json.loads((base / ("leaderboard.json" if name in {"zone_decision", "plate_decision"} else "index.json")).read_text(encoding="utf-8"))
   if name == "swing_take": return all((base / "players" / f"{str(player['id'])[0] if str(player['id'])[0].isdigit() else 'other'}.json").is_file() for player in data.get("players", []))
+  if name in {"zone_decision", "plate_decision"}: return all((base / "players" / f"{str(player.get('batter_id') or player.get('id'))[:2] if str(player.get('batter_id') or player.get('id'))[0].isdigit() else 'other'}.json").is_file() for player in data.get("players", []))
   return all((base / player["file"]).is_file() for player in data.get("players", []))
  except (KeyError, OSError, json.JSONDecodeError): return False
 

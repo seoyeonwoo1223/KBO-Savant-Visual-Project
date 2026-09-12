@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pyarrow.parquet as pq
 
-from .curated import SCHEMAS, _atomic_parquet, _atomic_json, _month, _stable_rows, value_sha256
+from .curated import SCHEMAS, _atomic_parquet, _atomic_json, _month, _monthly_files_valid, _stable_rows, value_sha256
 
 
 def compact(root: Path, season: int) -> dict:
@@ -18,7 +18,7 @@ def compact(root: Path, season: int) -> dict:
     directories = [root / "data" / "curated" / kind / f"season={season}" for kind in SCHEMAS]
     months = {str(entry.get("month")) for entry in index.get("seasons", {}).get(str(season), {}).get("games", {}).values()}
     if (index.get("layout") == "month" and str(season) in index.get("seasons", {})
-            and months and all(all((directory / f"month={month}.parquet").is_file() for month in months) for directory in directories)):
+            and months and all(_monthly_files_valid(root, season, month) for month in months)):
         for directory in directories:
             for path in directory.glob("*.parquet"):
                 if not path.name.startswith("month="): path.unlink()
