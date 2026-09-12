@@ -53,7 +53,8 @@ h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.6rem); letter-spacing: -.045em;
 .export-button:disabled { cursor: wait; opacity: .65; }
 
 .chart-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; align-items: stretch; }
-.card, .table-card { position: relative; min-width: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--card); box-shadow: 0 7px 22px #1735530c; }
+.card { position: relative; min-width: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--card); box-shadow: 0 7px 22px #1735530c; }
+.table-card { position: relative; min-width: 0; }
 .card { padding: 11px 13px 8px; }
 .card-heading, .table-heading { display: block; text-align: center; }
 .card-heading p, .table-heading p { display: none; }
@@ -75,7 +76,7 @@ h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.6rem); letter-spacing: -.045em;
 .movement-point { pointer-events: none; }
 .movement-ellipse { cursor: pointer; transition: stroke-width .15s, fill-opacity .15s; }
 .movement-ellipse:hover, .movement-ellipse:focus { stroke-width: 4; fill-opacity: .18; outline: none; }
-.frequency-center { stroke: #425f7c; stroke-width: 2.5; }
+.frequency-center { stroke: var(--card); stroke-width: 2.5; }
 .frequency-guide { stroke: #c9d3de; stroke-width: 1; stroke-dasharray: 3 4; opacity: .65; }
 .frequency-bar { opacity: .92; }
 .frequency-label { fill: #253b54; font-size: 13px; font-weight: 700; }
@@ -86,8 +87,8 @@ h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.6rem); letter-spacing: -.045em;
 .tooltip strong { display: block; margin-bottom: 6px; font-size: .94rem; }
 .tooltip p { margin: 3px 0; }
 
-.table-card { padding: 11px 13px; }
-.table-wrap { overflow-x: auto; border: 1px solid #dce4ec; border-radius: 8px; }
+.table-card { margin-top: 12px; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--card); box-shadow: 0 7px 22px #1735530c; }
 table { width: 100%; border-collapse: collapse; font-size: .86rem; text-align: center; }
 th, td { min-width: 70px; padding: 7px 8px; border-right: 1px solid #e4eaf0; border-bottom: 1px solid #e4eaf0; text-align: center; white-space: nowrap; }
 th:last-child, td:last-child { border-right: 0; }
@@ -123,5 +124,5 @@ th:first-child, td:first-child { min-width: 108px; text-align: center; }
   .chart-grid { grid-template-columns: 1fr; }
   .movement-card { grid-row: auto; }
   .card { padding: 14px 11px 10px; }
-  .table-card { padding: 13px 10px; }
+  .table-card { margin-top: 10px; }
 }
