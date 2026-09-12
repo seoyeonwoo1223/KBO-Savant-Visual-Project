@@ -1,0 +1,22 @@
+# Generated data. Marking it keeps `git diff`, `git log -p` and GitHub review from
+# rendering thousands of machine-written lines, and keeps rename detection from
+# giving up on the source diff (10k+ paths used to exceed the default limit).
+# Read these files with the project's own loaders, not with a diff.
+
+*.parquet          binary linguist-generated
+*.xlsx             binary linguist-generated
+*.xls              binary linguist-generated
+
+data/raw/**        -diff linguist-generated
+data/curated/**    -diff linguist-generated
+data/metrics/**    -diff linguist-generated
+data/leaderboards/**  -diff linguist-generated
+data/park_adjustments/**  -diff linguist-generated
+seasons/**         -diff linguist-generated
+exports/**         -diff linguist-generated
+web/data/**        -diff linguist-generated
+
+# Contracts a human actually reviews stay diffable.
+data/curated/schema.json   diff
+data/curated/summary.json  diff
+docs/**            diff

@@ -23,6 +23,7 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install --disable-pip-version-check -r requirements.txt -c constraints-za.txt
       - run: python -m pytest
+      - run: node tests/test_pitch_arsenal_layout.cjs
         env:
           PYTHONPATH: src
       - name: Re-fetch every completed current-season game

@@ -8,7 +8,7 @@
 |---|---|
 | `src/visualbaseball/` | 현재 사용 중인 Python 수집기와 검증·내보내기 코드 |
 | `data/raw/` | Visual Baseball 게임별 원본 PBP JSON 및 `raw/naver/`의 정규화된 Naver 릴레이 조인 캐시 |
-| `data/curated/` | 경기별 canonical `games`, `events`, `pitches` Parquet와 source manifest/audit |
+| `data/curated/` | 월별 partition으로 저장한 canonical `games`, `events`, `pitches` Parquet, `partition-index.json`, source manifest/audit |
 | `data/metrics/` | Swing/Take, ZA, Blocking, Arm Angle 등 지표별 파생 결과 |
 | `data/leaderboards/source/` | 2026 리더보드 계산 원본, 리그 상수, PF 산출 입력 |
 | GitHub Release `visualbaseball-data-latest` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
@@ -23,11 +23,17 @@
 
 `https://seoyeonwoo1223.github.io/KBO-Savant-Visual-Project/`
 
+로컬에서 확인할 때는 문서 루트가 `web/`이어야 한다. 페이지가 `../data/...`를 fetch하므로 저장소 루트에서 띄우면 데이터가 전부 404가 된다.
+
+```powershell
+python scripts/serve_web.py
+```
+
 개인 저장소라면 저장소 권한이 있는 계정으로 로그인해야 Excel과 Pages 데이터를 볼 수 있습니다. 더 큰 분석이나 스프레드시트 작업에는 Excel 파일을 사용하면 됩니다.
 
 ## 데이터 갱신 방식
 
-수집기는 시즌 일정에서 **신규·미완료·실패 게임**과 최근 7일의 확정 경기를 다시 확인합니다. 정상 검증된 게임은 `data/curated/*/season=YYYY/<game_id>.parquet`의 해당 경기 shard만 교체합니다. 그 뒤 모든 metric과 Excel·웹 출력은 공통 curated loader를 사용합니다. 세부 schema·hash·복구 계약은 [canonical data 문서](docs/curated-data.md)를 참고하십시오.
+수집기는 시즌 일정에서 **신규·미완료·실패 게임**과 최근 7일의 확정 경기를 다시 확인합니다. canonical 데이터는 월별 Parquet partition으로 저장되며, 변경 게임의 월 partition만 원자적으로 교체합니다. `data/curated/partition-index.json`이 게임·월·테이블 hash를 보유하므로 metric dependency 계산과 도구 탐색은 수천 개의 Parquet 파일을 순회하지 않습니다. metric별 input/code hash가 같으면 해당 metric과 웹·Excel 출력은 건너뜁니다. 세부 schema·hash·복구 계약은 [canonical data 문서](docs/curated-data.md)를 참고하십시오.
 
 ```powershell
 python -m pip install -r requirements.txt -c constraints-za.txt
@@ -101,7 +107,7 @@ Zone Awareness는 canonical pitch/event shard만 입력으로 받으며 Excel·l
 
 ## Pitcher Zone Profile
 
-`web/zones/`는 같은 Excel의 `Pitches` 시트에서 타자·투수별 0.5 ft 존 데이터를 생성한다. 연도·구종·볼카운트·스트라이크카운트를 고르고 Swing%, Whiff%, Contact%, In-play%를 볼 수 있으며, 구종별 구사율·평균 구속·존 비율 비교표를 함께 제공한다. 일일 2026 갱신 때 이 프로필도 같은 Excel에서 다시 생성된다.
+`web/zones/`는 canonical pitch partition에서 타자·투수별 0.5 ft 존 데이터를 생성한다. 연도·구종·볼카운트·스트라이크카운트를 고르고 Swing%, Whiff%, Contact%, In-play%를 볼 수 있으며, 구종별 구사율·평균 구속·존 비율 비교표를 함께 제공한다. 일일 2026 갱신 때 이 프로필도 같은 canonical 입력에서 다시 생성된다.
 
 ## Pitch Arsenal
 

@@ -21,6 +21,8 @@ from .plate_decision_v1 import build_plate_decision_v1
 from .zone_decision import build_zone_decision
 from .arm_angle import build_arm_angle_input
 from .curated import normalize_trajectory, pitch_sha256, schema_sha256, source_manifest_path
+from .metric_state import mark_built, needs_build
+from .dataset_summary import build_summary
 
 
 def _is_final(game: dict) -> bool:
@@ -58,22 +60,30 @@ def select_target_games(schedule: dict, store: Store, season: int, mode: str = "
 
 
 def _exports(root: Path, season: int, storage_root: Path) -> None:
-    export_latest(root, season)
-    build_arm_angle_input(root, season)
-    build_swing_take(root, season)
+    def build(name, action):
+        if needs_build(root, season, name):
+            action(); mark_built(root, season, name)
+            print(f"built {name}", flush=True)
+        else:
+            print(f"unchanged {name}", flush=True)
+
+    build("excel", lambda: export_latest(root, season))
+    build("arm_angle", lambda: build_arm_angle_input(root, season))
+    build("swing_take", lambda: build_swing_take(root, season))
     decision_source = root / "data" / "metrics" / "swing_take" / str(season) / (
         "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
     )
     if decision_source.exists():
-        build_plate_discipline(root, season, decision_source)
+        build("plate_discipline", lambda: build_plate_discipline(root, season, decision_source))
         if pq.read_metadata(decision_source).num_rows >= 1_000:
             if season in (2024, 2025, 2026):
-                build_zone_decision(root, season)
+                build("zone_decision", lambda: build_zone_decision(root, season))
             else:
-                build_plate_decision_v1(root, season, decision_source, web_root=root / "web")
-    build_zone_profiles(root, season)
-    build_pitch_arsenal(root, season)
-    build_blocking(root, season)
+                build("plate_decision", lambda: build_plate_decision_v1(root, season, decision_source, web_root=root / "web"))
+    build("zone_profiles", lambda: build_zone_profiles(root, season))
+    build("pitch_arsenal", lambda: build_pitch_arsenal(root, season))
+    build("blocking", lambda: build_blocking(root, season))
+    build_summary(root)
 
 
 def main() -> None:
@@ -215,8 +225,8 @@ def main() -> None:
             if len(pending_games) >= 25:
                 flush()
     flush()
-    if changed_games or not (root / "data" / "metrics" / "arm_angle" / str(args.season) / "input.parquet").exists():
-        _exports(root, args.season, storage_root)
+    # Always plan exports: per-metric state handles data, code, and dependency no-ops.
+    _exports(root, args.season, storage_root)
     print(f"reconciled {len(target_games)} games; {changed_games} curated shards changed")
 
 

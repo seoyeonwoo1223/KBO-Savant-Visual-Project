@@ -1,4 +1,4 @@
-"""Build compact, filterable pitcher zone profiles from the published Excel file."""
+"""Build compact, filterable pitcher zone profiles from canonical curated pitches."""
 
 from __future__ import annotations
 

@@ -1,4 +1,4 @@
-"""Canonical raw -> game-sharded Parquet boundary used by every metric."""
+"""Canonical raw -> compact Parquet boundary used by every metric."""
 from __future__ import annotations
 
 from collections import defaultdict
@@ -216,6 +216,15 @@ def _stable_rows(rows: Iterable[dict]) -> list[dict]:
             for row in rows]
 
 
+def table_digest(rows: Iterable[dict], schema: pa.Schema) -> str:
+    """Hash rows exactly as the Parquet file stores them.
+
+    Both the in-memory write path and a partition read-back must land on the same
+    value, so the index doubles as the integrity oracle for a compact partition.
+    """
+    return value_sha256(_stable_rows(_clean_rows(rows, schema)))
+
+
 def pitch_sha256(game: dict, events: list[dict], pitches: list[dict]) -> str:
     return value_sha256({"game": _stable_rows([game])[0], "events": _stable_rows(events), "pitches": _stable_rows(pitches)})
 
@@ -249,6 +258,62 @@ def curated_path(root: Path, kind: str, season: int, game_id: str) -> Path:
     return root / "data" / "curated" / kind / f"season={season}" / f"{game_id}.parquet"
 
 
+def partition_index_path(root: Path) -> Path:
+    return root / "data" / "curated" / "partition-index.json"
+
+
+def _partition_index(root: Path) -> dict:
+    path = partition_index_path(root)
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"schema_version": 1, "layout": "game", "seasons": {}}
+
+
+def _write_partition_index(root: Path, index: dict) -> None:
+    _atomic_json(partition_index_path(root), index)
+
+
+def _month(game: dict) -> str:
+    value = str(game.get("game_date") or game.get("game_id") or "")
+    return value[5:7] if len(value) >= 7 and value[4] == "-" else value[4:6]
+
+
+def _monthly_path(root: Path, kind: str, season: int, month: str) -> Path:
+    return root / "data" / "curated" / kind / f"season={season}" / f"month={month}.parquet"
+
+
+def _replace_monthly_game(root: Path, kind: str, season: int, month: str, game_id: str,
+                          rows: list[dict], schema: pa.Schema) -> None:
+    path = _monthly_path(root, kind, season, month)
+    old = pq.ParquetFile(path).read().to_pylist() if path.exists() else []
+    _atomic_parquet(path, [row for row in old if str(row.get("game_id")) != game_id] + rows, schema)
+
+
+def _monthly_game_exists(root: Path, season: int, month: str, game_id: str) -> bool:
+    if not _monthly_files_valid(root, season, month): return False
+    for kind in SCHEMAS:
+        path = _monthly_path(root, kind, season, month)
+        if not path.is_file(): return False
+        if kind != "events" and game_id not in set(pq.ParquetFile(path).read(columns=["game_id"]).column("game_id").to_pylist()): return False
+    return True
+
+
+def _month_has_games(index: dict, season: int, month: str) -> bool:
+    return any(str(value.get("month")) == month for value in index.get("seasons", {}).get(str(season), {}).get("games", {}).values())
+
+
+def _monthly_files_valid(root: Path, season: int, month: str) -> bool:
+    try:
+        for kind, schema in SCHEMAS.items():
+            path = _monthly_path(root, kind, season, month)
+            if not path.is_file() or not pq.ParquetFile(path).schema_arrow.equals(schema, check_metadata=False): return False
+        return True
+    except (OSError, pa.ArrowException):
+        return False
+
+
+def _expected_months(index: dict, season: int) -> list[str]:
+    return sorted({str(value.get("month")) for value in index.get("seasons", {}).get(str(season), {}).get("games", {}).values()})
+
+
 def source_manifest_path(root: Path, season: int, game_id: str) -> Path:
     return root / "data" / "curated" / "sources" / f"season={season}" / f"{game_id}.json"
 
@@ -262,12 +327,32 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
     digest, schema_digest = pitch_sha256(game, events, normalized), schema_sha256()
     manifest_path = source_manifest_path(root, season, game_id)
     previous = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
-    shards_exist = all(curated_path(root, kind, season, game_id).is_file() for kind in SCHEMAS)
+    index = _partition_index(root)
+    compact = index.get("layout") == "month"
+    prior = index.get("seasons", {}).get(str(season), {}).get("games", {}).get(game_id, {})
+    monthly_valid = _monthly_game_exists(root, season, str(prior.get("month") or _month(game)), game_id) if compact and prior else False
+    if compact and prior and not monthly_valid:
+        raise FileNotFoundError(f"compact partition is missing or corrupt for {game_id}; rebuild the month from retained raw data")
+    target_month = _month(game)
+    if compact and not prior and _month_has_games(index, season, target_month) and not _monthly_files_valid(root, season, target_month):
+        raise FileNotFoundError(f"compact partition is missing or corrupt for month={target_month}; rebuild the month from retained raw data")
+    shards_exist = (monthly_valid if compact and prior
+                    else all(curated_path(root, kind, season, game_id).is_file() for kind in SCHEMAS))
     changed = force or not shards_exist or previous.get("pitch_sha256") != digest or previous.get("schema_sha256") != schema_digest
     if changed:
-        _atomic_parquet(curated_path(root, "games", season, game_id), [game], GAME_SCHEMA)
-        _atomic_parquet(curated_path(root, "events", season, game_id), events, EVENT_SCHEMA)
-        _atomic_parquet(curated_path(root, "pitches", season, game_id), normalized, PITCH_SCHEMA)
+        if compact:
+            month = _month(game)
+            old_month = str(prior.get("month") or month)
+            if old_month != month:
+                for kind, schema in SCHEMAS.items():
+                    _replace_monthly_game(root, kind, season, old_month, game_id, [], schema)
+            _replace_monthly_game(root, "games", season, month, game_id, [game], GAME_SCHEMA)
+            _replace_monthly_game(root, "events", season, month, game_id, events, EVENT_SCHEMA)
+            _replace_monthly_game(root, "pitches", season, month, game_id, normalized, PITCH_SCHEMA)
+        else:
+            _atomic_parquet(curated_path(root, "games", season, game_id), [game], GAME_SCHEMA)
+            _atomic_parquet(curated_path(root, "events", season, game_id), events, EVENT_SCHEMA)
+            _atomic_parquet(curated_path(root, "pitches", season, game_id), normalized, PITCH_SCHEMA)
     now = utc_now()
     raw_digest = value_sha256(raw_payload) if raw_payload is not None else None
     excluded = max(0, (raw_pitch_count(raw_payload) or len(normalized)) - len(normalized))
@@ -294,6 +379,11 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
         "provenance": provenance or previous.get("provenance") or {"type": "visualbaseball_json"},
     }
     _atomic_json(manifest_path, manifest)
+    games = index.setdefault("seasons", {}).setdefault(str(season), {}).setdefault("games", {})
+    games[game_id] = {"game_date": game.get("game_date"), "month": _month(game), "revision": manifest["revision"],
+                      "tables": {"games": table_digest([game], GAME_SCHEMA), "events": table_digest(events, EVENT_SCHEMA),
+                                 "pitches": table_digest(normalized, PITCH_SCHEMA)}}
+    _write_partition_index(root, index)
     return {"changed": changed, "manifest": manifest, "pitches": normalized}
 
 
@@ -336,7 +426,24 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
                player_role: str = "pitcher") -> pa.Table:
     """Read selected shard columns; season/game/player pruning happens in Arrow."""
     directory = root / "data" / "curated" / kind / f"season={season}"
-    files = [directory / f"{game_id}.parquet"] if game_id else sorted(directory.glob("*.parquet"))
+    index = _partition_index(root)
+    entry = index.get("seasons", {}).get(str(season), {}).get("games", {}).get(str(game_id)) if game_id else None
+    if entry and index.get("layout") == "month" and not _monthly_files_valid(root, season, str(entry["month"])):
+        raise FileNotFoundError(f"indexed compact partition is missing: {kind}/season={season}/month={entry['month']}")
+    def legacy_files() -> list[Path]:
+        # Ignore monthly partitions a failed or interrupted migration left behind,
+        # or every row in them is returned a second time alongside the shards they
+        # duplicate. Only reached in game layout, so the directory scan stays off
+        # the compact read path.
+        return sorted(path for path in directory.glob("*.parquet") if not path.name.startswith("month="))
+
+    files = ([_monthly_path(root, kind, season, str(entry["month"]))] if entry and index.get("layout") == "month"
+             else [directory / f"{game_id}.parquet"] if game_id else legacy_files())
+    if not game_id and index.get("layout") == "month":
+        months = _expected_months(index, season)
+        if not months or any(not _monthly_files_valid(root, season, month) for month in months):
+            raise FileNotFoundError(f"compact season={season} has missing or corrupt monthly partitions")
+        files = [_monthly_path(root, kind, season, month) for month in months]
     files = [path for path in files if path.is_file()]
     selected = list(columns) if columns is not None else None
     if not files:
@@ -346,11 +453,21 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
         return pa.Table.from_pylist([], schema=schema)
     dataset = ds.dataset([str(path) for path in files], format="parquet")
     expression = ds.field("season") == season if "season" in dataset.schema.names else None
+    if game_id:
+        clause = ds.field("game_id") == str(game_id)
+        expression = clause if expression is None else expression & clause
     if player_id:
         field = f"{player_role}_id"
         clause = ds.field(field) == str(player_id)
         expression = clause if expression is None else expression & clause
-    return dataset.to_table(columns=selected, filter=expression)
+    try:
+        return dataset.to_table(columns=selected, filter=expression)
+    except (OSError, pa.ArrowException) as error:
+        # Footer and schema stay readable when only data pages are damaged, so the
+        # cheap pre-checks above cannot see this. Fail closed instead of surfacing a
+        # partial table, and keep the error type callers already handle.
+        raise FileNotFoundError(
+            f"unreadable curated partition for {kind}/season={season}: {error}") from error
 
 
 def load_rows(*args, **kwargs) -> list[dict]:

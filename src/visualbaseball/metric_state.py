@@ -1,0 +1,69 @@
+"""Manifest-backed, fail-closed production metric build state."""
+from __future__ import annotations
+import json
+from pathlib import Path
+from .curated import file_sha256, schema_sha256, value_sha256
+
+# Each metric records its transitive builder/helper dependency set.
+SPECS = {
+ "excel": (("games", "events", "pitches"), (), ("exports/visualbaseball_savant_{season}_latest.xlsx",)),
+ "arm_angle": (("pitches",), ("data/batter_handedness.json",), ("data/metrics/arm_angle/{season}/input.parquet",)),
+ "swing_take": (("pitches",), (), ("web/data/swing_take/{season}/index.json",)),
+ "plate_discipline": (("pitches",), (), ("data/metrics/plate_discipline/{season}/plate_discipline_pitches.parquet",)),
+ "zone_decision": (("pitches", "events"), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("data/metrics/zone_awareness/{season}/report.json", "web/data/zone_awareness/{season}/leaderboard.json", "web/data/zone_awareness/{season}/teams.json", "web/data/zone_awareness/index.json")),
+ "plate_decision": (("pitches",), ("data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx",), ("data/metrics/plate_decision/{season}/plate_decision_v1_report_{season}.json", "web/data/zone_awareness/{season}/leaderboard.json", "web/data/zone_awareness/{season}/teams.json", "web/data/zone_awareness/index.json")),
+ "zone_profiles": (("pitches",), (), ("web/data/zones/index.json",)),
+ "pitch_arsenal": (("pitches",), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("web/data/pitch_arsenal/{season}/index.json",)),
+ "blocking": (("games", "pitches"), (), ("data/metrics/blocking/{season}/pitches.parquet", "web/data/blocking/{season}/leaderboard.json")),
+}
+CODE = {
+ "excel": ("export_excel.py", "curated.py"), "arm_angle": ("arm_angle.py", "curated.py"),
+ "swing_take": ("swing_take.py", "curated.py"), "plate_discipline": ("plate_discipline.py", "swing_take.py", "curated.py"),
+ "zone_decision": ("zone_decision.py", "plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "swing_take.py", "curated.py"),
+ "plate_decision": ("plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "swing_take.py", "curated.py"),
+ "zone_profiles": ("zone_profile.py", "curated.py"), "pitch_arsenal": ("pitch_arsenal.py", "curated.py"), "blocking": ("blocking.py", "curated.py"),
+}
+
+def _index(root: Path) -> dict:
+ path = root / "data" / "curated" / "partition-index.json"
+ return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"seasons": {}}
+
+def metric_input_hash(root: Path, season: int, name: str) -> str:
+ tables, extras, _ = SPECS[name]; index = _index(root)
+ games = index.get("seasons", {}).get(str(season), {}).get("games", {})
+ if name == "arm_angle": games = {f"{year}/{game}": value for year, data in index.get("seasons", {}).items() for game, value in data.get("games", {}).items()}
+ if not games:
+  directory = root / "data" / "curated" / "sources" / f"season={season}"
+  games = {p.stem: {"tables": {table: json.loads(p.read_text(encoding="utf-8")).get("pitch_sha256") for table in tables}} for p in sorted(directory.glob("*.json"))}
+ source = {game: {table: value.get("tables", {}).get(table) for table in tables} for game, value in sorted(games.items())}
+ package = root / "src" / "visualbaseball"
+ if not package.exists(): package = Path(__file__).parent
+ code = {name: file_sha256(package / name) for name in CODE[name]}
+ files = {item: (file_sha256(path) if (path := root / item.format(season=season)).exists() else None) for item in extras}
+ return value_sha256({"metric": name, "season": season, "source": source, "schema_sha256": schema_sha256(), "code": code, "extras": files})
+
+def _path(root: Path, season: int, name: str) -> Path: return root / "data" / "metrics" / "_state" / str(season) / f"{name}.json"
+
+def needs_build(root: Path, season: int, name: str) -> bool:
+ _, _, outputs = SPECS[name]
+ if any(not (root / output.format(season=season)).is_file() for output in outputs): return True
+ if name == "swing_take" and not (root / "data/metrics/swing_take" / str(season) / ("decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet")).is_file(): return True
+ if name in {"swing_take", "pitch_arsenal", "zone_profiles", "zone_decision", "plate_decision"} and not _web_shards_exist(root, season, name): return True
+ try: return json.loads(_path(root, season, name).read_text(encoding="utf-8")).get("input_sha256") != metric_input_hash(root, season, name)
+ except (OSError, json.JSONDecodeError): return True
+
+def _web_shards_exist(root: Path, season: int, name: str) -> bool:
+ try:
+  if name == "zone_profiles":
+   data = json.loads((root / "web/data/zones/index.json").read_text(encoding="utf-8")); groups = data["players"][str(season)].items(); base = root / "web/data/zones" / str(season)
+   return all((base / role / player["file"]).is_file() for role, players in groups for player in players)
+  base = root / "web/data" / ("zone_awareness" if name in {"zone_decision", "plate_decision"} else name) / str(season)
+  data = json.loads((base / ("leaderboard.json" if name in {"zone_decision", "plate_decision"} else "index.json")).read_text(encoding="utf-8"))
+  if name == "swing_take": return all((base / "players" / f"{str(player['id'])[0] if str(player['id'])[0].isdigit() else 'other'}.json").is_file() for player in data.get("players", []))
+  if name in {"zone_decision", "plate_decision"}: return all((base / "players" / f"{str(player.get('batter_id') or player.get('id'))[:2] if str(player.get('batter_id') or player.get('id'))[0].isdigit() else 'other'}.json").is_file() for player in data.get("players", []))
+  return all((base / player["file"]).is_file() for player in data.get("players", []))
+ except (KeyError, OSError, json.JSONDecodeError): return False
+
+def mark_built(root: Path, season: int, name: str) -> None:
+ path = _path(root, season, name); path.parent.mkdir(parents=True, exist_ok=True)
+ path.write_text(json.dumps({"metric": name, "season": season, "input_sha256": metric_input_hash(root, season, name)}, indent=2) + "\n", encoding="utf-8")
