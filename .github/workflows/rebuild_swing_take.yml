@@ -2,6 +2,7 @@ name: Rebuild 2026 Swing Take profiles
 
 on:
   push:
+    branches: [master]
     paths:
       - ".github/profile-refresh-request"
   workflow_dispatch:

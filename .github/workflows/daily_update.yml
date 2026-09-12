@@ -2,6 +2,7 @@ name: Daily Visual Baseball update
 
 on:
   push:
+    branches: [master]
     paths:
       - "src/visualbaseball/**"
       - "data/park_adjustments/**"
