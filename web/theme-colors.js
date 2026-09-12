@@ -9,9 +9,9 @@
 // with a plain <script src="../theme-colors.js"></script> before its own script and read
 // KBO_COLORS instead of hardcoding new hex.
 window.KBO_COLORS = Object.freeze({
-  divergePositive: "#c83249",
-  divergeNegative: "#3474b8",
-  divergeNeutral: "#f7f8fa",
+  divergePositive: "#fc3c3c",
+  divergeNegative: "#0f4471",
+  divergeNeutral: "#f6f6f6",
   divergeInkLight: "#ffffff",
-  divergeInkDark: "#1d3148",
+  divergeInkDark: "#083358",
 });
