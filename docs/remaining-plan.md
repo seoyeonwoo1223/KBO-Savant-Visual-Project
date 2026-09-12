@@ -2,6 +2,21 @@
 
 Codex에 붙여넣는 용도. **위에서 아래로 순서대로.** 각 단계의 "완료 조건"을 통과하지 못하면 다음 단계로 넘어가지 마십시오.
 
+## 완료 현황 (master `4fbd6f25` 기준)
+
+| 단계 | 상태 | 근거 |
+|---|---|---|
+| 0. PR #6 정리 후 머지 | **완료** | `7ed098b5`. 34.4MB JSON → 0.38MB parquet, 디렉터리 1.48MB |
+| 1. 2022–2024 compaction | **완료** | `2cd44f96`, `08f9acf3`. curated parquet 112개, 5시즌 전부 month |
+| 2. CI 구멍 2개 | **완료** | `bf8fad3c`. `sample_reconcile`에 pytest+`.cjs`, `scripts/check_metric_state.py` 배선 |
+| 3. `data/processed` 해제 | **완료** | `b28ff953`. 추적 0개 |
+| 4. no-op 정착 확인 | **완료** | 7/8 (excel만 True = 구조적). `1ae79720`이 CRLF 해시 불일치를 수정 |
+| 5. 방치 브랜치 판단 | **판단 완료, 삭제 미실행** | 아래 5단계 참조 |
+| 6. 이력 재작성 | **미착수** | 사람이 직접 |
+| 7. 웹/시각화 | **미착수** | 문제 목록 대기 |
+
+4단계에서 발견된 것: Windows CRLF 체크아웃이 `code`·`schema_sha256` 성분을 CI의 LF 해시와 다르게 만들었습니다. `curated.source_sha256()`이 소스 코드만 줄바꿈 정규화하고 데이터 파일은 `file_sha256` 그대로 씁니다. LF에서는 두 값이 동일하므로 기존 데이터 재작성은 발생하지 않습니다.
+
 ---
 
 ## 공통 전제
@@ -299,10 +314,11 @@ git push --force --tags
 
 ## 요약 체크리스트
 
-- [ ] 1. 2022–2024 compaction → curated 112 files, 행수 일치, 5시즌 읽기 OK
-- [ ] 2. `sample_reconcile.yml`에 pytest + `_state` 스테일 체크 스크립트
-- [ ] 3. `data/processed` 참조 여부 확인 후 추적 해제 판단
-- [ ] 4. daily 1회 후 no-op 정착 확인 (excel 제외 전부 False)
+- [x] 0. PR #6 — 34.4MB JSON을 parquet으로 교체 후 머지
+- [x] 1. 2022–2024 compaction → curated 112 files, 행수 일치, 5시즌 읽기 OK
+- [x] 2. `sample_reconcile.yml`에 pytest + `_state` 스테일 체크 스크립트
+- [x] 3. `data/processed` 참조 여부 확인 후 추적 해제 판단
+- [x] 4. daily 1회 후 no-op 정착 확인 (excel 제외 전부 False)
 - [ ] 5. 방치 브랜치 3개 코드 요약 + 권고 보고
 - [ ] 6. 이력 재작성 — **사람이 직접**, PR #6 처리 후
 - [ ] 7. 웹/시각화 — 문제 목록 수령 후
