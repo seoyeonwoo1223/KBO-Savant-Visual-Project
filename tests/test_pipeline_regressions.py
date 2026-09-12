@@ -5,7 +5,7 @@ import shutil
 
 import pytest
 
-from visualbaseball.compact_curated import compact
+from visualbaseball.compact_curated import CompactionError, compact
 from visualbaseball.curated import load_rows, write_game
 from visualbaseball.metric_state import mark_built, needs_build
 
@@ -68,7 +68,7 @@ def test_compaction_keeps_legacy_recovery_data_when_month_is_corrupt(tmp_path):
     shutil.copy2(pitches / "month=03.parquet", legacy)
     (tmp_path / "data/curated/events/season=2026/month=03.parquet").write_bytes(b"not parquet")
 
-    with pytest.raises(FileNotFoundError):
+    with pytest.raises(CompactionError):
         compact(tmp_path, SEASON)
     assert legacy.exists()
 
