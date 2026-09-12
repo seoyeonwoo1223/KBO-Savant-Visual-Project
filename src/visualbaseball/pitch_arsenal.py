@@ -372,6 +372,7 @@ def build_pitch_arsenal(root: Path, season: int) -> tuple[int, int]:
                     "swstr_pct": "swings without contact / all pitches",
                 },
                 "percentiles": f"same pitch type, pitcher-pitch groups with at least {MIN_PERCENTILE_PITCHES} pitches",
+                "percentile_scope": f"velocity_kmh is graded for every group; the rate metrics only for groups with at least {MIN_PERCENTILE_PITCHES} pitches",
             },
             "player": {
                 "id": pitcher_id, "name": pitcher["name"], "throws": throws,
@@ -414,18 +415,29 @@ def build_pitch_arsenal(root: Path, season: int) -> tuple[int, int]:
                 value = profile["overall"]["rates"][metric]
                 if value is not None:
                     overall_populations[metric].append(value)
+    # Velocity is graded for every group, including those under MIN_PERCENTILE_PITCHES: a mean
+    # speed is stable at a handful of pitches in a way the rate metrics are not, so withholding it
+    # only hid a reliable number.  The population itself still comes from qualified groups only,
+    # and `percentile_qualified` stays false so the view keeps flagging the short sample.
     for profile in profiles:
         for pitch in profile["pitch_types"]:
+            pitch["percentiles"]["velocity_kmh"] = (
+                _percentile(pitch["velocity_kmh"]["average"], pitch_populations[pitch["code"]]["velocity_kmh"])
+                if pitch["velocity_kmh"] else None
+            )
             if pitch["percentile_qualified"]:
-                pitch["percentiles"] = {
-                    "velocity_kmh": _percentile(pitch["velocity_kmh"]["average"], pitch_populations[pitch["code"]]["velocity_kmh"]) if pitch["velocity_kmh"] else None,
-                    **{metric: _percentile(pitch["rates"][metric], pitch_populations[pitch["code"]][metric]) for metric in metrics},
-                }
-        if profile["overall"]["percentile_qualified"]:
-            profile["overall"]["percentiles"] = {
-                "velocity_kmh": _percentile(profile["overall"]["velocity_kmh"]["average"], overall_populations["velocity_kmh"]) if profile["overall"]["velocity_kmh"] else None,
-                **{metric: _percentile(profile["overall"]["rates"][metric], overall_populations[metric]) for metric in metrics},
-            }
+                pitch["percentiles"].update(
+                    {metric: _percentile(pitch["rates"][metric], pitch_populations[pitch["code"]][metric]) for metric in metrics}
+                )
+        overall = profile["overall"]
+        overall["percentiles"]["velocity_kmh"] = (
+            _percentile(overall["velocity_kmh"]["average"], overall_populations["velocity_kmh"])
+            if overall["velocity_kmh"] else None
+        )
+        if overall["percentile_qualified"]:
+            overall["percentiles"].update(
+                {metric: _percentile(overall["rates"][metric], overall_populations[metric]) for metric in metrics}
+            )
 
     output = root / "web" / "data" / "pitch_arsenal" / str(season) / "players"
     output.mkdir(parents=True, exist_ok=True)

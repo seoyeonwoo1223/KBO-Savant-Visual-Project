@@ -340,14 +340,20 @@ const PERCENTILE_NEUTRAL = "#f7f8fa";
 const PERCENTILE_INK_LIGHT = "#ffffff";
 const PERCENTILE_INK_DARK = "#1d3148";
 
-function metricCell(value, percentile, qualified = true, suffix = "%") {
+// `gradeShortSample` keeps the shading on a cell whose group is under the 50-pitch bar. Velocity
+// passes it because pitch_arsenal.py grades that metric for every group; the short-sample note is
+// still printed either way, so the reader never loses the sample-size caveat.
+function metricCell(value, percentile, qualified = true, suffix = "%", gradeShortSample = false) {
   if (value == null) return '<td class="metric-cell"><span>—</span><small>자료 없음</small></td>';
-  if (!qualified || percentile == null) return `<td class="metric-cell"><span>${fmt(value)}${suffix}</span><small>50구 미만</small></td>`;
+  const short = !qualified;
+  if ((short && !gradeShortSample) || percentile == null) {
+    return `<td class="metric-cell"><span>${fmt(value)}${suffix}</span>${short ? "<small>50구 미만</small>" : ""}</td>`;
+  }
   const endpoint = percentile >= 50 ? PERCENTILE_HIGH : PERCENTILE_LOW;
   const strength = Math.abs(percentile - 50) / 50 * .9;
   const background = mixColor(PERCENTILE_NEUTRAL, endpoint, strength);
   const ink = percentile <= 12 || percentile >= 88 ? PERCENTILE_INK_LIGHT : PERCENTILE_INK_DARK;
-  return `<td class="metric-cell" style="--metric-bg:${background};--metric-ink:${ink}"><span>${fmt(value)}${suffix}</span></td>`;
+  return `<td class="metric-cell" style="--metric-bg:${background};--metric-ink:${ink}"><span>${fmt(value)}${suffix}</span>${short ? "<small>50구 미만</small>" : ""}</td>`;
 }
 
 function renderTable() {
@@ -357,7 +363,7 @@ function renderTable() {
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
     return `<tr>
       <td><span class="pitch-key" style="color:${pitch.color}">${escapeHtml(pitch.name)}</span></td>
-      <td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td>${metricCell(pitch.velocity_kmh?.average, pitch.percentiles?.velocity_kmh, pitch.percentile_qualified, " km/h")}
+      <td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td>${metricCell(pitch.velocity_kmh?.average, pitch.percentiles?.velocity_kmh, pitch.percentile_qualified, " km/h", true)}
       <td>${formatMovement(vertical?.average)} ${movementUnitLabel()}</td><td>${formatMovement(horizontal?.average)} ${movementUnitLabel()}</td>
       <td>${fmt(pitch.release?.v_rel_ft?.average * 30.48, 1)} cm</td><td>${fmt(pitch.release?.h_rel_ft?.average * 30.48, 1)} cm</td>
       ${metricCell(pitch.rates?.zone_pct, pitch.percentiles?.zone_pct, pitch.percentile_qualified)}
@@ -367,7 +373,7 @@ function renderTable() {
   }).join("");
   const overall = currentProfile.overall || {};
   const overallRow = `<tr class="overall-row">
-    <td>전체</td><td>${currentProfile.player.pitches.toLocaleString()}</td><td>100.0%</td>${metricCell(overall.velocity_kmh?.average, overall.percentiles?.velocity_kmh, overall.percentile_qualified, " km/h")}
+    <td>전체</td><td>${currentProfile.player.pitches.toLocaleString()}</td><td>100.0%</td>${metricCell(overall.velocity_kmh?.average, overall.percentiles?.velocity_kmh, overall.percentile_qualified, " km/h", true)}
     <td>—</td><td>—</td><td>${fmt(overall.release?.v_rel_ft?.average * 30.48, 1)} cm</td><td>${fmt(overall.release?.h_rel_ft?.average * 30.48, 1)} cm</td>
     ${metricCell(overall.rates?.zone_pct, overall.percentiles?.zone_pct, overall.percentile_qualified)}
     ${metricCell(overall.rates?.chase_pct, overall.percentiles?.chase_pct, overall.percentile_qualified)}
