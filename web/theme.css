@@ -1,7 +1,7 @@
 :root {
   --kbo-ink: #13233b;
-  --kbo-bg: #edf2f7;
-  --kbo-bg-top: #f7f9fc;
+  --kbo-bg: #ffffff;
+  --kbo-bg-top: #ffffff;
   --kbo-surface: #ffffff;
   --kbo-navy: #122d50;
   --kbo-navy-2: #1c426f;
@@ -11,11 +11,11 @@
   --kbo-muted: #66758a;
 }
 
-html { background: var(--kbo-bg); }
+html { background: var(--kbo-surface); }
 body {
   min-height: 100vh;
   color: var(--kbo-ink);
-  background: linear-gradient(180deg, var(--kbo-bg-top) 0, var(--kbo-bg) 320px);
+  background: var(--kbo-surface);
 }
 
 a { color: #334b67; }
