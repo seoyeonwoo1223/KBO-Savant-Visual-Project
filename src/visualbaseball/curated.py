@@ -249,6 +249,35 @@ def curated_path(root: Path, kind: str, season: int, game_id: str) -> Path:
     return root / "data" / "curated" / kind / f"season={season}" / f"{game_id}.parquet"
 
 
+def partition_index_path(root: Path) -> Path:
+    return root / "data" / "curated" / "partition-index.json"
+
+
+def _partition_index(root: Path) -> dict:
+    path = partition_index_path(root)
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"schema_version": 1, "layout": "game", "seasons": {}}
+
+
+def _write_partition_index(root: Path, index: dict) -> None:
+    _atomic_json(partition_index_path(root), index)
+
+
+def _month(game: dict) -> str:
+    value = str(game.get("game_date") or game.get("game_id") or "")
+    return value[5:7] if len(value) >= 7 and value[4] == "-" else value[4:6]
+
+
+def _monthly_path(root: Path, kind: str, season: int, month: str) -> Path:
+    return root / "data" / "curated" / kind / f"season={season}" / f"month={month}.parquet"
+
+
+def _replace_monthly_game(root: Path, kind: str, season: int, month: str, game_id: str,
+                          rows: list[dict], schema: pa.Schema) -> None:
+    path = _monthly_path(root, kind, season, month)
+    old = pq.ParquetFile(path).read().to_pylist() if path.exists() else []
+    _atomic_parquet(path, [row for row in old if str(row.get("game_id")) != game_id] + rows, schema)
+
+
 def source_manifest_path(root: Path, season: int, game_id: str) -> Path:
     return root / "data" / "curated" / "sources" / f"season={season}" / f"{game_id}.json"
 
@@ -262,12 +291,21 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
     digest, schema_digest = pitch_sha256(game, events, normalized), schema_sha256()
     manifest_path = source_manifest_path(root, season, game_id)
     previous = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
-    shards_exist = all(curated_path(root, kind, season, game_id).is_file() for kind in SCHEMAS)
+    index = _partition_index(root)
+    compact = index.get("layout") == "month"
+    shards_exist = (game_id in index.get("seasons", {}).get(str(season), {}).get("games", {}) if compact
+                    else all(curated_path(root, kind, season, game_id).is_file() for kind in SCHEMAS))
     changed = force or not shards_exist or previous.get("pitch_sha256") != digest or previous.get("schema_sha256") != schema_digest
     if changed:
-        _atomic_parquet(curated_path(root, "games", season, game_id), [game], GAME_SCHEMA)
-        _atomic_parquet(curated_path(root, "events", season, game_id), events, EVENT_SCHEMA)
-        _atomic_parquet(curated_path(root, "pitches", season, game_id), normalized, PITCH_SCHEMA)
+        if compact:
+            month = _month(game)
+            _replace_monthly_game(root, "games", season, month, game_id, [game], GAME_SCHEMA)
+            _replace_monthly_game(root, "events", season, month, game_id, events, EVENT_SCHEMA)
+            _replace_monthly_game(root, "pitches", season, month, game_id, normalized, PITCH_SCHEMA)
+        else:
+            _atomic_parquet(curated_path(root, "games", season, game_id), [game], GAME_SCHEMA)
+            _atomic_parquet(curated_path(root, "events", season, game_id), events, EVENT_SCHEMA)
+            _atomic_parquet(curated_path(root, "pitches", season, game_id), normalized, PITCH_SCHEMA)
     now = utc_now()
     raw_digest = value_sha256(raw_payload) if raw_payload is not None else None
     excluded = max(0, (raw_pitch_count(raw_payload) or len(normalized)) - len(normalized))
@@ -294,6 +332,11 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
         "provenance": provenance or previous.get("provenance") or {"type": "visualbaseball_json"},
     }
     _atomic_json(manifest_path, manifest)
+    games = index.setdefault("seasons", {}).setdefault(str(season), {}).setdefault("games", {})
+    games[game_id] = {"game_date": game.get("game_date"), "month": _month(game), "revision": manifest["revision"],
+                      "tables": {"games": value_sha256(_stable_rows([game])), "events": value_sha256(_stable_rows(events)),
+                                 "pitches": value_sha256(_stable_rows(normalized))}}
+    _write_partition_index(root, index)
     return {"changed": changed, "manifest": manifest, "pitches": normalized}
 
 
@@ -336,7 +379,8 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
                player_role: str = "pitcher") -> pa.Table:
     """Read selected shard columns; season/game/player pruning happens in Arrow."""
     directory = root / "data" / "curated" / kind / f"season={season}"
-    files = [directory / f"{game_id}.parquet"] if game_id else sorted(directory.glob("*.parquet"))
+    files = ([directory / f"{game_id}.parquet"] if game_id and not partition_index_path(root).exists()
+             else sorted(directory.glob("*.parquet")))
     files = [path for path in files if path.is_file()]
     selected = list(columns) if columns is not None else None
     if not files:
@@ -346,6 +390,9 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
         return pa.Table.from_pylist([], schema=schema)
     dataset = ds.dataset([str(path) for path in files], format="parquet")
     expression = ds.field("season") == season if "season" in dataset.schema.names else None
+    if game_id:
+        clause = ds.field("game_id") == str(game_id)
+        expression = clause if expression is None else expression & clause
     if player_id:
         field = f"{player_role}_id"
         clause = ds.field(field) == str(player_id)
