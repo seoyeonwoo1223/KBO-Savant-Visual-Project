@@ -2,12 +2,14 @@
   color: #13233b;
   background: #edf2f7;
   font-family: Arial, sans-serif;
-  --navy: #122d50;
-  --navy-2: #1c426f;
-  --blue: #1e6ca1;
-  --line: #d9e2ec;
-  --muted: #66758a;
-  --card: #fff;
+  /* Same brand palette as theme.css's --kbo-* tokens; aliased instead of re-declared so a future
+     palette change only needs editing theme.css. */
+  --navy: var(--kbo-navy);
+  --navy-2: var(--kbo-navy-2);
+  --blue: var(--kbo-blue);
+  --line: var(--kbo-line);
+  --muted: var(--kbo-muted);
+  --card: var(--kbo-card);
 }
 * { box-sizing: border-box; font-family: Arial, sans-serif; }
 body { margin: 0; background: linear-gradient(180deg, #f7f9fc 0, #edf2f7 320px); }

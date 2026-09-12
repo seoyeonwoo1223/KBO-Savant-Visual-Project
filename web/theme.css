@@ -9,6 +9,7 @@
   --kbo-line: #d9e2ec;
   --kbo-line-strong: #c4d0dd;
   --kbo-muted: #66758a;
+  --kbo-card: #fff;
 }
 
 html { background: var(--kbo-surface); }
