@@ -6,8 +6,7 @@ __pycache__/
 ~$*
 data/pending/
 data/raw/naver/
-data/processed/plate_decision_v1_pitches_*.parquet
-data/processed/decision_pitches_20*.parquet
+data/processed/
 # Season workbooks are regenerated from curated data by export_excel and
 # published as Release assets, so they are not tracked. Regenerate one with:
 #   PYTHONPATH=src python -c "from pathlib import Path; \
