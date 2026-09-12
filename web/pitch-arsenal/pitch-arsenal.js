@@ -332,13 +332,21 @@ function mixColor(from, to, ratio) {
   return `#${first.map((value, index) => Math.round(value + (second[index] - value) * ratio).toString(16).padStart(2, "0")).join("")}`;
 }
 
+// Percentile diverging scale: high=red, low=blue. Same concept as leaderboards.js's warColor()
+// and zone.js's savantBands, each with its own endpoint values — not yet unified into one palette.
+const PERCENTILE_HIGH = "#c83249";
+const PERCENTILE_LOW = "#3474b8";
+const PERCENTILE_NEUTRAL = "#f7f8fa";
+const PERCENTILE_INK_LIGHT = "#ffffff";
+const PERCENTILE_INK_DARK = "#1d3148";
+
 function metricCell(value, percentile, qualified = true, suffix = "%") {
   if (value == null) return '<td class="metric-cell"><span>—</span><small>자료 없음</small></td>';
   if (!qualified || percentile == null) return `<td class="metric-cell"><span>${fmt(value)}${suffix}</span><small>50구 미만</small></td>`;
-  const endpoint = percentile >= 50 ? "#c83249" : "#3474b8";
+  const endpoint = percentile >= 50 ? PERCENTILE_HIGH : PERCENTILE_LOW;
   const strength = Math.abs(percentile - 50) / 50 * .9;
-  const background = mixColor("#f7f8fa", endpoint, strength);
-  const ink = percentile <= 12 || percentile >= 88 ? "#ffffff" : "#1d3148";
+  const background = mixColor(PERCENTILE_NEUTRAL, endpoint, strength);
+  const ink = percentile <= 12 || percentile >= 88 ? PERCENTILE_INK_LIGHT : PERCENTILE_INK_DARK;
   return `<td class="metric-cell" style="--metric-bg:${background};--metric-ink:${ink}"><span>${fmt(value)}${suffix}</span></td>`;
 }
 

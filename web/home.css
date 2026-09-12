@@ -2,12 +2,14 @@
   font-family: Arial, sans-serif;
   color: #13233b;
   background: #1e6ca1;
-  --navy: #122d50;
-  --navy-2: #1c426f;
-  --blue: #1e6ca1;
-  --line: #d9e2ec;
-  --muted: #66758a;
-  --card: #fff;
+  /* Same brand palette as theme.css's --kbo-* tokens; aliased instead of re-declared so a future
+     palette change only needs editing theme.css. */
+  --navy: var(--kbo-navy);
+  --navy-2: var(--kbo-navy-2);
+  --blue: var(--kbo-blue);
+  --line: var(--kbo-line);
+  --muted: var(--kbo-muted);
+  --card: var(--kbo-card);
 }
 * { box-sizing: border-box; }
 body {
@@ -17,6 +19,19 @@ body {
 }
 .home { width: min(1360px, 100%); margin: auto; padding: 40px 24px 64px; }
 .home-header { padding: 0 0 24px; border-bottom: 1px solid rgba(255,255,255,.32); }
+.home-header__title { display: flex; align-items: center; gap: 16px; }
+.home-logo {
+  display: grid;
+  place-items: center;
+  width: clamp(48px, 7vw, 72px);
+  height: clamp(48px, 7vw, 72px);
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+}
+.home-logo img { width: 78%; height: 78%; object-fit: contain; }
 .home-header h1 { margin: 0; font-size: clamp(2.3rem, 5vw, 4.5rem); letter-spacing: -.06em; line-height: .95; color: #fff; }
 .home-header p { margin: 12px 0 0; color: rgba(255,255,255,.82); }
 .home section { margin-top: 30px; }
@@ -45,12 +60,10 @@ body {
 .leaderboard-art { padding: 12%; background: #e9eff5; color: #243850; }
 .leaderboard-art > span { display: block; margin-bottom: 10%; color: #526176; font-size: 5px; font-weight: 800; letter-spacing: .16em; }
 .leaderboard-art ol { display: grid; gap: 7%; margin: 0; padding: 0; list-style: none; }
-.leaderboard-art li { display: grid; grid-template-columns: 8% 1fr 12%; align-items: center; gap: 7%; font-size: 4px; }
+.leaderboard-art li { display: grid; grid-template-columns: 8% 1fr 34%; align-items: center; gap: 5%; font-size: 4px; }
 .leaderboard-art b, .leaderboard-art em { font-style: normal; }
-.leaderboard-art i { height: 7px; border-radius: 1px; background: linear-gradient(90deg, #1e6ca1, #b8d6e8); }
-.leaderboard-art li:nth-child(2) i { width: 86%; }
-.leaderboard-art li:nth-child(3) i { width: 74%; }
-.leaderboard-art li:nth-child(4) i { width: 63%; }
+.leaderboard-art em { white-space: nowrap; }
+.leaderboard-art i { height: 7px; border-radius: 1px; }
 
 /* Keep the current homepage markup stable while presenting the renamed tool. */
 .visual-card[href="pitch-arsenal/"] .visual-card__body h3 { font-size: 0; }

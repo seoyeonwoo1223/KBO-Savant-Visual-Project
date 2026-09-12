@@ -17,9 +17,15 @@ function formatValue(value, key) {
   return value.toLocaleString("ko-KR", { maximumFractionDigits:3 });
 }
 
+// WAR diverging scale: positive=red, negative=blue. Same concept as pitch-arsenal.js's
+// PERCENTILE_HIGH/LOW and zone.js's savantBands, each with its own endpoint values — not yet
+// unified into one palette.
+const WAR_POSITIVE_RGB = [216, 73, 81];
+const WAR_NEGATIVE_RGB = [58, 102, 169];
+
 function warColor(value, maximum) {
   const ratio = Math.min(1, Math.abs(value) / maximum);
-  const target = value >= 0 ? [216, 73, 81] : [58, 102, 169];
+  const target = value >= 0 ? WAR_POSITIVE_RGB : WAR_NEGATIVE_RGB;
   const channel = index => Math.round(255 + (target[index] - 255) * ratio);
   return `rgb(${channel(0)} ${channel(1)} ${channel(2)})`;
 }

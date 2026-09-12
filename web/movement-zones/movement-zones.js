@@ -82,10 +82,12 @@ function renderHandTabs(){
   handTabs.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.hand===selectedHand)));
 }
 
-function defs(){return `<defs>
-  <pattern id="elitePattern" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#df243e" fill-opacity=".08"/><line x1="0" y1="0" x2="0" y2="8" stroke="#df243e" stroke-opacity=".35" stroke-width="2"/></pattern>
-  <pattern id="averagePattern" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#13aa42" fill-opacity=".07"/><line x1="0" y1="2" x2="8" y2="2" stroke="#13aa42" stroke-opacity=".3" stroke-width="2"/></pattern>
-  <pattern id="deadPattern" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#252525" fill-opacity=".08"/><circle cx="2" cy="2" r="1" fill="#252525" fill-opacity=".3"/></pattern>
+function defs(){
+  const [elite,average,dead]=categories.map(c=>c.color);
+  return `<defs>
+  <pattern id="elitePattern" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="${elite}" fill-opacity=".08"/><line x1="0" y1="0" x2="0" y2="8" stroke="${elite}" stroke-opacity=".35" stroke-width="2"/></pattern>
+  <pattern id="averagePattern" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="${average}" fill-opacity=".07"/><line x1="0" y1="2" x2="8" y2="2" stroke="${average}" stroke-opacity=".3" stroke-width="2"/></pattern>
+  <pattern id="deadPattern" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="${dead}" fill-opacity=".08"/><circle cx="2" cy="2" r="1" fill="${dead}" fill-opacity=".3"/></pattern>
   <filter id="soft"><feGaussianBlur stdDeviation=".22"/></filter>
   </defs>`}
 
