@@ -1,4 +1,7 @@
-"""Build Baseball Savant-style pitcher arsenal profiles from published Excel files."""
+"""Build Baseball Savant-style pitcher arsenal profiles from canonical curated pitches.
+
+The only workbook input is the seasonal park-adjustment offset table.
+"""
 
 from __future__ import annotations
 
