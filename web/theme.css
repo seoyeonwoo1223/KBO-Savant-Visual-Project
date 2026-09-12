@@ -10,6 +10,18 @@
   --kbo-line-strong: #c4d0dd;
   --kbo-muted: #66758a;
   --kbo-card: #fff;
+
+  /* Diverging magnitude scale (positive/negative run value, WAR, percentile grading, zone
+     quality tiers, ...). pitch-arsenal.js, leaderboards.js, and movement-zones.js each still
+     implement their own version of this with slightly different endpoint values (see PR #9) —
+     that's a deliberate palette decision, not done here. New consumers (e.g. a future Zone
+     Awareness redesign) should reach for these tokens instead of inventing another pair, so a
+     future palette swap only touches this file. See theme-colors.js for the JS-side mirror. */
+  --kbo-diverge-positive: #c83249;
+  --kbo-diverge-negative: #3474b8;
+  --kbo-diverge-neutral: #f7f8fa;
+  --kbo-diverge-ink-light: #ffffff;
+  --kbo-diverge-ink-dark: #1d3148;
 }
 
 html { background: var(--kbo-surface); }
