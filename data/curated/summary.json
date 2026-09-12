@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T13:18:46+00:00",
+  "generated_at": "2026-09-12T14:01:16+00:00",
   "layout": "game",
   "schema_sha256": "dad05fd41a749a235bc04ddcc5ef0e9df07d0292d67cf442056250c4e5975e4c",
   "reading": {
@@ -201,34 +201,28 @@
     "2026": {
       "tables": {
         "pitches": {
-          "rows": 191459,
-          "files": 622,
-          "bytes": 60155300
+          "rows": 192712,
+          "files": 626,
+          "bytes": 60546550
         },
         "events": {
-          "rows": 243647,
-          "files": 622,
-          "bytes": 7832439
+          "rows": 245246,
+          "files": 626,
+          "bytes": 7883255
         },
         "games": {
-          "rows": 622,
-          "files": 622,
-          "bytes": 4203506
+          "rows": 626,
+          "files": 626,
+          "bytes": 4230574
         }
       },
-      "games": 622,
+      "games": 31,
       "months": [
-        "03",
-        "04",
-        "05",
-        "06",
-        "07",
-        "08",
         "09"
       ],
       "date_range": [
-        "2026-03-28",
-        "2026-09-11"
+        "2026-09-05",
+        "2026-09-12"
       ],
       "metrics": [
         "arm_angle",
@@ -238,20 +232,12 @@
         "zone_awareness"
       ],
       "stale_metrics": [
-        "arm_angle",
-        "blocking",
-        "excel",
-        "pitch_arsenal",
-        "plate_decision",
-        "plate_discipline",
-        "swing_take",
-        "zone_decision",
-        "zone_profiles"
+        "plate_decision"
       ]
     }
   },
   "published": {
     "web_json": 210,
-    "exports": 31
+    "exports": 32
   }
 }
