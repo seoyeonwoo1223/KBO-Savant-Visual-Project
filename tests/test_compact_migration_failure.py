@@ -80,7 +80,7 @@ def _compact_with_damage(root, damage, target_kind="pitches", target_month="03")
 
     def failing_write(path, rows, schema):
         original(path, rows, schema)
-        if path.name == f"month={target_month}.parquet" and f"/{target_kind}/" in str(path):
+        if path.name == f"month={target_month}.parquet" and path.parent.parent.name == target_kind:
             damage(path)
             applied.append(path)
 

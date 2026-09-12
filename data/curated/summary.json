@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-12T14:21:24+00:00",
+  "generated_at": "2026-09-12T15:35:51+00:00",
   "layout": "month",
-  "schema_sha256": "dad05fd41a749a235bc04ddcc5ef0e9df07d0292d67cf442056250c4e5975e4c",
+  "schema_sha256": "729910b9222202df2dac0a2951150a2a39b15a185feb93ba4b78540da1a77e5f",
   "reading": {
     "columns": "data/curated/schema.json",
     "integrity": "data/curated/partition-index.json (large; per-game digests, not for browsing)",
@@ -12,18 +12,18 @@
       "tables": {
         "pitches": {
           "rows": 217025,
-          "files": 720,
-          "bytes": 67068357
+          "files": 7,
+          "bytes": 30139349
         },
         "events": {
           "rows": 273038,
-          "files": 720,
-          "bytes": 8853475
+          "files": 7,
+          "bytes": 1328672
         },
         "games": {
           "rows": 720,
-          "files": 720,
-          "bytes": 4755209
+          "files": 7,
+          "bytes": 82622
         }
       },
       "games": 720,
@@ -247,6 +247,6 @@
   },
   "published": {
     "web_json": 210,
-    "exports": 31
+    "exports": 27
   }
 }
