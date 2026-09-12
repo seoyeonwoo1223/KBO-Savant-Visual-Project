@@ -9,6 +9,7 @@ The production flow is `raw -> curated Parquet -> metric`.
 - `data/curated/sources/season=<year>/<game_id>.json` records first/last collection and check times, revision, observed y0, row reconciliation, provenance, and `raw_sha256`, `pitch_sha256`, `schema_sha256`.
 - Before an existing raw file changes, `data/curated/audit/season=<year>/<game_id>.jsonl` receives both raw hashes, pitch counts, and changed field paths. Raw history is not duplicated.
 - Metric-owned results live below `data/metrics/<metric>/<season>/`. Excel and web JSON remain publication outputs only. `data/metrics/_state/<season>/` stores independent input/code hashes for each production metric; unchanged metrics are skipped.
+- `data/curated/summary.json` is the small inventory to read first: seasons, months, date ranges, per-table row counts and sizes. `partition-index.json` is the integrity record, not a browsing aid.
 
 `pitch_id` retains the existing stable `game_id + plate-appearance sequence + pitch number` identity. A provider field unrelated to parsed game/event/pitch values therefore changes `raw_sha256` but not `pitch_sha256`, and does not rewrite the shard.
 
@@ -37,4 +38,14 @@ python -m visualbaseball.cli --collection-mode sample --auto-reconcile
 python -m visualbaseball.cli --collection-mode reconcile --refresh-workers 3
 ```
 
-`recent` checks new/failed/incomplete work and completed games in the latest seven days. `sample` deterministically selects eight completed games older than 30 days across the season. A sample y0/schema change or analysis-hash changes in at least two games warns, or expands to full reconcile with `--auto-reconcile`. Migration writes all new monthly partitions and its index before deleting legacy files; it verifies all expected Parquet files and schemas before cleanup, so rerunning after interruption is safe. A missing or corrupt compact partition fails closed; restore it by rebuilding that season from retained raw data rather than publishing a partial month.
+`recent` checks new/failed/incomplete work and completed games in the latest seven days. `sample` deterministically selects eight completed games older than 30 days across the season. A sample y0/schema change or analysis-hash changes in at least two games warns, or expands to full reconcile with `--auto-reconcile`.
+
+## Migration integrity
+
+Every table digest in `partition-index.json` is `table_digest(rows, schema)` over the rows as the Parquet file stores them, so the index and a partition read-back must agree. Both the incremental write path and the migration use that one function.
+
+Opening a Parquet footer and comparing its schema is not evidence of integrity: a file whose data pages are damaged still opens and still reports the right schema. `compact()` therefore retires a legacy shard only after a full read-back whose per-game digests match the index, and it runs that verification twice — once before the index switches to the month layout, and again immediately before deletion. Any mismatch aborts with `CompactionError` and leaves every legacy shard and the `game` layout in place.
+
+Interrupted runs are safe to repeat. Before the index switch, a rerun rebuilds the months from the retained legacy shards. After the index switch but before cleanup, a rerun verifies and then cleans up; if a partition is damaged while the legacy shards are all still present, the rerun rebuilds from them instead. Once the legacy shards are gone, a damaged partition is a hard failure: restore it by rebuilding that season from retained raw data rather than publishing a partial month. **Seasons 2022-2024 have no retained raw JSON, so their curated partitions are the only copy.**
+
+A game-layout read ignores `month=*.parquet` files, so partitions left behind by a failed migration are never read alongside the legacy shards they duplicate. Missing, unreadable and corrupt partitions raise `FileNotFoundError` rather than returning a partial table.

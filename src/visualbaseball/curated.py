@@ -216,6 +216,15 @@ def _stable_rows(rows: Iterable[dict]) -> list[dict]:
             for row in rows]
 
 
+def table_digest(rows: Iterable[dict], schema: pa.Schema) -> str:
+    """Hash rows exactly as the Parquet file stores them.
+
+    Both the in-memory write path and a partition read-back must land on the same
+    value, so the index doubles as the integrity oracle for a compact partition.
+    """
+    return value_sha256(_stable_rows(_clean_rows(rows, schema)))
+
+
 def pitch_sha256(game: dict, events: list[dict], pitches: list[dict]) -> str:
     return value_sha256({"game": _stable_rows([game])[0], "events": _stable_rows(events), "pitches": _stable_rows(pitches)})
 
@@ -372,8 +381,8 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
     _atomic_json(manifest_path, manifest)
     games = index.setdefault("seasons", {}).setdefault(str(season), {}).setdefault("games", {})
     games[game_id] = {"game_date": game.get("game_date"), "month": _month(game), "revision": manifest["revision"],
-                      "tables": {"games": value_sha256(_stable_rows([game])), "events": value_sha256(_stable_rows(events)),
-                                 "pitches": value_sha256(_stable_rows(normalized))}}
+                      "tables": {"games": table_digest([game], GAME_SCHEMA), "events": table_digest(events, EVENT_SCHEMA),
+                                 "pitches": table_digest(normalized, PITCH_SCHEMA)}}
     _write_partition_index(root, index)
     return {"changed": changed, "manifest": manifest, "pitches": normalized}
 
@@ -421,8 +430,15 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
     entry = index.get("seasons", {}).get(str(season), {}).get("games", {}).get(str(game_id)) if game_id else None
     if entry and index.get("layout") == "month" and not _monthly_files_valid(root, season, str(entry["month"])):
         raise FileNotFoundError(f"indexed compact partition is missing: {kind}/season={season}/month={entry['month']}")
+    def legacy_files() -> list[Path]:
+        # Ignore monthly partitions a failed or interrupted migration left behind,
+        # or every row in them is returned a second time alongside the shards they
+        # duplicate. Only reached in game layout, so the directory scan stays off
+        # the compact read path.
+        return sorted(path for path in directory.glob("*.parquet") if not path.name.startswith("month="))
+
     files = ([_monthly_path(root, kind, season, str(entry["month"]))] if entry and index.get("layout") == "month"
-             else [directory / f"{game_id}.parquet"] if game_id else sorted(directory.glob("*.parquet")))
+             else [directory / f"{game_id}.parquet"] if game_id else legacy_files())
     if not game_id and index.get("layout") == "month":
         months = _expected_months(index, season)
         if not months or any(not _monthly_files_valid(root, season, month) for month in months):
@@ -444,7 +460,14 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
         field = f"{player_role}_id"
         clause = ds.field(field) == str(player_id)
         expression = clause if expression is None else expression & clause
-    return dataset.to_table(columns=selected, filter=expression)
+    try:
+        return dataset.to_table(columns=selected, filter=expression)
+    except (OSError, pa.ArrowException) as error:
+        # Footer and schema stay readable when only data pages are damaged, so the
+        # cheap pre-checks above cannot see this. Fail closed instead of surfacing a
+        # partial table, and keep the error type callers already handle.
+        raise FileNotFoundError(
+            f"unreadable curated partition for {kind}/season={season}: {error}") from error
 
 
 def load_rows(*args, **kwargs) -> list[dict]:
