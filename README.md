@@ -23,6 +23,12 @@
 
 `https://seoyeonwoo1223.github.io/KBO-Savant-Visual-Project/`
 
+로컬에서 확인할 때는 문서 루트가 `web/`이어야 한다. 페이지가 `../data/...`를 fetch하므로 저장소 루트에서 띄우면 데이터가 전부 404가 된다.
+
+```powershell
+python scripts/serve_web.py
+```
+
 개인 저장소라면 저장소 권한이 있는 계정으로 로그인해야 Excel과 Pages 데이터를 볼 수 있습니다. 더 큰 분석이나 스프레드시트 작업에는 Excel 파일을 사용하면 됩니다.
 
 ## 데이터 갱신 방식

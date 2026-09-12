@@ -45,20 +45,41 @@ const angles=[15,30,45,60], categories=[
 ];
 const pitchOrder=['FF','SI','FC','GY','SW','CU','CH','SL'];
 const angleInput=document.querySelector('#angle'), angleValue=document.querySelector('#angle-value');
-const tabs=document.querySelector('#pitch-tabs'), chart=document.querySelector('#movement-chart');
+const tabs=document.querySelector('#pitch-tabs'), handTabs=document.querySelector('#hand-tabs'), chart=document.querySelector('#movement-chart');
 const rangeTable=document.querySelector('#range-table'), playButton=document.querySelector('#play');
-let selected='FC', timer=null;
+let selected='FF', selectedHand='R', timer=null;
 
 const fmt=n=>`${n>0?'+':''}${n}`.replace('-', '−');
 const rangeText=(range,label)=>label||`${fmt(range[range[0] < 0 && range[1] < 0 ? 1 : 0])}~${fmt(range[range[0] < 0 && range[1] < 0 ? 0 : 1])}`;
 const sx=x=>92+(x+25)*(616/50), sy=y=>574-(y+20)*(520/45);
 const escapeHtml=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const handFactor=()=>selectedHand==='R'?-1:1;
+
+function mirroredHbLabel(zone){
+  if(!zone.hbLabel) return null;
+  if(handFactor()===1) return zone.hbLabel;
+  const numbers=[...zone.hbLabel.matchAll(/\d+/g)].map(match=>match[0]);
+  if(numbers.length<2) return null;
+  const originalNegative=zone.hb[0]<0&&zone.hb[1]<0;
+  const sign=originalNegative?'+':'−';
+  const openEnded=zone.hbLabel.endsWith('+')?'+':'';
+  return `${sign}${numbers[0]}~${sign}${numbers[1]}${openEnded}`;
+}
+
+function viewZone(zone){
+  const hb=zone.hb.map(value=>value*handFactor()).sort((a,b)=>a-b);
+  return {...zone,hb,hbLabel:mirroredHbLabel(zone)};
+}
 
 function renderTabs(angle){
   const available=pitchOrder.filter(key=>D[angle][key]);
   if(!available.includes(selected)) selected=available[0];
   tabs.innerHTML=available.map(key=>`<button type="button" role="tab" data-pitch="${key}" aria-selected="${key===selected}">${escapeHtml(D[angle][key][0])}</button>`).join('');
   tabs.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{selected=button.dataset.pitch;render();}));
+}
+
+function renderHandTabs(){
+  handTabs.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.hand===selectedHand)));
 }
 
 function defs(){return `<defs>
@@ -72,15 +93,21 @@ function grid(){
   let out='';
   for(let x=-25;x<=25;x+=5) out+=`<line x1="${sx(x)}" y1="54" x2="${sx(x)}" y2="574" class="grid ${x===0?'zero':''}"/><text x="${sx(x)}" y="600" text-anchor="middle" class="axis-text">${x}</text>`;
   for(let y=-20;y<=25;y+=5) out+=`<line x1="92" y1="${sy(y)}" x2="708" y2="${sy(y)}" class="grid ${y===0?'zero':''}"/><text x="78" y="${sy(y)+5}" text-anchor="end" class="axis-text">${y}</text>`;
-  return `${out}<text x="400" y="34" text-anchor="middle" class="direction-label">1B &lt; MOVES TOWARD &gt; 3B</text><text x="400" y="646" text-anchor="middle" class="axis-title">Horizontal Break (inches) · 투수 시점</text><text x="22" y="314" text-anchor="middle" class="axis-title" transform="rotate(-90 22 314)">Induced Vertical Break (inches)</text>`;
+  return `${out}<text x="400" y="34" text-anchor="middle" class="direction-label">3B &lt; MOVES TOWARD &gt; 1B</text><text x="400" y="646" text-anchor="middle" class="axis-title">Horizontal Break (inches) · 포수 시점</text><text x="22" y="314" text-anchor="middle" class="axis-title" transform="rotate(-90 22 314)">Induced Vertical Break (inches)</text>`;
 }
 
 function armLine(angle){
-  const radians=angle*Math.PI/180, xEnd=Math.min(25,25/Math.tan(radians)), yEnd=Math.min(25,25*Math.tan(radians));
-  return `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(xEnd)}" y2="${sy(yEnd)}" class="arm-line"/><text x="${sx(xEnd*.55)+8}" y="${sy(yEnd*.55)-8}" class="arm-label">${angle}° arm angle</text>`;
+  const radians=angle*Math.PI/180;
+  const side=handFactor();
+  const xEnd=Math.min(25,25/Math.tan(radians))*side;
+  const yEnd=Math.min(25,25*Math.tan(radians));
+  const labelX=sx(xEnd*.55)+(side>0?8:-8);
+  const anchor=side>0?'start':'end';
+  return `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(xEnd)}" y2="${sy(yEnd)}" class="arm-line"/><text x="${labelX}" y="${sy(yEnd*.55)-8}" text-anchor="${anchor}" class="arm-label">${angle}° arm angle</text>`;
 }
 
-function zoneSvg(zone,cat){
+function zoneSvg(rawZone,cat){
+  const zone=viewZone(rawZone);
   const [y0,y1]=zone.ivb,[x0,x1]=zone.hb,cx=(sx(x0)+sx(x1))/2,cy=(sy(y0)+sy(y1))/2;
   const rx=Math.max(13,Math.abs(sx(x1)-sx(x0))/2),ry=Math.max(13,Math.abs(sy(y1)-sy(y0))/2);
   const rings=[1,.76,.52].map((scale,i)=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx*scale}" ry="${ry*scale}" fill="${i===0?`url(#${cat.pattern})`:'none'}" stroke="${cat.color}" stroke-width="${i===0?2.4:1.25}" stroke-opacity="${i===0?.96:.48}"/>`).join('');
@@ -88,17 +115,23 @@ function zoneSvg(zone,cat){
 }
 
 function render(){
-  const angle=angles[Number(angleInput.value)]; renderTabs(angle);
-  const pitch=D[angle][selected],name=pitch[0];
+  const angle=angles[Number(angleInput.value)];
+  renderTabs(angle);
+  renderHandTabs();
+  const pitch=D[angle][selected],name=pitch[0],handLabel=selectedHand==='R'?'RHP':'LHP';
   angleValue.textContent=`${angle}°`;
-  document.querySelector('#chart-kicker').textContent=`${angle}° · ${name.toUpperCase()}`;
+  document.querySelector('#chart-kicker').textContent=`${angle}° · ${handLabel} · ${name.toUpperCase()}`;
   document.querySelector('#chart-title').textContent=`${name} Movement Map`;
-  rangeTable.innerHTML=categories.map(cat=>{const z=pitch[cat.index];return `<tr><td style="color:${cat.color}">${cat.label}</td><td>${rangeText(z.ivb,z.ivbLabel)}</td><td>${rangeText(z.hb,z.hbLabel)}</td></tr>`}).join('');
-  chart.innerHTML=`${defs()}<style>.grid{stroke:#d9dddd;stroke-width:1}.grid.zero{stroke:#70787b;stroke-width:1.6}.axis-text{font:12px Arial;fill:#667075}.axis-title{font:700 14px Arial;fill:#343a3d}.direction-label{font:700 11px Arial;letter-spacing:.08em;fill:#737b7e}.arm-line{stroke:#878f92;stroke-width:1.8;stroke-dasharray:7 6}.arm-label{font:italic 12px Arial;fill:#767e82}.zone{transition:opacity .2s}</style>${grid()}${armLine(angle)}${[...categories].reverse().map(cat=>zoneSvg(pitch[cat.index],cat)).join('')}`;
+  rangeTable.innerHTML=categories.map(cat=>{
+    const z=viewZone(pitch[cat.index]);
+    return `<tr><td style="color:${cat.color}">${cat.label}</td><td>${rangeText(z.ivb,z.ivbLabel)}</td><td>${rangeText(z.hb,z.hbLabel)}</td></tr>`;
+  }).join('');
+  chart.innerHTML=`<title id="svg-title">팔각도별 구종 무브먼트 존</title><desc id="svg-desc">${handLabel} 투수의 포수 시점 수평 무브먼트와 induced vertical break를 표시합니다.</desc>${defs()}<style>.grid{stroke:#d9dddd;stroke-width:1}.grid.zero{stroke:#70787b;stroke-width:1.6}.axis-text{font:12px Arial;fill:#667075}.axis-title{font:700 14px Arial;fill:#343a3d}.direction-label{font:700 11px Arial;letter-spacing:.08em;fill:#737b7e}.arm-line{stroke:#878f92;stroke-width:1.8;stroke-dasharray:7 6}.arm-label{font:italic 12px Arial;fill:#767e82}.zone{transition:opacity .2s}</style>${grid()}${armLine(angle)}${[...categories].reverse().map(cat=>zoneSvg(pitch[cat.index],cat)).join('')}`;
 }
 
 function stop(){clearInterval(timer);timer=null;playButton.textContent='▶';playButton.setAttribute('aria-pressed','false');playButton.setAttribute('aria-label','팔각도 자동 재생');}
 function play(){timer=setInterval(()=>{angleInput.value=(Number(angleInput.value)+1)%angles.length;render();},1200);playButton.textContent='Ⅱ';playButton.setAttribute('aria-pressed','true');playButton.setAttribute('aria-label','팔각도 자동 재생 정지');}
 angleInput.addEventListener('input',()=>{stop();render();});
 playButton.addEventListener('click',()=>timer?stop():play());
+handTabs.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{selectedHand=button.dataset.hand;render();}));
 render();
