@@ -74,8 +74,13 @@ def build_summary(root: Path) -> Path:
             path.parent.name for path in (root / "data" / "metrics").glob(f"*/{season}")
             if path.is_dir() and not path.parent.name.startswith("_"))
         # What a production run would rebuild right now, so nobody has to guess.
+        # Only the metrics _exports() actually runs for this season: it picks
+        # zone_decision for 2024-2026 and plate_decision otherwise, so listing both
+        # always reports one of them as permanently stale.
+        year = int(season)
+        inactive = {"plate_decision"} if year in (2024, 2025, 2026) else {"zone_decision"}
         entry["stale_metrics"] = sorted(
-            name for name in SPECS if needs_build(root, int(season), name))
+            name for name in SPECS if name not in inactive and needs_build(root, year, name))
     summary = {
         "generated_at": utc_now(),
         "layout": layout,

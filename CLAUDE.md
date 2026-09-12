@@ -91,7 +91,17 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 
 **증분성**: partition은 원자적으로 교체되고, `pitch_sha256`가 같으면 다시 쓰지 않습니다. provider가 파싱과 무관한 필드를 바꾸면 `raw_sha256`만 바뀌고 partition은 그대로입니다. metric은 `metric_state.needs_build()`가 입력·코드·의존 파일 hash로 개별 판정하므로, 하나가 바뀌어도 나머지는 건너뜁니다. 중단 후 재실행은 안전합니다.
 
-**레이아웃은 두 가지이고 코드가 둘 다 지원합니다.** 커밋된 데이터는 아직 경기별 shard(game layout)이고, `python -m visualbaseball.compact_curated --season YYYY`를 돌리면 월별 partition(month layout)으로 바뀝니다. 마이그레이션은 시즌별 일회성이며 아직 실행되지 않았습니다. `summary.json`의 `layout` 필드가 현재 상태를 알려줍니다.
+**레이아웃은 시즌별로 다릅니다.** 마이그레이션이 시즌 단위 일회성이라 두 레이아웃이 공존합니다.
+
+| 시즌 | 레이아웃 | raw 복구 경로 |
+|---|---|---|
+| 2026 | month (21 partition) | `data/raw/2026` |
+| 2025 | month (24 partition) | `seasons/2025` |
+| 2022–2024 | **game shard** (각 2,160개) | **없음** |
+
+2022–2024는 raw JSON이 전무해서 curated가 유일한 사본입니다. 유일한 복구 경로가 git 이력이므로, 이력 재작성(`filter-repo`) 계획이 있으면 그 전에 compact하지 마십시오.
+
+`index["layout"]`은 **저장소 전역 키라 시즌 판정에 쓸 수 없습니다.** `write_game()`이 레이아웃과 무관하게 모든 게임을 index에 기록하므로 index 항목 유무도 근거가 못 됩니다. 판정은 `curated._season_is_compact()` 하나만 쓰십시오 — 디스크에 `month=*.parquet`이 실제로 있는지로 답합니다. 실패한 마이그레이션은 월 파일을 남기면서 index는 `game`으로 두므로, 전역 플래그가 그 조합을 game으로 되돌리는 역할을 합니다.
 
 **월별 partition 계약** (`docs/curated-data.md`가 원본):
 

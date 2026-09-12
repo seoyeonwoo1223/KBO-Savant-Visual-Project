@@ -296,6 +296,25 @@ def _monthly_game_exists(root: Path, season: int, month: str, game_id: str) -> b
     return True
 
 
+def _season_is_compact(root: Path, index: dict, season: int) -> bool:
+    """True only when this season has actually been migrated.
+
+    `layout` is repository-wide but `compact_curated` runs one season at a time, so
+    a global check strands every season not migrated yet: its shards are still on
+    disk while a season read looks for months the index never recorded. Index
+    entries cannot stand in for the answer either, because `write_game` records
+    every game it writes whatever the layout.
+
+    So the question is settled by what is on disk. A failed migration leaves month
+    files behind while the index still reads `game`, and that combination has to
+    resolve to game layout, which is why the repo-wide flag still gates it.
+    """
+    if index.get("layout") != "month":
+        return False
+    return any(next((root / "data" / "curated" / kind / f"season={season}").glob("month=*.parquet"), None)
+               is not None for kind in SCHEMAS)
+
+
 def _month_has_games(index: dict, season: int, month: str) -> bool:
     return any(str(value.get("month")) == month for value in index.get("seasons", {}).get(str(season), {}).get("games", {}).values())
 
@@ -328,7 +347,7 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
     manifest_path = source_manifest_path(root, season, game_id)
     previous = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
     index = _partition_index(root)
-    compact = index.get("layout") == "month"
+    compact = _season_is_compact(root, index, season)
     prior = index.get("seasons", {}).get(str(season), {}).get("games", {}).get(game_id, {})
     monthly_valid = _monthly_game_exists(root, season, str(prior.get("month") or _month(game)), game_id) if compact and prior else False
     if compact and prior and not monthly_valid:
@@ -428,7 +447,8 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
     directory = root / "data" / "curated" / kind / f"season={season}"
     index = _partition_index(root)
     entry = index.get("seasons", {}).get(str(season), {}).get("games", {}).get(str(game_id)) if game_id else None
-    if entry and index.get("layout") == "month" and not _monthly_files_valid(root, season, str(entry["month"])):
+    compact = _season_is_compact(root, index, season)
+    if entry and compact and not _monthly_files_valid(root, season, str(entry["month"])):
         raise FileNotFoundError(f"indexed compact partition is missing: {kind}/season={season}/month={entry['month']}")
     def legacy_files() -> list[Path]:
         # Ignore monthly partitions a failed or interrupted migration left behind,
@@ -437,9 +457,9 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
         # the compact read path.
         return sorted(path for path in directory.glob("*.parquet") if not path.name.startswith("month="))
 
-    files = ([_monthly_path(root, kind, season, str(entry["month"]))] if entry and index.get("layout") == "month"
+    files = ([_monthly_path(root, kind, season, str(entry["month"]))] if entry and compact
              else [directory / f"{game_id}.parquet"] if game_id else legacy_files())
-    if not game_id and index.get("layout") == "month":
+    if not game_id and compact:
         months = _expected_months(index, season)
         if not months or any(not _monthly_files_valid(root, season, month) for month in months):
             raise FileNotFoundError(f"compact season={season} has missing or corrupt monthly partitions")

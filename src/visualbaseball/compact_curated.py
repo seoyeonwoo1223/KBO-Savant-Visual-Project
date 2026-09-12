@@ -73,7 +73,7 @@ def compact(root: Path, season: int) -> dict:
     index_path = root / "data" / "curated" / "partition-index.json"
     index = json.loads(index_path.read_text(encoding="utf-8")) if index_path.exists() else {"schema_version": 1, "seasons": {}}
     indexed = index.get("seasons", {}).get(str(season), {}).get("games", {})
-    if index.get("layout") == "month" and indexed:
+    if indexed:   # this season is already migrated; layout is repo-wide, entries are not
         # Resuming after an interruption between the index switch and cleanup.
         try:
             verify_partitions(root, season, indexed)

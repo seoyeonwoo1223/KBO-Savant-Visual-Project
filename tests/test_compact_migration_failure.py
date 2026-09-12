@@ -189,3 +189,36 @@ def test_damage_after_cleanup_refuses_to_claim_the_season_is_compact(tmp_path):
 
     with pytest.raises(CompactionError):
         compact(tmp_path, SEASON)
+
+
+def test_uncompacted_seasons_still_read_after_another_season_migrates(tmp_path):
+    """`layout` is repo-wide but the migration is per season."""
+    _seed(tmp_path)                                    # 2026
+    write_game(                                        # a season left on game shards
+        tmp_path,
+        {"season": 2025, "game_id": "20250402LGOB0", "game_date": "2025-04-02", "stadium": "S"},
+        [],
+        [{"season": 2025, "game_id": "20250402LGOB0", "pitch_id": "p", "event_seq": 1}],
+    )
+    compact(tmp_path, SEASON)
+
+    assert json.loads((tmp_path / "data/curated/partition-index.json")
+                      .read_text(encoding="utf-8"))["layout"] == "month"
+    assert [row["game_id"] for row in load_rows(tmp_path, "pitches", 2025)] == ["20250402LGOB0"]
+    assert sorted(row["game_id"] for row in load_rows(tmp_path, "pitches", SEASON)) \
+        == sorted(game_id for game_id, _ in GAMES)
+
+
+def test_a_new_game_in_an_uncompacted_season_keeps_using_game_shards(tmp_path):
+    _seed(tmp_path)
+    compact(tmp_path, SEASON)
+    write_game(
+        tmp_path,
+        {"season": 2025, "game_id": "20250403SSNC0", "game_date": "2025-04-03", "stadium": "S"},
+        [],
+        [{"season": 2025, "game_id": "20250403SSNC0", "pitch_id": "q", "event_seq": 1}],
+    )
+
+    assert (tmp_path / "data/curated/pitches/season=2025/20250403SSNC0.parquet").is_file()
+    assert not list((tmp_path / "data/curated/pitches/season=2025").glob("month=*.parquet"))
+    assert [row["pitch_id"] for row in load_rows(tmp_path, "pitches", 2025)] == ["q"]

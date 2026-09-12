@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-12T14:01:16+00:00",
-  "layout": "game",
+  "generated_at": "2026-09-12T14:21:24+00:00",
+  "layout": "month",
   "schema_sha256": "dad05fd41a749a235bc04ddcc5ef0e9df07d0292d67cf442056250c4e5975e4c",
   "reading": {
     "columns": "data/curated/schema.json",
@@ -51,7 +51,6 @@
         "plate_decision",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -98,7 +97,6 @@
         "plate_decision",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -143,7 +141,6 @@
         "blocking",
         "excel",
         "pitch_arsenal",
-        "plate_decision",
         "plate_discipline",
         "swing_take",
         "zone_decision",
@@ -154,18 +151,18 @@
       "tables": {
         "pitches": {
           "rows": 217852,
-          "files": 720,
-          "bytes": 68156960
+          "files": 8,
+          "bytes": 30703003
         },
         "events": {
           "rows": 277384,
-          "files": 720,
-          "bytes": 9030751
+          "files": 8,
+          "bytes": 1396468
         },
         "games": {
           "rows": 720,
-          "files": 720,
-          "bytes": 4776825
+          "files": 8,
+          "bytes": 89793
         }
       },
       "games": 720,
@@ -191,7 +188,6 @@
         "blocking",
         "excel",
         "pitch_arsenal",
-        "plate_decision",
         "plate_discipline",
         "swing_take",
         "zone_decision",
@@ -202,26 +198,32 @@
       "tables": {
         "pitches": {
           "rows": 192712,
-          "files": 626,
-          "bytes": 60546550
+          "files": 7,
+          "bytes": 28344373
         },
         "events": {
           "rows": 245246,
-          "files": 626,
-          "bytes": 7883255
+          "files": 7,
+          "bytes": 1225652
         },
         "games": {
           "rows": 626,
-          "files": 626,
-          "bytes": 4230574
+          "files": 7,
+          "bytes": 86480
         }
       },
-      "games": 31,
+      "games": 626,
       "months": [
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
         "09"
       ],
       "date_range": [
-        "2026-09-05",
+        "2026-03-28",
         "2026-09-12"
       ],
       "metrics": [
@@ -232,12 +234,19 @@
         "zone_awareness"
       ],
       "stale_metrics": [
-        "plate_decision"
+        "arm_angle",
+        "blocking",
+        "excel",
+        "pitch_arsenal",
+        "plate_discipline",
+        "swing_take",
+        "zone_decision",
+        "zone_profiles"
       ]
     }
   },
   "published": {
     "web_json": 210,
-    "exports": 32
+    "exports": 31
   }
 }
