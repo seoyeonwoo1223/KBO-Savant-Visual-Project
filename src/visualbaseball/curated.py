@@ -1,4 +1,4 @@
-"""Canonical raw -> game-sharded Parquet boundary used by every metric."""
+"""Canonical raw -> compact Parquet boundary used by every metric."""
 from __future__ import annotations
 
 from collections import defaultdict
@@ -278,6 +278,14 @@ def _replace_monthly_game(root: Path, kind: str, season: int, month: str, game_i
     _atomic_parquet(path, [row for row in old if str(row.get("game_id")) != game_id] + rows, schema)
 
 
+def _monthly_game_exists(root: Path, season: int, month: str, game_id: str) -> bool:
+    for kind in SCHEMAS:
+        path = _monthly_path(root, kind, season, month)
+        if not path.is_file(): return False
+        if kind != "events" and game_id not in set(pq.ParquetFile(path).read(columns=["game_id"]).column("game_id").to_pylist()): return False
+    return True
+
+
 def source_manifest_path(root: Path, season: int, game_id: str) -> Path:
     return root / "data" / "curated" / "sources" / f"season={season}" / f"{game_id}.json"
 
@@ -293,12 +301,19 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
     previous = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
     index = _partition_index(root)
     compact = index.get("layout") == "month"
-    shards_exist = (game_id in index.get("seasons", {}).get(str(season), {}).get("games", {}) if compact
+    prior = index.get("seasons", {}).get(str(season), {}).get("games", {}).get(game_id, {})
+    if compact and prior and not _monthly_game_exists(root, season, str(prior.get("month") or _month(game)), game_id):
+        raise FileNotFoundError(f"compact partition is missing or corrupt for {game_id}; rebuild the month from retained raw data")
+    shards_exist = (_monthly_game_exists(root, season, str(prior.get("month") or _month(game)), game_id) if compact and prior
                     else all(curated_path(root, kind, season, game_id).is_file() for kind in SCHEMAS))
     changed = force or not shards_exist or previous.get("pitch_sha256") != digest or previous.get("schema_sha256") != schema_digest
     if changed:
         if compact:
             month = _month(game)
+            old_month = str(prior.get("month") or month)
+            if old_month != month:
+                for kind, schema in SCHEMAS.items():
+                    _replace_monthly_game(root, kind, season, old_month, game_id, [], schema)
             _replace_monthly_game(root, "games", season, month, game_id, [game], GAME_SCHEMA)
             _replace_monthly_game(root, "events", season, month, game_id, events, EVENT_SCHEMA)
             _replace_monthly_game(root, "pitches", season, month, game_id, normalized, PITCH_SCHEMA)
@@ -379,8 +394,10 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
                player_role: str = "pitcher") -> pa.Table:
     """Read selected shard columns; season/game/player pruning happens in Arrow."""
     directory = root / "data" / "curated" / kind / f"season={season}"
-    files = ([directory / f"{game_id}.parquet"] if game_id and not partition_index_path(root).exists()
-             else sorted(directory.glob("*.parquet")))
+    index = _partition_index(root)
+    entry = index.get("seasons", {}).get(str(season), {}).get("games", {}).get(str(game_id)) if game_id else None
+    files = ([_monthly_path(root, kind, season, str(entry["month"]))] if entry and index.get("layout") == "month"
+             else [directory / f"{game_id}.parquet"] if game_id else sorted(directory.glob("*.parquet")))
     files = [path for path in files if path.is_file()]
     selected = list(columns) if columns is not None else None
     if not files:

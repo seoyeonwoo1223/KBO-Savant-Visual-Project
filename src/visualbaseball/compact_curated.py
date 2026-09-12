@@ -8,14 +8,16 @@ from pathlib import Path
 
 import pyarrow.parquet as pq
 
-from .curated import SCHEMAS, _atomic_parquet, _atomic_json, _month, _stable_rows, source_manifest_path, value_sha256
+from .curated import SCHEMAS, _atomic_parquet, _atomic_json, _month, _stable_rows, value_sha256
 
 
 def compact(root: Path, season: int) -> dict:
     root = root.resolve()
     index_path = root / "data" / "curated" / "partition-index.json"
-    if (index_path.exists() and json.loads(index_path.read_text(encoding="utf-8")).get("layout") == "month"
-            and str(season) in json.loads(index_path.read_text(encoding="utf-8")).get("seasons", {})):
+    index = json.loads(index_path.read_text(encoding="utf-8")) if index_path.exists() else {"schema_version": 1, "seasons": {}}
+    directories = [root / "data" / "curated" / kind / f"season={season}" for kind in SCHEMAS]
+    if (index.get("layout") == "month" and str(season) in index.get("seasons", {})
+            and all(any(path.glob("month=*.parquet")) for path in directories)):
         return {"season": season, "changed": 0, "reason": "already compact"}
     manifests = sorted((root / "data" / "curated" / "sources" / f"season={season}").glob("*.json"))
     games = {path.stem: json.loads(path.read_text(encoding="utf-8")) for path in manifests}
@@ -35,13 +37,13 @@ def compact(root: Path, season: int) -> dict:
     for kind, months in groups.items():
         directory = root / "data" / "curated" / kind / f"season={season}"
         for month, rows in months.items(): _atomic_parquet(directory / f"month={month}.parquet", rows, SCHEMAS[kind])
-    # All new partitions are durable before deleting the 3N obsolete shards.
+    # Commit the layout before removal: interruption before this point retains all
+    # legacy shards; after it, all compact partitions are already durable.
+    index["layout"] = "month"; index.setdefault("seasons", {}).setdefault(str(season), {})["games"] = entries
+    _atomic_json(index_path, index)
     for kind in SCHEMAS:
         for path in (root / "data" / "curated" / kind / f"season={season}").glob("*.parquet"):
             if not path.name.startswith("month="): path.unlink()
-    index = json.loads(index_path.read_text(encoding="utf-8")) if index_path.exists() else {"schema_version": 1, "seasons": {}}
-    index["layout"] = "month"; index.setdefault("seasons", {}).setdefault(str(season), {})["games"] = entries
-    _atomic_json(index_path, index)
     return {"season": season, "changed": len(entries), "partitions": sum(len(value) for value in groups.values())}
 
 
