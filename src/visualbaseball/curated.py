@@ -114,11 +114,15 @@ def file_sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def source_sha256(path: Path) -> str:
+    return sha256(path.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
 def schema_sha256() -> str:
     return value_sha256({
         "version": SCHEMA_VERSION,
         "parser_revision": PARSER_REVISION,
-        "parser_sha256": file_sha256(Path(__file__).with_name("parser.py")),
+        "parser_sha256": source_sha256(Path(__file__).with_name("parser.py")),
         "schemas": {name: str(schema) for name, schema in SCHEMAS.items()},
         "coordinates": COORDINATE_METADATA,
     })

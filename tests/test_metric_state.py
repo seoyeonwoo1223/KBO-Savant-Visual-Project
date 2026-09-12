@@ -1,7 +1,15 @@
 from __future__ import annotations
 
-from visualbaseball.curated import write_game
+from visualbaseball.curated import source_sha256, write_game
 from visualbaseball.metric_state import mark_built, needs_build
+
+
+def test_source_hash_ignores_platform_line_endings(tmp_path):
+    source = tmp_path / "builder.py"
+    source.write_bytes(b"first\nsecond\n")
+    expected = source_sha256(source)
+    source.write_bytes(b"first\r\nsecond\r\n")
+    assert source_sha256(source) == expected
 
 
 def test_metric_state_is_manifest_backed_and_metric_specific(tmp_path):

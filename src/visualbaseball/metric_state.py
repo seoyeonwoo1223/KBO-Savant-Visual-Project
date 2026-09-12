@@ -2,7 +2,7 @@
 from __future__ import annotations
 import json
 from pathlib import Path
-from .curated import file_sha256, schema_sha256, value_sha256
+from .curated import file_sha256, schema_sha256, source_sha256, value_sha256
 
 # Each metric records its transitive builder/helper dependency set.
 SPECS = {
@@ -38,7 +38,7 @@ def metric_input_hash(root: Path, season: int, name: str) -> str:
  source = {game: {table: value.get("tables", {}).get(table) for table in tables} for game, value in sorted(games.items())}
  package = root / "src" / "visualbaseball"
  if not package.exists(): package = Path(__file__).parent
- code = {name: file_sha256(package / name) for name in CODE[name]}
+ code = {name: source_sha256(package / name) for name in CODE[name]}
  files = {item: (file_sha256(path) if (path := root / item.format(season=season)).exists() else None) for item in extras}
  return value_sha256({"metric": name, "season": season, "source": source, "schema_sha256": schema_sha256(), "code": code, "extras": files})
 
