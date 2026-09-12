@@ -279,6 +279,7 @@ def _replace_monthly_game(root: Path, kind: str, season: int, month: str, game_i
 
 
 def _monthly_game_exists(root: Path, season: int, month: str, game_id: str) -> bool:
+    if not _monthly_files_valid(root, season, month): return False
     for kind in SCHEMAS:
         path = _monthly_path(root, kind, season, month)
         if not path.is_file(): return False
@@ -290,8 +291,18 @@ def _month_has_games(index: dict, season: int, month: str) -> bool:
     return any(str(value.get("month")) == month for value in index.get("seasons", {}).get(str(season), {}).get("games", {}).values())
 
 
-def _monthly_files_exist(root: Path, season: int, month: str) -> bool:
-    return all(_monthly_path(root, kind, season, month).is_file() for kind in SCHEMAS)
+def _monthly_files_valid(root: Path, season: int, month: str) -> bool:
+    try:
+        for kind, schema in SCHEMAS.items():
+            path = _monthly_path(root, kind, season, month)
+            if not path.is_file() or not pq.ParquetFile(path).schema_arrow.equals(schema, check_metadata=False): return False
+        return True
+    except (OSError, pa.ArrowException):
+        return False
+
+
+def _expected_months(index: dict, season: int) -> list[str]:
+    return sorted({str(value.get("month")) for value in index.get("seasons", {}).get(str(season), {}).get("games", {}).values()})
 
 
 def source_manifest_path(root: Path, season: int, game_id: str) -> Path:
@@ -314,7 +325,7 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
     if compact and prior and not monthly_valid:
         raise FileNotFoundError(f"compact partition is missing or corrupt for {game_id}; rebuild the month from retained raw data")
     target_month = _month(game)
-    if compact and not prior and _month_has_games(index, season, target_month) and not _monthly_files_exist(root, season, target_month):
+    if compact and not prior and _month_has_games(index, season, target_month) and not _monthly_files_valid(root, season, target_month):
         raise FileNotFoundError(f"compact partition is missing or corrupt for month={target_month}; rebuild the month from retained raw data")
     shards_exist = (monthly_valid if compact and prior
                     else all(curated_path(root, kind, season, game_id).is_file() for kind in SCHEMAS))
@@ -408,11 +419,15 @@ def load_table(root: Path, kind: str, season: int, columns: Iterable[str] | None
     directory = root / "data" / "curated" / kind / f"season={season}"
     index = _partition_index(root)
     entry = index.get("seasons", {}).get(str(season), {}).get("games", {}).get(str(game_id)) if game_id else None
-    if entry and index.get("layout") == "month" and not _monthly_path(root, kind, season, str(entry["month"])).is_file():
+    if entry and index.get("layout") == "month" and not _monthly_files_valid(root, season, str(entry["month"])):
         raise FileNotFoundError(f"indexed compact partition is missing: {kind}/season={season}/month={entry['month']}")
     files = ([_monthly_path(root, kind, season, str(entry["month"]))] if entry and index.get("layout") == "month"
              else [directory / f"{game_id}.parquet"] if game_id else sorted(directory.glob("*.parquet")))
-    if not game_id and index.get("layout") == "month": files = sorted(directory.glob("month=*.parquet"))
+    if not game_id and index.get("layout") == "month":
+        months = _expected_months(index, season)
+        if not months or any(not _monthly_files_valid(root, season, month) for month in months):
+            raise FileNotFoundError(f"compact season={season} has missing or corrupt monthly partitions")
+        files = [_monthly_path(root, kind, season, month) for month in months]
     files = [path for path in files if path.is_file()]
     selected = list(columns) if columns is not None else None
     if not files:
