@@ -1,79 +1,77 @@
-:root {
-  font-family: Arial, sans-serif;
-  color: #13233b;
-  background: #1e6ca1;
-  /* Same brand palette as theme.css's --kbo-* tokens; aliased instead of re-declared so a future
-     palette change only needs editing theme.css. */
-  --navy: var(--kbo-navy);
-  --navy-2: var(--kbo-navy-2);
-  --blue: var(--kbo-blue);
-  --line: var(--kbo-line);
-  --muted: var(--kbo-muted);
-  --card: var(--kbo-card);
-}
+/* 홈 전용 레이아웃. 색은 theme.css의 --kbo-* 토큰만 씁니다 (theme.css를 뒤에 로드). */
+:root { font-family: Arial, Helvetica, sans-serif; }
 * { box-sizing: border-box; }
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--blue);
-}
-.home { width: min(1360px, 100%); margin: auto; padding: 40px 24px 64px; }
-.home-header { padding: 0 0 24px; border-bottom: 1px solid rgba(255,255,255,.32); }
+body { margin: 0; }
+
+.home { width: min(1360px, 100%); margin: auto; padding: 34px 24px 64px; }
+
+.home-header { padding: 0 0 22px; border-bottom: 1px solid var(--kbo-line-strong); }
 .home-header__title { display: flex; align-items: center; gap: 16px; }
 .home-logo {
   display: grid;
   place-items: center;
-  width: clamp(48px, 7vw, 72px);
-  height: clamp(48px, 7vw, 72px);
+  width: clamp(46px, 6vw, 64px);
+  height: clamp(46px, 6vw, 64px);
   flex: none;
+  border: 1px solid var(--kbo-line);
   border-radius: 50%;
   overflow: hidden;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,.18);
 }
 .home-logo img { width: 78%; height: 78%; object-fit: contain; }
-.home-header h1 { margin: 0; font-size: clamp(2.3rem, 5vw, 4.5rem); letter-spacing: -.06em; line-height: .95; color: #fff; }
-.home-header p { margin: 12px 0 0; color: rgba(255,255,255,.82); }
-.home section { margin-top: 30px; }
-.home h2 { margin: 0 0 14px; font-size: 1.55rem; font-weight: 400; color: #fff; }
+.home-header h1 {
+  margin: 0;
+  color: var(--kbo-navy);
+  font-size: clamp(2.2rem, 4.6vw, 4rem);
+  letter-spacing: -.06em;
+  line-height: .95;
+}
+.home-header h1 em { font-style: normal; color: var(--kbo-red); }
+.home-header p { margin: 12px 0 0; color: var(--kbo-muted); }
+
+.home section { margin-top: 34px; }
+.home h2 {
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 3px solid var(--kbo-red);
+  color: var(--kbo-navy);
+  font-size: .92rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
 .visual-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .visual-card {
   display: block;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,.42);
-  background: var(--card);
-  color: #243850;
+  border: 1px solid var(--kbo-line-strong);
+  background: var(--kbo-card);
+  color: inherit;
+  text-align: left;
   text-decoration: none;
-  box-shadow: 0 8px 24px rgba(18,45,80,.18);
   transition: transform .16s, border-color .16s, box-shadow .16s;
 }
-.visual-card:hover { border-color: #fff; transform: translateY(-3px); box-shadow: 0 12px 30px rgba(18,45,80,.28); }
-.visual-art { aspect-ratio: 1; overflow: hidden; background: #eef4f8; }
+.visual-card:hover {
+  border-color: var(--kbo-red);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(8, 51, 88, .14);
+}
+.visual-art { aspect-ratio: 1; overflow: hidden; background: var(--kbo-winter); }
 .visual-art svg { display: block; width: 100%; height: 100%; }
-.visual-art svg text { font-family: Arial, sans-serif; }
-.visual-card__body { padding: 16px 17px 19px; }
-.visual-card__body h3 { margin: 0 0 7px; color: var(--navy-2); font-size: 1.32rem; font-weight: 400; }
-.visual-card__body p { min-height: 2.6em; margin: 0; color: #526176; font-size: .9rem; line-height: 1.45; }
-.visual-card__body b { display: block; margin-top: 15px; color: var(--blue); font-size: .86rem; }
-.visual-card--leaderboard { color: #243850; }
-.leaderboard-art { padding: 12%; background: #e9eff5; color: #243850; }
-.leaderboard-art > span { display: block; margin-bottom: 10%; color: #526176; font-size: 5px; font-weight: 800; letter-spacing: .16em; }
-.leaderboard-art ol { display: grid; gap: 7%; margin: 0; padding: 0; list-style: none; }
-.leaderboard-art li { display: grid; grid-template-columns: 8% 1fr 34%; align-items: center; gap: 5%; font-size: 4px; }
-.leaderboard-art b, .leaderboard-art em { font-style: normal; }
-.leaderboard-art em { white-space: nowrap; }
-.leaderboard-art i { height: 7px; border-radius: 1px; }
+.visual-art svg text { font-family: Arial, Helvetica, sans-serif; }
 
-/* Keep the current homepage markup stable while presenting the renamed tool. */
-.visual-card[href="pitch-arsenal/"] .visual-card__body h3 { font-size: 0; }
-.visual-card[href="pitch-arsenal/"] .visual-card__body h3::after { content: "Pitch Plot"; font-size: 1.32rem; }
+.visual-card__body { padding: 15px 17px 18px; border-top: 1px solid var(--kbo-line); }
+.visual-card__body h3 { margin: 0 0 7px; color: var(--kbo-navy); font-size: 1.26rem; font-weight: 700; letter-spacing: -.02em; }
+.visual-card__body p { min-height: 2.6em; margin: 0; color: var(--kbo-muted); font-size: .88rem; line-height: 1.45; }
+.visual-card__body b { display: block; margin-top: 14px; color: var(--kbo-red); font-size: .82rem; letter-spacing: .04em; }
 
 @media (max-width: 780px) {
   .visual-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 540px) {
-  .home { padding: 28px 14px 48px; }
+  .home { padding: 24px 14px 48px; }
   .visual-grid { grid-template-columns: 1fr; }
   .visual-card__body p { min-height: 0; }
 }
