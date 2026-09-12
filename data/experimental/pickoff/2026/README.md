@@ -15,7 +15,7 @@ This directory archives exploratory 2026 pickoff/disengagement work built from N
 - `events.parquet`: normalized original `견제`-related events.
 - `audit.json`: audit used to diagnose the original source coverage.
 - `disengagement_summary.json`: 2026 full-season Naver `투수판 이탈` crawl summary, team/game distribution, and base-occupancy validation.
-- `disengagement_events.json`: full `투수판 이탈` event records including `currentGameState.base1/base2/base3`.
+- `disengagement_events.parquet`: zstd-compressed full `투수판 이탈` event records preserving nested `current_game_state` and `current_players_info` data.
 - `disengagement_events.csv`: flat event export for inspection.
 
 ## Original `견제` text experiment
