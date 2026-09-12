@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T15:35:51+00:00",
+  "generated_at": "2026-09-12T17:07:35+00:00",
   "layout": "month",
   "schema_sha256": "729910b9222202df2dac0a2951150a2a39b15a185feb93ba4b78540da1a77e5f",
   "reading": {
@@ -58,18 +58,18 @@
       "tables": {
         "pitches": {
           "rows": 219839,
-          "files": 720,
-          "bytes": 67183731
+          "files": 7,
+          "bytes": 30310436
         },
         "events": {
           "rows": 276161,
-          "files": 720,
-          "bytes": 8877299
+          "files": 7,
+          "bytes": 1344182
         },
         "games": {
           "rows": 720,
-          "files": 720,
-          "bytes": 4755256
+          "files": 7,
+          "bytes": 83576
         }
       },
       "games": 720,
@@ -104,18 +104,18 @@
       "tables": {
         "pitches": {
           "rows": 223216,
-          "files": 720,
-          "bytes": 68500953
+          "files": 8,
+          "bytes": 31113844
         },
         "events": {
           "rows": 280544,
-          "files": 720,
-          "bytes": 8923825
+          "files": 8,
+          "bytes": 1365396
         },
         "games": {
           "rows": 720,
-          "files": 720,
-          "bytes": 4755277
+          "files": 8,
+          "bytes": 90280
         }
       },
       "games": 720,
