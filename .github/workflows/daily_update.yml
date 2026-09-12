@@ -45,6 +45,7 @@ jobs:
       - run: python -m pip install --disable-pip-version-check -r requirements.txt -c constraints-za.txt
       - run: python -m pytest
       - run: node tests/test_pitch_arsenal_layout.cjs
+      - run: python scripts/check_metric_state.py
       - name: Update Visual Baseball data
         run: |
           if [ -f .github/refresh-completed-request ]; then
