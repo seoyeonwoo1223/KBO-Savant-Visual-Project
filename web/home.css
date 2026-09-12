@@ -20,7 +20,18 @@ body {
 .home { width: min(1360px, 100%); margin: auto; padding: 40px 24px 64px; }
 .home-header { padding: 0 0 24px; border-bottom: 1px solid rgba(255,255,255,.32); }
 .home-header__title { display: flex; align-items: center; gap: 16px; }
-.home-logo { width: clamp(40px, 6vw, 64px); height: clamp(40px, 6vw, 64px); flex: none; }
+.home-logo {
+  display: grid;
+  place-items: center;
+  width: clamp(48px, 7vw, 72px);
+  height: clamp(48px, 7vw, 72px);
+  flex: none;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
+}
+.home-logo img { width: 78%; height: 78%; object-fit: contain; }
 .home-header h1 { margin: 0; font-size: clamp(2.3rem, 5vw, 4.5rem); letter-spacing: -.06em; line-height: .95; color: #fff; }
 .home-header p { margin: 12px 0 0; color: rgba(255,255,255,.82); }
 .home section { margin-top: 30px; }
