@@ -29,11 +29,16 @@ node tests/test_pitch_arsenal_layout.cjs       # 웹 레이아웃 테스트 (pyt
 
 ### 웹 로컬 프리뷰
 
-페이지들이 `../data/...`를 fetch하므로 서버 루트는 반드시 `web/`이어야 합니다. 저장소 루트에서 띄우면 데이터를 못 찾습니다.
+페이지들이 `../data/...`를 fetch하므로 서버 루트는 반드시 `web/`이어야 합니다. 저장소 루트에서 띄우면 모든 데이터가 404가 되고 도구가 빈 화면으로 뜹니다. 루트를 실수할 여지를 없애려면 스크립트를 쓰십시오 — 자기 파일 위치에서 저장소 루트를 찾으므로 어느 디렉터리에서 실행해도 됩니다.
 
 ```bash
-python -m http.server 8000 --directory web   # http://localhost:8000/
+python scripts/serve_web.py            # http://localhost:8000/
+python scripts/serve_web.py --port 9000 --open
 ```
+
+VS Code에서는 `Ctrl+Shift+P` → `Tasks: Run Task` → **웹 프리뷰 (web/ 루트)** 로도 실행됩니다. 로컬 응답에는 `Cache-Control: no-store`가 붙으므로 `?v=` 캐시 버스터를 올리지 않아도 새로고침이면 최신 파일이 뜹니다 (배포용 버전 올리기는 여전히 필요).
+
+`python -m http.server 8000 --directory web`로 직접 띄워도 동일합니다.
 
 빌드 단계는 없습니다. `web/`은 순수 정적 파일이고 GitHub Pages가 `web/`을 그대로 루트로 서빙합니다.
 
@@ -67,8 +72,9 @@ python -m visualbaseball.leaderboard_vb
 ```
 data/raw/<season>/<game_id>.json            Visual Baseball 원본 PBP (+ raw/naver/ 조인 캐시, gitignore)
   ↓ parser.py / collector.py / state_machine.py
-data/curated/{pitches,events,games}/season=<year>/month=MM.parquet   canonical, 월별 partition
-data/curated/partition-index.json           게임 → 월 + 테이블 digest (1.5MB, 열어보지 말 것)
+data/curated/{pitches,events,games}/season=<year>/<game_id>.parquet   canonical (현재 커밋 상태)
+                                     …/month=MM.parquet   compact 후 레이아웃
+data/curated/partition-index.json           compact 후에만 존재. 게임 → 월 + 테이블 digest (1.5MB, 열어보지 말 것)
 data/curated/summary.json                   사람·에이전트용 요약 (4KB, 여기부터 읽을 것)
 data/curated/schema.json                    테이블별 컬럼·타입 계약
 data/curated/sources/…json                  수집·검증 manifest + raw/pitch/schema sha256
@@ -84,6 +90,8 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 **재생성 순서**는 `cli._exports()`가 단일 소스입니다. Excel → arm_angle 입력 → swing_take → (plate_discipline, zone_decision 또는 plate_decision_v1) → zone_profile → pitch_arsenal → blocking. `swing_take`가 만드는 `data/metrics/swing_take/<season>/decision_pitches.parquet`가 그 뒤 판단 지표 전체의 입력이므로, Swing/Take를 건드리면 하위 metric이 전부 함께 재생성되어야 합니다.
 
 **증분성**: partition은 원자적으로 교체되고, `pitch_sha256`가 같으면 다시 쓰지 않습니다. provider가 파싱과 무관한 필드를 바꾸면 `raw_sha256`만 바뀌고 partition은 그대로입니다. metric은 `metric_state.needs_build()`가 입력·코드·의존 파일 hash로 개별 판정하므로, 하나가 바뀌어도 나머지는 건너뜁니다. 중단 후 재실행은 안전합니다.
+
+**레이아웃은 두 가지이고 코드가 둘 다 지원합니다.** 커밋된 데이터는 아직 경기별 shard(game layout)이고, `python -m visualbaseball.compact_curated --season YYYY`를 돌리면 월별 partition(month layout)으로 바뀝니다. 마이그레이션은 시즌별 일회성이며 아직 실행되지 않았습니다. `summary.json`의 `layout` 필드가 현재 상태를 알려줍니다.
 
 **월별 partition 계약** (`docs/curated-data.md`가 원본):
 
@@ -106,7 +114,7 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 
 **하지 말 것**
 
-- `partition-index.json`을 열지 마십시오. 1.5MB(614경기 × 3테이블 digest)이고, 무결성 기록이지 목록이 아닙니다. "무슨 데이터가 있나"의 답은 `summary.json`에 있습니다.
+- `partition-index.json`을 열지 마십시오 (compact 후에만 존재). 경기 × 3테이블 digest라 MB 단위이고, 무결성 기록이지 목록이 아닙니다. "무슨 데이터가 있나"의 답은 `summary.json`에 있습니다.
 - `data/`, `exports/`, `seasons/`를 glob으로 훑지 마십시오. 추적 파일이 15,000개대이고 생성 데이터가 대부분입니다.
 - Parquet을 `cat`/`head`로 열지 마십시오. 바이너리라 컨텍스트만 태웁니다.
 - 생성 데이터의 `git diff`를 읽지 마십시오. `.gitattributes`가 `-diff`로 막아두었지만, 경로를 직접 지정하면 여전히 나옵니다.
@@ -116,11 +124,11 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 ```python
 from visualbaseball.curated import load_rows
 load_rows(root, "pitches", 2026, columns=["pitch_id", "px", "pz", "is_swing"])
-load_rows(root, "pitches", 2026, game_id="20260328HTSK0")      # 해당 월 1개 파일만 open
+load_rows(root, "pitches", 2026, game_id="20260328HTSK0")      # 해당 경기(또는 월) 파일 1개만 open
 load_rows(root, "pitches", 2026, player_id="12345", player_role="pitcher")
 ```
 
-행수·크기만 필요하면 footer만 읽습니다 (전체 111개 파일 0.2초).
+행수·크기만 필요하면 footer만 읽습니다. 이미 집계된 값은 `summary.json`에 있으니 그걸 먼저 보십시오.
 
 ```python
 import pyarrow.parquet as pq

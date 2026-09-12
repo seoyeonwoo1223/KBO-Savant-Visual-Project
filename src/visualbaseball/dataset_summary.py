@@ -55,9 +55,20 @@ def build_summary(root: Path) -> Path:
             entry["tables"][kind] = _table_stats(directory)
     for season, entry in seasons.items():
         games = index.get("seasons", {}).get(season, {}).get("games", {})
-        dates = sorted(value.get("game_date") for value in games.values() if value.get("game_date"))
-        entry["games"] = len(games) or _counts(root / "data" / "curated" / "sources" / f"season={season}", "*.json")
-        entry["months"] = sorted({str(value.get("month")) for value in games.values()}) if games else []
+        if games:
+            dates = sorted(v["game_date"] for v in games.values() if v.get("game_date"))
+            months = sorted({str(v.get("month")) for v in games.values()})
+            count = len(games)
+        else:
+            # Game layout has no index, so read the dates off the manifest names
+            # (game_id starts with YYYYMMDD) rather than opening 600+ files.
+            stems = sorted(p.stem for p in
+                           (root / "data" / "curated" / "sources" / f"season={season}").glob("*.json"))
+            dates = [f"{s[:4]}-{s[4:6]}-{s[6:8]}" for s in stems if s[:8].isdigit()]
+            months = sorted({date[5:7] for date in dates})
+            count = len(stems)
+        entry["games"] = count
+        entry["months"] = months
         entry["date_range"] = [dates[0], dates[-1]] if dates else None
         entry["metrics"] = sorted(
             path.parent.name for path in (root / "data" / "metrics").glob(f"*/{season}")

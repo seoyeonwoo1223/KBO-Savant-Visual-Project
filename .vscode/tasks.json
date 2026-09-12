@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "웹 프리뷰 (web/ 루트)",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["scripts/serve_web.py", "--open"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "reveal": "always" }
+    },
+    {
+      "label": "테스트 (pytest + 웹 레이아웃)",
+      "type": "shell",
+      "command": "${command:python.interpreterPath} -m pytest && node tests/test_pitch_arsenal_layout.cjs",
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": { "PYTHONPATH": "src" }
+      },
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "데이터 요약 갱신",
+      "type": "process",
+      "command": "${command:python.interpreterPath}",
+      "args": ["-m", "visualbaseball.dataset_summary"],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "env": { "PYTHONPATH": "src" }
+      },
+      "problemMatcher": []
+    }
+  ]
+}

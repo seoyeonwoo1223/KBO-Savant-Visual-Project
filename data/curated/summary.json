@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-12T11:58:02+00:00",
-  "layout": "month",
+  "generated_at": "2026-09-12T13:18:46+00:00",
+  "layout": "game",
   "schema_sha256": "dad05fd41a749a235bc04ddcc5ef0e9df07d0292d67cf442056250c4e5975e4c",
   "reading": {
     "columns": "data/curated/schema.json",
@@ -12,18 +12,18 @@
       "tables": {
         "pitches": {
           "rows": 217025,
-          "files": 7,
-          "bytes": 30139349
+          "files": 720,
+          "bytes": 67068357
         },
         "events": {
           "rows": 273038,
-          "files": 7,
-          "bytes": 1328672
+          "files": 720,
+          "bytes": 8853475
         },
         "games": {
           "rows": 720,
-          "files": 7,
-          "bytes": 82622
+          "files": 720,
+          "bytes": 4755209
         }
       },
       "games": 720,
@@ -59,18 +59,18 @@
       "tables": {
         "pitches": {
           "rows": 219839,
-          "files": 7,
-          "bytes": 30310436
+          "files": 720,
+          "bytes": 67183731
         },
         "events": {
           "rows": 276161,
-          "files": 7,
-          "bytes": 1344182
+          "files": 720,
+          "bytes": 8877299
         },
         "games": {
           "rows": 720,
-          "files": 7,
-          "bytes": 83576
+          "files": 720,
+          "bytes": 4755256
         }
       },
       "games": 720,
@@ -106,18 +106,18 @@
       "tables": {
         "pitches": {
           "rows": 223216,
-          "files": 8,
-          "bytes": 31113844
+          "files": 720,
+          "bytes": 68500953
         },
         "events": {
           "rows": 280544,
-          "files": 8,
-          "bytes": 1365396
+          "files": 720,
+          "bytes": 8923825
         },
         "games": {
           "rows": 720,
-          "files": 8,
-          "bytes": 90280
+          "files": 720,
+          "bytes": 4755277
         }
       },
       "games": 720,
@@ -154,18 +154,18 @@
       "tables": {
         "pitches": {
           "rows": 217852,
-          "files": 8,
-          "bytes": 30703003
+          "files": 720,
+          "bytes": 68156960
         },
         "events": {
           "rows": 277384,
-          "files": 8,
-          "bytes": 1396468
+          "files": 720,
+          "bytes": 9030751
         },
         "games": {
           "rows": 720,
-          "files": 8,
-          "bytes": 89793
+          "files": 720,
+          "bytes": 4776825
         }
       },
       "games": 720,
@@ -201,22 +201,22 @@
     "2026": {
       "tables": {
         "pitches": {
-          "rows": 189063,
-          "files": 7,
-          "bytes": 27811924
+          "rows": 191459,
+          "files": 622,
+          "bytes": 60155300
         },
         "events": {
-          "rows": 240583,
-          "files": 7,
-          "bytes": 1204650
+          "rows": 243647,
+          "files": 622,
+          "bytes": 7832439
         },
         "games": {
-          "rows": 614,
-          "files": 7,
-          "bytes": 85663
+          "rows": 622,
+          "files": 622,
+          "bytes": 4203506
         }
       },
-      "games": 614,
+      "games": 622,
       "months": [
         "03",
         "04",
@@ -228,7 +228,7 @@
       ],
       "date_range": [
         "2026-03-28",
-        "2026-09-09"
+        "2026-09-11"
       ],
       "metrics": [
         "arm_angle",
