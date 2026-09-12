@@ -1,42 +1,135 @@
+/* KBO Savant — 전 페이지 공통 테마.
+   팔레트: navy #083358 / navy-2 #0F4471 / red #FC3C3C / winter #F6F6F6.
+   배경은 흰색으로 두고, 선·강조 텍스트에만 팔레트 색을 씁니다 (Baseball Savant 모티프).
+   페이지 전용 CSS 뒤에 로드해서 마지막에 덮어쓰게 합니다. */
 :root {
-  --kbo-ink: #13233b;
+  --kbo-ink: #083358;
   --kbo-bg: #ffffff;
   --kbo-bg-top: #ffffff;
   --kbo-surface: #ffffff;
-  /* Brand palette (finalized): navy + red, close kin of the previous navy + blue so the swap
-     doesn't require repainting every one-off hex in the codebase, only what already reads these
-     tokens. --kbo-blue has no distinct hue of its own in this palette — it reuses the medium navy. */
   --kbo-navy: #083358;
   --kbo-navy-2: #0f4471;
+  /* 이 팔레트에서 blue는 독립된 색조가 아니라 중간 navy를 재사용합니다. */
   --kbo-blue: #0f4471;
-  --kbo-line: #d9e2ec;
-  --kbo-line-strong: #c4d0dd;
-  --kbo-muted: #66758a;
-  --kbo-card: #fff;
+  --kbo-red: #fc3c3c;
+  --kbo-winter: #f6f6f6;
+  --kbo-line: #dde3ea;
+  --kbo-line-strong: #c3cedb;
+  --kbo-muted: #5d6b7d;
+  --kbo-card: #ffffff;
 
-  /* Diverging magnitude scale (positive/negative run value, WAR, percentile grading, zone
-     quality tiers, ...). pitch-arsenal.js, leaderboards.js, and movement-zones.js each still
-     implement their own version of this with slightly different endpoint values (see PR #9) —
-     that's a deliberate palette decision, not done here. New consumers (e.g. a future Zone
-     Awareness redesign) should reach for these tokens instead of inventing another pair, so a
-     future palette swap only touches this file. See theme-colors.js for the JS-side mirror. */
+  /* 발산형 크기 스케일 (Run Value, WAR, 퍼센타일 등). pitch-arsenal.js, leaderboards.js,
+     movement-zones.js는 각자의 엔드포인트 상수를 계속 씁니다 — 팔레트 결정이지 누락이 아닙니다. */
   --kbo-diverge-positive: #fc3c3c;
   --kbo-diverge-negative: #0f4471;
   --kbo-diverge-neutral: #f6f6f6;
   --kbo-diverge-ink-light: #ffffff;
   --kbo-diverge-ink-dark: #083358;
+
+  --kbo-header-h: 56px;
 }
 
-html { background: var(--kbo-surface); }
+html {
+  background: var(--kbo-surface);
+  /* 고정 헤더가 scrollIntoView 대상의 윗부분을 가리지 않도록 함 */
+  scroll-padding-top: calc(var(--kbo-header-h) + 12px);
+}
+#profile,
+#player-section,
+:target { scroll-margin-top: calc(var(--kbo-header-h) + 12px); }
 body {
   min-height: 100vh;
-  color: var(--kbo-ink);
+  color: #17263a;
   background: var(--kbo-surface);
 }
 
-a { color: #334b67; }
-a:hover { color: var(--kbo-blue); }
-.eyebrow { color: #64809c; }
+a { color: var(--kbo-navy-2); }
+a:hover { color: var(--kbo-red); }
+.eyebrow { color: var(--kbo-muted); }
+
+/* ── 공통 헤더 (site-header.js가 삽입) ─────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 3px solid var(--kbo-red);
+  background: var(--kbo-navy);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: min(1360px, 100%);
+  min-height: var(--kbo-header-h);
+  margin: auto;
+  padding: 0 24px;
+}
+.site-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  color: #fff;
+  text-decoration: none;
+}
+.site-brand:hover { color: #fff; }
+.site-brand img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  object-fit: contain;
+}
+.site-brand__word {
+  font-size: 1.36rem;
+  font-weight: 700;
+  letter-spacing: -.035em;
+  line-height: 1;
+}
+.site-brand__word span { color: var(--kbo-red); }
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  margin-left: auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.site-nav::-webkit-scrollbar { display: none; }
+.site-nav a {
+  flex: none;
+  padding: 8px 11px;
+  border-bottom: 3px solid transparent;
+  color: #cfdcea;
+  font-size: .84rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.site-nav a:hover { color: #fff; background: var(--kbo-navy-2); }
+.site-nav a[aria-current="page"] {
+  color: #fff;
+  border-bottom-color: var(--kbo-red);
+}
+@media (max-width: 720px) {
+  .site-header__inner { gap: 12px; padding: 0 12px; }
+  .site-brand__word { font-size: 1.15rem; }
+  .site-nav a { padding: 8px 8px; font-size: .78rem; }
+}
+
+/* 공통 헤더가 뒤로가기 링크를 대신하므로 페이지별 nav는 숨깁니다. */
+body > main > nav,
+main > nav.visual-back,
+main > p.back,
+.page-header .home-link { display: none; }
+
+/* 페이지 제목 블록 정렬을 전 페이지 공통으로 왼쪽 정렬로 맞춥니다. */
+main > header,
+main > .page-header,
+main > .hero,
+main > header.index-header { text-align: left; }
 
 input,
 select,
@@ -47,9 +140,7 @@ textarea {
 }
 
 button,
-.button {
-  border-color: var(--kbo-blue);
-}
+.button { border-color: var(--kbo-blue); }
 
 .search-panel,
 .controls,
@@ -63,14 +154,10 @@ button,
 .profile-card,
 .player-card,
 .reading-note,
-.side-panel {
-  border-color: var(--kbo-line);
-}
+.side-panel { border-color: var(--kbo-line); }
 
 table th,
-table td {
-  border-color: #e4eaf0;
-}
+table td { border-color: var(--kbo-line); }
 
-/* The Swing/Take profile season is repeated elsewhere; hide the old branded kicker. */
+/* Swing/Take 프로필 시즌은 다른 곳에서 반복되므로 옛 브랜드 키커는 숨깁니다. */
 .profile-header #profile-season { display: none; }
