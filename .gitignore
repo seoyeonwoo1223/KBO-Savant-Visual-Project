@@ -8,6 +8,10 @@ data/pending/
 data/raw/naver/
 data/processed/plate_decision_v1_pitches_*.parquet
 data/processed/decision_pitches_20*.parquet
-exports/visualbaseball_savant_2026_latest.xlsx
+# Season workbooks are regenerated from curated data by export_excel and
+# published as Release assets, so they are not tracked. Regenerate one with:
+#   PYTHONPATH=src python -c "from pathlib import Path; \
+#     from visualbaseball.export_excel import export_latest; export_latest(Path('.'), 2022)"
+exports/visualbaseball_savant_*_latest.xlsx
 
 .cache/
