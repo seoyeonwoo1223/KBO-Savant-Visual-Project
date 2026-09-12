@@ -82,7 +82,7 @@ async function loadSeason(year) {
 
 function beginSeasonLoad(year) {
   seasonLoadPromise = loadSeason(year).catch(() => {
-    message.textContent = "Pitch Arsenal 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
+    message.textContent = "Pitch Plot 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
     return null;
   });
   return seasonLoadPromise;
@@ -402,7 +402,7 @@ fetch("../data/pitch_arsenal/index.json").then(response => response.json()).then
   const requested = Number(new URLSearchParams(location.search).get("year"));
   if (catalog.seasons.includes(requested)) yearSelect.value = requested;
   return beginSeasonLoad(yearSelect.value);
-}).catch(() => { message.textContent = "Pitch Arsenal 데이터를 불러오지 못했습니다."; });
+}).catch(() => { message.textContent = "Pitch Plot 데이터를 불러오지 못했습니다."; });
 
 yearSelect.addEventListener("change", () => {
   currentProfile = null;
