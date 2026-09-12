@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-12T17:07:35+00:00",
+  "generated_at": "2026-09-12T17:22:48+00:00",
   "layout": "month",
-  "schema_sha256": "729910b9222202df2dac0a2951150a2a39b15a185feb93ba4b78540da1a77e5f",
+  "schema_sha256": "dad05fd41a749a235bc04ddcc5ef0e9df07d0292d67cf442056250c4e5975e4c",
   "reading": {
     "columns": "data/curated/schema.json",
     "integrity": "data/curated/partition-index.json (large; per-game digests, not for browsing)",
@@ -233,20 +233,11 @@
         "swing_take",
         "zone_awareness"
       ],
-      "stale_metrics": [
-        "arm_angle",
-        "blocking",
-        "excel",
-        "pitch_arsenal",
-        "plate_discipline",
-        "swing_take",
-        "zone_decision",
-        "zone_profiles"
-      ]
+      "stale_metrics": []
     }
   },
   "published": {
     "web_json": 210,
-    "exports": 27
+    "exports": 28
   }
 }

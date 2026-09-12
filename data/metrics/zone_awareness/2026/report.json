@@ -8,7 +8,7 @@
     "curated_version": null,
     "sha256": {
       "schema_sha256": "dad05fd41a749a235bc04ddcc5ef0e9df07d0292d67cf442056250c4e5975e4c",
-      "player_bio.parquet": "b7d8cc57197192bbb80dfcc99af714f9a150052cc9f37e24f1fd834eb80ffa43",
+      "player_bio.parquet": "5a03949bf813e61b3d178e2d144fd0539cb980b7e5c8e592391c02d54c261751",
       "2026_VB_Park_Adjustment_v1.0.xlsx": "8c147711fb502314c70720a343a3d5a1966e0bb4719100915c6d2459a7291639"
     },
     "quality": {
@@ -58,12 +58,12 @@
         "staged": {
           "mse": 0.06693989273419343,
           "swing_mse": 0.1469948947746446,
-          "take_mse": 0.0016694572971796807
+          "take_mse": 0.0016694572971796804
         },
         "unsmoothed": {
           "mse": 0.06676547901753699,
           "swing_mse": 0.14660656046209622,
-          "take_mse": 0.0016694572971796807
+          "take_mse": 0.0016694572971796804
         }
       },
       "event_probability": {
@@ -135,7 +135,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 5.551115123125783e-17,
         "weighted_adjustment_rmse": 0.018486080223924665
       },
       "calibration_applied": true
@@ -148,9 +148,9 @@
       "raw_swing_brier": 0.14674583826610368,
       "action_value": {
         "direct": {
-          "mse": 0.0657319133287036,
+          "mse": 0.06573191332870358,
           "swing_mse": 0.1419932634756631,
-          "take_mse": 0.0030518647922932476
+          "take_mse": 0.0030518647922932484
         },
         "staged": {
           "mse": 0.06475339231677611,
@@ -241,9 +241,9 @@
     "swing_brier": 0.1466661505299787,
     "action_value": {
       "direct": {
-        "mse": 0.0657319133287036,
+        "mse": 0.06573191332870358,
         "swing_mse": 0.1419932634756631,
-        "take_mse": 0.0030518647922932476
+        "take_mse": 0.0030518647922932484
       },
       "staged": {
         "mse": 0.06475339231677611,
@@ -270,7 +270,7 @@
         2
       ],
       "batters_150_pitches_each": 105,
-      "pearson_r": 0.5373520867053921,
+      "pearson_r": 0.5373520867053923,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     },
     {
@@ -279,7 +279,7 @@
         3
       ],
       "batters_150_pitches_each": 99,
-      "pearson_r": 0.40693367386744095,
+      "pearson_r": 0.4069336738674408,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     }
   ],
@@ -331,8 +331,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.0193208717698375
+        "max_constraint_violation": 5.551115123125783e-17,
+        "weighted_adjustment_rmse": 0.019320871769837496
       },
       "calibration_applied": true
     },
@@ -343,7 +343,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 2.220446049250313e-16,
+        "max_constraint_violation": 0.0,
         "weighted_adjustment_rmse": 0.017776295971252704
       },
       "calibration_applied": true
