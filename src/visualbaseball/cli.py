@@ -22,6 +22,7 @@ from .zone_decision import build_zone_decision
 from .arm_angle import build_arm_angle_input
 from .curated import normalize_trajectory, pitch_sha256, schema_sha256, source_manifest_path
 from .metric_state import mark_built, needs_build
+from .dataset_summary import build_summary
 
 
 def _is_final(game: dict) -> bool:
@@ -82,6 +83,7 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
     build("zone_profiles", lambda: build_zone_profiles(root, season))
     build("pitch_arsenal", lambda: build_pitch_arsenal(root, season))
     build("blocking", lambda: build_blocking(root, season))
+    build_summary(root)
 
 
 def main() -> None:
