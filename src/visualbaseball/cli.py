@@ -223,8 +223,8 @@ def main() -> None:
             if len(pending_games) >= 25:
                 flush()
     flush()
-    if changed_games or not (root / "data" / "metrics" / "arm_angle" / str(args.season) / "input.parquet").exists():
-        _exports(root, args.season, storage_root)
+    # Always plan exports: per-metric state handles data, code, and dependency no-ops.
+    _exports(root, args.season, storage_root)
     print(f"reconciled {len(target_games)} games; {changed_games} curated shards changed")
 
 
