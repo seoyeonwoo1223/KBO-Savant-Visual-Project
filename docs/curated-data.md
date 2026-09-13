@@ -4,7 +4,7 @@ The production flow is `raw -> curated Parquet -> metric`.
 
 ## Storage contract
 
-- Raw Visual Baseball responses remain at `data/raw/<season>/<game_id>.json` (2025 uses its existing `seasons/2025` storage root).
+- Raw Visual Baseball responses remain at `data/raw/<season>/<game_id>.json` for every season, 2022-2026.
 - Canonical tables are game shards at `data/curated/{pitches,events,games}/season=<year>/<game_id>.parquet`, and monthly partitions at `.../month=MM.parquet` once a season is compacted. Both layouts are supported and they coexist, because the migration runs one season at a time: 2025 and 2026 are monthly, 2022-2024 are still game-sharded. `summary.json` reports the repo-wide flag; `curated._season_is_compact()` is the only correct per-season answer, and it reads the answer off the disk rather than trusting the flag or the index's game entries (`write_game` records those in either layout). `partition-index.json` maps each game to its month and table hashes: targeted reads open one indexed month and season reads open only the index's expected months, never an orphan file. Missing or invalid expected partitions fail closed; build planning does not enumerate Parquet files. Migrate an existing game-shard season with `python -m visualbaseball.compact_curated --season YYYY`.
 - `data/curated/sources/season=<year>/<game_id>.json` records first/last collection and check times, revision, observed y0, row reconciliation, provenance, and `raw_sha256`, `pitch_sha256`, `schema_sha256`.
   The manifest is a record of what was collected, not a polling log: `last_checked_at` only advances when some other field also changed, so a re-collection that finds nothing new leaves the file byte-identical and produces no commit.
@@ -32,7 +32,7 @@ The 2022-2024 workbooks have no retained raw JSON or y0 column. Their one-time m
 ```powershell
 $env:PYTHONPATH = "src"
 python -m visualbaseball.build_curated --season 2026 --validate
-python -m visualbaseball.build_curated --season 2025 --storage-root seasons/2025 --validate
+python -m visualbaseball.build_curated --season 2025 --validate
 python -m visualbaseball.build_curated --season 2024 --validate
 python -m visualbaseball.cli --collection-mode recent
 python -m visualbaseball.cli --collection-mode sample --auto-reconcile
