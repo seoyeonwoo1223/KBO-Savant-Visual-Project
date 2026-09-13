@@ -148,6 +148,11 @@ function renderProfile() {
   renderFrequency();
   renderTable();
   profileSection.scrollIntoView({behavior: "smooth", block: "start"});
+  const target = document.querySelector("[data-thumbnail-target]");
+  if (target) {
+    document.querySelector("#thumbnail-context").textContent = `${currentProfile.player.name} · ${currentProfile.season} KBO`;
+    target.dataset.thumbnailReady = "true";
+  }
 }
 
 function renderVelocity() {

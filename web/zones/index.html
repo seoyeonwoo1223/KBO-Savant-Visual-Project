@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Zone Profile</title>
-  <link rel="stylesheet" href="zone.css?v=20260913-1">
+  <link rel="stylesheet" href="zone.css?v=20260913-2">
   <link rel="stylesheet" href="../theme.css?v=20260913-4">
+  <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
 </head>
 <body>
   <script src="../site-header.js?v=20260913-4"></script>
@@ -46,7 +47,8 @@
       </div>
       <div id="summary" class="summary"></div>
       <div class="dashboard">
-        <section class="chart-card">
+        <section class="chart-card" data-thumbnail-target data-thumbnail-ready="false">
+          <p id="thumbnail-context" class="thumbnail-context"></p>
           <div class="chart-heading"><div><strong id="chart-title"></strong><span id="chart-subtitle"></span></div><div id="legend" class="legend"></div></div>
           <div class="savant-plot">
             <span class="vertical-label">Vertical (ft.)</span>
@@ -70,6 +72,6 @@
       <p class="method">색은 선택 지표의 비율을 나타냅니다. 파란색은 낮고 빨간색은 높습니다. 빈 셀은 선택한 최소 표본에 미달합니다.</p>
     </section>
   </main>
-  <script src="zone.js?v=20260814-7"></script>
+  <script src="zone.js?v=20260913-1"></script>
 </body>
 </html>

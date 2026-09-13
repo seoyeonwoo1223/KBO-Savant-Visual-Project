@@ -48,6 +48,7 @@ const angleInput=document.querySelector('#angle'), angleValue=document.querySele
 const tabs=document.querySelector('#pitch-tabs'), handTabs=document.querySelector('#hand-tabs'), chart=document.querySelector('#movement-chart');
 const rangeTable=document.querySelector('#range-table'), playButton=document.querySelector('#play');
 let selected='FF', selectedHand='R', timer=null;
+const thumbnailParams=new URLSearchParams(location.search);
 
 const fmt=n=>`${n>0?'+':''}${n}`.replace('-', '−');
 const rangeText=(range,label)=>label||`${fmt(range[range[0] < 0 && range[1] < 0 ? 1 : 0])}~${fmt(range[range[0] < 0 && range[1] < 0 ? 0 : 1])}`;
@@ -129,6 +130,8 @@ function render(){
     return `<tr><td style="color:${cat.color}">${cat.label}</td><td>${rangeText(z.ivb,z.ivbLabel)}</td><td>${rangeText(z.hb,z.hbLabel)}</td></tr>`;
   }).join('');
   chart.innerHTML=`<title id="svg-title">팔각도별 구종 무브먼트 존</title><desc id="svg-desc">${handLabel} 투수의 포수 시점 수평 무브먼트와 induced vertical break를 표시합니다.</desc>${defs()}<style>.grid{stroke:#d9dddd;stroke-width:1}.grid.zero{stroke:#70787b;stroke-width:1.6}.axis-text{font:12px Arial;fill:#667075}.axis-title{font:700 14px Arial;fill:#343a3d}.direction-label{font:700 11px Arial;letter-spacing:.08em;fill:#737b7e}.arm-line{stroke:#878f92;stroke-width:1.8;stroke-dasharray:7 6}.arm-label{font:italic 12px Arial;fill:#767e82}.zone{transition:opacity .2s}</style>${grid()}${armLine(angle)}${[...categories].reverse().map(cat=>zoneSvg(pitch[cat.index],cat)).join('')}`;
+  const target=document.querySelector('[data-thumbnail-target]');
+  if(target) target.dataset.thumbnailReady='true';
 }
 
 function stop(){clearInterval(timer);timer=null;playButton.textContent='▶';playButton.setAttribute('aria-pressed','false');playButton.setAttribute('aria-label','팔각도 자동 재생');}
@@ -136,4 +139,8 @@ function play(){timer=setInterval(()=>{angleInput.value=(Number(angleInput.value
 angleInput.addEventListener('input',()=>{stop();render();});
 playButton.addEventListener('click',()=>timer?stop():play());
 handTabs.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{selectedHand=button.dataset.hand;render();}));
+const requestedAngle=Number(thumbnailParams.get('angle'));
+if(angles.includes(requestedAngle)) angleInput.value=String(angles.indexOf(requestedAngle));
+if(['R','L'].includes(thumbnailParams.get('hand'))) selectedHand=thumbnailParams.get('hand');
+if(thumbnailParams.get('pitch')) selected=thumbnailParams.get('pitch');
 render();

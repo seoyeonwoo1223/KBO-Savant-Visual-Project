@@ -1,5 +1,6 @@
 const state = { catalog: null, payload: null };
 const $ = selector => document.querySelector(selector);
+const thumbnailParams = new URLSearchParams(location.search);
 const normalize = value => String(value || "").replace(/\s+/g, "").toLowerCase();
 const pct = (numerator, denominator) => denominator ? 100 * numerator / denominator : null;
 const fmt = value => value == null ? "—" : `${value.toFixed(1)}%`;
@@ -115,9 +116,18 @@ async function openPlayer(player, year, role, replaceUrl = true) {
   $("#pitch-type").innerHTML = `<option value="">전체 구종</option>${types.map(type => `<option>${type}</option>`).join("")}`;
   $("#pitcher-throws").value = "";
   $("#pitcher-throws").disabled = layout.pitcherThrows === null;
+  ["pitcherThrows", "pitchType", "countView", "balls", "strikes", "metric", "minimum"].forEach(name => {
+    const control = $("#" + name.replace(/[A-Z]/g, letter => "-" + letter.toLowerCase()));
+    if (control && thumbnailParams.has(name) && [...control.options].some(option => option.value === thumbnailParams.get(name))) control.value = thumbnailParams.get(name);
+  });
   if (replaceUrl) history.replaceState(null, "", `?player=${encodeURIComponent(player.id)}&year=${year}&role=${role}`);
   $("#matches").innerHTML = ""; $("#message").textContent = "";
   render();
+  const target = $("[data-thumbnail-target]");
+  if (target) {
+    $("#thumbnail-context").textContent = `${state.payload.player.name} · ${$("#metric").selectedOptions[0].textContent}`;
+    target.dataset.thumbnailReady = "true";
+  }
 }
 
 function search(event) {

@@ -7,6 +7,8 @@
   <title>Zone Awareness | KBO Savant</title>
   <link rel="stylesheet" href="zone-awareness.css?v=20260909-za7">
   <link rel="stylesheet" href="../theme.css?v=20260913-4">
+  <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
+  <style>html.thumbnail-mode .site-header,html.thumbnail-mode main>nav,html.thumbnail-mode .hero,html.thumbnail-mode .leaderboard-card,html.thumbnail-mode .player,html.thumbnail-mode .method{display:none}html.thumbnail-mode main{width:600px;margin:0;padding:0}html.thumbnail-mode .overview{display:block}html.thumbnail-mode [data-thumbnail-target]{width:600px;height:600px;overflow:hidden}html.thumbnail-mode .scatter-card .card-head{padding:16px 18px 10px}html.thumbnail-mode .scatter-card canvas{height:510px;aspect-ratio:auto}</style>
 </head>
 <body>
   <script src="../site-header.js?v=20260913-4"></script>
@@ -18,7 +20,7 @@
     </header>
 
     <section class="overview">
-      <article class="card scatter-card">
+      <article class="card scatter-card" data-thumbnail-target data-thumbnail-ready="false">
         <div class="card-head"><div><p class="eyebrow">LEAGUE MAP</p><h2>스윙 적극성 × 종합 판단 가치</h2></div><span class="legend"><i></i>높은 ZA <i></i>낮은 ZA</span></div>
         <div class="canvas-wrap"><canvas id="scatter" width="760" height="560" aria-label="Swing Aggression과 ZA 리그 산점도"></canvas><div class="tooltip" id="scatter-tip"></div></div>
       </article>
@@ -66,6 +68,6 @@
 
     <section class="method card"><p class="eyebrow">METHOD · 2024–2026</p><h2>읽는 법</h2><div><p><strong>ZA</strong>는 기대 스윙 대비 실제 선택과 스트라이크 확률로 계산한 순수 존 판단 지표입니다. <strong>DV</strong>는 실제 Swing·Take 선택의 기대득점 누적값이며, <strong>DV/100</strong>은 전체 100구당 환산값, <strong>DV+</strong>는 300구 이상 타자 평균 100·표준편차 15의 리그 상대 지표입니다. Percentile은 시즌 300구 이상 타자 내 ZA 상대 위치입니다.</p><p><strong>SA</strong>는 실제와 기대 스윙률의 차이로 성향만 나타냅니다.</p><p>ZA에는 타격 결과와 득점 가치가 사용되지 않습니다. DV의 반대 선택 결과는 리그 평균 실행 능력으로 추정합니다.</p></div><p id="season-method"></p></section>
   </main>
-  <script src="zone-awareness.js?v=20260909-za7"></script>
+  <script src="zone-awareness.js?v=20260913-za8"></script>
 </body>
 </html>

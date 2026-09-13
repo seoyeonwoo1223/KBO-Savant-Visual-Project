@@ -1,4 +1,5 @@
 const $ = (selector) => document.querySelector(selector);
+const thumbnailMode = new URLSearchParams(location.search).get("thumb") === "1";
 const state = { season: null, players: [], sort: "za_percentile", direction: -1, selected: null, profile: null, cell: null };
 const fields = ["swing_pct","expected_swing_pct","p_zone_pct","zone_judgment_pct","expected_zone_judgment_pct","za_raw","expected_swing_rv","expected_take_rv"];
 const fmt = (value, digits=1) => value == null || !Number.isFinite(+value) ? "—" : (+value).toFixed(digits);
@@ -7,7 +8,7 @@ const signClass = value => +value >= 0 ? "good" : "bad";
 
 function canvasContext(canvas) {
   const rect = canvas.getBoundingClientRect();
-  const width = Math.max(320, rect.width || canvas.width), height = width / (canvas.width / canvas.height);
+  const width = Math.max(320, rect.width || canvas.width), height = thumbnailMode && canvas.id === "scatter" ? (rect.height || width) : width / (canvas.width / canvas.height);
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   canvas.width = width * dpr; canvas.height = height * dpr;
   const ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
@@ -44,7 +45,9 @@ async function loadSeason(season) {
   renderLeaderboard(); drawScatter();
   const params=new URLSearchParams(location.search), requested=params.get("player");
   const player=state.players.find(p=>p.batter_id===requested) || [...state.players].sort((a,b)=>b.za_percentile-a.za_percentile)[0];
-  if(player) selectPlayer(player.batter_id, false);
+  if(player) await selectPlayer(player.batter_id, false);
+  const target = $("[data-thumbnail-target]");
+  if (target) target.dataset.thumbnailReady = "true";
 }
 
 function renderLeaderboard(){

@@ -1,4 +1,5 @@
 const $ = selector => document.querySelector(selector);
+const thumbnailParams = new URLSearchParams(location.search);
 const state = { catalog:null, payload:null, dataset:null, sortKey:null, direction:-1 };
 const labels = { batting:"타격 · 기본", "batting-advanced":"타격 · 확장", fielding:"수비", pitching:"투수 · 기본", "pitching-advanced":"투수 · 확장", "pitch-value":"투구 지표" };
 const warDatasets = new Set(["batting", "pitching"]);
@@ -57,7 +58,8 @@ function filteredRows() {
 
 function render() {
   const columns = state.dataset.columns.filter(column => column.key !== "Year" && !hiddenColumns[state.dataset.id]?.has(column.key));
-  const rows = filteredRows();
+  const limit = Number(thumbnailParams.get("limit"));
+  const rows = Number.isInteger(limit) && limit > 0 ? filteredRows().slice(0, limit) : filteredRows();
   const maximumWar = warDatasets.has(state.dataset.id)
     ? Math.max(1, ...state.dataset.rows.map(row => Math.abs(Number(row.WAR) || 0)))
     : 0;
@@ -66,6 +68,8 @@ function render() {
   $("#leaderboard-head").innerHTML = `<tr>${columns.map(column => `<th data-key="${column.key}" aria-sort="${state.sortKey===column.key ? (state.direction===1?"ascending":"descending") : "none"}"><button type="button">${column.label}</button></th>`).join("")}</tr>`;
   $("#leaderboard-body").innerHTML = rows.map(row => `<tr>${columns.map(column => cellMarkup(row, column, maximumWar)).join("")}</tr>`).join("");
   $("#status").textContent = rows.length ? "" : "조건에 맞는 선수가 없습니다.";
+  const target = $("[data-thumbnail-target]");
+  if (target) target.dataset.thumbnailReady = "true";
   $("#leaderboard-head").querySelectorAll("th").forEach(th => th.addEventListener("click", () => {
     const key=th.dataset.key;
     state.direction = state.sortKey===key ? state.direction*-1 : (state.dataset.rows.some(row => isNumber(row[key])) ? -1 : 1);
@@ -76,8 +80,9 @@ function render() {
 
 function selectDataset(id) {
   state.dataset = state.payload.datasets.find(item => item.id===id) || state.payload.datasets[0];
-  state.sortKey = state.dataset.columns.find(column => ["WAR","OAA","RK","rk"].includes(column.key))?.key || state.dataset.columns[0].key;
-  state.direction = state.sortKey.toLowerCase()==="rk" ? 1 : -1;
+  const requestedSort = thumbnailParams.get("sort");
+  state.sortKey = state.dataset.columns.find(column => column.key === requestedSort)?.key || state.dataset.columns.find(column => ["WAR","OAA","RK","rk"].includes(column.key))?.key || state.dataset.columns[0].key;
+  state.direction = thumbnailParams.get("direction") === "asc" ? 1 : state.sortKey.toLowerCase()==="rk" ? 1 : -1;
   const teams=[...new Set(state.dataset.rows.map(row => row.Team).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"ko"));
   $("#team-select").innerHTML=`<option value="">전체</option>${teams.map(team=>`<option>${team}</option>`).join("")}`;
   render();
@@ -93,13 +98,15 @@ async function loadSeason(season) {
     ? `${state.payload.as_of || season} 기준 · ${notes.join(" ")}`
     : "제공된 시즌별 KBO 통계 자료를 기준으로 표시합니다. 빈 값은 —로 표기합니다.";
   $("#dataset-select").innerHTML=state.payload.datasets.map(item=>`<option value="${item.id}">${labels[item.id]||item.title}</option>`).join("");
+  if (state.payload.datasets.some(item => item.id === thumbnailParams.get("dataset"))) $("#dataset-select").value = thumbnailParams.get("dataset");
   selectDataset($("#dataset-select").value);
 }
 
 fetch("../data/leaderboards/index.json").then(response=>response.json()).then(catalog=>{
   state.catalog=catalog;
   $("#season-select").innerHTML=catalog.seasons.map(season=>`<option>${season}</option>`).join("");
-  return loadSeason(catalog.seasons[0]);
+  if (catalog.seasons.includes(Number(thumbnailParams.get("season")))) $("#season-select").value = thumbnailParams.get("season");
+  return loadSeason($("#season-select").value);
 }).catch(()=>{$("#status").textContent="리더보드 데이터를 불러오지 못했습니다.";});
 
 $("#season-select").addEventListener("change", event=>loadSeason(event.target.value));

@@ -126,3 +126,19 @@ th:first-child, td:first-child { min-width: 108px; text-align: center; }
   .card { padding: 14px 11px 10px; }
   .table-card { margin-top: 10px; }
 }
+
+.thumbnail-context { display:none; }
+html.thumbnail-mode .site-header,
+html.thumbnail-mode main > nav,
+html.thumbnail-mode .page-header,
+html.thumbnail-mode .search-panel,
+html.thumbnail-mode .profile-banner,
+html.thumbnail-mode .velocity-card,
+html.thumbnail-mode .frequency-card,
+html.thumbnail-mode .table-card { display:none; }
+html.thumbnail-mode main { width:600px; max-width:none; padding:0; }
+html.thumbnail-mode .profile { margin:0; }
+html.thumbnail-mode .chart-grid { display:block; margin:0; }
+html.thumbnail-mode [data-thumbnail-target] { width:600px; height:600px; padding:12px; overflow:hidden; border-radius:0; box-shadow:none; }
+html.thumbnail-mode .thumbnail-context { display:block; margin:0 0 4px; color:#162a43; font-size:1rem; font-weight:800; text-align:center; }
+html.thumbnail-mode [data-thumbnail-target] svg { height:510px; max-height:none; }

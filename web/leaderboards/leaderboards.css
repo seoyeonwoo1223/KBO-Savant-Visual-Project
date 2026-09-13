@@ -42,3 +42,20 @@ td.null { color:#a2ada6; }
   .table-meta p { display:none; }
   th, td { padding:9px 10px; }
 }
+
+html.thumbnail-mode .site-header,
+html.thumbnail-mode .leaderboard-page > nav,
+html.thumbnail-mode .leaderboard-page > header,
+html.thumbnail-mode .controls,
+html.thumbnail-mode .source-note { display:none; }
+html.thumbnail-mode body { background:#f4f4f2; }
+html.thumbnail-mode .leaderboard-page { width:600px; padding:0; }
+html.thumbnail-mode [data-thumbnail-target] { width:600px; height:600px; border-radius:0; box-shadow:none; }
+html.thumbnail-mode [data-thumbnail-target] .table-meta { padding:18px 20px 14px; }
+html.thumbnail-mode [data-thumbnail-target] .table-meta p,
+html.thumbnail-mode [data-thumbnail-target] .status { display:none; }
+html.thumbnail-mode [data-thumbnail-target] .table-scroll { height:546px; max-height:none; overflow:hidden; }
+html.thumbnail-mode [data-thumbnail-target] th,
+html.thumbnail-mode [data-thumbnail-target] td { padding:18px 12px; }
+html.thumbnail-mode [data-thumbnail-target] th:nth-child(n+6),
+html.thumbnail-mode [data-thumbnail-target] td:nth-child(n+6) { display:none; }

@@ -1,0 +1,41 @@
+{
+  "stage": { "width": 600, "height": 600, "device_scale_factor": 2, "webp_quality": 88 },
+  "thumbnails": [
+    {
+      "id": "leaderboards",
+      "url": "/leaderboards/?thumb=1&season=2026&dataset=batting&sort=WAR&direction=desc&limit=8",
+      "selector": "[data-thumbnail-target]",
+      "output": "web/assets/thumbnails/leaderboards.webp"
+    },
+    {
+      "id": "zone-profile",
+      "url": "/zones/?thumb=1&year=2026&role=batter&player=53123&metric=swing&pitcherThrows=&pitchType=&countView=all",
+      "selector": "[data-thumbnail-target]",
+      "output": "web/assets/thumbnails/zone-profile.webp"
+    },
+    {
+      "id": "swing-take",
+      "url": "/swing-take/?thumb=1&year=2024&player=66108",
+      "selector": "[data-thumbnail-target]",
+      "output": "web/assets/thumbnails/swing-take.webp"
+    },
+    {
+      "id": "zone-awareness",
+      "url": "/zone-awareness/?thumb=1&year=2026",
+      "selector": "[data-thumbnail-target]",
+      "output": "web/assets/thumbnails/zone-awareness.webp"
+    },
+    {
+      "id": "pitch-plot",
+      "url": "/pitch-arsenal/?thumb=1&year=2026&player=68220",
+      "selector": "[data-thumbnail-target]",
+      "output": "web/assets/thumbnails/pitch-plot.webp"
+    },
+    {
+      "id": "movement-zones",
+      "url": "/movement-zones/?thumb=1&angle=45&hand=L&pitch=FF",
+      "selector": "[data-thumbnail-target]",
+      "output": "web/assets/thumbnails/movement-zones.webp"
+    }
+  ]
+}

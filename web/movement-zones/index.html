@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Arm Angle Movement Zones</title>
   <link rel="stylesheet" href="../theme.css?v=20260913-4">
-  <link rel="stylesheet" href="movement-zones.css?v=20260913-1">
+  <link rel="stylesheet" href="movement-zones.css?v=20260913-2">
+  <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
+  <style>html.thumbnail-mode .site-header,html.thumbnail-mode main>nav,html.thumbnail-mode main>header,html.thumbnail-mode .controls,html.thumbnail-mode .side-panel{display:none}html.thumbnail-mode main{width:600px;margin:0;padding:0}html.thumbnail-mode .workspace{display:block}html.thumbnail-mode [data-thumbnail-target]{display:flex;width:600px;height:600px;padding:12px;flex-direction:column;overflow:hidden}html.thumbnail-mode [data-thumbnail-target] .chart-heading{padding:2px 4px 5px}html.thumbnail-mode #movement-chart{flex:1;min-height:0;width:100%;height:auto}</style>
 </head>
 <body>
   <script src="../site-header.js?v=20260913-4"></script>
@@ -44,7 +46,7 @@
     </section>
 
     <section class="workspace">
-      <div class="chart-card">
+      <div class="chart-card" data-thumbnail-target data-thumbnail-ready="false">
         <div class="chart-heading">
           <div>
             <p class="eyebrow" id="chart-kicker">45° · RHP · 4-SEAM</p>
@@ -78,6 +80,6 @@
     </section>
 
   </main>
-  <script src="movement-zones.js?v=20260912-3"></script>
+  <script src="movement-zones.js?v=20260913-1"></script>
 </body>
 </html>

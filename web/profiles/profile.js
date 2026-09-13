@@ -138,6 +138,8 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
   const swingTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.swing.decision_run), 0);
   const takeTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.take.decision_run), 0);
   document.querySelector("#run-total").innerHTML = `<span>${formatSigned(swingTotal)} Swing Run</span><strong>${formatSigned(takeTotal)} Take Run</strong>`;
+  const target = document.querySelector("[data-thumbnail-target]");
+  if (target) target.dataset.thumbnailReady = "true";
 };
 
 async function exportProfileImage() {

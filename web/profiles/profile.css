@@ -202,3 +202,23 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 @media (max-width: 570px) {
   .profile-options .export-button { width: 100%; margin: 6px 0 0; }
 }
+
+html.thumbnail-mode .site-header,
+html.thumbnail-mode .back,
+html.thumbnail-mode .comparison-card,
+html.thumbnail-mode .method-note { display:none; }
+html.thumbnail-mode body { background:#f4f4f2; }
+html.thumbnail-mode main { width:600px; max-width:none; padding:0; }
+html.thumbnail-mode [data-thumbnail-target] { width:600px; height:600px; padding:20px; overflow:hidden; }
+html.thumbnail-mode .profile-header { padding-bottom:10px; }
+html.thumbnail-mode #profile-season { display:block; margin:0 0 6px; color:#59646f; font-size:.82rem; font-weight:700; }
+html.thumbnail-mode .profile-options { display:none; }
+html.thumbnail-mode .profile-card { margin-top:14px; padding:16px; }
+html.thumbnail-mode .score-line { padding-bottom:13px; }
+html.thumbnail-mode .profile-dashboard { display:block; padding-top:16px; }
+html.thumbnail-mode .regions-panel { display:none; }
+html.thumbnail-mode .zone-panel h2,
+html.thumbnail-mode .zone-key,
+html.thumbnail-mode .zone-note,
+html.thumbnail-mode .zone-guide { display:none; }
+html.thumbnail-mode .zone-visual { width:290px; }

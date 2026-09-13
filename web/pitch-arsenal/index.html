@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Pitch Plot</title>
-  <link rel="stylesheet" href="pitch-arsenal.css?v=20260913-3">
+  <link rel="stylesheet" href="pitch-arsenal.css?v=20260913-4">
   <link rel="stylesheet" href="../theme.css?v=20260913-4">
+  <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
 </head>
 <body>
   <script src="../site-header.js?v=20260913-4"></script>
@@ -57,7 +58,8 @@
           <svg id="velocity-chart" role="img" aria-label="구종별 구속 분포"></svg>
         </section>
 
-        <section class="card movement-card">
+        <section class="card movement-card" data-thumbnail-target data-thumbnail-ready="false">
+          <p id="thumbnail-context" class="thumbnail-context"></p>
           <div class="card-heading"><div><p>MOVEMENT</p><h3>무브먼트</h3></div><span id="movement-view-label">투수 시점 · in.</span></div>
           <svg id="movement-chart" viewBox="0 0 620 620" role="img" aria-labelledby="movement-title movement-desc">
             <title id="movement-title">구종별 수평 무브먼트와 IVB</title>
@@ -90,6 +92,6 @@
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="pitch-arsenal.js?v=20260913-3"></script>
+  <script src="pitch-arsenal.js?v=20260913-4"></script>
 </body>
 </html>
