@@ -181,7 +181,13 @@ def decision_value(swing, swing_value, take_value):
 
 **수용 기준**: 작업 대상 저장소·경로, 사용 가능한 시즌 목록, DV 정의의 현 상태가 한 문단으로 정리될 것.
 
-### Task 1 — DV 정의 확정
+### Task 1 — DV 정의 확정 — **완료 (`docs/ADR-001-DV-정의.md`)**
+
+> **결정: `DV_avg = (S − p)·Δ`.** 세 후보는 모두 `c·(S−p)Δ + g` 꼴이고 `g`는 타자의 선택에
+> 의존하지 않는 기회 항인데, `g = 0`인 것은 `DV_avg`뿐이다. 2026 실측(300구 이상 163명)에서
+> 선수 간 분산 중 기회 항 지분은 현행 `(2S−1)Δ` 43.0%, `DV_opt` 20.1%, `DV_avg` 0%.
+> `DV_avg`는 기존 `swing_aggression`·`za_raw`와 같은 `(S − p)` 잔차 계열이기도 하다.
+> **구현은 Task 2 이후** — 교체될 Δ 표면 위의 값을 웹에 배포하지 않기 위해서다.
 
 > C-6 기준 정정: 교체 여부의 문제가 아니다. 기대값 기반 DV는 **이미 `zone_decision.decision_value`로 존재하고 웹에 노출 중**이며, `decision_run`은 이미 별도 이름("Run Value" · `observed_decision_run`)으로 분리되어 있다. 남은 결정은 **현 DV(`(2S−1)·Δ` 원형)를 `DV_avg`/`DV_opt` 중 하나로 재정의할지**다.
 

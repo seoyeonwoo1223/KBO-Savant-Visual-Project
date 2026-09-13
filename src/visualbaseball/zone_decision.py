@@ -99,6 +99,12 @@ def reliable_halves(rows, events):
 
 
 def decision_value(swing, swing_value, take_value):
+ # Current form is (2S-1)*delta. ADR-001 (docs/ADR-001-DV-정의.md) fixes the
+ # baseline as the league-average policy, DV_avg = (S - p_swing) * delta, and
+ # the switch lands after the Task 2 delta surface, not here. Reason: all three
+ # candidates are c*(S-p)*delta + g with g independent of the batter's choice;
+ # only DV_avg has g = 0. On 2026, g carries 43% of the between-batter variance
+ # of this form and 0% of DV_avg's. Changing this also requires CONTRACT['raw_dv'].
  delta=np.asarray(swing_value)-np.asarray(take_value)
  return np.where(np.asarray(swing),delta,-delta)
 
