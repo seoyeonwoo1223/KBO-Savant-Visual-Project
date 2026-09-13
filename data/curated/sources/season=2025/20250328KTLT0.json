@@ -3,24 +3,21 @@
   "game_id": "20250328KTLT0",
   "season": 2025,
   "first_collected_at": "2026-09-09T16:09:39+00:00",
-  "last_collected_at": "2026-09-10T13:33:26+00:00",
-  "last_checked_at": "2026-09-10T13:33:26+00:00",
-  "raw_sha256": "21c801dae80a9ee2375e92f9ce08268e62a5b9085a0e852339aa1cc78365932d",
-  "pitch_sha256": "30d41d3375bc7c02a87abbccfee25b8cedbb933b247fc3fe116098d31681085e",
-  "schema_sha256": "a552d7d64b006e91c5f6a56487479084ed1f59c761f48e573f31f3c28d8403b3",
-  "revision": 3,
+  "last_collected_at": "2026-09-13T03:58:53+00:00",
+  "last_checked_at": "2026-09-13T03:58:53+00:00",
+  "raw_sha256": "0cb916151e53405c3e34c2badf69c1a244b4dc24847c13dbc2f433336fcce7bf",
+  "pitch_sha256": "c12d4a7937f0bff50761b57c4fa8980a53264a07d2e5dfed6e2a1676a7bb2498",
+  "schema_sha256": "dad05fd41a749a235bc04ddcc5ef0e9df07d0292d67cf442056250c4e5975e4c",
+  "revision": 4,
   "observed_y0": [
     50.0
   ],
-  "raw_pitch_count": null,
+  "raw_pitch_count": 271,
   "curated_pitch_count": 271,
   "parse_excluded": 0,
   "parse_exclusion_reasons": {},
   "provenance": {
-    "type": "legacy_excel_one_time_conversion",
-    "path": "exports/visualbaseball_savant_2025_latest.xlsx",
-    "source_sha256": "4b828be23517f75ffb17fb2b5ee632f4914f906e869189aabeab545a851d9591",
-    "raw_available": false,
-    "coordinate_assumption": "missing y0 in historical export; x0/z0 documented and treated as y=50 ft"
+    "type": "visualbaseball_json",
+    "path": "data/raw/2025/20250328KTLT0.json"
   }
 }

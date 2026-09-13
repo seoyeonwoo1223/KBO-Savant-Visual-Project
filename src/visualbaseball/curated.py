@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from contextlib import contextmanager
 from datetime import datetime, timezone
 from hashlib import sha256
 import json
@@ -266,12 +267,57 @@ def partition_index_path(root: Path) -> Path:
     return root / "data" / "curated" / "partition-index.json"
 
 
+_BATCH: dict | None = None
+
+
+@contextmanager
+def batch_writes(root: Path):
+    """Hold one month's partitions and the index in memory while many games are written.
+
+    `write_game` is the single writer and stays so, but on its own it re-reads and
+    rewrites the whole month Parquet plus the partition index once per game. That is
+    what a daily run wants (one game, atomic, crash-safe) and what a season rebuild
+    cannot afford: 720 games x 3 tables of full-partition rewrites.
+
+    Inside this context the reads are served from a cache and the writes are deferred,
+    so each partition is written once, at the end, through the same `_atomic_parquet`
+    and `table_digest` paths. Nothing is flushed if the block raises, which keeps a
+    failed rebuild from leaving a half-written month behind. Not reentrant, and not
+    safe to nest around concurrent writers.
+    """
+    global _BATCH
+    if _BATCH is not None:
+        raise RuntimeError("batch_writes is already active")
+    _BATCH = {"root": root, "months": {}, "index": None, "dirty": set()}
+    try:
+        yield
+        batch = _BATCH
+        for key in sorted(batch["dirty"]):
+            kind, season, month = key
+            _atomic_parquet(_monthly_path(root, kind, season, month), batch["months"][key], SCHEMAS[kind])
+        if batch["index"] is not None:
+            _atomic_json(partition_index_path(root), batch["index"])
+    finally:
+        _BATCH = None
+
+
 def _partition_index(root: Path) -> dict:
+    if _BATCH is not None and _BATCH["root"] == root:
+        if _BATCH["index"] is None:
+            _BATCH["index"] = _read_partition_index(root)
+        return _BATCH["index"]
+    return _read_partition_index(root)
+
+
+def _read_partition_index(root: Path) -> dict:
     path = partition_index_path(root)
     return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {"schema_version": 1, "layout": "game", "seasons": {}}
 
 
 def _write_partition_index(root: Path, index: dict) -> None:
+    if _BATCH is not None and _BATCH["root"] == root:
+        _BATCH["index"] = index
+        return
     _atomic_json(partition_index_path(root), index)
 
 
@@ -284,11 +330,29 @@ def _monthly_path(root: Path, kind: str, season: int, month: str) -> Path:
     return root / "data" / "curated" / kind / f"season={season}" / f"month={month}.parquet"
 
 
+def _monthly_rows(root: Path, kind: str, season: int, month: str) -> list[dict]:
+    key = (kind, int(season), str(month))
+    if _BATCH is not None and _BATCH["root"] == root:
+        if key not in _BATCH["months"]:
+            _BATCH["months"][key] = _read_monthly_rows(root, kind, season, month)
+        return _BATCH["months"][key]
+    return _read_monthly_rows(root, kind, season, month)
+
+
+def _read_monthly_rows(root: Path, kind: str, season: int, month: str) -> list[dict]:
+    path = _monthly_path(root, kind, season, month)
+    return pq.ParquetFile(path).read().to_pylist() if path.exists() else []
+
+
 def _replace_monthly_game(root: Path, kind: str, season: int, month: str, game_id: str,
                           rows: list[dict], schema: pa.Schema) -> None:
-    path = _monthly_path(root, kind, season, month)
-    old = pq.ParquetFile(path).read().to_pylist() if path.exists() else []
-    _atomic_parquet(path, [row for row in old if str(row.get("game_id")) != game_id] + rows, schema)
+    merged = [row for row in _monthly_rows(root, kind, season, month) if str(row.get("game_id")) != game_id] + rows
+    key = (kind, int(season), str(month))
+    if _BATCH is not None and _BATCH["root"] == root:
+        _BATCH["months"][key] = merged
+        _BATCH["dirty"].add(key)
+        return
+    _atomic_parquet(_monthly_path(root, kind, season, month), merged, schema)
 
 
 def _monthly_game_exists(root: Path, season: int, month: str, game_id: str) -> bool:
@@ -296,7 +360,12 @@ def _monthly_game_exists(root: Path, season: int, month: str, game_id: str) -> b
     for kind in SCHEMAS:
         path = _monthly_path(root, kind, season, month)
         if not path.is_file(): return False
-        if kind != "events" and game_id not in set(pq.ParquetFile(path).read(columns=["game_id"]).column("game_id").to_pylist()): return False
+        if kind == "events": continue
+        if _BATCH is not None and _BATCH["root"] == root and (kind, int(season), str(month)) in _BATCH["months"]:
+            present = {str(row.get("game_id")) for row in _BATCH["months"][(kind, int(season), str(month))]}
+        else:
+            present = set(pq.ParquetFile(path).read(columns=["game_id"]).column("game_id").to_pylist())
+        if game_id not in present: return False
     return True
 
 

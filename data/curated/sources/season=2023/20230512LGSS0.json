@@ -3,24 +3,21 @@
   "game_id": "20230512LGSS0",
   "season": 2023,
   "first_collected_at": "2026-09-09T16:18:06+00:00",
-  "last_collected_at": "2026-09-10T02:54:29+00:00",
-  "last_checked_at": "2026-09-10T13:18:35+00:00",
-  "raw_sha256": null,
-  "pitch_sha256": "95ade92b5367e513cb279051ddf324d62d1371a24ed70d7f1aec228b97d85e65",
-  "schema_sha256": "a552d7d64b006e91c5f6a56487479084ed1f59c761f48e573f31f3c28d8403b3",
-  "revision": 3,
+  "last_collected_at": "2026-09-13T03:52:29+00:00",
+  "last_checked_at": "2026-09-13T03:52:29+00:00",
+  "raw_sha256": "c9bbdce27979b79503aef55486cbedf4165f1d164337c3e492875e6af42c5272",
+  "pitch_sha256": "240aca61d66861fc72e1bdc91b24e15c1754f731b2715c0204aab31ec3103b70",
+  "schema_sha256": "dad05fd41a749a235bc04ddcc5ef0e9df07d0292d67cf442056250c4e5975e4c",
+  "revision": 4,
   "observed_y0": [
     50.0
   ],
-  "raw_pitch_count": null,
+  "raw_pitch_count": 259,
   "curated_pitch_count": 259,
   "parse_excluded": 0,
   "parse_exclusion_reasons": {},
   "provenance": {
-    "type": "legacy_excel_one_time_conversion",
-    "path": "exports/visualbaseball_savant_2023_latest.xlsx",
-    "source_sha256": "61b2f3cf86b26d11ab62ac4a6aebfbcf5a5ad29919497be963922dfb8f8a0930",
-    "raw_available": false,
-    "coordinate_assumption": "missing y0 in historical export; x0/z0 documented and treated as y=50 ft"
+    "type": "visualbaseball_json",
+    "path": "data/raw/2023/20230512LGSS0.json"
   }
 }
