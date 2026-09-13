@@ -61,9 +61,23 @@ th:first-child, td:first-child { text-align: left; }
 @media (max-width: 850px) { .dashboard { grid-template-columns: 1fr; } .summary { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 560px) {
   main { padding: 22px 12px 42px; }
-  #search-form { width: 100%; display: grid; grid-template-columns: 1fr auto; }
-  #search-form label { min-width: 0; }
-  #query { width: 100%; }
+  /* Pitch Plot과 같은 이유로 2열 격자를 씁니다 — 자식 셋이 2열에 흘러 버튼만
+     다음 줄로 밀리던 문제. */
+  .search-panel { display: grid; grid-template-columns: 1fr 1fr; align-items: end; }
+  .search-panel > label select { width: 100%; }
+  #search-form {
+    grid-column: 1 / -1;
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "name name" "query submit";
+    gap: 5px 8px;
+  }
+  #search-form > label { grid-area: name; min-width: 0; }
+  #query { grid-area: query; width: 100%; }
+  #search-form button[type="submit"] { grid-area: submit; padding: 0 20px; }
+  .matches, .message { grid-column: 1 / -1; }
+  .matches:empty { display: none; }
   .profile-title { display: block; }
   #profile-meta { margin-top: 8px; }
   .filters label { width: calc(50% - 4px); }
