@@ -36,7 +36,7 @@
     `<header class="site-header">
       <div class="site-header__inner">
         <a class="site-brand" href="${root.href}">
-          <img src="${new URL("assets/image-Photoroom.png", root).href}" alt="">
+          <img src="${new URL("assets/image-Photoroom.png?v=20260913-4", root).href}" alt="">
           <span class="site-brand__word">KBO <span>Savant</span></span>
         </a>
         <nav class="site-nav" aria-label="도구">${links}</nav>
