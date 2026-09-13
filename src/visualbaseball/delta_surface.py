@@ -33,8 +33,12 @@ ABS_ZONE = {"half_ft": 0.890, "pad_top_ft": 0.12, "pad_bottom_ft": 0.08}
 
 SWING_CALLS = {"S": "whiff", "F": "foul"}
 HIT_SUFFIX = {"안": "single", "이": "double", "삼": "triple"}
-OUT_SUFFIX = {"병": "double_play", "희": "sacrifice", "실": "reach_on_error"}
-RESULTS = ("whiff", "foul", "out", "double_play", "sacrifice", "reach_on_error",
+# A double play and a sacrifice are the same batted ball as an out; only the
+# base-out state decides which label it gets, so folding them into "out" keeps
+# the result classes state-free and leaves the state to the value table, where
+# RV(out, bases, outs) already prices the double-play risk.
+OUT_SUFFIX = {"실": "reach_on_error"}
+RESULTS = ("whiff", "foul", "out", "reach_on_error",
            "single", "double", "triple", "hr", "other")
 
 MIN_VALUE_CELL = 25          # empirical result-value table: minimum rows per key
@@ -443,6 +447,7 @@ def premise_check(rows, re288, table):
         if a is not None and b is not None:
             differences.append(b - a)
     differences = np.array(differences)
+    null = _premise_null(rows, re288, table, usable)
     return {
         "stratified_tests": tests,
         "usable_strata": len(usable),
@@ -451,8 +456,44 @@ def premise_check(rows, re288, table):
             "mean_signed": round(float(100 * differences.mean()), 4) if differences.size else None,
             "mean_absolute": round(float(100 * np.abs(differences).mean()), 4) if differences.size else None,
             "p95_absolute": round(float(100 * np.percentile(np.abs(differences), 95)), 4) if differences.size else None,
+            "mean_absolute_permutation_null": null,
+            "note": "mean_absolute is inflated by sampling noise in the per-stratum mix; "
+                    "the excess over the permutation null is the part attributable to the state",
         },
     }
+
+
+def _premise_null(rows, re288, table, usable, draws=20, seed=0):
+    """Same statistic with the runner label shuffled inside each stratum."""
+    generator = np.random.default_rng(seed)
+    members = defaultdict(list)
+    for row in rows:
+        key = (row["_before"][2], row["_before"][3], *_cell(row["_x"], row["_z"]))
+        if row["_result"] is not None and key in usable:
+            members[key].append(row)
+    values = []
+    for _ in range(draws):
+        total = []
+        for key, group in members.items():
+            occupied = np.array([row["_before"][0] > 0 for row in group])
+            shuffled = generator.permutation(occupied)
+            left, right = Counter(), Counter()
+            for row, flag in zip(group, shuffled):
+                (right if flag else left)[row["_result"]] += 1
+            pooled = left + right
+            pooled_total = sum(pooled.values())
+            for row, flag in zip(group, shuffled):
+                own = right if flag else left
+                own_total = sum(own.values())
+                if not own_total:
+                    continue
+                a = swing_value(table, re288, row["_before"], {k: v / pooled_total for k, v in pooled.items()})
+                b = swing_value(table, re288, row["_before"], {k: v / own_total for k, v in own.items()})
+                if a is not None and b is not None:
+                    total.append(abs(b - a))
+        if total:
+            values.append(100 * float(np.mean(total)))
+    return round(float(np.mean(values)), 4) if values else None
 
 
 # --- map ---------------------------------------------------------------------
