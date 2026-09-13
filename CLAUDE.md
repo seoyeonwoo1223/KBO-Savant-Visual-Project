@@ -51,7 +51,7 @@ python -m visualbaseball.cli --collection-mode sample --auto-reconcile
 python -m visualbaseball.cli --collection-mode reconcile --refresh-workers 3
 python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 20260328KTLG0
 python -m visualbaseball.cli --exports-only                     # 수집 없이 curated에서 산출물만 재생성
-python -m visualbaseball.cli --season 2025 --storage-root seasons/2025   # 과거 시즌
+python -m visualbaseball.cli --season 2025                # 과거 시즌
 python -m visualbaseball.build_curated --season 2026 --validate
 python -m visualbaseball.compact_curated --season 2026   # game shard → 월별 partition (일회성)
 python -m visualbaseball.dataset_summary                 # summary.json 갱신
@@ -96,11 +96,10 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 
 | 시즌 | 레이아웃 | raw 복구 경로 |
 |---|---|---|
-| 2026 | month (21 partition) | `data/raw/2026` |
-| 2025 | month (24 partition) | `seasons/2025` |
-| 2022–2024 | **game shard** (각 2,160개) | **없음** |
+| 2026 | month | `data/raw/2026` |
+| 2022–2025 | month | `data/raw/<season>` |
 
-2022–2024는 raw JSON이 전무해서 curated가 유일한 사본입니다. 유일한 복구 경로가 git 이력이므로, 이력 재작성(`filter-repo`) 계획이 있으면 그 전에 compact하지 마십시오.
+2022–2025 raw JSON은 나중에 다시 받아 채워 넣은 것이라, 이제 모든 시즌이 `data/raw/<season>`에서 재빌드됩니다(`scripts/rebuild_season_from_raw.py`). `seasons/2025`에는 legacy `processed/`와 manifest만 남아 있고 raw 사본은 없습니다.
 
 `index["layout"]`은 **저장소 전역 키라 시즌 판정에 쓸 수 없습니다.** `write_game()`이 레이아웃과 무관하게 모든 게임을 index에 기록하므로 index 항목 유무도 근거가 못 됩니다. 판정은 `curated._season_is_compact()` 하나만 쓰십시오 — 디스크에 `month=*.parquet`이 실제로 있는지로 답합니다. 실패한 마이그레이션은 월 파일을 남기면서 index는 `game`으로 두므로, 전역 플래그가 그 조합을 game으로 되돌리는 역할을 합니다.
 
@@ -110,7 +109,7 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 - **`pq.ParquetFile()` open 성공과 schema 일치는 무결성 증거가 아닙니다.** footer만 읽기 때문에 데이터 페이지가 깨진 파일도 통과합니다. 파일을 지우기 전 검증은 반드시 전체 read-back + digest 대조(`compact_curated.verify_partitions()`)여야 합니다.
 - game layout 읽기는 `month=*.parquet`을 무시합니다. 실패한 마이그레이션이 남긴 월 파일과 legacy shard를 함께 읽으면 행이 조용히 두 배가 됩니다.
 - 손상·누락 partition은 fail-closed입니다. 부분 데이터를 반환하지 않고 `FileNotFoundError`를 냅니다.
-- **2022–2024는 raw JSON이 없습니다.** 이 시즌의 curated를 잃으면 복구 경로가 없습니다. 삭제를 수반하는 작업은 특히 보수적으로 다루십시오.
+- **모든 시즌이 `data/raw/<season>`에서 재빌드됩니다.** 2022–2025 raw JSON을 나중에 다시 받아 채워 넣어서, curated가 유일한 사본이던 상태는 해소되었습니다. 그래도 재빌드는 공짜가 아니니 삭제를 수반하는 작업은 read-back + digest 대조를 먼저 통과시키십시오.
 
 ### 데이터를 싸게 읽는 법 (에이전트용)
 
