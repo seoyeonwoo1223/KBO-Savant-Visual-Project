@@ -114,23 +114,26 @@ async function handleSearch(event) {
     return;
   }
   const found = filteredPlayers();
-  const exact = found.find(player => normalize(player.name) === normalize(queryInput.value));
-  if (exact || found.length === 1) {
+  // 동명이인(예: 2026년 화이트 2명)은 자동 선택하지 않고 팀까지 붙여 후보로 내놓습니다.
+  const exact = found.filter(player => normalize(player.name) === normalize(queryInput.value));
+  if (exact.length === 1 || (!exact.length && found.length === 1)) {
     message.textContent = "선수 정보를 불러오는 중입니다.";
     try {
-      await openPlayer((exact || found[0]).id);
+      await openPlayer((exact[0] || found[0]).id);
       message.textContent = "";
     } catch {
       message.textContent = "선수 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.";
     }
     return;
   }
-  matches.innerHTML = found.slice(0, 12).map(player => `<button type="button" data-id="${escapeHtml(player.id)}">${escapeHtml(player.name)} · ${player.throws || "?"}HP</button>`).join("");
+  const candidates = exact.length > 1 ? exact : found;
+  matches.innerHTML = candidates.slice(0, 12).map(player => `<button type="button" data-id="${escapeHtml(player.id)}">${escapeHtml(player.name)}${player.team ? ` · ${escapeHtml(player.team)}` : ""} · ${player.throws || "?"}HP</button>`).join("");
   matches.querySelectorAll("button").forEach(button => button.addEventListener("click", async () => {
     await openPlayer(button.dataset.id);
     message.textContent = "";
   }));
-  message.textContent = found.length ? `검색 결과 ${found.length}명${found.length > 12 ? " · 상위 12명 표시" : ""}` : "조건에 맞는 투수를 찾지 못했습니다.";
+  if (exact.length > 1) message.textContent = `동명이인 ${exact.length}명 · 선수를 선택해 주세요.`;
+  else message.textContent = found.length ? `검색 결과 ${found.length}명${found.length > 12 ? " · 상위 12명 표시" : ""}` : "조건에 맞는 투수를 찾지 못했습니다.";
 }
 
 function renderProfile() {
@@ -168,14 +171,19 @@ function renderVelocity() {
   }
   // Isolated tracking errors must not stretch the shared axis or draw outside the card.
   // Central-75% bounds retain the meaningful shape while five km/h padding keeps tails visible.
-  const minValue = Math.floor(Math.min(...pitches.map(pitch => pitch.velocity_kmh.low_75 - 5)) / 5) * 5;
-  const maxValue = Math.ceil(Math.max(...pitches.map(pitch => pitch.velocity_kmh.high_75 + 5)) / 5) * 5;
+  const minValue = Math.floor(Math.min(...pitches.map(pitch => pitch.velocity_kmh.low_75 - 5)) / 10) * 10;
+  const maxValue = Math.ceil(Math.max(...pitches.map(pitch => pitch.velocity_kmh.high_75 + 5)) / 10) * 10;
   const bounds = {left: 61, right: 405, top: 22, bottom: height - 34};
   const rowHeight = (bounds.bottom - bounds.top) / pitches.length;
   const amplitude = rowHeight * .68;
   const x = value => bounds.left + (value - minValue) / Math.max(1, maxValue - minValue) * (bounds.right - bounds.left);
-  for (let value = minValue; value <= maxValue; value += 5) {
-    svg.append(svgElement("line", {x1: x(value), x2: x(value), y1: bounds.top, y2: bounds.bottom, class: "chart-grid-line"}));
+  // 세로 점선은 10 km/h 간격으로 행 안쪽에만 긋습니다. 행 구분선(가로)과 맞닿지 않도록 위아래를 띄웁니다.
+  const tickGap = 5;
+  for (let value = minValue; value <= maxValue; value += 10) {
+    for (let index = 0; index < pitches.length; index += 1) {
+      const rowTop = bounds.top + index * rowHeight;
+      svg.append(svgElement("line", {x1: x(value), x2: x(value), y1: rowTop + tickGap, y2: rowTop + rowHeight - tickGap, class: "chart-tick-line"}));
+    }
     svgText(svg, String(value), {x: x(value), y: height - 14, "text-anchor": "middle", class: "chart-axis-text"});
   }
   pitches.forEach((pitch, index) => {
@@ -194,8 +202,7 @@ function renderVelocity() {
     }
     const averageX = x(pitch.velocity_kmh.average);
     svg.append(svgElement("line", {x1: averageX, x2: averageX, y1: baseline - amplitude - 3, y2: baseline + 2, stroke: pitch.color, class: "velocity-average"}));
-    svgText(svg, pitch.name, {x: bounds.left / 2, y: bounds.top + (index + .5) * rowHeight - 3, "text-anchor": "middle", style: `fill:${pitch.color}`, class: "chart-row-label"});
-    svgText(svg, `${fmt(pitch.velocity_kmh.average)} km/h`, {x: bounds.left / 2, y: bounds.top + (index + .5) * rowHeight + 14, "text-anchor": "middle", class: "chart-row-sub"});
+    svgText(svg, pitch.name, {x: bounds.left / 2, y: bounds.top + (index + .5) * rowHeight + 5, "text-anchor": "middle", style: `fill:${pitch.color}`, class: "chart-row-label"});
     if (index < pitches.length - 1) svg.append(svgElement("line", {x1: bounds.left, x2: bounds.right, y1: bounds.top + (index + 1) * rowHeight, y2: bounds.top + (index + 1) * rowHeight, class: "chart-grid-line"}));
   });
 }

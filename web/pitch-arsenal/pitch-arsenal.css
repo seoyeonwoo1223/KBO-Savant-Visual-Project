@@ -64,6 +64,7 @@ h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.6rem); letter-spacing: -.045em;
 .movement-card svg { max-height: 560px; }
 
 .chart-grid-line { stroke: #dfe6ee; stroke-width: 1; }
+.chart-tick-line { stroke: #dfe6ee; stroke-width: 1; stroke-dasharray: 3 4; }
 .chart-zero-line { stroke: #9eabba; stroke-width: 1.25; }
 .chart-border { fill: none; stroke: #d0dae4; stroke-width: 1; }
 .chart-axis-text { fill: #69788b; font-size: 14px; }
