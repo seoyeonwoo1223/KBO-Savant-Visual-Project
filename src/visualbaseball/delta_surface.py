@@ -517,9 +517,10 @@ def write_support_map(grid, path: Path, cells=21):
             share = entry["extrapolated"] / entry["pitches"]
             draw.rectangle(box, fill=(int(255 - 60 * (1 - share)), int(60 + 175 * (1 - share)),
                                       int(70 + 120 * (1 - share))), outline=(255, 255, 255))
-    edge = 1 / GRID_STEP
-    zone = [margin + (cells // 2 - edge + 0.5) * size, margin + (cells // 2 - edge + 0.5) * size,
-            margin + (cells // 2 + edge + 0.5) * size, margin + (cells // 2 + edge + 0.5) * size]
+    # The zone edge sits on the outer boundary of the cells centred at +/-1.
+    edge = 1 / GRID_STEP + 0.5
+    zone = [margin + (cells // 2 - edge) * size, margin + (cells // 2 - edge) * size,
+            margin + (cells // 2 + edge + 1) * size, margin + (cells // 2 + edge + 1) * size]
     draw.rectangle(zone, outline=(0, 0, 0), width=2)
     draw.text((margin, 12), "extrapolated share (red = extrapolated, green = supported)", fill=(0, 0, 0))
     draw.text((margin, height - 26), "catcher view; box = rule-book zone; grey = no pitches", fill=(90, 90, 90))

@@ -1,0 +1,152 @@
+{
+  "season": 2024,
+  "pitches": 222225,
+  "excluded": {
+    "state_or_location": 858,
+    "unclassified_call": 133
+  },
+  "undefined_delta": {},
+  "abs_decision_function": {
+    "half_ft": 0.89,
+    "pad_top_ft": 0.12,
+    "pad_bottom_ft": 0.08,
+    "judge_plane_ft": 0.70833,
+    "takes": 121112,
+    "agreement": 0.99241,
+    "rule_strike_called_ball": 705,
+    "rule_ball_called_strike": 214
+  },
+  "result_surface": {
+    "penalty": 1.0,
+    "cv_log_loss": {
+      "0.03": 1.38808813509718,
+      "0.1": 1.3841972004903504,
+      "0.3": 1.3829150810644404,
+      "1.0": 1.3826827884814872,
+      "3.0": 1.383225823810175
+    },
+    "classes": [
+      "double",
+      "foul",
+      "hr",
+      "other",
+      "out",
+      "reach_on_error",
+      "single",
+      "triple",
+      "whiff"
+    ],
+    "swings": 101113
+  },
+  "result_mix": {
+    "out": 25855,
+    "foul": 39156,
+    "single": 9837,
+    "whiff": 21731,
+    "double": 2369,
+    "reach_on_error": 502,
+    "hr": 1434,
+    "triple": 228,
+    "other": 1
+  },
+  "result_value_table": {
+    "keys": 216,
+    "by_level": {
+      "bases_outs": 127,
+      "outs": 65,
+      "class": 24
+    }
+  },
+  "delta": {
+    "pitches": 222225,
+    "mean": -0.029503,
+    "sd": 0.19817,
+    "quantiles": {
+      "1": -0.659463,
+      "5": -0.326654,
+      "25": -0.1138,
+      "50": -0.007266,
+      "75": 0.056678,
+      "95": 0.257598,
+      "99": 0.516715
+    },
+    "swing_favoured_share": 0.49226
+  },
+  "support": {
+    "minimum_swings": 25,
+    "extrapolated_pitches": 4335,
+    "extrapolated_share": 0.01951,
+    "extrapolated_delta_mean": -0.192693,
+    "region_shares": {
+      "Chase": {
+        "pitches": 52451,
+        "extrapolated": 152,
+        "share": 0.0029
+      },
+      "Heart": {
+        "pitches": 52955,
+        "extrapolated": 0,
+        "share": 0.0
+      },
+      "Shadow": {
+        "pitches": 89730,
+        "extrapolated": 0,
+        "share": 0.0
+      },
+      "Waste": {
+        "pitches": 27089,
+        "extrapolated": 4183,
+        "share": 0.15442
+      }
+    }
+  },
+  "premise_base_out_independence": {
+    "stratified_tests": {
+      "whiff": {
+        "z": -0.051,
+        "pitches": 36874
+      },
+      "foul": {
+        "z": -2.179,
+        "pitches": 36874
+      },
+      "out": {
+        "z": 2.41,
+        "pitches": 36874
+      },
+      "reach_on_error": {
+        "z": -3.217,
+        "pitches": 36874
+      },
+      "single": {
+        "z": 0.043,
+        "pitches": 36874
+      },
+      "double": {
+        "z": 2.012,
+        "pitches": 36874
+      },
+      "triple": {
+        "z": -1.048,
+        "pitches": 36874
+      },
+      "hr": {
+        "z": -0.662,
+        "pitches": 36874
+      }
+    },
+    "usable_strata": 240,
+    "priced_swings": 36874,
+    "runs_per_100_swings": {
+      "mean_signed": -0.0244,
+      "mean_absolute": 2.4172,
+      "p95_absolute": 6.7762,
+      "mean_absolute_permutation_null": 2.2891,
+      "note": "mean_absolute is inflated by sampling noise in the per-stratum mix; the excess over the permutation null is the part attributable to the state"
+    }
+  },
+  "re288": {
+    "observed_states": 288,
+    "min_state_pitches": 2
+  }
+}
