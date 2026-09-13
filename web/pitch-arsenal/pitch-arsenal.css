@@ -112,8 +112,24 @@ th:first-child, td:first-child { min-width: 108px; text-align: center; }
 }
 @media (max-width: 760px) {
   main { padding: 20px 11px 42px; }
-  #search-form { width: 100%; display: grid; grid-template-columns: 1fr auto; }
-  #query { width: 100%; }
+  /* 검색 패널을 2열 격자로 맞춰 좌우 대칭을 유지합니다. 기본 flex 배치에서는 form의
+     자식 셋(라벨·입력·버튼)이 2열에 흘러 버튼만 다음 줄로 밀리고, 라벨이 입력 왼쪽에
+     붙어 다른 컨트롤(라벨이 위에 오는)과 어긋나 보였습니다. */
+  .search-panel { display: grid; grid-template-columns: 1fr 1fr; align-items: end; }
+  .search-panel > label select { width: 100%; }
+  #search-form {
+    grid-column: 1 / -1;
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "name name" "query submit";
+    gap: 4px 8px;
+  }
+  #search-form > label { grid-area: name; }
+  #query { grid-area: query; width: 100%; }
+  #search-form button[type="submit"] { grid-area: submit; padding: 0 20px; }
+  .matches, .message { grid-column: 1 / -1; }
+  .matches:empty { display: none; }
   .profile-banner { display: block; padding: 23px 20px; }
   .toolbar { display: grid; grid-template-columns: 1fr 1fr; width: 100%; margin-top: 22px; align-items: end; }
   .toolbar > label:first-child, .segmented-control { min-width: 0; }
