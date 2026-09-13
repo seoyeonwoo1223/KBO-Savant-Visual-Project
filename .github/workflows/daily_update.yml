@@ -3,12 +3,11 @@ name: Daily Visual Baseball update
 on:
   push:
     branches: [master]
+    # 산출물을 바꿀 수 있는 입력만 둡니다. web/**는 출력물이고 어떤 코드도 입력으로
+    # 읽지 않으므로(docs/curated-data.md의 핵심 계약) 뷰 수정은 여기 걸리지 않습니다.
     paths:
       - "src/visualbaseball/**"
       - "data/park_adjustments/**"
-      - "web/profiles/**"
-      - "web/zones/**"
-      - "web/pitch-arsenal/**"
       - "requirements.txt"
       - "constraints-za.txt"
       - ".github/workflows/daily_update.yml"
@@ -48,9 +47,14 @@ jobs:
       - run: node tests/test_pitch_arsenal_layout.cjs
       - run: python scripts/check_metric_state.py
       - name: Update Visual Baseball data
+        # 새 경기 수집은 명시적으로 의도한 실행에서만 합니다 — 스케줄, 수동 실행,
+        # refresh-completed-request 커밋. 코드 push는 이미 있는 curated 데이터에서
+        # 산출물만 다시 만듭니다(네트워크 없음).
         run: |
           if [ -f .github/refresh-completed-request ]; then
             python -m visualbaseball.cli --refresh-completed --refresh-workers 3
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            python -m visualbaseball.cli --exports-only
           else
             python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
           fi

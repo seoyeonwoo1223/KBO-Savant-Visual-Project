@@ -43,6 +43,11 @@ def _counts(directory: Path, pattern: str = "*") -> int:
     return sum(1 for path in directory.glob(pattern) if path.is_file()) if directory.is_dir() else 0
 
 
+def _summary_content(summary: dict) -> dict:
+    """생성 시각을 뺀 요약 본문. 두 번 만든 요약이 같은 내용인지 비교할 때 씁니다."""
+    return {key: value for key, value in summary.items() if key != "generated_at"}
+
+
 def build_summary(root: Path) -> Path:
     root = Path(root).resolve()
     index_path = root / "data" / "curated" / "partition-index.json"
@@ -97,6 +102,10 @@ def build_summary(root: Path) -> Path:
         },
     }
     path = root.joinpath(*SUMMARY_PATH)
+    # generated_at만 매번 바뀌면 내용이 같은 요약도 매 실행마다 파일이 달라집니다.
+    # curated 매니페스트의 last_checked_at과 같은 이유로, 나머지가 같으면 이전 시각을 유지합니다.
+    if path.exists() and _summary_content(json.loads(path.read_text(encoding="utf-8"))) == _summary_content(summary):
+        return path
     _atomic_json(path, summary)
     return path
 

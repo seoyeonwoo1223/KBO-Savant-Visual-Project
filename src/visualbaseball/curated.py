@@ -341,6 +341,11 @@ def source_manifest_path(root: Path, season: int, game_id: str) -> Path:
     return root / "data" / "curated" / "sources" / f"season={season}" / f"{game_id}.json"
 
 
+def _manifest_content(manifest: dict) -> dict:
+    """조회 시각을 뺀 매니페스트 본문. 두 수집 결과가 같은 내용인지 비교할 때 씁니다."""
+    return {key: value for key, value in manifest.items() if key != "last_checked_at"}
+
+
 def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], *,
                raw_payload: dict | None = None, provenance: dict | None = None,
                force: bool = False) -> dict:
@@ -389,7 +394,7 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
         "season": season,
         "first_collected_at": previous.get("first_collected_at") or now,
         "last_collected_at": now if changed else previous.get("last_collected_at", now),
-        "last_checked_at": now,
+        "last_checked_at": now,  # 아래에서 매니페스트가 실제로 달라졌을 때만 유지됩니다.
         "raw_sha256": raw_digest if raw_digest is not None else previous.get("raw_sha256"),
         "pitch_sha256": digest,
         "schema_sha256": schema_digest,
@@ -401,7 +406,14 @@ def write_game(root: Path, game: dict, events: list[dict], pitches: list[dict], 
         "parse_exclusion_reasons": exclusion_reasons,
         "provenance": provenance or previous.get("provenance") or {"type": "visualbaseball_json"},
     }
-    _atomic_json(manifest_path, manifest)
+    # 매니페스트는 '무엇이 수집되어 있는가'의 기록이지 '언제 조회했는가'의 로그가 아닙니다.
+    # last_checked_at만 매번 now로 쓰면 아무것도 달라지지 않은 재수집도 파일을 바꿔 놓아,
+    # 옆의 last_collected_at·revision·raw_sha256이 지키는 "바뀐 경우에만 기록" 규칙이 깨지고
+    # 워크플로에는 내용이 같은 커밋이 쌓입니다. 나머지가 모두 같으면 이전 시각을 그대로 둡니다.
+    if previous and _manifest_content(previous) == _manifest_content(manifest):
+        manifest["last_checked_at"] = previous.get("last_checked_at", manifest["last_checked_at"])
+    else:
+        _atomic_json(manifest_path, manifest)
     games = index.setdefault("seasons", {}).setdefault(str(season), {}).setdefault("games", {})
     games[game_id] = {"game_date": game.get("game_date"), "month": _month(game), "revision": manifest["revision"],
                       "tables": {"games": table_digest([game], GAME_SCHEMA), "events": table_digest(events, EVENT_SCHEMA),
