@@ -32,12 +32,20 @@ JUDGE_PLANE_FT = PLATE_DEPTH_FT / 2
 ABS_ZONE = {"half_ft": 0.890, "pad_top_ft": 0.12, "pad_bottom_ft": 0.08}
 
 SWING_CALLS = {"S": "whiff", "F": "foul"}
-HIT_SUFFIX = {"안": "single", "이": "double", "삼": "triple"}
 # A double play and a sacrifice are the same batted ball as an out; only the
 # base-out state decides which label it gets, so folding them into "out" keeps
 # the result classes state-free and leaves the state to the value table, where
 # RV(out, bases, outs) already prices the double-play risk.
-OUT_SUFFIX = {"실": "reach_on_error"}
+#
+# The class comes from the last character of pa_result, not from pa_type: 2024
+# carries no pa_type at all, and reading pa_type there silently classifies every
+# batted ball as "other". The mapping below reproduces pa_type exactly on 2025
+# and 2026, where both fields are present (each suffix maps to one pa_type).
+RESULT_SUFFIX = {
+    "안": "single", "이": "double", "삼": "triple", "홈": "hr", "실": "reach_on_error",
+    "비": "out", "땅": "out", "선": "out", "파": "out", "병": "out", "라": "out",
+    "희": "out", "F": "out", "O": "out", "": "out",
+}
 RESULTS = ("whiff", "foul", "out", "reach_on_error",
            "single", "double", "triple", "hr", "other")
 
@@ -100,15 +108,7 @@ def result_class(row):
         return SWING_CALLS[code]
     if code != "X":
         return None
-    kind = str(row.get("pa_type") or "").lower()
-    suffix = str(row.get("pa_result") or "")[-1:]
-    if kind == "hr":
-        return "hr"
-    if kind == "hit":
-        return HIT_SUFFIX.get(suffix, "other")
-    if kind == "out":
-        return OUT_SUFFIX.get(suffix, "out")
-    return "other"
+    return RESULT_SUFFIX.get(str(row.get("pa_result") or "")[-1:], "other")
 
 
 # --- state transitions -------------------------------------------------------
@@ -568,6 +568,7 @@ def build_season(root: Path, season: int, write_map=True):
                                   **abs_call_agreement(rows)},
         "result_surface": {"penalty": surface["penalty"], "cv_log_loss": surface["cv_log_loss"],
                            "classes": surface["classes"], "swings": surface["swings"]},
+        "result_mix": dict(Counter(row["_result"] for row in rows if row["_result"] is not None)),
         "result_value_table": {
             "keys": len(table),
             "by_level": dict(Counter(level for _, level in value_support.values())),
