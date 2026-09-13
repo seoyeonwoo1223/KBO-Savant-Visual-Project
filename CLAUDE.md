@@ -109,7 +109,7 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 - **`pq.ParquetFile()` open 성공과 schema 일치는 무결성 증거가 아닙니다.** footer만 읽기 때문에 데이터 페이지가 깨진 파일도 통과합니다. 파일을 지우기 전 검증은 반드시 전체 read-back + digest 대조(`compact_curated.verify_partitions()`)여야 합니다.
 - game layout 읽기는 `month=*.parquet`을 무시합니다. 실패한 마이그레이션이 남긴 월 파일과 legacy shard를 함께 읽으면 행이 조용히 두 배가 됩니다.
 - 손상·누락 partition은 fail-closed입니다. 부분 데이터를 반환하지 않고 `FileNotFoundError`를 냅니다.
-- **2022–2024는 raw JSON이 없습니다.** 이 시즌의 curated를 잃으면 복구 경로가 없습니다. 삭제를 수반하는 작업은 특히 보수적으로 다루십시오.
+- **모든 시즌이 `data/raw/<season>`에서 재빌드됩니다.** 2022–2025 raw JSON을 나중에 다시 받아 채워 넣어서, curated가 유일한 사본이던 상태는 해소되었습니다. 그래도 재빌드는 공짜가 아니니 삭제를 수반하는 작업은 read-back + digest 대조를 먼저 통과시키십시오.
 
 ### 데이터를 싸게 읽는 법 (에이전트용)
 

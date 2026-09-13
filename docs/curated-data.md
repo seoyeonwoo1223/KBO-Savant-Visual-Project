@@ -25,7 +25,7 @@ Raw `relH` remains `release_height_cm`; raw `y0` remains `y0` and is also expose
 
 `trajectory_status=valid` requires complete finite trajectory fields, y0 of 50 or 55 ft, and real 50/55 ft solutions within one second. Missing, unsolved, and unexpected-y0 rows remain in curated data with null derived values. Dataset-level acceptance is median absolute plate error below 1 cm and p95 below 2 cm on each axis; this does not delete an individual pitch.
 
-The 2022-2024 workbooks have no retained raw JSON or y0 column. Their one-time migration records `legacy_excel_one_time_conversion`, the workbook hash, `raw_available=false`, and the documented assumption that historical x0/z0 is the 50 ft plane. This provenance is not presented as a raw hash.
+The 2022-2024 curated tables were first built from workbooks with no y0 column; raw JSON for those seasons was retained later and they are now rebuilt from `data/raw/<season>` like every other season. Their one-time migration records `legacy_excel_one_time_conversion`, the workbook hash, `raw_available=false`, and the documented assumption that historical x0/z0 is the 50 ft plane. This provenance is not presented as a raw hash.
 
 ## Commands
 
@@ -47,6 +47,6 @@ Every table digest in `partition-index.json` is `table_digest(rows, schema)` ove
 
 Opening a Parquet footer and comparing its schema is not evidence of integrity: a file whose data pages are damaged still opens and still reports the right schema. `compact()` therefore retires a legacy shard only after a full read-back whose per-game digests match the index, and it runs that verification twice — once before the index switches to the month layout, and again immediately before deletion. Any mismatch aborts with `CompactionError` and leaves every legacy shard and the `game` layout in place.
 
-Interrupted runs are safe to repeat. Before the index switch, a rerun rebuilds the months from the retained legacy shards. After the index switch but before cleanup, a rerun verifies and then cleans up; if a partition is damaged while the legacy shards are all still present, the rerun rebuilds from them instead. Once the legacy shards are gone, a damaged partition is a hard failure: restore it by rebuilding that season from retained raw data rather than publishing a partial month. **Seasons 2022-2024 have no retained raw JSON, so their curated partitions are the only copy.**
+Interrupted runs are safe to repeat. Before the index switch, a rerun rebuilds the months from the retained legacy shards. After the index switch but before cleanup, a rerun verifies and then cleans up; if a partition is damaged while the legacy shards are all still present, the rerun rebuilds from them instead. Once the legacy shards are gone, a damaged partition is a hard failure: restore it by rebuilding that season from retained raw data rather than publishing a partial month. Every season 2022-2026 now has retained raw JSON at `data/raw/<season>`, so that rebuild is available for all of them.
 
 A game-layout read ignores `month=*.parquet` files, so partitions left behind by a failed migration are never read alongside the legacy shards they duplicate. Missing, unreadable and corrupt partitions raise `FileNotFoundError` rather than returning a partial table.
