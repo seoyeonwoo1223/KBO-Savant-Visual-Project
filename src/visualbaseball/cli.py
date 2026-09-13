@@ -94,6 +94,8 @@ def main() -> None:
     parser.add_argument("--season", type=int, default=2026)
     parser.add_argument("--game-id")
     parser.add_argument("--rebuild-from-raw", action="store_true")
+    parser.add_argument("--exports-only", action="store_true",
+                        help="Rebuild exports from the curated data already on disk; no network fetch.")
     parser.add_argument("--refresh-completed", action="store_true")
     parser.add_argument("--collection-mode", choices=("recent", "sample", "reconcile"), default="recent")
     parser.add_argument("--auto-reconcile", action="store_true")
@@ -112,6 +114,12 @@ def main() -> None:
     args = parser.parse_args()
     root = Path(args.root).resolve()
     storage_root = Path(args.storage_root).resolve() if args.storage_root else root
+    if args.exports_only:
+        # 파이프라인 코드가 바뀌었을 때 쓰는 경로입니다. 새 경기를 가져오지 않고
+        # 이미 있는 curated 데이터에서 산출물만 다시 만듭니다. 수집은 스케줄·수동 실행의 몫입니다.
+        _exports(root, args.season, storage_root)
+        print(f"rebuilt exports for {args.season} from curated data")
+        return
     if args.rebuild_from_raw:
         games, pitches = rebuild_from_raw(
             storage_root, args.season, args.refresh_naver, args.game_id,

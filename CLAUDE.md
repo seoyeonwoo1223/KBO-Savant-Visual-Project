@@ -50,6 +50,7 @@ python -m visualbaseball.cli --fixture data/raw/2026/20260328HTSK0.json   # 네�
 python -m visualbaseball.cli --collection-mode sample --auto-reconcile
 python -m visualbaseball.cli --collection-mode reconcile --refresh-workers 3
 python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 20260328KTLG0
+python -m visualbaseball.cli --exports-only                     # 수집 없이 curated에서 산출물만 재생성
 python -m visualbaseball.cli --season 2025 --storage-root seasons/2025   # 과거 시즌
 python -m visualbaseball.build_curated --season 2026 --validate
 python -m visualbaseball.compact_curated --season 2026   # game shard → 월별 partition (일회성)
@@ -208,10 +209,14 @@ CSS는 **두 층**입니다.
 
 | 워크플로 | 시점 | 하는 일 |
 |---|---|---|
-| `daily_update.yml` | 매일 15:00 UTC (KST 00:00) + 관련 경로 push | pytest + `.cjs` 레이아웃 테스트 → `cli` recent 수집 → Excel을 Release에 업로드 → `data`, `web/data`, `exports/*.csv` 커밋 |
+| `daily_update.yml` | 매일 15:00 UTC (KST 00:00) + 파이프라인 입력 경로 push | pytest + `.cjs` 레이아웃 테스트 → 수집 또는 재생성 → Excel을 Release에 업로드 → `data`, `web/data`, `exports/*.csv` 커밋 |
 | `sample_reconcile.yml` | 매주 수 04:17 UTC | sample 모드 + `--auto-reconcile` |
 | `refresh_completed.yml` | 매주 월 03:37 UTC | 전 경기 reconcile |
 | `rebuild_swing_take.yml` | 수동 | Swing/Take 프로필 강제 재빌드 |
 | `deploy-pages.yml` | `web/**` push, daily_update 성공 후 | `web/`을 Pages로 배포 |
+
+**새 경기 수집은 명시적으로 의도한 실행에서만 합니다.** 스케줄, 수동 실행(`workflow_dispatch`), `.github/refresh-completed-request` 커밋 세 가지입니다. 파이프라인 코드 push는 네트워크를 타지 않고 `--exports-only`로 이미 있는 curated 데이터에서 산출물만 다시 만듭니다. `web/**`는 출력물이라 어떤 코드도 입력으로 읽지 않으므로 트리거에 없습니다 — 뷰만 고치면 이 워크플로가 돌지 않습니다.
+
+**커밋되는 산출물에 벽시계 시각을 무조건 쓰지 마십시오.** 내용이 같은 재실행이 파일을 바꿔 놓으면 워크플로의 `git diff --cached --quiet` 가드가 무력화되고 빈 데이터 커밋이 쌓입니다. 시각 필드는 `last_collected_at`·`revision`처럼 **무언가 실제로 달라졌을 때만** 갱신합니다 (`curated.write_game`의 `last_checked_at`, `dataset_summary`의 `generated_at`이 이 규칙을 따릅니다). `pitch_sha256`이 `fetched_at`·`source_url`·`source_hash`를 digest에서 제외하는 것도 같은 이유입니다.
 
 기본 브랜치는 `master`입니다. `.github/refresh-completed-request` 파일을 커밋하면 다음 daily 실행이 전체 재수집으로 동작하고, 실행 후 워크플로가 그 파일을 지웁니다.
