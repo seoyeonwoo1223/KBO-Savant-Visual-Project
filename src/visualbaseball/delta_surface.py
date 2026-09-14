@@ -102,18 +102,16 @@ def box_distance(row, y_ft):
                z - (bottom - ABS_ZONE["pad_bottom_ft"]))
 
 
-def two_plane_distance(row):
-    """The brief's d: the smaller signed distance across the plate's two faces.
+def judgment_distance(row):
+    """Signed distance into the ABS box at the plane the call is actually made.
 
-    Positive only when the ball is inside the box at both the front and the rear
-    face, so it is stricter than the call, which is decided at the middle plane
-    alone. This is the geometric judgment signal, not the rule.
+    The brief asked for the smaller signed distance across the plate's two
+    faces. The recovered decision function rejected that: judging at the middle
+    plane alone reproduces 99.21% of take calls, against 98.37% for front-or-rear
+    (ADR-002, HANDOFF C-11). SBJ's geometry must be the geometry that decides the
+    call, so d is the middle-plane distance into the recovered box.
     """
-    front = box_distance(row, PLATE_DEPTH_FT)
-    rear = box_distance(row, 0.0)
-    if front is None or rear is None:
-        return None
-    return min(front, rear)
+    return box_distance(row, JUDGE_PLANE_FT)
 
 
 def abs_strike(row):
@@ -381,7 +379,7 @@ def load_pitches(root: Path, season: int):
         row["_swing"] = call in {"S", "F", "X"}
         row["_result"] = result_class(row) if row["_swing"] else None
         row["_abs_strike"] = strike
-        row["_d"] = two_plane_distance(row)
+        row["_d"] = judgment_distance(row)
         rows.append(row)
     return rows, dict(excluded)
 

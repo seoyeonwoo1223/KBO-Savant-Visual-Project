@@ -35,6 +35,10 @@ def load_evidence(root: Path, season: int):
 def fit_tau(data, grid=TAU_GRID):
     """P(swing) = logistic(count fixed effect + beta * tanh(d / tau)).
 
+    d is the middle-plane signed distance into the recovered ABS box
+    (delta_surface.judgment_distance), not the brief's two-plane minimum; see
+    HANDOFF C-11.
+
     tau is picked by profile likelihood over the grid; the count enters as a
     fixed effect so the scale is not absorbed by count-specific aggression.
     """

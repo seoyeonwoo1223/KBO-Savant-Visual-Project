@@ -153,6 +153,8 @@ def decision_value(swing, swing_value, take_value):
 | C-9 | §2.2 `zone_decision.py` 101–103행 인용 | **인용 정확.** 현재 DV는 `(2S−1)·Δ` **원형**이며 §4의 `DV_avg`도 `DV_opt`도 아니다(§2.4의 항등식 `(2S−1)Δ = 2·DV_opt + |Δ|` 참조). `score_crossfit` 호출은 388행이 아니라 **389행** |
 | C-10 | §5 대조표의 "원 ST−HPT" | **이미 구현되어 있다.** `plate_discipline.py`의 `simple_seager` = `100 × [D/(A+D) − C/(C+D)]`(A=zone swing, B=out swing, C=zone take, D=out take, 488행), `simple_judgment_pct`(154행)도 있다. 새로 만들지 말 것. **주의: 이 a/b/c/d 문자 배정은 §2.4·§3의 배정과 다르다** — Task 4에서 문자를 재사용하지 말고 셀 이름으로 쓸 것 |
 
+| C-11 | §2 · Task 4 "SBJ의 `d` = 두 평면 signed distance 중 더 작은 값" | **기각.** 복원된 ABS 판정 함수는 **중간면 단독 판정**이다(ADR-002). 2026 테이크 콜 기준 중간면 99.21% vs 앞면 OR 뒷면 98.37% vs 앞면 단독 98.19%. 판정이 한 평면에서 이뤄지므로 SBJ의 기하 신호도 그 평면이어야 한다 — `d`는 **복원된 상자(반폭 0.890 ft, 상단 +0.12, 하단 +0.08 ft) 기준 중간면 signed distance**로 확정한다. 두 평면 최솟값은 실제 콜보다 엄격해서 규칙이 아닌 다른 양을 재게 된다. 구현: `delta_surface.judgment_distance()` |
+
 ### Task 순서에 미치는 영향
 
 - **Task 0 항목 1·2·3(두 저장소 비교 / 클론 / 통합 방향 결정)은 소멸한다** — C-1. 항목 4(보유 시즌)는 C-7로 완료.
