@@ -135,5 +135,43 @@
     "The ABS decision function leaves an asymmetric residual: pitches the rule calls a strike are called balls three to five times more often than the reverse. Unresolved; see ADR-002.",
     "swing_take._re288 does not shrink, so states seen a handful of times carry an unshrunk run expectancy. See the delta_surface report's re288 block.",
     "Delta in the Waste region is partly extrapolated and strongly take-favoured; the *_supported_only columns exclude it."
-  ]
+  ],
+  "reliability_task6": {
+    "protocol": "game-level halves balanced inside each month, fixed surface, 600 pitches per batter per draw, 200 draws, median; raw values, uncorrected",
+    "per_batter_sample": 600,
+    "metrics": {
+      "dv_avg": {
+        "split_half_r": 0.4597,
+        "iqr": [
+          0.4271,
+          0.5086
+        ],
+        "draws": 200,
+        "median_batters": 126,
+        "correction": "none; do not mix with a Spearman-Brown figure"
+      },
+      "apr": {
+        "split_half_r": 0.5206,
+        "iqr": [
+          0.4844,
+          0.5525
+        ],
+        "draws": 200,
+        "median_batters": 126,
+        "correction": "none; do not mix with a Spearman-Brown figure"
+      },
+      "sbj": {
+        "split_half_r": 0.5207,
+        "iqr": [
+          0.4889,
+          0.5519
+        ],
+        "draws": 200,
+        "median_batters": 126,
+        "correction": "none; do not mix with a Spearman-Brown figure"
+      }
+    },
+    "zone_awareness_same_procedure": null,
+    "note": "ZA's published 0.810 used a different split, sample size and estimator; compare against zone_awareness_same_procedure, not against 0.810"
+  }
 }
