@@ -530,6 +530,20 @@ def build_season(root: Path, season: int):
             "the *_supported_only columns exclude it.",
         ],
     }
+    # Task 6: every season at the same per-batter sample size, so the number is
+    # a reliability and not a reflection of how many pitches a season supplied.
+    reliability = month_balanced_reliability(data, tau["tau"], sample=RELIABILITY_SAMPLE)
+    report["reliability_task6"] = {
+        "protocol": "game-level halves balanced inside each month, fixed surface, "
+                    f"{RELIABILITY_SAMPLE} pitches per batter per draw, "
+                    f"{RELIABILITY_DRAWS} draws, median; raw values, uncorrected",
+        "per_batter_sample": RELIABILITY_SAMPLE,
+        "metrics": reliability,
+        "zone_awareness_same_procedure": zone_awareness_reliability(
+            root, season, sample=RELIABILITY_SAMPLE),
+        "note": "ZA's published 0.810 used a different split, sample size and estimator; "
+                "compare against zone_awareness_same_procedure, not against 0.810",
+    }
     if season == 2026:
         report["forecast_table_section5"] = forecast_table(root, data, tau["tau"], metrics, overlap)
 
@@ -565,6 +579,188 @@ def _flatten(report, prefix=""):
             rows.append({"key": name, "value": value})
     return rows
 
+# --- Task 6: split-half reliability ------------------------------------------
+
+RELIABILITY_DRAWS = 200
+RELIABILITY_MIN_HALF = 150
+RELIABILITY_SAMPLE = 600      # pitches per batter per draw, identical across seasons
+
+
+def _metric_values(data, index, tau):
+    """The three headline metrics on one subset of pitches."""
+    delta = data["delta"].astype(float)[index]
+    swing = data["swing"].astype(int)[index]
+    policy = data["p_swing"].astype(float)[index]
+    distance = data["d"].astype(float)[index]
+    usable = np.isfinite(delta) & np.isfinite(policy)
+    if usable.sum() < 20:
+        return {}
+    finite_d = np.isfinite(distance)
+    values = {
+        "dv_avg": 100 * float(np.mean((swing[usable] - policy[usable]) * delta[usable])),
+        "apr": _apr(swing[usable], delta[usable]),
+        "sbj": 100 * float(np.mean((2 * swing[finite_d] - 1) * np.tanh(distance[finite_d] / tau)))
+        if finite_d.any() else None,
+    }
+    return {name: value for name, value in values.items() if value is not None}
+
+
+def _positions_by_batter(batters, counts, floor):
+    index = defaultdict(list)
+    for position, batter in enumerate(batters):
+        if counts[batter] >= floor:
+            index[batter].append(position)
+    return {batter: np.array(items) for batter, items in index.items()}
+
+
+def _month_halves(games, generator):
+    """Assign whole games to one side, balanced inside each month."""
+    per_month = defaultdict(set)
+    for game in set(games):
+        per_month[game[:6]].add(game)
+    side = {}
+    for items in per_month.values():
+        items = np.array(sorted(items))
+        for rank, position in enumerate(generator.permutation(len(items))):
+            side[items[position]] = rank % 2
+    return np.array([side[game] for game in games])
+
+
+def month_balanced_reliability(data, tau, draws=RELIABILITY_DRAWS,
+                               minimum_half=RELIABILITY_MIN_HALF, sample=None, seed=0):
+    """Game-level halves balanced inside each month, fixed surface, median of draws.
+
+    Balanced inside the month so both halves face the same slice of the season;
+    a whole game lands on one side, so no plate appearance is split. Raw
+    (unshrunk) values, and the correlation is reported uncorrected -- never mixed
+    with a Spearman-Brown figure.
+
+    `sample` fixes how many pitches per batter enter each draw, so seasons are
+    compared at equal sample size rather than at whatever each season supplied.
+    """
+    generator = np.random.default_rng(seed)
+    batters = data["batter_id"].astype(str)
+    games = data["game_id"].astype(str)
+    delta = data["delta"].astype(float)
+    swing = data["swing"].astype(int)
+    policy = data["p_swing"].astype(float)
+    distance = data["d"].astype(float)
+    usable = np.isfinite(delta) & np.isfinite(policy)
+    signal = np.where(np.isfinite(distance), np.tanh(distance / tau), np.nan)
+
+    counts = dict(zip(*np.unique(batters, return_counts=True)))
+    floor = sample or 2 * minimum_half
+    by_batter = _positions_by_batter(batters, counts, floor)
+    if len(by_batter) < 10:
+        return None
+
+    def measure(positions):
+        good = positions[usable[positions]]
+        if len(good) < 20:
+            return {}
+        difference = delta[good]
+        swung = swing[good]
+        hittable = difference > 0
+        values = {"dv_avg": 100 * float(np.mean((swung - policy[good]) * difference))}
+        if hittable.any() and not hittable.all():
+            values["apr"] = 100 * (float(swung[hittable].mean()) - float(swung[~hittable].mean()))
+        finite = np.isfinite(signal[good])
+        if finite.any():
+            values["sbj"] = 100 * float(np.mean((2 * swung[finite] - 1) * signal[good][finite]))
+        return values
+
+    collected = defaultdict(list)
+    for _ in range(draws):
+        assignment = _month_halves(games, generator)
+        left, right = defaultdict(list), defaultdict(list)
+        for positions in by_batter.values():
+            chosen = generator.choice(positions, size=sample, replace=False) if sample else positions
+            a = chosen[assignment[chosen] == 0]
+            b = chosen[assignment[chosen] == 1]
+            if len(a) < minimum_half or len(b) < minimum_half:
+                continue
+            first, second = measure(a), measure(b)
+            for name in ("dv_avg", "apr", "sbj"):
+                if name in first and name in second:
+                    left[name].append(first[name])
+                    right[name].append(second[name])
+        for name, values in left.items():
+            x, y = np.array(values), np.array(right[name])
+            if len(x) >= 10 and x.std() > 0 and y.std() > 0:
+                collected[name].append((float(np.corrcoef(x, y)[0, 1]), len(x)))
+
+    result = {}
+    for name, items in collected.items():
+        values = np.array([r for r, _ in items])
+        result[name] = {
+            "split_half_r": _r(float(np.median(values)), 4),
+            "iqr": [_r(float(np.percentile(values, 25)), 4), _r(float(np.percentile(values, 75)), 4)],
+            "draws": len(values),
+            "median_batters": int(np.median([n for _, n in items])),
+            "correction": "none; do not mix with a Spearman-Brown figure",
+        }
+    return result
+
+
+def zone_awareness_reliability(root, season, draws=RELIABILITY_DRAWS,
+                               minimum_half=RELIABILITY_MIN_HALF, sample=None, seed=0):
+    """ZA's own split-half under this exact procedure.
+
+    The 0.810 on record was produced by a different split, sample size and
+    estimator, so it is not comparable to the numbers above. This recomputes ZA
+    the same way from its own evidence so the comparison is like for like.
+    """
+    import pyarrow.parquet as pq
+    path = root / "data" / "metrics" / "zone_awareness" / str(season) / "pitches.parquet"
+    if not path.exists():
+        return None
+    table = pq.read_table(path, columns=["batter_id", "game_id", "swing", "p_swing", "p_zone"])
+    data = {name: np.asarray(table[name].to_pylist(), dtype=object) for name in table.column_names}
+
+    def value(subset):
+        swing = data["swing"].astype(float)[subset]
+        policy = data["p_swing"].astype(float)[subset]
+        zone = data["p_zone"].astype(float)[subset]
+        if len(swing) < 20:
+            return None
+        return 100 * float(np.mean((swing - policy) * (2 * zone - 1)))
+
+    return _paired_reliability(data, value, draws, minimum_half, sample, seed)
+
+
+def _paired_reliability(data, value, draws, minimum_half, sample, seed):
+    generator = np.random.default_rng(seed)
+    batters = data["batter_id"].astype(str)
+    games = data["game_id"].astype(str)
+    counts = dict(zip(*np.unique(batters, return_counts=True)))
+    by_batter = _positions_by_batter(batters, counts, sample or 2 * minimum_half)
+    if len(by_batter) < 10:
+        return None
+
+    values = []
+    for _ in range(draws):
+        assignment = _month_halves(games, generator)
+        left, right = [], []
+        for positions in by_batter.values():
+            chosen = generator.choice(positions, size=sample, replace=False) if sample else positions
+            a = chosen[assignment[chosen] == 0]
+            b = chosen[assignment[chosen] == 1]
+            if len(a) < minimum_half or len(b) < minimum_half:
+                continue
+            first, second = value(a), value(b)
+            if first is not None and second is not None:
+                left.append(first)
+                right.append(second)
+        if len(left) >= 10:
+            x, y = np.array(left), np.array(right)
+            if x.std() > 0 and y.std() > 0:
+                values.append(float(np.corrcoef(x, y)[0, 1]))
+    if not values:
+        return None
+    return {"split_half_r": _r(float(np.median(values)), 4),
+            "iqr": [_r(float(np.percentile(values, 25)), 4), _r(float(np.percentile(values, 75)), 4)],
+            "draws": len(values), "correction": "none; do not mix with a Spearman-Brown figure"}
+
 
 if __name__ == "__main__":
     import argparse
@@ -575,4 +771,7 @@ if __name__ == "__main__":
     for year in arguments.seasons:
         result = build_season(Path(arguments.root).resolve(), year)
         print(year, "batters", result["qualified_batters"], "tau", result["tau"]["tau"],
-              "overlap", result["overlap_task5"]["median_pearson_r"], flush=True)
+              "overlap", result["overlap_task5"]["median_pearson_r"],
+              "reliability", json.dumps(
+                  {k: v["split_half_r"] for k, v in (result["reliability_task6"]["metrics"] or {}).items()}),
+              flush=True)
