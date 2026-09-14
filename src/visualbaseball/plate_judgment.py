@@ -182,6 +182,55 @@ def _apr(swung, difference):
     return _r(100 * (float(swung[hittable].mean()) - float(swung[~hittable].mean())))
 
 
+def thin_state_exposure(data, metrics, minimum=30):
+    """How much of each batter's DV rides on an unshrunk RE288 state.
+
+    swing_take._re288 estimates every base-out-count state by its own realised
+    runs with no shrinkage, so a state seen once carries a raw mean into V. This
+    prices the exposure rather than repairing it: the fix belongs in _re288,
+    which HANDOFF section 6 keeps off limits here.
+    """
+    state = list(zip(data["base_state_code"].astype(int), data["outs"].astype(int),
+                     data["balls"].astype(int), data["strikes"].astype(int)))
+    counts = defaultdict(int)
+    for key in state:
+        counts[key] += 1
+    thin = np.array([counts[key] < minimum for key in state])
+
+    delta = data["delta"].astype(float)
+    swing = data["swing"].astype(int)
+    policy = data["p_swing"].astype(float)
+    batters = data["batter_id"].astype(str)
+    usable = np.isfinite(delta) & np.isfinite(policy)
+
+    shifts = []
+    for row in metrics:
+        if not row["qualified"]:
+            continue
+        index = usable & (batters == row["batter_id"])
+        kept = index & ~thin
+        if not kept.any():
+            continue
+        without = 100 * float(np.mean((swing[kept] - policy[kept]) * delta[kept]))
+        shifts.append(without - row["dv_avg_per_100"])
+    shifts = np.array(shifts)
+
+    return {
+        "threshold": minimum,
+        "thin_states": int(sum(1 for key, n in counts.items() if n < minimum)),
+        "thin_pitches": int(thin.sum()),
+        "thin_pitch_share_pct": _r(100 * float(thin.mean()), 5),
+        "delta_sd_thin": _r(float(delta[usable & thin].std(ddof=1))),
+        "delta_sd_all": _r(float(delta[usable].std(ddof=1))),
+        "dv_avg_shift_if_dropped_per_100": {
+            "batters": int(shifts.size),
+            "mean_absolute": _r(float(np.abs(shifts).mean())),
+            "p95_absolute": _r(float(np.percentile(np.abs(shifts), 95))) if shifts.size else None,
+            "max_absolute": _r(float(np.abs(shifts).max())) if shifts.size else None,
+        },
+    }
+
+
 # --- Task 5: is SBJ measuring something DV does not? -------------------------
 
 def overlap_diagnostic(data, tau, minimum=PREDICTION_MIN_PITCHES, blocks=BLOCKS, seed=0):
@@ -465,6 +514,7 @@ def build_season(root: Path, season: int):
                 [r["dv_avg_per_100_supported_only"] - r["dv_avg_per_100"] for r in qualified
                  if r["dv_avg_per_100_supported_only"] is not None])), 4),
         },
+        "thin_re288_exposure": thin_state_exposure(data, metrics),
         "overlap_task5": overlap,
         "limitations": [
             "The ABS decision function leaves an asymmetric residual: pitches the rule "

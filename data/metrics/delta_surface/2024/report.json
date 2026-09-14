@@ -16,6 +16,18 @@
     "rule_strike_called_ball": 705,
     "rule_ball_called_strike": 214
   },
+  "swing_policy": {
+    "penalty": 1.0,
+    "cv_log_loss": {
+      "0.03": 0.4943969136596289,
+      "0.1": 0.49082006352906676,
+      "0.3": 0.4897922044234477,
+      "1.0": 0.4895728065003215,
+      "3.0": 0.4896197499681227
+    },
+    "observed_swing_rate": 0.455003,
+    "mean_p_swing": 0.455004
+  },
   "result_surface": {
     "penalty": 1.0,
     "cv_log_loss": {
@@ -147,6 +159,98 @@
   },
   "re288": {
     "observed_states": 288,
-    "min_state_pitches": 2
+    "min_state_pitches": 2,
+    "thin_threshold": 30,
+    "thin_states": 18,
+    "thin_state_pitch_counts": {
+      "2": 1,
+      "7": 1,
+      "9": 1,
+      "10": 1,
+      "12": 1,
+      "15": 1,
+      "16": 2,
+      "18": 1,
+      "20": 1,
+      "23": 2,
+      "24": 2,
+      "25": 1,
+      "28": 2,
+      "29": 1
+    },
+    "smallest_states": [
+      {
+        "base_state_code": 4,
+        "outs": 0,
+        "balls": 3,
+        "strikes": 0,
+        "pitches": 2
+      },
+      {
+        "base_state_code": 4,
+        "outs": 0,
+        "balls": 3,
+        "strikes": 1,
+        "pitches": 7
+      },
+      {
+        "base_state_code": 6,
+        "outs": 0,
+        "balls": 3,
+        "strikes": 1,
+        "pitches": 9
+      },
+      {
+        "base_state_code": 6,
+        "outs": 0,
+        "balls": 3,
+        "strikes": 0,
+        "pitches": 10
+      },
+      {
+        "base_state_code": 4,
+        "outs": 0,
+        "balls": 3,
+        "strikes": 2,
+        "pitches": 12
+      },
+      {
+        "base_state_code": 4,
+        "outs": 0,
+        "balls": 2,
+        "strikes": 0,
+        "pitches": 15
+      },
+      {
+        "base_state_code": 7,
+        "outs": 0,
+        "balls": 3,
+        "strikes": 0,
+        "pitches": 16
+      },
+      {
+        "base_state_code": 5,
+        "outs": 0,
+        "balls": 3,
+        "strikes": 0,
+        "pitches": 16
+      },
+      {
+        "base_state_code": 4,
+        "outs": 0,
+        "balls": 0,
+        "strikes": 2,
+        "pitches": 18
+      },
+      {
+        "base_state_code": 6,
+        "outs": 0,
+        "balls": 3,
+        "strikes": 2,
+        "pitches": 20
+      }
+    ],
+    "pitches_touching_thin_state": 572,
+    "share_touching_thin_state": 0.002574
   }
 }
