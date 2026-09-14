@@ -88,6 +88,34 @@ def plate_crossing(row, y_ft):
             values["z0"] + values["vz0"] * t + 0.5 * values["az"] * t * t)
 
 
+def box_distance(row, y_ft):
+    """Signed distance into the ABS box at one plane, feet; positive inside."""
+    top, bottom = _f(row.get("sz_top")), _f(row.get("sz_bottom"))
+    if top is None or bottom is None or top <= bottom:
+        return None
+    crossing = plate_crossing(row, y_ft)
+    if crossing is None:
+        return None
+    x, z = crossing
+    return min(ABS_ZONE["half_ft"] - abs(x),
+               (top + ABS_ZONE["pad_top_ft"]) - z,
+               z - (bottom - ABS_ZONE["pad_bottom_ft"]))
+
+
+def two_plane_distance(row):
+    """The brief's d: the smaller signed distance across the plate's two faces.
+
+    Positive only when the ball is inside the box at both the front and the rear
+    face, so it is stricter than the call, which is decided at the middle plane
+    alone. This is the geometric judgment signal, not the rule.
+    """
+    front = box_distance(row, PLATE_DEPTH_FT)
+    rear = box_distance(row, 0.0)
+    if front is None or rear is None:
+        return None
+    return min(front, rear)
+
+
 def abs_strike(row):
     """True/False from the ABS decision function; None when geometry is missing."""
     top, bottom = _f(row.get("sz_top")), _f(row.get("sz_bottom"))
@@ -282,6 +310,45 @@ def fit_result_surface(rows, seed_blocks=CV_BLOCKS):
             "classes": list(model.classes_), "swings": len(swings)}
 
 
+def fit_swing_policy(rows, seed_blocks=CV_BLOCKS):
+    """League P(swing | count, loc) on the same basis; ADR-001's p in (S - p).
+
+    Fitted here rather than reused from zone_decision so that p and Delta come
+    from one generation of the surface.
+    """
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.metrics import log_loss
+
+    x = np.array([row["_x"] for row in rows])
+    z = np.array([row["_z"] for row in rows])
+    balls = np.array([row["_before"][2] for row in rows])
+    strikes = np.array([row["_before"][3] for row in rows])
+    y = np.array([int(row["_swing"]) for row in rows])
+    features, fitted = _features(x, z, balls, strikes)
+
+    dates = np.array([row["game_id"][:8] for row in rows])
+    blocks = {date: index for index, block in enumerate(np.array_split(np.array(sorted(set(dates))), seed_blocks))
+              for date in block}
+    fold = np.array([blocks[date] for date in dates])
+
+    scores = {}
+    for penalty in PENALTIES:
+        losses = []
+        for index in range(seed_blocks):
+            train, test = fold != index, fold == index
+            model = LogisticRegression(C=penalty, max_iter=2000).fit(features[train], y[train])
+            losses.append(log_loss(y[test], model.predict_proba(features[test])[:, 1], labels=[0, 1]))
+        scores[penalty] = float(np.mean(losses))
+    best = min(scores, key=scores.get)
+    model = LogisticRegression(C=best, max_iter=3000).fit(features, y)
+    probability = model.predict_proba(features)[:, 1]
+    for row, value in zip(rows, probability):
+        row["p_swing"] = float(value)
+    return {"penalty": best, "cv_log_loss": scores,
+            "observed_swing_rate": round(float(y.mean()), 6),
+            "mean_p_swing": round(float(probability.mean()), 6)}
+
+
 def result_probabilities(surface, x, z, balls, strikes):
     features, _ = _features(np.asarray(x), np.asarray(z), np.asarray(balls),
                             np.asarray(strikes), fitted=surface["spline"])
@@ -314,6 +381,7 @@ def load_pitches(root: Path, season: int):
         row["_swing"] = call in {"S", "F", "X"}
         row["_result"] = result_class(row) if row["_swing"] else None
         row["_abs_strike"] = strike
+        row["_d"] = two_plane_distance(row)
         rows.append(row)
     return rows, dict(excluded)
 
@@ -553,6 +621,7 @@ def build_season(root: Path, season: int, write_map=True):
                                       float(row.get("runs_on_pitch") or 0))
     table, value_support = swing_result_values(rows, re288)
     surface = fit_result_surface(rows)
+    policy = fit_swing_policy(rows)
     undefined = build_delta(rows, re288, table, surface)
     summary, _, _ = support_diagnostics(rows)
     grid = support_grid(rows)
@@ -567,6 +636,7 @@ def build_season(root: Path, season: int, write_map=True):
         "undefined_delta": undefined,
         "abs_decision_function": {**ABS_ZONE, "judge_plane_ft": round(JUDGE_PLANE_FT, 5),
                                   **abs_call_agreement(rows)},
+        "swing_policy": policy,
         "result_surface": {"penalty": surface["penalty"], "cv_log_loss": surface["cv_log_loss"],
                            "classes": surface["classes"], "swings": surface["swings"]},
         "result_mix": dict(Counter(row["_result"] for row in rows if row["_result"] is not None)),
@@ -590,10 +660,11 @@ def build_season(root: Path, season: int, write_map=True):
             "region_shares": _region_shares(rows),
         },
         "premise_base_out_independence": premise,
-        "re288": {"observed_states": len(re288), "min_state_pitches": min(re_counts.values())},
+        "re288": _re288_support(rows, re_counts),
     }
     destination = root / "data" / "metrics" / "delta_surface" / str(season)
     destination.mkdir(parents=True, exist_ok=True)
+    _write_evidence(destination / "pitches.parquet", rows, season)
     (destination / "report.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     (destination / "support_grid.json").write_text(
@@ -603,6 +674,65 @@ def build_season(root: Path, season: int, write_map=True):
     if write_map:
         write_support_map(grid, destination / "support_map.png")
     return report, rows
+
+
+def _re288_support(rows, counts, minimum=30):
+    """How thin the RE288 states are, and how many pitches sit in a thin one.
+
+    swing_take._re288 does not shrink, so a state seen once carries an unshrunk
+    mean into every V computed from it.
+    """
+    thin = {state: n for state, n in counts.items() if n < minimum}
+    touched = 0
+    for row in rows:
+        before = row["_before"]
+        after = row["_after"]
+        if before in thin or (after[1] < 3 and after in thin):
+            touched += 1
+    return {
+        "observed_states": len(counts),
+        "min_state_pitches": min(counts.values()),
+        "thin_threshold": minimum,
+        "thin_states": len(thin),
+        "thin_state_pitch_counts": dict(sorted(Counter(counts[s] for s in thin).items())),
+        "smallest_states": [{"base_state_code": s[0], "outs": s[1], "balls": s[2], "strikes": s[3],
+                             "pitches": counts[s]} for s in sorted(thin, key=lambda k: counts[k])[:10]],
+        "pitches_touching_thin_state": touched,
+        "share_touching_thin_state": round(touched / len(rows), 6),
+    }
+
+
+EVIDENCE_COLUMNS = ("pitch_id", "game_id", "game_date", "batter_id", "batter_name", "batter_team")
+
+
+def _write_evidence(path, rows, season):
+    """Per-pitch Delta evidence for Task 4 / 5. Reproducible, so not a source."""
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+    payload = []
+    for row in rows:
+        bases, outs, balls, strikes = row["_before"]
+        payload.append({
+            **{name: row.get(name) for name in EVIDENCE_COLUMNS},
+            "season": season,
+            "swing": int(row["_swing"]),
+            "p_swing": row.get("p_swing"),
+            "delta": row.get("delta"),
+            "v_swing": row.get("v_swing"),
+            "v_take": row.get("v_take"),
+            "d": row.get("_d"),
+            "x_relative": row["_x"],
+            "z_relative": row["_z"],
+            "base_state_code": bases,
+            "outs": outs,
+            "balls": balls,
+            "strikes": strikes,
+            "abs_strike": bool(row["_abs_strike"]),
+            "result": row.get("_result"),
+            "extrapolated": bool(row["_extrapolated"]),
+            "support": int(row["_support"]),
+        })
+    pq.write_table(pa.Table.from_pylist(payload), path)
 
 
 def _region_shares(rows):
