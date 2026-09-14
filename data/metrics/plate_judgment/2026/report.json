@@ -137,6 +137,52 @@
     "swing_take._re288 does not shrink, so states seen a handful of times carry an unshrunk run expectancy. See the delta_surface report's re288 block.",
     "Delta in the Waste region is partly extrapolated and strongly take-favoured; the *_supported_only columns exclude it."
   ],
+  "reliability_task6": {
+    "protocol": "game-level halves balanced inside each month, fixed surface, 600 pitches per batter per draw, 200 draws, median; raw values, uncorrected",
+    "per_batter_sample": 600,
+    "metrics": {
+      "dv_avg": {
+        "split_half_r": 0.4393,
+        "iqr": [
+          0.3888,
+          0.4777
+        ],
+        "draws": 200,
+        "median_batters": 120,
+        "correction": "none; do not mix with a Spearman-Brown figure"
+      },
+      "apr": {
+        "split_half_r": 0.4549,
+        "iqr": [
+          0.4186,
+          0.5012
+        ],
+        "draws": 200,
+        "median_batters": 120,
+        "correction": "none; do not mix with a Spearman-Brown figure"
+      },
+      "sbj": {
+        "split_half_r": 0.4929,
+        "iqr": [
+          0.4606,
+          0.5352
+        ],
+        "draws": 200,
+        "median_batters": 120,
+        "correction": "none; do not mix with a Spearman-Brown figure"
+      }
+    },
+    "zone_awareness_same_procedure": {
+      "split_half_r": 0.5679,
+      "iqr": [
+        0.5383,
+        0.6028
+      ],
+      "draws": 200,
+      "correction": "none; do not mix with a Spearman-Brown figure"
+    },
+    "note": "ZA's published 0.810 used a different split, sample size and estimator; compare against zone_awareness_same_procedure, not against 0.810"
+  },
   "forecast_table_section5": {
     "conditions": {
       "season": 2026,
