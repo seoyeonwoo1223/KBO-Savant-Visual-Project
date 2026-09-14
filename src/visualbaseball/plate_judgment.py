@@ -16,7 +16,11 @@ import numpy as np
 SEASONS = (2024, 2025, 2026)
 MIN_PITCHES = 300          # repo baseline for Swing/Take and ZA
 PREDICTION_MIN_PITCHES = 500   # the condition the section 5 forecast table fixes
-TAU_GRID = tuple(np.round(np.arange(0.05, 1.01, 0.05), 3))
+# d is a signed distance in feet into a box 0.890 ft half-wide, so it runs from
+# roughly -3 to +0.9. The grid has to reach well past 1 ft or the profile
+# likelihood pins tau at the edge; fit_tau reports grid_edge when it still does.
+TAU_GRID = tuple(np.round(np.concatenate([np.arange(0.05, 1.0, 0.05),
+                                          np.arange(1.0, 4.01, 0.25)]), 3))
 BLOCKS = 3
 
 
