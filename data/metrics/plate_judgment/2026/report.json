@@ -1,0 +1,225 @@
+{
+  "season": 2026,
+  "pitches": 192526,
+  "batters": 285,
+  "qualified_batters": 163,
+  "minimum_pitches": 300,
+  "tau": {
+    "tau": 2.0,
+    "beta": 5.02776,
+    "log_likelihood": -98845.856,
+    "profile": {
+      "0.05": -105173.35,
+      "0.1": -104115.26,
+      "0.15": -103203.458,
+      "0.2": -102441.93,
+      "0.25": -101818.598,
+      "0.3": -101310.44,
+      "0.35": -100896.325,
+      "0.4": -100556.816,
+      "0.45": -100276.492,
+      "0.5": -100044.156,
+      "0.55": -99849.412,
+      "0.6": -99686.58,
+      "0.65": -99549.977,
+      "0.7": -99434.68,
+      "0.75": -99337.498,
+      "0.8": -99255.836,
+      "0.85": -99186.941,
+      "0.9": -99128.37,
+      "0.95": -99079.403,
+      "1.0": -99038.119,
+      "1.25": -98912.77,
+      "1.5": -98863.606,
+      "1.75": -98847.359,
+      "2.0": -98845.856,
+      "2.25": -98849.945,
+      "2.5": -98856.253,
+      "2.75": -98863.101,
+      "3.0": -98869.482,
+      "3.25": -98875.527,
+      "3.5": -98880.643,
+      "3.75": -98885.554,
+      "4.0": -98889.262
+    },
+    "pitches": 192526,
+    "grid_edge": false
+  },
+  "batter_beta_spread": {
+    "batters": 163,
+    "mean": 4.0507,
+    "sd": 0.7996,
+    "quantiles": {
+      "10": 3.0162,
+      "50": 4.061,
+      "90": 5.0356
+    }
+  },
+  "missing_reasons": {
+    "no_hittable_pitches": 1,
+    "no_non_hittable_pitches": 1,
+    "under_300_pitches": 122
+  },
+  "extrapolation": {
+    "note": "Waste extrapolation is reported apart; see the *_supported_only columns",
+    "mean_share_pct": 2.0052,
+    "max_share_pct": 20.0,
+    "dv_avg_shift_from_dropping": -0.0065
+  },
+  "thin_re288_exposure": {
+    "threshold": 30,
+    "thin_states": 25,
+    "thin_pitches": 450,
+    "thin_pitch_share_pct": 0.23373,
+    "delta_sd_thin": 0.6054,
+    "delta_sd_all": 0.1935,
+    "dv_avg_shift_if_dropped_per_100": {
+      "batters": 163,
+      "mean_absolute": 0.0167,
+      "p95_absolute": 0.0629,
+      "max_absolute": 0.1522
+    }
+  },
+  "overlap_task5": {
+    "reference_only": {
+      "sign_agreement": 0.97786,
+      "corr_z_delta": 0.61301,
+      "k": 0.444516,
+      "intercept": -0.013812,
+      "residual_sd": 0.152884,
+      "pitches": 192524
+    },
+    "statistic": "mean((2S-1) * r) per batter, r from Delta = k*Z + intercept",
+    "minimum_pitches_per_block": 166,
+    "block_pairs": [
+      {
+        "blocks": [
+          1,
+          2
+        ],
+        "batters": 115,
+        "pearson_r": 0.1606,
+        "ci95": [
+          -0.0232,
+          0.3339
+        ]
+      },
+      {
+        "blocks": [
+          1,
+          3
+        ],
+        "batters": 124,
+        "pearson_r": 0.3373,
+        "ci95": [
+          0.1712,
+          0.4848
+        ]
+      },
+      {
+        "blocks": [
+          2,
+          3
+        ],
+        "batters": 122,
+        "pearson_r": 0.2386,
+        "ci95": [
+          0.0635,
+          0.3994
+        ]
+      }
+    ],
+    "median_pearson_r": 0.2386,
+    "verdict": "inconclusive: reproducibility between 0.1 and 0.3"
+  },
+  "limitations": [
+    "The ABS decision function leaves an asymmetric residual: pitches the rule calls a strike are called balls three to five times more often than the reverse. Unresolved; see ADR-002.",
+    "swing_take._re288 does not shrink, so states seen a handful of times carry an unshrunk run expectancy. See the delta_surface report's re288 block.",
+    "Delta in the Waste region is partly extrapolated and strongly take-favoured; the *_supported_only columns exclude it."
+  ],
+  "forecast_table_section5": {
+    "conditions": {
+      "season": 2026,
+      "shrinkage": "none",
+      "minimum_pitches": 500,
+      "batters": 132,
+      "dv_definition": "100 * mean((2S-1) * Delta), as section 5 fixes it"
+    },
+    "rows": [
+      {
+        "quantity": "mean(sign(d) == sign(Delta))",
+        "point": 0.84,
+        "interval": [
+          0.75,
+          0.92
+        ],
+        "observed": 0.97786
+      },
+      {
+        "quantity": "corr(tanh(d/tau), Delta) per pitch",
+        "point": 0.65,
+        "interval": [
+          0.45,
+          0.8
+        ],
+        "observed": 0.61301
+      },
+      {
+        "quantity": "rho(raw ST-HPT, DV/100) per batter",
+        "point": 0.35,
+        "interval": [
+          0.1,
+          0.6
+        ],
+        "observed": 0.5788,
+        "batters": 132
+      },
+      {
+        "quantity": "rho(HS%-NS%, DV/100) per batter",
+        "point": 0.72,
+        "interval": [
+          0.55,
+          0.85
+        ],
+        "observed": 0.6937,
+        "batters": 132
+      },
+      {
+        "quantity": "new APR split-half (raw)",
+        "point": 0.6,
+        "interval": [
+          0.45,
+          0.72
+        ],
+        "observed": 0.6019,
+        "detail": {
+          "median_r": 0.6019,
+          "draws": 200,
+          "iqr": [
+            0.5653,
+            0.6275
+          ],
+          "note": "raw values, uncorrected; Task 6 protocol supersedes"
+        }
+      },
+      {
+        "quantity": "raw ST-HPT split-half (raw)",
+        "point": 0.4,
+        "interval": [
+          0.2,
+          0.55
+        ],
+        "observed": 0.4322,
+        "detail": {
+          "median_r": 0.4322,
+          "draws": 200,
+          "iqr": [
+            0.3944,
+            0.4699
+          ],
+          "note": "raw values, uncorrected; Task 6 protocol supersedes"
+        }
+      }
+    ]
+  }
+}

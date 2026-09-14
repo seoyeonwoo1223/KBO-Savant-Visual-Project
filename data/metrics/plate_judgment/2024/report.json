@@ -1,0 +1,139 @@
+{
+  "season": 2024,
+  "pitches": 222225,
+  "batters": 298,
+  "qualified_batters": 155,
+  "minimum_pitches": 300,
+  "tau": {
+    "tau": 2.0,
+    "beta": 5.1686,
+    "log_likelihood": -113897.774,
+    "profile": {
+      "0.05": -121401.416,
+      "0.1": -120086.955,
+      "0.15": -118980.078,
+      "0.2": -118072.159,
+      "0.25": -117336.051,
+      "0.3": -116740.093,
+      "0.35": -116256.901,
+      "0.4": -115861.245,
+      "0.45": -115536.251,
+      "0.5": -115267.319,
+      "0.55": -115043.45,
+      "0.6": -114856.46,
+      "0.65": -114699.694,
+      "0.7": -114567.959,
+      "0.75": -114457.263,
+      "0.8": -114364.043,
+      "0.85": -114285.553,
+      "0.9": -114219.531,
+      "0.95": -114164.001,
+      "1.0": -114117.291,
+      "1.25": -113975.47,
+      "1.5": -113919.489,
+      "1.75": -113900.621,
+      "2.0": -113897.774,
+      "2.25": -113901.8,
+      "2.5": -113907.634,
+      "2.75": -113914.152,
+      "3.0": -113920.988,
+      "3.25": -113928.493,
+      "3.5": -113932.251,
+      "3.75": -113936.977,
+      "4.0": -113940.556
+    },
+    "pitches": 222225,
+    "grid_edge": false
+  },
+  "batter_beta_spread": {
+    "batters": 155,
+    "mean": 4.2794,
+    "sd": 0.8117,
+    "quantiles": {
+      "10": 3.2494,
+      "50": 4.275,
+      "90": 5.3667
+    }
+  },
+  "missing_reasons": {
+    "no_non_hittable_pitches": 2,
+    "under_300_pitches": 143
+  },
+  "extrapolation": {
+    "note": "Waste extrapolation is reported apart; see the *_supported_only columns",
+    "mean_share_pct": 1.7637,
+    "max_share_pct": 12.5,
+    "dv_avg_shift_from_dropping": -0.0096
+  },
+  "thin_re288_exposure": {
+    "threshold": 30,
+    "thin_states": 18,
+    "thin_pitches": 329,
+    "thin_pitch_share_pct": 0.14805,
+    "delta_sd_thin": 0.3375,
+    "delta_sd_all": 0.1982,
+    "dv_avg_shift_if_dropped_per_100": {
+      "batters": 155,
+      "mean_absolute": 0.0071,
+      "p95_absolute": 0.0418,
+      "max_absolute": 0.0609
+    }
+  },
+  "overlap_task5": {
+    "reference_only": {
+      "sign_agreement": 0.97641,
+      "corr_z_delta": 0.5969,
+      "k": 0.445675,
+      "intercept": -0.011879,
+      "residual_sd": 0.158995,
+      "pitches": 222225
+    },
+    "statistic": "mean((2S-1) * r) per batter, r from Delta = k*Z + intercept",
+    "minimum_pitches_per_block": 166,
+    "block_pairs": [
+      {
+        "blocks": [
+          1,
+          2
+        ],
+        "batters": 123,
+        "pearson_r": 0.3087,
+        "ci95": [
+          0.1393,
+          0.4606
+        ]
+      },
+      {
+        "blocks": [
+          1,
+          3
+        ],
+        "batters": 130,
+        "pearson_r": 0.3281,
+        "ci95": [
+          0.1653,
+          0.4736
+        ]
+      },
+      {
+        "blocks": [
+          2,
+          3
+        ],
+        "batters": 129,
+        "pearson_r": 0.1868,
+        "ci95": [
+          0.0144,
+          0.3484
+        ]
+      }
+    ],
+    "median_pearson_r": 0.3087,
+    "verdict": "reproducible: SBJ carries signal Delta does not"
+  },
+  "limitations": [
+    "The ABS decision function leaves an asymmetric residual: pitches the rule calls a strike are called balls three to five times more often than the reverse. Unresolved; see ADR-002.",
+    "swing_take._re288 does not shrink, so states seen a handful of times carry an unshrunk run expectancy. See the delta_surface report's re288 block.",
+    "Delta in the Waste region is partly extrapolated and strongly take-favoured; the *_supported_only columns exclude it."
+  ]
+}
