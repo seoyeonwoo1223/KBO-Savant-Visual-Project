@@ -1,6 +1,8 @@
 import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
 from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_dv_plus, EVENTS
+from visualbaseball.zone_decision import strikezone_ball_judgment, judgment_accuracy, expected_judgment_accuracy
+from visualbaseball.zone_decision import region_weights, add_apr_plus
 
 
 def test_decision_value_credits_the_actual_choice():
@@ -39,7 +41,7 @@ def test_five_regions_and_hbp_not_future_pa_result():
 def test_additive_contributions_use_all_pitches():
  rows=[]
  for i,reg in enumerate(REGIONS):
-  rows.append({'season':2026,'batter_id':'1','batter_name':'Test','game_id':'20260601OBLG0','inning_half':'top','region':reg,'dv':(i-2)/10,'delta_v':(i-2)/10 or .1,'swing':i%2,'p_swing':.4,'judgment':.1,'opposite_support':25})
+  rows.append({'season':2026,'batter_id':'1','batter_name':'Test','game_id':'20260601OBLG0','inning_half':'top','region':reg,'dv':(i-2)/10,'delta_v':(i-2)/10 or .1,'swing':i%2,'p_swing':.4,'p_zone':.6,'judgment':.1,'opposite_support':25})
  s=profile_summary(rows)
  assert abs(sum(s[r+'_decision_value_per_100'] for r in REGIONS)-s['dv_per_100'])<1e-5
  for reg in REGIONS:
@@ -117,3 +119,89 @@ def test_actual_fitted_predictions_ignore_held_out_results():
  assert not np.allclose(first['target'],second['target'])
  np.testing.assert_allclose(first['probs'][:,:3].sum(axis=1),1)
  np.testing.assert_allclose(first['probs'][:,3:].sum(axis=1),1)
+
+
+def _judgment_row(swing, p_swing, p_zone):
+ return {'swing':swing,'p_swing':p_swing,'p_zone':p_zone,
+   'judgment':(swing-p_swing)*(2*p_zone-1)}
+
+
+def test_sbj_is_observed_minus_expected_judgment_accuracy():
+ items=[_judgment_row(1,.4,.8),_judgment_row(0,.3,.2)]
+ # Observed: swing credited p_zone, take credited 1 - p_zone.
+ assert judgment_accuracy(items)==100*np.mean([.8,.8])
+ # Expected: the same accuracy for a league-average swing policy.
+ assert expected_judgment_accuracy(items)==100*np.mean([.4*.8+.6*.2,.3*.2+.7*.8])
+ assert strikezone_ball_judgment(items)==round(judgment_accuracy(items)-expected_judgment_accuracy(items),6)
+
+
+def test_sbj_equals_zone_awareness_and_is_not_independent_evidence():
+ # SBJ reduces to (S - p_swing) * (2*p_zone - 1), so it must track za_raw exactly.
+ rng=np.random.default_rng(11)
+ for _ in range(20):
+  items=[_judgment_row(int(rng.integers(0,2)),float(rng.uniform(.05,.95)),float(rng.uniform(.05,.95)))
+    for _ in range(rng.integers(5,60))]
+  assert strikezone_ball_judgment(items)==zone_awareness(items)
+
+
+def test_sbj_is_outcome_independent_like_zone_awareness():
+ items=[{**_judgment_row(1,.4,.8),'delta_v':.4,'raw_run_value':2},
+        {**_judgment_row(0,.3,.2),'delta_v':-.2,'raw_run_value':-1}]
+ changed=[{**r,'delta_v':-99*r['delta_v'],'raw_run_value':999} for r in items]
+ assert strikezone_ball_judgment(changed)==strikezone_ball_judgment(items)
+
+
+def _apr_rows(batter_id, per_region):
+ rows=[]
+ for reg,(count,swing,p_swing,p_zone) in per_region.items():
+  for i in range(count):
+   rows.append({'season':2026,'batter_id':batter_id,'batter_name':'T'+batter_id,'team':'T','game_id':'20260601OBLG0',
+     'region':reg,'dv':.0,'delta_v':.1,'opposite_support':50,
+     **_judgment_row(swing,p_swing,p_zone)})
+ return rows
+
+
+def test_apr_uses_league_region_weights_not_the_hitters_own_mix():
+ # Same per-region judgment, different region mix: SBJ differs, APR does not.
+ shape={'heart':(1,.4,.6),'shadow_in':(1,.4,.6),'shadow_out':(1,.4,.6),'chase':(1,.4,.6),'waste':(1,.4,.6)}
+ a=_apr_rows('1',{r:(40 if r=='heart' else 10,*v) for r,v in shape.items()})
+ b=_apr_rows('2',{r:(10 if r=='heart' else 40,*v) for r,v in shape.items()})
+ players=[profile_summary(a),profile_summary(b)]
+ weights=region_weights(players)
+ assert abs(sum(weights.values())-1)<1e-12
+ add_apr_plus(players,weights)
+ # Every region carries the same SBJ here, so APR must agree across the two mixes.
+ assert players[0]['apr_raw']==players[1]['apr_raw']
+
+
+def test_apr_differs_from_sbj_when_region_judgment_varies():
+ # Good in the heart, poor on the edges, and a heart-heavy personal mix.
+ rows=_apr_rows('1',{'heart':(60,1,.3,.9),'shadow_in':(10,1,.7,.2),'shadow_out':(10,1,.7,.2),
+   'chase':(10,1,.7,.2),'waste':(10,1,.7,.2)})
+ other=_apr_rows('2',{r:(20,1,.5,.5) for r in REGIONS})
+ players=[profile_summary(rows),profile_summary(other)]
+ add_apr_plus(players,region_weights(players))
+ # League weights down-weight the hitter's oversized heart share, so APR < SBJ.
+ assert players[0]['apr_raw']!=players[0]['sbj']
+ assert players[0]['apr_raw']<players[0]['sbj']
+
+
+def test_apr_renormalizes_over_regions_the_hitter_saw():
+ seen=_apr_rows('1',{'heart':(20,1,.4,.7),'shadow_in':(20,1,.4,.7)})
+ full=_apr_rows('2',{r:(20,1,.4,.7) for r in REGIONS})
+ players=[profile_summary(seen),profile_summary(full)]
+ add_apr_plus(players,region_weights(players))
+ # Unseen regions are dropped, not scored as zero, so equal judgment gives equal APR.
+ assert players[0]['apr_raw'] is not None
+ assert abs(players[0]['apr_raw']-players[1]['apr_raw'])<1e-6
+
+
+def test_apr_plus_is_standardized_over_qualified_hitters():
+ players=[]
+ for i in range(4):
+  rows=_apr_rows(str(i),{r:(80,1,.4,.5+.08*i) for r in REGIONS})
+  players.append(profile_summary(rows))
+ center,spread=add_apr_plus(players,region_weights(players))
+ assert all(p['qualified_300'] for p in players)
+ for p in players:
+  assert abs(p['apr_plus']-(100+15*(p['apr_raw']-center)/spread))<1e-5
