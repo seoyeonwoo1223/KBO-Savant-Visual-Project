@@ -1,0 +1,530 @@
+{
+ "test1": {
+  "agreement": 0.99287,
+  "half_w_ft": 0.8925,
+  "pad_p_ft": 0.1,
+  "offset_delta_ft": 0.0175,
+  "pad_p_cm": 3.048,
+  "offset_delta_in": 0.21,
+  "implied_top": 0.1175,
+  "implied_bottom": 0.0825,
+  "ball_radius_cm": 3.66
+ },
+ "test2": {
+  "agreement": 0.99221,
+  "x_low_ft": -0.89,
+  "x_high_ft": 0.89,
+  "half_width_ft": 0.89,
+  "x_offset_ft": 0.0,
+  "x_offset_in": 0.0,
+  "gain_over_symmetric": -0.00067
+ },
+ "sigma": {
+  "ft": 0.02149,
+  "inch": 0.2579,
+  "cm": 0.655,
+  "note": "sd of a probit fitted to the signed margin; mixes coordinate error with any real call noise"
+ },
+ "test3": {
+  "pitch_type": {
+   "4-Seam Fastball": {
+    "n": 42782,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99205
+   },
+   "Slider": {
+    "n": 17829,
+    "delta_ft": 0.025,
+    "delta_in": 0.3,
+    "agreement": 0.99428
+   },
+   "Curveball": {
+    "n": 9196,
+    "delta_ft": 0.02,
+    "delta_in": 0.24,
+    "agreement": 0.99097
+   },
+   "2-Seam Fastball": {
+    "n": 9032,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99236
+   },
+   "Changeup": {
+    "n": 8382,
+    "delta_ft": 0.025,
+    "delta_in": 0.3,
+    "agreement": 0.99571
+   },
+   "Forkball": {
+    "n": 8162,
+    "delta_ft": 0.03,
+    "delta_in": 0.36,
+    "agreement": 0.99608
+   },
+   "Cutter": {
+    "n": 6363,
+    "delta_ft": 0.02,
+    "delta_in": 0.24,
+    "agreement": 0.99309
+   },
+   "Sweeper": {
+    "n": 4769,
+    "delta_ft": 0.0475,
+    "delta_in": 0.57,
+    "agreement": 0.99476
+   }
+  },
+  "park": {
+   "잠실": {
+    "n": 21046,
+    "delta_ft": 0.02,
+    "delta_in": 0.24,
+    "agreement": 0.99297
+   },
+   "고척": {
+    "n": 12075,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99354
+   },
+   "대전": {
+    "n": 10972,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99326
+   },
+   "문학": {
+    "n": 10918,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.9935
+   },
+   "창원": {
+    "n": 10443,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99291
+   },
+   "수원": {
+    "n": 10439,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99186
+   },
+   "광주": {
+    "n": 10348,
+    "delta_ft": 0.0225,
+    "delta_in": 0.27,
+    "agreement": 0.99314
+   },
+   "대구": {
+    "n": 10074,
+    "delta_ft": 0.02,
+    "delta_in": 0.24,
+    "agreement": 0.99315
+   },
+   "사직": {
+    "n": 9871,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.9921
+   }
+  },
+  "stance": {
+   "L": {
+    "n": 54744,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99235
+   },
+   "R": {
+    "n": 51774,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99343
+   }
+  },
+  "vertical_movement_cm": {
+   "-60~-20": {
+    "n": 6294,
+    "delta_ft": 0.02,
+    "delta_in": 0.24,
+    "agreement": 0.99063
+   },
+   "-20~0": {
+    "n": 9887,
+    "delta_ft": 0.0225,
+    "delta_in": 0.27,
+    "agreement": 0.99373
+   },
+   "0~20": {
+    "n": 26853,
+    "delta_ft": 0.02,
+    "delta_in": 0.24,
+    "agreement": 0.99412
+   },
+   "20~40": {
+    "n": 34522,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99354
+   },
+   "40~60": {
+    "n": 27232,
+    "delta_ft": 0.0125,
+    "delta_in": 0.15,
+    "agreement": 0.99214
+   },
+   "60~90": {
+    "n": 1700,
+    "delta_ft": -0.0025,
+    "delta_in": -0.03,
+    "agreement": 0.99235
+   }
+  },
+  "vaa_deg": {
+   "-12~-9": {
+    "n": 11903,
+    "delta_ft": 0.05,
+    "delta_in": 0.6,
+    "agreement": 0.99597
+   },
+   "-9~-7.5": {
+    "n": 18230,
+    "delta_ft": 0.03,
+    "delta_in": 0.36,
+    "agreement": 0.99495
+   },
+   "-7.5~-6": {
+    "n": 27001,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99293
+   },
+   "-6~-4.5": {
+    "n": 29563,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99026
+   },
+   "-4.5~-3": {
+    "n": 15740,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99644
+   },
+   "-3~0": {
+    "n": 2881,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99965
+   }
+  },
+  "velocity_kmh": {
+   "100~120": {
+    "n": 4051,
+    "delta_ft": 0.02,
+    "delta_in": 0.24,
+    "agreement": 0.98939
+   },
+   "120~130": {
+    "n": 15970,
+    "delta_ft": 0.0225,
+    "delta_in": 0.27,
+    "agreement": 0.99361
+   },
+   "130~135": {
+    "n": 16486,
+    "delta_ft": 0.02,
+    "delta_in": 0.24,
+    "agreement": 0.99406
+   },
+   "135~140": {
+    "n": 15929,
+    "delta_ft": 0.025,
+    "delta_in": 0.3,
+    "agreement": 0.99378
+   },
+   "140~145": {
+    "n": 18932,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99155
+   },
+   "145~150": {
+    "n": 25485,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.9929
+   },
+   "150~165": {
+    "n": 9634,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99471
+   }
+  },
+  "batter_height_ft": {
+   "5.0~5.7": {
+    "n": 7989,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.98911
+   },
+   "5.7~5.85": {
+    "n": 15211,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99073
+   },
+   "5.85~6.0": {
+    "n": 39107,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99345
+   },
+   "6.0~6.15": {
+    "n": 28570,
+    "delta_ft": 0.02,
+    "delta_in": 0.24,
+    "agreement": 0.99279
+   },
+   "6.15~7.0": {
+    "n": 15642,
+    "delta_ft": 0.0175,
+    "delta_in": 0.21,
+    "agreement": 0.99591
+   }
+  }
+ },
+ "sb_bs_ratio_by_pitch_type": {
+  "4-Seam Fastball": {
+   "n": 42782,
+   "rule_strike_called_ball": 260,
+   "rule_ball_called_strike": 80,
+   "ratio": 3.25,
+   "mean_vertical_movement_cm": 42.37
+  },
+  "Slider": {
+   "n": 17829,
+   "rule_strike_called_ball": 98,
+   "rule_ball_called_strike": 4,
+   "ratio": 24.5,
+   "mean_vertical_movement_cm": 10.38
+  },
+  "Curveball": {
+   "n": 9196,
+   "rule_strike_called_ball": 84,
+   "rule_ball_called_strike": 6,
+   "ratio": 14.0,
+   "mean_vertical_movement_cm": -21.96
+  },
+  "2-Seam Fastball": {
+   "n": 9032,
+   "rule_strike_called_ball": 63,
+   "rule_ball_called_strike": 6,
+   "ratio": 10.5,
+   "mean_vertical_movement_cm": 24.03
+  },
+  "Changeup": {
+   "n": 8382,
+   "rule_strike_called_ball": 42,
+   "rule_ball_called_strike": 1,
+   "ratio": 42.0,
+   "mean_vertical_movement_cm": 19.75
+  },
+  "Forkball": {
+   "n": 8162,
+   "rule_strike_called_ball": 40,
+   "rule_ball_called_strike": 1,
+   "ratio": 40.0,
+   "mean_vertical_movement_cm": 15.79
+  },
+  "Cutter": {
+   "n": 6363,
+   "rule_strike_called_ball": 44,
+   "rule_ball_called_strike": 1,
+   "ratio": 44.0,
+   "mean_vertical_movement_cm": 20.95
+  },
+  "Sweeper": {
+   "n": 4769,
+   "rule_strike_called_ball": 29,
+   "rule_ball_called_strike": 0,
+   "ratio": null,
+   "mean_vertical_movement_cm": 3.59
+  }
+ },
+ "test4": {
+  "0.1": {
+   "threshold_in": 1.2,
+   "unambiguous_pitches": 92427,
+   "residual_pitches": 361,
+   "residual_rate": 0.00391,
+   "by_pitch_type": {
+    "4-Seam Fastball": {
+     "residual": 182,
+     "pitches": 36517,
+     "rate": 0.00498
+    },
+    "Slider": {
+     "residual": 44,
+     "pitches": 15606,
+     "rate": 0.00282
+    },
+    "Curveball": {
+     "residual": 14,
+     "pitches": 8122,
+     "rate": 0.00172
+    },
+    "2-Seam Fastball": {
+     "residual": 53,
+     "pitches": 7684,
+     "rate": 0.0069
+    },
+    "Changeup": {
+     "residual": 17,
+     "pitches": 7459,
+     "rate": 0.00228
+    },
+    "Forkball": {
+     "residual": 14,
+     "pitches": 7348,
+     "rate": 0.00191
+    }
+   },
+   "mean_vertical_movement_cm_of_residuals": 28.38,
+   "mean_vaa_of_residuals": -6.079,
+   "mean_vertical_movement_cm_overall": 23.07,
+   "mean_vaa_overall": -6.474
+  },
+  "0.125": {
+   "threshold_in": 1.5,
+   "unambiguous_pitches": 88895,
+   "residual_pitches": 342,
+   "residual_rate": 0.00385,
+   "by_pitch_type": {
+    "4-Seam Fastball": {
+     "residual": 172,
+     "pitches": 34975,
+     "rate": 0.00492
+    },
+    "Slider": {
+     "residual": 43,
+     "pitches": 15050,
+     "rate": 0.00286
+    },
+    "Curveball": {
+     "residual": 14,
+     "pitches": 7870,
+     "rate": 0.00178
+    },
+    "2-Seam Fastball": {
+     "residual": 50,
+     "pitches": 7335,
+     "rate": 0.00682
+    },
+    "Changeup": {
+     "residual": 16,
+     "pitches": 7226,
+     "rate": 0.00221
+    },
+    "Forkball": {
+     "residual": 12,
+     "pitches": 7128,
+     "rate": 0.00168
+    }
+   },
+   "mean_vertical_movement_cm_of_residuals": 28.49,
+   "mean_vaa_of_residuals": -6.084,
+   "mean_vertical_movement_cm_overall": 23.07,
+   "mean_vaa_overall": -6.474
+  },
+  "0.043": {
+   "threshold_in": 0.516,
+   "unambiguous_pitches": 100420,
+   "residual_pitches": 403,
+   "residual_rate": 0.00401,
+   "by_pitch_type": {
+    "4-Seam Fastball": {
+     "residual": 206,
+     "pitches": 40034,
+     "rate": 0.00515
+    },
+    "Slider": {
+     "residual": 46,
+     "pitches": 16881,
+     "rate": 0.00272
+    },
+    "Curveball": {
+     "residual": 26,
+     "pitches": 8741,
+     "rate": 0.00297
+    },
+    "2-Seam Fastball": {
+     "residual": 55,
+     "pitches": 8478,
+     "rate": 0.00649
+    },
+    "Changeup": {
+     "residual": 18,
+     "pitches": 7969,
+     "rate": 0.00226
+    },
+    "Forkball": {
+     "residual": 14,
+     "pitches": 7799,
+     "rate": 0.0018
+    }
+   },
+   "mean_vertical_movement_cm_of_residuals": 27.31,
+   "mean_vaa_of_residuals": -6.154,
+   "mean_vertical_movement_cm_overall": 23.07,
+   "mean_vaa_overall": -6.474
+  },
+  "0.0645": {
+   "threshold_in": 0.774,
+   "unambiguous_pitches": 97431,
+   "residual_pitches": 386,
+   "residual_rate": 0.00396,
+   "by_pitch_type": {
+    "4-Seam Fastball": {
+     "residual": 199,
+     "pitches": 38697,
+     "rate": 0.00514
+    },
+    "Slider": {
+     "residual": 46,
+     "pitches": 16427,
+     "rate": 0.0028
+    },
+    "Curveball": {
+     "residual": 18,
+     "pitches": 8515,
+     "rate": 0.00211
+    },
+    "2-Seam Fastball": {
+     "residual": 53,
+     "pitches": 8178,
+     "rate": 0.00648
+    },
+    "Changeup": {
+     "residual": 18,
+     "pitches": 7777,
+     "rate": 0.00231
+    },
+    "Forkball": {
+     "residual": 14,
+     "pitches": 7628,
+     "rate": 0.00184
+    }
+   },
+   "mean_vertical_movement_cm_of_residuals": 28.32,
+   "mean_vaa_of_residuals": -6.085,
+   "mean_vertical_movement_cm_overall": 23.07,
+   "mean_vaa_overall": -6.474
+  }
+ }
+}
