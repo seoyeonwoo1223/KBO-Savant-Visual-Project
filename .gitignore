@@ -14,3 +14,6 @@ data/processed/
 exports/visualbaseball_savant_*_latest.xlsx
 
 .cache/
+
+# Per-session Stop hook summaries (.claude/settings.json), not repo content.
+.claude/sessions/

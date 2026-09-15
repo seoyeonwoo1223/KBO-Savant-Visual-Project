@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "mkdir -p .claude/sessions && f=\".claude/sessions/$(date +%Y%m%d-%H%M%S)-$(git rev-parse --short HEAD 2>/dev/null || echo nogit).md\" && { echo \"# Session summary - $(date -Iseconds)\"; echo; echo \"- Branch: $(git rev-parse --abbrev-ref HEAD 2>/dev/null)\"; echo \"- HEAD: $(git rev-parse --short HEAD 2>/dev/null)\"; echo; echo \"## Changed files (git status)\"; echo '```'; git status --porcelain 2>/dev/null; echo '```'; echo; echo \"## Recent commits\"; echo '```'; git log --oneline -10 2>/dev/null; echo '```'; } > \"$f\" 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}
