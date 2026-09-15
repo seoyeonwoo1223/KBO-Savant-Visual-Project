@@ -2,7 +2,7 @@
 
 - **상태**: 채택 (결정만 확정, 구현 미착수)
 - **일자**: 2026-09-13
-- **맥락 문서**: `docs/HANDOFF-타석판단지표.md` §4 Task 1, §3.1 C-6 / C-9
+- **맥락 문서**: `docs/HANDOFF-타석판단지표.md` (현재 상태 문서, §2.4 지표 산식)
 - **적용 범위**: `visualbaseball.zone_decision`의 DV 계열 (`raw_dv`, `dv_per_100`, `dv_plus`)
 
 ## 결정
