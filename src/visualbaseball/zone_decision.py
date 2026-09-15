@@ -39,6 +39,9 @@ CONTRACT = {
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
  'dv_plus': '100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
+ 'apr_raw': 'sum over the five regions of (league region share) * (that region SBJ for this hitter); percentage points. Fixed league weights replace the own region mix of the hitter, so two hitters are scored on the same pitch distribution. Weights are renormalized over the regions the hitter actually saw. Weighting by the own shares of the hitter would collapse this back to sbj.',
+ 'apr_plus': '100 + 15 * (apr_raw - qualified mean) / qualified population standard deviation',
+ 'region_weights': 'league share of eligible pitches per region for the season; identical for every hitter',
  'swing_aggression': '100 * mean(S - p_swing); percentage points, tendency only',
  'za_percentile': 'midrank percentile among season hitters with at least 300 eligible pitches',
  'region_contributions': '100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100',
@@ -444,6 +447,7 @@ def profile_summary(items):
   selected=[r for r in items if r['region']==reg]
   s[reg+'_pitches']=len(selected); s[reg+'_raw_dv']=r6(sum(r['dv'] for r in selected))
   s[reg+'_decision_value_per_100']=r6(100*sum(r['dv'] for r in selected)/n)
+  s[reg+'_sbj']=strikezone_ball_judgment(selected)
   for action in ('swing','take'):
    value=sum(r['dv'] for r in selected if r['swing']==(action=='swing'))
    s[f'{reg}_{action}_decision_value_per_100']=r6(100*value/n)
@@ -452,6 +456,32 @@ def profile_summary(items):
 
 def cell_summary(items):
  return {'n':len(items),'low_opposite_support_pct':r6(100*np.mean([r['opposite_support']<30 for r in items])),'raw_dv':r6(sum(r['dv'] for r in items)),'dv100':mean(items,'dv',100),'za_raw':zone_awareness(items),'delta':mean(items,'delta_v'),'swing_pct':mean(items,'swing',100),'expected_swing_pct':mean(items,'p_swing',100),'p_zone_pct':mean(items,'p_zone',100),'zone_judgment_pct':r6(100*np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])),'expected_zone_judgment_pct':r6(100*np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])),'expected_swing_rv':mean(items,'v_swing'),'expected_take_rv':mean(items,'v_take'),**{f'p_{e}':mean(items,f'p_{e}',100) for e in EVENTS}}
+
+
+def region_weights(players):
+ """League share of eligible pitches per region; the fixed APR weighting."""
+ totals={reg:sum(p[reg+'_pitches'] for p in players) for reg in REGIONS}
+ grand=sum(totals.values())
+ return {reg:(totals[reg]/grand if grand else 0) for reg in REGIONS}
+
+
+def add_apr_plus(players,weights):
+ """APR: region SBJ recombined on league region shares instead of the hitter's own.
+
+ Using the hitter's own shares would reproduce sbj exactly; league shares are
+ what make APR a different statistic. Regions the hitter never saw carry no
+ SBJ, so the remaining weights are renormalized rather than treated as zero.
+ """
+ for p in players:
+  seen=[reg for reg in REGIONS if p[reg+'_sbj'] is not None]
+  total=sum(weights[reg] for reg in seen)
+  p['apr_raw']=r6(sum(weights[reg]*p[reg+'_sbj'] for reg in seen)/total) if total else None
+ qualified=np.array([p['apr_raw'] for p in players if p['qualified_300'] and p['apr_raw'] is not None],dtype=float)
+ center=float(qualified.mean()) if len(qualified) else 0
+ spread=float(qualified.std()) if len(qualified) else 0
+ for p in players:
+  p['apr_plus']=r6(100+15*(p['apr_raw']-center)/spread) if spread and p['apr_raw'] is not None else None
+ return center,spread
 
 
 def add_dv_plus(players):
@@ -469,10 +499,12 @@ def write_web(root,season,pitches,report,output_root=None):
  for r in pitches: by_batter[str(r['batter_id'])].append(r)
  players=[profile_summary(items) for items in by_batter.values()]
  add_dv_plus(players)
+ weights=region_weights(players)
+ add_apr_plus(players,weights)
  scores=np.array([p['za_raw'] for p in players if p['qualified_300'] and p['za_raw'] is not None])
  for p in players: p['za_percentile']=r6(100*(np.sum(scores<p['za_raw'])+.5*np.sum(scores==p['za_raw']))/len(scores)) if len(scores) and p['za_raw'] is not None else None
  def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
- dump(dest/'leaderboard.json',{'schema_version':5,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'settings':report['validation']['settings']})
+ dump(dest/'leaderboard.json',{'schema_version':5,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'region_weights':{k:r6(v) for k,v in weights.items()},'qualified_batters':len(scores),'players':players,'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'settings':report['validation']['settings']})
  dump(dest/'teams.json',{'season':season,'teams':{p['batter_id']:p['team'] for p in players}})
  shards=defaultdict(dict)
  for p in players:
