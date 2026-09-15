@@ -1,6 +1,7 @@
 import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
 from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_dv_plus, EVENTS
+from visualbaseball.zone_decision import strikezone_ball_judgment, judgment_accuracy, expected_judgment_accuracy
 
 
 def test_decision_value_credits_the_actual_choice():
@@ -39,7 +40,7 @@ def test_five_regions_and_hbp_not_future_pa_result():
 def test_additive_contributions_use_all_pitches():
  rows=[]
  for i,reg in enumerate(REGIONS):
-  rows.append({'season':2026,'batter_id':'1','batter_name':'Test','game_id':'20260601OBLG0','inning_half':'top','region':reg,'dv':(i-2)/10,'delta_v':(i-2)/10 or .1,'swing':i%2,'p_swing':.4,'judgment':.1,'opposite_support':25})
+  rows.append({'season':2026,'batter_id':'1','batter_name':'Test','game_id':'20260601OBLG0','inning_half':'top','region':reg,'dv':(i-2)/10,'delta_v':(i-2)/10 or .1,'swing':i%2,'p_swing':.4,'p_zone':.6,'judgment':.1,'opposite_support':25})
  s=profile_summary(rows)
  assert abs(sum(s[r+'_decision_value_per_100'] for r in REGIONS)-s['dv_per_100'])<1e-5
  for reg in REGIONS:
@@ -117,3 +118,33 @@ def test_actual_fitted_predictions_ignore_held_out_results():
  assert not np.allclose(first['target'],second['target'])
  np.testing.assert_allclose(first['probs'][:,:3].sum(axis=1),1)
  np.testing.assert_allclose(first['probs'][:,3:].sum(axis=1),1)
+
+
+def _judgment_row(swing, p_swing, p_zone):
+ return {'swing':swing,'p_swing':p_swing,'p_zone':p_zone,
+   'judgment':(swing-p_swing)*(2*p_zone-1)}
+
+
+def test_sbj_is_observed_minus_expected_judgment_accuracy():
+ items=[_judgment_row(1,.4,.8),_judgment_row(0,.3,.2)]
+ # Observed: swing credited p_zone, take credited 1 - p_zone.
+ assert judgment_accuracy(items)==100*np.mean([.8,.8])
+ # Expected: the same accuracy for a league-average swing policy.
+ assert expected_judgment_accuracy(items)==100*np.mean([.4*.8+.6*.2,.3*.2+.7*.8])
+ assert strikezone_ball_judgment(items)==round(judgment_accuracy(items)-expected_judgment_accuracy(items),6)
+
+
+def test_sbj_equals_zone_awareness_and_is_not_independent_evidence():
+ # SBJ reduces to (S - p_swing) * (2*p_zone - 1), so it must track za_raw exactly.
+ rng=np.random.default_rng(11)
+ for _ in range(20):
+  items=[_judgment_row(int(rng.integers(0,2)),float(rng.uniform(.05,.95)),float(rng.uniform(.05,.95)))
+    for _ in range(rng.integers(5,60))]
+  assert strikezone_ball_judgment(items)==zone_awareness(items)
+
+
+def test_sbj_is_outcome_independent_like_zone_awareness():
+ items=[{**_judgment_row(1,.4,.8),'delta_v':.4,'raw_run_value':2},
+        {**_judgment_row(0,.3,.2),'delta_v':-.2,'raw_run_value':-1}]
+ changed=[{**r,'delta_v':-99*r['delta_v'],'raw_run_value':999} for r in items]
+ assert strikezone_ball_judgment(changed)==strikezone_ball_judgment(items)
