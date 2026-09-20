@@ -33,7 +33,7 @@ SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 CONTRACT = {
  'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points',
- 'sbj_raw': '100 * mean(p_CalledStrike if swing else p_Ball + p_HBP); percent. PLV-style Strikezone Judgement: a swing counts as correct in proportion to the chance the pitch would have been a called strike had it been taken, a take in proportion to the chance it would have been a ball or HBP. Uses the take-conditional call model (EVENTS[3:6], fit on takes only), not zone membership, and subtracts no baseline.',
+ 'sbj_raw': '100 * mean(p_CalledStrike if swing else p_Ball + p_HBP); percent. PLV-style Strikezone Judgement: a swing counts as correct in proportion to the chance the pitch would have been a called strike had it been taken, a take in proportion to the chance it would have been a ball or HBP. Uses the take-conditional call model (EVENTS[3:6], fit on takes only) and subtracts no baseline. Not to be confused with p_zone, which is also a take-only called-strike model but sees only four positional features; p_CalledStrike is count-aware and separates HBP.',
  'sbj_plus': '100 + 15 * (sbj_raw - qualified mean) / qualified population standard deviation',
  'expected_judgment_accuracy_pct': '100 * mean(p_swing*p_CalledStrike + (1-p_swing)*(p_Ball + p_HBP)); percent. Accuracy a league-average swing policy would post on this pitch mix. Difficulty diagnostic only - sbj_raw does not subtract it.',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
@@ -126,10 +126,16 @@ def _correct_share(row):
 
  A swing is correct to the extent the pitch would have been a called strike had
  it been taken; a take is correct to the extent it would have been a ball or
- HBP. Both use the take-conditional call model (EVENTS[3:6], fit on takes
- only), never zone membership: p_zone answers "was it in the zone", while
- p_CalledStrike answers "would it have been called a strike", which is the
- question a hitter actually faces.
+ HBP. Both read the EVENTS[3:6] call model, which fit_predict fits on takes
+ only, so they are counterfactual: "what would this pitch have been called".
+
+ p_zone is NOT zone membership - predict_pzone is also a take-only
+ called-strike model. The difference is what each one sees: p_zone uses four
+ positional features (PZONE_NUMERIC) in two classes, while p_CalledStrike uses
+ the full feature set - count, outs and bases, velocity, release, movement,
+ pitch type, stance, park - in three classes that separate Ball from HBP. So
+ p_CalledStrike is count-aware where p_zone is not, which is why the two
+ correlate at 0.99 yet disagree by up to 0.93 on individual pitches.
  """
  return row['p_CalledStrike'] if row['swing'] else row['p_Ball']+row['p_HBP']
 

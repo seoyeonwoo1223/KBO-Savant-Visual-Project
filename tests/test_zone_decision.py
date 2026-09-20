@@ -135,8 +135,9 @@ def test_sbj_credits_called_strike_chance_on_swings_and_ball_chance_on_takes():
  assert strikezone_ball_judgment(items)==round(100*np.mean([.9,.75+.05]),6)
 
 
-def test_sbj_reads_call_probabilities_not_zone_membership():
- # Same p_zone, different call model: SBJ must move, za_raw must not.
+def test_sbj_follows_the_full_call_model_not_the_positional_one():
+ # p_zone is also a called-strike model, but a four-feature positional one.
+ # Hold it fixed and move the full call model: SBJ must react, za_raw must not.
  base=[_judgment_row(1,.4,.6,p_cs=.6),_judgment_row(1,.4,.6,p_cs=.6)]
  shifted=[{**r,'p_CalledStrike':.2,'p_Ball':.8} for r in base]
  assert strikezone_ball_judgment(shifted)!=strikezone_ball_judgment(base)
