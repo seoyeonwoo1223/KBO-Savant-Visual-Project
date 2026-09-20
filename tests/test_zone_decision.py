@@ -249,3 +249,23 @@ def test_profile_summary_exposes_seager_quadrants_summing_to_pitches_seen():
  s=profile_summary(rows)
  assert s['seager_a']+s['seager_b']+s['seager_c']+s['seager_d']==s['pitches_seen']
  assert s['apr_raw']==round(s['selection_tendency_pct']-s['hittable_take_pct'],6)
+
+
+def test_plus_scores_are_withheld_below_the_qualification_minimum():
+ # + scores are standardized on the qualified distribution, so extending them
+ # to small samples would inflate sampling error onto a 15-point scale.
+ qualified=[]
+ for i in range(4):
+  rows=[_decision(1,.2) for _ in range(60+10*i)]+[_decision(0,-.2) for _ in range(240-10*i)]
+  for r in rows: r['batter_id']=str(i)
+  qualified.append(profile_summary(rows))
+ small=[_decision(1,.2) for _ in range(10)]
+ for r in small: r['batter_id']='tiny'
+ players=qualified+[profile_summary(small)]
+ add_sbj_plus(players); add_apr_plus(players); add_dv_plus(players)
+ tiny=players[-1]
+ assert tiny['qualified_300'] is False
+ assert tiny['sbj_plus'] is None and tiny['apr_plus'] is None and tiny['dv_plus'] is None
+ # Raw components stay available for diagnostics.
+ assert tiny['sbj_raw'] is not None and tiny['pitches_seen']==10
+ assert all(p['sbj_plus'] is not None for p in qualified)

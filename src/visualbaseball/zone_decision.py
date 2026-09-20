@@ -33,14 +33,15 @@ SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 CONTRACT = {
  'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points',
+ 'p_zone': 'MISNOMER kept for payload compatibility. Not zone membership: predict_pzone fits a take-only CalledStrike vs Ball/HBP model on four positional features (x_relative, z_relative, sz_top, sz_bottom) in two classes. Read it as p_called_strike_position. p_CalledStrike is the same target with the full feature set in three classes.',
  'sbj_raw': '100 * mean(p_CalledStrike if swing else p_Ball + p_HBP); percent. PLV-style Strikezone Judgement: a swing counts as correct in proportion to the chance the pitch would have been a called strike had it been taken, a take in proportion to the chance it would have been a ball or HBP. Uses the take-conditional call model (EVENTS[3:6], fit on takes only) and subtracts no baseline. Not to be confused with p_zone, which is also a take-only called-strike model but sees only four positional features; p_CalledStrike is count-aware and separates HBP.',
- 'sbj_plus': '100 + 15 * (sbj_raw - qualified mean) / qualified population standard deviation',
+ 'sbj_plus': 'null below the 300-pitch minimum; 100 + 15 * (sbj_raw - qualified mean) / qualified population standard deviation',
  'expected_judgment_accuracy_pct': '100 * mean(p_swing*p_CalledStrike + (1-p_swing)*(p_Ball + p_HBP)); percent. Accuracy a league-average swing policy would post on this pitch mix. Difficulty diagnostic only - sbj_raw does not subtract it.',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
- 'dv_plus': '100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
+ 'dv_plus': 'null below the 300-pitch minimum; 100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
  'apr_raw': 'selection_tendency_pct - hittable_take_pct; percentage points. Value-based SEAGER: a pitch is hittable when delta_v > 0 (swinging is worth more runs than taking), so the split follows the cross-fit Swing/Take values and the count, not zone membership. Measures the balance of selective aggression, not the size of the run gain - that is dv_per_100.',
- 'apr_plus': '100 + 15 * (apr_raw - qualified mean) / qualified population standard deviation',
+ 'apr_plus': 'null below the 300-pitch minimum; 100 + 15 * (apr_raw - qualified mean) / qualified population standard deviation',
  'seager_quadrants': 'A = hittable swing, B = non-hittable swing, C = hittable take, D = non-hittable take; delta_v <= 0 counts as non-hittable. A + B + C + D equals eligible pitches.',
  'selection_tendency_pct': '100 * D / (A + D); share of correct decisions taken rather than swung at',
  'hittable_take_pct': '100 * C / (C + D); share of takes that gave up a hittable pitch',
@@ -158,9 +159,12 @@ def expected_judgment_accuracy(items):
 def strikezone_ball_judgment(items):
  """SBJ: PLV-style strike/ball judgment accuracy, in percent.
 
- Raw accuracy with no expectation subtracted. Subtracting the league-average
- policy would collapse this onto the (S - p_swing) * (2q - 1) form that
- za_raw already reports; keeping it raw is what makes SBJ its own statistic.
+ Raw accuracy, with no expectation subtracted. Subtracting the league-average
+ policy gives mean((S - p_swing) * (2q - 1)), which is za_raw's shape but NOT
+ za_raw: za_raw evaluates that form at q = p_zone, and this metric is at
+ q = p_CalledStrike. On 2026 the two differ by up to 12.41. The identity held
+ only for the earlier definition, which used p_zone on both sides. Keeping SBJ
+ raw is a choice about difficulty adjustment, not a way to dodge an identity.
  """
  return r6(100*np.mean([_correct_share(r) for r in items])) if items else None
 
@@ -171,7 +175,8 @@ def add_sbj_plus(players):
  center=float(qualified.mean()) if len(qualified) else 0
  spread=float(qualified.std()) if len(qualified) else 0
  for p in players:
-  p['sbj_plus']=r6(100+15*(p['sbj_raw']-center)/spread) if spread and p['sbj_raw'] is not None else None
+  # Standardized on the qualified distribution, so only qualified hitters carry it.
+  p['sbj_plus']=r6(100+15*(p['sbj_raw']-center)/spread) if spread and p['qualified_300'] and p['sbj_raw'] is not None else None
  return center,spread
 
 
@@ -528,7 +533,8 @@ def add_apr_plus(players):
  center=float(qualified.mean()) if len(qualified) else 0
  spread=float(qualified.std()) if len(qualified) else 0
  for p in players:
-  p['apr_plus']=r6(100+15*(p['apr_raw']-center)/spread) if spread and p['apr_raw'] is not None else None
+  # Standardized on the qualified distribution, so only qualified hitters carry it.
+  p['apr_plus']=r6(100+15*(p['apr_raw']-center)/spread) if spread and p['qualified_300'] and p['apr_raw'] is not None else None
  return center,spread
 
 
@@ -536,7 +542,8 @@ def add_dv_plus(players):
  qualified=np.array([p['dv_per_100'] for p in players if p['qualified_300']],dtype=float)
  center=float(qualified.mean()) if len(qualified) else 0
  spread=float(qualified.std()) if len(qualified) else 0
- for p in players: p['dv_plus']=r6(100+15*(p['dv_per_100']-center)/spread) if spread else (100 if p['qualified_300'] else None)
+ # Standardized on the qualified distribution, so only qualified hitters carry it.
+ for p in players: p['dv_plus']=r6(100+15*(p['dv_per_100']-center)/spread) if spread and p['qualified_300'] else (100 if p['qualified_300'] else None)
  return center,spread
 
 
