@@ -2,7 +2,7 @@ import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
 from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_dv_plus, EVENTS
 from visualbaseball.zone_decision import strikezone_ball_judgment, expected_judgment_accuracy, add_sbj_plus
-from visualbaseball.zone_decision import region_weights, add_apr_plus
+from visualbaseball.zone_decision import seager_quadrants, selection_tendency, hittable_take_rate, approach_rating, add_apr_plus
 
 
 def test_decision_value_credits_the_actual_choice():
@@ -189,47 +189,62 @@ def _apr_rows(batter_id, per_region, p_cs=None):
  return rows
 
 
-def test_apr_uses_league_region_weights_not_the_hitters_own_mix():
- # Same per-region judgment, different region mix: SBJ differs, APR does not.
- shape={'heart':(1,.4,.6),'shadow_in':(1,.4,.6),'shadow_out':(1,.4,.6),'chase':(1,.4,.6),'waste':(1,.4,.6)}
- a=_apr_rows('1',{r:(40 if r=='heart' else 10,*v) for r,v in shape.items()})
- b=_apr_rows('2',{r:(10 if r=='heart' else 40,*v) for r,v in shape.items()})
- players=[profile_summary(a),profile_summary(b)]
- weights=region_weights(players)
- assert abs(sum(weights.values())-1)<1e-12
- add_apr_plus(players,weights)
- # Every region carries the same SBJ here, so APR must agree across the two mixes.
- assert players[0]['apr_raw']==players[1]['apr_raw']
+def _decision(swing, delta_v):
+ return {'season':2026,'batter_id':'1','batter_name':'T','team':'T','game_id':'20260601OBLG0',
+   'region':'heart','dv':.0,'delta_v':delta_v,'opposite_support':50,
+   **_judgment_row(swing,.4,.6,p_cs=.6)}
 
 
-def test_apr_differs_from_sbj_when_region_judgment_varies():
- # Good in the heart, poor on the edges, and a heart-heavy personal mix.
- rows=_apr_rows('1',{'heart':(60,1,.3,.9),'shadow_in':(10,1,.7,.2),'shadow_out':(10,1,.7,.2),
-   'chase':(10,1,.7,.2),'waste':(10,1,.7,.2)})
- other=_apr_rows('2',{r:(20,1,.5,.5) for r in REGIONS})
- players=[profile_summary(rows),profile_summary(other)]
- add_apr_plus(players,region_weights(players))
- # League weights down-weight the hitter's oversized heart share, so APR < SBJ.
- assert players[0]['apr_raw']!=players[0]['sbj_raw']
- assert players[0]['apr_raw']<players[0]['sbj_raw']
+def test_seager_quadrants_partition_every_pitch():
+ rows=[_decision(1,.2),_decision(1,-.2),_decision(0,.2),_decision(0,-.2),_decision(0,0.)]
+ counts=seager_quadrants(rows)
+ assert counts=={'A':1,'B':1,'C':1,'D':2}          # delta_v == 0 is non-hittable
+ assert sum(counts.values())==len(rows)
 
 
-def test_apr_renormalizes_over_regions_the_hitter_saw():
- seen=_apr_rows('1',{'heart':(20,1,.4,.7),'shadow_in':(20,1,.4,.7)})
- full=_apr_rows('2',{r:(20,1,.4,.7) for r in REGIONS})
- players=[profile_summary(seen),profile_summary(full)]
- add_apr_plus(players,region_weights(players))
- # Unseen regions are dropped, not scored as zero, so equal judgment gives equal APR.
- assert players[0]['apr_raw'] is not None
- assert abs(players[0]['apr_raw']-players[1]['apr_raw'])<1e-6
+def test_seager_uses_run_value_not_zone_membership():
+ # Same location and zone probability, opposite delta_v sign.
+ hittable=[_decision(1,.2)]; avoidable=[{**_decision(1,-.2)}]
+ assert seager_quadrants(hittable)=={'A':1,'B':0,'C':0,'D':0}
+ assert seager_quadrants(avoidable)=={'A':0,'B':1,'C':0,'D':0}
+
+
+def test_selection_tendency_and_hittable_takes_follow_the_repo_formula():
+ counts={'A':3,'B':7,'C':2,'D':6}
+ assert selection_tendency(counts)==round(100*6/(3+6),6)
+ assert hittable_take_rate(counts)==round(100*2/(2+6),6)
+ assert approach_rating(counts)==round(selection_tendency(counts)-hittable_take_rate(counts),6)
+
+
+def test_apr_direction_rewards_taking_bad_pitches_and_punishes_passing_good_ones():
+ base={'A':5,'B':5,'C':5,'D':5}
+ # Taking a non-hittable pitch raises selection tendency -> APR up.
+ assert approach_rating({**base,'D':base['D']+5})>approach_rating(base)
+ # Passing on a hittable pitch raises hittable-take rate -> APR down.
+ assert approach_rating({**base,'C':base['C']+5})<approach_rating(base)
+ # Swinging at a non-hittable pitch enters B, which neither ratio uses.
+ assert approach_rating({**base,'B':base['B']+5})==approach_rating(base)
+
+
+def test_apr_is_none_when_a_ratio_has_no_denominator():
+ assert approach_rating({'A':0,'B':4,'C':0,'D':0}) is None
+ assert selection_tendency({'A':0,'B':4,'C':0,'D':0}) is None
 
 
 def test_apr_plus_is_standardized_over_qualified_hitters():
  players=[]
  for i in range(4):
-  rows=_apr_rows(str(i),{r:(80,1,.4,.5+.08*i) for r in REGIONS})
+  rows=[_decision(1,.2) for _ in range(60+10*i)]+[_decision(0,-.2) for _ in range(240-10*i)]
+  for r in rows: r['batter_id']=str(i); r['batter_name']='T'+str(i)
   players.append(profile_summary(rows))
- center,spread=add_apr_plus(players,region_weights(players))
+ center,spread=add_apr_plus(players)
  assert all(p['qualified_300'] for p in players)
  for p in players:
   assert abs(p['apr_plus']-(100+15*(p['apr_raw']-center)/spread))<1e-5
+
+
+def test_profile_summary_exposes_seager_quadrants_summing_to_pitches_seen():
+ rows=[_decision(1,.2),_decision(1,-.2),_decision(0,.2),_decision(0,-.2)]
+ s=profile_summary(rows)
+ assert s['seager_a']+s['seager_b']+s['seager_c']+s['seager_d']==s['pitches_seen']
+ assert s['apr_raw']==round(s['selection_tendency_pct']-s['hittable_take_pct'],6)
