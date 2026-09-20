@@ -33,9 +33,9 @@ SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 CONTRACT = {
  'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points',
- 'sbj': '100 * (mean(p_zone if swing else 1 - p_zone) - mean(p_swing*p_zone + (1-p_swing)*(1-p_zone))); percentage points. Observed strike/ball judgment accuracy minus league-expected accuracy. Algebraically identical to za_raw: the per-pitch difference reduces to (S - p_swing) * (2*p_zone - 1). Reported as a separate field for its auditable components, NOT as independent evidence from za_raw.',
- 'judgment_accuracy_pct': '100 * mean(p_zone if swing else 1 - p_zone); percent. Share of pitches the hitter acted correctly on, weighted by zone probability.',
- 'expected_judgment_accuracy_pct': '100 * mean(p_swing*p_zone + (1-p_swing)*(1-p_zone)); percent. Same quantity for a league-average swing policy facing this pitch mix; the SBJ baseline.',
+ 'sbj_raw': '100 * mean(p_CalledStrike if swing else p_Ball + p_HBP); percent. PLV-style Strikezone Judgement: a swing counts as correct in proportion to the chance the pitch would have been a called strike had it been taken, a take in proportion to the chance it would have been a ball or HBP. Uses the take-conditional call model (EVENTS[3:6], fit on takes only), not zone membership, and subtracts no baseline.',
+ 'sbj_plus': '100 + 15 * (sbj_raw - qualified mean) / qualified population standard deviation',
+ 'expected_judgment_accuracy_pct': '100 * mean(p_swing*p_CalledStrike + (1-p_swing)*(p_Ball + p_HBP)); percent. Accuracy a league-average swing policy would post on this pitch mix. Difficulty diagnostic only - sbj_raw does not subtract it.',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
  'dv_plus': '100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
@@ -119,35 +119,52 @@ def zone_awareness(items):
  return mean(items,'judgment',100)
 
 
-def _judgment_accuracy(items):
- # Swings are correct in proportion to p_zone, takes to 1 - p_zone.
- return np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])
+def _correct_share(row):
+ """Share of this pitch the hitter judged correctly, PLV Strikezone Judgement style.
+
+ A swing is correct to the extent the pitch would have been a called strike had
+ it been taken; a take is correct to the extent it would have been a ball or
+ HBP. Both use the take-conditional call model (EVENTS[3:6], fit on takes
+ only), never zone membership: p_zone answers "was it in the zone", while
+ p_CalledStrike answers "would it have been called a strike", which is the
+ question a hitter actually faces.
+ """
+ return row['p_CalledStrike'] if row['swing'] else row['p_Ball']+row['p_HBP']
 
 
-def _expected_judgment_accuracy(items):
- return np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])
-
-
-def judgment_accuracy(items):
- """Observed strike/ball judgment accuracy, in percent."""
- return r6(100*_judgment_accuracy(items)) if items else None
+def _league_correct_share(row):
+ # The same pitch judged by a league-average swing policy instead of this hitter.
+ taken=row['p_Ball']+row['p_HBP']
+ return row['p_swing']*row['p_CalledStrike']+(1-row['p_swing'])*taken
 
 
 def expected_judgment_accuracy(items):
- """Same accuracy for a league-average swing policy on this pitch mix; the SBJ baseline."""
- return r6(100*_expected_judgment_accuracy(items)) if items else None
+ """League-average-policy accuracy on this pitch mix; a difficulty baseline.
+
+ Diagnostic only - SBJ does not subtract it. Reported so a hitter facing an
+ unusually easy or hard pitch mix can be spotted.
+ """
+ return r6(100*np.mean([_league_correct_share(r) for r in items])) if items else None
 
 
 def strikezone_ball_judgment(items):
- """SBJ: judgment accuracy above the league-average baseline, in percentage points.
+ """SBJ: PLV-style strike/ball judgment accuracy, in percent.
 
- Identical to zone_awareness() by algebra - the per-pitch difference
- (S*q + (1-S)*(1-q)) - (p*q + (1-p)*(1-q)) reduces to (S - p) * (2q - 1),
- which is the 'judgment' term. Kept as its own function so the observed and
- expected components stay reportable; never cite SBJ and za_raw as two
- independent measurements.
+ Raw accuracy with no expectation subtracted. Subtracting the league-average
+ policy would collapse this onto the (S - p_swing) * (2q - 1) form that
+ za_raw already reports; keeping it raw is what makes SBJ its own statistic.
  """
- return r6(100*(_judgment_accuracy(items)-_expected_judgment_accuracy(items))) if items else None
+ return r6(100*np.mean([_correct_share(r) for r in items])) if items else None
+
+
+def add_sbj_plus(players):
+ """SBJ+ on the repo scale: 100 + 15 * z against the qualified population."""
+ qualified=np.array([p['sbj_raw'] for p in players if p['qualified_300'] and p['sbj_raw'] is not None],dtype=float)
+ center=float(qualified.mean()) if len(qualified) else 0
+ spread=float(qualified.std()) if len(qualified) else 0
+ for p in players:
+  p['sbj_plus']=r6(100+15*(p['sbj_raw']-center)/spread) if spread and p['sbj_raw'] is not None else None
+ return center,spread
 
 
 def region(row):
@@ -434,7 +451,7 @@ def score_crossfit(rows, selected, settings=SCORE_SETTINGS):
 def profile_summary(items):
  n=len(items); first=items[0]
  total=sum(r['dv'] for r in items)
- s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'sbj':strikezone_ball_judgment(items),'judgment_accuracy_pct':judgment_accuracy(items),'expected_judgment_accuracy_pct':expected_judgment_accuracy(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
+ s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'sbj_raw':strikezone_ball_judgment(items),'expected_judgment_accuracy_pct':expected_judgment_accuracy(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
  s['low_opposite_support_pct']=r6(100*s['low_opposite_support_pitches']/n)
  games=defaultdict(list)
  for r in items:games[r['game_id']].append(r['dv'])
@@ -499,6 +516,7 @@ def write_web(root,season,pitches,report,output_root=None):
  for r in pitches: by_batter[str(r['batter_id'])].append(r)
  players=[profile_summary(items) for items in by_batter.values()]
  add_dv_plus(players)
+ add_sbj_plus(players)
  weights=region_weights(players)
  add_apr_plus(players,weights)
  scores=np.array([p['za_raw'] for p in players if p['qualified_300'] and p['za_raw'] is not None])
