@@ -34,9 +34,10 @@ CROSSFIT_FOLDS = 3
 CONTRACT = {
  'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points',
  'p_zone': 'MISNOMER kept for payload compatibility. Not zone membership: predict_pzone fits a take-only CalledStrike vs Ball/HBP model on four positional features (x_relative, z_relative, sz_top, sz_bottom) in two classes. Read it as p_called_strike_position. p_CalledStrike is the same target with the full feature set in three classes.',
- 'sbj_raw': '100 * mean(p_CalledStrike if swing else p_Ball + p_HBP); percent. PLV-style Strikezone Judgement: a swing counts as correct in proportion to the chance the pitch would have been a called strike had it been taken, a take in proportion to the chance it would have been a ball or HBP. Uses the take-conditional call model (EVENTS[3:6], fit on takes only) and subtracts no baseline. Not to be confused with p_zone, which is also a take-only called-strike model but sees only four positional features; p_CalledStrike is count-aware and separates HBP.',
+ 'sbj_raw': '100 * mean(p_zone if swing else 1 - p_zone); percent. PLV-style Strikezone Judgement against the ABS zone: a swing counts as correct in proportion to the chance the pitch would have been a called strike had it been taken. p_zone is the position-only take-conditional call model, so this measures the zone and not umpire, count or park effects. Height adjustment is built in: x_relative/z_relative are normalized by that batter ABS rectangle. No baseline is subtracted - subtracting the league-average policy would reproduce za_raw exactly.',
+ 'sbj_raw_contextual': '100 * mean(p_CalledStrike if swing else p_Ball + p_HBP); percent. Same quantity on the full contextual call model (count, velocity, movement, pitch type, stance, park; three classes separating HBP). DIAGNOSTIC ONLY - correlates with sbj_raw at 0.9976 on 2026 and is not a second judgment measurement.',
  'sbj_plus': 'null below the 300-pitch minimum; 100 + 15 * (sbj_raw - qualified mean) / qualified population standard deviation',
- 'expected_judgment_accuracy_pct': '100 * mean(p_swing*p_CalledStrike + (1-p_swing)*(p_Ball + p_HBP)); percent. Accuracy a league-average swing policy would post on this pitch mix. Difficulty diagnostic only - sbj_raw does not subtract it.',
+ 'expected_judgment_accuracy_pct': '100 * mean(p_swing*p_zone + (1-p_swing)*(1-p_zone)); percent. Accuracy a league-average swing policy would post on this pitch mix. Difficulty diagnostic only - sbj_raw does not subtract it.',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
  'dv_plus': 'null below the 300-pitch minimum; 100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
@@ -126,25 +127,31 @@ def _correct_share(row):
  """Share of this pitch the hitter judged correctly, PLV Strikezone Judgement style.
 
  A swing is correct to the extent the pitch would have been a called strike had
- it been taken; a take is correct to the extent it would have been a ball or
- HBP. Both read the EVENTS[3:6] call model, which fit_predict fits on takes
- only, so they are counterfactual: "what would this pitch have been called".
+ it been taken; a take is correct to the extent it would not. p_zone supplies
+ that counterfactual call probability: despite the name it is a take-only
+ CalledStrike vs Ball/HBP model over four positional features, so it estimates
+ the strike zone itself and nothing else.
 
- p_zone is NOT zone membership - predict_pzone is also a take-only
- called-strike model. The difference is what each one sees: p_zone uses four
- positional features (PZONE_NUMERIC) in two classes, while p_CalledStrike uses
- the full feature set - count, outs and bases, velocity, release, movement,
- pitch type, stance, park - in three classes that separate Ball from HBP. So
- p_CalledStrike is count-aware where p_zone is not, which is why the two
- correlate at 0.99 yet disagree by up to 0.93 on individual pitches.
+ KBO runs ABS from 2024, and sz_top/sz_bottom are constant per batter (2026:
+ 156 of 163 qualified hitters have a single value), so the zone is a fixed
+ height-derived rectangle with no umpire to model. x_relative/z_relative are
+ already normalized by that batter's own rectangle, which is where the height
+ adjustment lives. The richer p_CalledStrike model predicts observed calls
+ better (0.89% vs 1.23% misclassification on 2026 takes) but buys that with
+ count, pitch type and park, which have no causal role in an automated call;
+ it stays available as contextual_judgment_accuracy for diagnostics.
  """
+ return row['p_zone'] if row['swing'] else 1-row['p_zone']
+
+
+def _contextual_correct_share(row):
+ # Same question asked of the full call model: count, movement, park included.
  return row['p_CalledStrike'] if row['swing'] else row['p_Ball']+row['p_HBP']
 
 
 def _league_correct_share(row):
  # The same pitch judged by a league-average swing policy instead of this hitter.
- taken=row['p_Ball']+row['p_HBP']
- return row['p_swing']*row['p_CalledStrike']+(1-row['p_swing'])*taken
+ return row['p_swing']*row['p_zone']+(1-row['p_swing'])*(1-row['p_zone'])
 
 
 def expected_judgment_accuracy(items):
@@ -156,15 +163,23 @@ def expected_judgment_accuracy(items):
  return r6(100*np.mean([_league_correct_share(r) for r in items])) if items else None
 
 
+def contextual_judgment_accuracy(items):
+ """SBJ computed on the full contextual call model instead of position alone.
+
+ Diagnostic, never the published metric. On 2026 it correlates with sbj_raw at
+ 0.9976 and moves hitters a mean 3.1 ranks, so it is a robustness check on the
+ call model, not a second measurement of judgment.
+ """
+ return r6(100*np.mean([_contextual_correct_share(r) for r in items])) if items else None
+
+
 def strikezone_ball_judgment(items):
- """SBJ: PLV-style strike/ball judgment accuracy, in percent.
+ """SBJ: PLV-style strike/ball judgment accuracy against the ABS zone, in percent.
 
  Raw accuracy, with no expectation subtracted. Subtracting the league-average
- policy gives mean((S - p_swing) * (2q - 1)), which is za_raw's shape but NOT
- za_raw: za_raw evaluates that form at q = p_zone, and this metric is at
- q = p_CalledStrike. On 2026 the two differ by up to 12.41. The identity held
- only for the earlier definition, which used p_zone on both sides. Keeping SBJ
- raw is a choice about difficulty adjustment, not a way to dodge an identity.
+ policy gives mean((S - p_swing) * (2*p_zone - 1)), which IS za_raw - that
+ identity is why the baseline stays out, and it is a real constraint here
+ because SBJ now reads the same p_zone that za_raw does.
  """
  return r6(100*np.mean([_correct_share(r) for r in items])) if items else None
 
@@ -464,7 +479,7 @@ def score_crossfit(rows, selected, settings=SCORE_SETTINGS):
 def profile_summary(items):
  n=len(items); first=items[0]
  total=sum(r['dv'] for r in items)
- s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'sbj_raw':strikezone_ball_judgment(items),'expected_judgment_accuracy_pct':expected_judgment_accuracy(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
+ s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'sbj_raw':strikezone_ball_judgment(items),'sbj_raw_contextual':contextual_judgment_accuracy(items),'expected_judgment_accuracy_pct':expected_judgment_accuracy(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
  s['low_opposite_support_pct']=r6(100*s['low_opposite_support_pitches']/n)
  games=defaultdict(list)
  for r in items:games[r['game_id']].append(r['dv'])

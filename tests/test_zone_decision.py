@@ -1,7 +1,7 @@
 import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
 from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_dv_plus, EVENTS
-from visualbaseball.zone_decision import strikezone_ball_judgment, expected_judgment_accuracy, add_sbj_plus
+from visualbaseball.zone_decision import strikezone_ball_judgment, expected_judgment_accuracy, add_sbj_plus, contextual_judgment_accuracy
 from visualbaseball.zone_decision import seager_quadrants, selection_tendency, hittable_take_rate, approach_rating, add_apr_plus
 
 
@@ -129,50 +129,57 @@ def _judgment_row(swing, p_swing, p_zone, p_cs=None, p_hbp=.0):
    'judgment':(swing-p_swing)*(2*p_zone-1)}
 
 
-def test_sbj_credits_called_strike_chance_on_swings_and_ball_chance_on_takes():
- # PLV Strikezone Judgement: swing -> p_CalledStrike, take -> p_Ball + p_HBP.
- items=[_judgment_row(1,.4,.5,p_cs=.9),_judgment_row(0,.3,.5,p_cs=.2,p_hbp=.05)]
- assert strikezone_ball_judgment(items)==round(100*np.mean([.9,.75+.05]),6)
+def test_sbj_credits_zone_chance_on_swings_and_its_complement_on_takes():
+ # PLV Strikezone Judgement against the ABS zone: swing -> p_zone, take -> 1 - p_zone.
+ items=[_judgment_row(1,.4,.9),_judgment_row(0,.3,.2)]
+ assert strikezone_ball_judgment(items)==round(100*np.mean([.9,.8]),6)
 
 
-def test_sbj_follows_the_full_call_model_not_the_positional_one():
- # p_zone is also a called-strike model, but a four-feature positional one.
- # Hold it fixed and move the full call model: SBJ must react, za_raw must not.
+def test_sbj_reads_the_positional_zone_model_not_the_contextual_one():
+ # Hold p_zone fixed and move the contextual call model: SBJ must not budge.
  base=[_judgment_row(1,.4,.6,p_cs=.6),_judgment_row(1,.4,.6,p_cs=.6)]
  shifted=[{**r,'p_CalledStrike':.2,'p_Ball':.8} for r in base]
- assert strikezone_ball_judgment(shifted)!=strikezone_ball_judgment(base)
- assert zone_awareness(shifted)==zone_awareness(base)
+ assert strikezone_ball_judgment(shifted)==strikezone_ball_judgment(base)
+ # The contextual diagnostic is what tracks that model instead.
+ assert contextual_judgment_accuracy(shifted)!=contextual_judgment_accuracy(base)
 
 
-def test_sbj_no_longer_collapses_onto_zone_awareness():
- # Subtracting the league baseline is what produced the za_raw identity; SBJ does not.
+def test_sbj_is_not_zone_awareness_even_though_both_read_p_zone():
+ # Raw accuracy and za_raw are different functionals of the same q.
  rng=np.random.default_rng(11)
  items=[_judgment_row(int(rng.integers(0,2)),float(rng.uniform(.05,.95)),
-   float(rng.uniform(.05,.95)),p_cs=float(rng.uniform(.05,.95))) for _ in range(60)]
+   float(rng.uniform(.05,.95))) for _ in range(60)]
  assert strikezone_ball_judgment(items)!=zone_awareness(items)
- observed=strikezone_ball_judgment(items)
- assert 0<=observed<=100
+ assert 0<=strikezone_ball_judgment(items)<=100
+
+
+def test_subtracting_the_league_baseline_would_reproduce_zone_awareness():
+ # This identity is the reason SBJ subtracts no baseline. Pin it so nobody
+ # "adds difficulty adjustment" by subtraction and silently recreates za_raw.
+ rng=np.random.default_rng(5)
+ items=[_judgment_row(int(rng.integers(0,2)),float(rng.uniform(.05,.95)),
+   float(rng.uniform(.05,.95))) for _ in range(200)]
+ difference=strikezone_ball_judgment(items)-expected_judgment_accuracy(items)
+ assert abs(difference-zone_awareness(items))<1e-4
 
 
 def test_sbj_is_outcome_independent_like_zone_awareness():
- items=[{**_judgment_row(1,.4,.8,p_cs=.8),'delta_v':.4,'raw_run_value':2},
-        {**_judgment_row(0,.3,.2,p_cs=.2),'delta_v':-.2,'raw_run_value':-1}]
+ items=[{**_judgment_row(1,.4,.8),'delta_v':.4,'raw_run_value':2},
+        {**_judgment_row(0,.3,.2),'delta_v':-.2,'raw_run_value':-1}]
  changed=[{**r,'delta_v':-99*r['delta_v'],'raw_run_value':999} for r in items]
  assert strikezone_ball_judgment(changed)==strikezone_ball_judgment(items)
 
 
-def test_expected_judgment_is_a_diagnostic_not_subtracted_from_sbj():
- items=[_judgment_row(1,.4,.5,p_cs=.9),_judgment_row(0,.3,.5,p_cs=.2)]
+def test_expected_judgment_baseline_uses_the_same_zone_model_as_sbj():
+ items=[_judgment_row(1,.4,.9),_judgment_row(0,.3,.2)]
  assert expected_judgment_accuracy(items)==round(100*np.mean(
    [.4*.9+.6*.1, .3*.2+.7*.8]),6)
- assert strikezone_ball_judgment(items)!=round(
-   strikezone_ball_judgment(items)-expected_judgment_accuracy(items),6)
 
 
 def test_sbj_plus_is_standardized_over_qualified_hitters():
  players=[]
  for i in range(4):
-  rows=_apr_rows(str(i),{r:(80,1,.4,.5) for r in REGIONS},p_cs=.5+.1*i)
+  rows=_apr_rows(str(i),{r:(80,1,.4,.5+.1*i) for r in REGIONS})
   players.append(profile_summary(rows))
  center,spread=add_sbj_plus(players)
  assert all(p['qualified_300'] for p in players)
