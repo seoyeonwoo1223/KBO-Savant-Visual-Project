@@ -47,6 +47,10 @@ def _is_catcher(position: Any) -> bool:
     return "포" in str(position or "")
 
 
+def _half_key(half: dict[str, Any]) -> tuple[int, int]:
+    return int(half.get("inning") or 0), 0 if str(half.get("half") or "").lower() == "top" else 1
+
+
 def _fallback_catchers(halves: list[dict[str, Any]]) -> dict[str, dict[str, str]]:
     """Use the first catcher seen in VB PBP when a Naver lineup is unavailable."""
     catchers: dict[str, dict[str, str]] = {}
@@ -60,7 +64,7 @@ def _fallback_catchers(halves: list[dict[str, Any]]) -> dict[str, dict[str, str]
 
 def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = None, season: int = 2026, naver_enrichment: NaverEnrichment | None = None) -> tuple[dict, list[dict], list[dict], int]:
     schedule_game = schedule_game or {}
-    game_data, halves = payload["gameData"], payload["pbpData"]
+    game_data, halves = payload["gameData"], sorted(payload["pbpData"], key=_half_key)
     game_id = str(game_data.get("gameId") or schedule_game.get("gameId"))
     away, home = game_data.get("away", {}), game_data.get("home", {})
     status = schedule_game.get("status") or game_data.get("status", "")
@@ -95,13 +99,16 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
             if str(pa.get("type") or "").lower() == "hr" and not pa_runs:
                 pa_runs = sum(bool(bases_before.get(base)) for base in ("b1", "b2", "b3")) + 1
             before_snapshot = GameState(); before_snapshot.set_bases(bases_before)
+            source_snapshot_changed = False
             if state.base_state_code != before_snapshot.base_state_code or any(getattr(state, x) != getattr(before_snapshot, x) for x in ("runner_1b_id", "runner_2b_id", "runner_3b_id")):
                 event_seq += 1; before, state_before = state.snapshot(), deepcopy(state.snapshot()); state.set_bases(bases_before); after = state.snapshot()
                 events.append(_event(game, event_seq, pa_id, "state_adjustment", "SOURCE_SNAPSHOT", "Source base snapshot changed; underlying non-pitch event was not exposed.", pa, before, after, 0, "unknown")); unknown += 1
+                source_snapshot_changed = True
             for sub in pa.get("subs") or []:
                 event_seq += 1; snapshot = state.snapshot()
                 events.append(_event(game, event_seq, pa_id, "substitution", sub.get("t", ""), f"{sub.get('fromName','')} -> {sub.get('toName','')} ({sub.get('pos','')})", pa, snapshot, snapshot, 0, "source_limited"))
             pa_status = "ok" if str(pa.get("type", "")).lower() in KNOWN_PA_TYPES else "unknown"; unknown += pa_status == "unknown"
+            if source_snapshot_changed and pa_status == "ok": pa_status = "source_limited"
             pitch_list, terminal_before = pa.get("pitches") or [], None
             for index, pitch in enumerate(pitch_list, 1):
                 game_pitch += 1; before = state.snapshot(); runs = 0

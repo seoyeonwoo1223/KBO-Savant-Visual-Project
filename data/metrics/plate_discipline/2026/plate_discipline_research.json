@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "season": 2026,
-  "source": "data/metrics/swing_take/2026/decision_pitches.parquet",
+  "source": "data\\metrics\\swing_take\\2026\\decision_pitches.parquet",
   "pitches": 192526,
   "batters": 285,
   "qualified_batters": 163,

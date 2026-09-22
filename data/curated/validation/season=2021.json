@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "schema_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
+  "season": 2021,
+  "games": 720,
+  "raw_pitches": 220742,
+  "curated_pitches": 220742,
+  "parse_excluded": 0,
+  "parse_exclusion_reasons": {},
+  "pitch_id_duplicates": 0,
+  "trajectory_status": {
+    "missing:y0": 623,
+    "valid": 220119
+  },
+  "source_y0": {
+    "50.0": 220119,
+    "None": 623
+  },
+  "plate_x_error": {
+    "n": 220119,
+    "median_abs_cm": 0.07685570100000137,
+    "p95_abs_cm": 0.16726460832000656
+  },
+  "plate_z_error": {
+    "n": 220119,
+    "median_abs_cm": 0.10211845463999764,
+    "p95_abs_cm": 0.27414016800000013
+  },
+  "relh_minus_z50": {
+    "n": 220119,
+    "median_abs_cm": 0.02504000000001838,
+    "p95_abs_cm": 0.052880000000016025
+  }
+}

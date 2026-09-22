@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "schema_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
+  "season": 2020,
+  "games": 720,
+  "raw_pitches": 220863,
+  "curated_pitches": 220863,
+  "parse_excluded": 0,
+  "parse_exclusion_reasons": {},
+  "pitch_id_duplicates": 0,
+  "trajectory_status": {
+    "missing:y0": 543,
+    "valid": 220320
+  },
+  "source_y0": {
+    "50.0": 220320,
+    "None": 543
+  },
+  "plate_x_error": {
+    "n": 220320,
+    "median_abs_cm": 0.07698028799999712,
+    "p95_abs_cm": 0.1679103271200076
+  },
+  "plate_z_error": {
+    "n": 220320,
+    "median_abs_cm": 0.10214091839998159,
+    "p95_abs_cm": 0.2753646867599812
+  },
+  "relh_minus_z50": {
+    "n": 220320,
+    "median_abs_cm": 0.02504000000001838,
+    "p95_abs_cm": 0.052880000000016025
+  }
+}

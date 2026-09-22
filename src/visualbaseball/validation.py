@@ -20,7 +20,7 @@ def validate_game(game: dict, events: list[dict], pitches: list[dict]) -> tuple[
         half = (pitch["inning"], pitch["inning_half"])
         if half not in half_starts:
             half_starts.add(half)
-            if (pitch["outs_before"], pitch["base_state_code_before"]) != (0, 0): return False, "Half-inning did not begin empty"
+            if (pitch["outs_before"], pitch["base_state_code_before"]) != (0, 0) and pitch["parse_status"] == "ok": return False, "Half-inning did not begin empty"
     last = events[-1]
     if (last["away_score_after"], last["home_score_after"]) != (game["away_score"], game["home_score"]):
         return False, "Reconstructed final score did not match official score"

@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "game_id": "20190830HHLG0",
+  "season": 2019,
+  "first_collected_at": "2026-09-22T06:15:30+00:00",
+  "last_collected_at": "2026-09-22T06:35:30+00:00",
+  "last_checked_at": "2026-09-22T06:35:30+00:00",
+  "raw_sha256": "c741d747d479ffeffece6a397a5e6821c3828275d04347db3daaf93ddb9f41e9",
+  "pitch_sha256": "6683f83c29620233fc657553646169e969bdc62af21d5558f8ce4e839117152b",
+  "schema_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
+  "revision": 2,
+  "observed_y0": [
+    50.0
+  ],
+  "raw_pitch_count": 297,
+  "curated_pitch_count": 297,
+  "parse_excluded": 0,
+  "parse_exclusion_reasons": {},
+  "provenance": {
+    "type": "visualbaseball_json",
+    "path": "data/raw/2019/20190830HHLG0.json"
+  }
+}

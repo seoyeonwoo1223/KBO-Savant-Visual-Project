@@ -12,6 +12,7 @@ data/curated/**    -diff linguist-generated
 data/metrics/**    -diff linguist-generated
 data/leaderboards/**  -diff linguist-generated
 data/park_adjustments/**  -diff linguist-generated
+data/tracking/**  -diff linguist-generated
 seasons/**         -diff linguist-generated
 exports/**         -diff linguist-generated
 web/data/**        -diff linguist-generated

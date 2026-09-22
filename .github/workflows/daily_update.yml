@@ -48,13 +48,27 @@ jobs:
       - run: python scripts/check_metric_state.py
       - name: Update Visual Baseball data
         # 새 경기 수집은 명시적으로 의도한 실행에서만 합니다 — 스케줄, 수동 실행,
-        # refresh-completed-request 커밋. 코드 push는 이미 있는 curated 데이터에서
-        # 산출물만 다시 만듭니다(네트워크 없음).
+        # refresh-completed-request 커밋. parser·상태 전이·canonical 변환·Naver
+        # 보강 코드 push는 보존 원본을 다시 처리하고, 나머지는 산출물만 만듭니다.
         run: |
           if [ -f .github/refresh-completed-request ]; then
             python -m visualbaseball.cli --refresh-completed --refresh-workers 3
           elif [ "${{ github.event_name }}" = "push" ]; then
-            python -m visualbaseball.cli --exports-only
+            base="${{ github.event.before }}"
+            git fetch --no-tags --depth=1 origin "$base" || true
+            if ! git cat-file -e "$base^{commit}" 2>/dev/null \
+              || ! git diff --quiet "$base" "${{ github.sha }}" -- \
+                src/visualbaseball/parser.py \
+                src/visualbaseball/state_machine.py \
+                src/visualbaseball/validation.py \
+                src/visualbaseball/collector.py \
+                src/visualbaseball/storage.py \
+                src/visualbaseball/curated.py \
+                src/visualbaseball/naver.py; then
+              python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --naver-workers 3
+            else
+              python -m visualbaseball.cli --exports-only
+            fi
           else
             python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
           fi

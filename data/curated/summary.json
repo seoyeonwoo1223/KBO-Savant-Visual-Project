@@ -1,13 +1,145 @@
 {
-  "generated_at": "2026-09-13T02:40:14+00:00",
+  "generated_at": "2026-09-22T08:31:40+00:00",
   "layout": "month",
-  "schema_sha256": "dad05fd41a749a235bc04ddcc5ef0e9df07d0292d67cf442056250c4e5975e4c",
+  "schema_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
   "reading": {
     "columns": "data/curated/schema.json",
     "integrity": "data/curated/partition-index.json (large; per-game digests, not for browsing)",
     "api": "visualbaseball.curated.load_rows(root, kind, season, columns=..., game_id=..., player_id=...)"
   },
   "seasons": {
+    "2019": {
+      "tables": {
+        "pitches": {
+          "rows": 211628,
+          "files": 720,
+          "bytes": 65967842
+        },
+        "events": {
+          "rows": 270317,
+          "files": 720,
+          "bytes": 8952854
+        },
+        "games": {
+          "rows": 720,
+          "files": 720,
+          "bytes": 4864577
+        }
+      },
+      "games": 720,
+      "months": [
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10"
+      ],
+      "date_range": [
+        "2019-03-23",
+        "2019-10-01"
+      ],
+      "metrics": [],
+      "stale_metrics": [
+        "arm_angle",
+        "blocking",
+        "excel",
+        "pitch_arsenal",
+        "plate_decision",
+        "plate_discipline",
+        "swing_take",
+        "zone_profiles"
+      ]
+    },
+    "2020": {
+      "tables": {
+        "pitches": {
+          "rows": 220863,
+          "files": 720,
+          "bytes": 68729307
+        },
+        "events": {
+          "rows": 281328,
+          "files": 720,
+          "bytes": 9060764
+        },
+        "games": {
+          "rows": 720,
+          "files": 720,
+          "bytes": 4865362
+        }
+      },
+      "games": 720,
+      "months": [
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10"
+      ],
+      "date_range": [
+        "2020-05-05",
+        "2020-10-31"
+      ],
+      "metrics": [],
+      "stale_metrics": [
+        "arm_angle",
+        "blocking",
+        "excel",
+        "pitch_arsenal",
+        "plate_decision",
+        "plate_discipline",
+        "swing_take",
+        "zone_profiles"
+      ]
+    },
+    "2021": {
+      "tables": {
+        "pitches": {
+          "rows": 220742,
+          "files": 720,
+          "bytes": 68723185
+        },
+        "events": {
+          "rows": 280107,
+          "files": 720,
+          "bytes": 9023124
+        },
+        "games": {
+          "rows": 720,
+          "files": 720,
+          "bytes": 4866190
+        }
+      },
+      "games": 720,
+      "months": [
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10"
+      ],
+      "date_range": [
+        "2021-04-03",
+        "2021-10-30"
+      ],
+      "metrics": [],
+      "stale_metrics": [
+        "arm_angle",
+        "blocking",
+        "excel",
+        "pitch_arsenal",
+        "plate_decision",
+        "plate_discipline",
+        "swing_take",
+        "zone_profiles"
+      ]
+    },
     "2022": {
       "tables": {
         "pitches": {
@@ -199,7 +331,7 @@
         "pitches": {
           "rows": 192712,
           "files": 7,
-          "bytes": 28344373
+          "bytes": 28343521
         },
         "events": {
           "rows": 245246,
@@ -209,7 +341,7 @@
         "games": {
           "rows": 626,
           "files": 7,
-          "bytes": 86480
+          "bytes": 85780
         }
       },
       "games": 626,

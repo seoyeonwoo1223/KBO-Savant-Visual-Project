@@ -215,7 +215,7 @@ CSS는 **두 층**입니다.
 | `rebuild_swing_take.yml` | 수동 | Swing/Take 프로필 강제 재빌드 |
 | `deploy-pages.yml` | `web/**` push, daily_update 성공 후 | `web/`을 Pages로 배포 |
 
-**새 경기 수집은 명시적으로 의도한 실행에서만 합니다.** 스케줄, 수동 실행(`workflow_dispatch`), `.github/refresh-completed-request` 커밋 세 가지입니다. 파이프라인 코드 push는 네트워크를 타지 않고 `--exports-only`로 이미 있는 curated 데이터에서 산출물만 다시 만듭니다. `web/**`는 출력물이라 어떤 코드도 입력으로 읽지 않으므로 트리거에 없습니다 — 뷰만 고치면 이 워크플로가 돌지 않습니다.
+**새 경기 수집은 명시적으로 의도한 실행에서만 합니다.** 스케줄, 수동 실행(`workflow_dispatch`), `.github/refresh-completed-request` 커밋 세 가지입니다. 일반 파이프라인 코드 push는 네트워크를 타지 않고 `--exports-only`로 이미 있는 curated 데이터에서 산출물만 다시 만듭니다. 단, parser·상태 전이·canonical 변환·Naver 보강 코드가 바뀌면 `daily_update`가 2026의 보존된 원시 PBP를 `--rebuild-from-raw --refresh-naver`로 다시 처리한다. 2022~2025 전체 원본 재수집은 `refresh_completed` 수동 실행에서 시즌을 선택해 수행한다. `web/**`는 출력물이라 어떤 코드도 입력으로 읽지 않으므로 트리거에 없습니다 — 뷰만 고치면 이 워크플로가 돌지 않습니다.
 
 **커밋되는 산출물에 벽시계 시각을 무조건 쓰지 마십시오.** 내용이 같은 재실행이 파일을 바꿔 놓으면 워크플로의 `git diff --cached --quiet` 가드가 무력화되고 빈 데이터 커밋이 쌓입니다. 시각 필드는 `last_collected_at`·`revision`처럼 **무언가 실제로 달라졌을 때만** 갱신합니다 (`curated.write_game`의 `last_checked_at`, `dataset_summary`의 `generated_at`이 이 규칙을 따릅니다). `pitch_sha256`이 `fetched_at`·`source_url`·`source_hash`를 digest에서 제외하는 것도 같은 이유입니다.
 

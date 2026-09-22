@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "schema_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
+  "season": 2019,
+  "games": 720,
+  "raw_pitches": 211628,
+  "curated_pitches": 211628,
+  "parse_excluded": 0,
+  "parse_exclusion_reasons": {},
+  "pitch_id_duplicates": 0,
+  "trajectory_status": {
+    "missing:y0": 6780,
+    "valid": 204848
+  },
+  "source_y0": {
+    "50.0": 204848,
+    "None": 6780
+  },
+  "plate_x_error": {
+    "n": 204848,
+    "median_abs_cm": 0.076893221879996,
+    "p95_abs_cm": 0.16890333504000268
+  },
+  "plate_z_error": {
+    "n": 204848,
+    "median_abs_cm": 0.10300283183996613,
+    "p95_abs_cm": 0.2755391999999964
+  },
+  "relh_minus_z50": {
+    "n": 204848,
+    "median_abs_cm": 0.024959999999964566,
+    "p95_abs_cm": 0.052960000000013
+  }
+}

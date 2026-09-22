@@ -1,0 +1,74 @@
+{
+  "source_sha256": "f7818f9ee0ccefe7c2cf69fa99efe6e5cb882d8b886dd96d2394bcf3b53f33a9",
+  "columns": [
+    "trackman_id",
+    "season",
+    "game_date",
+    "game_month",
+    "game_dayofweek",
+    "trackman_game_id",
+    "pitch_no",
+    "inning",
+    "top_bottom",
+    "balls_before",
+    "strikes_before",
+    "outs_before",
+    "pitch_of_pa",
+    "pitcher_trackman_id",
+    "batter_trackman_id",
+    "pitcher_hand",
+    "batter_hand",
+    "pitcher_team",
+    "batter_team",
+    "tagged_pitch_type",
+    "auto_pitch_type",
+    "pitch_type_group",
+    "rel_speed",
+    "spin_rate",
+    "induced_vert_break",
+    "horz_break",
+    "extension",
+    "rel_height",
+    "rel_side",
+    "zone_speed"
+  ],
+  "rows": 1793078,
+  "seasons": {
+    "2019": {
+      "rows": 255957,
+      "bytes": 49982608,
+      "sha256": "cadbfb0b8545f5eb8574fa9e2608791af436dddd9a6ed1a8ee3bde99cd0e7b75",
+      "path": "data/tracking/raw/season=2019/trackman_history.csv"
+    },
+    "2020": {
+      "rows": 279126,
+      "bytes": 54645752,
+      "sha256": "2260dd49289c960b6dfadbbee1e2cd22e9bca2082d38a5f38a87aecfae70ce1d",
+      "path": "data/tracking/raw/season=2020/trackman_history.csv"
+    },
+    "2021": {
+      "rows": 301032,
+      "bytes": 58976988,
+      "sha256": "76edba063aec137601b820cf350a239799a021ff9fc8e079f249c96942cc60c1",
+      "path": "data/tracking/raw/season=2021/trackman_history.csv"
+    },
+    "2022": {
+      "rows": 307637,
+      "bytes": 60416567,
+      "sha256": "588bd5e49dd5d1fcf04325723a077e70c8bcf19cc8d3f11493a8789fbdd9bbfa",
+      "path": "data/tracking/raw/season=2022/trackman_history.csv"
+    },
+    "2023": {
+      "rows": 315100,
+      "bytes": 62107621,
+      "sha256": "dd3aa7218fe3331ec17135a2e3d2328f430f34b817e7d5264ef4a05dd59848cd",
+      "path": "data/tracking/raw/season=2023/trackman_history.csv"
+    },
+    "2024": {
+      "rows": 334226,
+      "bytes": 65902323,
+      "sha256": "3419cbbea502e8899a28c9d5317d5c91e9f57fc9f845a3a877bfc0fb1a73ccee",
+      "path": "data/tracking/raw/season=2024/trackman_history.csv"
+    }
+  }
+}

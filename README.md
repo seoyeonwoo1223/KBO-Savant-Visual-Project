@@ -83,7 +83,7 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 ## 자동 갱신
 
-`.github/workflows/daily_update.yml`은 한국 시간 매일 00:00에 테스트 후 신규·미완료·최근 7일 확정 경기만 갱신합니다. 전체 reconcile은 주간 workflow 또는 수동 요청으로만 실행합니다. canonical pitch shard가 Swing/Take 프로필의 단일 입력이며, 분석 입력이 바뀌면 프로필 JSON과 `data/metrics/swing_take/2026/decision_pitches.parquet`가 함께 재생성됩니다. 중간 분석 테이블인 Decision Pitches는 Excel에 넣지 않습니다. 분석 hash가 같으면 metric을 다시 만들지 않습니다.
+`.github/workflows/daily_update.yml`은 한국 시간 매일 00:00에 테스트 후 신규·미완료·최근 7일 확정 경기만 갱신합니다. parser·상태 전이·canonical 변환·Naver 보강 코드를 바꾸는 push는 2026의 보존된 원시 PBP를 다시 파싱하고 Naver 보강도 새로 받습니다. 다른 코드 push는 기존 curated 데이터에서 산출물만 다시 만듭니다. 전체 reconcile은 주간 workflow 또는 수동 요청으로만 실행하며, 수동 `refresh_completed` workflow에서는 2022~2026 중 시즌을 골라 전체 재수집할 수 있습니다. canonical pitch shard가 Swing/Take 프로필의 단일 입력이며, 분석 입력이 바뀌면 프로필 JSON과 `data/metrics/swing_take/2026/decision_pitches.parquet`가 함께 재생성됩니다. 중간 분석 테이블인 Decision Pitches는 Excel에 넣지 않습니다. 분석 hash가 같으면 metric을 다시 만들지 않습니다.
 
 ## Swing/Take 프로필 기준
 

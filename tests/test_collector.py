@@ -7,7 +7,7 @@ from openpyxl import load_workbook
 
 from visualbaseball.collector import process_payload
 from visualbaseball.naver import NaverEnrichment, build_enrichment, pitch_key
-from visualbaseball.parser import parse_game
+from visualbaseball.parser import _half_key, parse_game
 from visualbaseball.state_machine import GameState
 from visualbaseball.curated import load_rows
 from visualbaseball.storage import Store
@@ -93,6 +93,21 @@ def test_runner_advances_multiple_outs_and_inning_reset():
     assert state.infer_runs({"b3": {"id": "a"}}, 3) == 0
     state.begin_half(2, "bottom")
     assert (state.outs, state.base_state_code, state.balls, state.strikes) == (0, 0, 0, 0)
+
+
+def test_source_snapshot_at_half_start_is_retained_as_source_limited():
+    payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
+    payload["pbpData"][0]["pas"][0]["basesBefore"] = {"b1": {"id": "runner"}, "b2": None, "b3": None}
+    game, events, pitches, _ = parse_game(payload)
+    assert pitches[0]["parse_status"] == "source_limited"
+    assert validate_game(game, events, pitches) == (True, "PASS")
+    assert any(event["event_code"] == "SOURCE_SNAPSHOT" and event["parse_status"] == "unknown" for event in events)
+
+
+def test_source_halves_are_ordered_chronologically_before_parsing():
+    assert sorted([{"inning": 7, "half": "bottom"}, {"inning": 6, "half": "bottom"}, {"inning": 7, "half": "top"}], key=_half_key) == [
+        {"inning": 6, "half": "bottom"}, {"inning": 7, "half": "top"}, {"inning": 7, "half": "bottom"},
+    ]
 
 
 def test_incremental_skip_logic(tmp_path):

@@ -104,11 +104,32 @@ def rebuild_from_raw(root: Path, season: int = 2026, refresh_naver: bool = False
         raw_path = cache_payload(store, season, payload, prepared)
         if raw_path:
             completed.append((prepared, raw_path))
-    store.replace_games(
-        [prepared.game for prepared, _ in completed],
-        [event for prepared, _ in completed for event in prepared.events],
-        [pitch for prepared, _ in completed for pitch in prepared.pitches],
+    # A compact season rewrites an entire monthly Parquet file for each game.  For
+    # a full parser rebuild, first stage game shards, then use the verified
+    # compactor once per month instead of doing quadratic replacement writes.
+    monthly = [] if requested_game_id else sorted(
+        path for kind in ("games", "events", "pitches")
+        for path in (store.curated_root / "data" / "curated" / kind / f"season={season}").glob("month=*.parquet")
     )
+    backups = [(path, path.with_name(path.name + ".rebuild-backup")) for path in monthly]
+    try:
+        for path, backup in backups:
+            path.replace(backup)
+        store.replace_games(
+            [prepared.game for prepared, _ in completed],
+            [event for prepared, _ in completed for event in prepared.events],
+            [pitch for prepared, _ in completed for pitch in prepared.pitches],
+        )
+        if backups:
+            from .compact_curated import compact
+            compact(store.curated_root, season)
+    except Exception:
+        for path, backup in backups:
+            if backup.exists(): backup.replace(path)
+        raise
+    else:
+        for _, backup in backups:
+            if backup.exists(): backup.unlink()
     for prepared, raw_path in completed:
         store.mark(prepared.game["game_id"], "completed", raw_path, prepared.message)
     return len(completed), sum(len(prepared.pitches) for prepared, _ in completed)
