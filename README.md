@@ -48,10 +48,10 @@ pytest
 과거 시즌은 원본과 Parquet을 별도 폴더에 두고 같은 Excel 스키마로 내보냅니다.
 
 ```powershell
-python -m visualbaseball.cli --season 2025 --storage-root seasons/2025
+python -m visualbaseball.cli --season 2025
 ```
 
-이 명령은 `seasons/2025/data/`에 2025 수집 상태를 저장하고, `exports/visualbaseball_savant_2025_latest.xlsx`를 만듭니다.
+이 명령은 `data/`에 2025 수집 상태를 저장하고, `exports/visualbaseball_savant_2025_latest.xlsx`를 만듭니다.
 
 ### 2026 리더보드 계산 원본
 
