@@ -43,7 +43,17 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 .zone-guide summary { cursor: pointer; font-weight: 700; }
 .zone-guide img { display: block; width: min(100%, 720px); margin: 10px auto 0; border: 1px solid #d1d1d1; background: #f5f0e9; }
 .zone-guide[open] { grid-column: 1 / -1; }
-.region-columns { display: grid; grid-template-columns: 128px minmax(150px, .8fr) minmax(300px, 1.45fr) minmax(190px, 1.15fr); gap: 32px; align-items: end; padding: 0 0 9px; color: #555; font-size: 1.05rem; line-height: 1.05; text-align: center; }
+.region-columns { display: grid; grid-template-columns: 128px minmax(150px, .8fr) minmax(300px, 1.45fr) minmax(190px, 1.15fr); gap: 32px; align-items: end; padding: 0 0 9px; color: #555; font-size: 1.2rem; line-height: 1.05; text-align: center; }
+.axis-line { grid-column: 3; grid-row: 1; justify-self: center; align-self: stretch; width: 1px; background: #555; }
+.col-name, .region-name,
+.frequency-head, .frequency,
+.split-head, .swing-take-split { grid-row: 1; }
+.col-name, .region-name { grid-column: 1; }
+.frequency-head, .frequency { grid-column: 2; }
+.split-head, .swing-take-split { grid-column: 3; }
+@media (min-width: 831px) {
+  .run-value-head, .run-bars { grid-column: 4; grid-row: 1; }
+}
 .frequency-head small { display: block; margin-top: 5px; color: #888; font-size: .68rem; font-weight: 400; }
 .region-columns .split-head { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; }
 .region-columns .split-head span:first-child { text-align: right; padding-right: 12px; }
@@ -80,7 +90,7 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 .split-league .split-half span { color: #7d7d7d; font-size: .7rem; }
 .split-league .swing span { right: calc(var(--league-swing) + 5px); }
 .split-league .take span { left: calc(var(--league-take) + 5px); }
-.run-bars { display: grid; gap: 8px; padding: 0 22px; }
+.run-bars { display: grid; gap: 8px; padding: 0 22px 10px; border-bottom: 2px solid var(--region-color); }
 .run-bar { display: grid; grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr); align-items: center; height: 22px; }
 .run-side { display: flex; align-items: center; min-width: 0; }
 .run-side.left { justify-content: flex-end; }
@@ -103,7 +113,7 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 @media (max-width: 830px) {
   .profile-dashboard { grid-template-columns: 1fr; gap: 30px; }
   .region-columns, .region-row { grid-template-columns: 100px minmax(100px, 1fr) minmax(175px, 1.35fr); }
-  .region-columns > :last-child { display: none; }
+  .run-value-head { display: none; }
   .run-bars { grid-column: 2 / -1; margin-top: -10px; }
   .panel-footers { grid-template-columns: 100px minmax(100px, 1fr) minmax(175px, 1.35fr); }
   .split-legend { grid-column: 3; }

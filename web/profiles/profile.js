@@ -139,10 +139,11 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
         <div class="frequency-copy"><b>${region.pitches.toLocaleString()}구</b>${formatNumber(region.share_pct)}%${leagueShare == null ? "" : ` (${formatNumber(leagueShare)}%)`}</div>
       </div>
       ${swingTakeSplit(styledRegion, leagueRegion)}
-      <div class="run-bars">
+      <div class="run-bars" style="--region-color:${style.color}">
         ${runBar(region.swing.decision_run, maximumRun, "Swing")}
         ${runBar(region.take.decision_run, maximumRun, "Take")}
       </div>
+      <i class="axis-line"></i>
     </article>`;
   }).join("");
   const swingTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.swing.decision_run), 0);
