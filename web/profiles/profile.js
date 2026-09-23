@@ -276,6 +276,34 @@ const initializeComparison = async () => {
   }
 };
 
+const playerSearchForm = document.querySelector("#player-search");
+const playerSearchInput = document.querySelector("#player-search-input");
+const searchMessage = document.querySelector("#search-message");
+const normalizeName = value => String(value || "").replace(/\s+/g, "").toLowerCase();
+let searchPlayers = [];
+let searchLabels = new Map();
+indexPromise.then(indexes => {
+  searchPlayers = [...(indexes[seasonParam] || [])].sort((a, b) => a.name.localeCompare(b.name, "ko"));
+  const nameCounts = searchPlayers.reduce((counts, player) => counts.set(player.name, (counts.get(player.name) || 0) + 1), new Map());
+  searchLabels = new Map(searchPlayers.map(player => [nameCounts.get(player.name) > 1 ? `${player.name} (#${player.id})` : player.name, player.id]));
+  document.querySelector("#player-search-list").innerHTML = [...searchLabels.keys()].map(label => `<option value="${escapeHtml(label)}"></option>`).join("");
+}).catch(() => { searchMessage.textContent = "선수 정보를 불러오지 못했습니다."; });
+playerSearchForm.addEventListener("submit", event => {
+  event.preventDefault();
+  const query = playerSearchInput.value.trim();
+  const normalized = normalizeName(query);
+  const id = searchLabels.get(query)
+    || searchPlayers.find(player => normalizeName(player.name) === normalized || normalizeName(player.romanized_name) === normalized)?.id;
+  if (!id) {
+    searchMessage.textContent = normalized ? "정확한 선수 이름을 입력해 주세요." : "선수 이름을 입력해 주세요.";
+    return;
+  }
+  const url = new URL(window.location.href);
+  url.searchParams.set("player", id);
+  url.searchParams.set("year", seasonParam);
+  window.location.href = url;
+});
+
 profileYearSelect.innerHTML = SEASONS.map(year => `<option value="${year}"${year === seasonParam ? " selected" : ""}>${year}</option>`).join("");
 profileYearSelect.addEventListener("change", () => { const url = new URL(window.location.href); url.searchParams.set("year", profileYearSelect.value); window.location.href = url; });
 
