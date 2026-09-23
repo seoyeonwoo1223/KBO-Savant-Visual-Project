@@ -182,7 +182,7 @@ async function exportProfileImage() {
       scale: Math.max(2, window.devicePixelRatio || 1),
       useCORS: true,
       logging: false,
-      ignoreElements: element => element === exportButton || element === playerSearchForm || element.classList?.contains("zone-guide"),
+      ignoreElements: element => element === exportButton || element.classList?.contains("zone-guide"),
     });
     const playerName = document.querySelector("#player-name").textContent.replace(/[\\/:*?"<>|]+/g, "_");
     const link = document.createElement("a");
@@ -278,21 +278,24 @@ const initializeComparison = async () => {
 
 const playerSearchForm = document.querySelector("#player-search");
 const playerSearchInput = document.querySelector("#player-search-input");
-let playerSearchOptions = new Map();
+const searchMessage = document.querySelector("#search-message");
+const normalizeName = value => String(value || "").replace(/\s+/g, "").toLowerCase();
+let searchPlayers = [];
+let searchLabels = new Map();
 indexPromise.then(indexes => {
-  const players = [...(indexes[seasonParam] || [])].sort((a, b) => a.name.localeCompare(b.name, "ko"));
-  const nameCounts = players.reduce((counts, player) => counts.set(player.name, (counts.get(player.name) || 0) + 1), new Map());
-  playerSearchOptions = new Map(players.map(player => [nameCounts.get(player.name) > 1 ? `${player.name} (#${player.id})` : player.name, player.id]));
-  document.querySelector("#player-search-list").innerHTML = [...playerSearchOptions.keys()].map(label => `<option value="${escapeHtml(label)}"></option>`).join("");
-}).catch(() => {});
-playerSearchInput.addEventListener("input", () => playerSearchInput.setCustomValidity(""));
+  searchPlayers = [...(indexes[seasonParam] || [])].sort((a, b) => a.name.localeCompare(b.name, "ko"));
+  const nameCounts = searchPlayers.reduce((counts, player) => counts.set(player.name, (counts.get(player.name) || 0) + 1), new Map());
+  searchLabels = new Map(searchPlayers.map(player => [nameCounts.get(player.name) > 1 ? `${player.name} (#${player.id})` : player.name, player.id]));
+  document.querySelector("#player-search-list").innerHTML = [...searchLabels.keys()].map(label => `<option value="${escapeHtml(label)}"></option>`).join("");
+}).catch(() => { searchMessage.textContent = "선수 정보를 불러오지 못했습니다."; });
 playerSearchForm.addEventListener("submit", event => {
   event.preventDefault();
   const query = playerSearchInput.value.trim();
-  const id = playerSearchOptions.get(query) || [...playerSearchOptions].find(([label]) => label.startsWith(query))?.[1];
-  if (!query || !id) {
-    playerSearchInput.setCustomValidity(`${seasonParam} 시즌 선수 목록에서 찾을 수 없습니다.`);
-    playerSearchInput.reportValidity();
+  const normalized = normalizeName(query);
+  const id = searchLabels.get(query)
+    || searchPlayers.find(player => normalizeName(player.name) === normalized || normalizeName(player.romanized_name) === normalized)?.id;
+  if (!id) {
+    searchMessage.textContent = normalized ? "정확한 선수 이름을 입력해 주세요." : "선수 이름을 입력해 주세요.";
     return;
   }
   const url = new URL(window.location.href);
