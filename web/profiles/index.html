@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Swing/Take 프로필</title>
-  <link rel="stylesheet" href="profile.css?v=20260923-1">
+  <link rel="stylesheet" href="profile.css?v=20260923-6">
   <link rel="stylesheet" href="../theme.css?v=20260913-4">
   <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
 </head>
@@ -20,10 +20,12 @@
       <div class="profile-options"><label>시즌<select id="profile-year" aria-label="프로필 시즌"></select></label><p id="meta">프로필을 불러오는 중입니다.</p><button id="export-profile" class="export-button" type="button">프로필 이미지 저장</button></div>
     </header>
     <section class="profile-card" aria-label="Swing Take 프로필">
-      <div class="score-line"><span class="score-label">Run Value</span><strong id="total-run-value">—</strong><span id="score-detail"></span></div>
       <div class="profile-dashboard">
         <section class="zone-panel" aria-label="Zone Run Value">
-          <h2><span id="zone-panel-name"></span><small id="zone-panel-run">—</small></h2>
+          <div class="zone-panel-heading">
+            <p class="zone-panel-title" id="zone-panel-title"></p>
+            <p class="zone-panel-value"><strong id="zone-panel-run">—</strong><small>Run Value</small></p>
+          </div>
           <div class="zone-visual" aria-label="Heart, Shadow, Chase, Waste 구역별 Run Value와 스트라이크존">
             <div class="zone-waste"></div><div class="zone-chase"></div><div class="zone-shadow"></div><div class="zone-heart"></div>
             <div class="strike-zone" aria-label="Strike Zone"></div>
@@ -70,6 +72,6 @@
     <p class="method-note">Run Value = Σ[Raw Run Value − 리그 평균 Run Value(볼카운트, 상대 위치)] · 양수일수록 타자에게 유리합니다.</p>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="profile.js?v=20260923-1"></script>
+  <script src="profile.js?v=20260923-4"></script>
 </body>
 </html>
