@@ -4,6 +4,14 @@ const formatSigned = value => {
   return `${number > 0 ? "+" : ""}${formatNumber(number)}`;
 };
 const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
+const batsAbbrev = value => {
+  if (!value || String(value).toLowerCase() === "unknown") return "";
+  const normalized = String(value).toLowerCase();
+  if (normalized.startsWith("l")) return "L";
+  if (normalized.startsWith("r")) return "R";
+  if (normalized.startsWith("s")) return "S";
+  return String(value)[0].toUpperCase();
+};
 const params = new URLSearchParams(window.location.search);
 const playerId = params.get("player");
 const profileYearSelect = document.querySelector("#profile-year");
@@ -104,10 +112,9 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
   bats.hidden = !hasKnownBats;
   document.querySelector("#meta").textContent =
     `${season} 정규시즌 · ${payload.pitches.length.toLocaleString()}구 · ${(source.updated_at || "").slice(0, 10)} 기준${meetsMinimum ? "" : ` · 표본 미달 (${payload.minimum_pitches}구 기준)`}`;
-  document.querySelector("#total-run-value").textContent = formatSigned(overall.decision_run);
-  document.querySelector("#score-detail").textContent = `100구당 ${formatSigned(overall.decision_run_per_100)}`;
-  document.querySelector("#zone-panel-name").textContent = player.name;
-  document.querySelector("#zone-panel-run").textContent = `${formatSigned(overall.decision_run)} Run Value`;
+  const batsTag = batsAbbrev(player.bats);
+  document.querySelector("#zone-panel-title").textContent = `${player.name}${batsTag ? `(${batsTag})` : ""} ${season}`;
+  document.querySelector("#zone-panel-run").textContent = formatSigned(overall.decision_run);
   document.querySelector("#pitch-total").textContent = `${overall.pitches.toLocaleString()} total pitches`;
   const maximumRun = Math.max(1, ...Object.values(regions).flatMap(region => [Math.abs(region.swing.decision_run), Math.abs(region.take.decision_run)]));
   Object.entries(regions).forEach(([name, region]) => {
