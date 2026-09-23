@@ -111,7 +111,7 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
   bats.textContent = hasKnownBats ? `Bats: ${player.bats}` : "";
   bats.hidden = !hasKnownBats;
   document.querySelector("#meta").textContent =
-    `${season} 정규시즌 · ${payload.pitches.length.toLocaleString()}구 · ${(source.updated_at || "").slice(0, 10)} 기준${meetsMinimum ? "" : ` · 표본 미달 (${payload.minimum_pitches}구 기준)`}`;
+    `${(source.updated_at || "").slice(0, 10)} 기준${meetsMinimum ? "" : ` · 표본 미달 (${payload.minimum_pitches}구 기준)`}`;
   const batsTag = batsAbbrev(player.bats);
   document.querySelector("#zone-panel-title").innerHTML =
     `${escapeHtml(player.name)}${batsTag ? `(${escapeHtml(batsTag)})` : ""} <span class="zone-panel-year">${escapeHtml(season)}</span>`;
