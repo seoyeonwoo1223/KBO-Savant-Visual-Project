@@ -21,18 +21,27 @@ from sklearn.model_selection import GroupKFold
 from scipy.optimize import minimize, LinearConstraint
 from . import plate_decision_v1 as old
 from .pitch_arsenal import _load_batter_hands, _resolved_batter_stance
-from .swing_take import _eligible, _relative_location, _state
+from .swing_take import PLATE_HALF_WIDTH_FT, _eligible, _relative_location, _state
 from .zone_awareness_v2 import _team_history
-from .curated import load_rows as load_curated_rows, schema_sha256
+from .curated import CM_PER_FOOT, _at_plane, load_rows as load_curated_rows, schema_sha256
 
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
 NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
-MODEL_VERSION = 'za7-strikezone-judgment'
+MODEL_VERSION = 'za7.1-abs-judgment-plane'
 SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
+ABS_FIRST_SEASON = 2024
+# ABS calls left/right at the plate's middle plane; top and bottom must hold at
+# both the middle and back planes. px/pz sit at the front plane, where a falling
+# pitch's call depends on its drop, so ABS p_zone reads these instead.
+PZONE_ABS = ('x_mid_relative', 'top_gap_cm', 'bottom_gap_cm')
+PLANE_Y_FT = {'mid': 8.5/12, 'back': 0.0}
 CONTRACT = {
- 'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points',
+ 'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points; the official SBJ ranking score, equal to zone_judgment_pct - expected_zone_judgment_pct',
+ 'zone_judgment_pct': '100 * mean(p_zone if swing else 1 - p_zone); raw judgment accuracy, descriptive only and never ranked',
+ 'expected_zone_judgment_pct': '100 * mean(p_swing*p_zone + (1-p_swing)*(1-p_zone)); league-policy accuracy on the same pitches',
+ 'p_zone': 'take-only CalledStrike vs Ball/HBP model; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to front-plane px/pz when the trajectory is invalid',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
  'dv_plus': '100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
@@ -113,6 +122,25 @@ def zone_awareness(items):
  return mean(items,'judgment',100)
 
 
+def judgment_plane_location(row):
+ """ABS p_zone inputs; an invalid trajectory falls back to px/pz for every plane."""
+ mid=back=None
+ if row.get('trajectory_valid'):
+  mid,back=_at_plane(row,PLANE_Y_FT['mid']),_at_plane(row,PLANE_Y_FT['back'])
+ fallback=mid is None or back is None
+ if fallback:
+  x=float(row['px'])*CM_PER_FOOT; heights=(float(row['pz'])*CM_PER_FOOT,)*2
+ else:
+  x=mid[0]; heights=(mid[1],back[1])
+ # The ball must clear the top at its higher plane and the bottom at its lower one.
+ return {'x_mid_relative':x/CM_PER_FOOT/PLATE_HALF_WIDTH_FT,'top_gap_cm':max(heights)-float(row['sz_top'])*CM_PER_FOOT,
+  'bottom_gap_cm':min(heights)-float(row['sz_bottom'])*CM_PER_FOOT,'plane_fallback':fallback}
+
+
+def pzone_fields(season):
+ return PZONE_ABS if int(season)>=ABS_FIRST_SEASON else old.PZONE_NUMERIC
+
+
 def region(row):
  d = max(abs(row['x_relative']), abs(row['z_relative']))
  return 'heart' if d <= 2/3 else 'shadow_in' if d <= 1 else 'shadow_out' if d <= 4/3 else 'chase' if d <= 2 else 'waste'
@@ -142,15 +170,22 @@ def load_rows(root, season):
   r['batter_stance'] = _resolved_batter_stance(r, hands)
   r['event'] = outcome(r)
   r['region'] = region(r)
+  if pzone_fields(season)==PZONE_ABS: r.update(judgment_plane_location(r))
   valid.append(r)
  movement = old._movement_adjust(valid, root, season)
  # Retain pre-pitch features, transitions, identity and training target only.
- keep = set(NUMERIC + old.PZONE_NUMERIC + old.CATEGORICAL + ('game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
+ keep = set(NUMERIC + old.PZONE_NUMERIC + PZONE_ABS + old.CATEGORICAL + ('plane_fallback','game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
  keep.update(f'{k}_{w}' for k in ('base_state_code','outs','balls','strikes') for w in ('before','after'))
  valid = [{k:v for k,v in r.items() if k in keep} for r in valid]
  for p in (root/'data/curated/players/player_bio.parquet',root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'):
   if p.exists():hashes[p.name]=file_hash(p)
- return sorted(valid, key=lambda r:r['game_id']), {'source':f'data/curated/pitches/season={season}','input_mode':'curated','curated_version':None,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'unknown_stance':sum(not r['batter_stance'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
+ return sorted(valid, key=lambda r:r['game_id']), {'source':f'data/curated/pitches/season={season}','input_mode':'curated','curated_version':None,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'pzone_input':pzone_input(valid,season), 'unknown_stance':sum(not r['batter_stance'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
+
+
+def pzone_input(rows,season):
+ fields=pzone_fields(season); fallback=sum(bool(r.get('plane_fallback')) for r in rows)
+ return {'fields':list(fields),'plane_fallback_pitches':fallback if fields==PZONE_ABS else None,
+  'plane_fallback_pct':(100*fallback/len(rows) if rows else 0.0) if fields==PZONE_ABS else None}
 
 
 def walk_state(s):
@@ -377,14 +412,14 @@ def r6(x): return round(float(x),6)
 def mean(items,key,scale=1): return r6(scale*np.mean([r[key] for r in items])) if items else None
 
 
-def score_crossfit(rows, selected, settings=SCORE_SETTINGS):
+def score_crossfit(rows, selected, settings=SCORE_SETTINGS, pzone_features=old.PZONE_NUMERIC):
  """Score every pitch with a model that excludes its date block."""
  dates=np.array(sorted({r['game_id'][:8] for r in rows})); result=[]; fold_meta=[]
  for fold,block in enumerate(np.array_split(dates,CROSSFIT_FOLDS)):
   held=set(block); train=[r for r in rows if r['game_id'][:8] not in held]; test=[r for r in rows if r['game_id'][:8] in held]
   print('  Scoring block',fold+1,len(test),flush=True)
   pred=fit_predict(train,test,**settings)
-  pzone=old.predict_pzone(train,test)
+  pzone=old.predict_pzone(train,test,pzone_features)
   action=np.array([r['decision_type']=='Swing' for r in test],dtype=int)
   values=pred[selected]; dv=decision_value(action,values[:,1],values[:,0])
   for i,r in enumerate(test):
@@ -466,7 +501,7 @@ def build_zone_decision(root,season=2026):
  selected=validation['selected'];print('  Selected:',selected,flush=True)
  # Metric changes stay local to zone_awareness(), decision_value(), and
  # profile_summary(); this function only orchestrates model output.
- result,fold_meta=score_crossfit(rows,selected,SCORE_SETTINGS)
+ result,fold_meta=score_crossfit(rows,selected,SCORE_SETTINGS,pzone_fields(season))
  # One report: observed fit, period reproducibility and opposite-action support.
  periods=defaultdict(lambda:defaultdict(list))
  for r in result: periods[r['fold']][str(r['batter_id'])].append(r['dv'])

@@ -9,6 +9,7 @@
 | 수치 출처 | 이 메모 작성 중 직접 재계산. 핵심 수치는 부록 A 스크립트로 재현됩니다 |
 | 작업 규칙 | 각 검증은 **한 번 통과하면 바로 다음 구현 단계로** 넘어갑니다. 같은 검증을 각도만 바꿔 반복하지 마십시오 |
 | 2차 개정 | ChatGPT 이견 4건(좌우 판정면, 같은 조건 OOF, 무브먼트 ablation, fold)을 실행해 7절에 반영했습니다. 0·3.2·3.4·5·6절은 그 결과로 고쳤습니다 |
+| 3차 개정 | 승인된 항목 1·2를 구현하고 2024–2026년 통과 기준을 확인한 결과(7.4절), 미승인 3번(무브먼트 보정) 구상에 대한 분석(8절)을 추가했습니다 |
 
 ---
 
@@ -114,7 +115,7 @@
 - 입력: `x_mid / (10/12 ft)`, `top_gap = max(z_mid, z_back) − sz_top`, `bot_gap = min(z_mid, z_back) − sz_bottom`. 두 면을 모두 검사하는 계약이고, 계산식은 `curated._at_plane()`과 같습니다(부록 B). 원값 `sz_top/sz_bottom`은 넣지 않습니다. 넣어도 성능이 같아서(7.2절) 타자 식별 단서만 늘어납니다.
 - 모델: **기존 HGB 설정 그대로 입력만 교체**합니다. 7.2절의 OOF 비교가 이 형태입니다. 앞서 적은 6-파라미터 기하 모델은 전체 log loss를 악화시켰으므로 쓰지 않습니다.
 - `trajectory_status`가 `valid`가 아닌 투구는 삭제하지 말고, 모든 면을 앞면 `px/pz`로 대체한 뒤 플래그와 비율을 기록하십시오. 2026년은 0%, 2019년 3.2%, 2023년 2.0%, 2024년 0.4%입니다.
-- **통과 기준 (1회, 시즌별):** ① 구종별 경계 보정 오차 |관측 − 예측| 최대 < 0.05, ② 테이크 전체 log loss가 현행보다 나쁘지 않을 것(보호 지표). 2026년은 둘 다 통과했습니다(7.2절). 2024·2025년은 구현할 때 한 번씩 확인합니다.
+- **통과 기준 (1회, 시즌별):** ① 구종별 경계 보정 오차 |관측 − 예측| 최대 < 0.05, ② 테이크 전체 log loss가 현행보다 나쁘지 않을 것(보호 지표). 2024·2025·2026년 모두 둘 다 통과했습니다(7.2·7.4절).
 - 인계장 6.2의 맥락 모델 우위(테이크 오분류 0.89% 대 1.23%)는 판정면으로 전부 설명됩니다. 판정면 HGB의 오분류는 0.69%입니다(표본이 약간 다르므로 참고값). 맥락 모델을 견고성 진단으로 남길 근거도 약해졌습니다.
 
 ### 3.3 인간 심판 시대 (2019–2023)
@@ -170,7 +171,6 @@
 
 ## 6. 확인하지 않은 것 / 한계
 
-- 판정면 OOF 비교는 2026년만 했습니다. 2024·2025년은 구현할 때 3.2의 통과 기준으로 한 번씩 확인합니다.
 - KBO 공식 설명(좌우 중간면, 상하 중간면·끝면)은 ChatGPT가 인용한 것이고 제가 원문을 열어 보지는 않았습니다. 데이터는 그 설명과 일치합니다(7.1절).
 - 구장 보정 워크북의 HB 오프셋이 왜 효과가 없는지(부호·시점 규약·산출 방식)는 워크북 원 설계를 보지 않아 확정하지 못했습니다.
 - 무브먼트 구장 편향을 VB 쪽 문제로 본 것은 "같은 투수는 구장이 바뀌어도 무브먼트가 같다"는 가정에 기댄 추론입니다.
@@ -240,6 +240,118 @@ ABS 테이크에서 좌우 경계의 50% 지점(cm), 구종 간 퍼짐, 전이 �
 - HB 편향은 좌·우투수 모두 같은 방향(포수 시점 고정 오프셋)입니다. 예: 2025년 수원은 좌투 +12.2, 우투 +13.8. 2025년 보정은 두 손 모두에서 편향을 키웁니다(수원 우투 13.8 → 16.4). HB 오프셋의 부호나 시점 규약을 점검해야 합니다.
 - 경기 내 잡음은 VB와 TrackMan이 비슷합니다(HB·IVB 모두 약 3–3.5cm). **VB 무브먼트의 문제는 투구 단위 잡음이 아니라 구장×시즌 단위 오프셋이므로 보정으로 고칠 수 있습니다.**
 - 이 문제는 SBJ만이 아니라 `pitch_arsenal`(웹 Pitch Arsenal 표시값)에도 영향을 줍니다. 보정을 고치면 화면에 보이는 값이 바뀌므로 별도 작업으로 다루고 사용자 확인을 받으십시오.
+
+### 7.4 구현 결과 (항목 1·2 승인분)
+
+- **SBJ 정의:** 새 산식을 만들지 않았습니다. 공식 순위 점수는 기존 `za_raw` 경로 그대로이고, `CONTRACT`에 "official SBJ ranking score = `zone_judgment_pct` − `expected_zone_judgment_pct`"를 명시했습니다. `zone_judgment_pct`(원점수 정확도)는 "descriptive only and never ranked"로 표기했습니다. 항등식은 `test_official_sbj_is_za_raw_not_a_second_formula`로 고정했습니다.
+- **ABS `p_zone`:** `zone_decision.judgment_plane_location()`이 `curated._at_plane()`으로 판정면 좌표를 계산합니다. `pzone_fields(season)`은 2024년 이후에만 `PZONE_ABS`를 반환하고, `plate_decision_v1.predict_pzone(..., fields)`의 기본값은 기존 4개 입력 그대로라 2022–23 legacy 경로는 바뀌지 않습니다. `MODEL_VERSION`은 `za7.1-abs-judgment-plane`입니다.
+- **통과 기준 (프로덕션 `load_rows` + `predict_pzone`, `score_crossfit`과 같은 3개 날짜 블록, 테이크 기준):**
+
+| 시즌 | 테이크 | fallback | log loss 현행 → 판정면 | 오분류 | 경계 구종별 오차 최대 (하단 · 상단 · 좌우) | 판정 |
+|---|---|---|---|---|---|---|
+| 2024 | 121,112 | 0 | 0.0401 → **0.0269** | 1.28% → 0.66% | 0.323 → **0.018** · 0.208 → **0.010** · 0.004 → 0.013 | 통과 |
+| 2025 | 119,311 | 0 | 0.0406 → **0.0292** | 1.26% → 0.74% | 0.347 → **0.010** · 0.188 → **0.012** · 0.010 → 0.010 | 통과 |
+| 2026 | 112,310 | 0 | 0.0406 → **0.0275** | 1.28% → 0.69% | 0.318 → **0.014** · 0.171 → **0.025** · 0.023 → 0.007 | 통과 |
+
+- **선수 SBJ 변화 (같은 `p_swing`에서 `p_zone`만 교체, 적격 300구 이상):**
+
+| 시즌 | 적격 | Spearman | \|ΔSBJ\| 중앙값 / p90 / 최대 | 표준오차 초과 | 최대 순위 이동 | 상위 10명 유지 |
+|---|---|---|---|---|---|---|
+| 2024 | 155 | 0.9961 | 0.138 / 0.353 / 0.711 | 0 | 15 | 9/10 |
+| 2025 | 171 | 0.9945 | 0.135 / 0.354 / 1.097 | 0 | 19 | 9/10 |
+| 2026 | 166 | 0.9951 | 0.151 / 0.425 / 0.731 | 0 | 12 | 10/10 |
+
+- **실제 산출 경로:** `python -m visualbaseball.zone_decision --seasons 2024 2025 2026`이 정상 종료했습니다(2026년 118초, 2024+2025년 247초). 판정면 입력과 fallback 수는 `data/metrics/zone_awareness/<season>/report.json`의 `source.pzone_input`에, 모델 버전과 계약은 `web/data/zone_awareness/<season>/leaderboard.json`의 `model_version`·`metric_contract`에 기록됩니다. 선수 값은 같은 파일과 `players/*.json`, `exports/zone_decision_players_<season>.csv`로 나갑니다. 생성 산출물은 커밋하지 않았습니다. master 병합 후 `daily_update`가 코드 hash 변경을 감지해 다시 만듭니다.
+
+---
+
+## 8. 무브먼트 보정 구상 평가 (3번 — 미승인, 분석만)
+
+사용자 구상은 "TrackMan 원값을 외부 기준으로 VB 무브먼트를 회귀 보정하고, 가능하면 궤적 정합성도 높인다"입니다. 코드·데이터·화면 값은 바꾸지 않았고, 아래는 읽기 전용 분석입니다. 재현 스크립트는 부록 D에 있습니다. 표시가 없는 수치는 모두 직접 재현한 것이고, 확인하지 않은 주장은 **(미검증)**으로 표시했습니다.
+
+### 8.1 직접 확인한 사실
+
+1. **VB 무브먼트 컬럼은 궤적 가속도로 계산한 값 그 자체입니다.** `horizontal_movement_cm = ½·ax·t²`, `vertical_movement_cm = ½·(az + g)·t²`이고, t는 y0(50 ft)에서 플레이트 앞면까지의 비행시간입니다. 2024·2025년은 상관 1.0000, 잔차 MAD 0.02cm로 일치합니다. 2026년은 기울기 0.923, 잔차 MAD 약 2cm입니다(y0 55 ft 혼재가 원인일 것으로 봅니다 **(미검증)**).
+   - 따라서 **무브먼트 보정은 곧 가속도 보정**입니다. 구장 편향은 ax(구장 간 범위 3.7–8.6 ft/s²)와 az(2.7–5.8 ft/s²)에 들어 있습니다.
+2. **궤적의 양 끝점에는 큰 편향이 없습니다.** 판정면 위치의 구장 편향은 0.8cm 이하입니다(2.4·7.1절). 2024년 매칭 투구에서 릴리스 쪽 구장 간 범위는 VB x@50ft 4.8cm, z@50ft 7.0cm이고, TrackMan은 rel_side 3.1cm, rel_height 5.3cm입니다.
+   - 등가속도 모형에서 두 끝점을 고정하면 가속도와 초기 속도 사이에 관측되지 않는 1자유도가 남습니다. 편향은 이 자유도, 즉 곡률과 초기 방향의 배분에 들어 있는 형태입니다.
+3. **VB와 TrackMan의 무브먼트 스케일 차이(2024년 0.84–0.85)는 대부분 정의 차이입니다.** VB는 50 ft부터 플레이트까지, TrackMan은 릴리스(약 54 ft)부터 플레이트까지의 구간을 씁니다. (48.6/52.9)² ≈ 0.84입니다. 투구별 extension으로 정의를 변환할 수 있습니다 **(미검증)**. **이 차이를 "오류"로 보고 바로잡으면 안 됩니다.**
+4. **기존 워크북의 2025년 HB 오프셋은 부호가 반대입니다.** 같은 투수·같은 구종 기준으로 잰 실측 구장 편향을 워크북 오프셋에 회귀했습니다. 보정이 제대로 되어 있다면 음의 상관이어야 합니다(오프셋 = −편향).
+
+   | 시즌 | HB 기울기 (우투 / 좌투) | HB 상관 | IVB 기울기 | IVB 상관 |
+   |---|---|---|---|---|
+   | 2023 | −0.21 / −0.43 | −0.25 / −0.47 | −0.48 / −0.55 | −0.81 / −0.82 |
+   | 2024 | −0.24 / −0.42 | −0.27 / −0.45 | −0.61 / −0.56 | −0.92 / −0.88 |
+   | 2025 | **+2.15 / +1.92** | **+0.90 / +0.85** | −1.85 / −1.36 | −0.94 / −0.93 |
+   | 2026 | −0.23 / −0.26 | −0.16 / −0.18 | −1.01 / −0.94 | −0.93 / −0.83 |
+
+   - 2025년 HB는 강한 양의 상관입니다. 오프셋이 "보정값"이 아니라 "편향값"으로 저장된 것입니다.
+   - 다른 해의 HB 오프셋은 편향과 상관이 약해서 편향을 거의 설명하지 못합니다.
+   - IVB는 방향은 맞지만 2025년은 크기가 부족합니다.
+   - 주의: 제 편향 추정(투수 중앙값을 빼는 방식)은 홈 투수의 중앙값에 홈구장이 섞여 크기가 줄어듭니다. 기울기의 **크기**가 아니라 부호와 상관만 해석하십시오.
+5. **공통 투구 ID 프로토타입 (2019·2024년)**
+   - **경기 매핑:** 같은 날짜에서 투수 집합 Jaccard ≥ 0.6이고 2위가 0.3 미만인 경우만 매핑했습니다. TrackMan 1군 686–699경기 중 604–605경기가 매핑됐고, 한 VB 경기에 두 TrackMan 경기가 붙은 경우는 0건입니다.
+   - **투구 키:** (경기, 이닝, 초/말, 반이닝 안 타석 순서, 타석 안 투구 번호). 매핑된 경기 안 VB 투구의 99.9%가 키로 맞습니다.
+   - **검증:** 타자 ID 일치 90–92%, 투수 ID 일치 79–84%, 카운트·아웃 일치 98.7%입니다. 셋 다 일치하는 투구는 VB 전체 투구의 59–64%입니다.
+   - **투수 불일치의 원인 (2024):** 불일치 행에 나오는 TrackMan 투수 ID는 73개(예: 658792)이고, 불일치 행의 99.6%에서 그 ID가 VB ID 체계에 아예 없습니다. 73개 중 85%는 특정 VB ID 하나와 일관되게 대응하므로 **선수 ID 대응표(crosswalk)가 필요합니다.** `docs/tracking-data.md`의 "같은 시즌 문자열 동등 조인"은 이 선수들을 조용히 빼 버립니다. 이들이 외국인 투수라면 **(미검증)** 선발 이닝의 큰 몫이 빠지는 선택편향입니다.
+   - 검증 통과 투구와 실패 투구의 구속 차 분포가 같습니다(|차| > 3km/h 비율 9.5% 대 11.3%). 실패는 대부분 ID 문제이지 정렬 오류가 아닙니다.
+
+### 8.2 세 목표는 같은 "무브먼트 보정"이 아닙니다
+
+| 목표 | 필요한 데이터 | 검증 방법 | 공통 투구 ID | 판정면 입력(`pStrike`)에 미치는 영향 |
+|---|---|---|---|---|
+| 구장×시즌 체계적 오프셋 | VB만으로 추정 가능(투수×구종 효과 + 구장×시즌 효과의 2원 고정효과). TrackMan은 투수·시즌·구종군·구장 집계 수준의 외부 검증 | 보정 후 구장 간 범위, TrackMan hold-out 차이 | 필요 없음(집계 수준). 있으면 검증이 쉬워짐 | 없음. 새 파생 컬럼에만 적용 |
+| 투구별 이상값 | 검증된 투구 매핑 + 두 시스템의 잡음 모형 | TrackMan도 경기 내 잡음이 VB와 비슷해서(3–3.5cm), "TrackMan과 다르다"는 VB 오류의 증거가 아닙니다. 같은 투수·경기 안의 강건 z점수로 **탐지만** 하고 값은 바꾸지 않습니다 | 필요 | 없음(플래그만) |
+| 궤적 재피팅 | 원 카메라 관측이 없습니다. 가능한 것은 8.1-2의 1자유도를 외부 목표(정의를 변환한 TrackMan 무브먼트)로 정하는 **제약 재매개화**뿐입니다 | 독립 검증이 불가능합니다. TrackMan 목표에 맞춰 만든 것이라 TrackMan과의 일치는 순환 논리입니다 | 필요 | 릴리스 위치와 판정면 위치(중간면 x, 중간·끝면 z)를 제약으로 고정하지 않으면 이동합니다. 예: 앞면을 고정하고 ax를 4 ft/s² 바꾸면 끝면 x가 약 0.3cm 움직입니다(계산값) |
+
+결론: 셋은 서로 다른 작업입니다. 오프셋은 **파생 컬럼 보정**, 이상값은 **데이터 품질 플래그**, 재피팅은 **`pStrike` 입력을 건드릴 수 있는 모델 변경**입니다. 같은 이름으로 묶어 한 번에 하지 마십시오.
+
+### 8.3 매칭 오류·커버리지 공백·분포 차이 다루기
+
+- **투구 매핑:** 타자·투수(대응표 적용 후)·카운트·아웃이 모두 일치하고 구속 차가 허용 범위 안인 것만 "검증된 매핑"으로 인정합니다. 나머지는 쓰지 않습니다. 규칙과 버전을 파일로 남기고 입력 해시로 고정하십시오.
+- **오프셋 추정:** VB 내부 데이터로, 광주를 포함한 모든 구장에 대해 추정합니다. TrackMan은 커버된 구장에서만 검증에 씁니다. **TrackMan 결측 구장(광주·울산·청주·포항)에는 TrackMan 기반 회귀 결과를 적용하지 않습니다.** VB 내부 추정치만 쓰고 "TrackMan 미검증" 플래그를 붙입니다.
+- **2025–26년:** TrackMan이 없습니다. 2022–24년에 검증된 **방법**만 가져오고, TrackMan 기반 **계수**는 가져오지 않습니다. 구장 편향은 시즌마다 다릅니다(HB 범위: 2025년 22cm, 2026년 9.6cm).
+- **분포 차이:**
+  - 구종 라벨 체계가 달라서 구종 비교는 공통 구종군(fastball / breaking / offspeed)으로만 합니다.
+  - 현재 HB 편향은 좌·우투수 모두 같은 방향(포수 시점 기준 이동)이므로 기준선 모형에 손 상호작용을 넣지 않습니다.
+  - 대응표 없이 조인하면 특정 선수군이 빠지므로, 검증 표본의 구성(투수 수, 이닝)을 함께 보고하십시오.
+
+### 8.4 모형 복잡도
+
+- **기준선:** VB 무브먼트 ~ 투수×구종(×시즌) 효과 + 구장×시즌 효과. HB·IVB를 따로 두고 포수 시점으로 적합합니다. "단순 오프셋"이지만 추정은 **2원 고정효과**로 해야 합니다. 중앙값을 빼는 방식은 효과 크기를 줄입니다.
+- **확장 조건:** 교차검증 잔차로 판단하고, 문턱은 사전에 고정합니다.
+  - (a) 구장×시즌 효과를 뺀 잔차에서 구장×구종군 상호작용이 TrackMan 검증 기준으로 2cm 이상일 때
+  - (b) 구장×투수 손 상호작용이 2cm 이상일 때 (현재 증거로는 불필요)
+  - (c) 구장 안에서 월별 추세(카메라 재보정 가능성)가 2cm 이상일 때
+  - 구속 항은 구장 안에서 잔차와 구속의 상관이 뚜렷할 때만 추가합니다.
+- **처음부터 여러 갈래 모형을 만들 때의 위험:**
+  - 셀당 표본이 작아 과적합됩니다.
+  - 투수 효과와 구장 효과가 겹칩니다(홈 투수는 투구의 절반을 홈구장에서 던짐). 2원 고정효과는 원정 경기 덕분에 둘을 구분할 수 있지만, 상호작용 셀에서는 구분력이 급감합니다. 그 결과 특정 투수의 실제 특이 구종이 "구장 편향"으로 흡수되어 지워지는 **과잉 보정**이 생깁니다.
+
+### 8.5 성공 판정 지표 (서로 섞지 말 것)
+
+1. **구장 간 편향:** 보정 후 구장×시즌 효과의 범위 ≤ 2cm. TrackMan 2024년 수준(0.9 / 1.4cm)을 참고합니다.
+2. **외부 오차:** 경기 단위와 투수 단위 hold-out에서, 정의를 변환한 VB와 TrackMan 차이의 구장별 중앙값 |차| ≤ 1cm.
+3. **투구별 변화 분포:** 보정량은 구장×시즌 상수여야 하므로 구장마다 한 값(또는 좁은 분포)이어야 합니다. |보정량| > 10cm 비율을 보고하고, 투수 안 구종 순위가 보존되는지(Spearman ≈ 1) 확인합니다.
+4. **물리 정합성:** 보정은 파생 컬럼에만 적용하고 ax/az는 바꾸지 않습니다. **판정면 입력(`x_mid_relative`, `top_gap_cm`, `bottom_gap_cm`)이 보정 전후로 완전히 같다는 것을 테스트로 고정**하십시오.
+5. **`pSwing` 성능 (4번 승인 후):** OOF log loss·calibration, 구장×구종 잔차.
+6. **선수 SBJ 안정성:** 순위 상관, 표준오차를 넘게 바뀐 선수 수.
+7. **Pitch Arsenal 표시값 변화:** 투수별 구종 평균 HB/IVB 변화의 분포. 화면이 바뀌는 일이므로 별도 승인 대상입니다.
+
+### 8.6 결론
+
+- **지금 권할 최소안 (승인 시):**
+  1. **선수 ID 대응표와 검증된 공통 투구 매핑**을 데이터 계약으로 만듭니다. "공통 투구 ID를 먼저 만들자"는 사용자 의견을 받아들이되, 목적은 보정 입력이 아니라 **검증 인프라**입니다.
+  2. VB 내부 2원 고정효과로 구장×시즌 HB/IVB 오프셋을 다시 추정하고, TrackMan 2022–24(가능하면 2019–21도)로 집계 수준에서 검증합니다. 결과는 새 파생 컬럼으로만 두고, 원 컬럼·궤적 계수·기존 워크북·화면 값은 그대로 둡니다.
+  3. 2025년 HB 워크북의 부호 반대는 기록만 합니다. 워크북을 교체하면 화면이 바뀌므로 승인이 필요합니다.
+- **추가 증거가 있어야 할 확장안:** 구장×구종군·손·월 상호작용, 정의 변환(TrackMan 구간 ↔ VB 구간)에 기반한 스케일 보정, 투구별 이상값 플래그.
+- **하지 말아야 할 일:**
+  - TrackMan 값으로 VB 값을 대체하기
+  - 궤적 계수(ax·az 등) 수정. `pStrike` 입력을 흔들 수 있고 독립 검증이 불가능합니다
+  - TrackMan 커버리지 밖(광주 등 구장, 2025–26 시즌)에 TrackMan 회귀 계수 적용
+  - 정의 차이인 스케일(약 0.84)을 오류로 보고 "보정"하기
+  - 처음부터 여러 갈래 모형 적합
+  - 검증되지 않은 매칭 결과 사용
 
 ---
 
@@ -472,4 +584,182 @@ for yr in (2024, 2025, 2026):
     o = pd.DataFrame(out); o = o[d.stadium.value_counts().reindex(o.index) > 3000].round(1)
     print(yr, 'adjust coverage', info.get('adjustment_coverage_pct'), '%'); print(o.T.to_string())
     print('   구장 간 범위(cm)', (o.max() - o.min()).round(1).to_dict())
+```
+
+## 부록 D. 항목 1·2 검증과 3번 분석 재현 스크립트
+
+모두 읽기 전용이고, 저장소 루트에서 `PYTHONPATH=src OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 python <파일> [시즌...]`으로 실행합니다(Python 3.12, `constraints-za.txt`).
+
+`pzone_gate.py` — 7.4절 통과 기준. 인자로 시즌을 줍니다.
+
+```python
+"""ABS p_zone 판정면 입력 통과 기준 확인: 프로덕션 load_rows + predict_pzone, score_crossfit과 같은 3개 날짜 블록."""
+import sys, json, pathlib; sys.path.insert(0, 'src')
+import numpy as np, pandas as pd
+from visualbaseball import zone_decision as zd, plate_decision_v1 as old
+root = pathlib.Path('.').resolve()
+KINDS = ['4-Seam Fastball', '2-Seam Fastball', 'Slider', 'Curveball', 'Changeup', 'Forkball', 'Cutter', 'Sweeper', 'Splitter']
+out = {}
+for season in map(int, sys.argv[1:]):
+    rows, source = zd.load_rows(root, season)
+    dates = np.array(sorted({r['game_id'][:8] for r in rows}))
+    pred = {name: np.full(len(rows), np.nan) for name in ('current', 'plane')}
+    idx = {id(r): i for i, r in enumerate(rows)}
+    for block in np.array_split(dates, zd.CROSSFIT_FOLDS):
+        held = set(block); train = [r for r in rows if r['game_id'][:8] not in held]; test = [r for r in rows if r['game_id'][:8] in held]
+        where = [idx[id(r)] for r in test]
+        pred['current'][where] = old.predict_pzone(train, test)
+        pred['plane'][where] = old.predict_pzone(train, test, zd.PZONE_ABS)
+    d = pd.DataFrame({'is_take': [r['decision_type'] == 'Take' for r in rows], 'cs': [r['event'] == 'CalledStrike' for r in rows],
+                      'pitch_type': [r.get('pitch_type') for r in rows], 'x': [abs(r['x_mid_relative']) * 25.4 for r in rows],
+                      'top': [r['top_gap_cm'] for r in rows], 'bot': [r['bottom_gap_cm'] for r in rows], **pred})
+    t = d[d.is_take].copy(); y = t.cs.astype(float)
+    bands = {'bottom': (t.x < 18) & t.bot.between(-8, -2), 'top': (t.x < 18) & t.top.between(.5, 6.5),
+             'side': (t.top < -10) & (t.bot > 10) & t.x.between(23.7, 29.7)}
+    res = {'pitches': len(rows), 'takes': len(t), 'pzone_input': source['pzone_input']}
+    for name in pred:
+        p = t[name].clip(1e-6, 1 - 1e-6)
+        m = {'logloss': float(-np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))), 'brier': float(np.mean((p - y) ** 2)), 'misclass_pct': float(100 * np.mean((p > .5) != y))}
+        for band, sel in bands.items():
+            g = t[sel & t.pitch_type.isin(KINDS)].groupby('pitch_type').apply(lambda s: pd.Series({'n': len(s), 'obs': s.cs.mean(), 'pred': s[name].mean()}), include_groups=False)
+            g = g[g.n >= 100]; err = (g.obs - g.pred).abs()
+            m[f'{band}_max_abs_err'] = float(err.max()); m[f'{band}_weighted_abs_err'] = float((err * g.n).sum() / g.n.sum())
+            m[f'{band}_worst_type'] = str(err.idxmax())
+        res[name] = m
+    cur, pl = res['current'], res['plane']
+    res['gate'] = {'edge_calibration_max_lt_0.05': max(pl[f'{b}_max_abs_err'] for b in bands) < .05,
+                   'logloss_not_worse': pl['logloss'] <= cur['logloss']}
+    out[season] = res
+    print(season, json.dumps(res, ensure_ascii=False, indent=1), flush=True)
+```
+
+`isolate.py` — 7.4절 선수 SBJ 변화. 해당 시즌 ZA 빌드 후 실행합니다.
+
+```python
+"""같은 p_swing에서 p_zone만 현행(앞면) 대 판정면으로 바꿨을 때 선수 SBJ(za_raw) 변화."""
+import sys, json, pathlib; sys.path.insert(0, 'src')
+import numpy as np, pandas as pd
+from scipy.stats import spearmanr
+from visualbaseball import plate_decision_v1 as old, zone_decision as zd
+for yr in map(int, sys.argv[1:]):
+    rows = pd.read_parquet(f'data/metrics/zone_awareness/{yr}/pitches.parquet').to_dict('records')
+    dates = np.array(sorted({r['game_id'][:8] for r in rows})); p_old = np.full(len(rows), np.nan)
+    for block in np.array_split(dates, zd.CROSSFIT_FOLDS):
+        held = set(block); train = [r for r in rows if r['game_id'][:8] not in held]
+        test_i = [i for i, r in enumerate(rows) if r['game_id'][:8] in held]
+        p_old[test_i] = old.predict_pzone(train, [rows[i] for i in test_i])
+    d = pd.DataFrame({'b': [r['batter_id'] for r in rows], 's': [r['swing'] for r in rows], 'q': [r['p_swing'] for r in rows], 'p_new': [r['p_zone'] for r in rows], 'p_old': p_old})
+    d['j_new'] = (d.s - d.q) * (2 * d.p_new - 1); d['j_old'] = (d.s - d.q) * (2 * d.p_old - 1)
+    g = d.groupby('b').agg(n=('s', 'size'), new=('j_new', 'mean'), old=('j_old', 'mean'), se=('j_old', lambda x: x.std() / np.sqrt(len(x))))
+    g = g[g.n >= 300] * [1, 100, 100, 100]
+    dl = (g.new - g.old).abs(); rk = (g.new.rank(ascending=False) - g.old.rank(ascending=False)).abs()
+    print(f'{yr}: qualified {len(g)} | Spearman {spearmanr(g.old, g.new)[0]:.4f} | |dSBJ| median {dl.median():.3f} p90 {dl.quantile(.9):.3f} max {dl.max():.3f} | >SE {int((dl > g.se).sum())} (median SE {g.se.median():.2f}) | max rank shift {rk.max():.0f} | top10 overlap {len(set(g.old.nlargest(10).index) & set(g.new.nlargest(10).index))}/10')
+```
+
+`wb_sign.py` — 8.1-4 워크북 오프셋 부호.
+
+```python
+"""기존 park adjustment HB/IVB 오프셋과 VB 실측 구장 편향(포수 시점, 같은 투수·구종 기준)의 관계를 손별로 본다."""
+import sys, pathlib; sys.path.insert(0, 'src')
+import numpy as np, pandas as pd
+from visualbaseball.curated import load_rows
+from visualbaseball.pitch_arsenal import _load_park_factors, _pitch_code, _stadium, _throws, PARK_FACTOR_CODE
+root = pathlib.Path('.')
+for yr in (2023, 2024, 2025, 2026):
+    rows = load_rows(root, 'pitches', yr, columns=['pitch_id','pitch_type_code','pitch_type_kr','pitcher_id','stadium','horizontal_movement_cm','vertical_movement_cm','release_x_50'])
+    d = pd.DataFrame(rows)
+    d['code'] = [PARK_FACTOR_CODE.get(_pitch_code(r), _pitch_code(r)) for r in rows]; d['park'] = d.stadium.map(_stadium)
+    hand = d.groupby('pitcher_id').release_x_50.apply(lambda s: _throws([v for v in s if v == v])); d['throws'] = d.pitcher_id.map(hand)
+    f = _load_park_factors(root, yr)
+    for comp, col, k in (('HB', 'horizontal_movement_cm', 0), ('IVB', 'vertical_movement_cm', 1)):
+        d['dev'] = d[col] - d.groupby(['pitcher_id', 'code'])[col].transform('median')
+        g = d.groupby(['park', 'code', 'throws']).dev.agg(['median', 'size']).reset_index(); g = g[(g['size'] >= 300) & g.code.ne('')]
+        g['offset'] = [f.get((p, c), (np.nan, np.nan))[k] for p, c in zip(g.park, g.code)]; g = g.dropna(subset=['offset'])
+        line = []
+        for h in ('R', 'L'):
+            s = g[g.throws == h]
+            if len(s) > 5:
+                slope = np.polyfit(s.offset, s['median'], 1)[0]; r = np.corrcoef(s.offset, s['median'])[0, 1]
+                line.append(f"{h}: n={len(s)} slope={slope:+.2f} r={r:+.2f}")
+        print(yr, comp, 'measured bias ~ workbook offset |', ' | '.join(line), '(정상 보정이면 slope≈-1, 부호 반대면 +1)')
+```
+
+`traj_move.py` — 8.1-1 무브먼트와 궤적 가속도.
+
+```python
+"""제공 무브먼트 컬럼 대 궤적 계수로 계산한 무브먼트: 관계와 구장 편향 (읽기 전용)."""
+import sys, pathlib; sys.path.insert(0, 'src')
+import numpy as np, pandas as pd
+from visualbaseball.curated import load_rows
+G = 32.174; CM = 30.48
+for yr in (2024, 2025, 2026):
+    d = pd.DataFrame(load_rows(pathlib.Path('.'), 'pitches', yr, columns=['pitcher_id','pitch_type','stadium','horizontal_movement_cm','vertical_movement_cm','trajectory_status','y0','vy0','ay','ax','az','arrival_time_s']))
+    d = d[d.trajectory_status == 'valid'].copy()
+    a, b, c = .5 * d.ay, d.vy0, d.y0 - 17 / 12
+    t = (-b - np.sqrt(b * b - 4 * a * c)) / (2 * a)          # y0(50/55ft) -> 플레이트 앞면
+    d['hb_traj'] = .5 * d.ax * t * t * CM; d['ivb_traj'] = .5 * (d.az + G) * t * t * CM
+    for prov, traj in (('horizontal_movement_cm', 'hb_traj'), ('vertical_movement_cm', 'ivb_traj')):
+        ok = d[[prov, traj]].notna().all(axis=1); s, i = np.polyfit(d.loc[ok, traj], d.loc[ok, prov], 1)
+        resid = d.loc[ok, prov] - (s * d.loc[ok, traj] + i)
+        print(f'{yr} {prov} = {s:.3f}*{traj} {i:+.2f}  r={d.loc[ok, prov].corr(d.loc[ok, traj]):.4f}  resid MAD {(resid - resid.median()).abs().median():.2f}cm')
+    rng = {}
+    for c_ in ('horizontal_movement_cm', 'hb_traj', 'vertical_movement_cm', 'ivb_traj', 'ax', 'az'):
+        dev = d[c_] - d.groupby(['pitcher_id', 'pitch_type'])[c_].transform('median')
+        m = dev.groupby(d.stadium).median(); m = m[d.stadium.value_counts().reindex(m.index) > 3000]
+        rng[c_] = round(float(m.max() - m.min()), 2)
+    print(f'{yr} 구장 간 범위:', rng, '(ax, az는 ft/s^2)')
+```
+
+`pitch_id_proto.py` — 8.1-5 공통 투구 ID 프로토타입. 인자로 시즌을 줍니다.
+
+```python
+"""공통 투구 ID 프로토타입 (읽기 전용): 경기 매핑 → 반이닝 내 타석 순서 → 타석 내 투구 번호. 저장하지 않는다."""
+import sys, pathlib; sys.path.insert(0, 'src')
+import numpy as np, pandas as pd
+from visualbaseball.curated import load_rows
+yr = int(sys.argv[1])
+t = pd.read_csv(f'data/tracking/raw/season={yr}/trackman_history.csv', dtype=str)
+t = t[~t.pitcher_team.str.startswith('MIN_')].copy()
+t['date'] = pd.to_datetime(t.game_date, format='mixed').dt.strftime('%Y%m%d')
+for c in ('inning', 'pitch_no', 'pitch_of_pa', 'balls_before', 'strikes_before', 'outs_before'): t[c] = pd.to_numeric(t[c])
+t['rel_speed'] = pd.to_numeric(t.rel_speed); t['half'] = np.where(t.top_bottom.str.lower().str.startswith('t'), 'top', 'bottom')
+v = pd.DataFrame(load_rows(pathlib.Path('.'), 'pitches', yr, columns=['pitch_id', 'game_id', 'inning', 'inning_half', 'pitcher_id', 'batter_id', 'balls_before', 'strikes_before', 'outs_before', 'velocity_kmh']))
+v['date'] = v.game_id.str[:8]; v['half'] = v.inning_half.astype(str).str.lower()
+parts = v.pitch_id.str.split('-'); v['pa_seq'] = parts.str[-2].astype(int); v['pitch_in_pa'] = parts.str[-1].astype(int)
+for c in ('pitcher_id', 'batter_id'): v[c] = v[c].astype(str)
+# 1) 경기 매핑: 같은 날짜에서 투수 집합 Jaccard 최대이며 유일한 경우만
+tg = t.groupby('trackman_game_id').agg(date=('date', 'first'), P=('pitcher_trackman_id', lambda s: frozenset(s)))
+vg = v.groupby('game_id').agg(date=('date', 'first'), P=('pitcher_id', lambda s: frozenset(s)))
+gmap, amb = {}, 0
+for gid, row in tg.iterrows():
+    cands = vg[vg.date == row.date]
+    if cands.empty: continue
+    j = cands.P.apply(lambda p: len(p & row.P) / len(p | row.P)).sort_values(ascending=False)
+    if j.iloc[0] >= .6 and (len(j) == 1 or j.iloc[1] < .3): gmap[gid] = j.index[0]
+    else: amb += 1
+dup = pd.Series(gmap).value_counts(); dup = dup[dup > 1]
+print(f'{yr} TM 1군 경기 {len(tg)}, 매핑 {len(gmap)}, 모호/실패 {amb}, VB 경기 중복 매핑 {len(dup)}, VB 경기 {len(vg)}')
+t = t[t.trackman_game_id.isin(gmap)].copy(); t['game_id'] = t.trackman_game_id.map(gmap)
+# 2) 타석: 반이닝 안에서 (타자, 투수) 연속 구간 = 타석, 순서 k
+t = t.sort_values(['game_id', 'pitch_no'])
+newpa = (t.pitch_of_pa == 1) | (t.batter_trackman_id != t.batter_trackman_id.shift()) | (t.game_id != t.game_id.shift())
+t['pa_idx'] = newpa.cumsum(); t['k'] = t.groupby(['game_id', 'inning', 'half']).pa_idx.rank(method='dense').astype(int)
+v = v[v.game_id.isin(set(gmap.values()))].copy()
+v['k'] = v.groupby(['game_id', 'inning', 'half']).pa_seq.rank(method='dense').astype(int)
+key = ['game_id', 'inning', 'half', 'k', 'pitch_in_pa']
+t = t.rename(columns={'pitch_of_pa': 'pitch_in_pa'})
+m = t.merge(v, on=key, how='inner', suffixes=('_tm', '_vb'))
+same_batter = m.batter_trackman_id == m.batter_id; same_pitcher = m.pitcher_trackman_id == m.pitcher_id
+same_count = (m.balls_before_tm == m.balls_before_vb) & (m.strikes_before_tm == m.strikes_before_vb) & (m.outs_before_tm == m.outs_before_vb)
+ok = same_batter & same_pitcher & same_count
+dv = (m.velocity_kmh - m.rel_speed)
+mm = m[~same_pitcher & same_count]; pairs = mm.groupby(["pitcher_trackman_id","pitcher_id"]).size()
+tm_to_vb = mm.groupby("pitcher_trackman_id").pitcher_id.nunique()
+print(f"  투수 불일치 {len(mm)}행: TM ID {mm.pitcher_trackman_id.nunique()}개, (TM,VB) 쌍 {len(pairs)}개, TM ID 하나가 VB ID 하나로만 대응 {100*(tm_to_vb==1).mean():.1f}%, 불일치 TM ID 중 VB에도 존재 {100*mm.pitcher_trackman_id.isin(set(v.pitcher_id)).mean():.1f}%")
+print("  예시", pairs.sort_values(ascending=False).head(5).to_dict())
+print(f'  키 일치 {len(m)} = VB(매핑 경기) {len(m)/len(v):.3f}; 타자 일치 {same_batter.mean():.4f}, 투수 일치 {same_pitcher.mean():.4f}, 카운트·아웃 일치 {same_count.mean():.4f}, 셋 다 {ok.mean():.4f}')
+print(f'  검증 통과 투구 {ok.sum()} = VB 전체 투구 {ok.sum()/len(pd.DataFrame(load_rows(pathlib.Path("."), "pitches", yr, columns=["pitch_id"]))):.3f}')
+for name, sel in (('검증 통과', ok), ('검증 실패', ~ok)):
+    d = dv[sel]
+    if len(d): print(f'  {name}: 구속차 중앙값 {d.median():+.2f}, |차|>3 {100*(d.abs()>3).mean():.2f}%, |차|>8 {100*(d.abs()>8).mean():.2f}%')
 ```

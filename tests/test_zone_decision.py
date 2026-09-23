@@ -1,6 +1,10 @@
+import inspect
 import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
 from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_dv_plus, EVENTS
+from visualbaseball.zone_decision import cell_summary, judgment_plane_location, pzone_fields, PZONE_ABS
+from visualbaseball.curated import CM_PER_FOOT, _at_plane
+from visualbaseball import plate_decision_v1 as old
 
 
 def test_decision_value_credits_the_actual_choice():
@@ -117,3 +121,53 @@ def test_actual_fitted_predictions_ignore_held_out_results():
  assert not np.allclose(first['target'],second['target'])
  np.testing.assert_allclose(first['probs'][:,:3].sum(axis=1),1)
  np.testing.assert_allclose(first['probs'][:,3:].sum(axis=1),1)
+
+
+def test_official_sbj_is_za_raw_not_a_second_formula():
+ # SBJ ranks by za_raw; raw accuracy minus league-policy accuracy is that same number.
+ rng=np.random.default_rng(5)
+ items=[]
+ for _ in range(200):
+  swing,p_swing,p_zone=int(rng.integers(0,2)),float(rng.uniform(.05,.95)),float(rng.uniform(.05,.95))
+  items.append({'swing':swing,'p_swing':p_swing,'p_zone':p_zone,'judgment':(swing-p_swing)*(2*p_zone-1),'opposite_support':50,'dv':0.,'delta_v':0.,'v_swing':0.,'v_take':0.,**{f'p_{e}':0. for e in EVENTS}})
+ s=cell_summary(items)
+ assert abs(s['zone_judgment_pct']-s['expected_zone_judgment_pct']-s['za_raw'])<1e-5
+
+
+def _pitch(**changes):
+ # Falling pitch released at 50 ft; y is feet from the back tip of home plate.
+ row={'x0':-1.8,'y0':50.,'z0':5.8,'vx0':5.,'vy0':-128.,'vz0':-4.,'ax':-9.,'ay':26.,'az':-18.,
+      'px':.4,'pz':2.3,'sz_top':3.4,'sz_bottom':1.6,'trajectory_valid':True}
+ row.update(changes);return row
+
+
+def test_abs_plane_inputs_use_middle_x_and_both_height_planes():
+ row=_pitch();mid,back=_at_plane(row,8.5/12),_at_plane(row,0.)
+ got=judgment_plane_location(row)
+ assert not got['plane_fallback']
+ assert abs(got['x_mid_relative']-mid[0]/CM_PER_FOOT/(10/12))<1e-9
+ # Falling: the middle plane is higher, so it limits the top; the back plane limits the bottom.
+ assert mid[1]>back[1]
+ assert abs(got['top_gap_cm']-(mid[1]-3.4*CM_PER_FOOT))<1e-9
+ assert abs(got['bottom_gap_cm']-(back[1]-1.6*CM_PER_FOOT))<1e-9
+ rising=_pitch(az=40.)
+ mid,back=_at_plane(rising,8.5/12),_at_plane(rising,0.);got=judgment_plane_location(rising)
+ assert back[1]>mid[1]
+ assert abs(got['top_gap_cm']-(back[1]-3.4*CM_PER_FOOT))<1e-9
+ assert abs(got['bottom_gap_cm']-(mid[1]-1.6*CM_PER_FOOT))<1e-9
+
+
+def test_invalid_trajectory_falls_back_to_front_plane_location():
+ for row in (_pitch(trajectory_valid=False),_pitch(vy0=None)):
+  got=judgment_plane_location(row)
+  assert got['plane_fallback']
+  assert abs(got['x_mid_relative']-.4/(10/12))<1e-9
+  assert abs(got['top_gap_cm']-(2.3-3.4)*CM_PER_FOOT)<1e-9
+  assert abs(got['bottom_gap_cm']-(2.3-1.6)*CM_PER_FOOT)<1e-9
+
+
+def test_only_abs_seasons_read_judgment_planes():
+ assert pzone_fields(2023)==old.PZONE_NUMERIC
+ # Legacy human-umpire builds call predict_pzone without fields and keep the four front-plane inputs.
+ assert inspect.signature(old.predict_pzone).parameters['fields'].default==old.PZONE_NUMERIC
+ assert all(pzone_fields(season)==PZONE_ABS for season in (2024,2025,2026))

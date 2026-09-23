@@ -1,6 +1,8 @@
 # ZA v7 · strike-zone judgment and decision value · 2024–2026
 
-ZA is `100 * mean((S - p_swing) * (2*p_zone - 1))`, where p_zone comes from the take-only CalledStrike vs Ball/HBP model reused from `plate_decision_v1`. Decision Value remains `V_swing - V_take` for a swing and the sign-reversed value for a take; DV is its cumulative sum and DV/100 is `100 * DV / N`. SA remains `100 * mean(S - p_swing)`. DV+ standardizes qualified DV/100 to mean 100 and population standard deviation 15.
+ZA is `100 * mean((S - p_swing) * (2*p_zone - 1))`, where p_zone comes from the take-only CalledStrike vs Ball/HBP model reused from `plate_decision_v1`. ZA is also the official SBJ ranking score: raw judgment accuracy `zone_judgment_pct` minus league-policy accuracy `expected_zone_judgment_pct` equals it exactly, so SBJ has no separate formula and the raw accuracy is descriptive only.
+
+In ABS seasons (2024+) p_zone reads the judgment planes instead of the front-plane `px/pz`: x at the plate's middle plane, the top gap at the higher and the bottom gap at the lower of the middle and back planes (`judgment_plane_location()`). A pitch without a valid trajectory falls back to `px/pz` for every plane; `report.json` records the count under `source.pzone_input`. Same-block OOF on 2024–2026 takes lowered log loss from 0.040 to 0.027–0.029 and the worst pitch-type edge calibration error from 0.32–0.35 to at most 0.025. Decision Value remains `V_swing - V_take` for a swing and the sign-reversed value for a take; DV is its cumulative sum and DV/100 is `100 * DV / N`. SA remains `100 * mean(S - p_swing)`. DV+ standardizes qualified DV/100 to mean 100 and population standard deviation 15.
 
 ## Model change map
 
