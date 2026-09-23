@@ -147,7 +147,8 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
   }).join("");
   const swingTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.swing.decision_run), 0);
   const takeTotal = Object.values(regions).reduce((sum, region) => sum + Number(region.take.decision_run), 0);
-  document.querySelector("#run-total").innerHTML = `<span>${formatSigned(swingTotal)} Swing Run</span><strong>${formatSigned(takeTotal)} Take Run</strong>`;
+  document.querySelector("#run-total").innerHTML =
+    `<p class="swing"><strong>${formatSigned(swingTotal)}</strong> Swing Runs</p><p class="take"><strong>${formatSigned(takeTotal)}</strong> Take Runs</p>`;
   const target = document.querySelector("[data-thumbnail-target]");
   if (target) target.dataset.thumbnailReady = "true";
 };

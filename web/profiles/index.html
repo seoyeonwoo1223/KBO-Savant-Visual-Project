@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Swing/Take 프로필</title>
-  <link rel="stylesheet" href="profile.css?v=20260923-6">
+  <link rel="stylesheet" href="profile.css?v=20260923-7">
   <link rel="stylesheet" href="../theme.css?v=20260913-4">
   <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
 </head>
@@ -36,12 +36,12 @@
           </div>
           <details class="zone-guide"><summary>전체 구획 기준도 보기</summary><img src="../assets/zone-chart.png" alt="Heart, Shadow, Chase, Waste와 ABS 스트라이크존의 상대 거리 기준도"></details>
         </section>
-        <section class="regions-panel" aria-labelledby="regions-title">
-          <div class="panel-heading"><h2 id="regions-title">Zone Decisions</h2><p id="pitch-total"></p></div>
+        <section class="regions-panel" aria-label="Zone Decisions">
           <div class="region-scroll" aria-label="Zone Decisions 표. 모바일에서는 좌우로 밀어 전체 지표를 확인하세요.">
             <div class="region-columns" aria-hidden="true"><span></span><span class="frequency-head">Pitch Frequency<small>(괄호 안은 리그 평균)</small></span><span class="split-head"><span>Swing</span><span>Take</span></span><span>Run Value</span></div>
             <div id="regions" class="region-list"></div>
             <div class="panel-footers">
+              <p id="pitch-total" class="footer-pitch-total"></p>
               <div id="split-legend" class="split-legend"><i></i>League Avg</div>
               <div id="run-total" class="run-total"></div>
             </div>
@@ -72,6 +72,6 @@
     <p class="method-note">Run Value = Σ[Raw Run Value − 리그 평균 Run Value(볼카운트, 상대 위치)] · 양수일수록 타자에게 유리합니다.</p>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="profile.js?v=20260923-4"></script>
+  <script src="profile.js?v=20260923-5"></script>
 </body>
 </html>
