@@ -23,12 +23,13 @@ h1 { margin: 0; font-size: clamp(2.25rem, 5vw, 3.6rem); letter-spacing: -.055em;
 .profile-dashboard { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 24px; }
 h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 .zone-panel { display: flex; flex-direction: column; text-align: center; }
-.zone-panel-heading { margin: 0 0 auto; text-align: left; }
+.zone-panel-heading { margin: 0 0 5px; text-align: left; }
 .zone-panel-title { margin: 0; font: 700 1.6rem/1.3 Arial, sans-serif; color: #222; }
+.zone-panel-title .zone-panel-year { color: #8f8f8f; font-weight: 400; }
 .zone-panel-value { display: flex; align-items: baseline; gap: 6px; margin: 4px 0 0; }
 .zone-panel-value strong { font: 700 1.6rem/1.3 Arial, sans-serif; color: #222; }
 .zone-panel-value small { color: #777; font-size: .85rem; font-weight: 400; }
-.zone-visual { position: relative; width: min(100%, 350px); aspect-ratio: 4 / 5; margin: 0 auto; background: #efefef; overflow: hidden; }
+.zone-visual { position: relative; width: min(100%, 378px); aspect-ratio: 4 / 5; margin: 0 auto; background: #efefef; overflow: hidden; }
 .zone-waste, .zone-chase, .zone-shadow, .zone-heart, .strike-zone { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 .zone-waste { width: 100%; height: 100%; background: #e9e9e9; }
 .zone-chase { width: 78%; height: 80%; background: var(--zone-chase-tint); }
@@ -87,7 +88,7 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 .run-side.left { justify-content: flex-end; }
 .run-side.right { justify-content: flex-start; }
 .run-axis { z-index: 2; height: 26px; border-left: 1px solid #555; }
-.run-fill { flex: 0 0 var(--run-width); height: 14px; }
+.run-fill { flex: 0 1 var(--run-width); min-width: 2px; height: 14px; }
 .run-fill.swing { background: #8ab78d; }
 .run-fill.take { background: #c9a762; }
 .run-value { flex: 0 0 auto; margin: 0 5px; font: .82rem/14px Arial, sans-serif; white-space: nowrap; }
