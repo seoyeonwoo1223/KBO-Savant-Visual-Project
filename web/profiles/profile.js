@@ -27,7 +27,6 @@ const REGION_STYLE = {
   Chase: { className: "chase", color: "#ffe11b" },
   Waste: { className: "waste", color: "#a8a8a8" }
 };
-const runWidth = (value, maximum) => `${Math.max(1, Math.min(50, Math.abs(Number(value)) / maximum * 50))}%`;
 const share = value => Math.max(0, Math.min(100, Number(value)));
 const playerShard = id => /^\d/.test(id || "") ? id[0] : "other";
 const profileCache = new Map();
@@ -49,15 +48,29 @@ const swingTakeSplit = (region, league) => `
       <div class="split-half take"><i></i><span>${formatNumber(league.take_pct)}%</span></div>
     </div>` : ""}
   </div>`;
-const runBar = (value, maximum, label) => {
+const RUN_SCALE_STEPS = [5, 10, 20, 40, 60, 80, 100, 150, 200, 300, 500];
+const runScaleMax = maximum => RUN_SCALE_STEPS.find(step => step >= maximum) || Math.ceil(maximum / 100) * 100;
+const runPosition = (value, scale) => 50 + Number(value) / scale * 50;
+const runTicks = scale => [-scale, -scale / 2, 0, scale / 2, scale];
+const runGrid = scale => runTicks(scale)
+  .map(tick => `<i class="rv-grid${tick === 0 ? " zero" : ""}" style="left:${runPosition(tick, scale)}%"></i>`).join("");
+const runBar = (value, scale, label, top, withUnit) => {
   const number = Number(value);
-  const positive = number >= 0;
-  return `<div class="run-bar" aria-label="${label} Run Value ${formatSigned(value)}">
-    <div class="run-side left">${positive ? "" : `<span class="run-value">${formatSigned(value)}</span><i class="run-fill ${label.toLowerCase()}" style="--run-width:${runWidth(value, maximum)}"></i>`}</div>
-    <i class="run-axis"></i>
-    <div class="run-side right">${positive ? `<i class="run-fill ${label.toLowerCase()}" style="--run-width:${runWidth(value, maximum)}"></i><span class="run-value">${formatSigned(value)}</span>` : ""}</div>
-  </div>`;
+  const x = runPosition(number, scale);
+  return `<i class="rv-bar ${label.toLowerCase()}" style="top:${top}%;left:${Math.min(50, x)}%;width:${Math.abs(x - 50)}%"></i>
+    <span class="rv-label ${number >= 0 ? "positive" : "negative"}" style="top:${top}%">${formatSigned(number)}${withUnit ? ` <small>${label} Runs</small>` : ""}</span>`;
 };
+const runValueChart = (region, className, scale, withUnit) => `
+  <div class="run-bars" aria-label="Swing Run Value ${formatSigned(region.swing.decision_run)}, Take Run Value ${formatSigned(region.take.decision_run)}">
+    <div class="rv-wrap">
+      <i class="rv-divider ${className}"></i>
+      <div class="rv-plot">
+        ${runGrid(scale)}
+        ${runBar(region.swing.decision_run, scale, "Swing", 30, withUnit)}
+        ${runBar(region.take.decision_run, scale, "Take", 70, withUnit)}
+      </div>
+    </div>
+  </div>`;
 const aggregateProfile = payload => {
   const groups = Object.fromEntries(Object.keys(REGION_STYLE).map(name => [name, { Swing: [], Take: [] }]));
   payload.pitches.forEach(pitch => groups[pitch.region][pitch.action].push(Number(pitch.run_value)));
@@ -118,6 +131,9 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
   document.querySelector("#zone-panel-run").textContent = formatSigned(overall.decision_run);
   document.querySelector("#pitch-total").textContent = `${overall.pitches.toLocaleString()} total pitches`;
   const maximumRun = Math.max(1, ...Object.values(regions).flatMap(region => [Math.abs(region.swing.decision_run), Math.abs(region.take.decision_run)]));
+  const runScale = runScaleMax(maximumRun);
+  document.querySelector("#rv-ticks").innerHTML = runTicks(runScale)
+    .map(tick => `<span class="rv-tick" style="left:${runPosition(tick, runScale)}%">${tick}</span>`).join("") + runGrid(runScale);
   Object.entries(regions).forEach(([name, region]) => {
     const value = Number(region.swing.decision_run || 0) + Number(region.take.decision_run || 0);
     const target = document.querySelector(`#zone-run-${name.toLowerCase()}`);
@@ -126,7 +142,7 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
     target.parentElement.setAttribute("aria-label", `${name} Run Value ${formatSigned(value)}`);
   });
   const leaguePitchTotal = Object.values(league?.regions || {}).reduce((sum, region) => sum + Number(region.pitches || 0), 0);
-  document.querySelector("#regions").innerHTML = Object.entries(regions).map(([name, region]) => {
+  document.querySelector("#regions").innerHTML = Object.entries(regions).map(([name, region], index) => {
     const style = REGION_STYLE[name];
     const dotSize = Math.max(28, Math.min(58, 22 + Math.sqrt(region.share_pct) * 5));
     const styledRegion = { ...region, color: style.color };
@@ -139,10 +155,7 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
         <div class="frequency-copy"><b>${region.pitches.toLocaleString()}구</b>${formatNumber(region.share_pct)}%${leagueShare == null ? "" : ` (${formatNumber(leagueShare)}%)`}</div>
       </div>
       ${swingTakeSplit(styledRegion, leagueRegion)}
-      <div class="run-bars" style="--region-color:${style.color}">
-        ${runBar(region.swing.decision_run, maximumRun, "Swing")}
-        ${runBar(region.take.decision_run, maximumRun, "Take")}
-      </div>
+      ${runValueChart(region, style.className, runScale, index === 0)}
       <i class="axis-line"></i>
     </article>`;
   }).join("");
