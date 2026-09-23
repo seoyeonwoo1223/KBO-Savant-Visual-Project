@@ -473,7 +473,7 @@ def write_web(root,season,pitches,report,output_root=None):
  scores=np.array([p['za_raw'] for p in players if p['qualified_300'] and p['za_raw'] is not None])
  for p in players: p['za_percentile']=r6(100*(np.sum(scores<p['za_raw'])+.5*np.sum(scores==p['za_raw']))/len(scores)) if len(scores) and p['za_raw'] is not None else None
  def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
- dump(dest/'leaderboard.json',{'schema_version':5,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'settings':report['validation']['settings']})
+ dump(dest/'leaderboard.json',{'schema_version':5,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'pzone_input':report['source'].get('pzone_input'),'settings':report['validation']['settings']})
  dump(dest/'teams.json',{'season':season,'teams':{p['batter_id']:p['team'] for p in players}})
  shards=defaultdict(dict)
  for p in players:

@@ -10,13 +10,14 @@
 | 작업 규칙 | 각 검증은 **한 번 통과하면 바로 다음 구현 단계로** 넘어갑니다. 같은 검증을 각도만 바꿔 반복하지 마십시오 |
 | 2차 개정 | ChatGPT 이견 4건(좌우 판정면, 같은 조건 OOF, 무브먼트 ablation, fold)을 실행해 7절에 반영했습니다. 0·3.2·3.4·5·6절은 그 결과로 고쳤습니다 |
 | 3차 개정 | 승인된 항목 1·2를 구현하고 2024–2026년 통과 기준을 확인한 결과(7.4절), 미승인 3번(무브먼트 보정) 구상에 대한 분석(8절)을 추가했습니다 |
+| 4차 개정 | 외부 리뷰 반영: 배포 경로 정정(CI는 2026년만 재빌드 → 2024·2025년 산출물을 PR에 포함), 선수 변화의 쌍대 표준오차, fallback 모집단, 무브먼트 관련 표현(8.1)을 고쳤습니다 |
 
 ---
 
 ## 0. 먼저 읽을 것 — 다섯 줄 요약
 
 1. **ABS 판정면은 좌우 = 중간면, 상단 = 중간면·끝면 중 높은 쪽, 하단 = 두 면 중 낮은 쪽**입니다(내려오는 공이면 상단은 중간면, 하단은 끝면이 제한면). 현재 `px/pz`는 앞면(y = 17/12 ft) 값입니다. 그래서 위치 전용 `p_zone`이 낮은 커브의 스트라이크 확률을 0.537로 예측하지만, 실제 관측값은 0.156입니다(2026).
-2. **고치되 크게 투자하지 마십시오.** 같은 HGB·같은 날짜 블록 OOF로 비교하면 판정면 입력은 테이크 log loss를 0.0405→0.0277, 경계 구종별 보정 오차를 최대 0.316→0.013으로 줄입니다. 그러나 적격 타자 166명의 SJ 순위 상관은 0.995, 점수 변화는 최대 0.90으로 선수별 표준오차(중앙값 1.13)를 넘는 선수가 없습니다(7.2절).
+2. **고치되 크게 투자하지 마십시오.** 같은 HGB·같은 날짜 블록 OOF로 비교하면 판정면 입력은 테이크 log loss를 0.0405→0.0277, 경계 구종별 보정 오차를 최대 0.316→0.013으로 줄입니다. 선수 SBJ 순위 상관은 시즌별 0.995–0.996이고, 변화 크기는 점수 자체의 표준오차(중앙값 약 1.1)보다 작습니다. 다만 같은 경기로 묶은 **차이**의 표준오차(약 0.17)로 보면 시즌마다 5–10%의 선수는 변화가 통계적으로 검출되는 체계적 변화입니다(7.4절).
 3. **VB 위치는 믿어도 되고, VB 무브먼트는 믿으면 안 됩니다.** ABS 경계 위치의 구장 간 차이는 0.8cm 이하입니다. 반면 같은 투수·같은 구종의 무브먼트는 구장에 따라 HB 18–22cm, IVB 10–15cm까지 달라집니다(VB 전 투구 기준, 매칭 불필요). TrackMan은 0.9 / 1.4cm입니다. **기존 `data/park_adjustments/` 보정은 HB 편향을 거의 줄이지 못하고, 2025년에는 오히려 키웁니다**(7.3절).
 4. **TrackMan 파일에는 위치·판정·스윙이 없습니다.** 따라서 SBJ의 입력이 될 수 없고, 검증 기준으로만 쓸 수 있습니다.
 5. **정의부터 정해야 합니다.** SBJ 원점수(정확도)에서 리그 기대 정확도를 빼면 정확히 `za_raw`가 됩니다(대수적 항등식). 사용자 설계식 `(S − q)(2p − 1)`은 `za_raw`와 같은 식입니다. 무엇을 SBJ라고 부를지가 첫 결정입니다(3.1절).
@@ -163,7 +164,7 @@
 - 전체 Brier·log loss **만으로** 판정면 보정 채택 여부를 판단하기 (주 지표는 경계 구종별 보정 오차, 전체 지표는 보호 지표)
 - 무브먼트 컬럼을 `pStrike`에 넣기 (판정면 위치는 궤적에서 직접 계산되고 구장 편향이 없습니다. 무브먼트 컬럼은 구장 편향만 들여옵니다)
 - 구종 라벨을 ABS `p_zone`의 기본 입력으로 넣기
-- 판정면 보정을 연구 과제로 키우기 (영향이 표준오차 이내)
+- 판정면 보정을 연구 과제로 키우기 (대부분 선수의 변화가 점수 표준오차보다 작음)
 - TrackMan 값으로 VB 입력을 대체하거나, TrackMan만으로 SBJ 만들기
 - 지각 오차 σ를 공식값으로 고정하기
 - 인간 시대와 ABS 시대 SBJ를 같은 순위표에 넣기
@@ -255,13 +256,20 @@ ABS 테이크에서 좌우 경계의 50% 지점(cm), 구종 간 퍼짐, 전이 �
 
 - **선수 SBJ 변화 (같은 `p_swing`에서 `p_zone`만 교체, 적격 300구 이상):**
 
-| 시즌 | 적격 | Spearman | \|ΔSBJ\| 중앙값 / p90 / 최대 | 표준오차 초과 | 최대 순위 이동 | 상위 10명 유지 |
+| 시즌 | 적격 | Spearman | \|ΔSBJ\| 중앙값 / p90 / 최대 | (a) 점수 SE 중앙값, \|Δ\| > 점수 SE | (b) 차이 SE 중앙값, \|z\| > 1.96 | 최대 순위 이동 |
 |---|---|---|---|---|---|---|
-| 2024 | 155 | 0.9961 | 0.138 / 0.353 / 0.711 | 0 | 15 | 9/10 |
-| 2025 | 171 | 0.9945 | 0.135 / 0.354 / 1.097 | 0 | 19 | 9/10 |
-| 2026 | 166 | 0.9951 | 0.151 / 0.425 / 0.731 | 0 | 12 | 10/10 |
+| 2024 | 155 | 0.9961 | 0.138 / 0.353 / 0.711 | 0.99, 0명 | 0.169, 15명 (10%) | 15 |
+| 2025 | 171 | 0.9945 | 0.135 / 0.354 / 1.097 | 1.14, 0명 | 0.178, 8명 (5%) | 19 |
+| 2026 | 166 | 0.9951 | 0.151 / 0.425 / 0.731 | 1.12, 0명 | 0.184, 14명 (8%) | 12 |
 
-- **실제 산출 경로:** `python -m visualbaseball.zone_decision --seasons 2024 2025 2026`이 정상 종료했습니다(2026년 118초, 2024+2025년 247초). 판정면 입력과 fallback 수는 `data/metrics/zone_awareness/<season>/report.json`의 `source.pzone_input`에, 모델 버전과 계약은 `web/data/zone_awareness/<season>/leaderboard.json`의 `model_version`·`metric_contract`에 기록됩니다. 선수 값은 같은 파일과 `players/*.json`, `exports/zone_decision_players_<season>.csv`로 나갑니다. 생성 산출물은 커밋하지 않았습니다. master 병합 후 `daily_update`가 코드 hash 변경을 감지해 다시 만듭니다.
+  - 두 표준오차는 모두 경기 단위 군집 표준오차입니다. (a)는 기존 점수의 표본 불확실성과 비교한 **실무적 크기**이고, (b)는 같은 투구·같은 경기에서 두 모델 점수의 **차이**를 직접 추정한 것입니다.
+  - (b) 기준으로 5–10%의 선수는 두 모델 차이가 검출됩니다(무작위라면 약 5%). 즉 판정면 교체는 "통계적으로 무시할 수 있는 변화"가 아니라, **대다수 선수에게는 작고 일부 선수에게는 체계적인 정확도 수정**입니다. 1차 개정까지의 "표준오차 이내" 표현은 (a)만 본 것이라 이 구분이 빠져 있었습니다.
+
+- **실제 산출 경로:** `python -m visualbaseball.zone_decision --seasons 2024 2025 2026`이 정상 종료했습니다(2026년 118초, 2024+2025년 247초). 판정면 입력과 fallback 수는 `data/metrics/zone_awareness/<season>/report.json`의 `source.pzone_input`에, 모델 버전과 계약은 `web/data/zone_awareness/<season>/leaderboard.json`의 `model_version`·`metric_contract`에 기록됩니다. 선수 값은 같은 파일과 `players/*.json`, `exports/zone_decision_players_<season>.csv`로 나갑니다. `leaderboard.json`의 `pzone_input`에도 fallback 수를 남깁니다(4차 개정).
+- **배포 경로 (4차 개정에서 정정):** 3차 개정의 "병합 후 `daily_update`가 다시 만든다"는 설명은 **2026년에만 맞습니다.** `daily_update`는 `--season` 없이 CLI를 부르고 기본 시즌은 2026입니다. 그래서 2024·2025년 `web/data/zone_awareness/<season>/`와 `exports/zone_decision_players_<season>.csv`는 새 코드로 다시 빌드해 이 PR에 넣었습니다. 과거 시즌 산출물을 코드와 함께 커밋해 온 기존 관행(`8c42ec00`)과 같은 방식입니다. 2026년 산출물은 매일 master에 커밋되므로 PR에 넣지 않고 병합 후 CI에 맡깁니다. 같은 이유로, legacy 인간 심판 시즌이 CI에서 재빌드된다는 제 이전 우려도 틀렸습니다.
+- **2024년 산출물의 기존 불일치:** 2024년을 다시 빌드하면 SBJ뿐 아니라 DV·SA도 바뀝니다. master 코드로 다시 빌드해도 DV·SA가 똑같이 바뀌므로, 원래 커밋돼 있던 2024년 산출물이 현재 코드·데이터와 어긋나 있던 것이고 이번 변경과는 무관합니다. PR 코드와 master 코드의 차이는 `za_raw`·`za_percentile`뿐입니다. 불일치 크기는 DV/100 변화 중앙값 0.013·최대 0.085, 순위 상관 0.9996이고 투구 수는 같습니다. 2025년은 `za_raw`·`za_percentile`만 바뀝니다.
+- **구조 불변 확인:** 2024·2025년 선수 수, 선수 필드, 격자 구조는 그대로입니다. 바뀐 것은 값, `model_version`, `metric_contract`의 설명 항목 3개, `pzone_input`입니다. UI는 여전히 "ZA"로 표기합니다. SBJ 명칭으로 화면을 바꾸는 일은 이번 범위가 아닙니다.
+- **fallback 모집단:** 2024년 무효 궤적 858개(2025년 83개, 2026년 86개)는 모두 `px/pz`와 존 경계도 결측이라, fallback 단계 전에 적격 투구에서 빠집니다. 따라서 ABS 시즌의 fallback 0건은 구조적 결과이고, fallback 경로는 그런 결측이 없는 무효 궤적에만 쓰입니다.
 
 ---
 
@@ -272,11 +280,12 @@ ABS 테이크에서 좌우 경계의 50% 지점(cm), 구종 간 퍼짐, 전이 �
 ### 8.1 직접 확인한 사실
 
 1. **VB 무브먼트 컬럼은 궤적 가속도로 계산한 값 그 자체입니다.** `horizontal_movement_cm = ½·ax·t²`, `vertical_movement_cm = ½·(az + g)·t²`이고, t는 y0(50 ft)에서 플레이트 앞면까지의 비행시간입니다. 2024·2025년은 상관 1.0000, 잔차 MAD 0.02cm로 일치합니다. 2026년은 기울기 0.923, 잔차 MAD 약 2cm입니다(y0 55 ft 혼재가 원인일 것으로 봅니다 **(미검증)**).
-   - 따라서 **무브먼트 보정은 곧 가속도 보정**입니다. 구장 편향은 ax(구장 간 범위 3.7–8.6 ft/s²)와 az(2.7–5.8 ft/s²)에 들어 있습니다.
+   - 따라서 구장 편향의 **출처**는 궤적 가속도입니다. 구장 간 범위는 ax 3.7–8.6 ft/s², az 2.7–5.8 ft/s²입니다. 그러나 **파생 무브먼트 컬럼만 보정하는 것은 가속도나 3D 궤적을 보정하는 것과 다릅니다.** 그렇게 하면 보정된 무브먼트와 궤적 계수가 서로 맞지 않게 되고, 이것은 `pStrike` 입력을 지키기 위한 의도된 분리입니다(8.2절). (4차 개정에서 표현 정정)
 2. **궤적의 양 끝점에는 큰 편향이 없습니다.** 판정면 위치의 구장 편향은 0.8cm 이하입니다(2.4·7.1절). 2024년 매칭 투구에서 릴리스 쪽 구장 간 범위는 VB x@50ft 4.8cm, z@50ft 7.0cm이고, TrackMan은 rel_side 3.1cm, rel_height 5.3cm입니다.
    - 등가속도 모형에서 두 끝점을 고정하면 가속도와 초기 속도 사이에 관측되지 않는 1자유도가 남습니다. 편향은 이 자유도, 즉 곡률과 초기 방향의 배분에 들어 있는 형태입니다.
-3. **VB와 TrackMan의 무브먼트 스케일 차이(2024년 0.84–0.85)는 대부분 정의 차이입니다.** VB는 50 ft부터 플레이트까지, TrackMan은 릴리스(약 54 ft)부터 플레이트까지의 구간을 씁니다. (48.6/52.9)² ≈ 0.84입니다. 투구별 extension으로 정의를 변환할 수 있습니다 **(미검증)**. **이 차이를 "오류"로 보고 바로잡으면 안 됩니다.**
-4. **기존 워크북의 2025년 HB 오프셋은 부호가 반대입니다.** 같은 투수·같은 구종 기준으로 잰 실측 구장 편향을 워크북 오프셋에 회귀했습니다. 보정이 제대로 되어 있다면 음의 상관이어야 합니다(오프셋 = −편향).
+3. **VB와 TrackMan의 무브먼트 스케일 차이(2024년 0.84–0.85)는 측정 구간 정의로 거의 설명됩니다.** VB는 50 ft부터, TrackMan은 릴리스부터 플레이트까지를 씁니다(TrackMan 공식 정의). 투구별 extension으로 구간 거리비의 제곱 f = ((50 − 17/12) / (60.5 − extension − 17/12))²(중앙값 0.824)를 곱해 TrackMan 값을 VB 구간으로 바꾸면 회귀 기울기가 IVB 0.847 → 1.028, HB 0.842 → 1.022가 됩니다. 잔차 MAD(3.8 / 5.0cm)는 그대로입니다.
+   - 한계: 탐색 매칭(2024년)에서 얻은 결과이고, 시간비가 아니라 거리비로 근사했습니다. "스케일은 정의 차이"는 강한 근거가 있지만, 잔차(투구 단위 불일치)는 이것으로 설명되지 않습니다. **이 스케일을 "오류"로 보고 바로잡으면 안 됩니다.**
+4. **기존 워크북의 2025년 HB 오프셋은 부호가 반대인 것으로 진단됩니다.** 서로 다른 두 추정 방식에서 같은 결론이 나왔지만, 워크북 작성 과정을 확인하기 전에는 원인(부호 규약 오류)까지 확정한 것은 아닙니다. 같은 투수·같은 구종 기준으로 잰 실측 구장 편향을 워크북 오프셋에 회귀했습니다. 보정이 제대로 되어 있다면 음의 상관이어야 합니다(오프셋 = −편향).
 
    | 시즌 | HB 기울기 (우투 / 좌투) | HB 상관 | IVB 기울기 | IVB 상관 |
    |---|---|---|---|---|
@@ -288,7 +297,8 @@ ABS 테이크에서 좌우 경계의 50% 지점(cm), 구종 간 퍼짐, 전이 �
    - 2025년 HB는 강한 양의 상관입니다. 오프셋이 "보정값"이 아니라 "편향값"으로 저장된 것입니다.
    - 다른 해의 HB 오프셋은 편향과 상관이 약해서 편향을 거의 설명하지 못합니다.
    - IVB는 방향은 맞지만 2025년은 크기가 부족합니다.
-   - 주의: 제 편향 추정(투수 중앙값을 빼는 방식)은 홈 투수의 중앙값에 홈구장이 섞여 크기가 줄어듭니다. 기울기의 **크기**가 아니라 부호와 상관만 해석하십시오.
+   - 주의: 위 표의 편향 추정(투수 중앙값을 빼는 방식)은 홈 투수의 중앙값에 홈구장이 섞여 크기가 줄어듭니다. 기울기의 **크기**가 아니라 부호와 상관만 해석하십시오.
+   - **2원 고정효과 재추정 (4차 개정):** 투수×구종 효과와 구장×구종 효과를 동시에 추정하는 방식(교대 평균 제거)으로 다시 쟀습니다. 구장 효과 범위는 HB 22–31cm(2023–25) / 12cm(2026), IVB 11–34cm로, 중앙값 방식보다 큽니다(위 주의와 일치). 워크북 오프셋과의 상관은 HB 2023 −0.23, 2024 −0.25, **2025 +0.91**, 2026 −0.16이고, IVB는 −0.62, −0.92(기울기 −0.97), −0.95, −0.95입니다. 2025년 HB의 양의 상관과 2024년 IVB의 정상 보정이 두 방식에서 모두 재현됩니다.
 5. **공통 투구 ID 프로토타입 (2019·2024년)**
    - **경기 매핑:** 같은 날짜에서 투수 집합 Jaccard ≥ 0.6이고 2위가 0.3 미만인 경우만 매핑했습니다. TrackMan 1군 686–699경기 중 604–605경기가 매핑됐고, 한 VB 경기에 두 TrackMan 경기가 붙은 경우는 0건입니다.
    - **투구 키:** (경기, 이닝, 초/말, 반이닝 안 타석 순서, 타석 안 투구 번호). 매핑된 경기 안 VB 투구의 99.9%가 키로 맞습니다.
@@ -335,7 +345,7 @@ ABS 테이크에서 좌우 경계의 50% 지점(cm), 구종 간 퍼짐, 전이 �
 3. **투구별 변화 분포:** 보정량은 구장×시즌 상수여야 하므로 구장마다 한 값(또는 좁은 분포)이어야 합니다. |보정량| > 10cm 비율을 보고하고, 투수 안 구종 순위가 보존되는지(Spearman ≈ 1) 확인합니다.
 4. **물리 정합성:** 보정은 파생 컬럼에만 적용하고 ax/az는 바꾸지 않습니다. **판정면 입력(`x_mid_relative`, `top_gap_cm`, `bottom_gap_cm`)이 보정 전후로 완전히 같다는 것을 테스트로 고정**하십시오.
 5. **`pSwing` 성능 (4번 승인 후):** OOF log loss·calibration, 구장×구종 잔차.
-6. **선수 SBJ 안정성:** 순위 상관, 표준오차를 넘게 바뀐 선수 수.
+6. **선수 SBJ 안정성:** 순위 상관, 그리고 7.4절의 두 기준 — 점수 표준오차 대비 크기와, 같은 경기로 묶은 차이의 표준오차 대비 검출 여부.
 7. **Pitch Arsenal 표시값 변화:** 투수별 구종 평균 HB/IVB 변화의 분포. 화면이 바뀌는 일이므로 별도 승인 대상입니다.
 
 ### 8.6 결론
@@ -588,7 +598,7 @@ for yr in (2024, 2025, 2026):
 
 ## 부록 D. 항목 1·2 검증과 3번 분석 재현 스크립트
 
-모두 읽기 전용이고, 저장소 루트에서 `PYTHONPATH=src OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 python <파일> [시즌...]`으로 실행합니다(Python 3.12, `constraints-za.txt`).
+모두 읽기 전용이고, 저장소 루트에서 `PYTHONPATH=src OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 python <파일> [인자...]`로 실행합니다(Python 3.12, `constraints-za.txt`).
 
 `pzone_gate.py` — 7.4절 통과 기준. 인자로 시즌을 줍니다.
 
@@ -633,14 +643,22 @@ for season in map(int, sys.argv[1:]):
     print(season, json.dumps(res, ensure_ascii=False, indent=1), flush=True)
 ```
 
-`isolate.py` — 7.4절 선수 SBJ 변화. 해당 시즌 ZA 빌드 후 실행합니다.
+`isolate.py` — 7.4절 선수 SBJ 변화와 두 표준오차. 해당 시즌 ZA 빌드 후 실행합니다.
 
 ```python
-"""같은 p_swing에서 p_zone만 현행(앞면) 대 판정면으로 바꿨을 때 선수 SBJ(za_raw) 변화."""
-import sys, json, pathlib; sys.path.insert(0, 'src')
+"""같은 p_swing에서 p_zone만 현행(앞면) 대 판정면으로 바꿨을 때 선수 SBJ(za_raw) 변화.
+두 기준을 따로 보고한다: (a) 변화 크기 대 점수 자체의 경기 군집 표준오차(실무적 크기),
+(b) 같은 투구·같은 경기로 묶은 점수 차이의 경기 군집 표준오차(두 모델 차이의 통계적 검출)."""
+import sys, pathlib; sys.path.insert(0, 'src')
 import numpy as np, pandas as pd
 from scipy.stats import spearmanr
 from visualbaseball import plate_decision_v1 as old, zone_decision as zd
+
+def cluster_se(x, g):
+    """경기 군집 표준오차: sqrt(G/(G-1) * sum_g (sum_i (x_i - mean))^2) / n."""
+    dev = pd.Series(x - x.mean()).groupby(g.to_numpy()).sum().to_numpy(); G = len(dev)
+    return np.sqrt(G / (G - 1) * np.sum(dev ** 2)) / len(x) if G > 1 else np.nan
+
 for yr in map(int, sys.argv[1:]):
     rows = pd.read_parquet(f'data/metrics/zone_awareness/{yr}/pitches.parquet').to_dict('records')
     dates = np.array(sorted({r['game_id'][:8] for r in rows})); p_old = np.full(len(rows), np.nan)
@@ -648,15 +666,50 @@ for yr in map(int, sys.argv[1:]):
         held = set(block); train = [r for r in rows if r['game_id'][:8] not in held]
         test_i = [i for i, r in enumerate(rows) if r['game_id'][:8] in held]
         p_old[test_i] = old.predict_pzone(train, [rows[i] for i in test_i])
-    d = pd.DataFrame({'b': [r['batter_id'] for r in rows], 's': [r['swing'] for r in rows], 'q': [r['p_swing'] for r in rows], 'p_new': [r['p_zone'] for r in rows], 'p_old': p_old})
-    d['j_new'] = (d.s - d.q) * (2 * d.p_new - 1); d['j_old'] = (d.s - d.q) * (2 * d.p_old - 1)
-    g = d.groupby('b').agg(n=('s', 'size'), new=('j_new', 'mean'), old=('j_old', 'mean'), se=('j_old', lambda x: x.std() / np.sqrt(len(x))))
-    g = g[g.n >= 300] * [1, 100, 100, 100]
-    dl = (g.new - g.old).abs(); rk = (g.new.rank(ascending=False) - g.old.rank(ascending=False)).abs()
-    print(f'{yr}: qualified {len(g)} | Spearman {spearmanr(g.old, g.new)[0]:.4f} | |dSBJ| median {dl.median():.3f} p90 {dl.quantile(.9):.3f} max {dl.max():.3f} | >SE {int((dl > g.se).sum())} (median SE {g.se.median():.2f}) | max rank shift {rk.max():.0f} | top10 overlap {len(set(g.old.nlargest(10).index) & set(g.new.nlargest(10).index))}/10')
+    d = pd.DataFrame({'b': [r['batter_id'] for r in rows], 'g': [r['game_id'] for r in rows], 's': [r['swing'] for r in rows],
+                      'q': [r['p_swing'] for r in rows], 'p_new': [r['p_zone'] for r in rows], 'p_old': p_old})
+    d['j_new'] = 100 * (d.s - d.q) * (2 * d.p_new - 1); d['j_old'] = 100 * (d.s - d.q) * (2 * d.p_old - 1); d['diff'] = d.j_new - d.j_old
+    res = []
+    for b, x in d.groupby('b'):
+        if len(x) < 300: continue
+        res.append({'b': b, 'old': x.j_old.mean(), 'new': x.j_new.mean(), 'se_score': cluster_se(x.j_old.to_numpy(), x.g), 'diff': x['diff'].mean(), 'se_diff': cluster_se(x['diff'].to_numpy(), x.g)})
+    r = pd.DataFrame(res).set_index('b'); dl = r['diff'].abs(); z = r['diff'] / r.se_diff
+    rk = (r.new.rank(ascending=False) - r.old.rank(ascending=False)).abs()
+    print(f"{yr}: 적격 {len(r)} | Spearman {spearmanr(r.old, r.new)[0]:.4f} | |ΔSBJ| 중앙값 {dl.median():.3f} p90 {dl.quantile(.9):.3f} 최대 {dl.max():.3f} | "
+          f"(a) 점수 SE 중앙값 {r.se_score.median():.2f}, |Δ|>점수 SE {int((dl > r.se_score).sum())}명 | "
+          f"(b) 차이 SE 중앙값 {r.se_diff.median():.3f}, |z|>1.96 {int((z.abs() > 1.96).sum())}명 ({100*(z.abs() > 1.96).mean():.0f}%) | 최대 순위 이동 {rk.max():.0f}")
 ```
 
-`wb_sign.py` — 8.1-4 워크북 오프셋 부호.
+`fallback_pop.py` — 7.4절 fallback 모집단. 인자로 시즌을 줍니다.
+
+```python
+"""무효 궤적 투구가 전체 → ZA 적격 투구 사이 어느 단계에서 빠지는지 집계 (읽기 전용)."""
+import sys, pathlib; sys.path.insert(0, 'src')
+from collections import Counter
+from visualbaseball.curated import load_rows
+from visualbaseball import zone_decision as zd
+root = pathlib.Path('.').resolve()
+for season in map(int, sys.argv[1:]):
+    rows = load_rows(root, 'pitches', season); events = load_rows(root, 'events', season)
+    bad = lambda r: not r.get('trajectory_valid')
+    print(season, 'curated 전체', len(rows), '무효 궤적', sum(map(bad, rows)), dict(Counter(r.get('trajectory_status') for r in rows if bad(r))))
+    kept, _ = zd.reliable_halves(rows, events)
+    print('  reliable_halves 후', len(kept), '무효', sum(map(bad, kept)))
+    stage = Counter()
+    for r in kept:
+        if not bad(r): continue
+        if r.get('parse_status') != 'ok': stage['parse_status≠ok'] += 1
+        elif zd._relative_location(r) is None: stage['위치/존 결측'] += 1
+        elif not zd._eligible(r): stage['상태·행동 부적격'] += 1
+        elif zd.outcome(r) is None: stage['판정 코드 없음'] += 1
+        elif not r.get('batter_id') or not r.get('batter_name'): stage['타자 식별 없음'] += 1
+        else: stage['적격 (fallback 대상)'] += 1
+    print('  무효 궤적 투구의 탈락 단계', dict(stage))
+    miss = Counter(k for r in kept if bad(r) for k in ('px', 'pz', 'sz_top', 'sz_bottom', 'pitch_call_code') if r.get(k) is None)
+    print('  무효 궤적 투구의 결측 필드', dict(miss))
+```
+
+`wb_sign.py` — 8.1-4 워크북 오프셋 부호 (중앙값 방식).
 
 ```python
 """기존 park adjustment HB/IVB 오프셋과 VB 실측 구장 편향(포수 시점, 같은 투수·구종 기준)의 관계를 손별로 본다."""
@@ -684,6 +737,36 @@ for yr in (2023, 2024, 2025, 2026):
         print(yr, comp, 'measured bias ~ workbook offset |', ' | '.join(line), '(정상 보정이면 slope≈-1, 부호 반대면 +1)')
 ```
 
+`wb_sign_fe.py` — 8.1-4 워크북 오프셋 부호 (2원 고정효과). 인자로 시즌을 줍니다.
+
+```python
+"""2원 고정효과(투수×구종 + 구장×구종)로 구장 효과를 추정하고 워크북 오프셋과 비교 (정상 보정이면 기울기 ≈ −1)."""
+import sys, pathlib; sys.path.insert(0, 'src')
+import numpy as np, pandas as pd
+from visualbaseball.curated import load_rows
+from visualbaseball.pitch_arsenal import _load_park_factors, _pitch_code, _stadium, PARK_FACTOR_CODE
+root = pathlib.Path('.')
+for yr in map(int, sys.argv[1:]):
+    rows = load_rows(root, 'pitches', yr, columns=['pitch_id','pitch_type_code','pitch_type_kr','pitcher_id','stadium','horizontal_movement_cm','vertical_movement_cm'])
+    d = pd.DataFrame(rows); d['code'] = [PARK_FACTOR_CODE.get(_pitch_code(r), _pitch_code(r)) for r in rows]; d['park'] = d.stadium.map(_stadium)
+    d = d[d.code.ne('')].dropna(subset=['horizontal_movement_cm', 'vertical_movement_cm'])
+    f = _load_park_factors(root, yr); out = []
+    for comp, col, k in (('HB', 'horizontal_movement_cm', 0), ('IVB', 'vertical_movement_cm', 1)):
+        y = d[col].to_numpy(float); a = d.groupby(['pitcher_id', 'code']).ngroup().to_numpy(); b = d.groupby(['park', 'code']).ngroup().to_numpy()
+        ea = np.zeros(a.max() + 1); eb = np.zeros(b.max() + 1)
+        for _ in range(200):
+            ea = np.bincount(a, y - eb[b]) / np.bincount(a); eb = np.bincount(b, y - ea[a]) / np.bincount(b)
+        keys = d.groupby(['park', 'code']).size().reset_index(name='n'); keys['eff'] = eb   # ngroup()은 정렬된 그룹 순서로 번호를 매기므로 keys 행 순서와 같다
+        keys['eff'] = keys['eff'] - keys.groupby('code')['eff'].transform('mean')   # 구종별로 중심화(구장 간 상대 효과)
+        keys['off'] = [f.get((p, c), (np.nan, np.nan))[k] for p, c in zip(keys.park, keys.code)]
+        keys['off'] = keys['off'] - keys.groupby('code')['off'].transform('mean')
+        s = keys[(keys.n >= 300)].dropna()
+        slope = np.polyfit(s.eff, s.off, 1)[0]; r = np.corrcoef(s.eff, s.off)[0, 1]
+        rng = keys[keys.n >= 300].groupby('park').eff.median()
+        out.append(f'{comp}: 구장 효과 범위 {rng.max() - rng.min():.1f}cm, 워크북 오프셋 ~ 추정 효과 기울기 {slope:+.2f}, 상관 {r:+.2f} (n={len(s)})')
+    print(yr, ' | '.join(out))
+```
+
 `traj_move.py` — 8.1-1 무브먼트와 궤적 가속도.
 
 ```python
@@ -708,6 +791,23 @@ for yr in (2024, 2025, 2026):
         m = dev.groupby(d.stadium).median(); m = m[d.stadium.value_counts().reindex(m.index) > 3000]
         rng[c_] = round(float(m.max() - m.min()), 2)
     print(f'{yr} 구장 간 범위:', rng, '(ax, az는 ft/s^2)')
+```
+
+`defconv.py` — 8.1-3 측정 구간 정의 변환. 부록 A `trackman()`의 매칭 결과 `m`(TrackMan `extension` 포함)을 parquet으로 저장하고 그 경로를 인자로 줍니다.
+
+```python
+"""VB(50ft→앞면)와 TrackMan(릴리스→플레이트) 무브먼트 구간 차이를 투구별 extension으로 변환했을 때 스케일이 얼마나 설명되는가 (탐색 매칭 2024)."""
+import numpy as np, pandas as pd, sys
+m = pd.read_parquet(sys.argv[1]); m['ext'] = pd.to_numeric(m.extension, errors='coerce')
+m = m.dropna(subset=['ext', 'vertical_movement_cm', 'induced_vert_break', 'horizontal_movement_cm', 'horz_break'])
+m = m[m.ext.between(1.0, 2.6)]
+f = ((50 - 17/12) / (60.5 - m.ext * 3.28084 - 17/12)) ** 2
+print(f'n={len(m)} 거리비 제곱 f: 중앙값 {f.median():.3f}, 5–95% {f.quantile(.05):.3f}–{f.quantile(.95):.3f}')
+for vb, tm, sign in (('vertical_movement_cm', 'induced_vert_break', 1), ('horizontal_movement_cm', 'horz_break', -1)):
+    x = sign * m[tm]
+    for name, xx in (('원값', x), ('f 변환', f * x)):
+        s, i = np.polyfit(xx, m[vb], 1); r = m[vb] - (s * xx + i)
+        print(f'  {vb} ~ TM {name}: 기울기 {s:.3f}, 절편 {i:+.2f}, 잔차 MAD {(r - r.median()).abs().median():.2f}')
 ```
 
 `pitch_id_proto.py` — 8.1-5 공통 투구 ID 프로토타입. 인자로 시즌을 줍니다.
