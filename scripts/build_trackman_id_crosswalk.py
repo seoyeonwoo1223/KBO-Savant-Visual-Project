@@ -5,10 +5,14 @@ same-season string join in player_id_overlap.json silently drops them. This alig
 pitches game by game and accepts a pair only when the aligned pitches agree on count
 and outs (a check that does not use the IDs), the pair has enough support, and it is
 one-to-one in both directions. Nothing here rewrites TrackMan or Visual Baseball values.
+
+Every run rebuilds all seasons listed in data/tracking/summary.json, so a run can never
+drop a season that an earlier run wrote.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -120,13 +124,21 @@ def accept_pairs(counts: dict[tuple[str, str], int]) -> tuple[list[dict], list[d
     return accepted, rejected
 
 
+def _input_sha256(frame: pd.DataFrame) -> str:
+    """Hash the Visual Baseball values this build reads, in pitch_id order."""
+    columns = ["pitch_id", "game_id", "inning", "half", "pitcher_id", "batter_id", "balls_before", "strikes_before", "outs_before"]
+    return hashlib.sha256(frame[columns].sort_values("pitch_id").to_csv(index=False).encode("utf-8")).hexdigest()
+
+
 def build_season(root: Path, season: int) -> dict:
     trackman, visualbaseball = _trackman(root, season), _visualbaseball(root, season)
     games = map_games(trackman, visualbaseball)
     aligned = align_pitches(trackman, visualbaseball, games)
     trusted = aligned[aligned["state_agrees"]]
-    entry = {"trackman_games": int(trackman["trackman_game_id"].nunique()), "mapped_games": len(games),
+    entry = {"visualbaseball_sha256": _input_sha256(visualbaseball), "visualbaseball_pitches": len(visualbaseball),
+             "trackman_games": int(trackman["trackman_game_id"].nunique()), "mapped_games": len(games),
              "aligned_pitches": len(aligned), "state_agreeing_pitches": len(trusted), "roles": {}}
+    ids_agree = pd.Series(True, index=trusted.index)
     for role, (tm_column, vb_column) in ROLES.items():
         counts = trusted.groupby([tm_column, vb_column]).size().to_dict()
         accepted, rejected = accept_pairs({(str(tm), str(vb)): int(n) for (tm, vb), n in counts.items()})
@@ -151,17 +163,27 @@ def build_season(root: Path, season: int) -> dict:
             "pairs": accepted,
             "rejected_pairs": rejected,
         }
+        # Pitch level: after the lookup, does the aligned VB pitch carry the same player?
+        linked = trusted[tm_column].astype(str).map(lambda tm: lookup.get(tm, tm if tm in in_vb else None))
+        agrees = linked == trusted[vb_column].astype(str)
+        entry["roles"][role]["state_agreeing_pitches_with_id_mismatch"] = int((~agrees).sum())
+        ids_agree &= agrees
+    # Pitches whose game, order, count, outs, pitcher and batter all agree. Not stored pitch by pitch.
+    entry["verified_pitch_pairs"] = int(ids_agree.sum())
+    entry["verified_share_of_visualbaseball_pitches"] = round(int(ids_agree.sum()) / len(visualbaseball), 4)
     return entry
 
 
-def build(root: Path, seasons: list[int] | None = None) -> dict:
+def build(root: Path) -> dict:
     summary = json.loads((root / "data" / "tracking" / "summary.json").read_text(encoding="utf-8"))
-    seasons = seasons or sorted(int(season) for season in summary["seasons"])
-    result = {"schema_version": 1,
+    seasons = sorted(int(season) for season in summary["seasons"])
+    result = {"schema_version": 2,
               "rule": {"games": f"same date, pitcher-set Jaccard >= {GAME_MIN_JACCARD}, runner-up < {GAME_MAX_RUNNER_UP}, one-to-one",
                        "pitches": "k-th plate appearance of the half inning and n-th pitch of the plate appearance",
                        "trusted_pitches": "balls, strikes and outs before the pitch agree",
-                       "pairs": f"support >= {MIN_SUPPORT} and share >= {MIN_SHARE} in both directions, one-to-one"},
+                       "pairs": f"support >= {MIN_SUPPORT} and share >= {MIN_SHARE} in both directions, one-to-one",
+                       "lookup": "accepted pair, else same-season string equality",
+                       "coverage": "pitches_resolved_* count player links over every KBO TrackMan pitch; they are not pitch-to-pitch matches, which verified_pitch_pairs counts"},
               "seasons": {}}
     for season in seasons:
         entry = build_season(root, season)
@@ -174,9 +196,8 @@ def build(root: Path, seasons: list[int] | None = None) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=Path, default=Path("."))
-    parser.add_argument("--seasons", nargs="*", type=int)
     args = parser.parse_args()
-    result = build(args.root.resolve(), args.seasons)
+    result = build(args.root.resolve())
     for season, entry in result["seasons"].items():
         roles = {role: {k: v for k, v in values.items() if k not in ("pairs", "rejected_pairs")} for role, values in entry["roles"].items()}
         print(season, json.dumps({k: v for k, v in entry.items() if k != "roles"}), json.dumps(roles, ensure_ascii=False))
