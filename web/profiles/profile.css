@@ -222,10 +222,17 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 
 #profile-export-area { background: #ffffff; }
 .profile-options .export-button { height: 35px; margin-left: auto; padding: 0 14px; border: 1px solid #303030; background: #303030; color: #fff; font: 700 .82rem Arial, sans-serif; white-space: nowrap; cursor: pointer; }
+.player-search { display: flex; gap: 6px; margin-left: auto; }
+.player-search input { width: 190px; height: 35px; padding: 0 10px; border: 1px solid #bdbdbd; background: #fff; color: #222; font: .88rem Arial, sans-serif; }
+.player-search button { height: 35px; padding: 0 12px; border: 1px solid #bdbdbd; background: #fff; color: #303030; font: 700 .82rem Arial, sans-serif; cursor: pointer; }
+.player-search button:hover { background: #f1f1f1; }
+.profile-options .player-search + .export-button { margin-left: 0; }
 .profile-options .export-button:hover { background: #555; }
 .profile-options .export-button:disabled { cursor: wait; opacity: .65; }
 @media (max-width: 570px) {
   .profile-options .export-button { width: 100%; margin: 6px 0 0; }
+  .player-search { width: 100%; margin: 6px 0 0; }
+  .player-search input { flex: 1; width: auto; min-width: 0; }
 }
 
 html.thumbnail-mode .site-header,

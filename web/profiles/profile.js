@@ -182,7 +182,7 @@ async function exportProfileImage() {
       scale: Math.max(2, window.devicePixelRatio || 1),
       useCORS: true,
       logging: false,
-      ignoreElements: element => element === exportButton || element.classList?.contains("zone-guide"),
+      ignoreElements: element => element === exportButton || element === playerSearchForm || element.classList?.contains("zone-guide"),
     });
     const playerName = document.querySelector("#player-name").textContent.replace(/[\\/:*?"<>|]+/g, "_");
     const link = document.createElement("a");
@@ -275,6 +275,31 @@ const initializeComparison = async () => {
     comparisonElements.results.innerHTML = '<p class="comparison-status">비교용 선수 목록을 불러올 수 없습니다.</p>';
   }
 };
+
+const playerSearchForm = document.querySelector("#player-search");
+const playerSearchInput = document.querySelector("#player-search-input");
+let playerSearchOptions = new Map();
+indexPromise.then(indexes => {
+  const players = [...(indexes[seasonParam] || [])].sort((a, b) => a.name.localeCompare(b.name, "ko"));
+  const nameCounts = players.reduce((counts, player) => counts.set(player.name, (counts.get(player.name) || 0) + 1), new Map());
+  playerSearchOptions = new Map(players.map(player => [nameCounts.get(player.name) > 1 ? `${player.name} (#${player.id})` : player.name, player.id]));
+  document.querySelector("#player-search-list").innerHTML = [...playerSearchOptions.keys()].map(label => `<option value="${escapeHtml(label)}"></option>`).join("");
+}).catch(() => {});
+playerSearchInput.addEventListener("input", () => playerSearchInput.setCustomValidity(""));
+playerSearchForm.addEventListener("submit", event => {
+  event.preventDefault();
+  const query = playerSearchInput.value.trim();
+  const id = playerSearchOptions.get(query) || [...playerSearchOptions].find(([label]) => label.startsWith(query))?.[1];
+  if (!query || !id) {
+    playerSearchInput.setCustomValidity(`${seasonParam} 시즌 선수 목록에서 찾을 수 없습니다.`);
+    playerSearchInput.reportValidity();
+    return;
+  }
+  const url = new URL(window.location.href);
+  url.searchParams.set("player", id);
+  url.searchParams.set("year", seasonParam);
+  window.location.href = url;
+});
 
 profileYearSelect.innerHTML = SEASONS.map(year => `<option value="${year}"${year === seasonParam ? " selected" : ""}>${year}</option>`).join("");
 profileYearSelect.addEventListener("change", () => { const url = new URL(window.location.href); url.searchParams.set("year", profileYearSelect.value); window.location.href = url; });
