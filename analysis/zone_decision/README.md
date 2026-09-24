@@ -6,7 +6,7 @@ In ABS seasons (2024+) p_zone reads the judgment planes instead of the front-pla
 
 ## Model change map
 
-Keep metric edits to `zone_awareness()`, `decision_value()`, and `profile_summary()` in `src/visualbaseball/zone_decision.py`. `SCORE_SETTINGS` and `score_crossfit()` own fixed model settings and out-of-block scoring; `write_web()` only serializes the five displayed metrics. Rebuild a changed season with `python -m visualbaseball.zone_decision --seasons YEAR` after its season Excel is current. CI (`daily_update`) rebuilds only the CLI default season, 2026; a ZA code change must also rebuild 2024 and 2025 and commit their `web/data/zone_awareness/<season>/` and `exports/zone_decision_players_<season>.csv` with the change.
+Keep metric edits to `zone_awareness()`, `decision_value()`, and `profile_summary()` in `src/visualbaseball/zone_decision.py`. `SCORE_SETTINGS` and `score_crossfit()` own fixed model settings and out-of-block scoring; `write_web()` only serializes the five displayed metrics. Rebuild a changed season with `python -m visualbaseball.zone_decision --seasons YEAR` after its season Excel is current. Every `daily_update` run also calls `python -m visualbaseball.cli --season <2024|2025> --only zone_decision`, which rebuilds a completed ABS season from stored curated data only when its metric_state input or code hash changed (the check takes well under a second otherwise). `scripts/check_zone_decision_outputs.py` then requires all three seasons to share the current `MODEL_VERSION`, player files, CSV and build state before the Release upload and the data commit.
 
 ## Inputs and scoring states
 

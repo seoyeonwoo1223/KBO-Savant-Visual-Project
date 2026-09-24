@@ -1,16 +1,18 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "rule": {
     "games": "same date, pitcher-set Jaccard >= 0.6, runner-up < 0.3, one-to-one",
     "pitches": "k-th plate appearance of the half inning and n-th pitch of the plate appearance",
     "trusted_pitches": "balls, strikes and outs before the pitch agree",
     "pairs": "support >= 20 and share >= 0.9 in both directions, one-to-one",
     "lookup": "accepted pair, else same-season string equality",
-    "coverage": "pitches_resolved_* count player links over every KBO TrackMan pitch; they are not pitch-to-pitch matches, which verified_pitch_pairs counts"
+    "coverage": "pitches_resolved_* count player links over every KBO TrackMan pitch; they are not pitch-to-pitch matches",
+    "in_sample_id_consistent_pitches": "aligned pitches whose count, outs, pitcher and batter agree after the lookup, counted on the same pitches the crosswalk was learned from; no velocity check, so not a final mapping rate",
+    "visualbaseball_sha256": "sha256 of the Visual Baseball columns pitch_id, game_id, inning, half, pitcher_id, pitcher_name, batter_id, batter_name, balls_before, strikes_before, outs_before (half = inning_half lower-cased), CSV in pitch_id order"
   },
   "seasons": {
     "2019": {
-      "visualbaseball_sha256": "6d3449b89d156d0aa769e97885188bef5ba199e138e77e9aecb527fb1df060ce",
+      "visualbaseball_sha256": "37e0509288a1fcd5f9f31427178fff27dcad5ac6e20dc368eea32428e7fa2fde",
       "visualbaseball_pitches": 211628,
       "trackman_games": 699,
       "mapped_games": 605,
@@ -4975,12 +4977,12 @@
           "state_agreeing_pitches_with_id_mismatch": 178
         }
       },
-      "verified_pitch_pairs": 175551,
-      "verified_share_of_visualbaseball_pitches": 0.8295,
+      "in_sample_id_consistent_pitches": 175551,
+      "in_sample_id_consistent_share_of_visualbaseball_pitches": 0.8295,
       "trackman_sha256": "cadbfb0b8545f5eb8574fa9e2608791af436dddd9a6ed1a8ee3bde99cd0e7b75"
     },
     "2020": {
-      "visualbaseball_sha256": "cc60372bea6b64eb97e6f4d215bb8d534c2563e8d0083b979ddc0d1437df64b3",
+      "visualbaseball_sha256": "0a7961aeb78eeb800aa84720116614a192e9e91a914eb409d43378becd55f656",
       "visualbaseball_pitches": 220863,
       "trackman_games": 682,
       "mapped_games": 623,
@@ -10195,12 +10197,12 @@
           "state_agreeing_pitches_with_id_mismatch": 238
         }
       },
-      "verified_pitch_pairs": 188387,
-      "verified_share_of_visualbaseball_pitches": 0.853,
+      "in_sample_id_consistent_pitches": 188387,
+      "in_sample_id_consistent_share_of_visualbaseball_pitches": 0.853,
       "trackman_sha256": "2260dd49289c960b6dfadbbee1e2cd22e9bca2082d38a5f38a87aecfae70ce1d"
     },
     "2021": {
-      "visualbaseball_sha256": "125c2af74673b3281bc8055e399d6c895004f4d15653505e587e228ccccbde5d",
+      "visualbaseball_sha256": "d02f8f50da3b9ccda544f8cc6e048464a41758be9f4519dd75f0f61854a64ebd",
       "visualbaseball_pitches": 220742,
       "trackman_games": 693,
       "mapped_games": 612,
@@ -15695,12 +15697,12 @@
           "state_agreeing_pitches_with_id_mismatch": 309
         }
       },
-      "verified_pitch_pairs": 185277,
-      "verified_share_of_visualbaseball_pitches": 0.8393,
+      "in_sample_id_consistent_pitches": 185277,
+      "in_sample_id_consistent_share_of_visualbaseball_pitches": 0.8393,
       "trackman_sha256": "76edba063aec137601b820cf350a239799a021ff9fc8e079f249c96942cc60c1"
     },
     "2022": {
-      "visualbaseball_sha256": "e30089ad778ecaef805865f88e38b46371a23eba533e7684af36143e5e662f7b",
+      "visualbaseball_sha256": "223a0fd3b12f6ee709b7cec5fc921a17046b8fde8230c54db73dc3847f819bbd",
       "visualbaseball_pitches": 217025,
       "trackman_games": 685,
       "mapped_games": 616,
@@ -20846,12 +20848,12 @@
           "state_agreeing_pitches_with_id_mismatch": 293
         }
       },
-      "verified_pitch_pairs": 182011,
-      "verified_share_of_visualbaseball_pitches": 0.8387,
+      "in_sample_id_consistent_pitches": 182011,
+      "in_sample_id_consistent_share_of_visualbaseball_pitches": 0.8387,
       "trackman_sha256": "588bd5e49dd5d1fcf04325723a077e70c8bcf19cc8d3f11493a8789fbdd9bbfa"
     },
     "2023": {
-      "visualbaseball_sha256": "ee5c6f66663d6a3c89151a7568225f7d4e20acc1bfa20a19f79d2c53fb15b4ec",
+      "visualbaseball_sha256": "8179617674246bc282c4a6ea40149f79c39e82e3b854377af2c99ed8a702c7ec",
       "visualbaseball_pitches": 219839,
       "trackman_games": 686,
       "mapped_games": 614,
@@ -26193,12 +26195,12 @@
           "state_agreeing_pitches_with_id_mismatch": 231
         }
       },
-      "verified_pitch_pairs": 185228,
-      "verified_share_of_visualbaseball_pitches": 0.8426,
+      "in_sample_id_consistent_pitches": 185228,
+      "in_sample_id_consistent_share_of_visualbaseball_pitches": 0.8426,
       "trackman_sha256": "dd3aa7218fe3331ec17135a2e3d2328f430f34b817e7d5264ef4a05dd59848cd"
     },
     "2024": {
-      "visualbaseball_sha256": "59c31de29d8cdad87080f6636ffdcddea03181005417f435e80409753da8fd76",
+      "visualbaseball_sha256": "6344920922a13aa5bd5c77e3996070f0910d7092d6022838a8b12580fb59cb0e",
       "visualbaseball_pitches": 223216,
       "trackman_games": 686,
       "mapped_games": 604,
@@ -31615,8 +31617,8 @@
           "state_agreeing_pitches_with_id_mismatch": 229
         }
       },
-      "verified_pitch_pairs": 185896,
-      "verified_share_of_visualbaseball_pitches": 0.8328,
+      "in_sample_id_consistent_pitches": 185896,
+      "in_sample_id_consistent_share_of_visualbaseball_pitches": 0.8328,
       "trackman_sha256": "3419cbbea502e8899a28c9d5317d5c91e9f57fc9f845a3a877bfc0fb1a73ccee"
     }
   }

@@ -124,10 +124,13 @@ def accept_pairs(counts: dict[tuple[str, str], int]) -> tuple[list[dict], list[d
     return accepted, rejected
 
 
+HASHED_COLUMNS = ["pitch_id", "game_id", "inning", "half", "pitcher_id", "pitcher_name", "batter_id", "batter_name",
+                  "balls_before", "strikes_before", "outs_before"]
+
+
 def _input_sha256(frame: pd.DataFrame) -> str:
-    """Hash the Visual Baseball values this build reads, in pitch_id order."""
-    columns = ["pitch_id", "game_id", "inning", "half", "pitcher_id", "batter_id", "balls_before", "strikes_before", "outs_before"]
-    return hashlib.sha256(frame[columns].sort_values("pitch_id").to_csv(index=False).encode("utf-8")).hexdigest()
+    """Hash every Visual Baseball value this build reads, names included, in pitch_id order."""
+    return hashlib.sha256(frame[HASHED_COLUMNS].sort_values("pitch_id").to_csv(index=False).encode("utf-8")).hexdigest()
 
 
 def build_season(root: Path, season: int) -> dict:
@@ -169,21 +172,25 @@ def build_season(root: Path, season: int) -> dict:
         entry["roles"][role]["state_agreeing_pitches_with_id_mismatch"] = int((~agrees).sum())
         ids_agree &= agrees
     # Pitches whose game, order, count, outs, pitcher and batter all agree. Not stored pitch by pitch.
-    entry["verified_pitch_pairs"] = int(ids_agree.sum())
-    entry["verified_share_of_visualbaseball_pitches"] = round(int(ids_agree.sum()) / len(visualbaseball), 4)
+    # Counted on the same aligned pitches the crosswalk was learned from, with no velocity
+    # check: an in-sample consistency figure, not a final pitch-to-pitch mapping rate.
+    entry["in_sample_id_consistent_pitches"] = int(ids_agree.sum())
+    entry["in_sample_id_consistent_share_of_visualbaseball_pitches"] = round(int(ids_agree.sum()) / len(visualbaseball), 4)
     return entry
 
 
 def build(root: Path) -> dict:
     summary = json.loads((root / "data" / "tracking" / "summary.json").read_text(encoding="utf-8"))
     seasons = sorted(int(season) for season in summary["seasons"])
-    result = {"schema_version": 2,
+    result = {"schema_version": 3,
               "rule": {"games": f"same date, pitcher-set Jaccard >= {GAME_MIN_JACCARD}, runner-up < {GAME_MAX_RUNNER_UP}, one-to-one",
                        "pitches": "k-th plate appearance of the half inning and n-th pitch of the plate appearance",
                        "trusted_pitches": "balls, strikes and outs before the pitch agree",
                        "pairs": f"support >= {MIN_SUPPORT} and share >= {MIN_SHARE} in both directions, one-to-one",
                        "lookup": "accepted pair, else same-season string equality",
-                       "coverage": "pitches_resolved_* count player links over every KBO TrackMan pitch; they are not pitch-to-pitch matches, which verified_pitch_pairs counts"},
+                       "coverage": "pitches_resolved_* count player links over every KBO TrackMan pitch; they are not pitch-to-pitch matches",
+                       "in_sample_id_consistent_pitches": "aligned pitches whose count, outs, pitcher and batter agree after the lookup, counted on the same pitches the crosswalk was learned from; no velocity check, so not a final mapping rate",
+                       "visualbaseball_sha256": "sha256 of the Visual Baseball columns " + ", ".join(HASHED_COLUMNS) + " (half = inning_half lower-cased), CSV in pitch_id order"},
               "seasons": {}}
     for season in seasons:
         entry = build_season(root, season)
