@@ -1,0 +1,62 @@
+[
+ {
+  "season": 2019,
+  "visualbaseball_pitches": 211628,
+  "mapped_games": 605,
+  "aligned": 178297,
+  "state_and_id_consistent": 175551,
+  "speed_gap_median_kmh": -0.7069999999999936,
+  "speed_gap_mad_kmh": 0.617999999999995,
+  "outside_speed_tolerance": 9158,
+  "matched": 166393,
+  "matched_share_of_visualbaseball": 0.7863
+ },
+ {
+  "season": 2020,
+  "visualbaseball_pitches": 220863,
+  "mapped_games": 623,
+  "aligned": 191177,
+  "state_and_id_consistent": 188387,
+  "speed_gap_median_kmh": -0.8029999999999973,
+  "speed_gap_mad_kmh": 0.6469999999999914,
+  "outside_speed_tolerance": 6506,
+  "matched": 181881,
+  "matched_share_of_visualbaseball": 0.8235
+ },
+ {
+  "season": 2021,
+  "visualbaseball_pitches": 220742,
+  "mapped_games": 612,
+  "aligned": 188186,
+  "state_and_id_consistent": 185277,
+  "speed_gap_median_kmh": -0.5879999999999939,
+  "speed_gap_mad_kmh": 0.49500000000000455,
+  "outside_speed_tolerance": 5858,
+  "matched": 179419,
+  "matched_share_of_visualbaseball": 0.8128
+ },
+ {
+  "season": 2022,
+  "visualbaseball_pitches": 217025,
+  "mapped_games": 616,
+  "aligned": 185334,
+  "state_and_id_consistent": 182011,
+  "speed_gap_median_kmh": -0.8189999999999884,
+  "speed_gap_mad_kmh": 0.6679999999999922,
+  "outside_speed_tolerance": 6186,
+  "matched": 175825,
+  "matched_share_of_visualbaseball": 0.8102
+ },
+ {
+  "season": 2023,
+  "visualbaseball_pitches": 219839,
+  "mapped_games": 614,
+  "aligned": 188513,
+  "state_and_id_consistent": 185228,
+  "speed_gap_median_kmh": -1.0550000000000068,
+  "speed_gap_mad_kmh": 0.6610000000000014,
+  "outside_speed_tolerance": 2097,
+  "matched": 183131,
+  "matched_share_of_visualbaseball": 0.833
+ }
+]

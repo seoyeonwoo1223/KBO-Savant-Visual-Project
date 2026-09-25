@@ -36,10 +36,12 @@ BASE = old.BASE_NUMERIC
 CURRENT_MOVE = ("adjusted_hb_cm", "adjusted_ivb_cm")
 REEST_MOVE = ("reest_hb_cm", "reest_ivb_cm")
 REEST_HAND_MOVE = ("reest_hand_hb_cm", "reest_hand_ivb_cm")
+# analysis/movement_calibration/calibrate.py --apply 결과 (TrackMan으로 검증한 구장×날짜·탄착 위치 보정)
+TMCAL_MOVE = ("cal_hb_cm", "cal_ivb_cm")
 CAT = old.CATEGORICAL                      # pitch_type, batter_stance, stadium
 HAND = ("pitcher_throws",)
 PLATOON = ("platoon",)
-MOVES = {"none": (), "current": CURRENT_MOVE, "reest": REEST_MOVE, "reest_hand": REEST_HAND_MOVE}
+MOVES = {"none": (), "current": CURRENT_MOVE, "reest": REEST_MOVE, "reest_hand": REEST_HAND_MOVE, "tmcal": TMCAL_MOVE}
 TRAJ = {"": (), "rel": ("release_x_55",), "ang": ("vaa_deg", "haa_deg"), "both": ("release_x_55", "vaa_deg", "haa_deg")}
 
 
@@ -56,6 +58,8 @@ CANDIDATES = {
     "H2M0": spec("hp", "none"), "H2M2": spec("hp", "reest"),
     # 2차 (1차 판정 뒤 추가): 채택된 H1 기반에서 무브먼트 4종과 무브먼트 없는 릴리스 좌우.
     "H1M0": spec("h", "none"), "H1M2": spec("h", "reest"), "H1M3": spec("h", "reest_hand"), "H1M0Trel": spec("h", "none", "rel"),
+    # 3차: TrackMan 검증 보정 무브먼트 (--calibrated 필요)
+    "H1M4": spec("h", "tmcal"),
     **{f"H2{m}T{t}": spec("hp", mv, t) for m, mv in (("M0", "none"), ("M1", "current"), ("M2", "reest")) for t in ("rel", "ang", "both")},
 }
 
@@ -155,8 +159,8 @@ def add_trajectory(rows):
             r["vaa_deg"] = math.degrees(math.atan2(vz, -vy)); r["haa_deg"] = math.degrees(math.atan2(vx, -vy))
 
 
-def load(root: Path, season: int):
-    extra = ("pitcher_id", "pitch_type_code", "pitch_type_kr", "horizontal_movement_cm", "vertical_movement_cm", "release_x_50",
+def load(root: Path, season: int, calibrated: Path | None = None):
+    extra = ("pitch_id", "pitcher_id", "pitch_type_code", "pitch_type_kr", "horizontal_movement_cm", "vertical_movement_cm", "release_x_50",
              "release_x_55", "trajectory_valid", "x0", "y0", "z0", "vx0", "vy0", "vz0", "ax", "ay", "az")
     saved = zd.NUMERIC
     zd.NUMERIC = saved + extra          # load_rows()의 keep 목록만 넓힌다. 행 선택·보정은 운영과 동일.
@@ -174,6 +178,12 @@ def load(root: Path, season: int):
         stance = r.get("batter_stance") or ""
         r["platoon"] = ("same" if stance == hand else "opposite") if stance and hand else ""
     add_trajectory(rows)
+    if calibrated is not None:
+        cal = pd.read_parquet(calibrated / f"calibrated_{season}.parquet").set_index("pitch_id")
+        for r in rows:
+            hit = r["pitch_id"] in cal.index
+            r["cal_hb_cm"] = float(cal.at[r["pitch_id"], "cal_hb_cm"]) if hit else np.nan
+            r["cal_ivb_cm"] = float(cal.at[r["pitch_id"], "cal_ivb_cm"]) if hit else np.nan
     return rows, source
 
 
@@ -188,9 +198,9 @@ def feature_park_bias(rows):
     return out
 
 
-def run(root: Path, season: int, names: list[str], out: Path):
+def run(root: Path, season: int, names: list[str], out: Path, calibrated: Path | None = None):
     t0 = time.time()
-    rows, source = load(root, season)
+    rows, source = load(root, season, calibrated)
     print(season, "rows", len(rows), f"{time.time() - t0:.0f}s", flush=True)
     meta = {"season": season, "rows": len(rows), "candidates": {n: {"numeric": list(CANDIDATES[n][0]), "categorical": list(CANDIDATES[n][1])} for n in names},
             "movement_source": source["movement"], "calibration_applied": {}, "feature_park_bias": feature_park_bias(rows)}
@@ -234,6 +244,7 @@ if __name__ == "__main__":
     parser.add_argument("--root", default=".")
     parser.add_argument("--season", type=int, required=True)
     parser.add_argument("--out", required=True)
-    parser.add_argument("--candidates", nargs="+", default=list(CANDIDATES))
+    parser.add_argument("--candidates", nargs="+", default=[n for n in CANDIDATES if n != "H1M4"])
+    parser.add_argument("--calibrated", help="calibrated_<season>.parquet 디렉터리 (H1M4 후보용)")
     args = parser.parse_args()
-    run(Path(args.root).resolve(), args.season, args.candidates, Path(args.out))
+    run(Path(args.root).resolve(), args.season, args.candidates, Path(args.out), Path(args.calibrated) if args.calibrated else None)
