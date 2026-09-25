@@ -2,7 +2,7 @@ import inspect
 import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
 from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_dv_plus, EVENTS
-from visualbaseball.zone_decision import cell_summary, judgment_plane_location, pzone_fields, PZONE_ABS
+from visualbaseball.zone_decision import cell_summary, judgment_plane_location, pzone_fields, PZONE_ABS, pitcher_throws
 from visualbaseball.curated import CM_PER_FOOT, _at_plane
 from visualbaseball import plate_decision_v1 as old
 
@@ -96,7 +96,7 @@ def test_constrained_re_preserves_ordinary_baseball_transitions():
  assert re.diagnostics['weighted_adjustment_rmse']>0
 
 
-def test_actual_fitted_predictions_ignore_held_out_results():
+def _decision_rows():
  rng=np.random.default_rng(8);train=[]
  for i in range(720):
   event=EVENTS[i%6];balls=(i//6)%4;strikes=(i//24)%3
@@ -113,6 +113,11 @@ def test_actual_fitted_predictions_ignore_held_out_results():
     'strikes_after':0 if terminal else min(2,strikes+int(strike or event=='Foul')),
     'runs_on_pitch':0,'_runs_to_end':float(1+balls*.1-strikes*.1)}
   train.append(r)
+ return train
+
+
+def test_actual_fitted_predictions_ignore_held_out_results():
+ train=_decision_rows()
  test=[{**r,'game_id':'20260501A'} for r in train[:12]]
  changed=[{**r,'event':'InPlay','runs_on_pitch':99,'_runs_to_end':99,'outs_after':3} for r in test]
  first=fit_predict(train,test);second=fit_predict(train,changed)
@@ -171,3 +176,24 @@ def test_only_abs_seasons_read_judgment_planes():
  # Legacy human-umpire builds call predict_pzone without fields and keep the four front-plane inputs.
  assert inspect.signature(old.predict_pzone).parameters['fields'].default==old.PZONE_NUMERIC
  assert all(pzone_fields(season)==PZONE_ABS for season in (2024,2025,2026))
+
+
+def test_pitcher_hand_comes_from_player_bio_then_release_side():
+ hands={'1':'L','2':''}
+ assert pitcher_throws({'pitcher_id':'1','release_x_50':-60.},hands)=='L'
+ # Catcher view: a left-hander releases on the positive x side.
+ assert pitcher_throws({'pitcher_id':'2','release_x_50':55.},hands)=='L'
+ assert pitcher_throws({'pitcher_id':'3','release_x_50':-55.},hands)=='R'
+ assert pitcher_throws({'pitcher_id':'3','release_x_50':None},hands)==''
+
+
+def test_only_swing_propensity_reads_pitcher_hand():
+ train=_decision_rows()
+ for r in train: r['pitcher_throws']='R' if r['decision_type']=='Swing' else 'L'
+ test=[{**r,'game_id':'20260501A'} for r in train[:12]]
+ flipped=[{**r,'pitcher_throws':'L' if r['pitcher_throws']=='R' else 'R'} for r in test]
+ first=fit_predict(train,test,calibration=False);second=fit_predict(train,flipped,calibration=False)
+ assert not np.allclose(first['raw_p'],second['raw_p'])
+ # Event and value models keep old.CATEGORICAL, so Decision Value inputs do not move.
+ for name in ('probs','staged','direct'):
+  np.testing.assert_allclose(first[name],second[name],atol=1e-12)

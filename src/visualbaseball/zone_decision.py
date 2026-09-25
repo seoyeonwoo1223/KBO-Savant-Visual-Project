@@ -28,7 +28,7 @@ from .curated import CM_PER_FOOT, _at_plane, load_rows as load_curated_rows, sch
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
 NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
-MODEL_VERSION = 'za7.1-abs-judgment-plane'
+MODEL_VERSION = 'za7.2-pswing-pitcher-hand'
 SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 ABS_FIRST_SEASON = 2024
@@ -37,10 +37,14 @@ ABS_FIRST_SEASON = 2024
 # pitch's call depends on its drop, so ABS p_zone reads these instead.
 PZONE_ABS = ('x_mid_relative', 'top_gap_cm', 'bottom_gap_cm')
 PLANE_Y_FT = {'mid': 8.5/12, 'back': 0.0}
+# Only the Swing propensity reads the pitcher's hand; event and value models keep
+# old.CATEGORICAL. analysis/zone_decision/pswing_inputs.md holds the comparison.
+PSWING_CATEGORICAL = old.CATEGORICAL + ('pitcher_throws',)
 CONTRACT = {
  'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points; the official SBJ ranking score, equal to zone_judgment_pct - expected_zone_judgment_pct',
  'zone_judgment_pct': '100 * mean(p_zone if swing else 1 - p_zone); raw judgment accuracy, descriptive only and never ranked',
  'expected_zone_judgment_pct': '100 * mean(p_swing*p_zone + (1-p_swing)*(1-p_zone)); league-policy accuracy on the same pitches',
+ 'p_swing': 'league Swing propensity from location, count, base/out, velocity, release height, park-adjusted HB/IVB, pitch type, batter stance, pitcher hand and stadium',
  'p_zone': 'take-only CalledStrike vs Ball/HBP model; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to front-plane px/pz when the trajectory is invalid',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
@@ -141,6 +145,20 @@ def pzone_fields(season):
  return PZONE_ABS if int(season)>=ABS_FIRST_SEASON else old.PZONE_NUMERIC
 
 
+def load_pitcher_hands(root):
+ source=root/'data/curated/players/player_bio.parquet'
+ if not source.exists():return {}
+ return {str(r['player_id']):str(r.get('throws') or '') for r in pq.read_table(source,columns=['player_id','throws']).to_pylist()}
+
+
+def pitcher_throws(row,hands):
+ # Season-level hand from player_bio; the pitch's own release side only when it is missing.
+ hand=hands.get(str(row.get('pitcher_id') or '').strip(),'')
+ if hand in ('R','L'):return hand
+ x=old._safe_float(row.get('release_x_50'))
+ return ('L' if x>0 else 'R') if np.isfinite(x) and abs(x)>=0.1 else ''
+
+
 def region(row):
  d = max(abs(row['x_relative']), abs(row['z_relative']))
  return 'heart' if d <= 2/3 else 'shadow_in' if d <= 1 else 'shadow_out' if d <= 4/3 else 'chase' if d <= 2 else 'waste'
@@ -160,6 +178,7 @@ def load_rows(root, season):
  hashes={'schema_sha256':schema_sha256()}
  rows,quality=reliable_halves(rows,events)
  hands = _load_batter_hands(root, season)
+ pitcher_hands = load_pitcher_hands(root)
  valid, excluded = [], Counter()
  for r in rows:
   if not _eligible(r) or not r.get('batter_id') or not r.get('batter_name') or outcome(r) is None:
@@ -168,18 +187,19 @@ def load_rows(root, season):
   r['x_relative'], r['z_relative'] = _relative_location(r)
   r['decision_type'] = 'Swing' if outcome(r) in EVENTS[:3] else 'Take'
   r['batter_stance'] = _resolved_batter_stance(r, hands)
+  r['pitcher_throws'] = pitcher_throws(r, pitcher_hands)
   r['event'] = outcome(r)
   r['region'] = region(r)
   if pzone_fields(season)==PZONE_ABS: r.update(judgment_plane_location(r))
   valid.append(r)
  movement = old._movement_adjust(valid, root, season)
  # Retain pre-pitch features, transitions, identity and training target only.
- keep = set(NUMERIC + old.PZONE_NUMERIC + PZONE_ABS + old.CATEGORICAL + ('plane_fallback','game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
+ keep = set(NUMERIC + old.PZONE_NUMERIC + PZONE_ABS + PSWING_CATEGORICAL + ('plane_fallback','game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
  keep.update(f'{k}_{w}' for k in ('base_state_code','outs','balls','strikes') for w in ('before','after'))
  valid = [{k:v for k,v in r.items() if k in keep} for r in valid]
  for p in (root/'data/curated/players/player_bio.parquet',root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'):
   if p.exists():hashes[p.name]=file_hash(p)
- return sorted(valid, key=lambda r:r['game_id']), {'source':f'data/curated/pitches/season={season}','input_mode':'curated','curated_version':None,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'pzone_input':pzone_input(valid,season), 'unknown_stance':sum(not r['batter_stance'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
+ return sorted(valid, key=lambda r:r['game_id']), {'source':f'data/curated/pitches/season={season}','input_mode':'curated','curated_version':None,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'pzone_input':pzone_input(valid,season), 'unknown_stance':sum(not r['batter_stance'] for r in valid),'unknown_pitcher_hand':sum(not r['pitcher_throws'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
 
 
 def pzone_input(rows,season):
@@ -250,12 +270,12 @@ class RunExpectancy:
   return float(runs+self.value(after)-self.value(s))
 
 
-def encode(train, test):
+def encode(train, test, categorical=old.CATEGORICAL):
  # Unknown categories are missing, never mapped to another known category.
  cols_a, cols_b = [], []
  for f in NUMERIC:
   cols_a.append([old._safe_float(r.get(f)) for r in train]); cols_b.append([old._safe_float(r.get(f)) for r in test])
- for f in old.CATEGORICAL:
+ for f in categorical:
   mapping = {v:i for i,v in enumerate(sorted({str(r.get(f) or '') for r in train}))}
   cols_a.append([mapping[str(r.get(f) or '')] for r in train]); cols_b.append([mapping.get(str(r.get(f) or ''),np.nan) for r in test])
  return np.column_stack(cols_a), np.column_stack(cols_b)
@@ -288,6 +308,10 @@ def probability_prior(train,test,actions,events,action,indices):
  return np.array(result)
 
 
+def pswing_classifier():
+ return old._classifier(len(NUMERIC)).set_params(categorical_features=list(range(len(NUMERIC),len(NUMERIC)+len(PSWING_CATEGORICAL))))
+
+
 def fit_model(model, features, target):
  # All-missing training columns carry no information. A constant lets histogram
  # binning ignore them, including in action-specific and calibration subsets.
@@ -302,17 +326,18 @@ def fit_predict(train, test, candidate=True, calibration=True, support_prior=50)
  re = RunExpectancy(train); target = re.target(train)
  actions = np.array([r['decision_type']=='Swing' for r in train],dtype=int)
  events = np.array([EVENTS.index(r['event']) for r in train])
- propensity = fit_model(old._classifier(len(NUMERIC)),a,actions)
- raw_p = propensity.predict_proba(b)[:,list(propensity.classes_).index(1)]
+ sa,sb = encode(train,test,PSWING_CATEGORICAL)
+ propensity = fit_model(pswing_classifier(),sa,actions)
+ raw_p = propensity.predict_proba(sb)[:,list(propensity.classes_).index(1)]
  p=raw_p.copy()
  calibration_applied=False
  if calibration:
   groups=np.array([r['game_id'] for r in train]);folds=min(3,len(set(groups)))
   if folds<2:raise ValueError('Calibration requires at least two training games')
   oof=np.empty(len(train))
-  for fit,held in GroupKFold(folds).split(a,actions,groups):
-   model=fit_model(old._classifier(len(NUMERIC)),a[fit],actions[fit])
-   oof[held]=model.predict_proba(a[held])[:,list(model.classes_).index(1)]
+  for fit,held in GroupKFold(folds).split(sa,actions,groups):
+   model=fit_model(pswing_classifier(),sa[fit],actions[fit])
+   oof[held]=model.predict_proba(sa[held])[:,list(model.classes_).index(1)]
   days=sorted({r['game_id'][:8] for r in train});cut=days[max(1,int(len(days)*.8))-1]
   fit_mask=np.array([r['game_id'][:8]<=cut for r in train]);held_mask=~fit_mask
   if held_mask.any() and len(set(actions[fit_mask]))==2:

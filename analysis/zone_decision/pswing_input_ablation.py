@@ -35,10 +35,11 @@ from visualbaseball.pitch_arsenal import PARK_FACTOR_CODE, _pitch_code, _stadium
 BASE = old.BASE_NUMERIC
 CURRENT_MOVE = ("adjusted_hb_cm", "adjusted_ivb_cm")
 REEST_MOVE = ("reest_hb_cm", "reest_ivb_cm")
+REEST_HAND_MOVE = ("reest_hand_hb_cm", "reest_hand_ivb_cm")
 CAT = old.CATEGORICAL                      # pitch_type, batter_stance, stadium
 HAND = ("pitcher_throws",)
 PLATOON = ("platoon",)
-MOVES = {"none": (), "current": CURRENT_MOVE, "reest": REEST_MOVE}
+MOVES = {"none": (), "current": CURRENT_MOVE, "reest": REEST_MOVE, "reest_hand": REEST_HAND_MOVE}
 TRAJ = {"": (), "rel": ("release_x_55",), "ang": ("vaa_deg", "haa_deg"), "both": ("release_x_55", "vaa_deg", "haa_deg")}
 
 
@@ -53,6 +54,8 @@ CANDIDATES = {
     "H2": spec("hp", "current"),         # + 투수 손 + 같은 손/반대 손
     "M0": spec("", "none"), "M2": spec("", "reest"),
     "H2M0": spec("hp", "none"), "H2M2": spec("hp", "reest"),
+    # 2차 (1차 판정 뒤 추가): 채택된 H1 기반에서 무브먼트 4종과 무브먼트 없는 릴리스 좌우.
+    "H1M0": spec("h", "none"), "H1M2": spec("h", "reest"), "H1M3": spec("h", "reest_hand"), "H1M0Trel": spec("h", "none", "rel"),
     **{f"H2{m}T{t}": spec("hp", mv, t) for m, mv in (("M0", "none"), ("M1", "current"), ("M2", "reest")) for t in ("rel", "ang", "both")},
 }
 
@@ -100,16 +103,17 @@ def propensity(train, test, numeric, categorical, calibration=True):
     return p, raw, applied
 
 
-def park_code(r):
-    return PARK_FACTOR_CODE.get(_pitch_code(r), _pitch_code(r))
+def park_code(r, by_hand=False):
+    code = PARK_FACTOR_CODE.get(_pitch_code(r), _pitch_code(r))
+    return f"{code}|{r.get('pitcher_throws') or ''}" if by_hand and code else code
 
 
-def two_way_park_effect(rows, value):
+def two_way_park_effect(rows, value, by_hand=False):
     """value = (투수, 구종) 효과 + (구장, 구종) 효과. 구장 효과는 구종 안에서 투구 가중 평균 0."""
     keep = [r for r in rows if np.isfinite(old._safe_float(r.get(value))) and park_code(r) and r.get("pitcher_id")]
     y = np.array([float(r[value]) for r in keep])
-    a = pd.factorize(pd.Series([f"{r['pitcher_id']}|{park_code(r)}" for r in keep]))[0]
-    keys = pd.Series([(_stadium(r.get("stadium")), park_code(r)) for r in keep])
+    a = pd.factorize(pd.Series([f"{r['pitcher_id']}|{park_code(r, by_hand)}" for r in keep]))[0]
+    keys = pd.Series([(_stadium(r.get("stadium")), park_code(r, by_hand)) for r in keep])
     b, levels = pd.factorize(keys)
     ea, eb = np.zeros(a.max() + 1), np.zeros(b.max() + 1)
     na, nb = np.bincount(a), np.bincount(b)
@@ -124,17 +128,20 @@ def two_way_park_effect(rows, value):
 
 
 def add_reestimated_movement(train, test):
-    """훈련 블록의 원시 VB 무브먼트만으로 구장×구종 오프셋을 다시 추정해 SBJ 내부 후보로만 쓴다."""
-    offsets = {}
-    for raw, out in (("horizontal_movement_cm", "reest_hb_cm"), ("vertical_movement_cm", "reest_ivb_cm")):
-        effect, _ = two_way_park_effect(train, raw)
-        offsets[out] = {(p, c): -e for p, c, e, n in effect[["park", "code", "eff", "n"]].itertuples(index=False) if n >= 300}
-    for rows in (train, test):
-        for r in rows:
-            key = (_stadium(r.get("stadium")), park_code(r))
-            for raw, out in (("horizontal_movement_cm", "reest_hb_cm"), ("vertical_movement_cm", "reest_ivb_cm")):
-                v, off = old._safe_float(r.get(raw)), offsets[out].get(key)
-                r[out] = v + off if off is not None and np.isfinite(v) else np.nan
+    """훈련 블록의 원시 VB 무브먼트만으로 구장×구종(또는 구장×구종×투수 손) 오프셋을 다시 추정해
+    SBJ 내부 후보로만 쓴다."""
+    for by_hand, prefix in ((False, "reest"), (True, "reest_hand")):
+        pairs = (("horizontal_movement_cm", f"{prefix}_hb_cm"), ("vertical_movement_cm", f"{prefix}_ivb_cm"))
+        offsets = {}
+        for raw, out in pairs:
+            effect, _ = two_way_park_effect(train, raw, by_hand)
+            offsets[out] = {(p, c): -e for p, c, e, n in effect[["park", "code", "eff", "n"]].itertuples(index=False) if n >= 300}
+        for rows in (train, test):
+            for r in rows:
+                key = (_stadium(r.get("stadium")), park_code(r, by_hand))
+                for raw, out in pairs:
+                    v, off = old._safe_float(r.get(raw)), offsets[out].get(key)
+                    r[out] = v + off if off is not None and np.isfinite(v) else np.nan
 
 
 def add_trajectory(rows):
