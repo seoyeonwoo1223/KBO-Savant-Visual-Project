@@ -1,0 +1,67 @@
+{
+ "2019": {
+  "pitches": 211628,
+  "normal": 201545,
+  "no_trajectory": 6780,
+  "extreme_consistent": 3225,
+  "extreme_release_mismatch": 77,
+  "implausible_acceleration": 1
+ },
+ "2020": {
+  "pitches": 220863,
+  "normal": 216592,
+  "extreme_consistent": 3674,
+  "no_trajectory": 543,
+  "extreme_release_mismatch": 50,
+  "implausible_acceleration": 4
+ },
+ "2021": {
+  "pitches": 220742,
+  "normal": 216227,
+  "extreme_consistent": 3840,
+  "no_trajectory": 623,
+  "extreme_release_mismatch": 39,
+  "trajectory_inconsistent": 13
+ },
+ "2022": {
+  "pitches": 217025,
+  "normal": 214437,
+  "no_trajectory": 2254,
+  "extreme_consistent": 289,
+  "extreme_release_mismatch": 43,
+  "implausible_acceleration": 2
+ },
+ "2023": {
+  "pitches": 219839,
+  "normal": 215350,
+  "no_trajectory": 4299,
+  "extreme_consistent": 148,
+  "extreme_release_mismatch": 41,
+  "implausible_acceleration": 1
+ },
+ "2024": {
+  "pitches": 223216,
+  "normal": 222144,
+  "no_trajectory": 858,
+  "extreme_consistent": 176,
+  "extreme_release_mismatch": 35,
+  "implausible_acceleration": 3
+ },
+ "2025": {
+  "pitches": 217852,
+  "normal": 217494,
+  "extreme_consistent": 239,
+  "no_trajectory": 83,
+  "extreme_release_mismatch": 27,
+  "trajectory_inconsistent": 6,
+  "implausible_acceleration": 3
+ },
+ "2026": {
+  "pitches": 203262,
+  "normal": 202747,
+  "extreme_consistent": 387,
+  "no_trajectory": 86,
+  "extreme_release_mismatch": 38,
+  "implausible_acceleration": 4
+ }
+}
