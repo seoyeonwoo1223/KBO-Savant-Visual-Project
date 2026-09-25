@@ -25,7 +25,7 @@ Raw `relH` remains `release_height_cm`; raw `y0` remains `y0` and is also expose
 
 `trajectory_status=valid` requires complete finite trajectory fields, y0 of 50 or 55 ft, and real 50/55 ft solutions within one second. Missing, unsolved, and unexpected-y0 rows remain in curated data with null derived values. Dataset-level acceptance is median absolute plate error below 1 cm and p95 below 2 cm on each axis; this does not delete an individual pitch.
 
-The 2022-2024 workbooks have no retained raw JSON or y0 column. Their one-time migration records `legacy_excel_one_time_conversion`, the workbook hash, `raw_available=false`, and the documented assumption that historical x0/z0 is the 50 ft plane. This provenance is not presented as a raw hash.
+The 2022-2024 workbooks had no retained raw JSON or y0 column when they were converted. Raw JSON snapshots were added later under `data/raw/2022-2024`; `analysis/trajectory_audit/` compared them pitch by pitch with the converted curated rows and found every parsed field equal except y0, which the conversion filled with 50 where raw has none (those pitches are invalid trajectories either way). Their one-time migration records `legacy_excel_one_time_conversion`, the workbook hash, `raw_available=false`, and the documented assumption that historical x0/z0 is the 50 ft plane. This provenance is not presented as a raw hash.
 
 ## Commands
 

@@ -28,7 +28,7 @@ from .curated import CM_PER_FOOT, _at_plane, load_rows as load_curated_rows, sch
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
 NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
-MODEL_VERSION = 'za7.2-pswing-pitcher-hand'
+MODEL_VERSION = 'za7.3-plane-location-check'
 SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 ABS_FIRST_SEASON = 2024
@@ -37,6 +37,11 @@ ABS_FIRST_SEASON = 2024
 # pitch's call depends on its drop, so ABS p_zone reads these instead.
 PZONE_ABS = ('x_mid_relative', 'top_gap_cm', 'bottom_gap_cm')
 PLANE_Y_FT = {'mid': 8.5/12, 'back': 0.0}
+# In ABS seasons VB reports px at the middle plane and pz at the front plane. The x and z
+# trajectory fits are independent, so a component that misses its reported location by more
+# than this is replaced by that location (analysis/trajectory_audit/).
+PLANE_LOCATION_TOLERANCE_CM = 1.0
+FRONT_PLANE_Y_FT = 17/12
 # Only the Swing propensity reads the pitcher's hand; event and value models keep
 # old.CATEGORICAL. analysis/zone_decision/pswing_inputs.md holds the comparison.
 PSWING_CATEGORICAL = old.CATEGORICAL + ('pitcher_throws',)
@@ -45,7 +50,7 @@ CONTRACT = {
  'zone_judgment_pct': '100 * mean(p_zone if swing else 1 - p_zone); raw judgment accuracy, descriptive only and never ranked',
  'expected_zone_judgment_pct': '100 * mean(p_swing*p_zone + (1-p_swing)*(1-p_zone)); league-policy accuracy on the same pitches',
  'p_swing': 'league Swing propensity from location, count, base/out, velocity, release height, park-adjusted HB/IVB, pitch type, batter stance, pitcher hand and stadium',
- 'p_zone': 'take-only CalledStrike vs Ball/HBP model; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to front-plane px/pz when the trajectory is invalid',
+ 'p_zone': 'take-only CalledStrike vs Ball/HBP model; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to px/pz when the trajectory is invalid, and replacing a trajectory component that misses its reported px (middle plane) or pz (front plane) by more than 1 cm',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
  'dv_plus': '100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
@@ -127,18 +132,28 @@ def zone_awareness(items):
 
 
 def judgment_plane_location(row):
- """ABS p_zone inputs; an invalid trajectory falls back to px/pz for every plane."""
- mid=back=None
+ """ABS p_zone inputs from the trajectory, checked against the reported plate location.
+
+ An invalid trajectory falls back to px/pz for every plane. A valid one whose x misses px at
+ the middle plane, or whose z misses pz at the front plane, by more than
+ PLANE_LOCATION_TOLERANCE_CM has that component replaced by the reported location.
+ """
+ mid=back=front=None
  if row.get('trajectory_valid'):
-  mid,back=_at_plane(row,PLANE_Y_FT['mid']),_at_plane(row,PLANE_Y_FT['back'])
- fallback=mid is None or back is None
+  mid,back,front=(_at_plane(row,y) for y in (PLANE_Y_FT['mid'],PLANE_Y_FT['back'],FRONT_PLANE_Y_FT))
+ fallback=mid is None or back is None or front is None
+ px,pz=float(row['px'])*CM_PER_FOOT,float(row['pz'])*CM_PER_FOOT
+ x_replaced=z_replaced=False
  if fallback:
-  x=float(row['px'])*CM_PER_FOOT; heights=(float(row['pz'])*CM_PER_FOOT,)*2
+  x=px; heights=(pz,)*2
  else:
   x=mid[0]; heights=(mid[1],back[1])
+  if abs(x-px)>PLANE_LOCATION_TOLERANCE_CM: x=px; x_replaced=True
+  if abs(front[1]-pz)>PLANE_LOCATION_TOLERANCE_CM: heights=(pz,)*2; z_replaced=True
  # The ball must clear the top at its higher plane and the bottom at its lower one.
  return {'x_mid_relative':x/CM_PER_FOOT/PLATE_HALF_WIDTH_FT,'top_gap_cm':max(heights)-float(row['sz_top'])*CM_PER_FOOT,
-  'bottom_gap_cm':min(heights)-float(row['sz_bottom'])*CM_PER_FOOT,'plane_fallback':fallback}
+  'bottom_gap_cm':min(heights)-float(row['sz_bottom'])*CM_PER_FOOT,'plane_fallback':fallback,
+  'plane_x_replaced':x_replaced,'plane_z_replaced':z_replaced}
 
 
 def pzone_fields(season):
@@ -194,7 +209,7 @@ def load_rows(root, season):
   valid.append(r)
  movement = old._movement_adjust(valid, root, season)
  # Retain pre-pitch features, transitions, identity and training target only.
- keep = set(NUMERIC + old.PZONE_NUMERIC + PZONE_ABS + PSWING_CATEGORICAL + ('plane_fallback','game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
+ keep = set(NUMERIC + old.PZONE_NUMERIC + PZONE_ABS + PSWING_CATEGORICAL + ('plane_fallback','plane_x_replaced','plane_z_replaced','game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
  keep.update(f'{k}_{w}' for k in ('base_state_code','outs','balls','strikes') for w in ('before','after'))
  valid = [{k:v for k,v in r.items() if k in keep} for r in valid]
  for p in (root/'data/curated/players/player_bio.parquet',root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'):
@@ -204,8 +219,11 @@ def load_rows(root, season):
 
 def pzone_input(rows,season):
  fields=pzone_fields(season); fallback=sum(bool(r.get('plane_fallback')) for r in rows)
- return {'fields':list(fields),'plane_fallback_pitches':fallback if fields==PZONE_ABS else None,
-  'plane_fallback_pct':(100*fallback/len(rows) if rows else 0.0) if fields==PZONE_ABS else None}
+ abs_season=fields==PZONE_ABS
+ return {'fields':list(fields),'plane_fallback_pitches':fallback if abs_season else None,
+  'plane_fallback_pct':(100*fallback/len(rows) if rows else 0.0) if abs_season else None,
+  'plane_x_replaced_pitches':sum(bool(r.get('plane_x_replaced')) for r in rows) if abs_season else None,
+  'plane_z_replaced_pitches':sum(bool(r.get('plane_z_replaced')) for r in rows) if abs_season else None}
 
 
 def walk_state(s):

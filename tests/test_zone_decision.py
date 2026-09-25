@@ -140,10 +140,14 @@ def test_official_sbj_is_za_raw_not_a_second_formula():
 
 
 def _pitch(**changes):
- # Falling pitch released at 50 ft; y is feet from the back tip of home plate.
+ # Falling pitch released at 50 ft; y is feet from the back tip of home plate. Unless given,
+ # px/pz are where VB reports them in ABS seasons: x at the middle plane, z at the front plane.
  row={'x0':-1.8,'y0':50.,'z0':5.8,'vx0':5.,'vy0':-128.,'vz0':-4.,'ax':-9.,'ay':26.,'az':-18.,
-      'px':.4,'pz':2.3,'sz_top':3.4,'sz_bottom':1.6,'trajectory_valid':True}
- row.update(changes);return row
+      'sz_top':3.4,'sz_bottom':1.6,'trajectory_valid':True}
+ row.update(changes)
+ if 'px' not in changes and _at_plane(row,8.5/12): row['px']=_at_plane(row,8.5/12)[0]/CM_PER_FOOT
+ if 'pz' not in changes and _at_plane(row,17/12): row['pz']=_at_plane(row,17/12)[1]/CM_PER_FOOT
+ return row
 
 
 def test_abs_plane_inputs_use_middle_x_and_both_height_planes():
@@ -163,7 +167,7 @@ def test_abs_plane_inputs_use_middle_x_and_both_height_planes():
 
 
 def test_invalid_trajectory_falls_back_to_front_plane_location():
- for row in (_pitch(trajectory_valid=False),_pitch(vy0=None)):
+ for row in (_pitch(trajectory_valid=False,px=.4,pz=2.3),_pitch(vy0=None,px=.4,pz=2.3)):
   got=judgment_plane_location(row)
   assert got['plane_fallback']
   assert abs(got['x_mid_relative']-.4/(10/12))<1e-9
@@ -197,3 +201,23 @@ def test_only_swing_propensity_reads_pitcher_hand():
  # Event and value models keep old.CATEGORICAL, so Decision Value inputs do not move.
  for name in ('probs','staged','direct'):
   np.testing.assert_allclose(first[name],second[name],atol=1e-12)
+
+
+def test_trajectory_component_that_misses_reported_location_is_replaced():
+ good=judgment_plane_location(_pitch())
+ assert not (good['plane_x_replaced'] or good['plane_z_replaced'])
+ # x fit misses px (2025 tracking glitch pattern: x off by metres, z intact) -> x from px only.
+ row=_pitch(); row['px']+=0.5
+ got=judgment_plane_location(row)
+ assert got['plane_x_replaced'] and not got['plane_z_replaced'] and not got['plane_fallback']
+ assert abs(got['x_mid_relative']-row['px']/(10/12))<1e-9
+ assert got['top_gap_cm']==good['top_gap_cm'] and got['bottom_gap_cm']==good['bottom_gap_cm']
+ # A 0.5 cm disagreement is rounding (px/pz carry 0.01 ft), not a broken fit.
+ near=_pitch(); near['px']+=0.5/CM_PER_FOOT
+ assert not judgment_plane_location(near)['plane_x_replaced']
+ # z fit misses pz -> both heights from pz, x still from the trajectory.
+ row=_pitch(); row['pz']+=0.2
+ got=judgment_plane_location(row)
+ assert got['plane_z_replaced'] and not got['plane_x_replaced']
+ assert abs(got['top_gap_cm']-(row['pz']-3.4)*CM_PER_FOOT)<1e-9 and abs(got['bottom_gap_cm']-(row['pz']-1.6)*CM_PER_FOOT)<1e-9
+ assert got['x_mid_relative']==good['x_mid_relative']
