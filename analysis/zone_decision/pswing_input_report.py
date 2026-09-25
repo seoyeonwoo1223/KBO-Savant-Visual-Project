@@ -7,6 +7,7 @@
   2. 타자 hold-out log loss도 같은 기준으로 낮아지며,
   3. 보정 오차(ECE, 20 분위 구간)가 0.001보다 크게 나빠지지 않고,
   4. 구장×구종 셀 잔차의 가중 RMS가 5%보다 크게 나빠지지 않아야 한다.
+z는 경기 군집과 타자 군집 SE 중 큰 쪽으로 계산한다(2차 검토에서 타자 군집 추가).
 선수 SBJ 변화(순위 상관, 최대 변화, 구장별 평균 판단 변화)와 분할 반쪽 신뢰도는
 채택 조건이 아니라, 위 조건을 통과한 후보가 무엇을 바꾸는지 보이는 진단이다.
 """
@@ -120,8 +121,12 @@ def compare(frame, new, base, summary):
     out = {}
     for kind, prefix in (("oof", "p_"), ("batter_holdout", "bh_"), ("oof_raw", "raw_")):
         diff = pitch_ll(y, frame[prefix + new]) - pitch_ll(y, frame[prefix + base])
-        mean, se = clustered_mean_se(diff, frame.game_id.to_numpy())
-        out[kind] = {"delta": mean, "se": se, "z": mean / se if se else 0.0}
+        # 경기와 타자 두 단위로 묶어 보고, 채택 판정에는 덜 유의한 쪽(z가 0에 가까운 쪽)을 쓴다.
+        # 타자 hold-out은 타자 단위로 나눈 평가라 타자 군집이 맞는 단위다.
+        mean, se_game = clustered_mean_se(diff, frame.game_id.to_numpy())
+        _, se_batter = clustered_mean_se(diff, frame.batter_id.to_numpy())
+        se = max(se_game, se_batter)
+        out[kind] = {"delta": mean, "se_game": se_game, "se_batter": se_batter, "z": mean / se if se else 0.0}
     out["ece_delta"] = summary[new]["oof_ece"] - summary[base]["oof_ece"]
     out["park_rms_ratio"] = summary[new]["park_type"]["rms_pp"] / summary[base]["park_type"]["rms_pp"]
     out["park_mean_z2"] = [summary[base]["park_type"]["mean_z2"], summary[new]["park_type"]["mean_z2"]]
