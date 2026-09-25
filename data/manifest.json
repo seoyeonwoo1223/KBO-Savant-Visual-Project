@@ -28864,6 +28864,21 @@
       "status": "completed",
       "raw_path": "data/raw/2026/20260924SSSK0.json",
       "message": "PASS"
+    },
+    "20260925SSSK0": {
+      "status": "incomplete",
+      "raw_path": "data/raw/2026/20260925SSSK0.json",
+      "message": "No events or pitches were parsed"
+    },
+    "20260925LTOB0": {
+      "status": "incomplete",
+      "raw_path": "data/raw/2026/20260925LTOB0.json",
+      "message": "No events or pitches were parsed"
+    },
+    "20260925HHNC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260925HHNC0.json",
+      "message": "PASS"
     }
   }
 }
