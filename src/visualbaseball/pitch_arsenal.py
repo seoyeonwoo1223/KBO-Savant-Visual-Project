@@ -1,6 +1,8 @@
 """Build Baseball Savant-style pitcher arsenal profiles from canonical curated pitches.
 
-The only workbook input is the seasonal park-adjustment offset table.
+Movement is corrected by movement_calibration (stadium-day and plate-location terms,
+validated against TrackMan). The seasonal park-adjustment workbook is still read by the
+SBJ p_swing path through plate_decision_v1, not here.
 """
 
 from __future__ import annotations
@@ -14,6 +16,7 @@ from statistics import fmean, median
 from openpyxl import load_workbook
 
 from .curated import load_rows
+from .movement_calibration import calibrate
 
 
 CM_PER_INCH = 2.54
@@ -37,6 +40,18 @@ TEAM_NAMES = {
     "HT": "KIA 타이거즈", "SK": "SSG 랜더스", "LG": "LG 트윈스", "NC": "NC 다이노스", "KT": "KT 위즈",
 }
 KOREAN_TO_CODE = {name: code for code, name in PITCH_NAMES.items()}
+# A pitch type thrown at most MINOR_MAX_PITCHES times or under MINOR_USAGE_PCT of a pitcher's
+# pitches is shown inside the nearest main pitch type of the same pitcher when its median
+# velocity, corrected HB and IVB each fall within MERGE_TOLERANCE of that type's medians and its
+# median location within LOCATION_TOLERANCE_FT. Fixed tolerances, not the main type's own
+# spread: a broad main type (a slider thrown both ways) must not absorb a distinct pitch. This
+# is a display grouping only: curated pitch_type and every model input keep the original label.
+PROFILE_SCHEMA_VERSION = 3
+PITCH_ARSENAL_SEASONS = (2022, 2023, 2024, 2025, 2026)
+MINOR_MAX_PITCHES = 10
+MINOR_USAGE_PCT = 5.0
+MERGE_TOLERANCE = {"velocity": 5.0, "hb": 8.0, "ivb": 8.0}   # km/h, cm, cm
+LOCATION_TOLERANCE_FT = 1.5
 PITCH_TYPE_OVERRIDES = {
     # Confirmed by video review: 2026-07-08 SSG at Doosan, top 5th, Lee Ji-young PA, pitch 1.
     "20260708SKOB0-20260708SKOB0-037-01": "FC",
@@ -193,6 +208,45 @@ def _pitch_code(row: dict) -> str:
     return KOREAN_TO_CODE.get(str(row.get("pitch_type_kr") or "").strip(), "")
 
 
+def _profile(samples: list[dict]) -> dict:
+    result = {}
+    for feature in ("velocity", "hb", "ivb", "px", "pz"):
+        values = [item[feature] for item in samples if item[feature] is not None]
+        if values:
+            result[feature] = median(values)
+    return result
+
+
+def _distance(minor: dict, main: dict) -> float | None:
+    """Largest gap as a share of its tolerance; at most 1 means every check passes."""
+    if any(feature not in minor or feature not in main for feature in MERGE_TOLERANCE):
+        return None
+    gaps = [abs(minor[feature] - main[feature]) / tolerance for feature, tolerance in MERGE_TOLERANCE.items()]
+    if all(feature in minor and feature in main for feature in ("px", "pz")):
+        gaps.append(math.hypot(minor["px"] - main["px"], minor["pz"] - main["pz"]) / LOCATION_TOLERANCE_FT)
+    return max(gaps)
+
+
+def _minor_merges(samples: dict[str, dict[str, list[dict]]]) -> tuple[dict, set]:
+    """Map (pitcher, minor code) -> main code for display; also return unmerged minor types."""
+    merges, unmerged = {}, set()
+    for pitcher_id, groups in samples.items():
+        total = sum(len(items) for items in groups.values())
+        minor = {code for code, items in groups.items()
+                 if len(items) <= MINOR_MAX_PITCHES or 100 * len(items) / total < MINOR_USAGE_PCT}
+        main = [code for code in groups if code not in minor]
+        profiles = {code: _profile(items) for code, items in groups.items()}
+        for code in minor:
+            scored = [(distance, target) for target in main
+                      if (distance := _distance(profiles[code], profiles[target])) is not None]
+            best = min(scored, default=None)
+            if best is not None and best[0] <= 1:
+                merges[(pitcher_id, code)] = best[1]
+            elif main:
+                unmerged.add((pitcher_id, code))
+    return merges, unmerged
+
+
 def _load_batter_hands(root: Path, season: int) -> dict[str, str]:
     """Load handedness from the canonical player dimension."""
     source = root / "data" / "curated" / "players" / "player_bio.parquet"
@@ -224,19 +278,25 @@ def _throws(release_x: list[float]) -> str:
 
 def build_pitch_arsenal(root: Path, season: int) -> tuple[int, int]:
     """Export searchable pitcher profiles and compact chart-ready distributions."""
-    factors = _load_park_factors(root, season)
     batter_hands = _load_batter_hands(root, season)
-    rows = load_rows(root, "pitches", season)
+    rows = []
+    for row in load_rows(root, "pitches", season):
+        if _season(row.get("season")) != season or str(row.get("parse_status") or "") != "ok":
+            continue
+        code = _pitch_code(row)
+        pitcher_name = str(row.get("pitcher_name") or "").strip()
+        if code and pitcher_name:
+            rows.append((row, code, str(row.get("pitcher_id") or pitcher_name).strip(), pitcher_name))
+    movement = calibrate([item[0] for item in rows], [item[1] for item in rows])
+    samples: dict[str, dict[str, list[dict]]] = defaultdict(lambda: defaultdict(list))
+    for (row, code, pitcher_id, _), (hb, ivb) in zip(rows, movement):
+        samples[pitcher_id][code].append({"velocity": _number(row.get("velocity_kmh")), "hb": hb, "ivb": ivb,
+                                          "px": _number(row.get("px")), "pz": _number(row.get("pz"))})
+    merges, unmerged = _minor_merges(samples)
     pitchers: dict[str, dict] = {}
     eligible = 0
-    for row in rows:
-            if _season(row.get("season")) != season or str(row.get("parse_status") or "") != "ok":
-                continue
-            code = _pitch_code(row)
-            pitcher_name = str(row.get("pitcher_name") or "").strip()
-            if not code or not pitcher_name:
-                continue
-            pitcher_id = str(row.get("pitcher_id") or pitcher_name).strip()
+    for (row, original_code, pitcher_id, pitcher_name), (adjusted_hb, adjusted_ivb) in zip(rows, movement):
+            code = merges.get((pitcher_id, original_code), original_code)
             pitcher = pitchers.setdefault(pitcher_id, {
                 "id": pitcher_id, "name": pitcher_name, "release_x": [], "hand_release_x": [],
                 "release_z": [], "velocity": [], "pitches": 0,
@@ -250,12 +310,15 @@ def build_pitch_arsenal(root: Path, season: int) -> tuple[int, int]:
                     "location_n": 0, "in_zone": 0, "out_zone": 0,
                     "chase_swings": 0, "swstr": 0,
                     "movement_total": 0, "movement_adjusted": 0, "movement_points": [],
+                    "merged_from": defaultdict(int),
                 }),
             })
             team = _pitcher_team(row)
             if team and team not in pitcher["teams"]:
                 pitcher["teams"].append(team)
             group = pitcher["groups"][code]
+            if code != original_code:
+                group["merged_from"][original_code] += 1
             pitcher["pitches"] += 1
             group["n"] += 1
             velocity = _number(row.get("velocity_kmh"))
@@ -299,17 +362,14 @@ def build_pitch_arsenal(root: Path, season: int) -> tuple[int, int]:
             raw_ivb = _number(row.get("vertical_movement_cm"))
             if raw_hb is not None and raw_ivb is not None:
                 group["movement_total"] += 1
-                factor_code = PARK_FACTOR_CODE.get(code, code)
-                offset = factors.get((_stadium(row.get("stadium")), factor_code))
-                if offset:
+                if adjusted_hb is not None and adjusted_ivb is not None:
                     group["raw_hb"].append(raw_hb / CM_PER_INCH)
                     group["raw_ivb"].append(raw_ivb / CM_PER_INCH)
-                    group["hb"].append((raw_hb + offset[0]) / CM_PER_INCH)
-                    group["ivb"].append((raw_ivb + offset[1]) / CM_PER_INCH)
+                    group["hb"].append(adjusted_hb / CM_PER_INCH)
+                    group["ivb"].append(adjusted_ivb / CM_PER_INCH)
                     group["movement_points"].append((
                         raw_hb / CM_PER_INCH, raw_ivb / CM_PER_INCH,
-                        (raw_hb + offset[0]) / CM_PER_INCH,
-                        (raw_ivb + offset[1]) / CM_PER_INCH,
+                        adjusted_hb / CM_PER_INCH, adjusted_ivb / CM_PER_INCH,
                     ))
                     group["movement_adjusted"] += 1
             eligible += 1
@@ -349,22 +409,29 @@ def build_pitch_arsenal(root: Path, season: int) -> tuple[int, int]:
                 "movement_n": movement_adjusted,
                 "movement_total_n": movement_total,
                 "movement_coverage": round(movement_adjusted / movement_total * 100, 1) if movement_total else 0.0,
-                "park_factor_code": PARK_FACTOR_CODE.get(code, code),
+                # Display grouping: original labels folded into this row, and unmerged small types.
+                "merged_from": [{"code": source, "name": PITCH_NAMES[source], "n": count}
+                                for source, count in sorted(group["merged_from"].items(), key=lambda item: -item[1])],
+                "minor": (pitcher_id, code) in unmerged,
             })
         throws = _throws(pitcher["hand_release_x"] or pitcher["release_x"])
         payload = {
-            "schema_version": 2,
+            "schema_version": PROFILE_SCHEMA_VERSION,
             "season": season,
             "source": {
                 "dataset": f"data/curated/pitches/season={season}",
-                "park_adjustment": f"data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx",
+                "movement_calibration": "src/visualbaseball/movement_calibration.py (TrackMan-validated, analysis/movement_calibration)",
             },
             "method": {
-                "movement": "park-adjusted HB and IVB; adjusted = measured + stadium/pitch offset",
+                "movement": "corrected HB and IVB; measured minus plate-location term minus stadium-day effect from a pitcher x pitch type + stadium x day fit",
+                "minor_pitch_types": (f"types with at most {MINOR_MAX_PITCHES} pitches or under {MINOR_USAGE_PCT:g}% usage are shown inside the "
+                                      f"nearest main type of the same pitcher when median velocity is within {MERGE_TOLERANCE['velocity']:g} km/h, "
+                                      f"corrected HB and IVB each within {MERGE_TOLERANCE['hb']:g} cm and median location within "
+                                      f"{LOCATION_TOLERANCE_FT:g} ft (display only; merged_from keeps the original labels); otherwise they stay "
+                                      "separate with minor=true"),
                 "interval": "central 75% (12.5th to 87.5th percentile)",
                 "units": {"velocity": "km/h", "movement": "in"},
                 "release": "hRel/vRel are the normalized y=50 ft release_x_50/release_z_50 values",
-                "factor_aliases": {"FT": "SI", "ST": "SL"},
                 "zone": "abs(px) <= 10/12 ft and sz_bottom <= pz <= sz_top",
                 "rates": {
                     "zone_pct": "in-zone pitches / pitches with valid ABS location",

@@ -1,4 +1,5 @@
-"""Fail unless every ABS season's ZA/SBJ output comes from the current code and agrees.
+"""Fail unless every ABS season's ZA/SBJ output comes from the current code and agrees,
+and every Pitch Plot season carries the current profile schema and build state.
 
 daily_update runs this before anything is published (Release upload, data commit, and
 through that the Pages deploy), so a partial rebuild can never go out mixed with older
@@ -12,6 +13,7 @@ import sys
 from pathlib import Path
 
 from visualbaseball.metric_state import _path, metric_input_hash
+from visualbaseball.pitch_arsenal import PITCH_ARSENAL_SEASONS, PROFILE_SCHEMA_VERSION
 from visualbaseball.zone_decision import MODEL_VERSION
 
 SEASONS = (2024, 2025, 2026)
@@ -70,13 +72,43 @@ def problems(root: Path, seasons=SEASONS, model_version: str = MODEL_VERSION) ->
     return found
 
 
+def pitch_arsenal_problems(root: Path, seasons=PITCH_ARSENAL_SEASONS, schema_version: int = PROFILE_SCHEMA_VERSION) -> list[str]:
+    found = []
+    for season in seasons:
+        base = root / "web/data/pitch_arsenal" / str(season)
+        try:
+            players = json.loads((base / "index.json").read_text(encoding="utf-8"))["players"]
+        except (OSError, json.JSONDecodeError, KeyError) as error:
+            found.append(f"pitch arsenal {season}: unreadable index.json ({error})")
+            continue
+        shards = {}
+        for player in players:
+            if player["file"] not in shards:
+                try:
+                    shards[player["file"]] = json.loads((base / player["file"]).read_text(encoding="utf-8"))["players"]
+                except (OSError, json.JSONDecodeError, KeyError):
+                    shards[player["file"]] = {}
+            profile = shards[player["file"]].get(player["id"])
+            if profile is None or profile.get("schema_version") != schema_version:
+                found.append(f"pitch arsenal {season}: profile {player['id']} missing or not schema {schema_version}")
+                break
+        try:
+            stored = json.loads(_path(root, season, "pitch_arsenal").read_text(encoding="utf-8")).get("input_sha256")
+        except (OSError, json.JSONDecodeError):
+            stored = None
+        if stored != metric_input_hash(root, season, "pitch_arsenal"):
+            found.append(f"pitch arsenal {season}: build state missing or stale")
+    return found
+
+
 def main() -> None:
-    found = problems(Path("."))
+    found = problems(Path(".")) + pitch_arsenal_problems(Path("."))
     for line in found:
-        print(f"ZA output check failed: {line}")
+        print(f"Output check failed: {line}")
     if found:
         sys.exit(1)
-    print(f"ZA outputs agree for {', '.join(map(str, SEASONS))} ({MODEL_VERSION})")
+    print(f"ZA outputs agree for {', '.join(map(str, SEASONS))} ({MODEL_VERSION}); "
+          f"Pitch Plot schema {PROFILE_SCHEMA_VERSION} for {', '.join(map(str, PITCH_ARSENAL_SEASONS))}")
 
 
 if __name__ == "__main__":

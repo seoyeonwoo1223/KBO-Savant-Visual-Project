@@ -86,7 +86,7 @@ data/metrics/<metric>/<season>/…parquet|json
 web/data/**.json · exports/*.xlsx|csv · GitHub Release
 ```
 
-**핵심 계약**: `web/`과 `exports/`는 출력물일 뿐이며 어떤 코드도 이것을 입력으로 읽지 않습니다. metric은 `curated.load_rows()`로 curated partition만 읽습니다 (Zone Awareness는 Excel/legacy cache fallback이 금지되어 있습니다). 유일한 외부 workbook 입력은 `pitch_arsenal`이 읽는 `data/park_adjustments/<season>_VB_Park_Adjustment_v1.0.xlsx` 구장 보정표입니다. 세부 계약은 `docs/curated-data.md`에 있습니다.
+**핵심 계약**: `web/`과 `exports/`는 출력물일 뿐이며 어떤 코드도 이것을 입력으로 읽지 않습니다. metric은 `curated.load_rows()`로 curated partition만 읽습니다 (Zone Awareness는 Excel/legacy cache fallback이 금지되어 있습니다). 유일한 외부 workbook 입력은 `data/park_adjustments/<season>_VB_Park_Adjustment_v1.0.xlsx` 구장 보정표이며, 지금은 ZA/SBJ의 p_swing 경로(`plate_decision_v1._movement_adjust`)만 읽습니다. Pitch Arsenal은 이 표 대신 `movement_calibration.py`(TrackMan으로 검증한 구장×날짜·탄착 위치 보정, `analysis/movement_calibration/`)를 씁니다. 세부 계약은 `docs/curated-data.md`에 있습니다.
 
 **재생성 순서**는 `cli._exports()`가 단일 소스입니다. Excel → arm_angle 입력 → swing_take → (plate_discipline, zone_decision 또는 plate_decision_v1) → zone_profile → pitch_arsenal → blocking. `swing_take`가 만드는 `data/metrics/swing_take/<season>/decision_pitches.parquet`가 그 뒤 판단 지표 전체의 입력이므로, Swing/Take를 건드리면 하위 metric이 전부 함께 재생성되어야 합니다.
 
@@ -187,7 +187,8 @@ CSS는 **두 층**입니다.
 | `zone_awareness_v2.py`, `plate_decision_v1.py` | 이전 세대 모델. 2022–2023 legacy 시즌과 팀 이력 조회에 계속 쓰입니다 |
 | `plate_discipline.py` | 구역별 Swing%/Contact%, 회귀 잔차, 클러스터 연구표 |
 | `zone_profile.py` | 0.5 ft 존 격자 프로필 |
-| `pitch_arsenal.py` | 구종 사용률·구속·HB/IVB, `data/park_adjustments/` 오프셋 적용 |
+| `pitch_arsenal.py` | 구종 사용률·구속·HB/IVB. 10구 이하·구사율 5% 미만 구종은 구속·무브먼트·탄착이 같으면 주력 구종에 묶어 표시(원 라벨은 `merged_from`) |
+| `movement_calibration.py` | Pitch Arsenal HB/IVB 보정: 투수×구종 + 구장×날짜 고정효과, 탄착 위치항, 이상치 재적합·수축 |
 | `blocking.py` | Catcher Blocks Above Average (5-fold 경기 단위 CV 로지스틱) |
 | `arm_angle.py` | 55 ft 기준 팔각도 입력 준비 |
 | `leaderboard_vb.py`, `leaderboard_park_factor.py` | 2026 라이브 리더보드, 구장 PF |

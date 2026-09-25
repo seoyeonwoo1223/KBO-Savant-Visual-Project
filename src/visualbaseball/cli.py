@@ -15,7 +15,7 @@ from .storage import Store
 from .swing_take import build_swing_take
 from .zone_profile import build_zone_profiles
 from .blocking import build_blocking
-from .pitch_arsenal import build_pitch_arsenal
+from .pitch_arsenal import PITCH_ARSENAL_SEASONS, build_pitch_arsenal
 from .plate_discipline import build_plate_discipline
 from .plate_decision_v1 import build_plate_decision_v1
 from .zone_decision import build_zone_decision
@@ -98,7 +98,7 @@ def main() -> None:
     parser.add_argument("--season", type=int, default=2026)
     parser.add_argument("--game-id")
     parser.add_argument("--rebuild-from-raw", action="store_true")
-    parser.add_argument("--only", choices=("zone_decision",),
+    parser.add_argument("--only", choices=("zone_decision", "pitch_arsenal"),
                         help="Rebuild just this metric for --season from curated data, only when its inputs or code changed.")
     parser.add_argument("--exports-only", action="store_true",
                         help="Rebuild exports from the curated data already on disk; no network fetch.")
@@ -120,12 +120,18 @@ def main() -> None:
     args = parser.parse_args()
     root = Path(args.root).resolve()
     storage_root = Path(args.storage_root).resolve() if args.storage_root else root
-    if args.only:
+    if args.only == "zone_decision":
         # Completed ABS seasons have no Swing/Take decision table, so this skips the
         # _exports() gate; build_zone_decision reads curated data directly.
         if args.season not in (2024, 2025, 2026):
             parser.error("--only zone_decision covers the ABS seasons 2024-2026")
         _build_metric(root, args.season, "zone_decision", lambda: build_zone_decision(root, args.season))
+        return
+    if args.only == "pitch_arsenal":
+        # Completed seasons shown on the Pitch Plot page; rebuilt from curated data only.
+        if args.season not in PITCH_ARSENAL_SEASONS:
+            parser.error("--only pitch_arsenal covers the Pitch Plot seasons 2022-2026")
+        _build_metric(root, args.season, "pitch_arsenal", lambda: build_pitch_arsenal(root, args.season))
         return
     if args.exports_only:
         # 파이프라인 코드가 바뀌었을 때 쓰는 경로입니다. 새 경기를 가져오지 않고

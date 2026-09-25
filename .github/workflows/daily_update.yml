@@ -82,6 +82,12 @@ jobs:
           for season in 2024 2025; do
             python -m visualbaseball.cli --season "$season" --only zone_decision
           done
+      - name: Rebuild Pitch Plot for completed seasons
+        # 2022-2025 Pitch Plot도 같은 방식으로, 입력·코드 hash가 바뀐 경우에만 다시 만듭니다.
+        run: |
+          for season in 2022 2023 2024 2025; do
+            python -m visualbaseball.cli --season "$season" --only pitch_arsenal
+          done
       - name: Check ZA seasons agree before publishing
         # Release 업로드·데이터 커밋(그리고 그 뒤 Pages 배포)보다 앞에 둡니다.
         # 실패하면 어떤 공개 산출물도 교체되지 않습니다.

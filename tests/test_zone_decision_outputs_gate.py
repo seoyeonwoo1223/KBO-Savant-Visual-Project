@@ -48,3 +48,25 @@ def test_each_kind_of_disagreement_fails(tmp_path, monkeypatch):
     assert any(line.startswith("2025: player file") for line in found)
     assert any(line.startswith("2026: CSV za_raw") for line in found)
     assert any(line.startswith("2026: build state") for line in found)
+
+
+def _arsenal(root, season, schema=3):
+    base = root / "web/data/pitch_arsenal" / str(season)
+    (base / "players").mkdir(parents=True)
+    (base / "index.json").write_text(json.dumps({"players": [{"id": "55146", "file": "players/5.json"}]}), encoding="utf-8")
+    (base / "players/5.json").write_text(json.dumps({"players": {"55146": {"schema_version": schema}}}), encoding="utf-8")
+    state = root / "data/metrics/_state" / str(season)
+    state.mkdir(parents=True, exist_ok=True)
+    (state / "pitch_arsenal.json").write_text(json.dumps({"input_sha256": f"h{season}"}), encoding="utf-8")
+
+
+def test_pitch_arsenal_seasons_must_share_schema_and_state(tmp_path, monkeypatch):
+    monkeypatch.setattr(gate, "metric_input_hash", lambda root, season, name: f"h{season}")
+    for season in (2022, 2023):
+        _arsenal(tmp_path, season)
+    assert gate.pitch_arsenal_problems(tmp_path, seasons=(2022, 2023), schema_version=3) == []
+    (tmp_path / "web/data/pitch_arsenal/2022/players/5.json").write_text(json.dumps({"players": {"55146": {"schema_version": 2}}}), encoding="utf-8")
+    (tmp_path / "data/metrics/_state/2023/pitch_arsenal.json").unlink()
+    found = gate.pitch_arsenal_problems(tmp_path, seasons=(2022, 2023), schema_version=3)
+    assert any("2022" in line and "schema" in line for line in found)
+    assert any("2023" in line and "build state" in line for line in found)
