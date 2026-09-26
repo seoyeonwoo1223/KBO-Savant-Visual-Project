@@ -6643,6 +6643,36 @@
             "events": "986323c84e78bf35de12b2a9033e7a3932276f09e70105de40686ee56e240ec0",
             "pitches": "3caed78bbc6efd720c59e1a5d5af29dc1776866d36be60c3af5f6c28ff7fd5eb"
           }
+        },
+        "20260926HHNC0": {
+          "game_date": "2026-09-26",
+          "month": "09",
+          "revision": 1,
+          "tables": {
+            "games": "853530395d5b7d686b949d09223c3e3dff45cbbfb6d0b578ab822ce7ca3b80ee",
+            "events": "d2e1dc3f65747fe02997fae935f9923a057094cebd410f6c03bdc19b25226622",
+            "pitches": "fdce0a75eb5d2240609a228e7061c65bb78193998afa4fd3c4199e6058b0e232"
+          }
+        },
+        "20260926LGHT0": {
+          "game_date": "2026-09-26",
+          "month": "09",
+          "revision": 1,
+          "tables": {
+            "games": "5b8c8ad4b05b9ae630d45a507a90b063c21d7ca420e6d14fa2db78d52e41b3cb",
+            "events": "98c81a060a593cee9a5ad7d8ef3f0e208e8a9ebd875a4117117ec818fb49ea0b",
+            "pitches": "8647b375a1d39ce5ce2ce9b2cb5b718385e25b37fd75330e63df4f0b0eae95d0"
+          }
+        },
+        "20260926WOKT0": {
+          "game_date": "2026-09-26",
+          "month": "09",
+          "revision": 1,
+          "tables": {
+            "games": "e9e630c8b95d2054c545b8c955e22199a62a4417d5b38f2a84385bd0d0b481cb",
+            "events": "66136d53598c98955e9e5dd608da082cd7bd567c6dd58188f5c00266c8247fee",
+            "pitches": "a3b793fd580134325514245e8529674e04a8a2373968e9896e8f868db9ec830f"
+          }
         }
       }
     },
