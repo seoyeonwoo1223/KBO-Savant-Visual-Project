@@ -1,0 +1,969 @@
+{
+ "2019": {
+  "pas": 55718,
+  "pitches": 211628,
+  "flag_pas": {
+   "K_CONT": 0,
+   "BB_CONT": 106,
+   "X_NONLAST": 0,
+   "END_MISMATCH": 89,
+   "SPLIT_SAME": 0,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 1058,
+   "OTHER_OPEN": 1778,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 0
+  },
+  "flag_pitches": {
+   "K_CONT": 0,
+   "BB_CONT": 691,
+   "X_NONLAST": 0,
+   "END_MISMATCH": 361,
+   "SPLIT_SAME": 0,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 4798,
+   "OTHER_OPEN": 8500,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 0
+  },
+  "B_near_center_0.8": 1073,
+  "trackman": {
+   "keys_compared": 46716,
+   "baseline_equal_share": 0.999,
+   "equal_keys_with_count_mismatch": 660,
+   "equal_keys_mismatched_pitches": 1669,
+   "baseline_diff_counts": {
+    "-3": 10,
+    "-2": 13,
+    "-1": 24,
+    "0": 46667,
+    "1": 2
+   },
+   "by_flag": {
+    "BB_CONT": {
+     "keys": 84,
+     "vb_more": 0,
+     "equal": 84,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 84
+    },
+    "END_MISMATCH": {
+     "keys": 72,
+     "vb_more": 0,
+     "equal": 72,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 69
+    },
+    "HALF_END": {
+     "keys": 901,
+     "vb_more": 0,
+     "equal": 901,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 2
+    },
+    "OTHER_OPEN": {
+     "keys": 1566,
+     "vb_more": 0,
+     "equal": 1566,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 41
+    }
+   },
+   "unflagged": {
+    "keys": 44107,
+    "vb_more": 2,
+    "vb_fewer": 47,
+    "equal_but_count_mismatch": 478
+   },
+   "calls": {
+    "aligned_pitches": 178272,
+    "count_mismatch_pitches": 1669,
+    "median_abs_speed_diff_kmh": 0.81,
+    "code_vs_tm_event": {
+     "B": {
+      "ball": 60898,
+      "none": 0,
+      "strike": 597
+     },
+     "C": {
+      "ball": 1,
+      "none": 0,
+      "strike": 0
+     },
+     "F": {
+      "ball": 0,
+      "none": 11855,
+      "strike": 18652
+     },
+     "S": {
+      "ball": 0,
+      "none": 0,
+      "strike": 10289
+     },
+     "T": {
+      "ball": 2,
+      "none": 0,
+      "strike": 29001
+     },
+     "V": {
+      "ball": 0,
+      "none": 0,
+      "strike": 123
+     }
+    },
+    "inzone_share_by_code_event": {
+     "B_ball": 0.046,
+     "B_strike": 0.68,
+     "T_strike": 0.752,
+     "S_strike": 0.478,
+     "V_strike": 0.577
+    },
+    "B_near_center_rule": {
+     "0.5": {
+      "flagged": 160,
+      "precision": 0.887,
+      "recall": 0.238
+     },
+     "0.67": {
+      "flagged": 396,
+      "precision": 0.604,
+      "recall": 0.4
+     },
+     "0.8": {
+      "flagged": 864,
+      "precision": 0.359,
+      "recall": 0.519
+     },
+     "1.0": {
+      "flagged": 3220,
+      "precision": 0.126,
+      "recall": 0.68
+     }
+    }
+   }
+  }
+ },
+ "2020": {
+  "pas": 56707,
+  "pitches": 220863,
+  "flag_pas": {
+   "K_CONT": 0,
+   "BB_CONT": 107,
+   "X_NONLAST": 0,
+   "END_MISMATCH": 94,
+   "SPLIT_SAME": 0,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 157,
+   "OTHER_OPEN": 45,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 0
+  },
+  "flag_pitches": {
+   "K_CONT": 0,
+   "BB_CONT": 722,
+   "X_NONLAST": 0,
+   "END_MISMATCH": 368,
+   "SPLIT_SAME": 0,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 438,
+   "OTHER_OPEN": 146,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 0
+  },
+  "B_near_center_0.8": 1171,
+  "trackman": {
+   "keys_compared": 48940,
+   "baseline_equal_share": 0.9985,
+   "equal_keys_with_count_mismatch": 619,
+   "equal_keys_mismatched_pitches": 1614,
+   "baseline_diff_counts": {
+    "-3": 13,
+    "-2": 20,
+    "-1": 31,
+    "0": 48866,
+    "1": 9,
+    "3": 1
+   },
+   "by_flag": {
+    "BB_CONT": {
+     "keys": 94,
+     "vb_more": 1,
+     "equal": 93,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 93
+    },
+    "END_MISMATCH": {
+     "keys": 85,
+     "vb_more": 0,
+     "equal": 84,
+     "vb_fewer": 1,
+     "equal_but_count_mismatch": 84
+    },
+    "HALF_END": {
+     "keys": 131,
+     "vb_more": 0,
+     "equal": 131,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 0
+    },
+    "OTHER_OPEN": {
+     "keys": 40,
+     "vb_more": 0,
+     "equal": 40,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 2
+    }
+   },
+   "unflagged": {
+    "keys": 48600,
+    "vb_more": 9,
+    "vb_fewer": 63,
+    "equal_but_count_mismatch": 450
+   },
+   "calls": {
+    "aligned_pitches": 191158,
+    "count_mismatch_pitches": 1614,
+    "median_abs_speed_diff_kmh": 0.9,
+    "code_vs_tm_event": {
+     "B": {
+      "ball": 66142,
+      "none": 0,
+      "strike": 571
+     },
+     "F": {
+      "ball": 2,
+      "none": 13504,
+      "strike": 20289
+     },
+     "S": {
+      "ball": 0,
+      "none": 0,
+      "strike": 11197
+     },
+     "T": {
+      "ball": 4,
+      "none": 0,
+      "strike": 30305
+     },
+     "V": {
+      "ball": 0,
+      "none": 0,
+      "strike": 106
+     }
+    },
+    "inzone_share_by_code_event": {
+     "B_ball": 0.053,
+     "B_strike": 0.629,
+     "T_strike": 0.798,
+     "S_strike": 0.494,
+     "V_strike": 0.481
+    },
+    "B_near_center_rule": {
+     "0.5": {
+      "flagged": 161,
+      "precision": 0.826,
+      "recall": 0.233
+     },
+     "0.67": {
+      "flagged": 401,
+      "precision": 0.516,
+      "recall": 0.363
+     },
+     "0.8": {
+      "flagged": 942,
+      "precision": 0.285,
+      "recall": 0.469
+     },
+     "1.0": {
+      "flagged": 3839,
+      "precision": 0.094,
+      "recall": 0.629
+     }
+    }
+   }
+  }
+ },
+ "2021": {
+  "pas": 56097,
+  "pitches": 220742,
+  "flag_pas": {
+   "K_CONT": 0,
+   "BB_CONT": 111,
+   "X_NONLAST": 4,
+   "END_MISMATCH": 110,
+   "SPLIT_SAME": 0,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 198,
+   "OTHER_OPEN": 38,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 0
+  },
+  "flag_pitches": {
+   "K_CONT": 0,
+   "BB_CONT": 696,
+   "X_NONLAST": 18,
+   "END_MISMATCH": 449,
+   "SPLIT_SAME": 0,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 555,
+   "OTHER_OPEN": 131,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 0
+  },
+  "B_near_center_0.8": 1294,
+  "trackman": {
+   "keys_compared": 47682,
+   "baseline_equal_share": 0.9984,
+   "equal_keys_with_count_mismatch": 647,
+   "equal_keys_mismatched_pitches": 1642,
+   "baseline_diff_counts": {
+    "-3": 15,
+    "-2": 22,
+    "-1": 38,
+    "0": 47607
+   },
+   "by_flag": {
+    "BB_CONT": {
+     "keys": 93,
+     "vb_more": 0,
+     "equal": 92,
+     "vb_fewer": 1,
+     "equal_but_count_mismatch": 92
+    },
+    "X_NONLAST": {
+     "keys": 4,
+     "vb_more": 0,
+     "equal": 4,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 4
+    },
+    "END_MISMATCH": {
+     "keys": 87,
+     "vb_more": 0,
+     "equal": 85,
+     "vb_fewer": 2,
+     "equal_but_count_mismatch": 85
+    },
+    "HALF_END": {
+     "keys": 168,
+     "vb_more": 0,
+     "equal": 165,
+     "vb_fewer": 3,
+     "equal_but_count_mismatch": 4
+    },
+    "OTHER_OPEN": {
+     "keys": 34,
+     "vb_more": 0,
+     "equal": 34,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 2
+    }
+   },
+   "unflagged": {
+    "keys": 47308,
+    "vb_more": 0,
+    "vb_fewer": 69,
+    "equal_but_count_mismatch": 472
+   },
+   "calls": {
+    "aligned_pitches": 188159,
+    "count_mismatch_pitches": 1642,
+    "median_abs_speed_diff_kmh": 0.66,
+    "code_vs_tm_event": {
+     "B": {
+      "ball": 66124,
+      "none": 0,
+      "strike": 589
+     },
+     "F": {
+      "ball": 2,
+      "none": 12802,
+      "strike": 18781
+     },
+     "S": {
+      "ball": 0,
+      "none": 0,
+      "strike": 11035
+     },
+     "T": {
+      "ball": 5,
+      "none": 0,
+      "strike": 30938
+     },
+     "V": {
+      "ball": 0,
+      "none": 0,
+      "strike": 106
+     },
+     "X": {
+      "ball": 3,
+      "none": 0,
+      "strike": 2
+     }
+    },
+    "inzone_share_by_code_event": {
+     "B_ball": 0.061,
+     "B_strike": 0.625,
+     "T_strike": 0.842,
+     "S_strike": 0.502,
+     "V_strike": 0.481
+    },
+    "B_near_center_rule": {
+     "0.5": {
+      "flagged": 167,
+      "precision": 0.874,
+      "recall": 0.248
+     },
+     "0.67": {
+      "flagged": 383,
+      "precision": 0.574,
+      "recall": 0.374
+     },
+     "0.8": {
+      "flagged": 1039,
+      "precision": 0.272,
+      "recall": 0.48
+     },
+     "1.0": {
+      "flagged": 4374,
+      "precision": 0.084,
+      "recall": 0.625
+     }
+    }
+   }
+  }
+ },
+ "2022": {
+  "pas": 56013,
+  "pitches": 217025,
+  "flag_pas": {
+   "K_CONT": 0,
+   "BB_CONT": 112,
+   "X_NONLAST": 0,
+   "END_MISMATCH": 128,
+   "SPLIT_SAME": 0,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 193,
+   "OTHER_OPEN": 53,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 0
+  },
+  "flag_pitches": {
+   "K_CONT": 0,
+   "BB_CONT": 732,
+   "X_NONLAST": 0,
+   "END_MISMATCH": 522,
+   "SPLIT_SAME": 0,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 524,
+   "OTHER_OPEN": 176,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 0
+  },
+  "B_near_center_0.8": 1030,
+  "trackman": {
+   "keys_compared": 47772,
+   "baseline_equal_share": 0.9987,
+   "equal_keys_with_count_mismatch": 732,
+   "equal_keys_mismatched_pitches": 1801,
+   "baseline_diff_counts": {
+    "-3": 11,
+    "-2": 23,
+    "-1": 26,
+    "0": 47710,
+    "1": 1,
+    "2": 1
+   },
+   "by_flag": {
+    "BB_CONT": {
+     "keys": 100,
+     "vb_more": 0,
+     "equal": 100,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 100
+    },
+    "END_MISMATCH": {
+     "keys": 114,
+     "vb_more": 0,
+     "equal": 114,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 113
+    },
+    "HALF_END": {
+     "keys": 166,
+     "vb_more": 0,
+     "equal": 166,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 1
+    },
+    "OTHER_OPEN": {
+     "keys": 45,
+     "vb_more": 0,
+     "equal": 45,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 1
+    }
+   },
+   "unflagged": {
+    "keys": 47363,
+    "vb_more": 2,
+    "vb_fewer": 60,
+    "equal_but_count_mismatch": 533
+   },
+   "calls": {
+    "aligned_pitches": 185392,
+    "count_mismatch_pitches": 1801,
+    "median_abs_speed_diff_kmh": 0.87,
+    "code_vs_tm_event": {
+     "B": {
+      "ball": 62675,
+      "none": 0,
+      "other": 1,
+      "strike": 656
+     },
+     "C": {
+      "ball": 1,
+      "none": 0,
+      "other": 0,
+      "strike": 0
+     },
+     "F": {
+      "ball": 5,
+      "none": 13063,
+      "other": 0,
+      "strike": 19279
+     },
+     "S": {
+      "ball": 1,
+      "none": 0,
+      "other": 0,
+      "strike": 11540
+     },
+     "T": {
+      "ball": 12,
+      "none": 1,
+      "other": 0,
+      "strike": 30179
+     },
+     "V": {
+      "ball": 0,
+      "none": 0,
+      "other": 0,
+      "strike": 117
+     }
+    },
+    "inzone_share_by_code_event": {
+     "B_ball": 0.055,
+     "B_strike": 0.675,
+     "T_strike": 0.842,
+     "S_strike": 0.514,
+     "V_strike": 0.615
+    },
+    "B_near_center_rule": {
+     "0.5": {
+      "flagged": 184,
+      "precision": 0.951,
+      "recall": 0.267
+     },
+     "0.67": {
+      "flagged": 378,
+      "precision": 0.717,
+      "recall": 0.413
+     },
+     "0.8": {
+      "flagged": 869,
+      "precision": 0.399,
+      "recall": 0.529
+     },
+     "1.0": {
+      "flagged": 3907,
+      "precision": 0.113,
+      "recall": 0.675
+     }
+    }
+   }
+  }
+ },
+ "2023": {
+  "pas": 56322,
+  "pitches": 219839,
+  "flag_pas": {
+   "K_CONT": 0,
+   "BB_CONT": 146,
+   "X_NONLAST": 0,
+   "END_MISMATCH": 134,
+   "SPLIT_SAME": 0,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 185,
+   "OTHER_OPEN": 68,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 0
+  },
+  "flag_pitches": {
+   "K_CONT": 0,
+   "BB_CONT": 941,
+   "X_NONLAST": 0,
+   "END_MISMATCH": 559,
+   "SPLIT_SAME": 0,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 488,
+   "OTHER_OPEN": 237,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 0
+  },
+  "B_near_center_0.8": 1309,
+  "trackman": {
+   "keys_compared": 48090,
+   "baseline_equal_share": 0.9986,
+   "equal_keys_with_count_mismatch": 837,
+   "equal_keys_mismatched_pitches": 2113,
+   "baseline_diff_counts": {
+    "-3": 13,
+    "-2": 17,
+    "-1": 37,
+    "0": 48023
+   },
+   "by_flag": {
+    "BB_CONT": {
+     "keys": 128,
+     "vb_more": 0,
+     "equal": 128,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 128
+    },
+    "END_MISMATCH": {
+     "keys": 118,
+     "vb_more": 0,
+     "equal": 118,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 117
+    },
+    "HALF_END": {
+     "keys": 150,
+     "vb_more": 0,
+     "equal": 150,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 0
+    },
+    "OTHER_OPEN": {
+     "keys": 61,
+     "vb_more": 0,
+     "equal": 61,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 0
+    }
+   },
+   "unflagged": {
+    "keys": 47649,
+    "vb_more": 0,
+    "vb_fewer": 67,
+    "equal_but_count_mismatch": 608
+   },
+   "calls": {
+    "aligned_pitches": 188504,
+    "count_mismatch_pitches": 2113,
+    "median_abs_speed_diff_kmh": 1.06,
+    "code_vs_tm_event": {
+     "B": {
+      "ball": 64711,
+      "none": 0,
+      "strike": 789
+     },
+     "F": {
+      "ball": 0,
+      "none": 13437,
+      "strike": 19331
+     },
+     "S": {
+      "ball": 0,
+      "none": 0,
+      "strike": 10663
+     },
+     "T": {
+      "ball": 0,
+      "none": 0,
+      "strike": 31279
+     },
+     "V": {
+      "ball": 0,
+      "none": 0,
+      "strike": 123
+     }
+    },
+    "inzone_share_by_code_event": {
+     "B_ball": 0.063,
+     "B_strike": 0.684,
+     "T_strike": 0.869,
+     "S_strike": 0.525,
+     "V_strike": 0.585
+    },
+    "B_near_center_rule": {
+     "0.5": {
+      "flagged": 202,
+      "precision": 0.941,
+      "recall": 0.241
+     },
+     "0.67": {
+      "flagged": 436,
+      "precision": 0.706,
+      "recall": 0.39
+     },
+     "0.8": {
+      "flagged": 1057,
+      "precision": 0.381,
+      "recall": 0.511
+     },
+     "1.0": {
+      "flagged": 4605,
+      "precision": 0.117,
+      "recall": 0.684
+     }
+    }
+   }
+  }
+ },
+ "2024": {
+  "pas": 57328,
+  "pitches": 223216,
+  "flag_pas": {
+   "K_CONT": 1,
+   "BB_CONT": 101,
+   "X_NONLAST": 2,
+   "END_MISMATCH": 108,
+   "SPLIT_SAME": 5,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 160,
+   "OTHER_OPEN": 64,
+   "DUP_CONSEC": 4,
+   "DUP_TRAJ": 17
+  },
+  "flag_pitches": {
+   "K_CONT": 5,
+   "BB_CONT": 649,
+   "X_NONLAST": 15,
+   "END_MISMATCH": 444,
+   "SPLIT_SAME": 5,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 427,
+   "OTHER_OPEN": 238,
+   "DUP_CONSEC": 23,
+   "DUP_TRAJ": 77
+  },
+  "B_near_center_0.8": 337,
+  "trackman": {
+   "keys_compared": 48195,
+   "baseline_equal_share": 0.9986,
+   "equal_keys_with_count_mismatch": 648,
+   "equal_keys_mismatched_pitches": 1639,
+   "baseline_diff_counts": {
+    "-3": 8,
+    "-2": 16,
+    "-1": 35,
+    "0": 48126,
+    "1": 9,
+    "2": 1
+   },
+   "by_flag": {
+    "K_CONT": {
+     "keys": 1,
+     "vb_more": 0,
+     "equal": 1,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 0
+    },
+    "BB_CONT": {
+     "keys": 91,
+     "vb_more": 1,
+     "equal": 90,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 90
+    },
+    "X_NONLAST": {
+     "keys": 2,
+     "vb_more": 0,
+     "equal": 1,
+     "vb_fewer": 1,
+     "equal_but_count_mismatch": 1
+    },
+    "END_MISMATCH": {
+     "keys": 88,
+     "vb_more": 1,
+     "equal": 82,
+     "vb_fewer": 5,
+     "equal_but_count_mismatch": 79
+    },
+    "SPLIT_SAME": {
+     "keys": 5,
+     "vb_more": 5,
+     "equal": 0,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 0
+    },
+    "HALF_END": {
+     "keys": 143,
+     "vb_more": 0,
+     "equal": 143,
+     "vb_fewer": 0,
+     "equal_but_count_mismatch": 1
+    },
+    "OTHER_OPEN": {
+     "keys": 54,
+     "vb_more": 1,
+     "equal": 52,
+     "vb_fewer": 1,
+     "equal_but_count_mismatch": 2
+    },
+    "DUP_CONSEC": {
+     "keys": 4,
+     "vb_more": 3,
+     "equal": 0,
+     "vb_fewer": 1,
+     "equal_but_count_mismatch": 0
+    },
+    "DUP_TRAJ": {
+     "keys": 12,
+     "vb_more": 9,
+     "equal": 2,
+     "vb_fewer": 1,
+     "equal_but_count_mismatch": 1
+    }
+   },
+   "unflagged": {
+    "keys": 47823,
+    "vb_more": 1,
+    "vb_fewer": 52,
+    "equal_but_count_mismatch": 487
+   },
+   "calls": {
+    "aligned_pitches": 188618,
+    "count_mismatch_pitches": 1639,
+    "median_abs_speed_diff_kmh": 1.56,
+    "code_vs_tm_event": {
+     "B": {
+      "ball": 64065,
+      "none": 0,
+      "other": 0,
+      "strike": 587
+     },
+     "F": {
+      "ball": 1,
+      "none": 13645,
+      "other": 0,
+      "strike": 19692
+     },
+     "S": {
+      "ball": 1,
+      "none": 0,
+      "other": 0,
+      "strike": 11440
+     },
+     "T": {
+      "ball": 0,
+      "none": 1,
+      "other": 0,
+      "strike": 30752
+     },
+     "V": {
+      "ball": 0,
+      "none": 0,
+      "other": 0,
+      "strike": 115
+     },
+     "X": {
+      "ball": 0,
+      "none": 1,
+      "other": 1,
+      "strike": 0
+     }
+    },
+    "inzone_share_by_code_event": {
+     "B_ball": 0.005,
+     "B_strike": 0.651,
+     "T_strike": 0.855,
+     "S_strike": 0.469,
+     "V_strike": 0.452
+    },
+    "B_near_center_rule": {
+     "0.5": {
+      "flagged": 131,
+      "precision": 1.0,
+      "recall": 0.223
+     },
+     "0.67": {
+      "flagged": 227,
+      "precision": 1.0,
+      "recall": 0.387
+     },
+     "0.8": {
+      "flagged": 289,
+      "precision": 1.0,
+      "recall": 0.492
+     },
+     "1.0": {
+      "flagged": 681,
+      "precision": 0.561,
+      "recall": 0.651
+     }
+    }
+   }
+  }
+ },
+ "2025": {
+  "pas": 56033,
+  "pitches": 217852,
+  "flag_pas": {
+   "K_CONT": 1,
+   "BB_CONT": 88,
+   "X_NONLAST": 1,
+   "END_MISMATCH": 193,
+   "SPLIT_SAME": 1,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 156,
+   "OTHER_OPEN": 59,
+   "DUP_CONSEC": 1,
+   "DUP_TRAJ": 4
+  },
+  "flag_pitches": {
+   "K_CONT": 8,
+   "BB_CONT": 568,
+   "X_NONLAST": 8,
+   "END_MISMATCH": 820,
+   "SPLIT_SAME": 1,
+   "SPLIT_PCHANGE": 0,
+   "HALF_END": 421,
+   "OTHER_OPEN": 183,
+   "DUP_CONSEC": 1,
+   "DUP_TRAJ": 11
+  },
+  "B_near_center_0.8": 344
+ },
+ "2026": {
+  "pas": 52116,
+  "pitches": 203262,
+  "flag_pas": {
+   "K_CONT": 0,
+   "BB_CONT": 83,
+   "X_NONLAST": 0,
+   "END_MISMATCH": 132,
+   "SPLIT_SAME": 1,
+   "SPLIT_PCHANGE": 1,
+   "HALF_END": 148,
+   "OTHER_OPEN": 57,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 4
+  },
+  "flag_pitches": {
+   "K_CONT": 0,
+   "BB_CONT": 530,
+   "X_NONLAST": 0,
+   "END_MISMATCH": 546,
+   "SPLIT_SAME": 2,
+   "SPLIT_PCHANGE": 1,
+   "HALF_END": 430,
+   "OTHER_OPEN": 192,
+   "DUP_CONSEC": 0,
+   "DUP_TRAJ": 9
+  },
+  "B_near_center_0.8": 276
+ }
+}

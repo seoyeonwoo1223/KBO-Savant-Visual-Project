@@ -1,0 +1,185 @@
+{
+ "2024": {
+  "za_rows": 222225,
+  "takes": 121112,
+  "qualified_batters": 155,
+  "pa_flow_rules": {
+   "rows": 1028,
+   "share_pct": 0.463,
+   "takes_in_pzone_training": 734,
+   "batters_touched": 100,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.648,
+    "p95_abs_dZA": 0.219,
+    "max_abs_dDV100": 0.27,
+    "p95_abs_dDV100": 0.084
+   }
+  },
+  "duplicate_rows_pa": {
+   "rows": 77,
+   "share_pct": 0.035,
+   "takes_in_pzone_training": 40,
+   "batters_touched": 11,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.126,
+    "p95_abs_dZA": 0.031,
+    "max_abs_dDV100": 0.117,
+    "p95_abs_dDV100": 0.009
+   }
+  },
+  "B_near_center_0.8": {
+   "rows": 337,
+   "share_pct": 0.152,
+   "takes_in_pzone_training": 337,
+   "batters_touched": 115,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.758,
+    "p95_abs_dZA": 0.301,
+    "max_abs_dDV100": 0.14,
+    "p95_abs_dDV100": 0.047
+   }
+  },
+  "trackman_count_mismatch": {
+   "rows": 1623,
+   "share_pct": 0.73,
+   "takes_in_pzone_training": 730,
+   "batters_touched": 155,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.562,
+    "p95_abs_dZA": 0.319,
+    "max_abs_dDV100": 0.266,
+    "p95_abs_dDV100": 0.135
+   }
+  },
+  "trackman_B_is_strike": {
+   "rows": 586,
+   "share_pct": 0.264,
+   "takes_in_pzone_training": 586,
+   "batters_touched": 145,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.909,
+    "p95_abs_dZA": 0.266,
+    "max_abs_dDV100": 0.151,
+    "p95_abs_dDV100": 0.053
+   }
+  },
+  "any": {
+   "rows": 2599,
+   "share_pct": 1.17,
+   "takes_in_pzone_training": 1586,
+   "batters_touched": 165,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 1.2,
+    "p95_abs_dZA": 0.414,
+    "max_abs_dDV100": 0.451,
+    "p95_abs_dDV100": 0.153
+   }
+  }
+ },
+ "2025": {
+  "za_rows": 217623,
+  "takes": 119311,
+  "qualified_batters": 171,
+  "pa_flow_rules": {
+   "rows": 1330,
+   "share_pct": 0.611,
+   "takes_in_pzone_training": 949,
+   "batters_touched": 127,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.765,
+    "p95_abs_dZA": 0.31,
+    "max_abs_dDV100": 0.514,
+    "p95_abs_dDV100": 0.149
+   }
+  },
+  "duplicate_rows_pa": {
+   "rows": 11,
+   "share_pct": 0.005,
+   "takes_in_pzone_training": 3,
+   "batters_touched": 2,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.073,
+    "p95_abs_dZA": 0.0,
+    "max_abs_dDV100": 0.018,
+    "p95_abs_dDV100": 0.0
+   }
+  },
+  "B_near_center_0.8": {
+   "rows": 344,
+   "share_pct": 0.158,
+   "takes_in_pzone_training": 344,
+   "batters_touched": 124,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.715,
+    "p95_abs_dZA": 0.307,
+    "max_abs_dDV100": 0.084,
+    "p95_abs_dDV100": 0.05
+   }
+  },
+  "any": {
+   "rows": 1552,
+   "share_pct": 0.713,
+   "takes_in_pzone_training": 1169,
+   "batters_touched": 156,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 1.123,
+    "p95_abs_dZA": 0.404,
+    "max_abs_dDV100": 0.494,
+    "p95_abs_dDV100": 0.153
+   }
+  }
+ },
+ "2026": {
+  "za_rows": 203072,
+  "takes": 112310,
+  "qualified_batters": 166,
+  "pa_flow_rules": {
+   "rows": 997,
+   "share_pct": 0.491,
+   "takes_in_pzone_training": 722,
+   "batters_touched": 110,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.834,
+    "p95_abs_dZA": 0.249,
+    "max_abs_dDV100": 0.454,
+    "p95_abs_dDV100": 0.146
+   }
+  },
+  "duplicate_rows_pa": {
+   "rows": 9,
+   "share_pct": 0.004,
+   "takes_in_pzone_training": 5,
+   "batters_touched": 2,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.062,
+    "p95_abs_dZA": 0.0,
+    "max_abs_dDV100": 0.016,
+    "p95_abs_dDV100": 0.0
+   }
+  },
+  "B_near_center_0.8": {
+   "rows": 276,
+   "share_pct": 0.136,
+   "takes_in_pzone_training": 276,
+   "batters_touched": 112,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.581,
+    "p95_abs_dZA": 0.236,
+    "max_abs_dDV100": 0.086,
+    "p95_abs_dDV100": 0.049
+   }
+  },
+  "any": {
+   "rows": 1190,
+   "share_pct": 0.586,
+   "takes_in_pzone_training": 913,
+   "batters_touched": 139,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 1.069,
+    "p95_abs_dZA": 0.357,
+    "max_abs_dDV100": 0.454,
+    "p95_abs_dDV100": 0.145
+   }
+  }
+ }
+}
