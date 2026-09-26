@@ -4,6 +4,7 @@
         --audit /tmp/paflow --za "/tmp/za/pitches_{season}.parquet" --out /tmp/paflow/za_exposure.json
 
 --audit  pa_flow_audit.py 출력 디렉터리
+--strict pa_flow_strict.py 출력 디렉터리(선택). 주면 엄격 매칭 집합도 센다.
 --za     로컬 ZA 빌드의 투구 단위 출력(zone_decision.score_crossfit 결과를 그대로 저장한 parquet).
          pitch_id가 없으므로 zone_decision.load_rows와 같은 선택·정렬을 재현해 붙이고, 경기·볼카운트·구속으로
          정렬이 맞는지 확인한다.
@@ -45,6 +46,7 @@ def za_rows(season: int, pattern: str) -> pd.DataFrame:
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--audit", required=True); parser.add_argument("--za", required=True); parser.add_argument("--out", required=True)
+    parser.add_argument("--strict", help="pa_flow_strict.py 출력 디렉터리 (엄격 매칭 카운트 불일치·B→스트라이크 집합)")
     parser.add_argument("--seasons", nargs="+", type=int, default=[2024, 2025, 2026])
     args = parser.parse_args()
     audit = Path(args.audit); result = {}
@@ -59,6 +61,14 @@ def main():
         if (audit / f"count_mismatch_{season}.csv").exists():
             sets["trackman_count_mismatch"] = za.pitch_id.isin(pd.read_csv(audit / f"count_mismatch_{season}.csv").pitch_id)
             sets["trackman_B_is_strike"] = za.pitch_id.isin(pd.read_csv(audit / f"b_called_strike_by_trackman_{season}.csv").pitch_id)
+        strict = Path(args.strict) if args.strict else None
+        if strict and (strict / f"strict_pairs_{season}.csv.gz").exists():
+            pairs = pd.read_csv(strict / f"strict_pairs_{season}.csv.gz")
+            sets["strict_count_mismatch"] = za.pitch_id.isin(pairs.loc[pairs.count_mismatch, "vb_pitch_id"])
+            sets["strict_B_tm_strike"] = za.pitch_id.isin(pd.read_csv(strict / f"strict_b_tm_strike_{season}.csv").vb_pitch_id)
+            entry_strict_matched = int(za.pitch_id.isin(pairs.vb_pitch_id).sum())
+        else:
+            entry_strict_matched = None
         sets["any"] = np.logical_or.reduce([s.to_numpy() for s in sets.values()])
         take = za.swing == 0
         size = za.groupby("batter_id").size(); qualified = size[size >= 300].index
@@ -66,7 +76,7 @@ def main():
             g = frame[frame.batter_id.isin(qualified)].groupby("batter_id")
             return pd.DataFrame({"za": 100 * g.judgment.mean(), "dv100": 100 * g.dv.sum() / g.size()})
         base = per_batter(za)
-        entry = {"za_rows": int(len(za)), "takes": int(take.sum()), "qualified_batters": int(len(qualified))}
+        entry = {"za_rows": int(len(za)), "takes": int(take.sum()), "qualified_batters": int(len(qualified)), "za_rows_strictly_matched_to_trackman": entry_strict_matched}
         for name, sel in sets.items():
             sel = pd.Series(np.asarray(sel, dtype=bool), index=za.index)
             diff = (per_batter(za[~sel]) - base).abs()

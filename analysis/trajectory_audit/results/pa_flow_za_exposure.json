@@ -3,6 +3,7 @@
   "za_rows": 222225,
   "takes": 121112,
   "qualified_batters": 155,
+  "za_rows_strictly_matched_to_trackman": 169828,
   "pa_flow_rules": {
    "rows": 1028,
    "share_pct": 0.463,
@@ -63,11 +64,35 @@
     "p95_abs_dDV100": 0.053
    }
   },
+  "strict_count_mismatch": {
+   "rows": 1482,
+   "share_pct": 0.667,
+   "takes_in_pzone_training": 666,
+   "batters_touched": 149,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.555,
+    "p95_abs_dZA": 0.29,
+    "max_abs_dDV100": 0.239,
+    "p95_abs_dDV100": 0.13
+   }
+  },
+  "strict_B_tm_strike": {
+   "rows": 538,
+   "share_pct": 0.242,
+   "takes_in_pzone_training": 538,
+   "batters_touched": 140,
+   "drop_rows_no_refit": {
+    "max_abs_dZA": 0.773,
+    "p95_abs_dZA": 0.24,
+    "max_abs_dDV100": 0.121,
+    "p95_abs_dDV100": 0.048
+   }
+  },
   "any": {
-   "rows": 2599,
-   "share_pct": 1.17,
-   "takes_in_pzone_training": 1586,
-   "batters_touched": 165,
+   "rows": 2610,
+   "share_pct": 1.174,
+   "takes_in_pzone_training": 1588,
+   "batters_touched": 166,
    "drop_rows_no_refit": {
     "max_abs_dZA": 1.2,
     "p95_abs_dZA": 0.414,
@@ -80,6 +105,7 @@
   "za_rows": 217623,
   "takes": 119311,
   "qualified_batters": 171,
+  "za_rows_strictly_matched_to_trackman": null,
   "pa_flow_rules": {
    "rows": 1330,
    "share_pct": 0.611,
@@ -133,6 +159,7 @@
   "za_rows": 203072,
   "takes": 112310,
   "qualified_batters": 166,
+  "za_rows_strictly_matched_to_trackman": null,
   "pa_flow_rules": {
    "rows": 997,
    "share_pct": 0.491,
