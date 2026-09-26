@@ -33,9 +33,19 @@ SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 CONTRACT = {
  'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points',
+ 'p_zone': 'MISNOMER kept for payload compatibility. Not zone membership: predict_pzone fits a take-only CalledStrike vs Ball/HBP model on four positional features (x_relative, z_relative, sz_top, sz_bottom) in two classes. Read it as p_called_strike_position. p_CalledStrike is the same target with the full feature set in three classes.',
+ 'sbj_raw': '100 * mean(p_zone if swing else 1 - p_zone); percent. PLV-style Strikezone Judgement against the ABS zone: a swing counts as correct in proportion to the chance the pitch would have been a called strike had it been taken. p_zone is the position-only take-conditional call model, so this measures the zone and not umpire, count or park effects. Height adjustment is built in: x_relative/z_relative are normalized by that batter ABS rectangle. No baseline is subtracted - subtracting the league-average policy would reproduce za_raw exactly.',
+ 'sbj_raw_contextual': '100 * mean(p_CalledStrike if swing else p_Ball + p_HBP); percent. Same quantity on the full contextual call model (count, velocity, movement, pitch type, stance, park; three classes separating HBP). DIAGNOSTIC ONLY - correlates with sbj_raw at 0.9976 on 2026 and is not a second judgment measurement.',
+ 'sbj_plus': 'null below the 300-pitch minimum; 100 + 15 * (sbj_raw - qualified mean) / qualified population standard deviation',
+ 'expected_judgment_accuracy_pct': '100 * mean(p_swing*p_zone + (1-p_swing)*(1-p_zone)); percent. Accuracy a league-average swing policy would post on this pitch mix. Difficulty diagnostic only - sbj_raw does not subtract it.',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
- 'dv_plus': '100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
+ 'dv_plus': 'null below the 300-pitch minimum; 100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
+ 'apr_raw': 'selection_tendency_pct - hittable_take_pct; percentage points. Value-based SEAGER: a pitch is hittable when delta_v > 0 (swinging is worth more runs than taking), so the split follows the cross-fit Swing/Take values and the count, not zone membership. Measures the balance of selective aggression, not the size of the run gain - that is dv_per_100.',
+ 'apr_plus': 'null below the 300-pitch minimum; 100 + 15 * (apr_raw - qualified mean) / qualified population standard deviation',
+ 'seager_quadrants': 'A = hittable swing, B = non-hittable swing, C = hittable take, D = non-hittable take; delta_v <= 0 counts as non-hittable. A + B + C + D equals eligible pitches.',
+ 'selection_tendency_pct': '100 * D / (A + D); share of correct decisions taken rather than swung at',
+ 'hittable_take_pct': '100 * C / (C + D); share of takes that gave up a hittable pitch',
  'swing_aggression': '100 * mean(S - p_swing); percentage points, tendency only',
  'za_percentile': 'midrank percentile among season hitters with at least 300 eligible pitches',
  'region_contributions': '100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100',
@@ -111,6 +121,78 @@ def value_based_zone_awareness(items):
 
 def zone_awareness(items):
  return mean(items,'judgment',100)
+
+
+def _correct_share(row):
+ """Share of this pitch the hitter judged correctly, PLV Strikezone Judgement style.
+
+ A swing is correct to the extent the pitch would have been a called strike had
+ it been taken; a take is correct to the extent it would not. p_zone supplies
+ that counterfactual call probability: despite the name it is a take-only
+ CalledStrike vs Ball/HBP model over four positional features, so it estimates
+ the strike zone itself and nothing else.
+
+ KBO runs ABS from 2024, and sz_top/sz_bottom are constant per batter (2026:
+ 156 of 163 qualified hitters have a single value), so the zone is a fixed
+ height-derived rectangle with no umpire to model. x_relative/z_relative are
+ already normalized by that batter's own rectangle, which is where the height
+ adjustment lives. The richer p_CalledStrike model predicts observed calls
+ better (0.89% vs 1.23% misclassification on 2026 takes) but buys that with
+ count, pitch type and park, which have no causal role in an automated call;
+ it stays available as contextual_judgment_accuracy for diagnostics.
+ """
+ return row['p_zone'] if row['swing'] else 1-row['p_zone']
+
+
+def _contextual_correct_share(row):
+ # Same question asked of the full call model: count, movement, park included.
+ return row['p_CalledStrike'] if row['swing'] else row['p_Ball']+row['p_HBP']
+
+
+def _league_correct_share(row):
+ # The same pitch judged by a league-average swing policy instead of this hitter.
+ return row['p_swing']*row['p_zone']+(1-row['p_swing'])*(1-row['p_zone'])
+
+
+def expected_judgment_accuracy(items):
+ """League-average-policy accuracy on this pitch mix; a difficulty baseline.
+
+ Diagnostic only - SBJ does not subtract it. Reported so a hitter facing an
+ unusually easy or hard pitch mix can be spotted.
+ """
+ return r6(100*np.mean([_league_correct_share(r) for r in items])) if items else None
+
+
+def contextual_judgment_accuracy(items):
+ """SBJ computed on the full contextual call model instead of position alone.
+
+ Diagnostic, never the published metric. On 2026 it correlates with sbj_raw at
+ 0.9976 and moves hitters a mean 3.1 ranks, so it is a robustness check on the
+ call model, not a second measurement of judgment.
+ """
+ return r6(100*np.mean([_contextual_correct_share(r) for r in items])) if items else None
+
+
+def strikezone_ball_judgment(items):
+ """SBJ: PLV-style strike/ball judgment accuracy against the ABS zone, in percent.
+
+ Raw accuracy, with no expectation subtracted. Subtracting the league-average
+ policy gives mean((S - p_swing) * (2*p_zone - 1)), which IS za_raw - that
+ identity is why the baseline stays out, and it is a real constraint here
+ because SBJ now reads the same p_zone that za_raw does.
+ """
+ return r6(100*np.mean([_correct_share(r) for r in items])) if items else None
+
+
+def add_sbj_plus(players):
+ """SBJ+ on the repo scale: 100 + 15 * z against the qualified population."""
+ qualified=np.array([p['sbj_raw'] for p in players if p['qualified_300'] and p['sbj_raw'] is not None],dtype=float)
+ center=float(qualified.mean()) if len(qualified) else 0
+ spread=float(qualified.std()) if len(qualified) else 0
+ for p in players:
+  # Standardized on the qualified distribution, so only qualified hitters carry it.
+  p['sbj_plus']=r6(100+15*(p['sbj_raw']-center)/spread) if spread and p['qualified_300'] and p['sbj_raw'] is not None else None
+ return center,spread
 
 
 def region(row):
@@ -397,7 +479,7 @@ def score_crossfit(rows, selected, settings=SCORE_SETTINGS):
 def profile_summary(items):
  n=len(items); first=items[0]
  total=sum(r['dv'] for r in items)
- s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
+ s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'sbj_raw':strikezone_ball_judgment(items),'sbj_raw_contextual':contextual_judgment_accuracy(items),'expected_judgment_accuracy_pct':expected_judgment_accuracy(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
  s['low_opposite_support_pct']=r6(100*s['low_opposite_support_pitches']/n)
  games=defaultdict(list)
  for r in items:games[r['game_id']].append(r['dv'])
@@ -406,10 +488,16 @@ def profile_summary(items):
   selected=[r for r in items if r['swing']==(action=='swing')]
   s[action+'_pitches']=len(selected)
   s[action+'_decision_value_per_100']=r6(100*sum(r['dv'] for r in selected)/n)
+ counts=seager_quadrants(items)
+ s.update({f'seager_{k.lower()}':v for k,v in counts.items()})
+ s['selection_tendency_pct']=selection_tendency(counts)
+ s['hittable_take_pct']=hittable_take_rate(counts)
+ s['apr_raw']=approach_rating(counts)
  for reg in REGIONS:
   selected=[r for r in items if r['region']==reg]
   s[reg+'_pitches']=len(selected); s[reg+'_raw_dv']=r6(sum(r['dv'] for r in selected))
   s[reg+'_decision_value_per_100']=r6(100*sum(r['dv'] for r in selected)/n)
+  s[reg+'_sbj']=strikezone_ball_judgment(selected)
   for action in ('swing','take'):
    value=sum(r['dv'] for r in selected if r['swing']==(action=='swing'))
    s[f'{reg}_{action}_decision_value_per_100']=r6(100*value/n)
@@ -420,11 +508,57 @@ def cell_summary(items):
  return {'n':len(items),'low_opposite_support_pct':r6(100*np.mean([r['opposite_support']<30 for r in items])),'raw_dv':r6(sum(r['dv'] for r in items)),'dv100':mean(items,'dv',100),'za_raw':zone_awareness(items),'delta':mean(items,'delta_v'),'swing_pct':mean(items,'swing',100),'expected_swing_pct':mean(items,'p_swing',100),'p_zone_pct':mean(items,'p_zone',100),'zone_judgment_pct':r6(100*np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])),'expected_zone_judgment_pct':r6(100*np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])),'expected_swing_rv':mean(items,'v_swing'),'expected_take_rv':mean(items,'v_take'),**{f'p_{e}':mean(items,f'p_{e}',100) for e in EVENTS}}
 
 
+def seager_quadrants(items):
+ """Split decisions into SEAGER's A/B/C/D on run value rather than zone membership.
+
+ A pitch is hittable when delta_v > 0, i.e. the cross-fit models expect swinging
+ to be worth more runs than taking. That makes the split count-aware: the same
+ location can be hittable at 3-1 and not at 0-2. delta_v <= 0 is non-hittable,
+ so every eligible pitch lands in exactly one quadrant.
+ """
+ counts={'A':0,'B':0,'C':0,'D':0}
+ for r in items:
+  hittable=r['delta_v']>0
+  if r['swing']: counts['A' if hittable else 'B']+=1
+  else: counts['C' if hittable else 'D']+=1
+ return counts
+
+
+def selection_tendency(counts):
+ """Share of correct decisions that were takes: D / (A + D)."""
+ total=counts['A']+counts['D']
+ return r6(100*counts['D']/total) if total else None
+
+
+def hittable_take_rate(counts):
+ """Share of takes that passed on a hittable pitch: C / (C + D)."""
+ total=counts['C']+counts['D']
+ return r6(100*counts['C']/total) if total else None
+
+
+def approach_rating(counts):
+ """APR: value-based SEAGER, selection tendency minus hittable takes."""
+ tendency,given_up=selection_tendency(counts),hittable_take_rate(counts)
+ return r6(tendency-given_up) if tendency is not None and given_up is not None else None
+
+
+def add_apr_plus(players):
+ """APR+ on the repo scale: 100 + 15 * z against the qualified population."""
+ qualified=np.array([p['apr_raw'] for p in players if p['qualified_300'] and p['apr_raw'] is not None],dtype=float)
+ center=float(qualified.mean()) if len(qualified) else 0
+ spread=float(qualified.std()) if len(qualified) else 0
+ for p in players:
+  # Standardized on the qualified distribution, so only qualified hitters carry it.
+  p['apr_plus']=r6(100+15*(p['apr_raw']-center)/spread) if spread and p['qualified_300'] and p['apr_raw'] is not None else None
+ return center,spread
+
+
 def add_dv_plus(players):
  qualified=np.array([p['dv_per_100'] for p in players if p['qualified_300']],dtype=float)
  center=float(qualified.mean()) if len(qualified) else 0
  spread=float(qualified.std()) if len(qualified) else 0
- for p in players: p['dv_plus']=r6(100+15*(p['dv_per_100']-center)/spread) if spread else (100 if p['qualified_300'] else None)
+ # Standardized on the qualified distribution, so only qualified hitters carry it.
+ for p in players: p['dv_plus']=r6(100+15*(p['dv_per_100']-center)/spread) if spread and p['qualified_300'] else (100 if p['qualified_300'] else None)
  return center,spread
 
 
@@ -435,6 +569,8 @@ def write_web(root,season,pitches,report,output_root=None):
  for r in pitches: by_batter[str(r['batter_id'])].append(r)
  players=[profile_summary(items) for items in by_batter.values()]
  add_dv_plus(players)
+ add_sbj_plus(players)
+ add_apr_plus(players)
  scores=np.array([p['za_raw'] for p in players if p['qualified_300'] and p['za_raw'] is not None])
  for p in players: p['za_percentile']=r6(100*(np.sum(scores<p['za_raw'])+.5*np.sum(scores==p['za_raw']))/len(scores)) if len(scores) and p['za_raw'] is not None else None
  def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
