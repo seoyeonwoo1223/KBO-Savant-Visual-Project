@@ -15,7 +15,7 @@ from .storage import Store
 from .swing_take import build_swing_take
 from .zone_profile import build_zone_profiles
 from .blocking import build_blocking
-from .pitch_arsenal import build_pitch_arsenal
+from .pitch_arsenal import PITCH_ARSENAL_SEASONS, build_pitch_arsenal
 from .plate_discipline import build_plate_discipline
 from .plate_decision_v1 import build_plate_decision_v1
 from .zone_decision import build_zone_decision
@@ -59,13 +59,17 @@ def select_target_games(schedule: dict, store: Store, season: int, mode: str = "
     ]
 
 
+def _build_metric(root: Path, season: int, name: str, action) -> None:
+    if needs_build(root, season, name):
+        action(); mark_built(root, season, name)
+        print(f"built {name} {season}", flush=True)
+    else:
+        print(f"unchanged {name} {season}", flush=True)
+
+
 def _exports(root: Path, season: int, storage_root: Path) -> None:
     def build(name, action):
-        if needs_build(root, season, name):
-            action(); mark_built(root, season, name)
-            print(f"built {name}", flush=True)
-        else:
-            print(f"unchanged {name}", flush=True)
+        _build_metric(root, season, name, action)
 
     build("excel", lambda: export_latest(root, season))
     build("arm_angle", lambda: build_arm_angle_input(root, season))
@@ -94,6 +98,8 @@ def main() -> None:
     parser.add_argument("--season", type=int, default=2026)
     parser.add_argument("--game-id")
     parser.add_argument("--rebuild-from-raw", action="store_true")
+    parser.add_argument("--only", choices=("zone_decision", "pitch_arsenal"),
+                        help="Rebuild just this metric for --season from curated data, only when its inputs or code changed.")
     parser.add_argument("--exports-only", action="store_true",
                         help="Rebuild exports from the curated data already on disk; no network fetch.")
     parser.add_argument("--refresh-completed", action="store_true")
@@ -114,6 +120,19 @@ def main() -> None:
     args = parser.parse_args()
     root = Path(args.root).resolve()
     storage_root = Path(args.storage_root).resolve() if args.storage_root else root
+    if args.only == "zone_decision":
+        # Completed ABS seasons have no Swing/Take decision table, so this skips the
+        # _exports() gate; build_zone_decision reads curated data directly.
+        if args.season not in (2024, 2025, 2026):
+            parser.error("--only zone_decision covers the ABS seasons 2024-2026")
+        _build_metric(root, args.season, "zone_decision", lambda: build_zone_decision(root, args.season))
+        return
+    if args.only == "pitch_arsenal":
+        # Completed seasons shown on the Pitch Plot page; rebuilt from curated data only.
+        if args.season not in PITCH_ARSENAL_SEASONS:
+            parser.error("--only pitch_arsenal covers the Pitch Plot seasons 2022-2026")
+        _build_metric(root, args.season, "pitch_arsenal", lambda: build_pitch_arsenal(root, args.season))
+        return
     if args.exports_only:
         # 파이프라인 코드가 바뀌었을 때 쓰는 경로입니다. 새 경기를 가져오지 않고
         # 이미 있는 curated 데이터에서 산출물만 다시 만듭니다. 수집은 스케줄·수동 실행의 몫입니다.

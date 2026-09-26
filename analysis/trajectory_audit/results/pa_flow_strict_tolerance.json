@@ -1,0 +1,398 @@
+{
+ "1.5": {
+  "2019": {
+   "matched": 105715,
+   "count_mismatch": {
+    "pitches": 1027,
+    "denominator": 105715,
+    "rate": 0.0097
+   },
+   "B_to_tm_strike": {
+    "pitches": 379,
+    "denominator_B_transitions": 35744,
+    "rate": 0.0106
+   },
+   "V_to_tm_strike": {
+    "pitches": 77,
+    "denominator_V_transitions": 77
+   },
+   "B_near_center_2024": null
+  },
+  "2020": {
+   "matched": 117921,
+   "count_mismatch": {
+    "pitches": 937,
+    "denominator": 117921,
+    "rate": 0.0079
+   },
+   "B_to_tm_strike": {
+    "pitches": 351,
+    "denominator_B_transitions": 40357,
+    "rate": 0.0087
+   },
+   "V_to_tm_strike": {
+    "pitches": 65,
+    "denominator_V_transitions": 65
+   },
+   "B_near_center_2024": null
+  },
+  "2021": {
+   "matched": 131097,
+   "count_mismatch": {
+    "pitches": 1033,
+    "denominator": 131097,
+    "rate": 0.0079
+   },
+   "B_to_tm_strike": {
+    "pitches": 392,
+    "denominator_B_transitions": 46077,
+    "rate": 0.0085
+   },
+   "V_to_tm_strike": {
+    "pitches": 64,
+    "denominator_V_transitions": 64
+   },
+   "B_near_center_2024": null
+  },
+  "2022": {
+   "matched": 121593,
+   "count_mismatch": {
+    "pitches": 1148,
+    "denominator": 121593,
+    "rate": 0.0094
+   },
+   "B_to_tm_strike": {
+    "pitches": 431,
+    "denominator_B_transitions": 41074,
+    "rate": 0.0105
+   },
+   "V_to_tm_strike": {
+    "pitches": 75,
+    "denominator_V_transitions": 75
+   },
+   "B_near_center_2024": null
+  },
+  "2023": {
+   "matched": 141484,
+   "count_mismatch": {
+    "pitches": 1531,
+    "denominator": 141484,
+    "rate": 0.0108
+   },
+   "B_to_tm_strike": {
+    "pitches": 587,
+    "denominator_B_transitions": 48795,
+    "rate": 0.012
+   },
+   "V_to_tm_strike": {
+    "pitches": 92,
+    "denominator_V_transitions": 92
+   },
+   "B_near_center_2024": null
+  },
+  "2024": {
+   "matched": 142918,
+   "count_mismatch": {
+    "pitches": 1223,
+    "denominator": 142918,
+    "rate": 0.0086
+   },
+   "B_to_tm_strike": {
+    "pitches": 450,
+    "denominator_B_transitions": 48446,
+    "rate": 0.0093
+   },
+   "V_to_tm_strike": {
+    "pitches": 78,
+    "denominator_V_transitions": 78
+   },
+   "B_near_center_2024": {
+    "all_vb": 337,
+    "matched": 228,
+    "matched_with_transition": 227,
+    "matched_without_transition": 1,
+    "unmatched": 109,
+    "unmatched_by_reason": {
+     "velocity_out_of_tolerance": 57,
+     "game_unmapped": 47,
+     "outs_mismatch": 3,
+     "velocity_missing": 2
+    },
+    "tm_event": {
+     "strike": 227
+    },
+    "precision_tm_strike": 1.0,
+    "abs_dv_p50_p95_max": [
+     0.48,
+     1.26,
+     1.47
+    ],
+    "pitch_group_agreement": 0.859
+   }
+  }
+ },
+ "2.0": {
+  "2019": {
+   "matched": 127170,
+   "count_mismatch": {
+    "pitches": 1215,
+    "denominator": 127170,
+    "rate": 0.0096
+   },
+   "B_to_tm_strike": {
+    "pitches": 441,
+    "denominator_B_transitions": 43408,
+    "rate": 0.0102
+   },
+   "V_to_tm_strike": {
+    "pitches": 94,
+    "denominator_V_transitions": 94
+   },
+   "B_near_center_2024": null
+  },
+  "2020": {
+   "matched": 149131,
+   "count_mismatch": {
+    "pitches": 1224,
+    "denominator": 149131,
+    "rate": 0.0082
+   },
+   "B_to_tm_strike": {
+    "pitches": 452,
+    "denominator_B_transitions": 51596,
+    "rate": 0.0088
+   },
+   "V_to_tm_strike": {
+    "pitches": 82,
+    "denominator_V_transitions": 82
+   },
+   "B_near_center_2024": null
+  },
+  "2021": {
+   "matched": 145763,
+   "count_mismatch": {
+    "pitches": 1184,
+    "denominator": 145763,
+    "rate": 0.0081
+   },
+   "B_to_tm_strike": {
+    "pitches": 437,
+    "denominator_B_transitions": 51390,
+    "rate": 0.0085
+   },
+   "V_to_tm_strike": {
+    "pitches": 69,
+    "denominator_V_transitions": 69
+   },
+   "B_near_center_2024": null
+  },
+  "2022": {
+   "matched": 139218,
+   "count_mismatch": {
+    "pitches": 1349,
+    "denominator": 139218,
+    "rate": 0.0097
+   },
+   "B_to_tm_strike": {
+    "pitches": 503,
+    "denominator_B_transitions": 47174,
+    "rate": 0.0107
+   },
+   "V_to_tm_strike": {
+    "pitches": 88,
+    "denominator_V_transitions": 88
+   },
+   "B_near_center_2024": null
+  },
+  "2023": {
+   "matched": 161300,
+   "count_mismatch": {
+    "pitches": 1781,
+    "denominator": 161300,
+    "rate": 0.011
+   },
+   "B_to_tm_strike": {
+    "pitches": 679,
+    "denominator_B_transitions": 55738,
+    "rate": 0.0122
+   },
+   "V_to_tm_strike": {
+    "pitches": 99,
+    "denominator_V_transitions": 99
+   },
+   "B_near_center_2024": null
+  },
+  "2024": {
+   "matched": 170030,
+   "count_mismatch": {
+    "pitches": 1496,
+    "denominator": 170030,
+    "rate": 0.0088
+   },
+   "B_to_tm_strike": {
+    "pitches": 538,
+    "denominator_B_transitions": 57885,
+    "rate": 0.0093
+   },
+   "V_to_tm_strike": {
+    "pitches": 100,
+    "denominator_V_transitions": 100
+   },
+   "B_near_center_2024": {
+    "all_vb": 337,
+    "matched": 269,
+    "matched_with_transition": 268,
+    "matched_without_transition": 1,
+    "unmatched": 68,
+    "unmatched_by_reason": {
+     "game_unmapped": 47,
+     "velocity_out_of_tolerance": 16,
+     "outs_mismatch": 3,
+     "velocity_missing": 2
+    },
+    "tm_event": {
+     "strike": 268
+    },
+    "precision_tm_strike": 1.0,
+    "abs_dv_p50_p95_max": [
+     0.55,
+     1.37,
+     1.89
+    ],
+    "pitch_group_agreement": 0.8694
+   }
+  }
+ },
+ "3.0": {
+  "2019": {
+   "matched": 149841,
+   "count_mismatch": {
+    "pitches": 1416,
+    "denominator": 149841,
+    "rate": 0.0095
+   },
+   "B_to_tm_strike": {
+    "pitches": 503,
+    "denominator_B_transitions": 51414,
+    "rate": 0.0098
+   },
+   "V_to_tm_strike": {
+    "pitches": 108,
+    "denominator_V_transitions": 108
+   },
+   "B_near_center_2024": null
+  },
+  "2020": {
+   "matched": 169187,
+   "count_mismatch": {
+    "pitches": 1399,
+    "denominator": 169187,
+    "rate": 0.0083
+   },
+   "B_to_tm_strike": {
+    "pitches": 504,
+    "denominator_B_transitions": 58803,
+    "rate": 0.0086
+   },
+   "V_to_tm_strike": {
+    "pitches": 94,
+    "denominator_V_transitions": 94
+   },
+   "B_near_center_2024": null
+  },
+  "2021": {
+   "matched": 168249,
+   "count_mismatch": {
+    "pitches": 1399,
+    "denominator": 168249,
+    "rate": 0.0083
+   },
+   "B_to_tm_strike": {
+    "pitches": 520,
+    "denominator_B_transitions": 59505,
+    "rate": 0.0087
+   },
+   "V_to_tm_strike": {
+    "pitches": 84,
+    "denominator_V_transitions": 84
+   },
+   "B_near_center_2024": null
+  },
+  "2022": {
+   "matched": 165452,
+   "count_mismatch": {
+    "pitches": 1580,
+    "denominator": 165452,
+    "rate": 0.0095
+   },
+   "B_to_tm_strike": {
+    "pitches": 584,
+    "denominator_B_transitions": 56354,
+    "rate": 0.0104
+   },
+   "V_to_tm_strike": {
+    "pitches": 100,
+    "denominator_V_transitions": 100
+   },
+   "B_near_center_2024": null
+  },
+  "2023": {
+   "matched": 180588,
+   "count_mismatch": {
+    "pitches": 1974,
+    "denominator": 180588,
+    "rate": 0.0109
+   },
+   "B_to_tm_strike": {
+    "pitches": 750,
+    "denominator_B_transitions": 62584,
+    "rate": 0.012
+   },
+   "V_to_tm_strike": {
+    "pitches": 110,
+    "denominator_V_transitions": 110
+   },
+   "B_near_center_2024": null
+  },
+  "2024": {
+   "matched": 185868,
+   "count_mismatch": {
+    "pitches": 1594,
+    "denominator": 185868,
+    "rate": 0.0086
+   },
+   "B_to_tm_strike": {
+    "pitches": 573,
+    "denominator_B_transitions": 63626,
+    "rate": 0.009
+   },
+   "V_to_tm_strike": {
+    "pitches": 107,
+    "denominator_V_transitions": 107
+   },
+   "B_near_center_2024": {
+    "all_vb": 337,
+    "matched": 283,
+    "matched_with_transition": 282,
+    "matched_without_transition": 1,
+    "unmatched": 54,
+    "unmatched_by_reason": {
+     "game_unmapped": 47,
+     "outs_mismatch": 3,
+     "velocity_out_of_tolerance": 2,
+     "velocity_missing": 2
+    },
+    "tm_event": {
+     "strike": 282
+    },
+    "precision_tm_strike": 1.0,
+    "abs_dv_p50_p95_max": [
+     0.58,
+     1.44,
+     2.41
+    ],
+    "pitch_group_agreement": 0.8759
+   }
+  }
+ }
+}

@@ -86,7 +86,7 @@ data/metrics/<metric>/<season>/…parquet|json
 web/data/**.json · exports/*.xlsx|csv · GitHub Release
 ```
 
-**핵심 계약**: `web/`과 `exports/`는 출력물일 뿐이며 어떤 코드도 이것을 입력으로 읽지 않습니다. metric은 `curated.load_rows()`로 curated partition만 읽습니다 (Zone Awareness는 Excel/legacy cache fallback이 금지되어 있습니다). 유일한 외부 workbook 입력은 `pitch_arsenal`이 읽는 `data/park_adjustments/<season>_VB_Park_Adjustment_v1.0.xlsx` 구장 보정표입니다. 세부 계약은 `docs/curated-data.md`에 있습니다.
+**핵심 계약**: `web/`과 `exports/`는 출력물일 뿐이며 어떤 코드도 이것을 입력으로 읽지 않습니다. metric은 `curated.load_rows()`로 curated partition만 읽습니다 (Zone Awareness는 Excel/legacy cache fallback이 금지되어 있습니다). 유일한 외부 workbook 입력은 `data/park_adjustments/<season>_VB_Park_Adjustment_v1.0.xlsx` 구장 보정표이며, 지금은 ZA/SBJ의 p_swing 경로(`plate_decision_v1._movement_adjust`)만 읽습니다. Pitch Arsenal은 이 표 대신 `movement_calibration.py`(TrackMan으로 검증한 구장×날짜·탄착 위치 보정, `analysis/movement_calibration/`)를 씁니다. 세부 계약은 `docs/curated-data.md`에 있습니다.
 
 **재생성 순서**는 `cli._exports()`가 단일 소스입니다. Excel → arm_angle 입력 → swing_take → (plate_discipline, zone_decision 또는 plate_decision_v1) → zone_profile → pitch_arsenal → blocking. `swing_take`가 만드는 `data/metrics/swing_take/<season>/decision_pitches.parquet`가 그 뒤 판단 지표 전체의 입력이므로, Swing/Take를 건드리면 하위 metric이 전부 함께 재생성되어야 합니다.
 
@@ -150,7 +150,7 @@ pq.ParquetFile(path).metadata.num_rows
 
 ### 좌표계 규칙 (헷갈리기 쉬움)
 
-- **`px` / `pz`는 feet**, 홈플레이트 원점 기준입니다. 플레이트 반폭은 `10/12 ft`, 존 상하한은 투구별 `sz_top`/`sz_bottom`입니다. 정규화 좌표는 존 경계가 ±1이 되도록 맞춘 값이고, `d = max(|x|, |z|)`로 Heart ≤2/3, Shadow-in ≤1, Shadow-out ≤4/3, Chase ≤2, Waste >2 구역을 나눕니다.
+- **`px` / `pz`는 feet**, 홈플레이트 원점 기준입니다. VB `pz`는 모든 시즌 플레이트 앞면(y=17/12 ft) 값이지만 `px`는 **2024부터 중간면(y=8.5/12 ft, ABS 좌우 판정면)** 값입니다(2023까지는 앞면). 궤적으로 앞면 x를 다시 계산하면 2024+에서는 `px`와 최대 약 4cm 다른 것이 정상입니다(`analysis/trajectory_audit/`). 플레이트 반폭은 `10/12 ft`, 존 상하한은 투구별 `sz_top`/`sz_bottom`입니다. 정규화 좌표는 존 경계가 ±1이 되도록 맞춘 값이고, `d = max(|x|, |z|)`로 Heart ≤2/3, Shadow-in ≤1, Shadow-out ≤4/3, Chase ≤2, Waste >2 구역을 나눕니다.
 - **저장되는 x 계열은 모두 포수 시점(catcher view)** 입니다. `release_x_50` / `release_x_55`(cm), `horizontal_movement_cm`(raw `hMov`), `web/data/**`의 `horizontal_break_in` 전부 포수 시점입니다.
 - **투수 시점은 화면에서만 부호를 뒤집습니다.** `web/pitch-arsenal/pitch-arsenal.js`의 `toPitcherView()`가 `average`를 음수화하고 `low_75`/`high_75`를 서로 맞바꿉니다(구간 뒤집기를 빠뜨리면 타원이 어긋납니다). 이 페이지의 기본값은 투수 시점입니다.
 - **`web/movement-zones/`는 반대로 포수 시점이 기본**입니다. 원본 범위표는 투수 시점이고, `handFactor()`(RHP `-1`, LHP `+1`)를 `viewZone()`에서 HB에 곱해 미러링합니다. IVB는 절대 뒤집지 않습니다. 숫자 범위 라벨은 `mirroredHbLabel()`이 부호 문자를 따로 다시 씁니다 — HB 데이터를 고칠 때 라벨 함수도 같이 손봐야 합니다. 축 라벨 `3B < MOVES TOWARD > 1B`와 arm angle 보조선 방향도 같은 factor를 씁니다.
@@ -187,7 +187,8 @@ CSS는 **두 층**입니다.
 | `zone_awareness_v2.py`, `plate_decision_v1.py` | 이전 세대 모델. 2022–2023 legacy 시즌과 팀 이력 조회에 계속 쓰입니다 |
 | `plate_discipline.py` | 구역별 Swing%/Contact%, 회귀 잔차, 클러스터 연구표 |
 | `zone_profile.py` | 0.5 ft 존 격자 프로필 |
-| `pitch_arsenal.py` | 구종 사용률·구속·HB/IVB, `data/park_adjustments/` 오프셋 적용 |
+| `pitch_arsenal.py` | 구종 사용률·구속·HB/IVB. 10구 이하·구사율 5% 미만 구종은 구속·무브먼트·탄착이 같으면 주력 구종에 묶어 표시(원 라벨은 `merged_from`) |
+| `movement_calibration.py` | Pitch Arsenal HB/IVB 보정: 투수×구종 + 구장×날짜 고정효과, 탄착 위치항, 이상치 재적합·수축 |
 | `blocking.py` | Catcher Blocks Above Average (5-fold 경기 단위 CV 로지스틱) |
 | `arm_angle.py` | 55 ft 기준 팔각도 입력 준비 |
 | `leaderboard_vb.py`, `leaderboard_park_factor.py` | 2026 라이브 리더보드, 구장 PF |

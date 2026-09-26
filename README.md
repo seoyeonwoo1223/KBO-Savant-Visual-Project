@@ -111,7 +111,7 @@ Zone Awareness는 canonical pitch/event shard만 입력으로 받으며 Excel·l
 
 ## Pitch Arsenal
 
-`web/pitch-arsenal/`은 2022~2026 시즌 투수별 구종 사용률, 평균 구속, Horizontal Break와 Induced Vertical Break를 Savant형 화면으로 제공한다. 무브먼트는 `data/park_adjustments/`의 시즌·구장·구종별 오프셋을 사용해 `보정값 = 측정값 - 오프셋`으로 계산하며, 타원의 폭과 높이는 각각 중앙 75%(12.5~87.5 백분위) 범위다. 보정표에 독립 항목이 없는 투심은 싱커, 스위퍼는 슬라이더 오프셋에 연결한다. 원측정값과 보정값은 화면에서 전환할 수 있다.
+`web/pitch-arsenal/`은 2022~2026 시즌 투수별 구종 사용률, 평균 구속, Horizontal Break와 Induced Vertical Break를 Savant형 화면으로 제공한다. 무브먼트는 `movement_calibration.py`로 보정한다. 탄착 위치에 따른 측정 치우침을 빼고, 투수×구종과 구장×날짜 효과를 함께 추정해 구장·날짜별 편향을 뺀다(TrackMan 2019–2024 투구 단위 대조로 검증, `analysis/movement_calibration/`). 타원의 폭과 높이는 각각 중앙 75%(12.5~87.5 백분위) 범위이고, 원측정값과 보정값은 화면에서 전환할 수 있다. 한 투수가 10구 이하 또는 5% 미만으로 던진 구종은 중앙 구속 5km/h, 보정 HB·IVB 각 8cm, 탄착 중심 1.5ft 안에 드는 주력 구종이 있으면 그 구종에 묶어 보여 주고(표·툴팁에 원래 분류와 개수 표시), 없으면 점선 타원과 `소수 구종` 표시로 따로 둔다. 표시상의 묶음이며 curated `pitch_type`과 ZA/SBJ 입력은 바꾸지 않는다.
 
 ## Arm Angle Movement Zones
 

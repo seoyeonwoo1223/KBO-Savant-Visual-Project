@@ -13,7 +13,7 @@ SPECS = {
  "zone_decision": (("pitches", "events"), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("data/metrics/zone_awareness/{season}/report.json", "web/data/zone_awareness/{season}/leaderboard.json", "web/data/zone_awareness/{season}/teams.json", "web/data/zone_awareness/index.json")),
  "plate_decision": (("pitches",), ("data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx",), ("data/metrics/plate_decision/{season}/plate_decision_v1_report_{season}.json", "web/data/zone_awareness/{season}/leaderboard.json", "web/data/zone_awareness/{season}/teams.json", "web/data/zone_awareness/index.json")),
  "zone_profiles": (("pitches",), (), ("web/data/zones/index.json",)),
- "pitch_arsenal": (("pitches",), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("web/data/pitch_arsenal/{season}/index.json",)),
+ "pitch_arsenal": (("pitches",), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet"), ("web/data/pitch_arsenal/{season}/index.json",)),
  "blocking": (("games", "pitches"), (), ("data/metrics/blocking/{season}/pitches.parquet", "web/data/blocking/{season}/leaderboard.json")),
 }
 CODE = {
@@ -21,7 +21,7 @@ CODE = {
  "swing_take": ("swing_take.py", "curated.py"), "plate_discipline": ("plate_discipline.py", "swing_take.py", "curated.py"),
  "zone_decision": ("zone_decision.py", "plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "swing_take.py", "curated.py"),
  "plate_decision": ("plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "swing_take.py", "curated.py"),
- "zone_profiles": ("zone_profile.py", "curated.py"), "pitch_arsenal": ("pitch_arsenal.py", "curated.py"), "blocking": ("blocking.py", "curated.py"),
+ "zone_profiles": ("zone_profile.py", "curated.py"), "pitch_arsenal": ("pitch_arsenal.py", "movement_calibration.py", "curated.py"), "blocking": ("blocking.py", "curated.py"),
 }
 
 def _index(root: Path) -> dict:

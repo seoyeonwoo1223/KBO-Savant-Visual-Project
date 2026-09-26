@@ -247,6 +247,8 @@ function renderMovement() {
       ry: Math.max(6, Math.abs(y(vertical.high_75) - y(vertical.low_75)) / 2),
       fill: pitch.color, "fill-opacity": .045 + .06 * usageScale, stroke: pitch.color,
       "stroke-opacity": .45 + .45 * usageScale, "stroke-width": 2.5, class: "movement-ellipse", tabindex: 0,
+      // A small type that matches no main pitch stays visible but reads as provisional.
+      ...(pitch.minor ? {"stroke-dasharray": "5 4"} : {}),
       "aria-label": `${pitch.name}, 평균 IVB ${formatMovement(vertical.average)} ${movementUnitLabel()}, 평균 HB ${formatMovement(horizontal.average)} ${movementUnitLabel()}`,
     });
     const show = event => showTooltip(event, pitch, horizontal, vertical);
@@ -317,13 +319,20 @@ function renderFrequency() {
 }
 
 
+function groupingNote(pitch) {
+  const merged = (pitch.merged_from || []).map(item => `${item.name} ${item.n.toLocaleString()}구`).join(", ");
+  if (merged) return `${merged} 포함 (구속·무브먼트·탄착이 같아 함께 표시, 원 분류 유지)`;
+  return pitch.minor ? "소수 구종 · 주력 구종과 구속·무브먼트·탄착이 달라 따로 표시" : "";
+}
+
 function showTooltip(event, pitch, horizontal, vertical) {
   const tooltip = document.querySelector("#tooltip");
+  const note = groupingNote(pitch);
   tooltip.innerHTML = `<strong>${escapeHtml(pitch.name)} · ${pitch.usage.toFixed(1)}%</strong>
     <p>구속 ${fmt(pitch.velocity_kmh?.average)} km/h · 75% ${fmt(pitch.velocity_kmh?.low_75)}–${fmt(pitch.velocity_kmh?.high_75)}</p>
     <p>IVB ${formatMovement(vertical.average)} ${movementUnitLabel()} · 75% ${formatMovement(vertical.low_75)}–${formatMovement(vertical.high_75)}</p>
     <p>HB ${formatMovement(horizontal.average)} ${movementUnitLabel()} · 75% ${formatMovement(horizontal.low_75)}–${formatMovement(horizontal.high_75)}</p>
-    <p>보정 표본 ${pitch.movement_n.toLocaleString()} / ${pitch.movement_total_n.toLocaleString()}</p>`;
+    <p>보정 표본 ${pitch.movement_n.toLocaleString()} / ${pitch.movement_total_n.toLocaleString()}</p>${note ? `<p>${escapeHtml(note)}</p>` : ""}`;
   tooltip.hidden = false;
   const panel = document.querySelector(".movement-card");
   const rect = panel.getBoundingClientRect();
@@ -374,7 +383,7 @@ function renderTable() {
     const horizontal = movementHorizontal(raw ? pitch.raw_horizontal_break_in : pitch.horizontal_break_in);
     const vertical = raw ? pitch.raw_ivb_in : pitch.ivb_in;
     return `<tr>
-      <td><span class="pitch-key" style="color:${pitch.color}">${escapeHtml(pitch.name)}</span></td>
+      <td><span class="pitch-key" style="color:${pitch.color}">${escapeHtml(pitch.name)}</span>${groupingNote(pitch) ? `<span class="pitch-note">${escapeHtml(pitch.merged_from?.length ? (pitch.merged_from.map(item => `${item.name} ${item.n}구`).join(", ") + " 포함") : "소수 구종")}</span>` : ""}</td>
       <td>${pitch.n.toLocaleString()}</td><td>${pitch.usage.toFixed(1)}%</td>${metricCell(pitch.velocity_kmh?.average, pitch.percentiles?.velocity_kmh, pitch.percentile_qualified, " km/h", true)}
       <td>${formatMovement(vertical?.average)} ${movementUnitLabel()}</td><td>${formatMovement(horizontal?.average)} ${movementUnitLabel()}</td>
       <td>${fmt(pitch.release?.v_rel_ft?.average * 30.48, 1)} cm</td><td>${fmt(pitch.release?.h_rel_ft?.average * 30.48, 1)} cm</td>

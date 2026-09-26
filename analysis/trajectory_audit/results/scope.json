@@ -1,0 +1,82 @@
+{
+ "2019": {
+  "curated_pitches": 211628,
+  "curated_games": 720,
+  "raw_json_games": 720,
+  "raw_json_pitches": 211628,
+  "curated_from_raw_json_games": 720
+ },
+ "2020": {
+  "curated_pitches": 220863,
+  "curated_games": 720,
+  "raw_json_games": 720,
+  "raw_json_pitches": 220863,
+  "curated_from_raw_json_games": 720
+ },
+ "2021": {
+  "curated_pitches": 220742,
+  "curated_games": 720,
+  "raw_json_games": 720,
+  "raw_json_pitches": 220742,
+  "curated_from_raw_json_games": 720
+ },
+ "2022": {
+  "curated_pitches": 217025,
+  "curated_games": 720,
+  "raw_json_games": 720,
+  "raw_json_pitches": 217025,
+  "curated_from_raw_json_games": 0,
+  "raw_vs_curated": {
+   "raw_pitches_matched_by_pitch_id": 217025,
+   "raw_pitches_not_in_curated": 0,
+   "curated_pitches_not_in_raw": 0,
+   "pitches_with_field_difference": {
+    "y0": 2254
+   }
+  }
+ },
+ "2023": {
+  "curated_pitches": 219839,
+  "curated_games": 720,
+  "raw_json_games": 720,
+  "raw_json_pitches": 219839,
+  "curated_from_raw_json_games": 0,
+  "raw_vs_curated": {
+   "raw_pitches_matched_by_pitch_id": 219839,
+   "raw_pitches_not_in_curated": 0,
+   "curated_pitches_not_in_raw": 0,
+   "pitches_with_field_difference": {
+    "y0": 4299
+   }
+  }
+ },
+ "2024": {
+  "curated_pitches": 223216,
+  "curated_games": 720,
+  "raw_json_games": 720,
+  "raw_json_pitches": 223216,
+  "curated_from_raw_json_games": 0,
+  "raw_vs_curated": {
+   "raw_pitches_matched_by_pitch_id": 223216,
+   "raw_pitches_not_in_curated": 0,
+   "curated_pitches_not_in_raw": 0,
+   "pitches_with_field_difference": {
+    "y0": 858
+   }
+  }
+ },
+ "2025": {
+  "curated_pitches": 217852,
+  "curated_games": 720,
+  "raw_json_games": 720,
+  "raw_json_pitches": 217852,
+  "curated_from_raw_json_games": 720
+ },
+ "2026": {
+  "curated_pitches": 203262,
+  "curated_games": 660,
+  "raw_json_games": 730,
+  "raw_json_pitches": 203269,
+  "curated_from_raw_json_games": 660
+ }
+}

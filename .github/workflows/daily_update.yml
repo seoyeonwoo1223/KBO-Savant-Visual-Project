@@ -27,7 +27,10 @@ permissions:
 
 concurrency:
   group: visualbaseball-daily-update
-  cancel-in-progress: true
+  # 실행을 취소하지 않고 순서대로 돌립니다. 코드 push가 만든 재계산 실행이 예약
+  # 실행에 취소되면, 네트워크 수집이 90분 제한에 걸리는 날 새 산식이 게시되지
+  # 않습니다. GitHub는 그룹당 대기 실행을 하나만 두므로 대기열이 쌓이지 않습니다.
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -72,6 +75,23 @@ jobs:
           else
             python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
           fi
+      - name: Rebuild ZA for completed ABS seasons
+        # 2024·2025는 새로 수집하지 않습니다. metric_state의 입력·코드 hash가 바뀐
+        # 경우에만 저장된 curated 데이터로 ZA/SBJ를 다시 계산하고, 평소에는 확인만 합니다.
+        run: |
+          for season in 2024 2025; do
+            python -m visualbaseball.cli --season "$season" --only zone_decision
+          done
+      - name: Rebuild Pitch Plot for completed seasons
+        # 2022-2025 Pitch Plot도 같은 방식으로, 입력·코드 hash가 바뀐 경우에만 다시 만듭니다.
+        run: |
+          for season in 2022 2023 2024 2025; do
+            python -m visualbaseball.cli --season "$season" --only pitch_arsenal
+          done
+      - name: Check ZA seasons agree before publishing
+        # Release 업로드·데이터 커밋(그리고 그 뒤 Pages 배포)보다 앞에 둡니다.
+        # 실패하면 어떤 공개 산출물도 교체되지 않습니다.
+        run: python scripts/check_zone_decision_outputs.py
       - name: Publish latest Excel
         env:
           GH_TOKEN: ${{ github.token }}
@@ -79,7 +99,7 @@ jobs:
           gh release view visualbaseball-data-latest >/dev/null 2>&1 || gh release create visualbaseball-data-latest --title "Latest KBO Savant data" --notes "Automatically regenerated Excel download."
           gh release upload visualbaseball-data-latest exports/visualbaseball_savant_2026_latest.xlsx --clobber
       - run: |
-          git add exports/zone_decision_players_2026.csv
+          git add exports/zone_decision_players_2024.csv exports/zone_decision_players_2025.csv exports/zone_decision_players_2026.csv
           git add data web/data exports/plate_discipline_research_2026.csv exports/plate_decision_v1_players_2026.csv exports/plate_decision_v1_movement_comparison_2026.csv exports/plate_decision_v1_outliers_2026.csv
           if [ -f .github/refresh-completed-request ]; then
             git rm .github/refresh-completed-request
