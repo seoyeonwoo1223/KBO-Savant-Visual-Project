@@ -14,7 +14,7 @@
 4. 투구: 짝지은 구간 안에서 순서를 지키는 대응 중 모든 쌍이
    - 아웃 수(투구 전)가 같고
    - 구속 차(VB − TrackMan 릴리스)가 시즌 중앙값 ± TOL(기본 2.0km/h) 안인 것만 허용한다.
-   투구 수가 같으면 대응은 하나뿐이고, 한 쌍이라도 조건을 어기면 구간 전체를 버린다.
+   투구 수가 같으면 순서상 대응은 하나뿐이고, 아웃·구속 조건을 어긴 쌍만 버린다.
    투구 수가 다르면(차이 3 이하) 가능한 대응을 모두 세어 정확히 하나일 때만 받고, 여럿이면 '모호', 없으면 '대응 없음'.
 
 집계
@@ -119,6 +119,8 @@ def load(season: int):
     for c in ("pitcher_id", "batter_id"):
         vb[c] = vb[c].astype(str)
     tm = cw._trackman(ROOT, season)
+    first_team_scope = {"first_team_trackman_pitches": int(len(tm)),
+                        "first_team_trackman_games": int(tm.trackman_game_id.nunique())}
     games = cw.map_games(tm, cw._visualbaseball(ROOT, season))
     tm = tm[tm.trackman_game_id.isin(games)].copy()
     tm["game_id"] = tm.trackman_game_id.map(games)
@@ -130,7 +132,7 @@ def load(season: int):
         known = set(vb[f"{role}_id"])
         tm[f"{role}_id"] = tm[col].astype(str).map(lambda t: lookup.get(t, t if t in known else None))
     tm = tm.sort_values(["game_id", "pitch_no"]).reset_index(drop=True)
-    return vb, tm, set(games.values())
+    return vb, tm, set(games.values()), first_team_scope
 
 
 def runs(frame: pd.DataFrame) -> list[tuple[tuple, np.ndarray]]:
@@ -191,10 +193,13 @@ def match(vb: pd.DataFrame, tm: pd.DataFrame, pairs: list, lost: Counter, offset
         n, m = len(vi), len(ti)
         if n == m:
             reasons = [compatible(vb, tm, a, b, offset) for a, b in zip(vi, ti)]
-            bad = [r for r in reasons if r]
-            if bad:
-                lost.add(Counter(bad).most_common(1)[0][0], vi); runs_stat["rejected_equal_length"] += 1; continue
-            matched.extend((a, b, "equal_length") for a, b in zip(vi, ti)); runs_stat["accepted_equal_length"] += 1
+            kind = "equal_length_partial" if any(reasons) else "equal_length"
+            for a, b, reason in zip(vi, ti, reasons):
+                if reason:
+                    lost.add(reason, [a])
+                else:
+                    matched.append((a, b, kind))
+            runs_stat["partial_equal_length" if kind == "equal_length_partial" else "accepted_equal_length"] += 1
             continue
         if abs(n - m) > MAX_GAP:
             lost.add("length_gap_gt3", vi); runs_stat["rejected_gap"] += 1; continue
@@ -215,6 +220,8 @@ def match(vb: pd.DataFrame, tm: pd.DataFrame, pairs: list, lost: Counter, offset
             lost.add("ambiguous_alignment" if feasible else "no_feasible_alignment", vi)
             runs_stat["rejected_" + ("ambiguous" if feasible else "infeasible")] += 1
     m = pd.DataFrame(matched, columns=["vi", "ti", "run_kind"])
+    if m.vi.duplicated().any() or m.ti.duplicated().any():
+        raise ValueError("pitch matching must be one-to-one")
     return m, dict(runs_stat)
 
 
@@ -227,8 +234,26 @@ def season_offset(vb, tm, pairs) -> float:
     return float(np.nanmedian(np.asarray(diffs, dtype=float)))
 
 
+def coverage_ledger(vb: pd.DataFrame, matched: pd.DataFrame, lost: Lost) -> pd.DataFrame:
+    """Account for every VB pitch without inventing pairs for missing TrackMan data."""
+    columns = ["pitch_id", "pa_id", "game_id", "game_pitch_number", "pitch_call_code"]
+    ledger = vb[columns].copy()
+    paired = matched.set_index("vb_pitch_id")
+    ledger["match_status"] = np.where(ledger.pitch_id.isin(paired.index), "matched", "unmatched")
+    ledger["unmatched_reason"] = ["" if status == "matched" else lost.reason.get(i, "unaccounted")
+                                  for i, status in enumerate(ledger.match_status)]
+    if (ledger.unmatched_reason == "unaccounted").any():
+        raise ValueError("every unmatched VB pitch needs an explicit reason")
+    for name, source in (("tm_pitch_id", "tm_trackman_id"), ("tm_game_id", "tm_trackman_game_id"),
+                         ("tm_pitch_no", "tm_pitch_no"), ("tm_balls_before", "tm_balls_before"),
+                         ("tm_strikes_before", "tm_strikes_before"), ("count_mismatch", "count_mismatch"),
+                         ("tm_event", "tm_event"), ("run_kind", "run_kind")):
+        ledger[name] = ledger.pitch_id.map(paired[source])
+    return ledger
+
+
 def analyse(season: int, out: Path, loose: dict, loose_dir: str | None) -> dict:
-    vb, tm, games = load(season)
+    vb, tm, games, first_team_scope = load(season)
     pairs, lost = candidate_runs(vb, tm, games)
     offset = season_offset(vb, tm, pairs)
     m, runs_stat = match(vb, tm, pairs, lost, offset)
@@ -247,12 +272,15 @@ def analyse(season: int, out: Path, loose: dict, loose_dir: str | None) -> dict:
     ds = nxt.strikes_before.to_numpy()[t_idx] - tm.strikes_before.to_numpy()[t_idx]
     p["tm_event"] = np.where(~p.has_transition, "", np.select([(db == 1) & (ds == 0), (db == 0) & (ds == 1), (db == 0) & (ds == 0)], ["ball", "strike", "none"], "other"))
     p["code"] = p.vb_pitch_call_code.fillna("").str.upper()
+    ledger = coverage_ledger(vb, p, lost)
+    ledger.to_csv(out / f"strict_coverage_{season}.csv.gz", index=False)
     tr = p[p.has_transition]
     cross = pd.crosstab(tr.code, tr.tm_event)
     b = tr[tr.code == "B"]; v = tr[tr.code == "V"]
     total = len(vb)
     entry = {
         "vb_pitches": total, "vb_pitches_in_mapped_games": int(vb.game_id.isin(games).sum()),
+        **first_team_scope, "mapped_trackman_pitches": int(len(tm)), "mapped_trackman_games": int(tm.trackman_game_id.nunique()),
         "velocity_offset_kmh": round(offset, 2), "tolerance_kmh": TOL,
         "matched": int(len(p)), "matched_share": round(len(p) / total, 4),
         "matched_by_kind": {k: int(n) for k, n in p.run_kind.value_counts().items()},
@@ -353,7 +381,9 @@ def naver_candidates(vb, tm, p, out):
     picks.append(vv[vv.vb_pa_result.fillna("").str.contains("삼진")].sort_values("vb_pitch_id").head(2).assign(case="V·삼진 타석"))
     picks.append(vv[~vv.vb_pa_result.fillna("").str.contains("삼진")].sort_values("vb_pitch_id").head(2).assign(case="V·그 밖 타석"))
     c = pd.concat(picks)
-    seq = vb.groupby("pa_id").apply(lambda g: " ".join(f"{int(n[-2:])}{str(x or '').upper()}{int(v)}" for n, x, v in zip(g.pitch_id, g.pitch_call_code, g.velocity_kmh)))
+    seq = vb.groupby("pa_id")[["pitch_id", "pitch_call_code", "velocity_kmh"]].apply(
+        lambda g: " ".join(f"{int(n[-2:])}{str(x or '').upper()}{int(v)}"
+                           for n, x, v in zip(g.pitch_id, g.pitch_call_code, g.velocity_kmh)))
     c["vb_pa_sequence"] = c.vb_pa_id.map(seq)
     c["naver_relay"] = "https://m.sports.naver.com/game/" + c.vb_pitch_id.str[:13] + "2024/relay"
     c[["case", "vb_pitch_id", "batter_name", "pitcher_name", "code", "vb_velocity_kmh", "tm_rel_speed", "vb_pitch_type_kr", "tm_tagged_pitch_type",
@@ -366,11 +396,11 @@ def main():
     parser.add_argument("--seasons", nargs="+", type=int, default=list(SEASONS))
     parser.add_argument("--tol", type=float, default=TOL, help="구속 차 허용폭(km/h, 시즌 중앙값 기준)")
     parser.add_argument("--loose-dir", help="pa_flow_audit.py 출력 디렉터리 (순서 연결 방식의 B→스트라이크 목록 비교용)")
-    parser.add_argument("--loose-summary", default=str(ROOT / "analysis/trajectory_audit/results/pa_flow_summary.json"))
+    parser.add_argument("--loose-summary", help="optional legacy comparison; not required for matching")
     args = parser.parse_args()
     globals()["TOL"] = args.tol
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
-    loose_all = json.loads(Path(args.loose_summary).read_text(encoding="utf-8"))
+    loose_all = json.loads(Path(args.loose_summary).read_text(encoding="utf-8")) if args.loose_summary else {}
     loose = {s: {"count_mismatch_pitches": e["trackman"]["calls"]["count_mismatch_pitches"], "aligned_pitches": e["trackman"]["calls"]["aligned_pitches"],
                  "B_to_tm_strike": e["trackman"]["calls"]["code_vs_tm_event"]["B"].get("strike", 0),
                  "B_transitions": sum(e["trackman"]["calls"]["code_vs_tm_event"]["B"].values()),

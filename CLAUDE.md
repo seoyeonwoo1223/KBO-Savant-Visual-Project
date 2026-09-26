@@ -150,6 +150,8 @@ pq.ParquetFile(path).metadata.num_rows
 
 ### 좌표계 규칙 (헷갈리기 쉬움)
 
+SBJ 원본 사건·TrackMan 연결을 고치기 전에는 `docs/sbj-data-quality.md`의 출시 경계와 전수 감사 절차를 읽는다. TrackMan은 양팀 모두 1군 코드인 투구만 쓰고, 카운트는 매칭 조건이 아니라 독립 대조값이다. 미매칭 공을 억지로 연결하거나 감사 플래그로 자동 재분류·삭제하지 않는다.
+
 - **`px` / `pz`는 feet**, 홈플레이트 원점 기준입니다. VB `pz`는 모든 시즌 플레이트 앞면(y=17/12 ft) 값이지만 `px`는 **2024부터 중간면(y=8.5/12 ft, ABS 좌우 판정면)** 값입니다(2023까지는 앞면). 궤적으로 앞면 x를 다시 계산하면 2024+에서는 `px`와 최대 약 4cm 다른 것이 정상입니다(`analysis/trajectory_audit/`). 플레이트 반폭은 `10/12 ft`, 존 상하한은 투구별 `sz_top`/`sz_bottom`입니다. 정규화 좌표는 존 경계가 ±1이 되도록 맞춘 값이고, `d = max(|x|, |z|)`로 Heart ≤2/3, Shadow-in ≤1, Shadow-out ≤4/3, Chase ≤2, Waste >2 구역을 나눕니다.
 - **저장되는 x 계열은 모두 포수 시점(catcher view)** 입니다. `release_x_50` / `release_x_55`(cm), `horizontal_movement_cm`(raw `hMov`), `web/data/**`의 `horizontal_break_in` 전부 포수 시점입니다.
 - **투수 시점은 화면에서만 부호를 뒤집습니다.** `web/pitch-arsenal/pitch-arsenal.js`의 `toPitcherView()`가 `average`를 음수화하고 `low_75`/`high_75`를 서로 맞바꿉니다(구간 뒤집기를 빠뜨리면 타원이 어긋납니다). 이 페이지의 기본값은 투수 시점입니다.
