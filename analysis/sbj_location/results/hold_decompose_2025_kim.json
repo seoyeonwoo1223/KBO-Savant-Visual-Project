@@ -1,0 +1,108 @@
+{
+ "season": 2025,
+ "target": {
+  "tag": "kim",
+  "removed_rows": 9,
+  "prediction_change_on_kept_rows": {
+   "p_swing_mean_abs": 0.0135,
+   "p_zone_mean_abs": 0.00196
+  },
+  "league_retrain_mean_abs": 0.3022,
+  "league_retrain_max_abs": 0.8266,
+  "league_total_mean_abs": 0.3031,
+  "touched": {
+   "64340": {
+    "name": "임지열",
+    "direct": 0.1465,
+    "retrain": 0.1564,
+    "total": 0.3029
+   }
+  }
+ },
+ "controls": [
+  {
+   "tag": "ctl0",
+   "removed_rows": 9,
+   "prediction_change_on_kept_rows": {
+    "p_swing_mean_abs": 0.0173,
+    "p_zone_mean_abs": 0.00247
+   },
+   "league_retrain_mean_abs": 0.0864,
+   "league_retrain_max_abs": 0.501,
+   "league_total_mean_abs": 0.0865
+  },
+  {
+   "tag": "ctl1",
+   "removed_rows": 9,
+   "prediction_change_on_kept_rows": {
+    "p_swing_mean_abs": 0.0185,
+    "p_zone_mean_abs": 0.00371
+   },
+   "league_retrain_mean_abs": 0.3158,
+   "league_retrain_max_abs": 0.9002,
+   "league_total_mean_abs": 0.3154
+  },
+  {
+   "tag": "ctl2",
+   "removed_rows": 9,
+   "prediction_change_on_kept_rows": {
+    "p_swing_mean_abs": 0.01742,
+    "p_zone_mean_abs": 0.0025
+   },
+   "league_retrain_mean_abs": 0.1002,
+   "league_retrain_max_abs": 0.5848,
+   "league_total_mean_abs": 0.1001
+  },
+  {
+   "tag": "ctl3",
+   "removed_rows": 9,
+   "prediction_change_on_kept_rows": {
+    "p_swing_mean_abs": 0.01708,
+    "p_zone_mean_abs": 0.00248
+   },
+   "league_retrain_mean_abs": 0.0931,
+   "league_retrain_max_abs": 0.3906,
+   "league_total_mean_abs": 0.0935
+  },
+  {
+   "tag": "ctl4",
+   "removed_rows": 9,
+   "prediction_change_on_kept_rows": {
+    "p_swing_mean_abs": 0.01687,
+    "p_zone_mean_abs": 0.00198
+   },
+   "league_retrain_mean_abs": 0.0797,
+   "league_retrain_max_abs": 0.3075,
+   "league_total_mean_abs": 0.0799
+  },
+  {
+   "tag": "ctl5",
+   "removed_rows": 9,
+   "prediction_change_on_kept_rows": {
+    "p_swing_mean_abs": 0.01925,
+    "p_zone_mean_abs": 0.00109
+   },
+   "league_retrain_mean_abs": 0.2769,
+   "league_retrain_max_abs": 0.8673,
+   "league_total_mean_abs": 0.2784
+  }
+ ],
+ "target_batters_retrain_under_controls": {
+  "64340": [
+   -0.0051,
+   0.0838,
+   0.0887,
+   0.0875,
+   0.0237,
+   0.0391
+  ]
+ },
+ "summary": {
+  "target_league_retrain_mean_abs": 0.3022,
+  "controls_league_retrain_mean_abs_range": [
+   0.0797,
+   0.3158
+  ],
+  "controls_league_retrain_mean_abs_mean": 0.1587
+ }
+}
