@@ -28894,6 +28894,26 @@
       "status": "completed",
       "raw_path": "data/raw/2026/20260926WOKT0.json",
       "message": "PASS"
+    },
+    "20260927LGHT0": {
+      "status": "incomplete",
+      "raw_path": "data/raw/2026/20260927LGHT0.json",
+      "message": "No events or pitches were parsed"
+    },
+    "20260927WONC0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260927WONC0.json",
+      "message": "PASS"
+    },
+    "20260927KTOB0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260927KTOB0.json",
+      "message": "PASS"
+    },
+    "20260927HHLT0": {
+      "status": "completed",
+      "raw_path": "data/raw/2026/20260927HHLT0.json",
+      "message": "PASS"
     }
   }
 }
