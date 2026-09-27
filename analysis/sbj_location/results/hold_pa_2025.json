@@ -1,0 +1,29 @@
+{
+ "season": 2025,
+ "held_pas": 4,
+ "held_eligible_pitches": 11,
+ "held_takes": 3,
+ "qualified_batters": 171,
+ "all_qualified": {
+  "mean_abs_delta": 0.0726,
+  "max_abs_delta": 0.3687,
+  "max_rank_shift": 16,
+  "spearman": 0.99882
+ },
+ "touched_batters": [
+  {
+   "batter_id": "51344",
+   "name": "김휘집",
+   "pitches_base": 1959,
+   "za_base": 0.4029,
+   "za_held": 0.3726
+  },
+  {
+   "batter_id": "64340",
+   "name": "임지열",
+   "pitches_base": 1632,
+   "za_base": 2.2438,
+   "za_held": 2.4217
+  }
+ ]
+}
