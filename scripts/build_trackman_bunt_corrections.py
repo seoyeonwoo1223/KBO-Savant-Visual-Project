@@ -14,7 +14,7 @@ per-pitch call, so a candidate is selected only from its count transition:
 
 Whether a selected pitch was a bunt foul or an unrecorded called strike, its count effect is one strike and
 it is not a swing/take decision, so the parser gives it code `W` (see parser.py). The table is the only
-output: data/corrections/vb_bunt_fouls_trackman.json. Terminal `B` pitches (a two-strike bunt foul ends the
+output: data/corrections/vb_bunt_foul_corrections.json. Terminal `B` pitches (a two-strike bunt foul ends the
 plate appearance) have no next TrackMan pitch and are not selected.
 """
 from __future__ import annotations
@@ -33,7 +33,7 @@ import pa_flow_strict as pf  # noqa: E402
 import trackman_harness as th  # noqa: E402
 from visualbaseball.curated import load_rows  # noqa: E402
 
-OUT = ROOT / "data" / "corrections" / "vb_bunt_fouls_trackman.json"
+OUT = ROOT / "data" / "corrections" / "vb_bunt_foul_corrections.json"
 SEASONS = tuple(range(2019, 2025))
 
 
@@ -76,18 +76,20 @@ def season_entries(season: int) -> tuple[list[dict], dict]:
     return entries, {"vb_pitches": int(len(vb)), "matched": int(len(partner)), "corrections": len(entries), **rejected}
 
 
+HEADER = {"version": 2, "applied_as": "code W (Bunt Foul): not a swing, take or contact; one strike unless the pitch ends the PA",
+          "evidence": "docs/sbj-data-quality.md (번트 파울 레이블 정정)"}
+RULE = ("VB B (non-terminal) matched 1:1 to TrackMan; next VB pitch of the PA matched to the next TrackMan pitch; "
+        "TrackMan balls unchanged and strikes +1.")
+
+
 def main() -> None:
     seasons = [int(s) for s in sys.argv[1:]] or list(SEASONS)
     table = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {"seasons": {}}
-    table.update({
-        "version": 1,
-        "rule": "VB B (non-terminal) matched 1:1 to TrackMan; next VB pitch of the PA matched to the next TrackMan pitch; "
-                "TrackMan balls unchanged and strikes +1. Applied as code W (bunt foul): not a swing or take, one strike.",
-        "evidence": "analysis/sbj_location/README.md (번트 파울 레이블 정정)",
-    })
+    table.pop("rule", None); table.pop("evidence", None)
+    table.update(HEADER)
     for season in seasons:
         entries, stats = season_entries(season)
-        table["seasons"][str(season)] = {"stats": stats, "pitches": entries}
+        table["seasons"][str(season)] = {"source": "trackman", "rule": RULE, "stats": stats, "pitches": entries}
         print(season, json.dumps(stats), flush=True)
     table["seasons"] = dict(sorted(table["seasons"].items()))
     write_table(table)
@@ -99,8 +101,8 @@ def write_table(table: dict) -> None:
     lines = ["{" + json.dumps(head, ensure_ascii=False)[1:-1] + ', "seasons": {']
     for i, (season, body) in enumerate(table["seasons"].items()):
         rows = ",\n".join("   " + json.dumps(row, ensure_ascii=False) for row in body["pitches"])
-        lines.append(f' "{season}": {{"stats": {json.dumps(body["stats"])}, "pitches": [\n{rows}\n ]}}'
-                     + ("," if i < len(table["seasons"]) - 1 else ""))
+        meta = json.dumps({k: v for k, v in body.items() if k != "pitches"}, ensure_ascii=False)[1:-1]
+        lines.append(f' "{season}": {{{meta}, "pitches": [\n{rows}\n ]}}' + ("," if i < len(table["seasons"]) - 1 else ""))
     lines.append("}}")
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")

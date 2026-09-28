@@ -57,7 +57,7 @@ class GameState:
         code = (code or "").upper()
         if code == "B":
             self.balls = min(3, self.balls + 1)
-        elif code in {"S", "T"}:
+        elif code in {"S", "T", "V"}:
             self.strikes = min(2, self.strikes + 1)
         elif code in {"F", "W"} and self.strikes < 2:
             self.strikes += 1

@@ -26,7 +26,7 @@ class PreparedGame:
         return self.valid and self.game["is_final"]
 
 
-CALL_CORRECTIONS = Path(__file__).resolve().parents[2] / "data" / "corrections" / "vb_bunt_fouls_trackman.json"
+CALL_CORRECTIONS = Path(__file__).resolve().parents[2] / "data" / "corrections" / "vb_bunt_foul_corrections.json"
 
 
 @lru_cache(maxsize=None)

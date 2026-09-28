@@ -43,7 +43,7 @@ SBJ(Strike Zone Judgment)의 위치 입력을 정한다. 결정할 것은 네 �
   - 이 571구를 평가에서만 빼면 B 0.01232, A 0.02649다.
   - 원인은 VB가 번트 파울을 `B`로 기록한 것이다. 네이버 표본 42/42구와 13/13구에서 `W/번트파울`로 확인됐다.
 - **번트 정정**
-  - 2019–2024년 TrackMan 카운트 전이로 3,860구를 골라 `data/corrections/vb_bunt_fouls_trackman.json`에 정리했다. 2024년 596구이고, 위 571구 중 568구가 포함된다.
+  - 2019–2024년 TrackMan 카운트 전이로 3,860구를 골라 `data/corrections/vb_bunt_foul_corrections.json`에 정리했다. 2024년 596구이고, 위 571구 중 568구가 포함된다.
   - 파서는 이 공들을 `W`로 바꾼다. 스윙도 테이크도 아니고, 카운트는 스트라이크 +1이다.
   - **아직 커밋된 curated에는 적용되지 않았다**(`scripts/apply_call_corrections.py` 실행 대기).
   - 2025–2026년은 TrackMan이 없어 정정되지 않았다. 네이버 `pitchResult=W`로 따로 찾아야 한다.

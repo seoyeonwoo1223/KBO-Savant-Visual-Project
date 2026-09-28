@@ -46,11 +46,11 @@ python scripts/audit_sbj_data.py --out ../audit/sbj
 
 TrackMan 이력에는 **KIA 홈(광주) 경기가 2019–2024 전 시즌에 한 경기도 없다.** 2024 경기 미연결 26,388구 중 22,457구가 KIA 홈 경기이므로 미연결은 무작위가 아니며, 대응 후보에서 얻은 비율을 KIA 홈 경기나 2025–2026에 그대로 옮길 수 없다. SBJ 위치 입력 비교와 사건 신호의 SBJ 노출 규모는 `analysis/sbj_location/README.md`에 있다.
 
-## 번트 파울 레이블 정정 (2019–2024, TrackMan 기준)
+## 번트 파울·번트 헛스윙 정정
 
 Visual Baseball 원본은 번트 파울을 `B`(볼)로 기록한다. 네이버 중계와 대조한 표본에서 확인됐다. GPT 표본 42구, `analysis/sbj_location`의 네이버 `W/번트파울` 13구다. 이 공들은 존 가운데의 "볼 테이크"로 학습·채점되어, 2024 `p_zone` 손실의 약 54%를 차지했다.
 
-- **대상 선정**(`scripts/build_trackman_bunt_corrections.py` → `data/corrections/vb_bunt_fouls_trackman.json`): 세 조건을 모두 만족하는 공을 고른다.
+- **대상 선정**(`scripts/build_trackman_bunt_corrections.py` → `data/corrections/vb_bunt_foul_corrections.json`): 세 조건을 모두 만족하는 공을 고른다.
   1. VB `B`이고 타석의 마지막 공이 아니다.
   2. TrackMan과 1:1로 연결된다. 연결은 궤적 구속과 경기 오프셋을 쓰는 H3 방식이다(`analysis/sbj_location/README.md`).
   3. 같은 타석의 다음 VB 공이 다음 TrackMan 공과 연결되고, TrackMan 카운트가 볼은 그대로, 스트라이크는 +1이다.
@@ -64,3 +64,11 @@ Visual Baseball 원본은 번트 파울을 `B`(볼)로 기록한다. 네이버 �
   - TrackMan이 없는 2025–2026, KIA 홈 경기, 연결되지 않은 공은 정정되지 않는다.
   - 타석 마지막 공인 번트 파울(2스트라이크 번트 파울 삼진)은 다음 공이 없어 고르지 못한다.
   - 번트 인플레이·번트 헛스윙은 대상이 아니다. 이런 공은 네이버 `W` 코드나 중계 문구로 따로 찾아야 한다.
+- **2025–2026 (네이버 기준)**: 네이버 중계 전수 조사(PR #32, `bunt_attempts_2025_2026.csv`)에서 `W/번트파울`은 연결된 VB 공 전부가 `B`였다(2025년 756구, 2026년 623구). 같은 정정표에 `source: naver_relay`로 추가했다(`scripts/build_naver_bunt_corrections.py`). 연결 방식이 `matched_id`·`matched_context`인 행만 쓴다. TrackMan 방식과 달리 타석을 끝낸 2스트라이크 번트 파울(2025년 6구, 2026년 5구)도 포함된다.
+  - 대응 검증: `W`·`V` 1,629구 중 1,546구는 "VB 투구 전 카운트 + 1스트라이크 = 네이버 투구 후 카운트"가 그대로 맞는다. 틀린 83구 중 82구는 같은 타석 앞쪽에 번트가 있어 VB 카운트가 이미 어긋난 경우다.
+  - 새로 수집한 2026 경기는 정정표를 다시 만들어야 반영된다.
+- **VB `V` = 번트 헛스윙**: 네이버 `V/번트헛스윙`과 VB `V`가 2025년 146/147구, 2026년 104/104구 일치한다. `V`는 원래 스윙·테이크 어느 쪽도 아니라 지표에서는 이미 빠져 있었다. 문제는 카운트였다. 파서가 `V`에 스트라이크를 더하지 않아 뒤 공 카운트가 한 개씩 모자랐다.
+  - TrackMan 확인: 2019–2024에 확인 가능한 `V` 685구 전부가 다음 공에서 스트라이크 +1이었다(`analysis/sbj_location/v_code_trackman.py`).
+  - 조치: `GameState.apply_non_terminal_pitch`가 `V`를 스트라이크로 센다. `apply_call_corrections.py`는 `V`가 있는 타석의 카운트도 다시 계산한다.
+- 번트 인플레이(네이버 `H`, VB `X`)는 아직 지표에 포함돼 있다. 이 공을 빼려면 표시 컬럼이 필요하다(스키마 변경, 별도 승인).
+
