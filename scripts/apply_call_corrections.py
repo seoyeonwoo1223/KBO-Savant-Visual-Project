@@ -15,16 +15,24 @@ A plate appearance is skipped (and reported) when its stored counts match neithe
 strike) on the stored codes nor the current rules, or when the stored row no longer matches the table (code,
 batter, pitcher, velocity). Rows already corrected are left as they are, so a rerun writes nothing.
 Games are written through curated.write_game, which keeps the manifest and partition-index digests in step.
+write_game rewrites a whole monthly partition (and the partition index) for every game, so games are processed
+one month at a time with those writes deferred (BatchedWrites): each monthly file, manifest and the index is
+written once per month, after all its games, in the order data -> manifests -> index.
 The parser applies the same table (collector.call_corrections), so a later reparse gives the same rows.
 """
 from __future__ import annotations
 
 import argparse
 import json
+from collections import defaultdict
 from pathlib import Path
 
+import pyarrow.parquet as pq
+
+from visualbaseball import curated
+
 from visualbaseball.collector import CALL_CORRECTIONS
-from visualbaseball.curated import load_rows, source_manifest_path, value_sha256, write_game
+from visualbaseball.curated import load_rows, source_manifest_path, value_sha256
 from visualbaseball.parser import _description
 from visualbaseball.state_machine import GameState
 
@@ -92,38 +100,108 @@ def correct_game(pitches: list[dict], events: list[dict], fixes: dict[str, dict]
     return applied, recounted, skipped
 
 
+class BatchedWrites:
+    """Defer write_game's file writes so each monthly partition is rewritten once, not once per game.
+
+    Inside the block write_game runs unchanged, but its Parquet/JSON writes land in memory and the monthly
+    replace works on the cached month. flush() writes data files first, then manifests, then the index.
+    """
+
+    def __init__(self, root: Path):
+        self.root = root
+
+    def __enter__(self) -> "BatchedWrites":
+        self._saved = (curated._atomic_parquet, curated._atomic_json, curated._partition_index, curated._replace_monthly_game)
+        self.index = curated._partition_index(self.root)
+        self.tables: dict[Path, tuple[list[dict], object]] = {}
+        self.dirty: set[Path] = set()
+        self.json: dict[Path, object] = {}
+        curated._atomic_parquet = self._parquet
+        curated._atomic_json = lambda path, value: self.json.__setitem__(Path(path), value)
+        curated._partition_index = lambda root: self.index
+        curated._replace_monthly_game = self._replace_monthly
+        return self
+
+    def __exit__(self, *exc) -> None:
+        (curated._atomic_parquet, curated._atomic_json, curated._partition_index, curated._replace_monthly_game) = self._saved
+
+    def month_rows(self, kind: str, season: int, month: str) -> list[dict]:
+        path = curated._monthly_path(self.root, kind, season, month)
+        if path not in self.tables:
+            self.tables[path] = (pq.ParquetFile(path).read().to_pylist() if path.exists() else [], curated.SCHEMAS[kind])
+        return self.tables[path][0]
+
+    def _parquet(self, path, rows, schema) -> None:
+        self.tables[Path(path)] = (list(rows), schema); self.dirty.add(Path(path))
+
+    def _replace_monthly(self, root, kind, season, month, game_id, rows, schema) -> None:
+        old = self.month_rows(kind, season, month)
+        self._parquet(curated._monthly_path(root, kind, season, month), [r for r in old if str(r.get("game_id")) != game_id] + rows, schema)
+
+    def flush(self) -> None:
+        write_parquet, write_json = self._saved[0], self._saved[1]
+        for path in sorted(self.dirty):
+            write_parquet(path, *self.tables[path])
+        index_path = curated.partition_index_path(self.root)
+        for path, value in sorted(self.json.items()):
+            if path != index_path:
+                write_json(path, value)
+        if index_path in self.json:
+            write_json(index_path, self.json[index_path])
+        self.tables.clear(); self.dirty.clear(); self.json.clear()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("seasons", nargs="*", type=int)
     parser.add_argument("--check", action="store_true", help="report only; write nothing")
+    parser.add_argument("--root", type=Path, default=ROOT, help="repository root holding data/curated (default: this checkout)")
     args = parser.parse_args()
+    root = args.root
     table = json.loads(CALL_CORRECTIONS.read_text(encoding="utf-8"))["seasons"]
     report = {}
     for season in args.seasons or sorted(int(s) for s in table):
         fixes = {row["pitch_id"]: row for row in table.get(str(season), {}).get("pitches", [])}
-        codes = load_rows(ROOT, "pitches", season, columns=["game_id", "pitch_call_code"])
+        codes = load_rows(root, "pitches", season, columns=["game_id", "pitch_call_code"])
         games = sorted({pid.split("-")[0] for pid in fixes} | {r["game_id"] for r in codes if r["pitch_call_code"] == "V"})
         applied, recounted, written, skipped = 0, 0, 0, []
-        for game_id in games:
-            game = load_rows(ROOT, "games", season, game_id=game_id)
-            events = load_rows(ROOT, "events", season, game_id=game_id)
-            pitches = load_rows(ROOT, "pitches", season, game_id=game_id)
-            n, v, s = correct_game(pitches, events, fixes)
-            applied += n; recounted += v; skipped += s
-            if (n or v) and not args.check:
-                # Pass the raw payload only when the manifest was built from it, so raw_sha256/raw_pitch_count
-                # provenance stays as recorded; a raw file that no longer hashes the same is not trusted.
-                previous = json.loads(source_manifest_path(ROOT, season, game_id).read_text(encoding="utf-8"))
-                payload = None
-                if previous.get("raw_sha256"):
-                    raw = ROOT / "data" / "raw" / str(season) / f"{game_id}.json"
-                    payload = json.loads(raw.read_text(encoding="utf-8-sig")) if raw.exists() else None
-                    if payload is None or value_sha256(payload) != previous["raw_sha256"]:
-                        skipped.append(f"{game_id}: raw payload differs from the manifest; game not written")
-                        applied -= n; recounted -= v
-                        continue
-                write_game(ROOT, game[0], events, pitches, raw_payload=payload)
-                written += 1
+        with BatchedWrites(root) as batch:
+            compact = curated._season_is_compact(root, batch.index, season)
+            entries = batch.index.get("seasons", {}).get(str(season), {}).get("games", {})
+            by_month: dict[str, list[str]] = defaultdict(list)
+            for game_id in games:
+                by_month[str(entries.get(game_id, {}).get("month") or game_id[4:6]) if compact else ""].append(game_id)
+            for month, month_games in sorted(by_month.items()):
+                if compact:
+                    grouped = {kind: defaultdict(list) for kind in ("games", "events", "pitches")}
+                    for kind in grouped:
+                        for row in batch.month_rows(kind, season, month):
+                            grouped[kind][str(row["game_id"])].append(row)
+                for game_id in month_games:
+                    if compact:
+                        game, events, pitches = (list(grouped[k][game_id]) for k in ("games", "events", "pitches"))
+                        if not game:
+                            raise FileNotFoundError(f"{game_id} is not in month={month} of season {season}")
+                    else:
+                        game, events, pitches = (load_rows(root, k, season, game_id=game_id) for k in ("games", "events", "pitches"))
+                    n, v, s = correct_game(pitches, events, fixes)
+                    applied += n; recounted += v; skipped += s
+                    if (n or v) and not args.check:
+                        # Pass the raw payload only when the manifest was built from it, so raw_sha256/raw_pitch_count
+                        # provenance stays as recorded; a raw file that no longer hashes the same is not trusted.
+                        previous = json.loads(source_manifest_path(root, season, game_id).read_text(encoding="utf-8"))
+                        payload = None
+                        if previous.get("raw_sha256"):
+                            raw = root / "data" / "raw" / str(season) / f"{game_id}.json"
+                            payload = json.loads(raw.read_text(encoding="utf-8-sig")) if raw.exists() else None
+                            if payload is None or value_sha256(payload) != previous["raw_sha256"]:
+                                skipped.append(f"{game_id}: raw payload differs from the manifest; game not written")
+                                applied -= n; recounted -= v
+                                continue
+                        curated.write_game(root, game[0], events, pitches, raw_payload=payload)
+                        written += 1
+                if not args.check:
+                    batch.flush()
         report[season] = {"table": len(fixes), "games_checked": len(games), "W_applied": applied,
                           "PA_recounted": recounted, "games_written": written, "skipped": skipped}
         print(season, json.dumps({k: (len(v) if k == "skipped" else v) for k, v in report[season].items()}), flush=True)
