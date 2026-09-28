@@ -3,12 +3,12 @@
   "game_id": "20211016WOSS1",
   "season": 2021,
   "first_collected_at": "2026-09-22T06:27:01+00:00",
-  "last_collected_at": "2026-09-22T06:44:51+00:00",
-  "last_checked_at": "2026-09-22T06:44:51+00:00",
+  "last_collected_at": "2026-09-28T20:06:57+00:00",
+  "last_checked_at": "2026-09-28T20:06:57+00:00",
   "raw_sha256": "1f62d4835872787fb552ac184b47eab65ad8d98624b7ef05cc0a7c5b6f84d39d",
-  "pitch_sha256": "f8ab2e0ce081df2eafe0aad4f9995e98088101c7d9d6243f728171d9b45e6621",
-  "schema_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
-  "revision": 2,
+  "pitch_sha256": "448b46e593c6dd4e6bbe2e6487218563a1dafc0ec539a28cc878920adf64c507",
+  "schema_sha256": "8d811da998a9141e013d4eb016de9179862852365e7a418dacb11e02887e2d29",
+  "revision": 3,
   "observed_y0": [
     50.0
   ],

@@ -3,12 +3,12 @@
   "game_id": "20220514HTLG0",
   "season": 2022,
   "first_collected_at": "2026-09-09T16:18:11+00:00",
-  "last_collected_at": "2026-09-10T02:47:18+00:00",
-  "last_checked_at": "2026-09-10T13:11:46+00:00",
+  "last_collected_at": "2026-09-28T20:09:01+00:00",
+  "last_checked_at": "2026-09-28T20:09:01+00:00",
   "raw_sha256": null,
-  "pitch_sha256": "c4dd9a2b89f041965d2585878cb5beb3a84814da7c08c39c3bd0fde3aec59bc7",
-  "schema_sha256": "a552d7d64b006e91c5f6a56487479084ed1f59c761f48e573f31f3c28d8403b3",
-  "revision": 3,
+  "pitch_sha256": "84b88fff5e5c5fdbe0c5afed7c876d81df0fffec6a0aa37207f387f3320bffae",
+  "schema_sha256": "8d811da998a9141e013d4eb016de9179862852365e7a418dacb11e02887e2d29",
+  "revision": 4,
   "observed_y0": [
     50.0
   ],
