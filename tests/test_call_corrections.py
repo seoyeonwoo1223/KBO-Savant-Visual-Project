@@ -43,3 +43,31 @@ def test_correct_game_skips_pa_whose_counts_follow_neither_rule():
     pitches = _pa(["V", "S"], [(0, 0, 1, 0), (1, 0, 0, 0)])
     applied, recounted, skipped = correct_game(pitches, [], {})
     assert (applied, recounted) == (0, 0) and skipped == ["G-001: stored counts differ from parser rules"]
+
+
+def test_committed_curated_is_in_step_with_the_correction_table():
+    """Harness gate: every table pitch is W in curated and W/V plate appearances follow the state rules.
+
+    Fails until scripts/apply_call_corrections.py has been run and its curated output committed.
+    """
+    from check_call_corrections import SEASONS, check_season
+
+    root = Path(__file__).resolve().parents[1]
+    dirty = {season: result for season in SEASONS if not (result := check_season(root, season))["clean"]}
+    assert not dirty, f"run scripts/apply_call_corrections.py: {dirty}"
+
+
+def test_check_flags_pending_stale_and_count_errors(tmp_path, monkeypatch):
+    import check_call_corrections as check
+
+    rows = [{"pitch_id": "P1", "pa_id": "A", "pitch_number": 1, "pitch_call_code": "W", "balls_before": 0, "strikes_before": 0, "balls_after": 0, "strikes_after": 1},
+            {"pitch_id": "P2", "pa_id": "A", "pitch_number": 2, "pitch_call_code": "B", "balls_before": 0, "strikes_before": 1, "balls_after": 1, "strikes_after": 1},
+            {"pitch_id": "P3", "pa_id": "A", "pitch_number": 3, "pitch_call_code": "X", "balls_before": 1, "strikes_before": 1, "balls_after": 0, "strikes_after": 0},
+            {"pitch_id": "Q1", "pa_id": "B", "pitch_number": 1, "pitch_call_code": "V", "balls_before": 0, "strikes_before": 0, "balls_after": 0, "strikes_after": 0},
+            {"pitch_id": "Q2", "pa_id": "B", "pitch_number": 2, "pitch_call_code": "X", "balls_before": 0, "strikes_before": 0, "balls_after": 0, "strikes_after": 0}]
+    monkeypatch.setattr(check, "load_rows", lambda *a, **k: rows)
+    fix = {"source_code": "B", "code": "W"}
+    table = {"2024": {"pitches": [{"pitch_id": "P1", **fix}, {"pitch_id": "P2", **fix}, {"pitch_id": "Q2", **fix}]}}
+    result = check.check_season(tmp_path, 2024, table)
+    assert (result["applied"], result["pending"], result["stale"], result["untracked_W"]) == (1, 1, 1, 0)
+    assert result["count_errors"] == 1 and not result["clean"]  # PA B: V did not add a strike

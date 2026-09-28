@@ -25,6 +25,7 @@ python scripts/audit_sbj_data.py --out ../audit/sbj
 첫 명령은 선수 단위 대응표를 **2019–2024 전체 시즌**으로 다시 만든다. 둘째 명령은 2019–2026 VB 모든 투구에 대해 `sbj_pitch_quality_<시즌>.csv.gz` 한 행씩과 요약 JSON을 만든다. 2019–2024는 `matched` 또는 사유가 있는 `unmatched`이고, 2025–2026은 `trackman_unavailable`이다. `matched`도 사건의 진실이나 ABS 추적 정확성을 보증하지 않는다. `count_mismatch`는 그 쌍의 카운트 차이이지 VB 오류 확정이 아니다. 미매칭을 분모에서 숨기지 말고 `sbj_data_audit_summary.json`의 `vb_pitches`, `match_status`, `unmatched_reasons`를 함께 보고한다.
 `matched` 안에서도 `run_kind=equal_length_partial`은 같은 길이의 구간에서 주변 공의 구속·아웃 검증이 실패한 **낮은 신뢰도의 후보 연결**이다. 엄격한 독립 검증 분모로 쓰려면 이 그룹을 따로 보고하거나 빼야 한다. 투구별 공통 ID가 없으므로 구속·아웃 조건을 통과해도 진짜 동일 투구임이 증명되지는 않는다.
 이미 같은 입력으로 두 감사가 끝난 상태에서 결과 병합만 다시 할 때는 `--from-existing`을 추가할 수 있다. 새 원본 감사가 아니므로 입력이나 규칙이 바뀌었으면 이 옵션을 쓰지 않는다.
+요약의 시즌별 `call_corrections`는 curated가 정정표(`data/corrections/vb_bunt_foul_corrections.json`)와 맞는지 보여 준다. 항목은 `applied`, `pending`, `stale`, `untracked_W`, `count_errors`다. 한 시즌이라도 `clean`이 아니면 감사가 실패한다. 같은 검사를 따로 돌리려면 `python scripts/check_call_corrections.py`(깨끗하지 않으면 종료 코드 1)를 쓰고, pytest에서는 `test_committed_curated_is_in_step_with_the_correction_table`이 같은 게이트다.
 요약에는 코드·curated 투구 shard·선수 대응표 해시를 기록한다. TrackMan 파일 해시는 Windows 체크아웃의 CRLF를 LF로 정규화해 저장된 대응표 해시와 대조하며, 다르면 실패한다.
 
 원본 측 플래그는 `K_CONT`, `BB_CONT`, `X_NONLAST`, `END_MISMATCH`, 타석 분리 등 **구조적 흐름 문제**, 또는 `DUP_*`, `B_NEAR_CENTER`, 판정면과 보고 위치의 불일치 같은 **진단 신호**로 나뉜다. 타석 수준 플래그는 그 타석의 모든 투구에 붙으므로, 플래그 투구 수를 오류 투구 수로 해석하지 않는다. `review_level=structural`도 원인을 확정하지 않으며 투구 삭제 지시가 아니다. `PLATE_X_DISAGREE`는 2024년 이후 VB `px`의 **중간면**과 궤적 중간면을 비교한다. 2023년까지의 앞면 오차를 2024+에 그대로 적용하지 않는다. 1cm 임계값은 검토 후보를 고르는 기준일 뿐이다.
@@ -70,5 +71,9 @@ Visual Baseball 원본은 번트 파울을 `B`(볼)로 기록한다. 네이버 �
 - **VB `V` = 번트 헛스윙**: 네이버 `V/번트헛스윙`과 VB `V`가 2025년 146/147구, 2026년 104/104구 일치한다. `V`는 원래 스윙·테이크 어느 쪽도 아니라 지표에서는 이미 빠져 있었다. 문제는 카운트였다. 파서가 `V`에 스트라이크를 더하지 않아 뒤 공 카운트가 한 개씩 모자랐다.
   - TrackMan 확인: 2019–2024에 확인 가능한 `V` 685구 전부가 다음 공에서 스트라이크 +1이었다(`analysis/sbj_location/v_code_trackman.py`).
   - 조치: `GameState.apply_non_terminal_pitch`가 `V`를 스트라이크로 센다. `apply_call_corrections.py`는 `V`가 있는 타석의 카운트도 다시 계산한다.
+- **적용과 확인 순서**: 정정표를 바꾸면 세 단계를 거친다. 확인이 통과한 상태로만 curated를 커밋한다.
+  1. `python scripts/apply_call_corrections.py --check`
+  2. `python scripts/apply_call_corrections.py`: 월 파티션을 달마다 한 번만 다시 쓴다. `--root`로 사본에 시험할 수 있다.
+  3. `python scripts/check_call_corrections.py`: 전 시즌 `clean: true`여야 한다.
 - 번트 인플레이(네이버 `H`, VB `X`)는 아직 지표에 포함돼 있다. 이 공을 빼려면 표시 컬럼이 필요하다(스키마 변경, 별도 승인).
 

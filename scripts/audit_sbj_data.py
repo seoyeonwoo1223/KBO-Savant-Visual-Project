@@ -4,6 +4,8 @@
 
 Every VB pitch gets one quality/matching row. A missing TrackMan pair is explicit,
 never imputed from counts or ABS calls. No scoring or curated data is changed.
+Each season also reports whether curated is in step with the reviewed call-correction
+table (scripts/check_call_corrections.py); the audit fails if any season is not.
 """
 from __future__ import annotations
 
@@ -18,6 +20,8 @@ from pathlib import Path
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from check_call_corrections import check_season  # noqa: E402
 SEASONS = tuple(range(2019, 2027))
 TRACKMAN_SEASONS = tuple(range(2019, 2025))
 
@@ -91,9 +95,11 @@ def main() -> None:
                   "--out", str(out), "--seasons", *map(str, tracked)]
         subprocess.run(strict, cwd=ROOT, env=env, check=True)
     code = ("scripts/audit_sbj_data.py", "scripts/build_trackman_id_crosswalk.py",
-            "analysis/trajectory_audit/pa_flow_audit.py", "analysis/trajectory_audit/pa_flow_strict.py")
+            "analysis/trajectory_audit/pa_flow_audit.py", "analysis/trajectory_audit/pa_flow_strict.py",
+            "scripts/check_call_corrections.py", "data/corrections/vb_bunt_foul_corrections.json")
     summary = {"scope": "VB first-team games; TrackMan both teams must be KBO first-team clubs",
-               "quality_rule": "read-only flags; no event relabeling, deletion, or SBJ score change",
+               "quality_rule": "read-only flags; no event relabeling, deletion, or SBJ score change. "
+                               "Call corrections enter curated only from data/corrections/vb_bunt_foul_corrections.json",
                "code_sha256": {name: sha256(ROOT / name) for name in code},
                "seasons": {}}
     for season in seasons:
@@ -113,10 +119,15 @@ def main() -> None:
             entry["trackman_sha256"] = lf_sha256(path)
             if entry["trackman_sha256"] != crosswalk["seasons"][str(season)]["trackman_sha256"]:
                 raise ValueError(f"TrackMan input changed after crosswalk build: {season}")
+        entry["call_corrections"] = check_season(ROOT, season)
         summary["seasons"][str(season)] = entry
         print(season, json.dumps(entry, ensure_ascii=False), flush=True)
     summary["crosswalk_sha256"] = sha256(crosswalk_path) if tracked else None
     (out / "sbj_data_audit_summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
+    dirty = [s for s, e in summary["seasons"].items() if not e["call_corrections"]["clean"]]
+    if dirty:
+        raise SystemExit(f"curated is not in step with the call-correction table: {dirty} "
+                         "(run scripts/apply_call_corrections.py, then scripts/check_call_corrections.py)")
 
 
 if __name__ == "__main__":
