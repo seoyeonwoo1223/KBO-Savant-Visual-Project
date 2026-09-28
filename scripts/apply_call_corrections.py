@@ -100,6 +100,24 @@ def correct_game(pitches: list[dict], events: list[dict], fixes: dict[str, dict]
     return applied, recounted, skipped
 
 
+def raw_payload_for(root: Path, season: int, game_id: str, manifest: dict) -> tuple[dict | None, str | None]:
+    """The raw payload the manifest was built from, or an error when it cannot be found unchanged.
+
+    2025 keeps its raw payloads under seasons/2025 (collected with --storage-root seasons/2025), so both
+    locations are tried and the one whose value_sha256 matches the manifest is used.
+    """
+    if not manifest.get("raw_sha256"):
+        return None, None
+    candidates = [root / "data" / "raw" / str(season) / f"{game_id}.json",
+                  root / "seasons" / str(season) / "data" / "raw" / str(season) / f"{game_id}.json"]
+    for path in candidates:
+        if path.exists():
+            payload = json.loads(path.read_text(encoding="utf-8-sig"))
+            if value_sha256(payload) == manifest["raw_sha256"]:
+                return payload, None
+    return None, f"{game_id}: no raw payload matches the manifest raw_sha256; game not written"
+
+
 class BatchedWrites:
     """Defer write_game's file writes so each monthly partition is rewritten once, not once per game.
 
@@ -185,19 +203,18 @@ def main() -> None:
                     else:
                         game, events, pitches = (load_rows(root, k, season, game_id=game_id) for k in ("games", "events", "pitches"))
                     n, v, s = correct_game(pitches, events, fixes)
-                    applied += n; recounted += v; skipped += s
-                    if (n or v) and not args.check:
-                        # Pass the raw payload only when the manifest was built from it, so raw_sha256/raw_pitch_count
-                        # provenance stays as recorded; a raw file that no longer hashes the same is not trusted.
-                        previous = json.loads(source_manifest_path(root, season, game_id).read_text(encoding="utf-8"))
-                        payload = None
-                        if previous.get("raw_sha256"):
-                            raw = root / "data" / "raw" / str(season) / f"{game_id}.json"
-                            payload = json.loads(raw.read_text(encoding="utf-8-sig")) if raw.exists() else None
-                            if payload is None or value_sha256(payload) != previous["raw_sha256"]:
-                                skipped.append(f"{game_id}: raw payload differs from the manifest; game not written")
-                                applied -= n; recounted -= v
-                                continue
+                    skipped += s
+                    if not (n or v):
+                        continue
+                    # Pass the raw payload only when the manifest was built from it, so raw_sha256/raw_pitch_count
+                    # provenance stays as recorded; checked in --check too, so a dry run shows what a write would skip.
+                    previous = json.loads(source_manifest_path(root, season, game_id).read_text(encoding="utf-8"))
+                    payload, error = raw_payload_for(root, season, game_id, previous)
+                    if error:
+                        skipped.append(error)
+                        continue
+                    applied += n; recounted += v
+                    if not args.check:
                         curated.write_game(root, game[0], events, pitches, raw_payload=payload)
                         written += 1
                 if not args.check:
@@ -208,6 +225,8 @@ def main() -> None:
     for season, r in report.items():
         for line in r["skipped"]:
             print("  skip", season, line)
+    if any(r["skipped"] for r in report.values()):
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
