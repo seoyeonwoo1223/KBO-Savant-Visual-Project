@@ -21,6 +21,9 @@ def test_bunt_pitch_and_result_attach_only_to_the_batted_pitch():
     relay["textRelays"][0]["textOptions"][0]["ptsPitchId"] = -1
     assert observed(relay)[0]["naver_phrase"] == "번트파울"
     assert observed(relay)[0]["naver_pitch_id"] == ""
+    relay["textRelays"][0]["textOptions"] = [pitch(1, 1, "W", "1구 번트파울", "p1"),
+                                               {"seqno": 2, "text": "포수 쓰리번트 아웃"}]
+    assert observed(relay)[0]["naver_phrase"] == "번트파울 / 쓰리번트아웃"
 
 
 def test_id_priority_and_ambiguous_context():

@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from visualbaseball.curated import load_rows
 
 RESULT = ROOT / "analysis/sbj_location/results"
-WORDS = re.compile(r"(?:희생\s*|기습\s*|스퀴즈\s*)?번트(?:\s*(?:파울|헛스윙|안타|아웃))?")
+WORDS = re.compile(r"(?:희생\s*|기습\s*|스퀴즈\s*|쓰리\s*)?번트(?:\s*(?:파울|헛스윙|안타|아웃))?")
 COLUMNS = ("season", "game_id", "pitch_id", "naver_pitch_id", "naver_code",
            "naver_phrase", "vb_call", "vb_count_before", "naver_count_after", "match_status")
 
@@ -44,9 +44,9 @@ def observed(relay: dict) -> list[dict]:
             if option in pitches:
                 bunt_by_pitch[identity(option)].update(word.split(" / "))
             else:
-                # A bunt PA result (e.g. sacrifice bunt) follows the batted pitch.
+                # A bunt PA result follows the batted pitch or third bunt foul.
                 prior = [p for p in pitches if int(p.get("seqno") or 0) < int(option.get("seqno") or 0)]
-                if prior and str(prior[-1].get("pitchResult")) in {"H", "X"}:
+                if prior and str(prior[-1].get("pitchResult")) in {"H", "X", "W"}:
                     bunt_by_pitch[identity(prior[-1])].update(word.split(" / "))
         for option in pitches:
             key = identity(option)
@@ -145,7 +145,7 @@ def main() -> None:
         writer = csv.DictWriter(stream, fieldnames=COLUMNS)
         writer.writeheader()
         writer.writerows(sorted(rows, key=lambda row: (row["game_id"], row["naver_pitch_id"])))
-    out = ["# 2025–2026 네이버 번트 시도 전수 조사", "", "네이버 문구에 `번트`가 나타난 투구와 번트 결과의 마지막 타격 투구를 센다. 같은 투구 ID의 반복 카드는 한 공으로 센다. 네이버와 VB는 공급원을 공유할 수 있다.", "", "## 관측 코드·문구", "", "| 코드 | 번트 문구 | 공 |", "|---|---|---:|"]
+    out = ["# 2025–2026 네이버 번트 시도 전수 조사", "", "네이버 문구에 `번트`가 나타난 투구와 번트 결과의 마지막 투구를 센다. 타석 결과 줄의 번트는 같은 카드에서 직전 `H`/`X`/`W` 투구에 연결한 추정이다. 중계 문구에 번트가 없으면 검출할 수 없다. 같은 투구 ID의 반복 카드는 한 공으로 센다. 네이버와 VB는 공급원을 공유할 수 있다.", "", "## 관측 코드·문구", "", "| 코드 | 번트 문구 | 공 |", "|---|---|---:|"]
     for code, phrases in sorted(codes.items()):
         for word, count in sorted(phrases.items()):
             out.append(f"| `{code}` | {word} | {count} |")
@@ -157,9 +157,9 @@ def main() -> None:
     for season in (2025, 2026):
         subset = [r for r in rows if r["season"] == season]
         bunt_foul_b = sum(r["naver_code"] == "W" and r["vb_call"] == "B" for r in subset)
-        out.append(f"- {season}: 번트 시도 {len(subset)}구, VB `B` {sum(r['vb_call'] == 'B' for r in subset)}구, 네이버 `W`·VB `B` {bunt_foul_b}구, 성공 이닝 {coverage[str(season)]}개")
+        out.append(f"- {season}: 경기 {sum(game_id.startswith(str(season)) for game_id in all_games)}개, 성공 이닝 {coverage[str(season)]}개, 번트 시도 {len(subset)}구, VB `B` {sum(r['vb_call'] == 'B' for r in subset)}구, 네이버 `W`·VB `B` {bunt_foul_b}구")
     statuses = Counter(r["match_status"] for r in rows)
-    out += [f"- 대응 상태: {dict(sorted(statuses.items()))}", "", "## 대응 실패", ""]
+    out += [f"- 대응 상태: {dict(sorted(statuses.items()))}; ambiguous {statuses['ambiguous']}구, unmatched {statuses['unmatched']}구", "", "## 대응 실패", ""]
     for row in rows:
         if row["match_status"] in {"ambiguous", "unmatched"}:
             out.append(f"- {row['game_id']} {row['naver_pitch_id']}: {row['match_status']}")
