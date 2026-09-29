@@ -57,21 +57,35 @@ def _speed_ok(n: dict, v: dict) -> bool:
 
 
 def join(vb: list[dict], naver: list[dict]) -> dict[str, tuple[str, dict | None]]:
-    """VB pitch -> (status, Naver pitch). matched_context uses the PR #32 key; matched_without_pitcher drops the
-    pitcher (Naver can switch the pitcher ID inside a PA, analysis 4e); a Naver pitch claimed twice is ambiguous."""
+    """VB pitch -> (status, Naver pitch). The key is (inning, half, PA ordinal in the half-inning, batter, pitcher,
+    pitch number) with speed within 1 km/h. The ordinal counts PAs that have pitches, on each side, so a batter who
+    bats twice in one half-inning cannot join the wrong PA, and a PA missing on either side shifts every later PA
+    out of the join (unmatched, so its PA fails the gate) instead of pairing it with a neighbour.
+    matched_without_pitcher drops the pitcher (Naver can switch the pitcher ID inside a PA, analysis 4e);
+    a Naver pitch claimed twice is ambiguous."""
+    n_ord, v_ord = {}, {}
+    for keyf, rows, pa, out in ((lambda n: (n["inning"], n["half"]), naver, lambda n: n["pa_no"], n_ord),
+                                (lambda v: (int(v["inning"]), v["inning_half"]), vb, lambda v: v["pa_id"], v_ord)):
+        seen = defaultdict(set)
+        for r in rows:
+            seen[keyf(r)].add(pa(r))
+        for k, pas in seen.items():
+            for i, p_ in enumerate(sorted(pas)):
+                out[(k, p_)] = i
     k5, k4 = defaultdict(list), defaultdict(list)
     for n in naver:
-        k5[(n["inning"], n["half"], n["batter"], n["pitcher"], n["pitch_num"])].append(n)
-        k4[(n["inning"], n["half"], n["batter"], n["pitch_num"])].append(n)
+        o = n_ord[((n["inning"], n["half"]), n["pa_no"])]; base = (n["inning"], n["half"], o, n["batter"])
+        k5[(*base, n["pitcher"], n["pitch_num"])].append(n)
+        k4[(*base, n["pitch_num"])].append(n)
     out = {}
     for v in vb:
-        key = (int(v["inning"]), v["inning_half"], str(v["batter_id"]), str(v["pitcher_id"]), int(v["pitch_number"]))
-        c = [n for n in k5.get(key, []) if _speed_ok(n, v)]
+        half = (int(v["inning"]), v["inning_half"]); base = (*half, v_ord[(half, v["pa_id"])], str(v["batter_id"]))
+        c = [n for n in k5.get((*base, str(v["pitcher_id"]), int(v["pitch_number"])), []) if _speed_ok(n, v)]
         if len(c) == 1:
             out[v["pitch_id"]] = ("matched_context", c[0]); continue
         if c:
             out[v["pitch_id"]] = ("ambiguous", None); continue
-        c = [n for n in k4.get(key[:3] + key[4:], []) if _speed_ok(n, v)]
+        c = [n for n in k4.get((*base, int(v["pitch_number"])), []) if _speed_ok(n, v)]
         out[v["pitch_id"]] = ("matched_without_pitcher", c[0]) if len(c) == 1 else ("ambiguous", None) if c else ("unmatched", None)
     claimed = Counter(id(n) for s, n in out.values() if n is not None)
     return {p: (("ambiguous", None) if n is not None and claimed[id(n)] > 1 else (s, n)) for p, (s, n) in out.items()}

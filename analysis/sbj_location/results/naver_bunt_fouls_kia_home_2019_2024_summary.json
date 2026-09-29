@@ -14,8 +14,7 @@
     "W_matched_without_pitcher": 1,
     "W_vb_B": 76,
     "naver_W": 76,
-    "vb_ambiguous": 12,
-    "vb_matched_context": 21192,
+    "vb_matched_context": 21204,
     "vb_matched_without_pitcher": 8,
     "vb_pitches": 21216,
     "vb_unmatched": 4
@@ -40,8 +39,7 @@
     "W_matched_context": 56,
     "W_vb_B": 56,
     "naver_W": 56,
-    "vb_ambiguous": 2,
-    "vb_matched_context": 22474,
+    "vb_matched_context": 22476,
     "vb_matched_without_pitcher": 12,
     "vb_pitches": 22488
    },
@@ -113,21 +111,19 @@
     "W_matched_context": 91,
     "W_vb_B": 91,
     "naver_W": 91,
-    "vb_ambiguous": 18,
-    "vb_matched_context": 21061,
+    "vb_matched_context": 21079,
     "vb_matched_without_pitcher": 13,
     "vb_pitches": 21098,
     "vb_unmatched": 6
    },
    "pa_gate": {
-    "fail:unjoined_pitch": 1,
-    "pass": 80
+    "pass": 81
    },
-   "corrections": 90,
+   "corrections": 91,
    "K1_complete": true,
    "K2_unmatched_or_ambiguous_share": 0.0,
    "K2_pass": true,
-   "K3_pa_pass_share": 0.9877,
+   "K3_pa_pass_share": 1.0,
    "K3_pass": true,
    "K4_W_per_game": 1.282,
    "K4_pass": false
@@ -140,8 +136,7 @@
     "W_matched_context": 67,
     "W_vb_B": 67,
     "naver_W": 67,
-    "vb_ambiguous": 8,
-    "vb_matched_context": 22422,
+    "vb_matched_context": 22430,
     "vb_matched_without_pitcher": 21,
     "vb_pitches": 22457,
     "vb_unmatched": 6
