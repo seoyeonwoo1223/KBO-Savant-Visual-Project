@@ -1,0 +1,727 @@
+{
+ "definition": {
+  "A_reported": "x_relative, z_relative, sz_top, sz_bottom",
+  "B_za72": "x_mid_relative, top_gap_cm, bottom_gap_cm",
+  "target": "takes only, ABS CalledStrike vs Ball/HBP (call reproduction, not a location validation)",
+  "pre": "curated before 7ffaba32 (bunt fouls recorded as B, V not counted as a strike)",
+  "post": "curated at 7ffaba32",
+  "edge_cm": "min distance to a zone edge over reported and judgment-plane representations",
+  "bootstrap": "game-cluster, 300 reps, seed 0; positive = B better"
+ },
+ "seasons": {
+  "2024": {
+   "pre": {
+    "eligible_pitches": 222225,
+    "takes": 121112,
+    "A": {
+     "log_loss": 0.04008,
+     "brier": 0.01012,
+     "misclass_at_0.5": 1548
+    },
+    "B": {
+     "log_loss": 0.02686,
+     "brier": 0.00568,
+     "misclass_at_0.5": 796
+    },
+    "logloss_A_minus_B_all": {
+     "mean": -0.01322,
+     "ci95": [
+      -0.014057,
+      -0.012314
+     ]
+    },
+    "brier_A_minus_B": 0.00444,
+    "by_edge_distance": {
+     "0-2cm": {
+      "takes": 23675,
+      "A_log_loss": 0.08782,
+      "B_log_loss": 0.04489,
+      "A_brier": 0.02553,
+      "B_brier": 0.01127,
+      "logloss_A_minus_B": {
+       "mean": 0.042932,
+       "ci95": [
+        0.039187,
+        0.046119
+       ]
+      }
+     },
+     "2-5cm": {
+      "takes": 23932,
+      "A_log_loss": 0.0492,
+      "B_log_loss": 0.02292,
+      "A_brier": 0.01291,
+      "B_brier": 0.00446,
+      "logloss_A_minus_B": {
+       "mean": 0.026279,
+       "ci95": [
+        0.02362,
+        0.029253
+       ]
+      }
+     },
+     "5-10cm": {
+      "takes": 30117,
+      "A_log_loss": 0.02081,
+      "B_log_loss": 0.02109,
+      "A_brier": 0.00389,
+      "B_brier": 0.00387,
+      "logloss_A_minus_B": {
+       "mean": -0.000279,
+       "ci95": [
+        -0.000708,
+        0.000186
+       ]
+      }
+     },
+     "10-20cm": {
+      "takes": 34719,
+      "A_log_loss": 0.02458,
+      "B_log_loss": 0.02557,
+      "A_brier": 0.00493,
+      "B_brier": 0.00498,
+      "logloss_A_minus_B": {
+       "mean": -0.000992,
+       "ci95": [
+        -0.001419,
+        -0.000554
+       ]
+      }
+     },
+     ">=20cm": {
+      "takes": 8669,
+      "A_log_loss": 0.01351,
+      "B_log_loss": 0.01367,
+      "A_brier": 0.0028,
+      "B_brier": 0.00281,
+      "logloss_A_minus_B": {
+       "mean": -0.000158,
+       "ci95": [
+        -0.000691,
+        0.000407
+       ]
+      }
+     }
+    },
+    "players": {
+     "qualified_batters": 155,
+     "mean_abs_delta_za_raw": 0.1681,
+     "max_abs_delta_za_raw": 0.732,
+     "max_rank_shift": 13,
+     "rank_shift_ge5": 28,
+     "spearman": 0.99673,
+     "seed_noise_mean_abs_delta": [
+      0.048,
+      0.0536
+     ],
+     "seed_noise_max_rank_shift": [
+      5,
+      5
+     ],
+     "ratio_to_seed_noise": [
+      3.14,
+      3.5
+     ],
+     "za_raw_sd_B": 2.9726
+    }
+   },
+   "post": {
+    "eligible_pitches": 221629,
+    "takes": 120516,
+    "A": {
+     "log_loss": 0.02273,
+     "brier": 0.00635,
+     "misclass_at_0.5": 1049
+    },
+    "B": {
+     "log_loss": 0.00974,
+     "brier": 0.00243,
+     "misclass_at_0.5": 437
+    },
+    "logloss_A_minus_B_all": {
+     "mean": -0.012992,
+     "ci95": [
+      -0.013877,
+      -0.012056
+     ]
+    },
+    "brier_A_minus_B": 0.00392,
+    "by_edge_distance": {
+     "0-2cm": {
+      "takes": 23580,
+      "A_log_loss": 0.06915,
+      "B_log_loss": 0.02838,
+      "A_brier": 0.02091,
+      "B_brier": 0.00854,
+      "logloss_A_minus_B": {
+       "mean": 0.040765,
+       "ci95": [
+        0.03722,
+        0.044353
+       ]
+      }
+     },
+     "2-5cm": {
+      "takes": 23818,
+      "A_log_loss": 0.03277,
+      "B_log_loss": 0.00776,
+      "A_brier": 0.00954,
+      "B_brier": 0.00201,
+      "logloss_A_minus_B": {
+       "mean": 0.025018,
+       "ci95": [
+        0.022368,
+        0.027916
+       ]
+      }
+     },
+     "5-10cm": {
+      "takes": 29955,
+      "A_log_loss": 0.0041,
+      "B_log_loss": 0.00372,
+      "A_brier": 0.00052,
+      "B_brier": 0.00047,
+      "logloss_A_minus_B": {
+       "mean": 0.000384,
+       "ci95": [
+        0.000204,
+        0.000563
+       ]
+      }
+     },
+     "10-20cm": {
+      "takes": 34519,
+      "A_log_loss": 0.00514,
+      "B_log_loss": 0.00521,
+      "A_brier": 0.00075,
+      "B_brier": 0.00075,
+      "logloss_A_minus_B": {
+       "mean": -6.5e-05,
+       "ci95": [
+        -0.000291,
+        0.000157
+       ]
+      }
+     },
+     ">=20cm": {
+      "takes": 8644,
+      "A_log_loss": 0.00328,
+      "B_log_loss": 0.00335,
+      "A_brier": 0.00046,
+      "B_brier": 0.00046,
+      "logloss_A_minus_B": {
+       "mean": -7.6e-05,
+       "ci95": [
+        -0.000351,
+        0.000357
+       ]
+      }
+     }
+    },
+    "players": {
+     "qualified_batters": 155,
+     "mean_abs_delta_za_raw": 0.1572,
+     "max_abs_delta_za_raw": 0.7294,
+     "max_rank_shift": 14,
+     "rank_shift_ge5": 31,
+     "spearman": 0.99617,
+     "seed_noise_mean_abs_delta": [
+      0.0428,
+      0.0608
+     ],
+     "seed_noise_max_rank_shift": [
+      5,
+      7
+     ],
+     "ratio_to_seed_noise": [
+      2.58,
+      3.67
+     ],
+     "za_raw_sd_B": 3.003
+    }
+   },
+   "correction_effect": {
+    "eligible_pitches_removed": 596,
+    "eligible_pitches_added": 0,
+    "B_za_raw_pre_vs_post_mean_abs_delta": 0.2683,
+    "common_qualified_batters": 155
+   }
+  },
+  "2025": {
+   "pre": {
+    "eligible_pitches": 217623,
+    "takes": 119311,
+    "A": {
+     "log_loss": 0.04056,
+     "brier": 0.01002,
+     "misclass_at_0.5": 1498
+    },
+    "B": {
+     "log_loss": 0.02923,
+     "brier": 0.00629,
+     "misclass_at_0.5": 888
+    },
+    "logloss_A_minus_B_all": {
+     "mean": -0.011326,
+     "ci95": [
+      -0.012336,
+      -0.01044
+     ]
+    },
+    "brier_A_minus_B": 0.00373,
+    "by_edge_distance": {
+     "0-2cm": {
+      "takes": 23250,
+      "A_log_loss": 0.08759,
+      "B_log_loss": 0.05274,
+      "A_brier": 0.02462,
+      "B_brier": 0.01296,
+      "logloss_A_minus_B": {
+       "mean": 0.03485,
+       "ci95": [
+        0.031085,
+        0.038611
+       ]
+      }
+     },
+     "2-5cm": {
+      "takes": 23573,
+      "A_log_loss": 0.05032,
+      "B_log_loss": 0.02618,
+      "A_brier": 0.01303,
+      "B_brier": 0.00564,
+      "logloss_A_minus_B": {
+       "mean": 0.024138,
+       "ci95": [
+        0.021104,
+        0.027436
+       ]
+      }
+     },
+     "5-10cm": {
+      "takes": 29449,
+      "A_log_loss": 0.02248,
+      "B_log_loss": 0.02259,
+      "A_brier": 0.00432,
+      "B_brier": 0.0043,
+      "logloss_A_minus_B": {
+       "mean": -0.00011,
+       "ci95": [
+        -0.000574,
+        0.000273
+       ]
+      }
+     },
+     "10-20cm": {
+      "takes": 34428,
+      "A_log_loss": 0.02547,
+      "B_log_loss": 0.02613,
+      "A_brier": 0.00503,
+      "B_brier": 0.00506,
+      "logloss_A_minus_B": {
+       "mean": -0.000665,
+       "ci95": [
+        -0.000985,
+        -0.000349
+       ]
+      }
+     },
+     ">=20cm": {
+      "takes": 8611,
+      "A_log_loss": 0.00904,
+      "B_log_loss": 0.00925,
+      "A_brier": 0.00172,
+      "B_brier": 0.00172,
+      "logloss_A_minus_B": {
+       "mean": -0.000208,
+       "ci95": [
+        -0.000482,
+        6.5e-05
+       ]
+      }
+     }
+    },
+    "players": {
+     "qualified_batters": 171,
+     "mean_abs_delta_za_raw": 0.175,
+     "max_abs_delta_za_raw": 1.0881,
+     "max_rank_shift": 21,
+     "rank_shift_ge5": 50,
+     "spearman": 0.99343,
+     "seed_noise_mean_abs_delta": [
+      0.0514,
+      0.0645
+     ],
+     "seed_noise_max_rank_shift": [
+      12,
+      18
+     ],
+     "ratio_to_seed_noise": [
+      2.71,
+      3.4
+     ],
+     "za_raw_sd_B": 2.7423
+    }
+   },
+   "post": {
+    "eligible_pitches": 216869,
+    "takes": 118557,
+    "A": {
+     "log_loss": 0.01885,
+     "brier": 0.00579,
+     "misclass_at_0.5": 984
+    },
+    "B": {
+     "log_loss": 0.0064,
+     "brier": 0.00201,
+     "misclass_at_0.5": 378
+    },
+    "logloss_A_minus_B_all": {
+     "mean": -0.012453,
+     "ci95": [
+      -0.013525,
+      -0.011471
+     ]
+    },
+    "brier_A_minus_B": 0.00378,
+    "by_edge_distance": {
+     "0-2cm": {
+      "takes": 23083,
+      "A_log_loss": 0.06101,
+      "B_log_loss": 0.02251,
+      "A_brier": 0.01965,
+      "B_brier": 0.00718,
+      "logloss_A_minus_B": {
+       "mean": 0.038502,
+       "ci95": [
+        0.034846,
+        0.042793
+       ]
+      }
+     },
+     "2-5cm": {
+      "takes": 23433,
+      "A_log_loss": 0.0333,
+      "B_log_loss": 0.009,
+      "A_brier": 0.0098,
+      "B_brier": 0.003,
+      "logloss_A_minus_B": {
+       "mean": 0.024296,
+       "ci95": [
+        0.021303,
+        0.027655
+       ]
+      }
+     },
+     "5-10cm": {
+      "takes": 29253,
+      "A_log_loss": 0.00075,
+      "B_log_loss": 0.00016,
+      "A_brier": 4e-05,
+      "B_brier": 0.0,
+      "logloss_A_minus_B": {
+       "mean": 0.000589,
+       "ci95": [
+        0.000508,
+        0.000667
+       ]
+      }
+     },
+     "10-20cm": {
+      "takes": 34194,
+      "A_log_loss": 0.00068,
+      "B_log_loss": 0.00065,
+      "A_brier": 6e-05,
+      "B_brier": 6e-05,
+      "logloss_A_minus_B": {
+       "mean": 2.6e-05,
+       "ci95": [
+        -8.1e-05,
+        6.4e-05
+       ]
+      }
+     },
+     ">=20cm": {
+      "takes": 8594,
+      "A_log_loss": 0.00015,
+      "B_log_loss": 0.00013,
+      "A_brier": 0.0,
+      "B_brier": 0.0,
+      "logloss_A_minus_B": {
+       "mean": 2.6e-05,
+       "ci95": [
+        2.4e-05,
+        2.8e-05
+       ]
+      }
+     }
+    },
+    "players": {
+     "qualified_batters": 171,
+     "mean_abs_delta_za_raw": 0.1773,
+     "max_abs_delta_za_raw": 0.8512,
+     "max_rank_shift": 17,
+     "rank_shift_ge5": 46,
+     "spearman": 0.99498,
+     "seed_noise_mean_abs_delta": [
+      0.0549,
+      0.0768
+     ],
+     "seed_noise_max_rank_shift": [
+      5,
+      10
+     ],
+     "ratio_to_seed_noise": [
+      2.31,
+      3.23
+     ],
+     "za_raw_sd_B": 2.7843
+    }
+   },
+   "correction_effect": {
+    "eligible_pitches_removed": 754,
+    "eligible_pitches_added": 0,
+    "B_za_raw_pre_vs_post_mean_abs_delta": 0.1471,
+    "common_qualified_batters": 171
+   }
+  },
+  "2026": {
+   "pre": {
+    "eligible_pitches": 203072,
+    "takes": 112310,
+    "A": {
+     "log_loss": 0.04063,
+     "brier": 0.0101,
+     "misclass_at_0.5": 1441
+    },
+    "B": {
+     "log_loss": 0.02745,
+     "brier": 0.00581,
+     "misclass_at_0.5": 775
+    },
+    "logloss_A_minus_B_all": {
+     "mean": -0.013184,
+     "ci95": [
+      -0.014156,
+      -0.012187
+     ]
+    },
+    "brier_A_minus_B": 0.00429,
+    "by_edge_distance": {
+     "0-2cm": {
+      "takes": 22034,
+      "A_log_loss": 0.09367,
+      "B_log_loss": 0.05084,
+      "A_brier": 0.02679,
+      "B_brier": 0.01261,
+      "logloss_A_minus_B": {
+       "mean": 0.042831,
+       "ci95": [
+        0.039676,
+        0.0464
+       ]
+      }
+     },
+     "2-5cm": {
+      "takes": 22325,
+      "A_log_loss": 0.0523,
+      "B_log_loss": 0.02758,
+      "A_brier": 0.01331,
+      "B_brier": 0.00571,
+      "logloss_A_minus_B": {
+       "mean": 0.02472,
+       "ci95": [
+        0.021274,
+        0.028123
+       ]
+      }
+     },
+     "5-10cm": {
+      "takes": 27801,
+      "A_log_loss": 0.0184,
+      "B_log_loss": 0.01811,
+      "A_brier": 0.00324,
+      "B_brier": 0.00321,
+      "logloss_A_minus_B": {
+       "mean": 0.000292,
+       "ci95": [
+        5e-06,
+        0.000584
+       ]
+      }
+     },
+     "10-20cm": {
+      "takes": 32067,
+      "A_log_loss": 0.02318,
+      "B_log_loss": 0.02383,
+      "A_brier": 0.00444,
+      "B_brier": 0.00446,
+      "logloss_A_minus_B": {
+       "mean": -0.000642,
+       "ci95": [
+        -0.001032,
+        -0.000326
+       ]
+      }
+     },
+     ">=20cm": {
+      "takes": 8083,
+      "A_log_loss": 0.00952,
+      "B_log_loss": 0.00983,
+      "A_brier": 0.00182,
+      "B_brier": 0.00183,
+      "logloss_A_minus_B": {
+       "mean": -0.000311,
+       "ci95": [
+        -0.000576,
+        -4.8e-05
+       ]
+      }
+     }
+    },
+    "players": {
+     "qualified_batters": 166,
+     "mean_abs_delta_za_raw": 0.1994,
+     "max_abs_delta_za_raw": 0.7172,
+     "max_rank_shift": 15,
+     "rank_shift_ge5": 53,
+     "spearman": 0.99477,
+     "seed_noise_mean_abs_delta": [
+      0.0519,
+      0.0651
+     ],
+     "seed_noise_max_rank_shift": [
+      5,
+      5
+     ],
+     "ratio_to_seed_noise": [
+      3.06,
+      3.84
+     ],
+     "za_raw_sd_B": 2.8956
+    }
+   },
+   "post": {
+    "eligible_pitches": 202449,
+    "takes": 111687,
+    "A": {
+     "log_loss": 0.02021,
+     "brier": 0.0062,
+     "misclass_at_0.5": 976
+    },
+    "B": {
+     "log_loss": 0.00594,
+     "brier": 0.00181,
+     "misclass_at_0.5": 298
+    },
+    "logloss_A_minus_B_all": {
+     "mean": -0.014271,
+     "ci95": [
+      -0.015273,
+      -0.013305
+     ]
+    },
+    "brier_A_minus_B": 0.00439,
+    "by_edge_distance": {
+     "0-2cm": {
+      "takes": 21903,
+      "A_log_loss": 0.06728,
+      "B_log_loss": 0.02054,
+      "A_brier": 0.02169,
+      "B_brier": 0.00663,
+      "logloss_A_minus_B": {
+       "mean": 0.046746,
+       "ci95": [
+        0.043239,
+        0.050664
+       ]
+      }
+     },
+     "2-5cm": {
+      "takes": 22195,
+      "A_log_loss": 0.03379,
+      "B_log_loss": 0.00876,
+      "A_brier": 0.00972,
+      "B_brier": 0.00254,
+      "logloss_A_minus_B": {
+       "mean": 0.025031,
+       "ci95": [
+        0.021613,
+        0.028472
+       ]
+      }
+     },
+     "5-10cm": {
+      "takes": 27639,
+      "A_log_loss": 0.00058,
+      "B_log_loss": 0.00017,
+      "A_brier": 2e-05,
+      "B_brier": 0.0,
+      "logloss_A_minus_B": {
+       "mean": 0.000404,
+       "ci95": [
+        0.000349,
+        0.000458
+       ]
+      }
+     },
+     "10-20cm": {
+      "takes": 31883,
+      "A_log_loss": 0.00052,
+      "B_log_loss": 0.00043,
+      "A_brier": 3e-05,
+      "B_brier": 3e-05,
+      "logloss_A_minus_B": {
+       "mean": 9.3e-05,
+       "ci95": [
+        8.7e-05,
+        9.6e-05
+       ]
+      }
+     },
+     ">=20cm": {
+      "takes": 8067,
+      "A_log_loss": 0.00018,
+      "B_log_loss": 0.00014,
+      "A_brier": 0.0,
+      "B_brier": 0.0,
+      "logloss_A_minus_B": {
+       "mean": 4.5e-05,
+       "ci95": [
+        4.3e-05,
+        4.8e-05
+       ]
+      }
+     }
+    },
+    "players": {
+     "qualified_batters": 166,
+     "mean_abs_delta_za_raw": 0.1946,
+     "max_abs_delta_za_raw": 1.004,
+     "max_rank_shift": 15,
+     "rank_shift_ge5": 48,
+     "spearman": 0.99539,
+     "seed_noise_mean_abs_delta": [
+      0.0589,
+      0.0704
+     ],
+     "seed_noise_max_rank_shift": [
+      7,
+      9
+     ],
+     "ratio_to_seed_noise": [
+      2.76,
+      3.3
+     ],
+     "za_raw_sd_B": 2.9492
+    }
+   },
+   "correction_effect": {
+    "eligible_pitches_removed": 623,
+    "eligible_pitches_added": 0,
+    "B_za_raw_pre_vs_post_mean_abs_delta": 0.1597,
+    "common_qualified_batters": 166
+   }
+  }
+ }
+}

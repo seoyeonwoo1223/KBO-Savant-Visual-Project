@@ -1,0 +1,402 @@
+{
+ "season": 2024,
+ "eligible_pitches": 221629,
+ "takes": 120516,
+ "strata_counts_all_pitches": {
+  "fallback": 0,
+  "disagree_gt1cm": 0,
+  "boundary_within_5cm": 87140
+ },
+ "metrics": {
+  "all": {
+   "takes": 120516,
+   "called_strike_rate": 0.3232,
+   "A_reported": {
+    "log_loss": 0.02273,
+    "brier": 0.00635,
+    "auc": 0.99943,
+    "cal_slope": 1.027,
+    "cal_intercept": -0.048,
+    "ece": 0.00054,
+    "misclass_at_0.5": 1049
+   },
+   "B_za72": {
+    "log_loss": 0.00974,
+    "brier": 0.00243,
+    "auc": 0.99969,
+    "cal_slope": 1.042,
+    "cal_intercept": -0.04,
+    "ece": 0.00065,
+    "misclass_at_0.5": 437
+   },
+   "C1_za72_flag": {
+    "log_loss": 0.00974,
+    "brier": 0.00243,
+    "auc": 0.99969,
+    "cal_slope": 1.042,
+    "cal_intercept": -0.04,
+    "ece": 0.00065,
+    "misclass_at_0.5": 437
+   },
+   "C2_split": {
+    "log_loss": 0.00974,
+    "brier": 0.00243,
+    "auc": 0.99969,
+    "cal_slope": 1.042,
+    "cal_intercept": -0.04,
+    "ece": 0.00065,
+    "misclass_at_0.5": 437
+   },
+   "D_za72_plus_front_pz": {
+    "log_loss": 0.00971,
+    "brier": 0.00242,
+    "auc": 0.99967,
+    "cal_slope": 1.04,
+    "cal_intercept": -0.043,
+    "ece": 0.0007,
+    "misclass_at_0.5": 416
+   }
+  },
+  "trajectory_ok": {
+   "takes": 120516,
+   "called_strike_rate": 0.3232,
+   "A_reported": {
+    "log_loss": 0.02273,
+    "brier": 0.00635,
+    "auc": 0.99943,
+    "cal_slope": 1.027,
+    "cal_intercept": -0.048,
+    "ece": 0.00054,
+    "misclass_at_0.5": 1049
+   },
+   "B_za72": {
+    "log_loss": 0.00974,
+    "brier": 0.00243,
+    "auc": 0.99969,
+    "cal_slope": 1.042,
+    "cal_intercept": -0.04,
+    "ece": 0.00065,
+    "misclass_at_0.5": 437
+   },
+   "C1_za72_flag": {
+    "log_loss": 0.00974,
+    "brier": 0.00243,
+    "auc": 0.99969,
+    "cal_slope": 1.042,
+    "cal_intercept": -0.04,
+    "ece": 0.00065,
+    "misclass_at_0.5": 437
+   },
+   "C2_split": {
+    "log_loss": 0.00974,
+    "brier": 0.00243,
+    "auc": 0.99969,
+    "cal_slope": 1.042,
+    "cal_intercept": -0.04,
+    "ece": 0.00065,
+    "misclass_at_0.5": 437
+   },
+   "D_za72_plus_front_pz": {
+    "log_loss": 0.00971,
+    "brier": 0.00242,
+    "auc": 0.99967,
+    "cal_slope": 1.04,
+    "cal_intercept": -0.043,
+    "ece": 0.0007,
+    "misclass_at_0.5": 416
+   }
+  },
+  "trajectory_missing_fallback": {
+   "takes": 0,
+   "called_strike_rate": null
+  },
+  "reported_vs_trajectory_disagree_gt1cm": {
+   "takes": 0,
+   "called_strike_rate": null
+  },
+  "boundary_within_5cm": {
+   "takes": 47398,
+   "called_strike_rate": 0.4178,
+   "A_reported": {
+    "log_loss": 0.05087,
+    "brier": 0.01519,
+    "auc": 0.99817,
+    "cal_slope": 1.004,
+    "cal_intercept": -0.023,
+    "ece": 0.00175,
+    "misclass_at_0.5": 1004
+   },
+   "B_za72": {
+    "log_loss": 0.01802,
+    "brier": 0.00526,
+    "auc": 0.99956,
+    "cal_slope": 1.038,
+    "cal_intercept": 0.022,
+    "ece": 0.00143,
+    "misclass_at_0.5": 393
+   },
+   "C1_za72_flag": {
+    "log_loss": 0.01802,
+    "brier": 0.00526,
+    "auc": 0.99956,
+    "cal_slope": 1.038,
+    "cal_intercept": 0.022,
+    "ece": 0.00143,
+    "misclass_at_0.5": 393
+   },
+   "C2_split": {
+    "log_loss": 0.01802,
+    "brier": 0.00526,
+    "auc": 0.99956,
+    "cal_slope": 1.038,
+    "cal_intercept": 0.022,
+    "ece": 0.00143,
+    "misclass_at_0.5": 393
+   },
+   "D_za72_plus_front_pz": {
+    "log_loss": 0.01796,
+    "brier": 0.00522,
+    "auc": 0.99951,
+    "cal_slope": 1.039,
+    "cal_intercept": -0.011,
+    "ece": 0.00159,
+    "misclass_at_0.5": 372
+   }
+  },
+  "non_boundary": {
+   "takes": 73118,
+   "called_strike_rate": 0.2618,
+   "A_reported": {
+    "log_loss": 0.0045,
+    "brier": 0.00062,
+    "auc": 0.99976,
+    "cal_slope": 1.219,
+    "cal_intercept": -1.229,
+    "ece": 0.00033,
+    "misclass_at_0.5": 45
+   },
+   "B_za72": {
+    "log_loss": 0.00438,
+    "brier": 0.0006,
+    "auc": 0.99971,
+    "cal_slope": 1.135,
+    "cal_intercept": -0.755,
+    "ece": 0.00014,
+    "misclass_at_0.5": 44
+   },
+   "C1_za72_flag": {
+    "log_loss": 0.00438,
+    "brier": 0.0006,
+    "auc": 0.99971,
+    "cal_slope": 1.135,
+    "cal_intercept": -0.755,
+    "ece": 0.00014,
+    "misclass_at_0.5": 44
+   },
+   "C2_split": {
+    "log_loss": 0.00438,
+    "brier": 0.0006,
+    "auc": 0.99971,
+    "cal_slope": 1.135,
+    "cal_intercept": -0.755,
+    "ece": 0.00014,
+    "misclass_at_0.5": 44
+   },
+   "D_za72_plus_front_pz": {
+    "log_loss": 0.00437,
+    "brier": 0.0006,
+    "auc": 0.9997,
+    "cal_slope": 1.129,
+    "cal_intercept": -0.764,
+    "ece": 0.00012,
+    "misclass_at_0.5": 44
+   }
+  }
+ },
+ "logloss_diff_vs_B_za72": {
+  "all": {
+   "A_reported": {
+    "mean": 0.012992,
+    "ci95": [
+     0.012056,
+     0.013877
+    ]
+   },
+   "C1_za72_flag": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "C2_split": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "D_za72_plus_front_pz": {
+    "mean": -3e-05,
+    "ci95": [
+     -0.000117,
+     6.1e-05
+    ]
+   }
+  },
+  "boundary_within_5cm": {
+   "A_reported": {
+    "mean": 0.032852,
+    "ci95": [
+     0.030537,
+     0.035073
+    ]
+   },
+   "C1_za72_flag": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "C2_split": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "D_za72_plus_front_pz": {
+    "mean": -5.8e-05,
+    "ci95": [
+     -0.000267,
+     0.000188
+    ]
+   }
+  }
+ },
+ "player_sbj_sensitivity": {
+  "qualified_batters": 155,
+  "A_reported": {
+   "spearman_vs_B": 0.99617,
+   "mean_abs_delta_za_raw": 0.1572,
+   "max_abs_delta_za_raw": 0.7294,
+   "max_rank_shift": 14,
+   "rank_shift_ge5": 31,
+   "top10_overlap": 9,
+   "largest_changes": [
+    {
+     "batter_id": "65586",
+     "name": "전병우",
+     "za_B": 1.635,
+     "za_alt": 2.364
+    },
+    {
+     "batter_id": "54400",
+     "name": "디아즈",
+     "za_B": -1.951,
+     "za_alt": -1.292
+    },
+    {
+     "batter_id": "68518",
+     "name": "정보근",
+     "za_B": -2.719,
+     "za_alt": -3.24
+    }
+   ]
+  },
+  "C1_za72_flag": {
+   "spearman_vs_B": 1.0,
+   "mean_abs_delta_za_raw": 0.0,
+   "max_abs_delta_za_raw": 0.0,
+   "max_rank_shift": 0,
+   "rank_shift_ge5": 0,
+   "top10_overlap": 10,
+   "largest_changes": [
+    {
+     "batter_id": "50054",
+     "name": "천성호",
+     "za_B": -0.743,
+     "za_alt": -0.743
+    },
+    {
+     "batter_id": "50150",
+     "name": "손호영",
+     "za_B": -2.122,
+     "za_alt": -2.122
+    },
+    {
+     "batter_id": "50167",
+     "name": "이주형",
+     "za_B": 2.71,
+     "za_alt": 2.71
+    }
+   ]
+  },
+  "C2_split": {
+   "spearman_vs_B": 1.0,
+   "mean_abs_delta_za_raw": 0.0,
+   "max_abs_delta_za_raw": 0.0,
+   "max_rank_shift": 0,
+   "rank_shift_ge5": 0,
+   "top10_overlap": 10,
+   "largest_changes": [
+    {
+     "batter_id": "50054",
+     "name": "천성호",
+     "za_B": -0.743,
+     "za_alt": -0.743
+    },
+    {
+     "batter_id": "50150",
+     "name": "손호영",
+     "za_B": -2.122,
+     "za_alt": -2.122
+    },
+    {
+     "batter_id": "50167",
+     "name": "이주형",
+     "za_B": 2.71,
+     "za_alt": 2.71
+    }
+   ]
+  },
+  "D_za72_plus_front_pz": {
+   "spearman_vs_B": 0.99994,
+   "mean_abs_delta_za_raw": 0.0133,
+   "max_abs_delta_za_raw": 0.0644,
+   "max_rank_shift": 2,
+   "rank_shift_ge5": 0,
+   "top10_overlap": 10,
+   "largest_changes": [
+    {
+     "batter_id": "50707",
+     "name": "최인호",
+     "za_B": -5.199,
+     "za_alt": -5.263
+    },
+    {
+     "batter_id": "78135",
+     "name": "이형종",
+     "za_B": 4.011,
+     "za_alt": 4.075
+    },
+    {
+     "batter_id": "77243",
+     "name": "허도환",
+     "za_B": 0.712,
+     "za_alt": 0.771
+    }
+   ]
+  }
+ },
+ "za_raw_sd_qualified_B": 3.003,
+ "A_vs_B_disagreement_takes_gt0.4": {
+  "n": 1275,
+  "called_strike": 583,
+  "A_closer": 187,
+  "where_A_higher": 671,
+  "fallback": 0,
+  "boundary": 1273
+ }
+}
