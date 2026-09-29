@@ -226,214 +226,214 @@
   },
   "2020": {
    "pzone_input": "A_reported",
-   "takes": 119490,
-   "queued": 414,
-   "queued_ball_high_p": 181,
-   "queued_strike_low_p": 233,
-   "per_1000_takes": 3.465,
-   "N2_logloss_share": 0.0707,
-   "mean_log_loss": 0.18673,
+   "takes": 119488,
+   "queued": 425,
+   "queued_ball_high_p": 186,
+   "queued_strike_low_p": 239,
+   "per_1000_takes": 3.557,
+   "N2_logloss_share": 0.0723,
+   "mean_log_loss": 0.18665,
    "N3_by_home": {
     "HH": {
      "takes": 11919,
      "queued": 35,
      "per_1000": 2.936,
-     "ratio_vs_rest": 0.833,
+     "ratio_vs_rest": 0.81,
      "ci95": [
-      0.534,
-      1.158
+      0.524,
+      1.122
      ]
     },
     "HT": {
      "takes": 12343,
-     "queued": 58,
-     "per_1000": 4.699,
-     "ratio_vs_rest": 1.414,
+     "queued": 60,
+     "per_1000": 4.861,
+     "ratio_vs_rest": 1.427,
      "ci95": [
-      0.978,
-      1.931
+      1.002,
+      1.908
      ]
     },
     "KT": {
-     "takes": 11763,
-     "queued": 35,
-     "per_1000": 2.975,
-     "ratio_vs_rest": 0.846,
+     "takes": 11761,
+     "queued": 34,
+     "per_1000": 2.891,
+     "ratio_vs_rest": 0.796,
      "ci95": [
-      0.554,
-      1.148
+      0.529,
+      1.086
      ]
     },
     "LG": {
      "takes": 11812,
-     "queued": 29,
-     "per_1000": 2.455,
-     "ratio_vs_rest": 0.687,
+     "queued": 32,
+     "per_1000": 2.709,
+     "ratio_vs_rest": 0.742,
      "ci95": [
-      0.41,
-      1.014
+      0.471,
+      1.088
      ]
     },
     "LT": {
      "takes": 11548,
-     "queued": 20,
-     "per_1000": 1.732,
-     "ratio_vs_rest": 0.474,
+     "queued": 19,
+     "per_1000": 1.645,
+     "ratio_vs_rest": 0.437,
      "ci95": [
-      0.265,
-      0.71
+      0.239,
+      0.659
      ]
     },
     "NC": {
      "takes": 12289,
      "queued": 32,
      "per_1000": 2.604,
-     "ratio_vs_rest": 0.731,
+     "ratio_vs_rest": 0.71,
      "ci95": [
-      0.466,
-      1.034
+      0.461,
+      0.999
      ]
     },
     "OB": {
      "takes": 11615,
-     "queued": 42,
-     "per_1000": 3.616,
-     "ratio_vs_rest": 1.049,
+     "queued": 43,
+     "per_1000": 3.702,
+     "ratio_vs_rest": 1.045,
      "ci95": [
-      0.734,
-      1.445
+      0.735,
+      1.408
      ]
     },
     "SK": {
      "takes": 11956,
      "queued": 60,
      "per_1000": 5.018,
-     "ratio_vs_rest": 1.524,
+     "ratio_vs_rest": 1.478,
      "ci95": [
-      0.966,
-      2.208
+      0.927,
+      2.102
      ]
     },
     "SS": {
      "takes": 12237,
-     "queued": 64,
-     "per_1000": 5.23,
-     "ratio_vs_rest": 1.603,
+     "queued": 70,
+     "per_1000": 5.72,
+     "ratio_vs_rest": 1.728,
      "ci95": [
-      1.153,
-      2.153
+      1.285,
+      2.284
      ]
     },
     "WO": {
      "takes": 12008,
-     "queued": 39,
-     "per_1000": 3.248,
-     "ratio_vs_rest": 0.931,
+     "queued": 40,
+     "per_1000": 3.331,
+     "ratio_vs_rest": 0.93,
      "ci95": [
-      0.564,
-      1.314
+      0.58,
+      1.308
      ]
     }
    },
    "N3_by_batter_team": {
     "HH": {
      "takes": 11177,
-     "queued": 41,
-     "per_1000": 3.668,
-     "ratio_vs_rest": 1.065,
+     "queued": 43,
+     "per_1000": 3.847,
+     "ratio_vs_rest": 1.091,
      "ci95": [
-      0.709,
-      1.46
+      0.747,
+      1.471
      ]
     },
     "HT": {
      "takes": 12261,
-     "queued": 43,
-     "per_1000": 3.507,
-     "ratio_vs_rest": 1.014,
+     "queued": 42,
+     "per_1000": 3.425,
+     "ratio_vs_rest": 0.959,
      "ci95": [
-      0.68,
-      1.411
+      0.641,
+      1.355
      ]
     },
     "KT": {
      "takes": 12496,
-     "queued": 37,
-     "per_1000": 2.961,
-     "ratio_vs_rest": 0.84,
+     "queued": 38,
+     "per_1000": 3.041,
+     "ratio_vs_rest": 0.841,
      "ci95": [
-      0.583,
-      1.114
+      0.577,
+      1.12
      ]
     },
     "LG": {
-     "takes": 11888,
+     "takes": 11886,
      "queued": 26,
      "per_1000": 2.187,
-     "ratio_vs_rest": 0.607,
+     "ratio_vs_rest": 0.59,
      "ci95": [
-      0.388,
-      0.888
+      0.365,
+      0.875
      ]
     },
     "LT": {
      "takes": 11913,
      "queued": 24,
      "per_1000": 2.015,
-     "ratio_vs_rest": 0.556,
+     "ratio_vs_rest": 0.54,
      "ci95": [
-      0.328,
-      0.848
+      0.315,
+      0.823
      ]
     },
     "NC": {
      "takes": 12258,
      "queued": 54,
      "per_1000": 4.405,
-     "ratio_vs_rest": 1.312,
+     "ratio_vs_rest": 1.273,
      "ci95": [
-      0.94,
-      1.748
+      0.911,
+      1.679
      ]
     },
     "OB": {
      "takes": 11857,
-     "queued": 44,
-     "per_1000": 3.711,
-     "ratio_vs_rest": 1.079,
+     "queued": 46,
+     "per_1000": 3.88,
+     "ratio_vs_rest": 1.102,
      "ci95": [
-      0.737,
-      1.426
+      0.777,
+      1.472
      ]
     },
     "SK": {
      "takes": 10927,
      "queued": 48,
      "per_1000": 4.393,
-     "ratio_vs_rest": 1.303,
+     "ratio_vs_rest": 1.265,
      "ci95": [
-      0.829,
-      1.83
+      0.806,
+      1.764
      ]
     },
     "SS": {
      "takes": 12027,
-     "queued": 54,
-     "per_1000": 4.49,
-     "ratio_vs_rest": 1.34,
+     "queued": 61,
+     "per_1000": 5.072,
+     "ratio_vs_rest": 1.497,
      "ci95": [
-      0.97,
-      1.768
+      1.128,
+      1.947
      ]
     },
     "WO": {
      "takes": 12686,
      "queued": 43,
      "per_1000": 3.39,
-     "ratio_vs_rest": 0.976,
+     "ratio_vs_rest": 0.948,
      "ci95": [
-      0.699,
-      1.337
+      0.656,
+      1.296
      ]
     }
    },
@@ -658,112 +658,112 @@
   },
   "2022": {
    "pzone_input": "A_reported",
-   "takes": 115337,
-   "queued": 377,
-   "queued_ball_high_p": 184,
-   "queued_strike_low_p": 193,
-   "per_1000_takes": 3.269,
-   "N2_logloss_share": 0.0735,
-   "mean_log_loss": 0.17249,
+   "takes": 115321,
+   "queued": 374,
+   "queued_ball_high_p": 180,
+   "queued_strike_low_p": 194,
+   "per_1000_takes": 3.243,
+   "N2_logloss_share": 0.0727,
+   "mean_log_loss": 0.17241,
    "N3_by_home": {
     "HH": {
      "takes": 12364,
-     "queued": 29,
-     "per_1000": 2.346,
-     "ratio_vs_rest": 0.694,
+     "queued": 27,
+     "per_1000": 2.184,
+     "ratio_vs_rest": 0.648,
      "ci95": [
-      0.441,
-      1.017
+      0.401,
+      0.976
      ]
     },
     "HT": {
      "takes": 11720,
-     "queued": 27,
-     "per_1000": 2.304,
-     "ratio_vs_rest": 0.682,
+     "queued": 28,
+     "per_1000": 2.389,
+     "ratio_vs_rest": 0.715,
      "ci95": [
-      0.422,
-      1.004
+      0.43,
+      1.042
      ]
     },
     "KT": {
      "takes": 11153,
-     "queued": 27,
-     "per_1000": 2.421,
-     "ratio_vs_rest": 0.721,
+     "queued": 25,
+     "per_1000": 2.242,
+     "ratio_vs_rest": 0.669,
      "ci95": [
-      0.459,
-      1.047
+      0.4,
+      0.981
      ]
     },
     "LG": {
      "takes": 11401,
-     "queued": 50,
-     "per_1000": 4.386,
-     "ratio_vs_rest": 1.394,
+     "queued": 54,
+     "per_1000": 4.736,
+     "ratio_vs_rest": 1.538,
      "ci95": [
-      1.002,
-      1.848
+      1.085,
+      2.081
      ]
     },
     "LT": {
      "takes": 10928,
-     "queued": 34,
-     "per_1000": 3.111,
-     "ratio_vs_rest": 0.947,
+     "queued": 35,
+     "per_1000": 3.203,
+     "ratio_vs_rest": 0.986,
      "ci95": [
-      0.591,
-      1.325
+      0.632,
+      1.363
      ]
     },
     "NC": {
      "takes": 11864,
-     "queued": 52,
-     "per_1000": 4.383,
-     "ratio_vs_rest": 1.395,
+     "queued": 55,
+     "per_1000": 4.636,
+     "ratio_vs_rest": 1.503,
      "ci95": [
-      0.968,
-      1.866
+      1.053,
+      2.005
      ]
     },
     "OB": {
      "takes": 11787,
      "queued": 32,
      "per_1000": 2.715,
-     "ratio_vs_rest": 0.815,
+     "ratio_vs_rest": 0.822,
      "ci95": [
-      0.521,
-      1.151
+      0.545,
+      1.174
      ]
     },
     "SK": {
-     "takes": 11360,
-     "queued": 52,
-     "per_1000": 4.577,
-     "ratio_vs_rest": 1.464,
+     "takes": 11346,
+     "queued": 44,
+     "per_1000": 3.878,
+     "ratio_vs_rest": 1.222,
      "ci95": [
-      1.013,
-      1.975
+      0.833,
+      1.663
      ]
     },
     "SS": {
-     "takes": 11078,
+     "takes": 11076,
      "queued": 34,
-     "per_1000": 3.069,
-     "ratio_vs_rest": 0.933,
+     "per_1000": 3.07,
+     "ratio_vs_rest": 0.941,
      "ci95": [
-      0.583,
-      1.33
+      0.589,
+      1.352
      ]
     },
     "WO": {
      "takes": 11682,
      "queued": 40,
      "per_1000": 3.424,
-     "ratio_vs_rest": 1.053,
+     "ratio_vs_rest": 1.062,
      "ci95": [
-      0.715,
-      1.457
+      0.709,
+      1.488
      ]
     }
    },
@@ -772,100 +772,100 @@
      "takes": 11708,
      "queued": 35,
      "per_1000": 2.989,
-     "ratio_vs_rest": 0.906,
+     "ratio_vs_rest": 0.914,
      "ci95": [
-      0.508,
+      0.515,
       1.404
      ]
     },
     "HT": {
      "takes": 11608,
-     "queued": 32,
-     "per_1000": 2.757,
-     "ratio_vs_rest": 0.829,
+     "queued": 33,
+     "per_1000": 2.843,
+     "ratio_vs_rest": 0.865,
      "ci95": [
-      0.554,
-      1.139
+      0.578,
+      1.183
      ]
     },
     "KT": {
-     "takes": 12197,
+     "takes": 12196,
      "queued": 33,
      "per_1000": 2.706,
-     "ratio_vs_rest": 0.811,
+     "ratio_vs_rest": 0.818,
      "ci95": [
-      0.577,
-      1.079
+      0.58,
+      1.101
      ]
     },
     "LG": {
-     "takes": 11706,
-     "queued": 54,
-     "per_1000": 4.613,
-     "ratio_vs_rest": 1.48,
+     "takes": 11703,
+     "queued": 53,
+     "per_1000": 4.529,
+     "ratio_vs_rest": 1.462,
      "ci95": [
-      1.061,
-      1.926
+      1.032,
+      1.94
      ]
     },
     "LT": {
      "takes": 10713,
      "queued": 24,
      "per_1000": 2.24,
-     "ratio_vs_rest": 0.664,
+     "ratio_vs_rest": 0.67,
      "ci95": [
-      0.415,
-      0.954
+      0.421,
+      0.956
      ]
     },
     "NC": {
      "takes": 11650,
-     "queued": 36,
-     "per_1000": 3.09,
-     "ratio_vs_rest": 0.94,
+     "queued": 37,
+     "per_1000": 3.176,
+     "ratio_vs_rest": 0.977,
      "ci95": [
-      0.621,
-      1.312
+      0.648,
+      1.382
      ]
     },
     "OB": {
      "takes": 10901,
-     "queued": 31,
-     "per_1000": 2.844,
-     "ratio_vs_rest": 0.858,
+     "queued": 34,
+     "per_1000": 3.119,
+     "ratio_vs_rest": 0.958,
      "ci95": [
-      0.534,
-      1.245
+      0.575,
+      1.409
      ]
     },
     "SK": {
-     "takes": 11434,
-     "queued": 43,
-     "per_1000": 3.761,
-     "ratio_vs_rest": 1.17,
+     "takes": 11429,
+     "queued": 37,
+     "per_1000": 3.237,
+     "ratio_vs_rest": 0.998,
      "ci95": [
-      0.797,
-      1.641
+      0.645,
+      1.42
      ]
     },
     "SS": {
-     "takes": 11254,
-     "queued": 42,
-     "per_1000": 3.732,
-     "ratio_vs_rest": 1.16,
+     "takes": 11247,
+     "queued": 38,
+     "per_1000": 3.379,
+     "ratio_vs_rest": 1.047,
      "ci95": [
-      0.814,
-      1.574
+      0.731,
+      1.416
      ]
     },
     "WO": {
      "takes": 12166,
-     "queued": 47,
-     "per_1000": 3.863,
-     "ratio_vs_rest": 1.208,
+     "queued": 50,
+     "per_1000": 4.11,
+     "ratio_vs_rest": 1.308,
      "ci95": [
-      0.831,
-      1.686
+      0.908,
+      1.801
      ]
     }
    },
@@ -874,214 +874,214 @@
   },
   "2023": {
    "pzone_input": "A_reported",
-   "takes": 117687,
-   "queued": 418,
+   "takes": 117686,
+   "queued": 413,
    "queued_ball_high_p": 190,
-   "queued_strike_low_p": 228,
-   "per_1000_takes": 3.552,
-   "N2_logloss_share": 0.0782,
-   "mean_log_loss": 0.16965,
+   "queued_strike_low_p": 223,
+   "per_1000_takes": 3.509,
+   "N2_logloss_share": 0.0773,
+   "mean_log_loss": 0.1695,
    "N3_by_home": {
     "HH": {
-     "takes": 12349,
-     "queued": 39,
-     "per_1000": 3.158,
-     "ratio_vs_rest": 0.878,
+     "takes": 12348,
+     "queued": 37,
+     "per_1000": 2.996,
+     "ratio_vs_rest": 0.839,
      "ci95": [
-      0.634,
-      1.171
+      0.611,
+      1.118
      ]
     },
     "HT": {
      "takes": 11524,
-     "queued": 45,
-     "per_1000": 3.905,
-     "ratio_vs_rest": 1.111,
+     "queued": 44,
+     "per_1000": 3.818,
+     "ratio_vs_rest": 1.098,
      "ci95": [
-      0.755,
-      1.509
+      0.702,
+      1.532
      ]
     },
     "KT": {
      "takes": 11934,
      "queued": 32,
      "per_1000": 2.681,
-     "ratio_vs_rest": 0.735,
+     "ratio_vs_rest": 0.744,
      "ci95": [
-      0.482,
-      1.018
+      0.493,
+      1.027
      ]
     },
     "LG": {
      "takes": 11754,
-     "queued": 31,
-     "per_1000": 2.637,
-     "ratio_vs_rest": 0.722,
+     "queued": 32,
+     "per_1000": 2.722,
+     "ratio_vs_rest": 0.757,
      "ci95": [
-      0.465,
-      1.042
+      0.519,
+      1.067
      ]
     },
     "LT": {
      "takes": 11421,
-     "queued": 64,
-     "per_1000": 5.604,
-     "ratio_vs_rest": 1.682,
+     "queued": 65,
+     "per_1000": 5.691,
+     "ratio_vs_rest": 1.738,
      "ci95": [
-      1.219,
-      2.242
+      1.261,
+      2.311
      ]
     },
     "NC": {
      "takes": 11962,
-     "queued": 31,
-     "per_1000": 2.592,
-     "ratio_vs_rest": 0.708,
+     "queued": 32,
+     "per_1000": 2.675,
+     "ratio_vs_rest": 0.742,
      "ci95": [
-      0.457,
-      1.018
+      0.496,
+      1.038
      ]
     },
     "OB": {
      "takes": 12045,
-     "queued": 38,
-     "per_1000": 3.155,
-     "ratio_vs_rest": 0.877,
+     "queued": 40,
+     "per_1000": 3.321,
+     "ratio_vs_rest": 0.941,
      "ci95": [
-      0.56,
-      1.233
+      0.628,
+      1.299
      ]
     },
     "SK": {
      "takes": 12412,
-     "queued": 61,
-     "per_1000": 4.915,
-     "ratio_vs_rest": 1.449,
+     "queued": 57,
+     "per_1000": 4.592,
+     "ratio_vs_rest": 1.358,
      "ci95": [
-      0.858,
-      2.274
+      0.827,
+      2.145
      ]
     },
     "SS": {
      "takes": 10289,
-     "queued": 27,
-     "per_1000": 2.624,
-     "ratio_vs_rest": 0.721,
+     "queued": 25,
+     "per_1000": 2.43,
+     "ratio_vs_rest": 0.673,
      "ci95": [
-      0.447,
-      1.02
+      0.408,
+      0.976
      ]
     },
     "WO": {
      "takes": 11997,
-     "queued": 50,
-     "per_1000": 4.168,
-     "ratio_vs_rest": 1.197,
+     "queued": 49,
+     "per_1000": 4.084,
+     "ratio_vs_rest": 1.186,
      "ci95": [
-      0.783,
-      1.648
+      0.793,
+      1.629
      ]
     }
    },
    "N3_by_batter_team": {
     "HH": {
      "takes": 12237,
-     "queued": 35,
-     "per_1000": 2.86,
-     "ratio_vs_rest": 0.787,
+     "queued": 36,
+     "per_1000": 2.942,
+     "ratio_vs_rest": 0.823,
      "ci95": [
-      0.525,
-      1.093
+      0.567,
+      1.139
      ]
     },
     "HT": {
      "takes": 11459,
      "queued": 29,
      "per_1000": 2.531,
-     "ratio_vs_rest": 0.691,
+     "ratio_vs_rest": 0.7,
      "ci95": [
-      0.439,
-      0.983
+      0.442,
+      0.987
      ]
     },
     "KT": {
-     "takes": 12362,
+     "takes": 12361,
      "queued": 42,
      "per_1000": 3.398,
-     "ratio_vs_rest": 0.952,
+     "ratio_vs_rest": 0.965,
      "ci95": [
-      0.597,
-      1.312
+      0.616,
+      1.33
      ]
     },
     "LG": {
      "takes": 12232,
-     "queued": 58,
-     "per_1000": 4.742,
-     "ratio_vs_rest": 1.389,
+     "queued": 56,
+     "per_1000": 4.578,
+     "ratio_vs_rest": 1.352,
      "ci95": [
-      1.034,
-      1.811
+      1.002,
+      1.784
      ]
     },
     "LT": {
      "takes": 11669,
      "queued": 59,
      "per_1000": 5.056,
-     "ratio_vs_rest": 1.493,
+     "ratio_vs_rest": 1.514,
      "ci95": [
-      1.01,
-      2.13
+      1.043,
+      2.189
      ]
     },
     "NC": {
      "takes": 11820,
-     "queued": 39,
-     "per_1000": 3.299,
-     "ratio_vs_rest": 0.922,
+     "queued": 38,
+     "per_1000": 3.215,
+     "ratio_vs_rest": 0.908,
      "ci95": [
-      0.596,
-      1.322
+      0.582,
+      1.303
      ]
     },
     "OB": {
      "takes": 11373,
-     "queued": 35,
-     "per_1000": 3.077,
-     "ratio_vs_rest": 0.854,
+     "queued": 38,
+     "per_1000": 3.341,
+     "ratio_vs_rest": 0.947,
      "ci95": [
-      0.517,
-      1.224
+      0.6,
+      1.328
      ]
     },
     "SK": {
      "takes": 11522,
-     "queued": 48,
-     "per_1000": 4.166,
-     "ratio_vs_rest": 1.195,
+     "queued": 45,
+     "per_1000": 3.906,
+     "ratio_vs_rest": 1.127,
      "ci95": [
-      0.815,
-      1.618
+      0.783,
+      1.514
      ]
     },
     "SS": {
      "takes": 10906,
-     "queued": 42,
-     "per_1000": 3.851,
-     "ratio_vs_rest": 1.094,
+     "queued": 41,
+     "per_1000": 3.759,
+     "ratio_vs_rest": 1.079,
      "ci95": [
       0.776,
-      1.496
+      1.476
      ]
     },
     "WO": {
      "takes": 12107,
-     "queued": 31,
-     "per_1000": 2.561,
-     "ratio_vs_rest": 0.699,
+     "queued": 29,
+     "per_1000": 2.395,
+     "ratio_vs_rest": 0.659,
      "ci95": [
-      0.434,
-      0.983
+      0.41,
+      0.935
      ]
     }
    },
@@ -1090,16 +1090,16 @@
   },
   "2024": {
    "pzone_input": "B_za72",
-   "takes": 120449,
-   "queued": 8,
-   "queued_ball_high_p": 7,
+   "takes": 120441,
+   "queued": 5,
+   "queued_ball_high_p": 4,
    "queued_strike_low_p": 1,
-   "per_1000_takes": 0.066,
-   "N2_logloss_share": 0.0657,
-   "mean_log_loss": 0.00785,
+   "per_1000_takes": 0.042,
+   "N2_logloss_share": 0.0475,
+   "mean_log_loss": 0.0071,
    "N3_by_home": {
     "HH": {
-     "takes": 11781,
+     "takes": 11779,
      "queued": 0,
      "per_1000": 0.0,
      "ratio_vs_rest": 0.0,
@@ -1122,10 +1122,10 @@
      "takes": 11715,
      "queued": 1,
      "per_1000": 0.085,
-     "ratio_vs_rest": 1.326,
+     "ratio_vs_rest": 2.32,
      "ci95": [
       0.0,
-      6.0
+      13.829
      ]
     },
     "LG": {
@@ -1139,13 +1139,13 @@
      ]
     },
     "LT": {
-     "takes": 11916,
-     "queued": 4,
-     "per_1000": 0.336,
-     "ratio_vs_rest": 9.108,
+     "takes": 11911,
+     "queued": 2,
+     "per_1000": 0.168,
+     "ratio_vs_rest": 6.074,
      "ci95": [
       0.0,
-      44.68
+      31.699
      ]
     },
     "NC": {
@@ -1169,23 +1169,23 @@
      ]
     },
     "SK": {
-     "takes": 12027,
-     "queued": 2,
-     "per_1000": 0.166,
-     "ratio_vs_rest": 3.005,
+     "takes": 12026,
+     "queued": 1,
+     "per_1000": 0.083,
+     "ratio_vs_rest": 2.254,
      "ci95": [
       0.0,
-      13.554
+      14.308
      ]
     },
     "SS": {
      "takes": 12133,
      "queued": 1,
      "per_1000": 0.082,
-     "ratio_vs_rest": 1.275,
+     "ratio_vs_rest": 2.232,
      "ci95": [
       0.0,
-      6.207
+      14.002
      ]
     },
     "WO": {
@@ -1224,34 +1224,34 @@
      "takes": 12822,
      "queued": 1,
      "per_1000": 0.078,
-     "ratio_vs_rest": 1.199,
+     "ratio_vs_rest": 2.098,
      "ci95": [
       0.0,
-      5.445
+      13.413
      ]
     },
     "LG": {
-     "takes": 12610,
-     "queued": 3,
-     "per_1000": 0.238,
-     "ratio_vs_rest": 5.131,
+     "takes": 12608,
+     "queued": 1,
+     "per_1000": 0.079,
+     "ratio_vs_rest": 2.138,
      "ci95": [
       0.0,
-      24.393
+      14.188
      ]
     },
     "LT": {
-     "takes": 11849,
+     "takes": 11847,
      "queued": 1,
      "per_1000": 0.084,
-     "ratio_vs_rest": 1.309,
+     "ratio_vs_rest": 2.292,
      "ci95": [
       0.0,
-      7.275
+      16.491
      ]
     },
     "NC": {
-     "takes": 12289,
+     "takes": 12287,
      "queued": 0,
      "per_1000": 0.0,
      "ratio_vs_rest": 0.0,
@@ -1261,23 +1261,23 @@
      ]
     },
     "OB": {
-     "takes": 11870,
-     "queued": 1,
-     "per_1000": 0.084,
-     "ratio_vs_rest": 1.307,
+     "takes": 11868,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
      "ci95": [
       0.0,
-      6.278
+      0.0
      ]
     },
     "SK": {
      "takes": 11609,
      "queued": 1,
      "per_1000": 0.086,
-     "ratio_vs_rest": 1.339,
+     "ratio_vs_rest": 2.344,
      "ci95": [
       0.0,
-      5.936
+      14.413
      ]
     },
     "SS": {
@@ -1294,10 +1294,10 @@
      "takes": 11439,
      "queued": 1,
      "per_1000": 0.087,
-     "ratio_vs_rest": 1.361,
+     "ratio_vs_rest": 2.382,
      "ci95": [
       0.0,
-      6.697
+      16.456
      ]
     }
    },
@@ -1740,93 +1740,93 @@
  "pooled_2019_2024_trackman_corrected": {
   "by_home": {
    "HH": {
-    "takes": 71309,
-    "queued": 168,
-    "per_1000": 2.356,
-    "ratio_vs_rest": 0.84,
+    "takes": 71306,
+    "queued": 164,
+    "per_1000": 2.3,
+    "ratio_vs_rest": 0.819,
     "ci95": [
-     0.693,
-     0.986
+     0.674,
+     0.972
     ]
    },
    "HT": {
     "takes": 71754,
-    "queued": 206,
-    "per_1000": 2.871,
-    "ratio_vs_rest": 1.046,
+    "queued": 208,
+    "per_1000": 2.899,
+    "ratio_vs_rest": 1.057,
     "ci95": [
-     0.876,
-     1.231
+     0.887,
+     1.241
     ]
    },
    "KT": {
-    "takes": 69785,
-    "queued": 171,
-    "per_1000": 2.45,
-    "ratio_vs_rest": 0.878,
+    "takes": 69783,
+    "queued": 168,
+    "per_1000": 2.407,
+    "ratio_vs_rest": 0.861,
     "ci95": [
-     0.747,
-     1.016
+     0.724,
+     1.003
     ]
    },
    "LG": {
     "takes": 70453,
-    "queued": 183,
-    "per_1000": 2.597,
-    "ratio_vs_rest": 0.936,
+    "queued": 191,
+    "per_1000": 2.711,
+    "ratio_vs_rest": 0.981,
     "ci95": [
-     0.792,
-     1.111
+     0.83,
+     1.164
     ]
    },
    "LT": {
-    "takes": 68869,
-    "queued": 176,
-    "per_1000": 2.556,
-    "ratio_vs_rest": 0.919,
+    "takes": 68864,
+    "queued": 175,
+    "per_1000": 2.541,
+    "ratio_vs_rest": 0.914,
     "ci95": [
-     0.768,
-     1.077
+     0.756,
+     1.075
     ]
    },
    "NC": {
     "takes": 72275,
-    "queued": 196,
-    "per_1000": 2.712,
-    "ratio_vs_rest": 0.981,
+    "queued": 200,
+    "per_1000": 2.767,
+    "ratio_vs_rest": 1.004,
     "ci95": [
-     0.82,
-     1.155
+     0.845,
+     1.191
     ]
    },
    "OB": {
     "takes": 70846,
-    "queued": 199,
-    "per_1000": 2.809,
-    "ratio_vs_rest": 1.02,
+    "queued": 202,
+    "per_1000": 2.851,
+    "ratio_vs_rest": 1.038,
     "ci95": [
-     0.851,
-     1.218
+     0.868,
+     1.226
     ]
    },
    "SK": {
-    "takes": 71341,
-    "queued": 250,
-    "per_1000": 3.504,
-    "ratio_vs_rest": 1.31,
+    "takes": 71326,
+    "queued": 237,
+    "per_1000": 3.323,
+    "ratio_vs_rest": 1.233,
     "ci95": [
-     1.083,
-     1.571
+     1.017,
+     1.475
     ]
    },
    "SS": {
-    "takes": 68929,
-    "queued": 212,
-    "per_1000": 3.076,
-    "ratio_vs_rest": 1.129,
+    "takes": 68927,
+    "queued": 216,
+    "per_1000": 3.134,
+    "ratio_vs_rest": 1.153,
     "ci95": [
-     0.961,
-     1.311
+     0.982,
+     1.339
     ]
    },
    "WO": {
@@ -1835,20 +1835,20 @@
     "per_1000": 2.646,
     "ratio_vs_rest": 0.955,
     "ci95": [
-     0.782,
-     1.132
+     0.792,
+     1.13
     ]
    }
   },
   "flagged_home": [],
   "HT_home": {
    "takes": 71754,
-   "queued": 206,
-   "per_1000": 2.871,
-   "ratio_vs_rest": 1.046,
+   "queued": 208,
+   "per_1000": 2.899,
+   "ratio_vs_rest": 1.057,
    "ci95": [
-    0.876,
-    1.231
+    0.887,
+    1.241
    ]
   }
  },
