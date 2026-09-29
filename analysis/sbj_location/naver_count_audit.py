@@ -3,7 +3,8 @@
     PYTHONPATH=src python analysis/sbj_location/naver_count_audit.py GAMES_JSON [seasons...]
         -> results/naver_count_audit_2019_2026.csv, results/naver_count_audit_2019_2026_summary.json
 
-GAMES_JSON lists the games to audit ({"<season>": [game_id, ...]}); relays must already be cached under
+GAMES_JSON lists the games to audit ({"<season>": [game_id, ...]}, or that under "games" as in
+results/naver_count_audit_games_2019_2026.json); relays must already be cached under
 data/raw/naver/relay_raw (naver_kia_home_bunts.fetch). A game with a missing inning is not used.
 
 Naver records the running count on every relay line (currentGameState), not only on pitches. So the true count
@@ -167,7 +168,8 @@ def audit_game(game_id: str, vb: list[dict]) -> tuple[list[dict], Counter]:
 
 
 def main() -> None:
-    games = json.loads(open(sys.argv[1], encoding="utf-8").read())
+    data = json.loads(open(sys.argv[1], encoding="utf-8").read())
+    games = data.get("games", data)  # results/naver_count_audit_games_2019_2026.json wraps the list
     seasons = [s for s in sys.argv[2:]] or sorted(games)
     rows, summary = [], {"definition": {"doc": __doc__.split("\n\n")[2].strip(), "caveat": "Naver and VB may share an upstream source"}, "seasons": {}}
     for season in seasons:
