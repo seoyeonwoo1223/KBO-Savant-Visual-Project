@@ -1,0 +1,175 @@
+{
+ "definition": {
+  "design": "naver_bunt_extension_design.md section 2",
+  "gates": "sbj_validation_gates.md K1-K4",
+  "games": "curated games, home code not HT, not mapped to a TrackMan game by pa_flow_strict.load (list: naver_non_tm_games_2019_2024.json)"
+ },
+ "seasons": {
+  "2019": {
+   "games": 20,
+   "games_used": 20,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 24,
+    "W_vb_B": 24,
+    "naver_W": 24,
+    "vb_matched_context": 5926,
+    "vb_matched_without_pitcher": 1,
+    "vb_pitches": 5927
+   },
+   "pa_gate": {
+    "pass": 21
+   },
+   "corrections": 24,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 1.0,
+   "K3_pass": true,
+   "K4_W_per_game": 1.2,
+   "K4_reference": {
+    "non_tm_W_per_game": 1.2,
+    "kia_home_W_per_game": 1.056,
+    "non_kia_sample_W_per_game": null,
+    "note": "reported only; not a pass/fail gate for this table"
+   }
+  },
+  "2020": {
+   "games": 3,
+   "games_used": 3,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 2,
+    "W_vb_B": 2,
+    "naver_W": 2,
+    "vb_matched_context": 901,
+    "vb_pitches": 901
+   },
+   "pa_gate": {
+    "pass": 2
+   },
+   "corrections": 2,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 1.0,
+   "K3_pass": true,
+   "K4_W_per_game": 0.667,
+   "K4_reference": {
+    "non_tm_W_per_game": 0.667,
+    "kia_home_W_per_game": 0.778,
+    "non_kia_sample_W_per_game": 0.6,
+    "note": "reported only; not a pass/fail gate for this table"
+   }
+  },
+  "2021": {
+   "games": 1,
+   "games_used": 1,
+   "incomplete_games": [],
+   "stats": {
+    "vb_matched_context": 296,
+    "vb_pitches": 296
+   },
+   "pa_gate": {},
+   "corrections": 0,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": null,
+   "K2_pass": false,
+   "K3_pa_pass_share": null,
+   "K3_pass": false,
+   "K4_W_per_game": 0.0,
+   "K4_reference": {
+    "non_tm_W_per_game": 0.0,
+    "kia_home_W_per_game": 1.111,
+    "non_kia_sample_W_per_game": null,
+    "note": "reported only; not a pass/fail gate for this table"
+   }
+  },
+  "2022": {
+   "games": 17,
+   "games_used": 17,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 19,
+    "W_matched_without_pitcher": 1,
+    "W_vb_B": 20,
+    "naver_W": 20,
+    "vb_matched_context": 5325,
+    "vb_matched_without_pitcher": 14,
+    "vb_pitches": 5339
+   },
+   "pa_gate": {
+    "pass": 19
+   },
+   "corrections": 20,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 1.0,
+   "K3_pass": true,
+   "K4_W_per_game": 1.176,
+   "K4_reference": {
+    "non_tm_W_per_game": 1.176,
+    "kia_home_W_per_game": 1.014,
+    "non_kia_sample_W_per_game": null,
+    "note": "reported only; not a pass/fail gate for this table"
+   }
+  },
+  "2023": {
+   "games": 13,
+   "games_used": 13,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 12,
+    "W_vb_B": 12,
+    "naver_W": 12,
+    "vb_matched_context": 4179,
+    "vb_pitches": 4179
+   },
+   "pa_gate": {
+    "pass": 12
+   },
+   "corrections": 12,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 1.0,
+   "K3_pass": true,
+   "K4_W_per_game": 0.923,
+   "K4_reference": {
+    "non_tm_W_per_game": 0.923,
+    "kia_home_W_per_game": 1.282,
+    "non_kia_sample_W_per_game": 1.1,
+    "note": "reported only; not a pass/fail gate for this table"
+   }
+  },
+  "2024": {
+   "games": 13,
+   "games_used": 13,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 10,
+    "W_vb_B": 10,
+    "naver_W": 10,
+    "vb_matched_context": 3931,
+    "vb_pitches": 3931
+   },
+   "pa_gate": {
+    "pass": 10
+   },
+   "corrections": 10,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 1.0,
+   "K3_pass": true,
+   "K4_W_per_game": 0.769,
+   "K4_reference": {
+    "non_tm_W_per_game": 0.769,
+    "kia_home_W_per_game": 0.918,
+    "non_kia_sample_W_per_game": null,
+    "note": "reported only; not a pass/fail gate for this table"
+   }
+  }
+ }
+}
