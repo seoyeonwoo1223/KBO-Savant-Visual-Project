@@ -10,650 +10,646 @@
  "seasons": {
   "2019": {
    "pzone_input": "A_reported",
-   "takes": 110840,
-   "queued": 366,
-   "queued_ball_high_p": 172,
+   "takes": 110764,
+   "queued": 345,
+   "queued_ball_high_p": 151,
    "queued_strike_low_p": 194,
-   "per_1000_takes": 3.302,
-   "N2_logloss_share": 0.0683,
-   "mean_log_loss": 0.19047,
+   "per_1000_takes": 3.115,
+   "N2_logloss_share": 0.0639,
+   "mean_log_loss": 0.1886,
    "N3_by_home": {
     "HH": {
      "takes": 10054,
      "queued": 16,
      "per_1000": 1.591,
-     "ratio_vs_rest": 0.458,
+     "ratio_vs_rest": 0.487,
      "ci95": [
-      0.237,
-      0.726
+      0.273,
+      0.764
      ]
     },
     "HT": {
-     "takes": 11588,
-     "queued": 76,
-     "per_1000": 6.559,
-     "ratio_vs_rest": 2.245,
+     "takes": 11512,
+     "queued": 45,
+     "per_1000": 3.909,
+     "ratio_vs_rest": 1.293,
      "ci95": [
-      1.697,
-      2.969
+      0.872,
+      1.737
      ]
     },
     "KT": {
      "takes": 11113,
-     "queued": 41,
-     "per_1000": 3.689,
-     "ratio_vs_rest": 1.132,
+     "queued": 44,
+     "per_1000": 3.959,
+     "ratio_vs_rest": 1.311,
      "ci95": [
-      0.724,
-      1.615
+      0.895,
+      1.788
      ]
     },
     "LG": {
      "takes": 11190,
      "queued": 32,
      "per_1000": 2.86,
-     "ratio_vs_rest": 0.853,
+     "ratio_vs_rest": 0.91,
      "ci95": [
-      0.613,
-      1.148
+      0.663,
+      1.183
      ]
     },
     "LT": {
      "takes": 10609,
      "queued": 28,
      "per_1000": 2.639,
-     "ratio_vs_rest": 0.783,
+     "ratio_vs_rest": 0.834,
      "ci95": [
-      0.496,
-      1.177
+      0.526,
+      1.245
      ]
     },
     "NC": {
      "takes": 11767,
      "queued": 33,
      "per_1000": 2.804,
-     "ratio_vs_rest": 0.834,
+     "ratio_vs_rest": 0.89,
      "ci95": [
-      0.559,
-      1.137
+      0.56,
+      1.281
      ]
     },
     "OB": {
      "takes": 11176,
-     "queued": 39,
-     "per_1000": 3.49,
-     "ratio_vs_rest": 1.064,
+     "queued": 43,
+     "per_1000": 3.848,
+     "ratio_vs_rest": 1.269,
      "ci95": [
-      0.663,
-      1.512
+      0.854,
+      1.786
      ]
     },
     "SK": {
      "takes": 11042,
-     "queued": 40,
-     "per_1000": 3.623,
-     "ratio_vs_rest": 1.109,
+     "queued": 38,
+     "per_1000": 3.441,
+     "ratio_vs_rest": 1.118,
      "ci95": [
       0.706,
-      1.567
+      1.59
      ]
     },
     "SS": {
      "takes": 11198,
-     "queued": 38,
-     "per_1000": 3.393,
-     "ratio_vs_rest": 1.031,
+     "queued": 41,
+     "per_1000": 3.661,
+     "ratio_vs_rest": 1.199,
      "ci95": [
-      0.667,
-      1.443
+      0.806,
+      1.673
      ]
     },
     "WO": {
      "takes": 11103,
-     "queued": 23,
-     "per_1000": 2.072,
-     "ratio_vs_rest": 0.602,
+     "queued": 25,
+     "per_1000": 2.252,
+     "ratio_vs_rest": 0.701,
      "ci95": [
-      0.353,
-      0.888
+      0.413,
+      1.002
      ]
     }
    },
    "N3_by_batter_team": {
     "HH": {
-     "takes": 10321,
-     "queued": 26,
-     "per_1000": 2.519,
-     "ratio_vs_rest": 0.745,
+     "takes": 10320,
+     "queued": 27,
+     "per_1000": 2.616,
+     "ratio_vs_rest": 0.826,
      "ci95": [
-      0.457,
-      1.086
+      0.526,
+      1.181
      ]
     },
     "HT": {
-     "takes": 11468,
-     "queued": 47,
-     "per_1000": 4.098,
-     "ratio_vs_rest": 1.277,
+     "takes": 11431,
+     "queued": 38,
+     "per_1000": 3.324,
+     "ratio_vs_rest": 1.076,
      "ci95": [
-      0.904,
-      1.747
+      0.745,
+      1.484
      ]
     },
     "KT": {
-     "takes": 11669,
-     "queued": 49,
-     "per_1000": 4.199,
-     "ratio_vs_rest": 1.314,
+     "takes": 11661,
+     "queued": 46,
+     "per_1000": 3.945,
+     "ratio_vs_rest": 1.307,
      "ci95": [
-      0.923,
-      1.793
+      0.91,
+      1.819
      ]
     },
     "LG": {
-     "takes": 10928,
-     "queued": 29,
-     "per_1000": 2.654,
-     "ratio_vs_rest": 0.787,
+     "takes": 10924,
+     "queued": 28,
+     "per_1000": 2.563,
+     "ratio_vs_rest": 0.807,
      "ci95": [
-      0.494,
-      1.107
+      0.513,
+      1.156
      ]
     },
     "LT": {
-     "takes": 10542,
-     "queued": 39,
-     "per_1000": 3.699,
-     "ratio_vs_rest": 1.135,
+     "takes": 10536,
+     "queued": 32,
+     "per_1000": 3.037,
+     "ratio_vs_rest": 0.973,
      "ci95": [
-      0.762,
-      1.602
+      0.624,
+      1.386
      ]
     },
     "NC": {
-     "takes": 11006,
-     "queued": 36,
-     "per_1000": 3.271,
-     "ratio_vs_rest": 0.99,
+     "takes": 11002,
+     "queued": 34,
+     "per_1000": 3.09,
+     "ratio_vs_rest": 0.991,
      "ci95": [
-      0.673,
-      1.354
+      0.657,
+      1.335
      ]
     },
     "OB": {
-     "takes": 11129,
-     "queued": 34,
-     "per_1000": 3.055,
-     "ratio_vs_rest": 0.918,
+     "takes": 11122,
+     "queued": 33,
+     "per_1000": 2.967,
+     "ratio_vs_rest": 0.948,
      "ci95": [
-      0.611,
-      1.295
+      0.638,
+      1.312
      ]
     },
     "SK": {
-     "takes": 11051,
-     "queued": 30,
-     "per_1000": 2.715,
-     "ratio_vs_rest": 0.806,
+     "takes": 11049,
+     "queued": 32,
+     "per_1000": 2.896,
+     "ratio_vs_rest": 0.923,
      "ci95": [
-      0.497,
-      1.232
+      0.596,
+      1.372
      ]
     },
     "SS": {
-     "takes": 11367,
-     "queued": 40,
-     "per_1000": 3.519,
-     "ratio_vs_rest": 1.074,
+     "takes": 11363,
+     "queued": 38,
+     "per_1000": 3.344,
+     "ratio_vs_rest": 1.083,
      "ci95": [
-      0.729,
-      1.434
+      0.735,
+      1.444
      ]
     },
     "WO": {
-     "takes": 11359,
-     "queued": 36,
-     "per_1000": 3.169,
-     "ratio_vs_rest": 0.955,
+     "takes": 11356,
+     "queued": 37,
+     "per_1000": 3.258,
+     "ratio_vs_rest": 1.052,
      "ci95": [
-      0.564,
-      1.418
+      0.649,
+      1.561
      ]
     }
    },
-   "N3_flagged_home": [
-    "HT"
-   ],
+   "N3_flagged_home": [],
    "N3_flagged_batter_team": []
   },
   "2020": {
    "pzone_input": "A_reported",
-   "takes": 119546,
-   "queued": 446,
-   "queued_ball_high_p": 206,
-   "queued_strike_low_p": 240,
-   "per_1000_takes": 3.731,
-   "N2_logloss_share": 0.0755,
-   "mean_log_loss": 0.18774,
+   "takes": 119490,
+   "queued": 414,
+   "queued_ball_high_p": 181,
+   "queued_strike_low_p": 233,
+   "per_1000_takes": 3.465,
+   "N2_logloss_share": 0.0707,
+   "mean_log_loss": 0.18673,
    "N3_by_home": {
     "HH": {
      "takes": 11919,
      "queued": 35,
      "per_1000": 2.936,
-     "ratio_vs_rest": 0.769,
+     "ratio_vs_rest": 0.833,
      "ci95": [
-      0.481,
-      1.073
+      0.534,
+      1.158
      ]
     },
     "HT": {
-     "takes": 12399,
-     "queued": 89,
-     "per_1000": 7.178,
-     "ratio_vs_rest": 2.154,
+     "takes": 12343,
+     "queued": 58,
+     "per_1000": 4.699,
+     "ratio_vs_rest": 1.414,
      "ci95": [
-      1.652,
-      2.721
+      0.978,
+      1.931
      ]
     },
     "KT": {
      "takes": 11763,
-     "queued": 38,
-     "per_1000": 3.23,
-     "ratio_vs_rest": 0.853,
+     "queued": 35,
+     "per_1000": 2.975,
+     "ratio_vs_rest": 0.846,
      "ci95": [
-      0.574,
-      1.135
+      0.554,
+      1.148
      ]
     },
     "LG": {
      "takes": 11812,
-     "queued": 32,
-     "per_1000": 2.709,
-     "ratio_vs_rest": 0.705,
+     "queued": 29,
+     "per_1000": 2.455,
+     "ratio_vs_rest": 0.687,
      "ci95": [
-      0.437,
-      1.032
+      0.41,
+      1.014
      ]
     },
     "LT": {
      "takes": 11548,
-     "queued": 19,
-     "per_1000": 1.645,
-     "ratio_vs_rest": 0.416,
+     "queued": 20,
+     "per_1000": 1.732,
+     "ratio_vs_rest": 0.474,
      "ci95": [
-      0.23,
-      0.637
+      0.265,
+      0.71
      ]
     },
     "NC": {
      "takes": 12289,
-     "queued": 27,
-     "per_1000": 2.197,
-     "ratio_vs_rest": 0.562,
+     "queued": 32,
+     "per_1000": 2.604,
+     "ratio_vs_rest": 0.731,
      "ci95": [
-      0.352,
-      0.807
+      0.466,
+      1.034
      ]
     },
     "OB": {
      "takes": 11615,
-     "queued": 45,
-     "per_1000": 3.874,
-     "ratio_vs_rest": 1.043,
+     "queued": 42,
+     "per_1000": 3.616,
+     "ratio_vs_rest": 1.049,
      "ci95": [
-      0.749,
-      1.392
+      0.734,
+      1.445
      ]
     },
     "SK": {
      "takes": 11956,
-     "queued": 59,
-     "per_1000": 4.935,
-     "ratio_vs_rest": 1.372,
+     "queued": 60,
+     "per_1000": 5.018,
+     "ratio_vs_rest": 1.524,
      "ci95": [
-      0.862,
-      1.997
+      0.966,
+      2.208
      ]
     },
     "SS": {
      "takes": 12237,
-     "queued": 65,
-     "per_1000": 5.312,
-     "ratio_vs_rest": 1.496,
+     "queued": 64,
+     "per_1000": 5.23,
+     "ratio_vs_rest": 1.603,
      "ci95": [
-      1.116,
-      1.991
+      1.153,
+      2.153
      ]
     },
     "WO": {
      "takes": 12008,
-     "queued": 37,
-     "per_1000": 3.081,
-     "ratio_vs_rest": 0.81,
+     "queued": 39,
+     "per_1000": 3.248,
+     "ratio_vs_rest": 0.931,
      "ci95": [
-      0.51,
-      1.157
+      0.564,
+      1.314
      ]
     }
    },
    "N3_by_batter_team": {
     "HH": {
-     "takes": 11185,
-     "queued": 46,
-     "per_1000": 4.113,
-     "ratio_vs_rest": 1.114,
+     "takes": 11177,
+     "queued": 41,
+     "per_1000": 3.668,
+     "ratio_vs_rest": 1.065,
      "ci95": [
-      0.724,
-      1.514
+      0.709,
+      1.46
      ]
     },
     "HT": {
-     "takes": 12293,
-     "queued": 61,
-     "per_1000": 4.962,
-     "ratio_vs_rest": 1.382,
+     "takes": 12261,
+     "queued": 43,
+     "per_1000": 3.507,
+     "ratio_vs_rest": 1.014,
      "ci95": [
-      1.024,
-      1.839
+      0.68,
+      1.411
      ]
     },
     "KT": {
      "takes": 12496,
      "queued": 37,
      "per_1000": 2.961,
-     "ratio_vs_rest": 0.775,
+     "ratio_vs_rest": 0.84,
      "ci95": [
-      0.54,
-      1.032
+      0.583,
+      1.114
      ]
     },
     "LG": {
-     "takes": 11889,
-     "queued": 30,
-     "per_1000": 2.523,
-     "ratio_vs_rest": 0.653,
+     "takes": 11888,
+     "queued": 26,
+     "per_1000": 2.187,
+     "ratio_vs_rest": 0.607,
      "ci95": [
-      0.402,
-      0.947
+      0.388,
+      0.888
      ]
     },
     "LT": {
-     "takes": 11916,
-     "queued": 26,
-     "per_1000": 2.182,
-     "ratio_vs_rest": 0.559,
+     "takes": 11913,
+     "queued": 24,
+     "per_1000": 2.015,
+     "ratio_vs_rest": 0.556,
      "ci95": [
-      0.338,
-      0.834
+      0.328,
+      0.848
      ]
     },
     "NC": {
-     "takes": 12260,
-     "queued": 53,
-     "per_1000": 4.323,
-     "ratio_vs_rest": 1.18,
+     "takes": 12258,
+     "queued": 54,
+     "per_1000": 4.405,
+     "ratio_vs_rest": 1.312,
      "ci95": [
-      0.844,
-      1.567
+      0.94,
+      1.748
      ]
     },
     "OB": {
-     "takes": 11858,
-     "queued": 43,
-     "per_1000": 3.626,
-     "ratio_vs_rest": 0.969,
+     "takes": 11857,
+     "queued": 44,
+     "per_1000": 3.711,
+     "ratio_vs_rest": 1.079,
      "ci95": [
-      0.671,
-      1.292
+      0.737,
+      1.426
      ]
     },
     "SK": {
-     "takes": 10930,
-     "queued": 51,
-     "per_1000": 4.666,
-     "ratio_vs_rest": 1.283,
+     "takes": 10927,
+     "queued": 48,
+     "per_1000": 4.393,
+     "ratio_vs_rest": 1.303,
      "ci95": [
-      0.833,
-      1.773
+      0.829,
+      1.83
      ]
     },
     "SS": {
-     "takes": 12030,
-     "queued": 59,
-     "per_1000": 4.904,
-     "ratio_vs_rest": 1.363,
+     "takes": 12027,
+     "queued": 54,
+     "per_1000": 4.49,
+     "ratio_vs_rest": 1.34,
      "ci95": [
-      1.031,
-      1.756
+      0.97,
+      1.768
      ]
     },
     "WO": {
-     "takes": 12689,
-     "queued": 40,
-     "per_1000": 3.152,
-     "ratio_vs_rest": 0.83,
+     "takes": 12686,
+     "queued": 43,
+     "per_1000": 3.39,
+     "ratio_vs_rest": 0.976,
      "ci95": [
-      0.57,
-      1.153
+      0.699,
+      1.337
      ]
     }
    },
-   "N3_flagged_home": [
-    "HT"
-   ],
+   "N3_flagged_home": [],
    "N3_flagged_batter_team": []
   },
   "2021": {
    "pzone_input": "A_reported",
-   "takes": 122586,
-   "queued": 410,
-   "queued_ball_high_p": 203,
-   "queued_strike_low_p": 207,
-   "per_1000_takes": 3.345,
-   "N2_logloss_share": 0.0745,
-   "mean_log_loss": 0.17388,
+   "takes": 122506,
+   "queued": 386,
+   "queued_ball_high_p": 175,
+   "queued_strike_low_p": 211,
+   "per_1000_takes": 3.151,
+   "N2_logloss_share": 0.07,
+   "mean_log_loss": 0.17242,
    "N3_by_home": {
     "HH": {
      "takes": 12842,
-     "queued": 47,
-     "per_1000": 3.66,
-     "ratio_vs_rest": 1.106,
+     "queued": 49,
+     "per_1000": 3.816,
+     "ratio_vs_rest": 1.242,
      "ci95": [
-      0.743,
-      1.5
+      0.84,
+      1.68
      ]
     },
     "HT": {
-     "takes": 12523,
-     "queued": 67,
-     "per_1000": 5.35,
-     "ratio_vs_rest": 1.717,
+     "takes": 12443,
+     "queued": 31,
+     "per_1000": 2.491,
+     "ratio_vs_rest": 0.772,
      "ci95": [
-      1.229,
-      2.193
+      0.461,
+      1.139
      ]
     },
     "KT": {
      "takes": 12107,
-     "queued": 31,
-     "per_1000": 2.561,
-     "ratio_vs_rest": 0.746,
+     "queued": 32,
+     "per_1000": 2.643,
+     "ratio_vs_rest": 0.824,
      "ci95": [
-      0.503,
-      1.034
+      0.581,
+      1.13
      ]
     },
     "LG": {
      "takes": 11747,
-     "queued": 38,
-     "per_1000": 3.235,
-     "ratio_vs_rest": 0.964,
+     "queued": 41,
+     "per_1000": 3.49,
+     "ratio_vs_rest": 1.121,
      "ci95": [
-      0.613,
-      1.349
+      0.693,
+      1.55
      ]
     },
     "LT": {
      "takes": 12447,
      "queued": 26,
      "per_1000": 2.089,
-     "ratio_vs_rest": 0.599,
+     "ratio_vs_rest": 0.639,
      "ci95": [
-      0.39,
-      0.845
+      0.41,
+      0.919
      ]
     },
     "NC": {
      "takes": 12088,
-     "queued": 41,
-     "per_1000": 3.392,
-     "ratio_vs_rest": 1.016,
+     "queued": 48,
+     "per_1000": 3.971,
+     "ratio_vs_rest": 1.297,
      "ci95": [
-      0.663,
-      1.488
+      0.846,
+      1.838
      ]
     },
     "OB": {
      "takes": 12134,
-     "queued": 42,
-     "per_1000": 3.461,
-     "ratio_vs_rest": 1.039,
+     "queued": 44,
+     "per_1000": 3.626,
+     "ratio_vs_rest": 1.17,
      "ci95": [
-      0.703,
-      1.42
+      0.801,
+      1.592
      ]
     },
     "SK": {
      "takes": 12544,
-     "queued": 39,
-     "per_1000": 3.109,
-     "ratio_vs_rest": 0.922,
+     "queued": 37,
+     "per_1000": 2.95,
+     "ratio_vs_rest": 0.929,
      "ci95": [
-      0.642,
-      1.276
+      0.602,
+      1.327
      ]
     },
     "SS": {
      "takes": 11994,
      "queued": 45,
      "per_1000": 3.752,
-     "ratio_vs_rest": 1.137,
+     "ratio_vs_rest": 1.216,
      "ci95": [
-      0.804,
-      1.538
+      0.839,
+      1.676
      ]
     },
     "WO": {
      "takes": 12160,
-     "queued": 34,
-     "per_1000": 2.796,
-     "ratio_vs_rest": 0.821,
+     "queued": 33,
+     "per_1000": 2.714,
+     "ratio_vs_rest": 0.848,
      "ci95": [
-      0.531,
-      1.144
+      0.53,
+      1.192
      ]
     }
    },
    "N3_by_batter_team": {
     "HH": {
-     "takes": 12628,
+     "takes": 12621,
      "queued": 44,
-     "per_1000": 3.484,
-     "ratio_vs_rest": 1.047,
+     "per_1000": 3.486,
+     "ratio_vs_rest": 1.12,
      "ci95": [
-      0.746,
-      1.413
+      0.802,
+      1.48
      ]
     },
     "HT": {
-     "takes": 12181,
-     "queued": 50,
-     "per_1000": 4.105,
-     "ratio_vs_rest": 1.259,
+     "takes": 12146,
+     "queued": 34,
+     "per_1000": 2.799,
+     "ratio_vs_rest": 0.878,
      "ci95": [
-      0.891,
-      1.679
+      0.555,
+      1.248
      ]
     },
     "KT": {
-     "takes": 12898,
-     "queued": 34,
-     "per_1000": 2.636,
-     "ratio_vs_rest": 0.769,
+     "takes": 12893,
+     "queued": 36,
+     "per_1000": 2.792,
+     "ratio_vs_rest": 0.874,
      "ci95": [
-      0.523,
-      1.039
+      0.61,
+      1.191
      ]
     },
     "LG": {
-     "takes": 12350,
+     "takes": 12348,
      "queued": 50,
      "per_1000": 4.049,
-     "ratio_vs_rest": 1.24,
+     "ratio_vs_rest": 1.328,
      "ci95": [
-      0.835,
-      1.71
+      0.889,
+      1.806
      ]
     },
     "LT": {
-     "takes": 12468,
-     "queued": 34,
-     "per_1000": 2.727,
-     "ratio_vs_rest": 0.799,
+     "takes": 12465,
+     "queued": 33,
+     "per_1000": 2.647,
+     "ratio_vs_rest": 0.825,
      "ci95": [
-      0.545,
-      1.066
+      0.562,
+      1.135
      ]
     },
     "NC": {
-     "takes": 11387,
+     "takes": 11383,
      "queued": 41,
-     "per_1000": 3.601,
-     "ratio_vs_rest": 1.085,
+     "per_1000": 3.602,
+     "ratio_vs_rest": 1.16,
      "ci95": [
-      0.738,
-      1.469
+      0.784,
+      1.6
      ]
     },
     "OB": {
-     "takes": 11727,
-     "queued": 38,
-     "per_1000": 3.24,
-     "ratio_vs_rest": 0.966,
+     "takes": 11724,
+     "queued": 39,
+     "per_1000": 3.327,
+     "ratio_vs_rest": 1.062,
      "ci95": [
-      0.653,
-      1.306
+      0.728,
+      1.463
      ]
     },
     "SK": {
-     "takes": 12668,
-     "queued": 38,
-     "per_1000": 3.0,
-     "ratio_vs_rest": 0.886,
+     "takes": 12658,
+     "queued": 33,
+     "per_1000": 2.607,
+     "ratio_vs_rest": 0.811,
      "ci95": [
-      0.589,
-      1.256
+      0.531,
+      1.153
      ]
     },
     "SS": {
-     "takes": 11917,
-     "queued": 45,
-     "per_1000": 3.776,
-     "ratio_vs_rest": 1.145,
+     "takes": 11909,
+     "queued": 40,
+     "per_1000": 3.359,
+     "ratio_vs_rest": 1.074,
      "ci95": [
-      0.801,
-      1.539
+      0.754,
+      1.452
      ]
     },
     "WO": {
-     "takes": 12362,
+     "takes": 12359,
      "queued": 36,
-     "per_1000": 2.912,
-     "ratio_vs_rest": 0.858,
+     "per_1000": 2.913,
+     "ratio_vs_rest": 0.917,
      "ci95": [
-      0.588,
-      1.158
+      0.63,
+      1.243
      ]
     }
    },
@@ -662,214 +658,214 @@
   },
   "2022": {
    "pzone_input": "A_reported",
-   "takes": 115409,
-   "queued": 415,
-   "queued_ball_high_p": 223,
-   "queued_strike_low_p": 192,
-   "per_1000_takes": 3.596,
-   "N2_logloss_share": 0.08,
-   "mean_log_loss": 0.17422,
+   "takes": 115337,
+   "queued": 377,
+   "queued_ball_high_p": 184,
+   "queued_strike_low_p": 193,
+   "per_1000_takes": 3.269,
+   "N2_logloss_share": 0.0735,
+   "mean_log_loss": 0.17249,
    "N3_by_home": {
     "HH": {
      "takes": 12364,
-     "queued": 27,
-     "per_1000": 2.184,
-     "ratio_vs_rest": 0.58,
+     "queued": 29,
+     "per_1000": 2.346,
+     "ratio_vs_rest": 0.694,
      "ci95": [
-      0.327,
-      0.889
+      0.441,
+      1.017
      ]
     },
     "HT": {
-     "takes": 11792,
-     "queued": 64,
-     "per_1000": 5.427,
-     "ratio_vs_rest": 1.602,
+     "takes": 11720,
+     "queued": 27,
+     "per_1000": 2.304,
+     "ratio_vs_rest": 0.682,
      "ci95": [
-      1.151,
-      2.091
+      0.422,
+      1.004
      ]
     },
     "KT": {
      "takes": 11153,
-     "queued": 26,
-     "per_1000": 2.331,
-     "ratio_vs_rest": 0.625,
+     "queued": 27,
+     "per_1000": 2.421,
+     "ratio_vs_rest": 0.721,
      "ci95": [
-      0.39,
-      0.912
+      0.459,
+      1.047
      ]
     },
     "LG": {
      "takes": 11401,
-     "queued": 53,
-     "per_1000": 4.649,
-     "ratio_vs_rest": 1.336,
+     "queued": 50,
+     "per_1000": 4.386,
+     "ratio_vs_rest": 1.394,
      "ci95": [
-      0.972,
-      1.815
+      1.002,
+      1.848
      ]
     },
     "LT": {
      "takes": 10928,
      "queued": 34,
      "per_1000": 3.111,
-     "ratio_vs_rest": 0.853,
+     "ratio_vs_rest": 0.947,
      "ci95": [
-      0.543,
-      1.179
+      0.591,
+      1.325
      ]
     },
     "NC": {
      "takes": 11864,
      "queued": 52,
      "per_1000": 4.383,
-     "ratio_vs_rest": 1.25,
+     "ratio_vs_rest": 1.395,
      "ci95": [
-      0.856,
-      1.679
+      0.968,
+      1.866
      ]
     },
     "OB": {
      "takes": 11787,
      "queued": 32,
      "per_1000": 2.715,
-     "ratio_vs_rest": 0.735,
+     "ratio_vs_rest": 0.815,
      "ci95": [
-      0.476,
-      1.034
+      0.521,
+      1.151
      ]
     },
     "SK": {
      "takes": 11360,
      "queued": 52,
      "per_1000": 4.577,
-     "ratio_vs_rest": 1.312,
+     "ratio_vs_rest": 1.464,
      "ci95": [
-      0.917,
-      1.758
+      1.013,
+      1.975
      ]
     },
     "SS": {
      "takes": 11078,
-     "queued": 33,
-     "per_1000": 2.979,
-     "ratio_vs_rest": 0.814,
+     "queued": 34,
+     "per_1000": 3.069,
+     "ratio_vs_rest": 0.933,
      "ci95": [
-      0.523,
-      1.159
+      0.583,
+      1.33
      ]
     },
     "WO": {
      "takes": 11682,
-     "queued": 42,
-     "per_1000": 3.595,
-     "ratio_vs_rest": 1.0,
+     "queued": 40,
+     "per_1000": 3.424,
+     "ratio_vs_rest": 1.053,
      "ci95": [
-      0.667,
-      1.378
+      0.715,
+      1.457
      ]
     }
    },
    "N3_by_batter_team": {
     "HH": {
-     "takes": 11721,
-     "queued": 44,
-     "per_1000": 3.754,
-     "ratio_vs_rest": 1.049,
+     "takes": 11708,
+     "queued": 35,
+     "per_1000": 2.989,
+     "ratio_vs_rest": 0.906,
      "ci95": [
-      0.648,
-      1.552
+      0.508,
+      1.404
      ]
     },
     "HT": {
-     "takes": 11631,
-     "queued": 41,
-     "per_1000": 3.525,
-     "ratio_vs_rest": 0.978,
+     "takes": 11608,
+     "queued": 32,
+     "per_1000": 2.757,
+     "ratio_vs_rest": 0.829,
      "ci95": [
-      0.699,
-      1.303
+      0.554,
+      1.139
      ]
     },
     "KT": {
-     "takes": 12207,
-     "queued": 41,
-     "per_1000": 3.359,
-     "ratio_vs_rest": 0.927,
+     "takes": 12197,
+     "queued": 33,
+     "per_1000": 2.706,
+     "ratio_vs_rest": 0.811,
      "ci95": [
-      0.647,
-      1.242
+      0.577,
+      1.079
      ]
     },
     "LG": {
-     "takes": 11707,
-     "queued": 55,
-     "per_1000": 4.698,
-     "ratio_vs_rest": 1.353,
+     "takes": 11706,
+     "queued": 54,
+     "per_1000": 4.613,
+     "ratio_vs_rest": 1.48,
      "ci95": [
-      0.995,
-      1.781
+      1.061,
+      1.926
      ]
     },
     "LT": {
-     "takes": 10716,
+     "takes": 10713,
      "queued": 24,
      "per_1000": 2.24,
-     "ratio_vs_rest": 0.6,
+     "ratio_vs_rest": 0.664,
      "ci95": [
-      0.382,
-      0.857
+      0.415,
+      0.954
      ]
     },
     "NC": {
-     "takes": 11652,
-     "queued": 38,
-     "per_1000": 3.261,
-     "ratio_vs_rest": 0.898,
+     "takes": 11650,
+     "queued": 36,
+     "per_1000": 3.09,
+     "ratio_vs_rest": 0.94,
      "ci95": [
-      0.598,
-      1.248
+      0.621,
+      1.312
      ]
     },
     "OB": {
-     "takes": 10903,
-     "queued": 32,
-     "per_1000": 2.935,
-     "ratio_vs_rest": 0.801,
+     "takes": 10901,
+     "queued": 31,
+     "per_1000": 2.844,
+     "ratio_vs_rest": 0.858,
      "ci95": [
-      0.473,
-      1.172
+      0.534,
+      1.245
      ]
     },
     "SK": {
-     "takes": 11441,
-     "queued": 48,
-     "per_1000": 4.195,
-     "ratio_vs_rest": 1.189,
+     "takes": 11434,
+     "queued": 43,
+     "per_1000": 3.761,
+     "ratio_vs_rest": 1.17,
      "ci95": [
-      0.828,
-      1.652
+      0.797,
+      1.641
      ]
     },
     "SS": {
-     "takes": 11264,
-     "queued": 41,
-     "per_1000": 3.64,
-     "ratio_vs_rest": 1.014,
+     "takes": 11254,
+     "queued": 42,
+     "per_1000": 3.732,
+     "ratio_vs_rest": 1.16,
      "ci95": [
-      0.695,
-      1.352
+      0.814,
+      1.574
      ]
     },
     "WO": {
-     "takes": 12167,
-     "queued": 51,
-     "per_1000": 4.192,
-     "ratio_vs_rest": 1.189,
+     "takes": 12166,
+     "queued": 47,
+     "per_1000": 3.863,
+     "ratio_vs_rest": 1.208,
      "ci95": [
-      0.837,
-      1.652
+      0.831,
+      1.686
      ]
     }
    },
@@ -878,231 +874,229 @@
   },
   "2023": {
    "pzone_input": "A_reported",
-   "takes": 117778,
-   "queued": 464,
-   "queued_ball_high_p": 242,
-   "queued_strike_low_p": 222,
-   "per_1000_takes": 3.94,
-   "N2_logloss_share": 0.0864,
-   "mean_log_loss": 0.17177,
+   "takes": 117688,
+   "queued": 413,
+   "queued_ball_high_p": 190,
+   "queued_strike_low_p": 223,
+   "per_1000_takes": 3.509,
+   "N2_logloss_share": 0.0773,
+   "mean_log_loss": 0.16968,
    "N3_by_home": {
     "HH": {
      "takes": 12349,
-     "queued": 37,
-     "per_1000": 2.996,
-     "ratio_vs_rest": 0.74,
+     "queued": 38,
+     "per_1000": 3.077,
+     "ratio_vs_rest": 0.864,
      "ci95": [
-      0.537,
-      0.992
+      0.616,
+      1.169
      ]
     },
     "HT": {
-     "takes": 11615,
-     "queued": 96,
-     "per_1000": 8.265,
-     "ratio_vs_rest": 2.384,
+     "takes": 11525,
+     "queued": 44,
+     "per_1000": 3.818,
+     "ratio_vs_rest": 1.098,
      "ci95": [
-      1.858,
-      3.096
+      0.692,
+      1.521
      ]
     },
     "KT": {
      "takes": 11934,
-     "queued": 28,
-     "per_1000": 2.346,
-     "ratio_vs_rest": 0.57,
+     "queued": 34,
+     "per_1000": 2.849,
+     "ratio_vs_rest": 0.795,
      "ci95": [
-      0.363,
-      0.817
+      0.533,
+      1.086
      ]
     },
     "LG": {
      "takes": 11754,
-     "queued": 32,
-     "per_1000": 2.722,
-     "ratio_vs_rest": 0.668,
+     "queued": 31,
+     "per_1000": 2.637,
+     "ratio_vs_rest": 0.731,
      "ci95": [
-      0.445,
-      0.934
+      0.478,
+      1.047
      ]
     },
     "LT": {
      "takes": 11421,
-     "queued": 63,
-     "per_1000": 5.516,
-     "ratio_vs_rest": 1.463,
+     "queued": 62,
+     "per_1000": 5.429,
+     "ratio_vs_rest": 1.644,
      "ci95": [
-      1.039,
-      1.998
+      1.189,
+      2.203
      ]
     },
     "NC": {
      "takes": 11962,
-     "queued": 31,
-     "per_1000": 2.592,
-     "ratio_vs_rest": 0.633,
+     "queued": 29,
+     "per_1000": 2.424,
+     "ratio_vs_rest": 0.667,
      "ci95": [
-      0.39,
-      0.912
+      0.435,
+      0.952
      ]
     },
     "OB": {
      "takes": 12045,
-     "queued": 41,
-     "per_1000": 3.404,
-     "ratio_vs_rest": 0.851,
+     "queued": 40,
+     "per_1000": 3.321,
+     "ratio_vs_rest": 0.941,
      "ci95": [
-      0.526,
-      1.226
+      0.591,
+      1.359
      ]
     },
     "SK": {
      "takes": 12412,
-     "queued": 60,
-     "per_1000": 4.834,
-     "ratio_vs_rest": 1.261,
+     "queued": 61,
+     "per_1000": 4.915,
+     "ratio_vs_rest": 1.47,
      "ci95": [
-      0.758,
-      2.045
+      0.884,
+      2.357
      ]
     },
     "SS": {
      "takes": 10289,
      "queued": 26,
      "per_1000": 2.527,
-     "ratio_vs_rest": 0.62,
+     "ratio_vs_rest": 0.701,
      "ci95": [
-      0.388,
-      0.882
+      0.451,
+      0.997
      ]
     },
     "WO": {
      "takes": 11997,
-     "queued": 50,
-     "per_1000": 4.168,
-     "ratio_vs_rest": 1.065,
+     "queued": 48,
+     "per_1000": 4.001,
+     "ratio_vs_rest": 1.159,
      "ci95": [
-      0.721,
-      1.437
+      0.75,
+      1.596
      ]
     }
    },
    "N3_by_batter_team": {
     "HH": {
-     "takes": 12241,
+     "takes": 12237,
      "queued": 35,
-     "per_1000": 2.859,
-     "ratio_vs_rest": 0.703,
+     "per_1000": 2.86,
+     "ratio_vs_rest": 0.798,
      "ci95": [
-      0.456,
-      1.003
+      0.547,
+      1.126
      ]
     },
     "HT": {
-     "takes": 11499,
-     "queued": 56,
-     "per_1000": 4.87,
-     "ratio_vs_rest": 1.269,
+     "takes": 11459,
+     "queued": 29,
+     "per_1000": 2.531,
+     "ratio_vs_rest": 0.7,
      "ci95": [
-      0.892,
-      1.698
+      0.446,
+      0.995
      ]
     },
     "KT": {
-     "takes": 12370,
-     "queued": 41,
-     "per_1000": 3.314,
-     "ratio_vs_rest": 0.826,
+     "takes": 12362,
+     "queued": 44,
+     "per_1000": 3.559,
+     "ratio_vs_rest": 1.016,
      "ci95": [
-      0.494,
-      1.19
+      0.66,
+      1.403
      ]
     },
     "LG": {
-     "takes": 12238,
+     "takes": 12232,
      "queued": 58,
-     "per_1000": 4.739,
-     "ratio_vs_rest": 1.232,
+     "per_1000": 4.742,
+     "ratio_vs_rest": 1.409,
      "ci95": [
-      0.905,
-      1.607
+      1.043,
+      1.867
      ]
     },
     "LT": {
-     "takes": 11674,
-     "queued": 59,
-     "per_1000": 5.054,
-     "ratio_vs_rest": 1.324,
+     "takes": 11669,
+     "queued": 58,
+     "per_1000": 4.97,
+     "ratio_vs_rest": 1.484,
      "ci95": [
-      0.879,
-      1.934
+      0.998,
+      2.191
      ]
     },
     "NC": {
-     "takes": 11830,
-     "queued": 46,
-     "per_1000": 3.888,
-     "ratio_vs_rest": 0.986,
+     "takes": 11820,
+     "queued": 37,
+     "per_1000": 3.13,
+     "ratio_vs_rest": 0.881,
      "ci95": [
-      0.634,
-      1.448
+      0.562,
+      1.279
      ]
     },
     "OB": {
-     "takes": 11377,
-     "queued": 38,
-     "per_1000": 3.34,
-     "ratio_vs_rest": 0.834,
+     "takes": 11374,
+     "queued": 36,
+     "per_1000": 3.165,
+     "ratio_vs_rest": 0.893,
      "ci95": [
-      0.511,
-      1.183
+      0.55,
+      1.271
      ]
     },
     "SK": {
-     "takes": 11527,
-     "queued": 49,
-     "per_1000": 4.251,
-     "ratio_vs_rest": 1.088,
+     "takes": 11522,
+     "queued": 46,
+     "per_1000": 3.992,
+     "ratio_vs_rest": 1.155,
      "ci95": [
-      0.742,
-      1.451
+      0.796,
+      1.567
      ]
     },
     "SS": {
-     "takes": 10913,
-     "queued": 49,
-     "per_1000": 4.49,
-     "ratio_vs_rest": 1.156,
+     "takes": 10906,
+     "queued": 41,
+     "per_1000": 3.759,
+     "ratio_vs_rest": 1.079,
      "ci95": [
-      0.836,
-      1.553
+      0.761,
+      1.502
      ]
     },
     "WO": {
-     "takes": 12109,
-     "queued": 33,
-     "per_1000": 2.725,
-     "ratio_vs_rest": 0.668,
+     "takes": 12107,
+     "queued": 29,
+     "per_1000": 2.395,
+     "ratio_vs_rest": 0.659,
      "ci95": [
-      0.423,
-      0.938
+      0.408,
+      0.928
      ]
     }
    },
-   "N3_flagged_home": [
-    "HT"
-   ],
+   "N3_flagged_home": [],
    "N3_flagged_batter_team": []
   },
   "2024": {
    "pzone_input": "B_za72",
-   "takes": 120516,
-   "queued": 46,
-   "queued_ball_high_p": 44,
-   "queued_strike_low_p": 2,
-   "per_1000_takes": 0.382,
-   "N2_logloss_share": 0.2341,
-   "mean_log_loss": 0.00974,
+   "takes": 120449,
+   "queued": 8,
+   "queued_ball_high_p": 7,
+   "queued_strike_low_p": 1,
+   "per_1000_takes": 0.066,
+   "N2_logloss_share": 0.0657,
+   "mean_log_loss": 0.00785,
    "N3_by_home": {
     "HH": {
      "takes": 11781,
@@ -1115,23 +1109,23 @@
      ]
     },
     "HT": {
-     "takes": 12279,
-     "queued": 37,
-     "per_1000": 3.013,
-     "ratio_vs_rest": 36.239,
+     "takes": 12212,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
      "ci95": [
-      17.875,
-      98.178
+      0.0,
+      0.0
      ]
     },
     "KT": {
      "takes": 11715,
-     "queued": 2,
-     "per_1000": 0.171,
-     "ratio_vs_rest": 0.422,
+     "queued": 1,
+     "per_1000": 0.085,
+     "ratio_vs_rest": 1.326,
      "ci95": [
       0.0,
-      1.208
+      6.0
      ]
     },
     "LG": {
@@ -1148,10 +1142,10 @@
      "takes": 11916,
      "queued": 4,
      "per_1000": 0.336,
-     "ratio_vs_rest": 0.868,
+     "ratio_vs_rest": 9.108,
      "ci95": [
       0.0,
-      1.983
+      44.68
      ]
     },
     "NC": {
@@ -1178,20 +1172,20 @@
      "takes": 12027,
      "queued": 2,
      "per_1000": 0.166,
-     "ratio_vs_rest": 0.41,
+     "ratio_vs_rest": 3.005,
      "ci95": [
       0.0,
-      1.167
+      13.554
      ]
     },
     "SS": {
      "takes": 12133,
      "queued": 1,
      "per_1000": 0.082,
-     "ratio_vs_rest": 0.199,
+     "ratio_vs_rest": 1.275,
      "ci95": [
       0.0,
-      0.734
+      6.207
      ]
     },
     "WO": {
@@ -1207,57 +1201,57 @@
    },
    "N3_by_batter_team": {
     "HH": {
-     "takes": 11808,
-     "queued": 2,
-     "per_1000": 0.169,
-     "ratio_vs_rest": 0.418,
+     "takes": 11804,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
      "ci95": [
       0.0,
-      1.472
+      0.0
      ]
     },
     "HT": {
-     "takes": 12167,
-     "queued": 19,
-     "per_1000": 1.562,
-     "ratio_vs_rest": 6.267,
+     "takes": 12136,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
      "ci95": [
-      3.357,
-      11.977
+      0.0,
+      0.0
      ]
     },
     "KT": {
-     "takes": 12825,
-     "queued": 2,
-     "per_1000": 0.156,
-     "ratio_vs_rest": 0.382,
+     "takes": 12822,
+     "queued": 1,
+     "per_1000": 0.078,
+     "ratio_vs_rest": 1.199,
      "ci95": [
       0.0,
-      1.127
+      5.445
      ]
     },
     "LG": {
-     "takes": 12612,
-     "queued": 5,
-     "per_1000": 0.396,
-     "ratio_vs_rest": 1.043,
+     "takes": 12610,
+     "queued": 3,
+     "per_1000": 0.238,
+     "ratio_vs_rest": 5.131,
      "ci95": [
-      0.243,
-      2.286
+      0.0,
+      24.393
      ]
     },
     "LT": {
      "takes": 11849,
      "queued": 1,
      "per_1000": 0.084,
-     "ratio_vs_rest": 0.204,
+     "ratio_vs_rest": 1.309,
      "ci95": [
       0.0,
-      0.776
+      7.275
      ]
     },
     "NC": {
-     "takes": 12290,
+     "takes": 12289,
      "queued": 0,
      "per_1000": 0.0,
      "ratio_vs_rest": 0.0,
@@ -1267,52 +1261,48 @@
      ]
     },
     "OB": {
-     "takes": 11880,
-     "queued": 6,
-     "per_1000": 0.505,
-     "ratio_vs_rest": 1.372,
+     "takes": 11870,
+     "queued": 1,
+     "per_1000": 0.084,
+     "ratio_vs_rest": 1.307,
      "ci95": [
-      0.252,
-      2.951
+      0.0,
+      6.278
      ]
     },
     "SK": {
-     "takes": 11621,
-     "queued": 7,
-     "per_1000": 0.602,
-     "ratio_vs_rest": 1.682,
+     "takes": 11609,
+     "queued": 1,
+     "per_1000": 0.086,
+     "ratio_vs_rest": 1.339,
      "ci95": [
-      0.277,
-      3.737
+      0.0,
+      5.936
      ]
     },
     "SS": {
-     "takes": 12024,
-     "queued": 1,
-     "per_1000": 0.083,
-     "ratio_vs_rest": 0.201,
+     "takes": 12021,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
      "ci95": [
       0.0,
-      0.777
+      0.0
      ]
     },
     "WO": {
-     "takes": 11440,
-     "queued": 3,
-     "per_1000": 0.262,
-     "ratio_vs_rest": 0.665,
+     "takes": 11439,
+     "queued": 1,
+     "per_1000": 0.087,
+     "ratio_vs_rest": 1.361,
      "ci95": [
       0.0,
-      1.623
+      6.697
      ]
     }
    },
-   "N3_flagged_home": [
-    "HT"
-   ],
-   "N3_flagged_batter_team": [
-    "HT"
-   ]
+   "N3_flagged_home": [],
+   "N3_flagged_batter_team": []
   },
   "2025": {
    "pzone_input": "B_za72",
@@ -1751,116 +1741,114 @@
   "by_home": {
    "HH": {
     "takes": 71309,
-    "queued": 162,
-    "per_1000": 2.272,
-    "ratio_vs_rest": 0.727,
+    "queued": 167,
+    "per_1000": 2.342,
+    "ratio_vs_rest": 0.837,
     "ci95": [
-     0.597,
-     0.871
+     0.692,
+     0.984
     ]
    },
    "HT": {
-    "takes": 72196,
-    "queued": 429,
-    "per_1000": 5.942,
-    "ratio_vs_rest": 2.195,
+    "takes": 71755,
+    "queued": 205,
+    "per_1000": 2.857,
+    "ratio_vs_rest": 1.043,
     "ci95": [
-     1.949,
-     2.424
+     0.876,
+     1.233
     ]
    },
    "KT": {
     "takes": 69785,
-    "queued": 166,
-    "per_1000": 2.379,
-    "ratio_vs_rest": 0.765,
+    "queued": 173,
+    "per_1000": 2.479,
+    "ratio_vs_rest": 0.891,
     "ci95": [
-     0.638,
-     0.894
+     0.759,
+     1.03
     ]
    },
    "LG": {
     "takes": 70453,
-    "queued": 187,
-    "per_1000": 2.654,
-    "ratio_vs_rest": 0.862,
+    "queued": 183,
+    "per_1000": 2.597,
+    "ratio_vs_rest": 0.938,
     "ci95": [
-     0.728,
-     1.022
+     0.788,
+     1.119
     ]
    },
    "LT": {
     "takes": 68869,
     "queued": 174,
     "per_1000": 2.527,
-    "ratio_vs_rest": 0.817,
+    "ratio_vs_rest": 0.91,
     "ci95": [
-     0.676,
-     0.962
+     0.757,
+     1.065
     ]
    },
    "NC": {
     "takes": 72275,
-    "queued": 184,
-    "per_1000": 2.546,
-    "ratio_vs_rest": 0.823,
+    "queued": 194,
+    "per_1000": 2.684,
+    "ratio_vs_rest": 0.973,
     "ci95": [
-     0.685,
-     0.972
+     0.809,
+     1.145
     ]
    },
    "OB": {
     "takes": 70846,
-    "queued": 199,
-    "per_1000": 2.809,
-    "ratio_vs_rest": 0.917,
+    "queued": 201,
+    "per_1000": 2.837,
+    "ratio_vs_rest": 1.035,
     "ci95": [
-     0.769,
-     1.093
+     0.861,
+     1.234
     ]
    },
    "SK": {
     "takes": 71341,
-    "queued": 252,
-    "per_1000": 3.532,
-    "ratio_vs_rest": 1.184,
+    "queued": 250,
+    "per_1000": 3.504,
+    "ratio_vs_rest": 1.314,
     "ci95": [
-     0.984,
-     1.419
+     1.087,
+     1.577
     ]
    },
    "SS": {
     "takes": 68929,
-    "queued": 208,
-    "per_1000": 3.018,
-    "ratio_vs_rest": 0.993,
+    "queued": 211,
+    "per_1000": 3.061,
+    "ratio_vs_rest": 1.126,
     "ci95": [
-     0.838,
-     1.156
+     0.96,
+     1.313
     ]
    },
    "WO": {
     "takes": 70672,
-    "queued": 186,
-    "per_1000": 2.632,
-    "ratio_vs_rest": 0.854,
+    "queued": 185,
+    "per_1000": 2.618,
+    "ratio_vs_rest": 0.946,
     "ci95": [
-     0.704,
-     1.015
+     0.78,
+     1.119
     ]
    }
   },
-  "flagged_home": [
-   "HT"
-  ],
+  "flagged_home": [],
   "HT_home": {
-   "takes": 72196,
-   "queued": 429,
-   "per_1000": 5.942,
-   "ratio_vs_rest": 2.195,
+   "takes": 71755,
+   "queued": 205,
+   "per_1000": 2.857,
+   "ratio_vs_rest": 1.043,
    "ci95": [
-    1.949,
-    2.424
+    0.876,
+    1.233
    ]
   }
  },
@@ -1979,13 +1967,6 @@
    ]
   }
  },
- "N2_seasons_over_20pct": [
-  "2024"
- ],
- "N3_any_flag": [
-  "2019:HT",
-  "2020:HT",
-  "2023:HT",
-  "2024:HT"
- ]
+ "N2_seasons_over_20pct": [],
+ "N3_any_flag": []
 }
