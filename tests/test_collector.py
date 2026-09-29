@@ -157,7 +157,9 @@ def _first_nonterminal_ball(payload):
                     return f"{game_id}-{game_id}-{pa_counter:03d}-{index:02d}", pa, pitch
 
 
-def test_trackman_bunt_foul_correction_changes_call_and_count_only_when_row_matches():
+def test_trackman_bunt_foul_correction_changes_call_and_count_only_when_row_matches(monkeypatch):
+    # Every row carries a wall-clock fetched_at; pin it so parses that straddle a second compare equal.
+    monkeypatch.setattr("visualbaseball.parser._now", lambda: "2026-01-01T00:00:00+00:00")
     payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
     pitch_id, pa, pitch = _first_nonterminal_ball(payload)
     fix = {"pitch_id": pitch_id, "batter_id": str(pa["batterId"]), "pitcher_id": str(pa["pitcherId"]),
