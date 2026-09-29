@@ -62,7 +62,7 @@ Visual Baseball 원본은 번트 파울을 `B`(볼)로 기록한다. 네이버 �
   - 파서(`collector.call_corrections` → `parse_game(call_corrections=...)`): 원본의 코드·타자·투수·표시 구속이 표와 정확히 같을 때만 적용한다. 원본을 다시 파싱해도 결과가 같다.
   - 커밋된 curated: `scripts/apply_call_corrections.py`로 해당 타석만 고친다. 원본에서 다시 빌드하면 2022–2024에서 이번 정정과 무관한 컬럼까지 바뀌기 때문이다. 기존 카운트가 파서 규칙으로 재현되지 않는 타석은 건너뛴다(`--check`로 먼저 확인).
 - **한계**
-  - TrackMan이 없는 2025–2026, KIA 홈 경기, 연결되지 않은 공은 이 경로로 정정되지 않는다(2025–2026과 2019–2024 KIA 홈은 아래 네이버 경로로 정정). TrackMan에 없는 비KIA 경기와 연결되지 않은 공은 남아 있다(`analysis/sbj_location/naver_bunt_extension_design.md` 4절).
+  - TrackMan이 없는 2025–2026, KIA 홈 경기, TrackMan에 없는 비KIA 경기, 연결되지 않은 공은 이 경로로 정정되지 않는다. 앞의 세 가지는 아래 네이버 경로로 정정했다. TrackMan 경기 안에서 연결되지 않은 공은 남아 있다(`analysis/sbj_location/naver_bunt_extension_design.md` 4절, 6절).
   - 타석 마지막 공인 번트 파울(2스트라이크 번트 파울 삼진)은 다음 공이 없어 고르지 못한다.
   - 번트 인플레이·번트 헛스윙은 대상이 아니다. 이런 공은 네이버 `W` 코드나 중계 문구로 따로 찾아야 한다.
 - **2025–2026 (네이버 기준)**: 네이버 중계 전수 조사(PR #32, `bunt_attempts_2025_2026.csv`)에서 `W/번트파울`은 연결된 VB 공 전부가 `B`였다(2025년 756구, 2026년 623구). 같은 정정표에 `source: naver_relay`로 추가했다(`scripts/build_naver_bunt_corrections.py`). 연결 방식이 `matched_id`·`matched_context`인 행만 쓴다. TrackMan 방식과 달리 타석을 끝낸 2스트라이크 번트 파울(2025년 6구, 2026년 5구)도 포함된다.
@@ -74,6 +74,10 @@ Visual Baseball 원본은 번트 파울을 `B`(볼)로 기록한다. 네이버 �
   - 네이버 투수 ID가 타석 중간에 바뀌는 경우가 있어, 투수 없이 연결한 1구는 게이트 통과 시에만 썼다.
   - 연결 키에는 반이닝 안의 타석 순번이 들어간다. 같은 반이닝에 두 번 나온 타자가 다른 타석과 연결되지 않고, 한쪽에서 빠진 타석이 이웃 타석과 짝지어지지 않는다.
   - 합격 기준 K1–K5와 K4 미달(2020·2023) 수용 사유는 `analysis/sbj_location/sbj_validation_gates.md`에 있다.
+- **2019–2024 TrackMan 미수록 비KIA 경기 (네이버 기준)**: 홈 코드가 `HT`가 아니고 TrackMan 경기에 매핑되지 않은 67경기(20 / 3 / 1 / 17 / 13 / 13)를 같은 방식으로 조사했다(`analysis/sbj_location/naver_non_tm_bunts.py`, 누락 이닝 0).
+  - 네이버 `W` 68구가 모두 VB `B`와 연결됐고, 게이트를 통과한 68구를 모두 정정했다(24 / 2 / 0 / 20 / 12 / 10). 투수 없이 연결한 1구도 게이트를 통과했다.
+  - 정정표에는 입력 파일별 `supplements`로 들어간다. `build_naver_bunt_corrections.py`는 같은 입력의 supplement와 그 입력이 다룬 경기의 `naver_relay` 행만 교체한다. 그래서 KIA 홈 입력과 이 입력을 따로, 어떤 순서로 다시 돌려도 서로의 행을 지우지 않는다.
+  - 적용 뒤 K5를 다시 확인했다(`sbj_validation_gates.md`).
 - **VB `V` = 번트 헛스윙**: 네이버 `V/번트헛스윙`과 VB `V`가 2025년 146/147구, 2026년 104/104구 일치한다. `V`는 원래 스윙·테이크 어느 쪽도 아니라 지표에서는 이미 빠져 있었다. 문제는 카운트였다. 파서가 `V`에 스트라이크를 더하지 않아 뒤 공 카운트가 한 개씩 모자랐다.
   - TrackMan 확인: 2019–2024에 확인 가능한 `V` 685구 전부가 다음 공에서 스트라이크 +1이었다(`analysis/sbj_location/v_code_trackman.py`).
   - 조치: `GameState.apply_non_terminal_pitch`가 `V`를 스트라이크로 센다. `apply_call_corrections.py`는 `V`가 있는 타석의 카운트도 다시 계산한다.
