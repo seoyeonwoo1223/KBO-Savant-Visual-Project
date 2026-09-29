@@ -82,6 +82,18 @@ RULE = ("VB B (non-terminal) matched 1:1 to TrackMan; next VB pitch of the PA ma
         "TrackMan balls unchanged and strikes +1.")
 
 
+def season_body(previous: dict, entries: list[dict], stats: dict) -> dict:
+    """TrackMan rows for the season, keeping any Naver supplement (build_naver_bunt_corrections.py) for games
+    TrackMan does not cover."""
+    body = {"source": "trackman", "rule": RULE, "stats": stats}
+    if previous.get("supplements"):
+        body["supplements"] = previous["supplements"]
+    ids = {e["pitch_id"] for e in entries}
+    extra = [e for e in previous.get("pitches", []) if e.get("source") == "naver_relay" and e["pitch_id"] not in ids]
+    body["pitches"] = sorted(entries + extra, key=lambda e: e["pitch_id"])
+    return body
+
+
 def main() -> None:
     seasons = [int(s) for s in sys.argv[1:]] or list(SEASONS)
     table = json.loads(OUT.read_text(encoding="utf-8")) if OUT.exists() else {"seasons": {}}
@@ -89,7 +101,7 @@ def main() -> None:
     table.update(HEADER)
     for season in seasons:
         entries, stats = season_entries(season)
-        table["seasons"][str(season)] = {"source": "trackman", "rule": RULE, "stats": stats, "pitches": entries}
+        table["seasons"][str(season)] = season_body(table["seasons"].get(str(season), {}), entries, stats)
         print(season, json.dumps(stats), flush=True)
     table["seasons"] = dict(sorted(table["seasons"].items()))
     write_table(table)

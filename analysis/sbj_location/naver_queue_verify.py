@@ -72,6 +72,7 @@ def game_pitches(game_id: str) -> tuple[list[dict], list[int]]:
                 m = WORD.match(str(o.get("text") or ""))
                 out.append({"inning": key[0], "half": "top" if key[1] == "0" else "bottom", "pa_no": key[2], "pitch_num": int(o["pitchNum"]),
                             "code": str(o["pitchResult"]), "word": (m.group(1) if m else "")[:12], "speed": o.get("speed"),
+                            "pts_id": str(o.get("ptsPitchId") or "") if str(o.get("ptsPitchId") or "") not in {"-1", "0"} else "",
                             "batter": str(st.get("batter") or ""), "pitcher": str(st.get("pitcher") or ""),
                             "count_before": f"{before[0]}-{before[1]}", "count_after": f"{after[0]}-{after[1]}"})
                 before = after

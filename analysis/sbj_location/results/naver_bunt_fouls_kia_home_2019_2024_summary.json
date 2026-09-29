@@ -1,0 +1,162 @@
+{
+ "definition": {
+  "design": "naver_bunt_extension_design.md section 2",
+  "gates": "sbj_validation_gates.md K1-K4",
+  "games": "game_id home code HT (KIA home); no TrackMan in any of them"
+ },
+ "seasons": {
+  "2019": {
+   "games": 72,
+   "games_used": 72,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 75,
+    "W_matched_without_pitcher": 1,
+    "W_vb_B": 76,
+    "naver_W": 76,
+    "vb_ambiguous": 12,
+    "vb_matched_context": 21192,
+    "vb_matched_without_pitcher": 8,
+    "vb_pitches": 21216,
+    "vb_unmatched": 4
+   },
+   "pa_gate": {
+    "pass": 71
+   },
+   "corrections": 76,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 1.0,
+   "K3_pass": true,
+   "K4_W_per_game": 1.056,
+   "K4_pass": true
+  },
+  "2020": {
+   "games": 72,
+   "games_used": 72,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 56,
+    "W_vb_B": 56,
+    "naver_W": 56,
+    "vb_ambiguous": 2,
+    "vb_matched_context": 22474,
+    "vb_matched_without_pitcher": 12,
+    "vb_pitches": 22488
+   },
+   "pa_gate": {
+    "pass": 47
+   },
+   "corrections": 56,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 1.0,
+   "K3_pass": true,
+   "K4_W_per_game": 0.778,
+   "K4_pass": false
+  },
+  "2021": {
+   "games": 72,
+   "games_used": 72,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 80,
+    "W_vb_B": 80,
+    "naver_W": 80,
+    "vb_matched_context": 22227,
+    "vb_matched_without_pitcher": 9,
+    "vb_pitches": 22236
+   },
+   "pa_gate": {
+    "pass": 71
+   },
+   "corrections": 80,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 1.0,
+   "K3_pass": true,
+   "K4_W_per_game": 1.111,
+   "K4_pass": true
+  },
+  "2022": {
+   "games": 72,
+   "games_used": 72,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 73,
+    "W_vb_B": 73,
+    "naver_W": 73,
+    "vb_matched_context": 22072,
+    "vb_matched_without_pitcher": 12,
+    "vb_pitches": 22084
+   },
+   "pa_gate": {
+    "pass": 67
+   },
+   "corrections": 73,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 1.0,
+   "K3_pass": true,
+   "K4_W_per_game": 1.014,
+   "K4_pass": true
+  },
+  "2023": {
+   "games": 71,
+   "games_used": 71,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 91,
+    "W_vb_B": 91,
+    "naver_W": 91,
+    "vb_ambiguous": 18,
+    "vb_matched_context": 21061,
+    "vb_matched_without_pitcher": 13,
+    "vb_pitches": 21098,
+    "vb_unmatched": 6
+   },
+   "pa_gate": {
+    "fail:unjoined_pitch": 1,
+    "pass": 80
+   },
+   "corrections": 90,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 0.9877,
+   "K3_pass": true,
+   "K4_W_per_game": 1.282,
+   "K4_pass": false
+  },
+  "2024": {
+   "games": 73,
+   "games_used": 73,
+   "incomplete_games": [],
+   "stats": {
+    "W_matched_context": 67,
+    "W_vb_B": 67,
+    "naver_W": 67,
+    "vb_ambiguous": 8,
+    "vb_matched_context": 22422,
+    "vb_matched_without_pitcher": 21,
+    "vb_pitches": 22457,
+    "vb_unmatched": 6
+   },
+   "pa_gate": {
+    "pass": 59
+   },
+   "corrections": 67,
+   "K1_complete": true,
+   "K2_unmatched_or_ambiguous_share": 0.0,
+   "K2_pass": true,
+   "K3_pa_pass_share": 1.0,
+   "K3_pass": true,
+   "K4_W_per_game": 0.918,
+   "K4_pass": true
+  }
+ }
+}

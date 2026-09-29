@@ -71,3 +71,37 @@ def test_check_flags_pending_stale_and_count_errors(tmp_path, monkeypatch):
     result = check.check_season(tmp_path, 2024, table)
     assert (result["applied"], result["pending"], result["stale"], result["untracked_W"]) == (1, 1, 1, 0)
     assert result["count_errors"] == 1 and not result["clean"]  # PA B: V did not add a strike
+
+
+def _entry(pid, **extra):
+    return {"pitch_id": pid, "batter_id": "1", "pitcher_id": "2", "source_code": "B", "code": "W", "source_velocity_kmh": 140.0, **extra}
+
+
+def test_naver_supplement_keeps_trackman_rows_and_trackman_rebuild_keeps_supplement():
+    import build_naver_bunt_corrections as nv
+    import build_trackman_bunt_corrections as tm
+    trackman = {"source": "trackman", "rule": "tm", "stats": {"corrections": 2}, "pitches": [_entry("A-1"), _entry("C-1")]}
+    meta = {"rule": "nv", "input": "x.csv", "stats": {"corrections": 2}}
+    body, duplicates = nv.merge_season(trackman, [_entry("B-1"), _entry("C-1")], meta)
+    assert duplicates == 1 and body["source"] == "trackman" and body["rule"] == "tm"
+    assert [(e["pitch_id"], e.get("source")) for e in body["pitches"]] == [("A-1", None), ("B-1", "naver_relay"), ("C-1", None)]
+    assert body["supplements"] == [{"source": "naver_relay", **meta}]
+    # Re-running the Naver builder replaces only its own supplement.
+    again, _ = nv.merge_season(body, [_entry("D-1")], meta)
+    assert [e["pitch_id"] for e in again["pitches"]] == ["A-1", "C-1", "D-1"] and len(again["supplements"]) == 1
+    # Re-running the TrackMan builder keeps the Naver rows and supplement.
+    rebuilt = tm.season_body(again, [_entry("A-1")], {"corrections": 1})
+    assert [e["pitch_id"] for e in rebuilt["pitches"]] == ["A-1", "D-1"] and rebuilt["supplements"] == again["supplements"]
+    # A Naver-only season (2025-2026) is still replaced whole.
+    naver_only, _ = nv.merge_season({"source": "naver_relay", "pitches": [_entry("E-1")]}, [_entry("F-1")], meta)
+    assert naver_only == {"source": "naver_relay", **meta, "pitches": [_entry("F-1")]}
+
+
+def test_naver_selection_requires_the_gate_when_present():
+    import build_naver_bunt_corrections as nv
+    base = {"naver_code": "W", "vb_call": "B", "match_status": "matched_context"}
+    assert nv.selected(base)                                        # PR #32 input: no gate column
+    assert not nv.selected({**base, "match_status": "matched_without_pitcher"})
+    assert nv.selected({**base, "gate": "pass"}) and nv.selected({**base, "match_status": "matched_without_pitcher", "gate": "pass"})
+    assert not nv.selected({**base, "gate": "fail:count"}) and not nv.selected({**base, "vb_call": "F", "gate": "pass"})
+    assert not nv.selected({**base, "match_status": "unmatched", "gate": "pass"})

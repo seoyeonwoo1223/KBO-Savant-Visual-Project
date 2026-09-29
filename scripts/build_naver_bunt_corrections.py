@@ -7,6 +7,11 @@ commit 1979b77e): Naver relay code `W` (번트파울) joined to a VB pitch. A ro
 Naver says `W`, VB recorded `B`, and the join is `matched_id` or `matched_context` (unmatched/ambiguous rows are
 never used). Batter, pitcher and displayed velocity come from curated so the parser guard can check the raw
 pitch. Unlike the TrackMan table, a two-strike bunt foul that ends the plate appearance is included.
+
+An input with a `gate` column (analysis/sbj_location/naver_kia_home_bunts.py, 2019-2024 KIA home games that have
+no TrackMan) must also pass its plate-appearance count gate; there `matched_without_pitcher` joins are accepted
+only through that gate. For a season that already holds TrackMan rows, the Naver rows are merged in as a
+`supplements` entry with `source: naver_relay` on each pitch; TrackMan rows are never replaced or duplicated.
 """
 from __future__ import annotations
 
@@ -21,6 +26,30 @@ import build_trackman_bunt_corrections as tm  # noqa: E402
 
 ROOT = tm.ROOT
 RULE = "Naver relay pitchResult W (번트파울) joined to a VB pitch recorded as B (matched_id or matched_context)."
+RULE_GATED = ("Naver relay pitchResult W (번트파울) joined to a VB pitch recorded as B (matched_context, or "
+              "matched_without_pitcher), in a plate appearance whose recounted VB counts equal the Naver counts on every pitch.")
+MATCHED = {"matched_id", "matched_context"}
+
+
+def selected(row: dict) -> bool:
+    if row["naver_code"] != "W" or row["vb_call"] != "B":
+        return False
+    if "gate" not in row:
+        return row["match_status"] in MATCHED
+    return row["gate"] == "pass" and row["match_status"] in MATCHED | {"matched_without_pitcher"}
+
+
+def merge_season(body: dict | None, entries: list[dict], meta: dict) -> tuple[dict, int]:
+    """Season body with these Naver entries. A TrackMan season keeps every TrackMan row and gains a supplement;
+    otherwise the season is Naver-only and is replaced as before. Returns the body and rows already present."""
+    if not body or body.get("source") == "naver_relay":
+        return {"source": "naver_relay", **meta, "pitches": entries}, 0
+    base = [e for e in body["pitches"] if e.get("source") != "naver_relay"]
+    have = {e["pitch_id"] for e in base}
+    new = [{**e, "source": "naver_relay"} for e in entries if e["pitch_id"] not in have]
+    supplements = [s for s in body.get("supplements", []) if s.get("source") != "naver_relay"] + [{"source": "naver_relay", **meta}]
+    head = {k: v for k, v in body.items() if k not in ("pitches", "supplements")}
+    return {**head, "supplements": supplements, "pitches": sorted(base + new, key=lambda e: e["pitch_id"])}, len(entries) - len(new)
 
 
 def main() -> None:
@@ -29,14 +58,24 @@ def main() -> None:
         rows = list(csv.DictReader(handle))
     table = tm.json.loads(tm.OUT.read_text(encoding="utf-8"))
     table.update(tm.HEADER)
+    gated = bool(rows) and "gate" in rows[0]
+    try:
+        label = source.resolve().relative_to(ROOT).as_posix()
+    except ValueError:
+        label = source.name
     for season in seasons:
-        picked = [r for r in rows if r["season"] == season and r["naver_code"] == "W" and r["vb_call"] == "B"
-                  and r["match_status"] in {"matched_id", "matched_context"}]
+        picked = [r for r in rows if r["season"] == season and selected(r)]
         curated = {r["pitch_id"]: r for r in load_rows(ROOT, "pitches", int(season), columns=[
             "pitch_id", "batter_id", "pitcher_id", "velocity_kmh", "pitch_call_code", "is_pa_terminal"])}
+        # Rows already applied to curated read W there now; keep their recorded entry so a rerun is a no-op.
+        previous = {e["pitch_id"]: {k: v for k, v in e.items() if k != "source"}
+                    for e in (table["seasons"].get(season) or {}).get("pitches", []) if e.get("source", "naver_relay") == "naver_relay"}
         entries, missing = [], 0
         for r in picked:
             c = curated.get(r["pitch_id"])
+            if c is not None and c["pitch_call_code"] == "W" and r["pitch_id"] in previous:
+                entries.append(previous[r["pitch_id"]])
+                continue
             if c is None or c["pitch_call_code"] != "B":
                 missing += 1
                 continue
@@ -48,9 +87,15 @@ def main() -> None:
         w_rows = sum(r["season"] == season and r["naver_code"] == "W" for r in rows)
         stats = {"naver_W": w_rows, "naver_W_vb_B": len(picked), "corrections": len(entries),
                  "ends_pa": sum(e["ends_pa"] for e in entries), "not_B_in_curated": missing}
-        table["seasons"][season] = {"source": "naver_relay", "rule": RULE,
-                                    "input": "analysis/sbj_location/results/bunt_attempts_2025_2026.csv (PR #32)",
-                                    "stats": stats, "pitches": entries}
+        meta = {"rule": RULE_GATED if gated else RULE,
+                "input": label if gated else "analysis/sbj_location/results/bunt_attempts_2025_2026.csv (PR #32)", "stats": stats}
+        if gated:
+            stats["gate_failed"] = sum(r["season"] == season and r["naver_code"] == "W" and r["vb_call"] == "B"
+                                       and r["gate"].startswith("fail") for r in rows)
+        body, duplicates = merge_season(table["seasons"].get(season), entries, meta)
+        if "supplements" in body:
+            stats["already_in_table"] = duplicates
+        table["seasons"][season] = body
         print(season, tm.json.dumps(stats), flush=True)
     table["seasons"] = dict(sorted(table["seasons"].items()))
     tm.write_table(table)
