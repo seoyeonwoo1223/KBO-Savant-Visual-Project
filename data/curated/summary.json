@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-23T18:58:30+00:00",
+  "generated_at": "2026-09-29T18:00:39+00:00",
   "layout": "month",
-  "schema_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
+  "schema_sha256": "8d811da998a9141e013d4eb016de9179862852365e7a418dacb11e02887e2d29",
   "reading": {
     "columns": "data/curated/schema.json",
     "integrity": "data/curated/partition-index.json (large; per-game digests, not for browsing)",
@@ -13,12 +13,12 @@
         "pitches": {
           "rows": 211628,
           "files": 720,
-          "bytes": 65967842
+          "bytes": 65978812
         },
         "events": {
           "rows": 270317,
           "files": 720,
-          "bytes": 8952854
+          "bytes": 8957926
         },
         "games": {
           "rows": 720,
@@ -58,12 +58,12 @@
         "pitches": {
           "rows": 220863,
           "files": 720,
-          "bytes": 68729307
+          "bytes": 68739374
         },
         "events": {
           "rows": 281328,
           "files": 720,
-          "bytes": 9060764
+          "bytes": 9065472
         },
         "games": {
           "rows": 720,
@@ -101,12 +101,12 @@
         "pitches": {
           "rows": 220742,
           "files": 720,
-          "bytes": 68723185
+          "bytes": 68733968
         },
         "events": {
           "rows": 280107,
           "files": 720,
-          "bytes": 9023124
+          "bytes": 9028137
         },
         "games": {
           "rows": 720,
@@ -145,17 +145,17 @@
         "pitches": {
           "rows": 217025,
           "files": 7,
-          "bytes": 30139349
+          "bytes": 30215832
         },
         "events": {
           "rows": 273038,
           "files": 7,
-          "bytes": 1328672
+          "bytes": 1330357
         },
         "games": {
           "rows": 720,
           "files": 7,
-          "bytes": 82622
+          "bytes": 83394
         }
       },
       "games": 720,
@@ -191,17 +191,17 @@
         "pitches": {
           "rows": 219839,
           "files": 7,
-          "bytes": 30310436
+          "bytes": 30368385
         },
         "events": {
           "rows": 276161,
           "files": 7,
-          "bytes": 1344182
+          "bytes": 1346402
         },
         "games": {
           "rows": 720,
           "files": 7,
-          "bytes": 83576
+          "bytes": 84351
         }
       },
       "games": 720,
@@ -237,17 +237,17 @@
         "pitches": {
           "rows": 223216,
           "files": 8,
-          "bytes": 31113844
+          "bytes": 31176195
         },
         "events": {
           "rows": 280544,
           "files": 8,
-          "bytes": 1365396
+          "bytes": 1369206
         },
         "games": {
           "rows": 720,
           "files": 8,
-          "bytes": 90280
+          "bytes": 90916
         }
       },
       "games": 720,
@@ -284,17 +284,17 @@
         "pitches": {
           "rows": 217852,
           "files": 8,
-          "bytes": 30703003
+          "bytes": 30776622
         },
         "events": {
           "rows": 277384,
           "files": 8,
-          "bytes": 1396468
+          "bytes": 1401987
         },
         "games": {
           "rows": 720,
           "files": 8,
-          "bytes": 89793
+          "bytes": 90508
         }
       },
       "games": 720,
@@ -331,17 +331,17 @@
         "pitches": {
           "rows": 203262,
           "files": 7,
-          "bytes": 29877186
+          "bytes": 29934404
         },
         "events": {
           "rows": 258696,
           "files": 7,
-          "bytes": 1286923
+          "bytes": 1294275
         },
         "games": {
           "rows": 660,
           "files": 7,
-          "bytes": 87606
+          "bytes": 88383
         }
       },
       "games": 660,
