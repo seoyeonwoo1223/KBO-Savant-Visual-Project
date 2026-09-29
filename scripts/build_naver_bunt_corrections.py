@@ -12,6 +12,10 @@ An input with a `gate` column (analysis/sbj_location/naver_kia_home_bunts.py, 20
 no TrackMan) must also pass its plate-appearance count gate; there `matched_without_pitcher` joins are accepted
 only through that gate. For a season that already holds TrackMan rows, the Naver rows are merged in as a
 `supplements` entry with `source: naver_relay` on each pitch; TrackMan rows are never replaced or duplicated.
+
+A gated input replaces only what it produced earlier: the supplement with the same `input` and the naver_relay rows
+of the games that input covers. Other naver_relay rows and supplements (the KIA home table next to the non-TrackMan
+game table, for instance) stay as they are, so the inputs can be run one at a time in any order.
 """
 from __future__ import annotations
 
@@ -39,15 +43,25 @@ def selected(row: dict) -> bool:
     return row["gate"] == "pass" and row["match_status"] in MATCHED | {"matched_without_pitcher"}
 
 
-def merge_season(body: dict | None, entries: list[dict], meta: dict) -> tuple[dict, int]:
+def game_of(pitch_id: str) -> str:
+    return pitch_id.split("-")[0]
+
+
+def merge_season(body: dict | None, entries: list[dict], meta: dict, games: set[str] | None = None) -> tuple[dict, int]:
     """Season body with these Naver entries. A TrackMan season keeps every TrackMan row and gains a supplement;
-    otherwise the season is Naver-only and is replaced as before. Returns the body and rows already present."""
+    otherwise the season is Naver-only and is replaced as before. Returns the body and rows already present.
+    With `games` (the games this input covers) only that input's own naver_relay rows and its supplement (same
+    `input`) are replaced; without it every naver_relay row and supplement of the season is."""
     if not body or body.get("source") == "naver_relay":
         return {"source": "naver_relay", **meta, "pitches": entries}, 0
-    base = [e for e in body["pitches"] if e.get("source") != "naver_relay"]
+    own = (lambda e: e.get("source") == "naver_relay") if games is None else (
+        lambda e: e.get("source") == "naver_relay" and game_of(e["pitch_id"]) in games)
+    base = [e for e in body["pitches"] if not own(e)]
     have = {e["pitch_id"] for e in base}
     new = [{**e, "source": "naver_relay"} for e in entries if e["pitch_id"] not in have]
-    supplements = [s for s in body.get("supplements", []) if s.get("source") != "naver_relay"] + [{"source": "naver_relay", **meta}]
+    keep = [s for s in body.get("supplements", []) if s.get("source") != "naver_relay"] if games is None else [
+        s for s in body.get("supplements", []) if not (s.get("source") == "naver_relay" and s.get("input") == meta["input"])]
+    supplements = keep + [{"source": "naver_relay", **meta}]
     head = {k: v for k, v in body.items() if k not in ("pitches", "supplements")}
     return {**head, "supplements": supplements, "pitches": sorted(base + new, key=lambda e: e["pitch_id"])}, len(entries) - len(new)
 
@@ -92,7 +106,8 @@ def main() -> None:
         if gated:
             stats["gate_failed"] = sum(r["season"] == season and r["naver_code"] == "W" and r["vb_call"] == "B"
                                        and r["gate"].startswith("fail") for r in rows)
-        body, duplicates = merge_season(table["seasons"].get(season), entries, meta)
+        scope = {r["game_id"] for r in rows if r["season"] == season} if gated else None
+        body, duplicates = merge_season(table["seasons"].get(season), entries, meta, scope)
         if "supplements" in body:
             stats["already_in_table"] = duplicates
         table["seasons"][season] = body

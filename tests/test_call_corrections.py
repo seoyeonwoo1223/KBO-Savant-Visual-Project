@@ -97,6 +97,34 @@ def test_naver_supplement_keeps_trackman_rows_and_trackman_rebuild_keeps_supplem
     assert naver_only == {"source": "naver_relay", **meta, "pitches": [_entry("F-1")]}
 
 
+def test_second_naver_input_keeps_the_first_inputs_rows_and_supplement():
+    """KIA home table (games K*) and non-TrackMan game table (games N*) share a TrackMan season."""
+    import copy
+    import build_naver_bunt_corrections as nv
+    kia_meta = {"rule": "nv", "input": "kia.csv", "stats": {"corrections": 2}}
+    other_meta = {"rule": "nv", "input": "non_tm.csv", "stats": {"corrections": 1}}
+    trackman = {"source": "trackman", "rule": "tm", "stats": {}, "pitches": [_entry("T1-1")]}
+    with_kia, _ = nv.merge_season(trackman, [_entry("K1-1"), _entry("K2-1")], kia_meta, {"K1", "K2"})
+    frozen = copy.deepcopy(with_kia)
+    both, duplicates = nv.merge_season(with_kia, [_entry("N1-1")], other_meta, {"N1", "N2"})
+    assert with_kia == frozen and duplicates == 0                     # input is not mutated
+    assert [(e["pitch_id"], e.get("source")) for e in both["pitches"]] == [
+        ("K1-1", "naver_relay"), ("K2-1", "naver_relay"), ("N1-1", "naver_relay"), ("T1-1", None)]
+    assert [e for e in both["pitches"] if e["pitch_id"] in ("K1-1", "K2-1", "T1-1")] == [
+        {**_entry("K1-1"), "source": "naver_relay"}, {**_entry("K2-1"), "source": "naver_relay"}, _entry("T1-1")]
+    assert both["supplements"] == [{"source": "naver_relay", **kia_meta}, {"source": "naver_relay", **other_meta}]
+    # Re-running either input replaces only its own rows and supplement, in either order.
+    again, _ = nv.merge_season(both, [_entry("N2-1")], other_meta, {"N1", "N2"})
+    assert [e["pitch_id"] for e in again["pitches"]] == ["K1-1", "K2-1", "N2-1", "T1-1"]
+    assert again["supplements"] == [{"source": "naver_relay", **kia_meta}, {"source": "naver_relay", **other_meta}]
+    kia_again, _ = nv.merge_season(again, [_entry("K1-1")], {**kia_meta, "stats": {"corrections": 1}}, {"K1", "K2"})
+    assert [e["pitch_id"] for e in kia_again["pitches"]] == ["K1-1", "N2-1", "T1-1"]
+    assert [s["input"] for s in kia_again["supplements"]] == ["non_tm.csv", "kia.csv"]
+    # An entry another input already holds is not written twice.
+    dup, duplicates = nv.merge_season(both, [_entry("K1-1")], other_meta, {"N1", "N2"})
+    assert duplicates == 1 and [e["pitch_id"] for e in dup["pitches"]].count("K1-1") == 1
+
+
 def test_naver_selection_requires_the_gate_when_present():
     import build_naver_bunt_corrections as nv
     base = {"naver_code": "W", "vb_call": "B", "match_status": "matched_context"}

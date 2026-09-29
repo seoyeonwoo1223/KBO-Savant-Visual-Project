@@ -33,9 +33,10 @@ def target_games(seasons=SEASONS) -> list[str]:
     return sorted(r["game_id"] for s in seasons for r in load_rows(ROOT, "games", s, columns=["game_id"]) if r["game_id"][10:12] == "HT")
 
 
-def fetch() -> None:
+def fetch(games: list[str] | None = None, coverage: Path = COVERAGE) -> None:
+    """Cache every inning of `games` (default: KIA home games 2019-2024). `coverage` is the status file written."""
     status = {}
-    for i, game_id in enumerate(target_games(), 1):
+    for i, game_id in enumerate(games if games is not None else target_games(), 1):
         pitches, failed = game_pitches(game_id)
         status[game_id] = {"pitches": len(pitches), "failed_innings": failed}
         if i % 20 == 0 or failed:
@@ -43,7 +44,7 @@ def fetch() -> None:
     by_season = defaultdict(Counter)
     for g, v in status.items():
         by_season[g[:4]]["games"] += 1; by_season[g[:4]]["incomplete"] += bool(v["failed_innings"])
-    COVERAGE.write_text(json.dumps({"seasons": {s: dict(c) for s, c in sorted(by_season.items())},
+    coverage.write_text(json.dumps({"seasons": {s: dict(c) for s, c in sorted(by_season.items())},
                                     "incomplete_games": {g: v["failed_innings"] for g, v in status.items() if v["failed_innings"]}},
                                    ensure_ascii=False, indent=1), encoding="utf-8")
     print({s: dict(c) for s, c in sorted(by_season.items())})
@@ -108,20 +109,26 @@ def pa_gate(rows: list[dict], joined: dict, fixed: set[str]) -> str:
     return "pass"
 
 
-def build(seasons=SEASONS) -> None:
+def build(seasons=SEASONS, games: list[str] | None = None, out_csv: Path = OUT_CSV, out_summary: Path = OUT_SUMMARY,
+          games_definition: str = "game_id home code HT (KIA home); no TrackMan in any of them", extra: dict | None = None) -> dict:
+    """`games` None: KIA home games, written to the default KIA files. Otherwise exactly those game ids."""
     rows, summary = [], {"definition": {"design": "naver_bunt_extension_design.md section 2", "gates": "sbj_validation_gates.md K1-K4",
-                                         "games": "game_id home code HT (KIA home); no TrackMan in any of them"}, "seasons": {}}
+                                         "games": games_definition}, **(extra or {}), "seasons": {}}
     for season in seasons:
-        games = target_games([season]); vb_all = defaultdict(list)
+        if games is None:
+            season_games = target_games([season]); wanted = None
+        else:
+            season_games = sorted(g for g in games if g[:4] == str(season)); wanted = set(season_games)
+        vb_all = defaultdict(list)
         for r in load_rows(ROOT, "pitches", season, columns=VB_COLS):
-            if r["game_id"][10:12] == "HT":
+            if (r["game_id"][10:12] == "HT") if wanted is None else (r["game_id"] in wanted):
                 vb_all[r["game_id"]].append(r)
         # Pitches this table already corrected read W in curated; report them by their source call so a rerun
         # after apply_call_corrections.py selects the same rows.
         table = json.loads(CALL_CORRECTIONS.read_text(encoding="utf-8")) if CALL_CORRECTIONS.exists() else {}
         corrected = {e["pitch_id"] for e in (table.get("seasons", {}).get(str(season)) or {}).get("pitches", [])}
         st, gates, incomplete = Counter(), Counter(), []
-        for game_id in games:
+        for game_id in season_games:
             naver, failed = game_pitches(game_id)
             if failed or not naver:
                 incomplete.append(game_id); continue
@@ -154,19 +161,20 @@ def build(seasons=SEASONS) -> None:
                              "vb_count_before": f"{v['balls_before']}-{v['strikes_before']}" if v else "",
                              "naver_count_before": n["count_before"], "naver_count_after": n["count_after"], "match_status": s,
                              "gate": gate, "ends_pa": bool(v["is_pa_terminal"]) if v else ""})
-        used = len(games) - len(incomplete); w = st["naver_W"]
+        used = len(season_games) - len(incomplete); w = st["naver_W"]
         bad = st["W_unmatched"] + st["W_ambiguous"]; pas = sum(gates.values())
         summary["seasons"][str(season)] = {
-            "games": len(games), "games_used": used, "incomplete_games": incomplete, "stats": dict(sorted(st.items())),
+            "games": len(season_games), "games_used": used, "incomplete_games": incomplete, "stats": dict(sorted(st.items())),
             "pa_gate": dict(sorted(gates.items())),
             "corrections": sum(1 for r in rows if r["season"] == season and r["gate"] == "pass"),
             "K1_complete": not incomplete, "K2_unmatched_or_ambiguous_share": round(bad / w, 4) if w else None, "K2_pass": bool(w) and bad / w <= 0.01,
             "K3_pa_pass_share": round(gates["pass"] / pas, 4) if pas else None, "K3_pass": bool(pas) and gates["pass"] / pas >= 0.95,
             "K4_W_per_game": round(w / used, 3) if used else None, "K4_pass": bool(used) and 0.8 <= w / used <= 1.2}
         print(season, json.dumps({k: v for k, v in summary["seasons"][str(season)].items() if k != "stats"}, ensure_ascii=False), flush=True)
-    with OUT_CSV.open("w", newline="", encoding="utf-8") as f:
+    with out_csv.open("w", newline="", encoding="utf-8") as f:
         wr = csv.DictWriter(f, fieldnames=COLUMNS); wr.writeheader(); wr.writerows(sorted(rows, key=lambda r: (r["game_id"], r["naver_pitch_id"], r["pitch_id"])))
-    OUT_SUMMARY.write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
+    out_summary.write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
+    return summary
 
 
 if __name__ == "__main__":
