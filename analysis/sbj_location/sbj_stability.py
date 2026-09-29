@@ -84,7 +84,7 @@ def player_ci(d, q, seed=0):
 
 
 out = {'definition': {'min_pitches_seen': MIN_SEEN, 'bootstrap_reps': REPS, 'calibration_min_takes': CAL_MIN_TAKES, 'calibration_tol': CAL_TOL,
-                      'pre': 'curated before 7ffaba32', 'post': 'curated at 7ffaba32 (current)', 'home': 'home team code from game_id (park proxy)'},
+                      'pre': 'curated before 7ffaba32', 'post': 'current curated (92277e1c): 7ffaba32 bunt-foul/V correction plus the 2019-2024 KIA home Naver correction; 2025-2026 rows unchanged since 7ffaba32', 'home': 'home team code from game_id (park proxy)'},
        'seasons': {}}
 za_b = {}
 for s in SEASONS:

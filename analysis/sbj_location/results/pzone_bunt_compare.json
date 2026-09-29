@@ -4,7 +4,7 @@
   "B_za72": "x_mid_relative, top_gap_cm, bottom_gap_cm",
   "target": "takes only, ABS CalledStrike vs Ball/HBP (call reproduction, not a location validation)",
   "pre": "curated before 7ffaba32 (bunt fouls recorded as B, V not counted as a strike)",
-  "post": "curated at 7ffaba32",
+  "post": "current curated (92277e1c): 7ffaba32 bunt-foul/V correction plus the 2019-2024 KIA home Naver correction; 2025-2026 rows unchanged since 7ffaba32",
   "edge_cm": "min distance to a zone edge over reported and judgment-plane representations",
   "bootstrap": "game-cluster, 300 reps, seed 0; positive = B better"
  },
@@ -126,124 +126,124 @@
     }
    },
    "post": {
-    "eligible_pitches": 221629,
-    "takes": 120516,
+    "eligible_pitches": 221562,
+    "takes": 120449,
     "A": {
-     "log_loss": 0.02273,
-     "brier": 0.00635,
-     "misclass_at_0.5": 1049
+     "log_loss": 0.01966,
+     "brier": 0.00586,
+     "misclass_at_0.5": 979
     },
     "B": {
-     "log_loss": 0.00974,
-     "brier": 0.00243,
-     "misclass_at_0.5": 437
+     "log_loss": 0.00785,
+     "brier": 0.00238,
+     "misclass_at_0.5": 459
     },
     "logloss_A_minus_B_all": {
-     "mean": 0.012992,
+     "mean": 0.011811,
      "ci95": [
-      0.012056,
-      0.013877
+      0.010981,
+      0.012658
      ]
     },
-    "brier_A_minus_B": 0.00392,
+    "brier_A_minus_B": 0.00348,
     "by_edge_distance": {
      "0-2cm": {
-      "takes": 23580,
-      "A_log_loss": 0.06915,
-      "B_log_loss": 0.02838,
-      "A_brier": 0.02091,
-      "B_brier": 0.00854,
+      "takes": 23566,
+      "A_log_loss": 0.06413,
+      "B_log_loss": 0.02697,
+      "A_brier": 0.01995,
+      "B_brier": 0.00874,
       "logloss_A_minus_B": {
-       "mean": 0.040765,
+       "mean": 0.037167,
        "ci95": [
-        0.03722,
-        0.044353
+        0.033887,
+        0.040449
        ]
       }
      },
      "2-5cm": {
-      "takes": 23818,
-      "A_log_loss": 0.03277,
-      "B_log_loss": 0.00776,
+      "takes": 23809,
+      "A_log_loss": 0.03209,
+      "B_log_loss": 0.00972,
       "A_brier": 0.00954,
-      "B_brier": 0.00201,
+      "B_brier": 0.00305,
       "logloss_A_minus_B": {
-       "mean": 0.025018,
+       "mean": 0.022372,
        "ci95": [
-        0.022368,
-        0.027916
+        0.019685,
+        0.024848
        ]
       }
      },
      "5-10cm": {
-      "takes": 29955,
-      "A_log_loss": 0.0041,
-      "B_log_loss": 0.00372,
-      "A_brier": 0.00052,
-      "B_brier": 0.00047,
+      "takes": 29940,
+      "A_log_loss": 0.0015,
+      "B_log_loss": 0.00105,
+      "A_brier": 0.00014,
+      "B_brier": 0.0001,
       "logloss_A_minus_B": {
-       "mean": 0.000384,
+       "mean": 0.000456,
        "ci95": [
-        0.000204,
-        0.000563
+        0.000377,
+        0.000535
        ]
       }
      },
      "10-20cm": {
-      "takes": 34519,
-      "A_log_loss": 0.00514,
-      "B_log_loss": 0.00521,
-      "A_brier": 0.00075,
-      "B_brier": 0.00075,
+      "takes": 34493,
+      "A_log_loss": 0.00113,
+      "B_log_loss": 0.00112,
+      "A_brier": 0.00012,
+      "B_brier": 0.00012,
       "logloss_A_minus_B": {
-       "mean": -6.5e-05,
+       "mean": 1.2e-05,
        "ci95": [
-        -0.000291,
-        0.000157
+        -6.5e-05,
+        6.1e-05
        ]
       }
      },
      ">=20cm": {
-      "takes": 8644,
-      "A_log_loss": 0.00328,
-      "B_log_loss": 0.00335,
-      "A_brier": 0.00046,
-      "B_brier": 0.00046,
+      "takes": 8641,
+      "A_log_loss": 0.00103,
+      "B_log_loss": 0.00103,
+      "A_brier": 0.00012,
+      "B_brier": 0.00012,
       "logloss_A_minus_B": {
-       "mean": -7.6e-05,
+       "mean": 0.0,
        "ci95": [
-        -0.000351,
-        0.000357
+        -5e-05,
+        2.6e-05
        ]
       }
      }
     },
     "players": {
      "qualified_batters": 155,
-     "mean_abs_delta_za_raw": 0.1572,
-     "max_abs_delta_za_raw": 0.7294,
-     "max_rank_shift": 14,
-     "rank_shift_ge5": 31,
-     "spearman": 0.99617,
+     "mean_abs_delta_za_raw": 0.1579,
+     "max_abs_delta_za_raw": 0.6964,
+     "max_rank_shift": 15,
+     "rank_shift_ge5": 29,
+     "spearman": 0.99645,
      "seed_noise_mean_abs_delta": [
-      0.0428,
-      0.0608
+      0.0614,
+      0.0621
      ],
      "seed_noise_max_rank_shift": [
       5,
-      7
+      10
      ],
      "ratio_to_seed_noise": [
-      2.58,
-      3.67
+      2.54,
+      2.57
      ],
-     "za_raw_sd_B": 3.003
+     "za_raw_sd_B": 3.0107
     }
    },
    "correction_effect": {
-    "eligible_pitches_removed": 596,
+    "eligible_pitches_removed": 663,
     "eligible_pitches_added": 0,
-    "B_za_raw_pre_vs_post_mean_abs_delta": 0.2683,
+    "B_za_raw_pre_vs_post_mean_abs_delta": 0.2893,
     "common_qualified_batters": 155
    }
   },

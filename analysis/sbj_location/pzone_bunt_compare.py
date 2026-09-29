@@ -64,7 +64,7 @@ def players(df, seed):
 
 out = {'definition': {'A_reported': 'x_relative, z_relative, sz_top, sz_bottom', 'B_za72': 'x_mid_relative, top_gap_cm, bottom_gap_cm',
                       'target': 'takes only, ABS CalledStrike vs Ball/HBP (call reproduction, not a location validation)',
-                      'pre': 'curated before 7ffaba32 (bunt fouls recorded as B, V not counted as a strike)', 'post': 'curated at 7ffaba32',
+                      'pre': 'curated before 7ffaba32 (bunt fouls recorded as B, V not counted as a strike)', 'post': 'current curated (92277e1c): 7ffaba32 bunt-foul/V correction plus the 2019-2024 KIA home Naver correction; 2025-2026 rows unchanged since 7ffaba32',
                       'edge_cm': 'min distance to a zone edge over reported and judgment-plane representations',
                       'bootstrap': 'game-cluster, 300 reps, seed 0; positive = B better'}, 'seasons': {}}
 for s in SEASONS:

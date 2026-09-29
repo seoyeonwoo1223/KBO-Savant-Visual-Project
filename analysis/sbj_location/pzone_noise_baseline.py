@@ -93,7 +93,7 @@ outside = ((P.base_A - P.base_B).abs() > player_env)
 # A<->B difference re-measured inside each refit that has both inputs (is the A/B gap itself stable?).
 ab_within = {r: delta(P[f'{r}_A'], P[f'{r}_B']) for r in runs if f'{r}_A' in P}
 groups = {g: [v['mean_abs_delta'] for r, v in run_stats.items() if r.startswith(g)] for g in ('pzone_seed', 'pswing_seed', 'split')}
-out = {'season': SEASON, 'qualified_batters': int(len(Q)), 'runs': run_stats,
+out = {'season': SEASON, 'eligible_pitches': int(len(rows)), 'qualified_batters': int(len(Q)), 'runs': run_stats,
        'noise_mean_abs_delta_by_source': {g: {'min': min(v), 'median': round(float(np.median(v)), 4), 'max': max(v)} for g, v in groups.items()},
        'noise_envelope_p95_mean_abs_delta': round(env, 4),
        'A_vs_B_base': ab, 'A_vs_B_over_envelope': round(ab['mean_abs_delta'] / env, 2),

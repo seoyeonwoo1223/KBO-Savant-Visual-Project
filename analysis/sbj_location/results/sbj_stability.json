@@ -5,23 +5,23 @@
   "calibration_min_takes": 2000,
   "calibration_tol": 0.01,
   "pre": "curated before 7ffaba32",
-  "post": "curated at 7ffaba32 (current)",
+  "post": "current curated (92277e1c): 7ffaba32 bunt-foul/V correction plus the 2019-2024 KIA home Naver correction; 2025-2026 rows unchanged since 7ffaba32",
   "home": "home team code from game_id (park proxy)"
  },
  "seasons": {
   "2024": {
    "qualified_batters": 155,
    "N4_decomposition": {
-    "retained_takes": 120516,
-    "removed_pitches": 596,
+    "retained_takes": 120449,
+    "removed_pitches": 663,
     "A_reported": {
      "pre_model_on_post_takes": {
-      "log_loss": 0.0261,
-      "brier": 0.00683
+      "log_loss": 0.02445,
+      "brier": 0.00643
      },
      "post_model_on_post_takes": {
-      "log_loss": 0.02273,
-      "brier": 0.00635
+      "log_loss": 0.01966,
+      "brier": 0.00586
      },
      "pre_model_on_pre_takes": {
       "log_loss": 0.04008,
@@ -30,12 +30,12 @@
     },
     "B_za72": {
      "pre_model_on_post_takes": {
-      "log_loss": 0.01184,
-      "brier": 0.0023
+      "log_loss": 0.01005,
+      "brier": 0.00189
      },
      "post_model_on_post_takes": {
-      "log_loss": 0.00974,
-      "brier": 0.00243
+      "log_loss": 0.00785,
+      "brier": 0.00238
      },
      "pre_model_on_pre_takes": {
       "log_loss": 0.02686,
@@ -43,167 +43,167 @@
      }
     },
     "za_raw_A_reported": {
-     "row_removal_mean_abs": 0.089,
-     "refit_mean_abs": 0.2154,
-     "total_mean_abs": 0.2793
+     "row_removal_mean_abs": 0.0999,
+     "refit_mean_abs": 0.2223,
+     "total_mean_abs": 0.2913
     },
     "za_raw_B_za72": {
-     "row_removal_mean_abs": 0.0905,
-     "refit_mean_abs": 0.2006,
-     "total_mean_abs": 0.2683
+     "row_removal_mean_abs": 0.1015,
+     "refit_mean_abs": 0.213,
+     "total_mean_abs": 0.2893
     },
     "A_minus_B_log_loss_post_takes": {
-     "pre_models": 0.014254,
-     "post_models": 0.012992
+     "pre_models": 0.014395,
+     "post_models": 0.011811
     }
    },
    "N6_calibration": {
     "batter_stance": {
      "": {
       "takes": 1,
-      "obs_minus_pred": -0.00013,
+      "obs_minus_pred": -0.0001,
       "ci95": [
-       -0.00013,
-       -0.00013
+       -0.0001,
+       -0.0001
       ],
       "pass": true
      },
      "L": {
-      "takes": 59170,
-      "obs_minus_pred": 0.0001,
+      "takes": 59142,
+      "obs_minus_pred": -4e-05,
       "ci95": [
-       -0.00031,
-       0.00048
+       -0.00043,
+       0.00032
       ],
       "pass": true
      },
      "R": {
-      "takes": 61345,
-      "obs_minus_pred": -2e-05,
+      "takes": 61306,
+      "obs_minus_pred": -3e-05,
       "ci95": [
-       -0.00044,
-       0.0004
+       -0.00043,
+       0.00035
       ],
       "pass": true
      }
     },
     "zone_height": {
      "high": {
-      "takes": 38486,
-      "obs_minus_pred": 0.00041,
+      "takes": 38479,
+      "obs_minus_pred": 0.00017,
       "ci95": [
-       -6e-05,
-       0.00089
+       -0.00032,
+       0.00061
       ],
       "pass": true
      },
      "low": {
-      "takes": 41373,
-      "obs_minus_pred": -0.00063,
+      "takes": 41336,
+      "obs_minus_pred": -0.00041,
       "ci95": [
-       -0.00117,
-       -0.00012
+       -0.00087,
+       5e-05
       ],
-      "pass": false
+      "pass": true
      },
      "mid": {
-      "takes": 40657,
-      "obs_minus_pred": 0.00036,
+      "takes": 40634,
+      "obs_minus_pred": 0.00015,
       "ci95": [
-       -6e-05,
-       0.0008
+       -0.0003,
+       0.00063
       ],
       "pass": true
      }
     },
     "batter_team": {
      "HH": {
-      "takes": 11808,
-      "obs_minus_pred": 0.00062,
+      "takes": 11804,
+      "obs_minus_pred": 0.00056,
       "ci95": [
-       -9e-05,
-       0.00133
+       -0.00034,
+       0.00148
       ],
       "pass": true
      },
      "HT": {
-      "takes": 12167,
-      "obs_minus_pred": -0.0021,
+      "takes": 12136,
+      "obs_minus_pred": -0.0005,
       "ci95": [
-       -0.00331,
-       -0.001
+       -0.00126,
+       0.00024
       ],
-      "pass": false
+      "pass": true
      },
      "KT": {
-      "takes": 12825,
-      "obs_minus_pred": 0.00073,
+      "takes": 12822,
+      "obs_minus_pred": -4e-05,
       "ci95": [
-       -0.00022,
-       0.00159
+       -0.00084,
+       0.0008
       ],
       "pass": true
      },
      "LG": {
-      "takes": 12612,
-      "obs_minus_pred": 0.00049,
+      "takes": 12610,
+      "obs_minus_pred": 0.00031,
       "ci95": [
-       -0.00029,
-       0.00137
+       -0.00048,
+       0.00115
       ],
       "pass": true
      },
      "LT": {
       "takes": 11849,
-      "obs_minus_pred": 0.00021,
+      "obs_minus_pred": -0.00034,
       "ci95": [
-       -0.00069,
-       0.00101
+       -0.0013,
+       0.00063
       ],
       "pass": true
      },
      "NC": {
-      "takes": 12290,
-      "obs_minus_pred": 0.00082,
+      "takes": 12289,
+      "obs_minus_pred": 0.00012,
       "ci95": [
-       5e-05,
-       0.00161
+       -0.0008,
+       0.00097
       ],
-      "pass": false
+      "pass": true
      },
      "OB": {
-      "takes": 11880,
-      "obs_minus_pred": -0.0004,
+      "takes": 11870,
+      "obs_minus_pred": -0.00014,
       "ci95": [
-       -0.00144,
-       0.00046
+       -0.00108,
+       0.00081
       ],
       "pass": true
      },
      "SK": {
-      "takes": 11621,
-      "obs_minus_pred": -0.00067,
+      "takes": 11609,
+      "obs_minus_pred": -0.00065,
       "ci95": [
-       -0.00193,
-       0.00048
+       -0.00168,
+       0.0004
       ],
       "pass": true
      },
      "SS": {
-      "takes": 12024,
-      "obs_minus_pred": 0.00024,
+      "takes": 12021,
+      "obs_minus_pred": 0.00018,
       "ci95": [
-       -0.00052,
-       0.00093
+       -0.00064,
+       0.00082
       ],
       "pass": true
      },
      "WO": {
-      "takes": 11440,
-      "obs_minus_pred": 0.0004,
+      "takes": 11439,
+      "obs_minus_pred": 0.0001,
       "ci95": [
-       -0.0004,
-       0.00115
+       -0.00069,
+       0.00114
       ],
       "pass": true
      }
@@ -211,120 +211,113 @@
     "home": {
      "HH": {
       "takes": 11781,
-      "obs_minus_pred": 0.00039,
+      "obs_minus_pred": -0.00023,
       "ci95": [
-       -0.00048,
-       0.00122
+       -0.00127,
+       0.00073
       ],
       "pass": true
      },
      "HT": {
-      "takes": 12279,
-      "obs_minus_pred": -0.00384,
+      "takes": 12212,
+      "obs_minus_pred": -6e-05,
       "ci95": [
-       -0.00531,
-       -0.00242
+       -0.00102,
+       0.00092
       ],
-      "pass": false
+      "pass": true
      },
      "KT": {
       "takes": 11715,
-      "obs_minus_pred": 0.00034,
+      "obs_minus_pred": -0.00042,
       "ci95": [
-       -0.0005,
-       0.00106
+       -0.00138,
+       0.00041
       ],
       "pass": true
      },
      "LG": {
       "takes": 12549,
-      "obs_minus_pred": 0.00047,
+      "obs_minus_pred": 0.00041,
       "ci95": [
-       -0.00025,
-       0.00118
+       -0.00029,
+       0.00124
       ],
       "pass": true
      },
      "LT": {
       "takes": 11916,
-      "obs_minus_pred": -0.00029,
+      "obs_minus_pred": -0.00039,
       "ci95": [
-       -0.00109,
-       0.00062
+       -0.00132,
+       0.0006
       ],
       "pass": true
      },
      "NC": {
       "takes": 12305,
-      "obs_minus_pred": 0.00093,
+      "obs_minus_pred": 0.00018,
       "ci95": [
-       0.00021,
-       0.00168
+       -0.00072,
+       0.00116
       ],
-      "pass": false
+      "pass": true
      },
      "OB": {
       "takes": 12089,
-      "obs_minus_pred": 0.00059,
+      "obs_minus_pred": -0.00024,
       "ci95": [
-       -0.00016,
-       0.00132
+       -0.00122,
+       0.00079
       ],
       "pass": true
      },
      "SK": {
       "takes": 12027,
-      "obs_minus_pred": 0.00052,
+      "obs_minus_pred": -0.00021,
       "ci95": [
-       -0.00026,
-       0.00129
+       -0.00112,
+       0.00074
       ],
       "pass": true
      },
      "SS": {
       "takes": 12133,
-      "obs_minus_pred": 0.00052,
+      "obs_minus_pred": 0.00021,
       "ci95": [
-       -0.00028,
-       0.00131
+       -0.00059,
+       0.00101
       ],
       "pass": true
      },
      "WO": {
       "takes": 11722,
-      "obs_minus_pred": 0.00081,
+      "obs_minus_pred": 0.00034,
       "ci95": [
-       0.00012,
-       0.00144
+       -0.00038,
+       0.00106
       ],
-      "pass": false
+      "pass": true
      }
     }
    },
-   "N6_failing_strata": [
-    "batter_team:HT",
-    "batter_team:NC",
-    "home:HT",
-    "home:NC",
-    "home:WO",
-    "zone_height:low"
-   ],
+   "N6_failing_strata": [],
    "N8_split_half": {
     "B_za72": {
      "batters": 155,
-     "r_half": 0.7062,
-     "spearman_brown": 0.8278
+     "r_half": 0.709,
+     "spearman_brown": 0.8297
     },
     "A_reported": {
      "batters": 155,
-     "r_half": 0.7211,
-     "spearman_brown": 0.8379
+     "r_half": 0.7204,
+     "spearman_brown": 0.8375
     }
    },
    "N10_player_ci": {
-    "median_ci95_width": 3.9566,
-    "median_abs_delta_A_minus_B": 0.1265,
-    "ratio": 0.032,
+    "median_ci95_width": 3.9206,
+    "median_abs_delta_A_minus_B": 0.1331,
+    "ratio": 0.034,
     "small_effect": true
    }
   },
@@ -943,7 +936,7 @@
  "N9_year_to_year": {
   "2024->2025": {
    "batters": 115,
-   "pearson": 0.7266
+   "pearson": 0.7284
   },
   "2025->2026": {
    "batters": 122,
