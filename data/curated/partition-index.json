@@ -5707,11 +5707,11 @@
         "20260829LGLT0": {
           "game_date": "2026-08-29",
           "month": "08",
-          "revision": 7,
+          "revision": 8,
           "tables": {
             "games": "9740c7cdcf93dfa21eae6723a246cfaa1b70d70f1fd8aece58cd050adac99884",
-            "events": "816fd184865f6bd7e10143b3307469b353e03ab5d8be745cd5b753261e737b4a",
-            "pitches": "82cad746926b9a7fe3142a7b77a93d4ec6d92ba6a792ccaff2ac34c2f3a51402"
+            "events": "3edb7e1caeddef08cf661acba0ab317de87490c0ad80192d05a66f4860aa1707",
+            "pitches": "0a4692c03af168d66d04f6243e2998b244c11e2e563124ceb92d66a3103b97af"
           }
         },
         "20260829NCHH0": {
@@ -7251,11 +7251,11 @@
         "20250408SKSS0": {
           "game_date": "2025-04-08",
           "month": "04",
-          "revision": 4,
+          "revision": 5,
           "tables": {
             "games": "9d3a268698a6579c044732c64bccafd3084e96d302d8186d3c1a0cc6ff9737a5",
-            "events": "1cfe54ca519e7f52b3b0659ba603cbf7f0b68db0b4472aa56fc1343b508a3999",
-            "pitches": "1ef465276a033b84bda14354246a4a246c1b4d61adad01b13031500ebc00cba3"
+            "events": "0db3805a641a8dad0ace6b718ca62fa8e997f98755bac140d19f6f3e71f30391",
+            "pitches": "cc96b773bcfb063120c7c0f7d57ce4587b2adc51c01d054f538c852e8b9c589d"
           }
         },
         "20250409HHOB0": {
@@ -7441,11 +7441,11 @@
         "20250413LTNC0": {
           "game_date": "2025-04-13",
           "month": "04",
-          "revision": 4,
+          "revision": 5,
           "tables": {
             "games": "40f3955610f3fb7834d3e903384d09b132fee52f6ba025414dea10de97131c0a",
-            "events": "f44f1a7712b8109e0e6b5531810b3bfe69fce4e584048a225675942f402f5be7",
-            "pitches": "2a446706bb1a0e0df7d3ab174128d4bfa455c912301991a6edc750ff68b2e624"
+            "events": "09bbc2df5ff8f2d307ee83b13d203f2f71badb18ea4c8fffbd87fcb2c0407d1b",
+            "pitches": "6bac91eddcaef7053b8f0104304f48e1080a605e6e4015e8859db790470365d6"
           }
         },
         "20250413OBLG0": {
@@ -8451,11 +8451,11 @@
         "20250507SSHH0": {
           "game_date": "2025-05-07",
           "month": "05",
-          "revision": 4,
+          "revision": 5,
           "tables": {
             "games": "9460d75d23d6f15c9884d03fbcb12634f11588093b16e1b3a39ea0a688908dc6",
-            "events": "7c4201abbc9630af05530f3292cc2546a1b9a31eacad48069e8f77e24dfb6ce5",
-            "pitches": "35a516bc5692471f3d6bed91d2bf603e9cc9059f125c10e8f92611ccdeb9a425"
+            "events": "12b5ccb5b8c3f6c6b40a1d8ef6cb829a63b0aace880e0a193bc849f4a0a50d32",
+            "pitches": "76aaed1171ec891346bafe8d66cb4b00ca3eb11ca5852afc6da44fceb30e5388"
           }
         },
         "20250509HHWO0": {
@@ -11961,11 +11961,11 @@
         "20250810SSKT0": {
           "game_date": "2025-08-10",
           "month": "08",
-          "revision": 3,
+          "revision": 4,
           "tables": {
-            "pitches": "96fb77aa540312b1de7c63b8146e8c43fa1ef82310ecd70eaec094d18fadeccf",
-            "events": "a3f27796988431e97c424b51202c528a280cd12b7baf942ef616ccba3a180ec4",
-            "games": "706096812d0acb29be2b37f30ced85fbe2eb55aa942e52116f21a08b328aaf96"
+            "games": "706096812d0acb29be2b37f30ced85fbe2eb55aa942e52116f21a08b328aaf96",
+            "events": "a004d3093f7f7548261923fb00a5b4c13e7f689cbd25e9c4019511799f2761b2",
+            "pitches": "243c95783f99b811fc2e958bdf7f6fadb47d2541785a0fa3d11f0125a2143b00"
           }
         },
         "20250812HTSS0": {

@@ -40,6 +40,8 @@ def selected(row: dict) -> bool:
         return False
     if "gate" not in row:
         return row["match_status"] in MATCHED
+    if row["gate"] == "manual":  # identified by hand from the speed sequence (results/naver_unmatched_W_2025_2026.csv)
+        return row["match_status"] == "manual_speed_sequence"
     return row["gate"] == "pass" and row["match_status"] in MATCHED | {"matched_without_pitcher"}
 
 
@@ -51,9 +53,15 @@ def merge_season(body: dict | None, entries: list[dict], meta: dict, games: set[
     """Season body with these Naver entries. A TrackMan season keeps every TrackMan row and gains a supplement;
     otherwise the season is Naver-only and is replaced as before. Returns the body and rows already present.
     With `games` (the games this input covers) only that input's own naver_relay rows and its supplement (same
-    `input`) are replaced; without it every naver_relay row and supplement of the season is."""
-    if not body or body.get("source") == "naver_relay":
-        return {"source": "naver_relay", **meta, "pitches": entries}, 0
+    `input`) are replaced; without it every naver_relay row and supplement of the season is. A Naver-only season
+    rebuilt from its main input keeps the supplement rows (those carrying `source`) and their supplements."""
+    if not body or (body.get("source") == "naver_relay" and games is None):
+        ids = {e["pitch_id"] for e in entries}
+        extra = [e for e in (body or {}).get("pitches", []) if "source" in e and e["pitch_id"] not in ids]
+        rebuilt = {"source": "naver_relay", **meta, "pitches": sorted(entries + extra, key=lambda e: e["pitch_id"])}
+        if (body or {}).get("supplements"):
+            rebuilt["supplements"] = body["supplements"]
+        return rebuilt, 0
     own = (lambda e: e.get("source") == "naver_relay") if games is None else (
         lambda e: e.get("source") == "naver_relay" and game_of(e["pitch_id"]) in games)
     base = [e for e in body["pitches"] if not own(e)]

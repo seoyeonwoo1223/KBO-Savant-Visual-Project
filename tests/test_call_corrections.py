@@ -125,6 +125,21 @@ def test_second_naver_input_keeps_the_first_inputs_rows_and_supplement():
     assert duplicates == 1 and [e["pitch_id"] for e in dup["pitches"]].count("K1-1") == 1
 
 
+def test_naver_only_season_takes_a_supplement_and_keeps_it_on_main_rebuild():
+    import build_naver_bunt_corrections as nv
+    main_meta = {"rule": "nv", "input": "main.csv", "stats": {}}
+    extra_meta = {"rule": "nv", "input": "extra.csv", "stats": {}}
+    season = {"source": "naver_relay", **main_meta, "pitches": [_entry("G1-1"), _entry("G1-3")]}
+    # The supplement covers game G1 too, but only rows it produced (those with `source`) are its own.
+    body, _ = nv.merge_season(season, [_entry("G1-2")], extra_meta, {"G1"})
+    assert [(e["pitch_id"], e.get("source")) for e in body["pitches"]] == [("G1-1", None), ("G1-2", "naver_relay"), ("G1-3", None)]
+    assert body["source"] == "naver_relay" and body["input"] == "main.csv" and body["supplements"] == [{"source": "naver_relay", **extra_meta}]
+    # Rebuilding the season from its main input replaces the main rows and keeps the supplement.
+    rebuilt, _ = nv.merge_season(body, [_entry("G1-1")], main_meta)
+    assert [(e["pitch_id"], e.get("source")) for e in rebuilt["pitches"]] == [("G1-1", None), ("G1-2", "naver_relay")]
+    assert rebuilt["supplements"] == body["supplements"]
+
+
 def test_naver_selection_requires_the_gate_when_present():
     import build_naver_bunt_corrections as nv
     base = {"naver_code": "W", "vb_call": "B", "match_status": "matched_context"}
@@ -133,3 +148,5 @@ def test_naver_selection_requires_the_gate_when_present():
     assert nv.selected({**base, "gate": "pass"}) and nv.selected({**base, "match_status": "matched_without_pitcher", "gate": "pass"})
     assert not nv.selected({**base, "gate": "fail:count"}) and not nv.selected({**base, "vb_call": "F", "gate": "pass"})
     assert not nv.selected({**base, "match_status": "unmatched", "gate": "pass"})
+    assert nv.selected({**base, "match_status": "manual_speed_sequence", "gate": "manual"})
+    assert not nv.selected({**base, "match_status": "unmatched", "gate": "manual"})
