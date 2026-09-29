@@ -75,8 +75,7 @@ for s in SEASONS:
         p, base[tag] = players(df, seed)
         row[tag] = {'eligible_pitches': summ['eligible_pitches'], 'takes': summ['takes'],
                     'A': {k: m['A_reported'][k] for k in ('log_loss', 'brier', 'misclass_at_0.5')}, 'B': {k: m['B_za72'][k] for k in ('log_loss', 'brier', 'misclass_at_0.5')},
-                    'logloss_A_minus_B_all': {'mean': -summ['logloss_diff_vs_B_za72']['all']['A_reported']['mean'],
-                                              'ci95': sorted(-v for v in summ['logloss_diff_vs_B_za72']['all']['A_reported']['ci95'])},
+                    'logloss_A_minus_B_all': summ['logloss_diff_vs_B_za72']['all']['A_reported'],   # boot(d, A, B) is already A-B
                     'brier_A_minus_B': round(m['A_reported']['brier'] - m['B_za72']['brier'], 5),
                     'by_edge_distance': by_edge(df), 'players': p}
         base[tag + '_ids'] = set(df.pitch_id)
