@@ -1,0 +1,159 @@
+{
+ "season": 2024,
+ "qualified_batters": 155,
+ "runs": {
+  "pzone_seed_1": {
+   "mean_abs_delta": 0.0428,
+   "max_abs_delta": 0.2457,
+   "max_rank_shift": 5,
+   "rank_shift_ge5": 2
+  },
+  "pzone_seed_2": {
+   "mean_abs_delta": 0.0573,
+   "max_abs_delta": 0.2834,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 5
+  },
+  "pzone_seed_3": {
+   "mean_abs_delta": 0.0608,
+   "max_abs_delta": 0.2982,
+   "max_rank_shift": 7,
+   "rank_shift_ge5": 6
+  },
+  "pzone_seed_4": {
+   "mean_abs_delta": 0.0611,
+   "max_abs_delta": 0.3008,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 8
+  },
+  "pzone_seed_5": {
+   "mean_abs_delta": 0.0498,
+   "max_abs_delta": 0.2453,
+   "max_rank_shift": 5,
+   "rank_shift_ge5": 2
+  },
+  "pzone_seed_6": {
+   "mean_abs_delta": 0.0586,
+   "max_abs_delta": 0.3442,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 5
+  },
+  "pzone_seed_7": {
+   "mean_abs_delta": 0.0651,
+   "max_abs_delta": 0.4856,
+   "max_rank_shift": 5,
+   "rank_shift_ge5": 4
+  },
+  "pzone_seed_8": {
+   "mean_abs_delta": 0.0663,
+   "max_abs_delta": 0.3446,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 8
+  },
+  "pzone_seed_9": {
+   "mean_abs_delta": 0.0631,
+   "max_abs_delta": 0.3528,
+   "max_rank_shift": 8,
+   "rank_shift_ge5": 2
+  },
+  "pzone_seed_10": {
+   "mean_abs_delta": 0.0591,
+   "max_abs_delta": 0.37,
+   "max_rank_shift": 7,
+   "rank_shift_ge5": 4
+  },
+  "pswing_seed_1": {
+   "mean_abs_delta": 0.0831,
+   "max_abs_delta": 0.356,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 8
+  },
+  "pswing_seed_2": {
+   "mean_abs_delta": 0.0585,
+   "max_abs_delta": 0.3272,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 2
+  },
+  "pswing_seed_3": {
+   "mean_abs_delta": 0.0706,
+   "max_abs_delta": 0.2732,
+   "max_rank_shift": 5,
+   "rank_shift_ge5": 3
+  },
+  "pswing_seed_4": {
+   "mean_abs_delta": 0.0522,
+   "max_abs_delta": 0.1978,
+   "max_rank_shift": 5,
+   "rank_shift_ge5": 2
+  },
+  "pswing_seed_5": {
+   "mean_abs_delta": 0.0662,
+   "max_abs_delta": 0.363,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 2
+  },
+  "split_1": {
+   "mean_abs_delta": 0.2447,
+   "max_abs_delta": 0.7165,
+   "max_rank_shift": 10,
+   "rank_shift_ge5": 21
+  },
+  "split_2": {
+   "mean_abs_delta": 0.2656,
+   "max_abs_delta": 0.9065,
+   "max_rank_shift": 9,
+   "rank_shift_ge5": 23
+  },
+  "split_3": {
+   "mean_abs_delta": 0.2416,
+   "max_abs_delta": 0.7675,
+   "max_rank_shift": 10,
+   "rank_shift_ge5": 19
+  },
+  "split_4": {
+   "mean_abs_delta": 0.2534,
+   "max_abs_delta": 0.9904,
+   "max_rank_shift": 10,
+   "rank_shift_ge5": 22
+  },
+  "split_5": {
+   "mean_abs_delta": 0.1552,
+   "max_abs_delta": 0.8852,
+   "max_rank_shift": 13,
+   "rank_shift_ge5": 19
+  }
+ },
+ "noise_mean_abs_delta_by_source": {
+  "pzone_seed": {
+   "min": 0.0428,
+   "median": 0.06,
+   "max": 0.0663
+  },
+  "pswing_seed": {
+   "min": 0.0522,
+   "median": 0.0662,
+   "max": 0.0831
+  },
+  "split": {
+   "min": 0.1552,
+   "median": 0.2447,
+   "max": 0.2656
+  }
+ },
+ "noise_envelope_p95_mean_abs_delta": 0.254,
+ "A_vs_B_base": {
+  "mean_abs_delta": 0.1572,
+  "max_abs_delta": 0.7294,
+  "max_rank_shift": 14,
+  "rank_shift_ge5": 31
+ },
+ "A_vs_B_over_envelope": 0.62,
+ "A_vs_B_outside_envelope": false,
+ "players_A_vs_B_outside_own_noise_p95": 29,
+ "player_noise_p95_median": 0.2824,
+ "A_vs_B_within_each_refit": {
+  "mean_abs_delta_min": 0.1504,
+  "mean_abs_delta_max": 0.1708
+ },
+ "note": "split runs assign whole dates to folds at random; base uses contiguous date blocks"
+}
