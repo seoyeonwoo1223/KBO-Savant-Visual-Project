@@ -38,8 +38,20 @@ def call_corrections(season: int) -> dict[str, dict]:
     return {row["pitch_id"]: row for row in table.get("seasons", {}).get(str(season), {}).get("pitches", [])}
 
 
+COUNT_CORRECTIONS = CALL_CORRECTIONS.with_name("vb_count_corrections.json")
+
+
+@lru_cache(maxsize=None)
+def count_corrections(season: int) -> dict[str, dict]:
+    """Reviewed plate-appearance count corrections for one season (scripts/build_naver_count_corrections.py)."""
+    if not COUNT_CORRECTIONS.exists():
+        return {}
+    table = json.loads(COUNT_CORRECTIONS.read_text(encoding="utf-8"))
+    return {row["pa_id"]: row for row in table.get("seasons", {}).get(str(season), {}).get("pas", [])}
+
+
 def prepare_game(payload: dict, schedule_game: dict | None = None, season: int = 2026, naver_enrichment: NaverEnrichment | None = None) -> PreparedGame:
-    game, events, pitches, _ = parse_game(payload, schedule_game, season, naver_enrichment, call_corrections(season))
+    game, events, pitches, _ = parse_game(payload, schedule_game, season, naver_enrichment, call_corrections(season), count_corrections(season))
     valid, message = validate_game(game, events, pitches)
     game["validation_status"] = "PASS" if valid and game["is_final"] else f"FAIL: {message}"
     return PreparedGame(game, events, pitches, valid, message)

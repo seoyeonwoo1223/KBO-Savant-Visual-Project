@@ -45,6 +45,37 @@ def test_correct_game_skips_pa_whose_counts_follow_neither_rule():
     assert (applied, recounted) == (0, 0) and skipped == ["G-001: stored counts differ from parser rules"]
 
 
+def test_count_table_sets_the_inherited_start_and_inserts_violation_calls_and_is_idempotent():
+    # Pinch hitter inherits 0-1; a pitcher pitch-clock violation (ball) comes before pitch 2.
+    pitches = _pa(["T", "B", "F", "X"], [(0, 0, 0, 1), (0, 1, 1, 1), (1, 1, 1, 2), (1, 2, 0, 0)])
+    fix = {"G-001": {"batter_id": "1", "pitcher_id": "2", "source_codes": "TBFX", "start": [0, 1], "inserts": [{"before_pitch": 2, "code": "B"}]}}
+    applied, recounted, skipped = correct_game(pitches, [], {}, fix)
+    assert (applied, recounted, skipped) == (0, 1, [])
+    assert [(r["balls_before"], r["strikes_before"], r["balls_after"], r["strikes_after"]) for r in pitches] == [
+        (0, 1, 0, 2), (1, 2, 2, 2), (2, 2, 2, 2), (2, 2, 0, 0)]
+    assert pitches[0]["re288_state_code_before"] == 1
+    assert correct_game(pitches, [], {}, fix) == (0, 0, [])
+    # A row whose pitch codes no longer match is not applied.
+    other = _pa(["T", "B", "F", "X"], [(0, 0, 0, 1), (0, 1, 1, 1), (1, 1, 1, 2), (1, 2, 0, 0)])
+    stale = {"G-001": {**fix["G-001"], "source_codes": "TBBX"}}
+    applied, recounted, skipped = correct_game(other, [], {}, stale)
+    assert (applied, recounted) == (0, 0) and skipped == ["G-001: stored plate appearance no longer matches the count table"]
+
+
+def test_check_counts_the_count_table(tmp_path, monkeypatch):
+    import check_call_corrections as check
+    rows = _pa(["T", "X"], [(0, 1, 0, 2), (0, 2, 0, 0)])
+    monkeypatch.setattr(check, "load_rows", lambda *a, **k: rows)
+    table = {"2025": {"pas": [{"pa_id": "G-001", "batter_id": "1", "pitcher_id": "2", "source_codes": "TX", "start": [0, 1], "inserts": []}]}}
+    result = check.check_season(tmp_path, 2025, {}, table)
+    assert (result["count_table"], result["count_stale"], result["count_errors"], result["clean"]) == (1, 0, 0, True)
+    unapplied = _pa(["T", "X"], [(0, 0, 0, 1), (0, 1, 0, 0)])
+    monkeypatch.setattr(check, "load_rows", lambda *a, **k: unapplied)
+    assert check.check_season(tmp_path, 2025, {}, table)["count_errors"] == 1
+    moved = {"2025": {"pas": [{**table["2025"]["pas"][0], "source_codes": "BX"}]}}
+    assert check.check_season(tmp_path, 2025, {}, moved)["count_stale"] == 1
+
+
 def test_committed_curated_is_in_step_with_the_correction_table():
     """Harness gate: every table pitch is W in curated and W/V plate appearances follow the state rules.
 

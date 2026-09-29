@@ -71,8 +71,18 @@ def _corrected_pitch(pitch: dict[str, Any], pitch_id: str, pa: dict[str, Any], c
     return {**pitch, "r": fix["code"]}
 
 
+def _count_fix(pa_id: str, pa: dict[str, Any], codes: list[str], corrections: dict[str, dict[str, Any]] | None) -> dict[str, Any] | None:
+    """A reviewed count correction for this plate appearance when the source still matches the table row exactly."""
+    fix = (corrections or {}).get(pa_id)
+    if not fix or str(pa.get("batterId", "")) != fix["batter_id"] or str(pa.get("pitcherId", "")) != fix["pitcher_id"] \
+            or "".join(codes) != fix["source_codes"]:
+        return None
+    return fix
+
+
 def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = None, season: int = 2026, naver_enrichment: NaverEnrichment | None = None,
-               call_corrections: dict[str, dict[str, Any]] | None = None) -> tuple[dict, list[dict], list[dict], int]:
+               call_corrections: dict[str, dict[str, Any]] | None = None,
+               count_corrections: dict[str, dict[str, Any]] | None = None) -> tuple[dict, list[dict], list[dict], int]:
     schedule_game = schedule_game or {}
     game_data, halves = payload["gameData"], sorted(payload["pbpData"], key=_half_key)
     game_id = str(game_data.get("gameId") or schedule_game.get("gameId"))
@@ -120,8 +130,15 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
             pa_status = "ok" if str(pa.get("type", "")).lower() in KNOWN_PA_TYPES else "unknown"; unknown += pa_status == "unknown"
             if source_snapshot_changed and pa_status == "ok": pa_status = "source_limited"
             pitch_list, terminal_before = pa.get("pitches") or [], None
+            pitch_list = [_corrected_pitch(pitch, f"{game_id}-{pa_id}-{index:02d}", pa, call_corrections) for index, pitch in enumerate(pitch_list, 1)]
+            # Count events the source does not list as pitches: a count the pinch hitter inherits, pitch-clock violations.
+            count_fix = _count_fix(pa_id, pa, [str(p.get("r", "")).upper() for p in pitch_list], count_corrections)
+            if count_fix:
+                state.balls, state.strikes = count_fix["start"]
+            inserted = {int(i["before_pitch"]): i["code"] for i in (count_fix or {}).get("inserts", [])}
             for index, pitch in enumerate(pitch_list, 1):
-                pitch = _corrected_pitch(pitch, f"{game_id}-{pa_id}-{index:02d}", pa, call_corrections)
+                if index in inserted:
+                    state.apply_non_terminal_pitch(inserted[index])
                 game_pitch += 1; before = state.snapshot(); runs = 0
                 if index == len(pitch_list):
                     terminal_before = deepcopy(before); runs = pa_runs; state.set_bases(bases_after); state.outs = int(pa.get("outsAfter", state.outs));

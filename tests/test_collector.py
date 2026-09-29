@@ -177,3 +177,21 @@ def test_trackman_bunt_foul_correction_changes_call_and_count_only_when_row_matc
     assert changed and all(pid.rsplit("-", 1)[0] == pitch_id.rsplit("-", 1)[0] for pid in changed)
     stale = {**fix, "source_velocity_kmh": fix["source_velocity_kmh"] + 1}
     assert parse_game(payload, season=2026, call_corrections={pitch_id: stale})[2] == parse_game(payload, season=2026)[2]
+
+
+def test_count_correction_sets_start_and_inserts_calls_only_when_the_pa_matches(monkeypatch):
+    monkeypatch.setattr("visualbaseball.parser._now", lambda: "2026-01-01T00:00:00+00:00")
+    payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
+    pitch_id, pa, _ = _first_nonterminal_ball(payload)
+    pa_id = pitch_id.rsplit("-", 1)[0].split("-", 1)[1]
+    codes = "".join(str(p.get("r", "")).upper() for p in pa["pitches"])
+    fix = {"pa_id": pa_id, "batter_id": str(pa["batterId"]), "pitcher_id": str(pa["pitcherId"]), "source_codes": codes,
+           "start": [0, 1], "inserts": [{"before_pitch": 2, "code": "B"}]}
+    base = parse_game(payload, season=2026)[2]
+    fixed = parse_game(payload, season=2026, count_corrections={pa_id: fix})[2]
+    rows = [r for r in fixed if r["pa_id"] == pa_id]
+    assert (rows[0]["balls_before"], rows[0]["strikes_before"]) == (0, 1)
+    changed = {b["pitch_id"] for b, f in zip(base, fixed) if b != f}
+    assert changed and all(pid.rsplit("-", 1)[0].endswith(pa_id) for pid in changed)
+    stale = {**fix, "source_codes": codes + "B"}
+    assert parse_game(payload, season=2026, count_corrections={pa_id: stale})[2] == base

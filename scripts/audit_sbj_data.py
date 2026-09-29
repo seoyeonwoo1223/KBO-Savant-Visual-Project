@@ -96,10 +96,12 @@ def main() -> None:
         subprocess.run(strict, cwd=ROOT, env=env, check=True)
     code = ("scripts/audit_sbj_data.py", "scripts/build_trackman_id_crosswalk.py",
             "analysis/trajectory_audit/pa_flow_audit.py", "analysis/trajectory_audit/pa_flow_strict.py",
-            "scripts/check_call_corrections.py", "data/corrections/vb_bunt_foul_corrections.json")
+            "scripts/check_call_corrections.py", "data/corrections/vb_bunt_foul_corrections.json",
+            "data/corrections/vb_count_corrections.json")
     summary = {"scope": "VB first-team games; TrackMan both teams must be KBO first-team clubs",
                "quality_rule": "read-only flags; no event relabeling, deletion, or SBJ score change. "
-                               "Call corrections enter curated only from data/corrections/vb_bunt_foul_corrections.json",
+                               "Call and count corrections enter curated only from data/corrections/vb_bunt_foul_corrections.json "
+                               "and data/corrections/vb_count_corrections.json",
                "code_sha256": {name: sha256(ROOT / name) for name in code},
                "seasons": {}}
     for season in seasons:

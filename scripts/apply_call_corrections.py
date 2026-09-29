@@ -1,4 +1,4 @@
-"""Apply data/corrections/vb_bunt_foul_corrections.json to the committed curated partitions.
+"""Apply data/corrections/vb_bunt_foul_corrections.json and vb_count_corrections.json to the committed curated partitions.
 
     PYTHONPATH=src python scripts/apply_call_corrections.py [--check] [seasons...]
 
@@ -9,7 +9,10 @@ only the games that need it and, inside them, only these plate appearances:
   * a plate appearance with VB code V (bunt swing-and-miss) is recounted, since V now adds a strike;
   * balls/strikes before/after and re288 state codes of those plate appearances are recomputed with the
     parser's state rules (GameState.apply_non_terminal_pitch; the last pitch ends at 0-0);
-  * the pitch event's code and description follow the pitch.
+  * the pitch event's code and description follow the pitch;
+  * a plate appearance in the count table (data/corrections/vb_count_corrections.json) is recounted from its
+    `start` count (a count the pinch hitter inherits) with its `inserts` (pitch-clock violations: a ball or
+    strike before the listed pitch) when its batter, pitcher and pitch codes still match the table row.
 
 A plate appearance is skipped (and reported) when its stored counts match neither the old rules (V without a
 strike) on the stored codes nor the current rules, or when the stored row no longer matches the table (code,
@@ -31,7 +34,7 @@ import pyarrow.parquet as pq
 
 from visualbaseball import curated
 
-from visualbaseball.collector import CALL_CORRECTIONS
+from visualbaseball.collector import CALL_CORRECTIONS, COUNT_CORRECTIONS
 from visualbaseball.curated import load_rows, source_manifest_path, value_sha256
 from visualbaseball.parser import _description
 from visualbaseball.state_machine import GameState
@@ -39,9 +42,14 @@ from visualbaseball.state_machine import GameState
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def _counts(codes: list[str], v_is_strike: bool = True) -> list[tuple[int, int, int, int]]:
+def _counts(codes: list[str], v_is_strike: bool = True, fix: dict | None = None) -> list[tuple[int, int, int, int]]:
+    """Parser counts for one plate appearance; `fix` is a count-table row (start count and inserted calls)."""
     state, out = GameState(), []
+    state.balls, state.strikes = (fix or {}).get("start", (0, 0))
+    inserted = {int(i["before_pitch"]): i["code"] for i in (fix or {}).get("inserts", [])}
     for i, code in enumerate(codes):
+        if i + 1 in inserted:
+            state.apply_non_terminal_pitch(inserted[i + 1])
         before = (state.balls, state.strikes)
         if i == len(codes) - 1:
             state.balls = state.strikes = 0
@@ -55,18 +63,25 @@ def _stored(row: dict) -> tuple[int, int, int, int]:
     return (int(row["balls_before"]), int(row["strikes_before"]), int(row["balls_after"]), int(row["strikes_after"]))
 
 
-def correct_game(pitches: list[dict], events: list[dict], fixes: dict[str, dict]) -> tuple[int, int, list[str]]:
+def count_fix_matches(fix: dict, rows: list[dict], codes: list[str]) -> bool:
+    return str(rows[0]["batter_id"]) == fix["batter_id"] and str(rows[0]["pitcher_id"]) == fix["pitcher_id"] and "".join(codes) == fix["source_codes"]
+
+
+def correct_game(pitches: list[dict], events: list[dict], fixes: dict[str, dict], count_fixes: dict[str, dict] | None = None) -> tuple[int, int, list[str]]:
     by_pa: dict[str, list[dict]] = {}
     for row in pitches:
         by_pa.setdefault(row["pa_id"], []).append(row)
     event_by_seq = {int(e["event_seq"]): e for e in events if e.get("event_type") == "pitch"}
     applied, recounted, skipped = 0, 0, []
-    touched = {r["pa_id"] for r in pitches if r["pitch_id"] in fixes or str(r.get("pitch_call_code") or "").upper() == "V"}
+    count_fixes = count_fixes or {}
+    touched = {r["pa_id"] for r in pitches if r["pitch_id"] in fixes or str(r.get("pitch_call_code") or "").upper() == "V"
+               or r["pa_id"] in count_fixes}
     for pa_id in sorted(touched):
         rows = sorted(by_pa[pa_id], key=lambda r: int(r["pitch_number"]))
         codes = [str(r.get("pitch_call_code") or "").upper() for r in rows]
         stored = [_stored(r) for r in rows]
-        if stored != _counts(codes, v_is_strike=False) and stored != _counts(codes):
+        count_fix = count_fixes.get(pa_id)
+        if stored not in (_counts(codes, v_is_strike=False), _counts(codes), _counts(codes, fix=count_fix)):
             skipped.append(f"{pa_id}: stored counts differ from parser rules")
             continue
         new_codes, targets = list(codes), []
@@ -79,7 +94,10 @@ def correct_game(pitches: list[dict], events: list[dict], fixes: dict[str, dict]
                 skipped.append(f"{r['pitch_id']}: stored row no longer matches the table")
                 continue
             new_codes[i] = fix["code"]; targets.append(i)
-        counts = _counts(new_codes)
+        if count_fix and not count_fix_matches(count_fix, rows, new_codes):
+            skipped.append(f"{pa_id}: stored plate appearance no longer matches the count table")
+            count_fix = None
+        counts = _counts(new_codes, fix=count_fix)
         if counts == stored and not targets:
             continue
         recounted += counts != stored
@@ -177,11 +195,14 @@ def main() -> None:
     args = parser.parse_args()
     root = args.root
     table = json.loads(CALL_CORRECTIONS.read_text(encoding="utf-8"))["seasons"]
+    count_table = json.loads(COUNT_CORRECTIONS.read_text(encoding="utf-8"))["seasons"] if COUNT_CORRECTIONS.exists() else {}
     report = {}
     for season in args.seasons or sorted(int(s) for s in table):
         fixes = {row["pitch_id"]: row for row in table.get(str(season), {}).get("pitches", [])}
+        count_fixes = {row["pa_id"]: row for row in count_table.get(str(season), {}).get("pas", [])}
         codes = load_rows(root, "pitches", season, columns=["game_id", "pitch_call_code"])
-        games = sorted({pid.split("-")[0] for pid in fixes} | {r["game_id"] for r in codes if r["pitch_call_code"] == "V"})
+        games = sorted({pid.split("-")[0] for pid in fixes} | {r["game_id"] for r in codes if r["pitch_call_code"] == "V"}
+                       | {pa.split("-")[0] for pa in count_fixes})
         applied, recounted, written, skipped = 0, 0, 0, []
         with BatchedWrites(root) as batch:
             compact = curated._season_is_compact(root, batch.index, season)
@@ -202,7 +223,7 @@ def main() -> None:
                             raise FileNotFoundError(f"{game_id} is not in month={month} of season {season}")
                     else:
                         game, events, pitches = (load_rows(root, k, season, game_id=game_id) for k in ("games", "events", "pitches"))
-                    n, v, s = correct_game(pitches, events, fixes)
+                    n, v, s = correct_game(pitches, events, fixes, count_fixes)
                     skipped += s
                     if not (n or v):
                         continue
@@ -219,7 +240,7 @@ def main() -> None:
                         written += 1
                 if not args.check:
                     batch.flush()
-        report[season] = {"table": len(fixes), "games_checked": len(games), "W_applied": applied,
+        report[season] = {"table": len(fixes), "count_table": len(count_fixes), "games_checked": len(games), "W_applied": applied,
                           "PA_recounted": recounted, "games_written": written, "skipped": skipped}
         print(season, json.dumps({k: (len(v) if k == "skipped" else v) for k, v in report[season].items()}), flush=True)
     for season, r in report.items():
