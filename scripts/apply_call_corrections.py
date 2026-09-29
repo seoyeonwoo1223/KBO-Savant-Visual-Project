@@ -6,6 +6,8 @@ Reparsing raw payloads would also pull unrelated parser changes into older curat
 only the games that need it and, inside them, only these plate appearances:
 
   * a pitch in the table gets code W (Bunt Foul): not a swing, take, contact or in-play pitch;
+  * a pitch in a season's `naver_rejected` list (a TrackMan-path W that the Naver relay calls a ball) goes
+    back to its source code B, a take;
   * a plate appearance with VB code V (bunt swing-and-miss) is recounted, since V now adds a strike;
   * balls/strikes before/after and re288 state codes of those plate appearances are recomputed with the
     parser's state rules (GameState.apply_non_terminal_pitch; the last pitch ends at 0-0);
@@ -109,8 +111,8 @@ def correct_game(pitches: list[dict], events: list[dict], fixes: dict[str, dict]
         for i in targets:
             r, code = rows[i], new_codes[i]
             text = _description(code, str(r.get("pa_result") or ""))
-            r.update(pitch_call_code=code, pitch_result=text, description=text,
-                     is_swing=False, is_take=False, is_contact=False, is_in_play=False)
+            r.update(pitch_call_code=code, pitch_result=text, description=text, is_swing=code in {"S", "F", "X"},
+                     is_take=code in {"B", "T"}, is_contact=code in {"F", "X"}, is_in_play=code == "X")
             event = event_by_seq.get(int(r["event_seq"]))
             if event is not None:
                 event.update(event_code=code, description=text)
@@ -199,6 +201,7 @@ def main() -> None:
     report = {}
     for season in args.seasons or sorted(int(s) for s in table):
         fixes = {row["pitch_id"]: row for row in table.get(str(season), {}).get("pitches", [])}
+        fixes.update({row["pitch_id"]: row for row in table.get(str(season), {}).get("naver_rejected", [])})
         count_fixes = {row["pa_id"]: row for row in count_table.get(str(season), {}).get("pas", [])}
         codes = load_rows(root, "pitches", season, columns=["game_id", "pitch_call_code"])
         games = sorted({pid.split("-")[0] for pid in fixes} | {r["game_id"] for r in codes if r["pitch_call_code"] == "V"}

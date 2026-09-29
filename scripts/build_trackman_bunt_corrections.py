@@ -84,10 +84,16 @@ RULE = ("VB B (non-terminal) matched 1:1 to TrackMan; next VB pitch of the PA ma
 
 def season_body(previous: dict, entries: list[dict], stats: dict) -> dict:
     """TrackMan rows for the season, keeping any Naver supplement (build_naver_bunt_corrections.py) for games
-    TrackMan does not cover."""
-    body = {"source": "trackman", "rule": RULE, "stats": stats}
+    TrackMan does not cover. Pitches the Naver relay calls a ball (`naver_rejected`, build_naver_count_corrections.py)
+    are left out and the list is kept."""
+    rejected = previous.get("naver_rejected", [])
+    skip = {e["pitch_id"] for e in rejected}
+    entries = [e for e in entries if e["pitch_id"] not in skip]
+    body = {"source": "trackman", "rule": RULE, "stats": {**stats, "corrections": len(entries)} if skip else stats}
     if previous.get("supplements"):
         body["supplements"] = previous["supplements"]
+    if rejected:
+        body["naver_rejected"] = rejected
     ids = {e["pitch_id"] for e in entries}
     extra = [e for e in previous.get("pitches", []) if e.get("source") == "naver_relay" and e["pitch_id"] not in ids]
     body["pitches"] = sorted(entries + extra, key=lambda e: e["pitch_id"])

@@ -17,9 +17,15 @@ Naver pitches are therefore renumbered by their order inside the plate appearanc
 (naver_kia_home_bunts.join: half-inning PA ordinal, batter, pitcher, number, speed within 1 km/h).
 
 For each VB plate appearance whose pitches all join one Naver plate appearance of the same length, the counts the
-parser would give (current codes, V/W as strikes) are compared with Naver. A difference becomes a correction only
-when the Naver start count and violation calls, replayed through the parser's rules, reproduce the Naver count
-before every pitch (gate). Anything else is reported, never corrected. Only codes and short words are stored.
+parser would give (current codes, V/W as strikes) are compared with Naver. Two call differences are also taken
+from Naver: VB `B` that Naver calls `W` (a bunt foul no correction path caught) and VB `W` that Naver calls `B`
+(a TrackMan-path bunt-foul correction Naver contradicts). A difference becomes a correction only when the Naver
+start count, violation calls and these call changes, replayed through the parser's rules, reproduce the Naver
+count before every pitch (gate). Any other call difference, or a count change no relay line explains, is reported
+and never corrected. Only codes and short words are stored.
+
+Calls this audit already changed (bunt-foul rows with match_status `naver_count_audit`, and `naver_rejected`) are
+read as their source codes, so a rerun after scripts/apply_call_corrections.py derives the same corrections.
 """
 from __future__ import annotations
 
@@ -28,6 +34,7 @@ from collections import Counter, defaultdict
 
 from naver_kia_home_bunts import VB_COLS, join
 from naver_queue_verify import RESULTS, ROOT, final_inning, relay
+from visualbaseball.collector import CALL_CORRECTIONS
 from visualbaseball.curated import load_rows
 
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -36,8 +43,10 @@ from apply_call_corrections import _counts  # noqa: E402
 OUT_CSV = RESULTS / "naver_count_audit_2019_2026.csv"
 OUT_SUMMARY = RESULTS / "naver_count_audit_2019_2026_summary.json"
 CODE_MAP = {"H": "X"}  # Naver in-play is VB X
-COLUMNS = ("season", "game_id", "pa_id", "status", "kind", "batter_id", "pitcher_id", "source_codes", "start", "inserts",
-           "vb_counts", "naver_counts", "naver_pa")
+CALL_CHANGES = {("B", "W"), ("W", "B")}
+AUDIT_STATUS = "naver_count_audit"
+COLUMNS = ("season", "game_id", "pa_id", "status", "kind", "batter_id", "pitcher_id", "source_codes", "calls", "fixed_codes",
+           "start", "inserts", "vb_counts", "naver_counts", "naver_pa")
 
 
 def _state(option: dict) -> tuple[int, int]:
@@ -88,6 +97,14 @@ def naver_game(game_id: str) -> tuple[list[dict], dict, list[int]]:
     return pitches, pas, failed
 
 
+def source_view(season: str) -> dict[str, str]:
+    """pitch_id -> the code before this audit's own call corrections."""
+    table = json.loads(CALL_CORRECTIONS.read_text(encoding="utf-8"))["seasons"].get(season, {})
+    view = {e["pitch_id"]: e["source_code"] for e in table.get("pitches", []) if e.get("match_status") == AUDIT_STATUS}
+    view.update({e["pitch_id"]: e["source_code"] for e in table.get("naver_rejected", [])})
+    return view
+
+
 def audit_game(game_id: str, vb: list[dict]) -> tuple[list[dict], Counter]:
     naver, pas, failed = naver_game(game_id)
     st = Counter()
@@ -104,11 +121,21 @@ def audit_game(game_id: str, vb: list[dict]) -> tuple[list[dict], Counter]:
         codes = [str(r["pitch_call_code"] or "").upper() for r in prs]
         ns = [joined[r["pitch_id"]][1] for r in prs]
         st["vb_pas"] += 1
-        for r, n in zip(prs, ns):
-            if n is not None and CODE_MAP.get(n["code"], n["code"]) != str(r["pitch_call_code"] or "").upper():
-                st[f"code_{str(r['pitch_call_code']).upper()}_naver_{n['code']}"] += 1
+        calls, other = [], False
+        for i, (r, n) in enumerate(zip(prs, ns), 1):
+            naver_code = CODE_MAP.get(n["code"], n["code"]) if n is not None else None
+            if naver_code is not None and naver_code != codes[i - 1]:
+                st[f"code_{codes[i - 1]}_naver_{n['code']}"] += 1
+                if (codes[i - 1], naver_code) in CALL_CHANGES:
+                    calls.append((i, naver_code))
+                else:
+                    other = True
+        fixed_codes = list(codes)
+        for i, c in calls:
+            fixed_codes[i - 1] = c
         base = {"season": int(game_id[:4]), "game_id": game_id, "pa_id": pa_id, "batter_id": str(prs[0]["batter_id"]),
                 "pitcher_id": str(prs[0]["pitcher_id"]), "source_codes": "".join(codes),
+                "calls": " ".join(f"{i}{c}" for i, c in calls), "fixed_codes": "".join(fixed_codes),
                 "vb_counts": " ".join(f"{b}-{s}" for b, s, _, _ in _counts(codes))}
         if any(n is None for n in ns) or len({(n["inning"], n["half"], n["pa_no"]) for n in ns}) != 1:
             st["pa_unjoined"] += 1
@@ -123,12 +150,13 @@ def audit_game(game_id: str, vb: list[dict]) -> tuple[list[dict], Counter]:
             rows.append({**base, "status": "length_differs", "kind": "", "start": "", "inserts": "", "naver_counts": " ".join(f"{b}-{s}" for b, s in naver_counts), "naver_pa": seq})
             continue
         plain = [(b, s) for b, s, _, _ in _counts(codes)]
-        if plain == naver_counts:
+        if plain == naver_counts and not calls and not other:
             st["pa_count_equal"] += 1; continue
         fix = {"start": list(info["start"]), "inserts": info["inserts"]}
-        kinds = (["inherited_count"] if info["start"] != (0, 0) else []) + (["pitch_clock"] if info["inserts"] else [])
-        fixed = [(b, s) for b, s, _, _ in _counts(codes, fix=fix)]
-        status = "fix_pass" if kinds and fixed == naver_counts and not info["unexplained"] else "unexplained"
+        kinds = ((["inherited_count"] if info["start"] != (0, 0) else []) + (["pitch_clock"] if info["inserts"] else [])
+                 + sorted({"bunt_foul" if c == "W" else "not_bunt_foul" for _, c in calls}))
+        fixed = [(b, s) for b, s, _, _ in _counts(fixed_codes, fix=fix)]
+        status = "fix_pass" if kinds and fixed == naver_counts and not info["unexplained"] and not other else "unexplained"
         st[f"pa_{status}"] += 1
         for k in kinds:
             st[f"{status}_{k}"] += 1
@@ -143,9 +171,10 @@ def main() -> None:
     seasons = [s for s in sys.argv[2:]] or sorted(games)
     rows, summary = [], {"definition": {"doc": __doc__.split("\n\n")[2].strip(), "caveat": "Naver and VB may share an upstream source"}, "seasons": {}}
     for season in seasons:
-        wanted = set(games[season]); vb_all = defaultdict(list)
+        wanted = set(games[season]); vb_all = defaultdict(list); view = source_view(season)
         for r in load_rows(ROOT, "pitches", int(season), columns=sorted(set(VB_COLS + ["balls_after", "strikes_after"]))):
             if r["game_id"] in wanted:
+                r["pitch_call_code"] = view.get(r["pitch_id"], r["pitch_call_code"])
                 vb_all[r["game_id"]].append(r)
         st, incomplete = Counter(), []
         for game_id in sorted(wanted):

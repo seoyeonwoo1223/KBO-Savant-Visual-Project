@@ -7,6 +7,7 @@ Per season it counts
   applied       table pitches whose curated code is the corrected code (W)
   pending       table pitches still carrying the source code (B): run scripts/apply_call_corrections.py
   stale         table pitches missing from curated or carrying any other code (table and data disagree)
+  rejected      pitches in `naver_rejected` (TrackMan-path W the Naver relay calls B); pending until curated is B again
   untracked_W   curated W pitches that the table does not list
   V             curated V pitches (bunt swing-and-miss)
   count_table   plate appearances listed in data/corrections/vb_count_corrections.json
@@ -62,6 +63,11 @@ def check_season(root: Path, season: int, table: dict | None = None, count_table
     for pitch_id, fix in fixes.items():
         current = code.get(pitch_id)
         result["applied" if current == fix["code"] else "pending" if current == fix["source_code"] else "stale"] += 1
+    rejected = {row["pitch_id"]: row for row in table.get(str(season), {}).get("naver_rejected", [])}
+    result["rejected"] = len(rejected)
+    for pitch_id, fix in rejected.items():
+        current = code.get(pitch_id)
+        result["pending" if current == fix["source_code"] else "stale" if current != fix["code"] else "applied"] += 1
     result["untracked_W"] = sum(c == "W" and p not in fixes for p, c in code.items())
     result["V"] = sum(c == "V" for c in code.values())
     by_pa: dict[str, list[dict]] = defaultdict(list)

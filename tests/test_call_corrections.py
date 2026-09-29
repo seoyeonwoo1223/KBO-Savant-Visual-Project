@@ -76,6 +76,43 @@ def test_check_counts_the_count_table(tmp_path, monkeypatch):
     assert check.check_season(tmp_path, 2025, {}, moved)["count_stale"] == 1
 
 
+def test_rejected_bunt_foul_goes_back_to_a_ball_take():
+    pitches = _pa(["W", "B", "X"], [(0, 0, 0, 1), (0, 1, 1, 1), (1, 1, 0, 0)])
+    reject = {"G-G-001-01": {"source_code": "W", "code": "B", "batter_id": "1", "pitcher_id": "2", "source_velocity_kmh": 140.0}}
+    applied, recounted, skipped = correct_game(pitches, [], reject)
+    assert (applied, recounted, skipped) == (1, 1, [])
+    assert pitches[0]["pitch_call_code"] == "B" and pitches[0]["is_take"] and not pitches[0]["is_swing"]
+    assert [(r["balls_before"], r["strikes_before"]) for r in pitches] == [(0, 0), (1, 0), (2, 0)]
+
+
+def test_trackman_rebuild_keeps_naver_rejections_out():
+    import build_trackman_bunt_corrections as tm
+    previous = {"pitches": [_entry("A-1")], "naver_rejected": [{"pitch_id": "B-1"}]}
+    body = tm.season_body(previous, [_entry("A-1"), _entry("B-1")], {"corrections": 2})
+    assert [e["pitch_id"] for e in body["pitches"]] == ["A-1"] and body["naver_rejected"] == previous["naver_rejected"]
+    assert body["stats"]["corrections"] == 1
+
+
+def test_count_audit_call_changes_keep_other_inputs_and_never_reject_naver_rows():
+    import build_naver_count_corrections as cc
+    curated = {"G1-001": [{"pitch_id": "G1-G1-001-01", "pitch_number": 1, "batter_id": "1", "pitcher_id": "2", "velocity_kmh": 140.0, "is_pa_terminal": False},
+                          {"pitch_id": "G1-G1-001-02", "pitch_number": 2, "batter_id": "1", "pitcher_id": "2", "velocity_kmh": 141.0, "is_pa_terminal": False}],
+               "G2-001": [{"pitch_id": "G2-G2-001-01", "pitch_number": 1, "batter_id": "1", "pitcher_id": "2", "velocity_kmh": 140.0, "is_pa_terminal": False}]}
+    kia = {**_entry("G2-G2-001-01"), "source": "naver_relay", "match_status": "matched_context"}
+    table = {"seasons": {"2019": {"source": "trackman", "pitches": [_entry("G1-G1-001-02"), kia],
+                                  "supplements": [{"source": "naver_relay", "input": "kia.csv"}]}}}
+    rows = [{"pa_id": "G1-001", "calls": "1W 2B"}, {"pa_id": "G2-001", "calls": "1B"}]
+    stats = cc.call_changes(table, "2019", rows, curated, "audit.csv")
+    body = table["seasons"]["2019"]
+    assert [(e["pitch_id"], e.get("match_status")) for e in body["pitches"]] == [("G1-G1-001-01", "naver_count_audit"), ("G2-G2-001-01", "matched_context")]
+    assert [e["pitch_id"] for e in body["naver_rejected"]] == ["G1-G1-001-02"] and stats["reject_conflicts_naver_row"] == 1
+    assert [x["input"] for x in body["supplements"]] == ["kia.csv", "audit.csv"]
+    # A Naver-only season (2025-2026) has no TrackMan rows to reject.
+    naver_only = {"seasons": {"2025": {"source": "naver_relay", "pitches": [_entry("G2-G2-001-01")]}}}
+    cc.call_changes(naver_only, "2025", [{"pa_id": "G2-001", "calls": "1B"}], curated, "audit.csv")
+    assert [e["pitch_id"] for e in naver_only["seasons"]["2025"]["pitches"]] == ["G2-G2-001-01"]
+
+
 def test_committed_curated_is_in_step_with_the_correction_table():
     """Harness gate: every table pitch is W in curated and W/V plate appearances follow the state rules.
 
