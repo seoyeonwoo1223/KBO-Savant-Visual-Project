@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T12:43:00+00:00",
+  "generated_at": "2026-09-30T14:32:49+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -179,7 +179,6 @@
         "arm_angle",
         "blocking",
         "excel",
-        "pitch_arsenal",
         "plate_decision",
         "plate_discipline",
         "swing_take",
@@ -225,7 +224,6 @@
         "arm_angle",
         "blocking",
         "excel",
-        "pitch_arsenal",
         "plate_decision",
         "plate_discipline",
         "swing_take",
@@ -273,10 +271,8 @@
         "arm_angle",
         "blocking",
         "excel",
-        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -321,10 +317,8 @@
         "arm_angle",
         "blocking",
         "excel",
-        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -333,17 +327,17 @@
         "pitches": {
           "rows": 207782,
           "files": 7,
-          "bytes": 30586873
+          "bytes": 30523511
         },
         "events": {
           "rows": 264470,
           "files": 7,
-          "bytes": 1319620
+          "bytes": 1313560
         },
         "games": {
           "rows": 675,
           "files": 7,
-          "bytes": 89283
+          "bytes": 88214
         }
       },
       "games": 675,
