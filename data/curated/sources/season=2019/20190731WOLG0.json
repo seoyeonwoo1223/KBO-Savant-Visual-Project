@@ -3,12 +3,12 @@
   "game_id": "20190731WOLG0",
   "season": 2019,
   "first_collected_at": "2026-09-22T06:14:44+00:00",
-  "last_collected_at": "2026-09-22T06:34:54+00:00",
-  "last_checked_at": "2026-09-22T06:34:54+00:00",
+  "last_collected_at": "2026-09-28T20:02:02+00:00",
+  "last_checked_at": "2026-09-28T20:02:02+00:00",
   "raw_sha256": "3fc07b18a7fd45b1b4872e4ce0b935be5609b7868b5accd12ed4348177d2aa5a",
-  "pitch_sha256": "0b711dc640415e4082067babdfdb6d9956f5816424b55b6291867d28a6dc9356",
-  "schema_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
-  "revision": 2,
+  "pitch_sha256": "dace3e95a9928c55d1e8c2ef6d1f80316d5bf99785c20195e490bf6d56113af2",
+  "schema_sha256": "8d811da998a9141e013d4eb016de9179862852365e7a418dacb11e02887e2d29",
+  "revision": 3,
   "observed_y0": [
     50.0
   ],

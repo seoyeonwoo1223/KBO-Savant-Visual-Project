@@ -3,12 +3,12 @@
   "game_id": "20200515NCSK0",
   "season": 2020,
   "first_collected_at": "2026-09-22T06:17:24+00:00",
-  "last_collected_at": "2026-09-22T06:37:03+00:00",
-  "last_checked_at": "2026-09-22T06:37:03+00:00",
+  "last_collected_at": "2026-09-28T20:03:19+00:00",
+  "last_checked_at": "2026-09-28T20:03:19+00:00",
   "raw_sha256": "779115489a8d35963056bfe58bb46edd718ca010d4a34150f156e633065ad3e4",
-  "pitch_sha256": "15392f81f46a613f2855e8986400a1a3a418c7fe8222a4c26aabf8c73c7f4675",
-  "schema_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
-  "revision": 2,
+  "pitch_sha256": "d9f689a3e63cdc68315755bd56d7c26c4e430d2bc98cb38068f558c650d7480a",
+  "schema_sha256": "8d811da998a9141e013d4eb016de9179862852365e7a418dacb11e02887e2d29",
+  "revision": 3,
   "observed_y0": [
     50.0
   ],

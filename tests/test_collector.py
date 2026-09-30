@@ -143,3 +143,55 @@ def test_season_export_uses_separate_storage_and_output_name(tmp_path):
     workbook = load_workbook(output, read_only=True)
     assert workbook["Pitches"].max_row == 339
     workbook.close()
+
+
+def _first_nonterminal_ball(payload):
+    pa_counter = 0
+    for half in payload["pbpData"]:
+        for pa in half.get("pas") or []:
+            pa_counter += 1
+            pitches = pa.get("pitches") or []
+            for index, pitch in enumerate(pitches[:-1], 1):
+                if pitch.get("r") == "B":
+                    game_id = payload["gameData"]["gameId"]
+                    return f"{game_id}-{game_id}-{pa_counter:03d}-{index:02d}", pa, pitch
+
+
+def test_trackman_bunt_foul_correction_changes_call_and_count_only_when_row_matches(monkeypatch):
+    # Every row carries a wall-clock fetched_at; pin it so parses that straddle a second compare equal.
+    monkeypatch.setattr("visualbaseball.parser._now", lambda: "2026-01-01T00:00:00+00:00")
+    payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
+    pitch_id, pa, pitch = _first_nonterminal_ball(payload)
+    fix = {"pitch_id": pitch_id, "batter_id": str(pa["batterId"]), "pitcher_id": str(pa["pitcherId"]),
+           "source_code": "B", "code": "W", "source_velocity_kmh": float(pitch["spd"])}
+    base = {row["pitch_id"]: row for row in parse_game(payload, season=2026)[2]}
+    fixed_game, fixed_events, fixed_pitches, _ = parse_game(payload, season=2026, call_corrections={pitch_id: fix})
+    fixed = {row["pitch_id"]: row for row in fixed_pitches}
+    row, nxt = fixed[pitch_id], fixed[pitch_id[:-2] + f"{int(pitch_id[-2:]) + 1:02d}"]
+    assert row["pitch_call_code"] == "W" and row["description"] == "Bunt Foul"
+    assert not row["is_swing"] and not row["is_take"] and not row["is_contact"]
+    assert (row["balls_after"], row["strikes_after"]) == (row["balls_before"], row["strikes_before"] + 1)
+    assert (nxt["balls_before"], nxt["strikes_before"]) == (row["balls_before"], row["strikes_before"] + 1)
+    assert validate_game(fixed_game, fixed_events, fixed_pitches)[0]
+    changed = {pid for pid in base if base[pid] != fixed[pid]}
+    assert changed and all(pid.rsplit("-", 1)[0] == pitch_id.rsplit("-", 1)[0] for pid in changed)
+    stale = {**fix, "source_velocity_kmh": fix["source_velocity_kmh"] + 1}
+    assert parse_game(payload, season=2026, call_corrections={pitch_id: stale})[2] == parse_game(payload, season=2026)[2]
+
+
+def test_count_correction_sets_start_and_inserts_calls_only_when_the_pa_matches(monkeypatch):
+    monkeypatch.setattr("visualbaseball.parser._now", lambda: "2026-01-01T00:00:00+00:00")
+    payload = json.loads(FIXTURE.read_text(encoding="utf-8-sig"))
+    pitch_id, pa, _ = _first_nonterminal_ball(payload)
+    pa_id = pitch_id.rsplit("-", 1)[0].split("-", 1)[1]
+    codes = "".join(str(p.get("r", "")).upper() for p in pa["pitches"])
+    fix = {"pa_id": pa_id, "batter_id": str(pa["batterId"]), "pitcher_id": str(pa["pitcherId"]), "source_codes": codes,
+           "start": [0, 1], "inserts": [{"before_pitch": 2, "code": "B"}]}
+    base = parse_game(payload, season=2026)[2]
+    fixed = parse_game(payload, season=2026, count_corrections={pa_id: fix})[2]
+    rows = [r for r in fixed if r["pa_id"] == pa_id]
+    assert (rows[0]["balls_before"], rows[0]["strikes_before"]) == (0, 1)
+    changed = {b["pitch_id"] for b, f in zip(base, fixed) if b != f}
+    assert changed and all(pid.rsplit("-", 1)[0].endswith(pa_id) for pid in changed)
+    stale = {**fix, "source_codes": codes + "B"}
+    assert parse_game(payload, season=2026, count_corrections={pa_id: stale})[2] == base

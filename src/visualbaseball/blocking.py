@@ -37,7 +37,7 @@ def _opportunity(row: dict[str, Any]) -> bool:
         row.get("is_wild_pitch") is not None
         and row.get("is_passed_ball") is not None
         and bool(row.get("catcher_id"))
-        and str(row.get("pitch_call_code", "")) not in {"F", "X"}
+        and str(row.get("pitch_call_code", "")) not in {"F", "W", "X"}
         and (int(row.get("base_state_code_before") or 0) != 0 or int(row.get("strikes_before") or 0) == 2)
         and math.isfinite(_number(row.get("px")))
         and math.isfinite(_number(row.get("pz")))

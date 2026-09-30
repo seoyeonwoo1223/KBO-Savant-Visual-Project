@@ -1,0 +1,160 @@
+{
+ "season": 2024,
+ "eligible_pitches": 221562,
+ "qualified_batters": 155,
+ "runs": {
+  "pzone_seed_1": {
+   "mean_abs_delta": 0.0621,
+   "max_abs_delta": 0.3076,
+   "max_rank_shift": 7,
+   "rank_shift_ge5": 6
+  },
+  "pzone_seed_2": {
+   "mean_abs_delta": 0.0619,
+   "max_abs_delta": 0.3034,
+   "max_rank_shift": 5,
+   "rank_shift_ge5": 2
+  },
+  "pzone_seed_3": {
+   "mean_abs_delta": 0.0614,
+   "max_abs_delta": 0.5008,
+   "max_rank_shift": 10,
+   "rank_shift_ge5": 1
+  },
+  "pzone_seed_4": {
+   "mean_abs_delta": 0.0543,
+   "max_abs_delta": 0.2211,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 3
+  },
+  "pzone_seed_5": {
+   "mean_abs_delta": 0.0522,
+   "max_abs_delta": 0.2888,
+   "max_rank_shift": 7,
+   "rank_shift_ge5": 3
+  },
+  "pzone_seed_6": {
+   "mean_abs_delta": 0.0571,
+   "max_abs_delta": 0.2782,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 3
+  },
+  "pzone_seed_7": {
+   "mean_abs_delta": 0.0575,
+   "max_abs_delta": 0.2371,
+   "max_rank_shift": 5,
+   "rank_shift_ge5": 4
+  },
+  "pzone_seed_8": {
+   "mean_abs_delta": 0.0587,
+   "max_abs_delta": 0.3618,
+   "max_rank_shift": 9,
+   "rank_shift_ge5": 3
+  },
+  "pzone_seed_9": {
+   "mean_abs_delta": 0.0741,
+   "max_abs_delta": 0.4471,
+   "max_rank_shift": 10,
+   "rank_shift_ge5": 5
+  },
+  "pzone_seed_10": {
+   "mean_abs_delta": 0.0547,
+   "max_abs_delta": 0.2492,
+   "max_rank_shift": 5,
+   "rank_shift_ge5": 2
+  },
+  "pswing_seed_1": {
+   "mean_abs_delta": 0.0625,
+   "max_abs_delta": 0.2441,
+   "max_rank_shift": 5,
+   "rank_shift_ge5": 1
+  },
+  "pswing_seed_2": {
+   "mean_abs_delta": 0.0694,
+   "max_abs_delta": 0.2839,
+   "max_rank_shift": 5,
+   "rank_shift_ge5": 2
+  },
+  "pswing_seed_3": {
+   "mean_abs_delta": 0.0642,
+   "max_abs_delta": 0.2384,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 5
+  },
+  "pswing_seed_4": {
+   "mean_abs_delta": 0.0589,
+   "max_abs_delta": 0.2073,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 3
+  },
+  "pswing_seed_5": {
+   "mean_abs_delta": 0.061,
+   "max_abs_delta": 0.2091,
+   "max_rank_shift": 6,
+   "rank_shift_ge5": 3
+  },
+  "split_1": {
+   "mean_abs_delta": 0.355,
+   "max_abs_delta": 0.9261,
+   "max_rank_shift": 11,
+   "rank_shift_ge5": 19
+  },
+  "split_2": {
+   "mean_abs_delta": 0.274,
+   "max_abs_delta": 0.8767,
+   "max_rank_shift": 11,
+   "rank_shift_ge5": 25
+  },
+  "split_3": {
+   "mean_abs_delta": 0.2189,
+   "max_abs_delta": 0.8159,
+   "max_rank_shift": 10,
+   "rank_shift_ge5": 13
+  },
+  "split_4": {
+   "mean_abs_delta": 0.1576,
+   "max_abs_delta": 0.7236,
+   "max_rank_shift": 10,
+   "rank_shift_ge5": 26
+  },
+  "split_5": {
+   "mean_abs_delta": 0.2591,
+   "max_abs_delta": 0.9497,
+   "max_rank_shift": 9,
+   "rank_shift_ge5": 22
+  }
+ },
+ "noise_mean_abs_delta_by_source": {
+  "pzone_seed": {
+   "min": 0.0522,
+   "median": 0.0581,
+   "max": 0.0741
+  },
+  "pswing_seed": {
+   "min": 0.0589,
+   "median": 0.0625,
+   "max": 0.0694
+  },
+  "split": {
+   "min": 0.1576,
+   "median": 0.2591,
+   "max": 0.355
+  }
+ },
+ "noise_envelope_p95_mean_abs_delta": 0.2781,
+ "A_vs_B_base": {
+  "mean_abs_delta": 0.1579,
+  "max_abs_delta": 0.6964,
+  "max_rank_shift": 15,
+  "rank_shift_ge5": 29
+ },
+ "A_vs_B_over_envelope": 0.57,
+ "A_vs_B_outside_envelope": false,
+ "players_A_vs_B_outside_own_noise_p95": 21,
+ "player_noise_p95_median": 0.3099,
+ "A_vs_B_within_each_refit": {
+  "mean_abs_delta_min": 0.1464,
+  "mean_abs_delta_max": 0.1752
+ },
+ "note": "split runs assign whole dates to folds at random; base uses contiguous date blocks"
+}

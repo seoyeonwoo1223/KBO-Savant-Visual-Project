@@ -1,0 +1,426 @@
+{
+ "2019": {
+  "vb_pitches": 211628,
+  "trajectory_missing": 6780,
+  "displayed_season": {
+   "matched": 160989,
+   "velocity_out_of_tolerance": 22365,
+   "velocity_missing": 337,
+   "offset_kmh": -0.71
+  },
+  "displayed_game": {
+   "matched": 171182,
+   "velocity_out_of_tolerance": 12189,
+   "velocity_missing": 337,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -3.3,
+    "0.1": -2.24,
+    "0.5": -0.7,
+    "0.9": -0.01,
+    "0.99": 0.41
+   },
+   "games_offset_abs_gt2": 34,
+   "games": 628
+  },
+  "traj_season": {
+   "matched": 161984,
+   "velocity_out_of_tolerance": 20273,
+   "velocity_missing": 1426,
+   "offset_kmh": -0.73
+  },
+  "traj_game": {
+   "matched": 182230,
+   "velocity_out_of_tolerance": 54,
+   "velocity_missing": 1426,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -3.2,
+    "0.1": -2.77,
+    "0.5": -0.7,
+    "0.9": 0.28,
+    "0.99": 0.46
+   },
+   "games_offset_abs_gt2": 71,
+   "games": 625
+  },
+  "traj_game_vs_pr29": {
+   "kept": 160271,
+   "same_partner": 160271,
+   "only_pr29": 718,
+   "only_traj_game": 21959
+  },
+  "h3_residual_pr29_pairs": {
+   "n": 160292,
+   "p50_abs": 0.17,
+   "p99_abs": 0.83,
+   "gt3": 7,
+   "gt5": 5
+  },
+  "known_cases": {},
+  "h3_residual_traj_game_pairs": {
+   "n": 182230,
+   "p50_abs": 0.18,
+   "p99_abs": 0.86,
+   "gt3": 0,
+   "gt5": 0
+  }
+ },
+ "2020": {
+  "vb_pitches": 220863,
+  "trajectory_missing": 543,
+  "displayed_season": {
+   "matched": 181307,
+   "velocity_out_of_tolerance": 14960,
+   "velocity_missing": 377,
+   "offset_kmh": -0.8
+  },
+  "displayed_game": {
+   "matched": 187344,
+   "velocity_out_of_tolerance": 8928,
+   "velocity_missing": 377,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -2.91,
+    "0.1": -1.92,
+    "0.5": -0.79,
+    "0.9": 0.18,
+    "0.99": 0.58
+   },
+   "games_offset_abs_gt2": 14,
+   "games": 645
+  },
+  "traj_season": {
+   "matched": 189235,
+   "velocity_out_of_tolerance": 6519,
+   "velocity_missing": 894,
+   "offset_kmh": -0.84
+  },
+  "traj_game": {
+   "matched": 195577,
+   "velocity_out_of_tolerance": 200,
+   "velocity_missing": 894,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -2.78,
+    "0.1": -2.4,
+    "0.5": -0.8,
+    "0.9": 0.52,
+    "0.99": 0.64
+   },
+   "games_offset_abs_gt2": 4,
+   "games": 644
+  },
+  "traj_game_vs_pr29": {
+   "kept": 180710,
+   "same_partner": 180710,
+   "only_pr29": 597,
+   "only_traj_game": 14867
+  },
+  "h3_residual_pr29_pairs": {
+   "n": 180889,
+   "p50_abs": 0.18,
+   "p99_abs": 0.83,
+   "gt3": 57,
+   "gt5": 8
+  },
+  "known_cases": {},
+  "h3_residual_traj_game_pairs": {
+   "n": 195577,
+   "p50_abs": 0.18,
+   "p99_abs": 0.83,
+   "gt3": 0,
+   "gt5": 0
+  }
+ },
+ "2021": {
+  "vb_pitches": 220742,
+  "trajectory_missing": 623,
+  "displayed_season": {
+   "matched": 176604,
+   "velocity_out_of_tolerance": 20190,
+   "velocity_missing": 529,
+   "offset_kmh": -0.59
+  },
+  "displayed_game": {
+   "matched": 189785,
+   "velocity_out_of_tolerance": 7040,
+   "velocity_missing": 529,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -3.09,
+    "0.1": -2.37,
+    "0.5": -0.45,
+    "0.9": -0.04,
+    "0.99": 0.33
+   },
+   "games_offset_abs_gt2": 57,
+   "games": 647
+  },
+  "traj_season": {
+   "matched": 186767,
+   "velocity_out_of_tolerance": 9433,
+   "velocity_missing": 1140,
+   "offset_kmh": -1.07
+  },
+  "traj_game": {
+   "matched": 196167,
+   "velocity_out_of_tolerance": 57,
+   "velocity_missing": 1140,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -3.16,
+    "0.1": -2.79,
+    "0.5": -1.1,
+    "0.9": 0.02,
+    "0.99": 0.43
+   },
+   "games_offset_abs_gt2": 12,
+   "games": 646
+  },
+  "traj_game_vs_pr29": {
+   "kept": 176061,
+   "same_partner": 176061,
+   "only_pr29": 543,
+   "only_traj_game": 20106
+  },
+  "h3_residual_pr29_pairs": {
+   "n": 176083,
+   "p50_abs": 0.17,
+   "p99_abs": 0.82,
+   "gt3": 7,
+   "gt5": 4
+  },
+  "known_cases": {
+   "20210606HHNC0-20210606HHNC0-044-01": {
+    "note": "E: shown 137 slider, real 145 fastball",
+    "pr29_matched": false,
+    "h3_residual_kmh": null
+   },
+   "20210512SSKT0-20210512SSKT0-017-01": {
+    "note": "E: shown 116 changeup, real 114 curve",
+    "pr29_matched": false,
+    "h3_residual_kmh": null
+   }
+  },
+  "h3_residual_traj_game_pairs": {
+   "n": 196167,
+   "p50_abs": 0.18,
+   "p99_abs": 0.84,
+   "gt3": 0,
+   "gt5": 0
+  }
+ },
+ "2022": {
+  "vb_pitches": 217025,
+  "trajectory_missing": 2254,
+  "displayed_season": {
+   "matched": 166294,
+   "velocity_out_of_tolerance": 22273,
+   "velocity_missing": 144,
+   "offset_kmh": -0.83
+  },
+  "displayed_game": {
+   "matched": 182513,
+   "velocity_out_of_tolerance": 6067,
+   "velocity_missing": 144,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -3.63,
+    "0.1": -2.64,
+    "0.5": -0.56,
+    "0.9": -0.13,
+    "0.99": 0.41
+   },
+   "games_offset_abs_gt2": 73,
+   "games": 631
+  },
+  "traj_season": {
+   "matched": 176163,
+   "velocity_out_of_tolerance": 11887,
+   "velocity_missing": 680,
+   "offset_kmh": -1.41
+  },
+  "traj_game": {
+   "matched": 187971,
+   "velocity_out_of_tolerance": 88,
+   "velocity_missing": 680,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -3.67,
+    "0.1": -3.2,
+    "0.5": -1.32,
+    "0.9": -0.54,
+    "0.99": -0.31
+   },
+   "games_offset_abs_gt2": 59,
+   "games": 630
+  },
+  "traj_game_vs_pr29": {
+   "kept": 165898,
+   "same_partner": 165898,
+   "only_pr29": 396,
+   "only_traj_game": 22073
+  },
+  "h3_residual_pr29_pairs": {
+   "n": 165931,
+   "p50_abs": 0.18,
+   "p99_abs": 0.88,
+   "gt3": 8,
+   "gt5": 3
+  },
+  "known_cases": {},
+  "h3_residual_traj_game_pairs": {
+   "n": 187971,
+   "p50_abs": 0.19,
+   "p99_abs": 0.93,
+   "gt3": 0,
+   "gt5": 0
+  }
+ },
+ "2023": {
+  "vb_pitches": 219839,
+  "trajectory_missing": 4299,
+  "displayed_season": {
+   "matched": 179793,
+   "velocity_out_of_tolerance": 13865,
+   "velocity_missing": 78,
+   "offset_kmh": -1.04
+  },
+  "displayed_game": {
+   "matched": 191721,
+   "velocity_out_of_tolerance": 1980,
+   "velocity_missing": 78,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -3.65,
+    "0.1": -2.56,
+    "0.5": -1.21,
+    "0.9": -0.42,
+    "0.99": 0.04
+   },
+   "games_offset_abs_gt2": 28,
+   "games": 636
+  },
+  "traj_season": {
+   "matched": 185036,
+   "velocity_out_of_tolerance": 8371,
+   "velocity_missing": 352,
+   "offset_kmh": -1.49
+  },
+  "traj_game": {
+   "matched": 193395,
+   "velocity_out_of_tolerance": 36,
+   "velocity_missing": 352,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -3.66,
+    "0.1": -2.93,
+    "0.5": -1.41,
+    "0.9": -0.76,
+    "0.99": -0.58
+   },
+   "games_offset_abs_gt2": 32,
+   "games": 636
+  },
+  "traj_game_vs_pr29": {
+   "kept": 179555,
+   "same_partner": 179555,
+   "only_pr29": 238,
+   "only_traj_game": 13840
+  },
+  "h3_residual_pr29_pairs": {
+   "n": 179565,
+   "p50_abs": 0.19,
+   "p99_abs": 0.85,
+   "gt3": 2,
+   "gt5": 2
+  },
+  "known_cases": {},
+  "h3_residual_traj_game_pairs": {
+   "n": 193395,
+   "p50_abs": 0.2,
+   "p99_abs": 0.91,
+   "gt3": 0,
+   "gt5": 0
+  }
+ },
+ "2024": {
+  "vb_pitches": 223216,
+  "trajectory_missing": 858,
+  "displayed_season": {
+   "matched": 189613,
+   "velocity_out_of_tolerance": 6244,
+   "velocity_missing": 196,
+   "offset_kmh": -1.56
+  },
+  "displayed_game": {
+   "matched": 195622,
+   "velocity_out_of_tolerance": 235,
+   "velocity_missing": 196,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -3.42,
+    "0.1": -2.92,
+    "0.5": -1.52,
+    "0.9": -0.76,
+    "0.99": -0.47
+   },
+   "games_offset_abs_gt2": 5,
+   "games": 634
+  },
+  "traj_season": {
+   "matched": 191016,
+   "velocity_out_of_tolerance": 4607,
+   "velocity_missing": 397,
+   "offset_kmh": -1.54
+  },
+  "traj_game": {
+   "matched": 195586,
+   "velocity_out_of_tolerance": 38,
+   "velocity_missing": 397,
+   "offset_kmh": 0.0,
+   "game_offset_kmh": {
+    "0.01": -3.42,
+    "0.1": -2.94,
+    "0.5": -1.51,
+    "0.9": -0.75,
+    "0.99": -0.48
+   },
+   "games_offset_abs_gt2": 5,
+   "games": 634
+  },
+  "traj_game_vs_pr29": {
+   "kept": 189418,
+   "same_partner": 189418,
+   "only_pr29": 195,
+   "only_traj_game": 6168
+  },
+  "h3_residual_pr29_pairs": {
+   "n": 189470,
+   "p50_abs": 0.21,
+   "p99_abs": 0.92,
+   "gt3": 11,
+   "gt5": 7
+  },
+  "known_cases": {
+   "20240504OBLG0-20240504OBLG0-073-04": {
+    "note": "B: fastball trajectory, shown 123 fork",
+    "pr29_matched": true,
+    "h3_residual_kmh": 16.2
+   },
+   "20240504OBLG0-20240504OBLG0-018-02": {
+    "note": "B: label suspected from previous pitch",
+    "pr29_matched": true,
+    "h3_residual_kmh": 3.3
+   }
+  },
+  "h3_residual_traj_game_pairs": {
+   "n": 195586,
+   "p50_abs": 0.22,
+   "p99_abs": 0.98,
+   "gt3": 0,
+   "gt5": 0
+  }
+ }
+}

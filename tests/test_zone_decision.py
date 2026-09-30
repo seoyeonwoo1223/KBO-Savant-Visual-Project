@@ -3,6 +3,7 @@ import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
 from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_dv_plus, EVENTS
 from visualbaseball.zone_decision import cell_summary, judgment_plane_location, pzone_fields, PZONE_ABS, pitcher_throws
+from visualbaseball.zone_decision import reported_location_disagrees, PLANE_Y_FT, FRONT_PLANE_Y_FT
 from visualbaseball.curated import CM_PER_FOOT, _at_plane
 from visualbaseball import plate_decision_v1 as old
 
@@ -205,3 +206,15 @@ def test_only_swing_propensity_reads_pitcher_hand():
  # Event and value models keep old.CATEGORICAL, so Decision Value inputs do not move.
  for name in ('probs','staged','direct'):
   np.testing.assert_allclose(first[name],second[name],atol=1e-12)
+
+
+def test_reported_location_off_its_own_trajectory_is_flagged():
+    row = {"trajectory_valid": True, "x0": 0.5, "y0": 50.0, "z0": 5.5, "vx0": -4.0, "vy0": -130.0, "vz0": -5.0, "ax": 8.0, "ay": 25.0, "az": -20.0}
+    mid, front = _at_plane(row, PLANE_Y_FT["mid"]), _at_plane(row, FRONT_PLANE_Y_FT)
+    exact = {**row, "px": mid[0] / CM_PER_FOOT, "pz": front[1] / CM_PER_FOOT}
+    assert not reported_location_disagrees(exact)
+    assert not reported_location_disagrees({**exact, "px": (mid[0] + 0.9) / CM_PER_FOOT})
+    assert reported_location_disagrees({**exact, "px": (mid[0] + 1.5) / CM_PER_FOOT})
+    assert reported_location_disagrees({**exact, "pz": (front[1] - 1.5) / CM_PER_FOOT})
+    assert not reported_location_disagrees({**exact, "px": 9.0, "trajectory_valid": False})
+

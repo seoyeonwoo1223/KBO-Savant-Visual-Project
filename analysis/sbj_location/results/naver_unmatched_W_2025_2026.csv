@@ -1,0 +1,7 @@
+season,game_id,naver_pitch_id,naver_code,pitch_id,vb_call,naver_count_before,naver_count_after,match_status,gate,cause,resolution
+2025,20250408SKSS0,250408_194147,W,20250408SKSS0-20250408SKSS0-033-02,B,1-1,1-2,manual_speed_sequence,manual,"pitch_number_offset: VB and Naver relay both lack PA pitch 1 (Naver counts include it, a ball); speed sequence 142,139,137,123,145,129,137,131,132 identical",identified by hand (speed sequence); VB lacks PA pitch 1 so the count gate cannot apply
+2025,20250413LTNC0,250413_170115,W,20250413LTNC0-20250413LTNC0-064-02,B,1-0,1-1,matched_without_pitcher,pass,naver_pitcher_switch_in_pa,matched_without_pitcher + PA count gate pass
+2025,20250413LTNC0,250413_170201,W,20250413LTNC0-20250413LTNC0-064-03,B,1-1,1-2,matched_without_pitcher,pass,naver_pitcher_switch_in_pa,matched_without_pitcher + PA count gate pass
+2025,20250507SSHH0,250507_204919,W,20250507SSHH0-20250507SSHH0-058-03,B,1-1,1-2,matched_without_pitcher,pass,naver_pitcher_switch_in_pa,matched_without_pitcher + PA count gate pass
+2025,20250810SSKT0,250810_182312,W,20250810SSKT0-20250810SSKT0-013-01,B,0-0,0-2,manual_speed_sequence,manual,"pitch_number_offset: VB and Naver relay both lack PA pitch 1 (Naver counts include it, a strike); speed sequence 143,132,152 identical",identified by hand (speed sequence); VB lacks PA pitch 1 so the count gate cannot apply
+2026,20260829LGLT0,260829_213512,W,20260829LGLT0-20260829LGLT0-067-02,B,1-0,1-1,matched_without_pitcher,pass,naver_pitcher_switch_in_pa,matched_without_pitcher + PA count gate pass
