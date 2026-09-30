@@ -100,12 +100,15 @@ def pzone_fit_predict(train, test, fields, seeds=(RS,), es="auto"):
     return np.clip(model.proba(old._encode_numeric(test, fields)), 1e-6, 1 - 1e-6)
 
 
-def crossfit(rows, fields, pswing=True, seeds=(RS,), es="auto", drop_game=None, pswing_es=None, calibration="gate"):
+def crossfit(rows, fields, pswing=True, seeds=(RS,), es="auto", drop_game=None, pswing_es=None, calibration="gate",
+             pzone_seeds=None):
     """3블록 교차적합. drop_game이면 그 경기를 데이터에서 뺀다(블록 경계는 날짜 기준이라 그대로).
 
     es는 p_zone(과 pswing_es가 없으면 p_swing)의 조기 종료, pswing_es는 p_swing만의 조기 종료다.
+    pzone_seeds가 있으면 p_zone만 그 seed들의 평균으로 적합한다(없으면 seeds).
     """
     pswing_es = es if pswing_es is None else pswing_es
+    pzone_seeds = seeds if pzone_seeds is None else pzone_seeds
     if drop_game:
         rows = [r for r in rows if r["game_id"] != drop_game]
     ordered, fold, blocks = ordered_folds(rows)
@@ -118,7 +121,7 @@ def crossfit(rows, fields, pswing=True, seeds=(RS,), es="auto", drop_game=None, 
         sl = slice(start, start + len(test)); start += len(test)
         if pswing:
             p_swing[sl], a = pswing_fit_predict(train, test, seeds, pswing_es, calibration); applied.append(bool(a))
-        p_zone[sl] = pzone_fit_predict(train, test, fields, seeds, es)
+        p_zone[sl] = pzone_fit_predict(train, test, fields, pzone_seeds, es)
     return {"rows": ordered, "fold": fold, "p_swing": p_swing, "p_zone": p_zone,
             "calibration_applied": applied, "seconds": time.time() - t0}
 
