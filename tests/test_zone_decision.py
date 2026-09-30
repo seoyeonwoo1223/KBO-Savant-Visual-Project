@@ -1,6 +1,8 @@
 import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
 from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_dv_plus, EVENTS
+from visualbaseball.zone_decision import strikezone_ball_judgment, expected_judgment_accuracy, add_sbj_plus, contextual_judgment_accuracy
+from visualbaseball.zone_decision import seager_quadrants, selection_tendency, hittable_take_rate, approach_rating, add_apr_plus
 
 
 def test_decision_value_credits_the_actual_choice():
@@ -21,7 +23,7 @@ def test_zone_awareness_is_outcome_independent_and_value_version_is_retained():
 
 
 def test_sa_dv_stay_unchanged_and_dv_plus_is_standardized():
- base={'season':2026,'batter_name':'Test','team':'T','game_id':'20260601A','region':'heart','opposite_support':50,'delta_v':.2,'p_zone':.7,'judgment':.1}
+ base={'season':2026,'batter_name':'Test','team':'T','game_id':'20260601A','region':'heart','opposite_support':50,'delta_v':.2,'p_zone':.7,'p_CalledStrike':.7,'p_Ball':.3,'p_HBP':.0,'judgment':.1}
  rows=[{**base,'batter_id':'1','swing':1,'p_swing':.4,'dv':.2},{**base,'batter_id':'1','swing':0,'p_swing':.4,'dv':-.1}]
  summary=profile_summary(rows)
  assert summary['swing_aggression']==10 and summary['raw_dv']==.1 and summary['dv_per_100']==5
@@ -39,7 +41,7 @@ def test_five_regions_and_hbp_not_future_pa_result():
 def test_additive_contributions_use_all_pitches():
  rows=[]
  for i,reg in enumerate(REGIONS):
-  rows.append({'season':2026,'batter_id':'1','batter_name':'Test','game_id':'20260601OBLG0','inning_half':'top','region':reg,'dv':(i-2)/10,'delta_v':(i-2)/10 or .1,'swing':i%2,'p_swing':.4,'judgment':.1,'opposite_support':25})
+  rows.append({'season':2026,'batter_id':'1','batter_name':'Test','game_id':'20260601OBLG0','inning_half':'top','region':reg,'dv':(i-2)/10,'delta_v':(i-2)/10 or .1,'swing':i%2,'p_swing':.4,'p_zone':.6,'p_CalledStrike':.6,'p_Ball':.4,'p_HBP':.0,'judgment':.1,'opposite_support':25})
  s=profile_summary(rows)
  assert abs(sum(s[r+'_decision_value_per_100'] for r in REGIONS)-s['dv_per_100'])<1e-5
  for reg in REGIONS:
@@ -117,3 +119,160 @@ def test_actual_fitted_predictions_ignore_held_out_results():
  assert not np.allclose(first['target'],second['target'])
  np.testing.assert_allclose(first['probs'][:,:3].sum(axis=1),1)
  np.testing.assert_allclose(first['probs'][:,3:].sum(axis=1),1)
+
+
+def _judgment_row(swing, p_swing, p_zone, p_cs=None, p_hbp=.0):
+ # p_cs defaults to p_zone only so older DV fixtures keep their shape; SBJ reads p_cs.
+ p_cs=p_zone if p_cs is None else p_cs
+ return {'swing':swing,'p_swing':p_swing,'p_zone':p_zone,
+   'p_CalledStrike':p_cs,'p_HBP':p_hbp,'p_Ball':1-p_cs-p_hbp,
+   'judgment':(swing-p_swing)*(2*p_zone-1)}
+
+
+def test_sbj_credits_zone_chance_on_swings_and_its_complement_on_takes():
+ # PLV Strikezone Judgement against the ABS zone: swing -> p_zone, take -> 1 - p_zone.
+ items=[_judgment_row(1,.4,.9),_judgment_row(0,.3,.2)]
+ assert strikezone_ball_judgment(items)==round(100*np.mean([.9,.8]),6)
+
+
+def test_sbj_reads_the_positional_zone_model_not_the_contextual_one():
+ # Hold p_zone fixed and move the contextual call model: SBJ must not budge.
+ base=[_judgment_row(1,.4,.6,p_cs=.6),_judgment_row(1,.4,.6,p_cs=.6)]
+ shifted=[{**r,'p_CalledStrike':.2,'p_Ball':.8} for r in base]
+ assert strikezone_ball_judgment(shifted)==strikezone_ball_judgment(base)
+ # The contextual diagnostic is what tracks that model instead.
+ assert contextual_judgment_accuracy(shifted)!=contextual_judgment_accuracy(base)
+
+
+def test_sbj_is_not_zone_awareness_even_though_both_read_p_zone():
+ # Raw accuracy and za_raw are different functionals of the same q.
+ rng=np.random.default_rng(11)
+ items=[_judgment_row(int(rng.integers(0,2)),float(rng.uniform(.05,.95)),
+   float(rng.uniform(.05,.95))) for _ in range(60)]
+ assert strikezone_ball_judgment(items)!=zone_awareness(items)
+ assert 0<=strikezone_ball_judgment(items)<=100
+
+
+def test_subtracting_the_league_baseline_would_reproduce_zone_awareness():
+ # This identity is the reason SBJ subtracts no baseline. Pin it so nobody
+ # "adds difficulty adjustment" by subtraction and silently recreates za_raw.
+ rng=np.random.default_rng(5)
+ items=[_judgment_row(int(rng.integers(0,2)),float(rng.uniform(.05,.95)),
+   float(rng.uniform(.05,.95))) for _ in range(200)]
+ difference=strikezone_ball_judgment(items)-expected_judgment_accuracy(items)
+ assert abs(difference-zone_awareness(items))<1e-4
+
+
+def test_sbj_is_outcome_independent_like_zone_awareness():
+ items=[{**_judgment_row(1,.4,.8),'delta_v':.4,'raw_run_value':2},
+        {**_judgment_row(0,.3,.2),'delta_v':-.2,'raw_run_value':-1}]
+ changed=[{**r,'delta_v':-99*r['delta_v'],'raw_run_value':999} for r in items]
+ assert strikezone_ball_judgment(changed)==strikezone_ball_judgment(items)
+
+
+def test_expected_judgment_baseline_uses_the_same_zone_model_as_sbj():
+ items=[_judgment_row(1,.4,.9),_judgment_row(0,.3,.2)]
+ assert expected_judgment_accuracy(items)==round(100*np.mean(
+   [.4*.9+.6*.1, .3*.2+.7*.8]),6)
+
+
+def test_sbj_plus_is_standardized_over_qualified_hitters():
+ players=[]
+ for i in range(4):
+  rows=_apr_rows(str(i),{r:(80,1,.4,.5+.1*i) for r in REGIONS})
+  players.append(profile_summary(rows))
+ center,spread=add_sbj_plus(players)
+ assert all(p['qualified_300'] for p in players)
+ for p in players:
+  assert abs(p['sbj_plus']-(100+15*(p['sbj_raw']-center)/spread))<1e-5
+
+
+def _apr_rows(batter_id, per_region, p_cs=None):
+ rows=[]
+ for reg,(count,swing,p_swing,p_zone) in per_region.items():
+  for i in range(count):
+   rows.append({'season':2026,'batter_id':batter_id,'batter_name':'T'+batter_id,'team':'T','game_id':'20260601OBLG0',
+     'region':reg,'dv':.0,'delta_v':.1,'opposite_support':50,
+     **_judgment_row(swing,p_swing,p_zone,p_cs=p_cs)})
+ return rows
+
+
+def _decision(swing, delta_v):
+ return {'season':2026,'batter_id':'1','batter_name':'T','team':'T','game_id':'20260601OBLG0',
+   'region':'heart','dv':.0,'delta_v':delta_v,'opposite_support':50,
+   **_judgment_row(swing,.4,.6,p_cs=.6)}
+
+
+def test_seager_quadrants_partition_every_pitch():
+ rows=[_decision(1,.2),_decision(1,-.2),_decision(0,.2),_decision(0,-.2),_decision(0,0.)]
+ counts=seager_quadrants(rows)
+ assert counts=={'A':1,'B':1,'C':1,'D':2}          # delta_v == 0 is non-hittable
+ assert sum(counts.values())==len(rows)
+
+
+def test_seager_uses_run_value_not_zone_membership():
+ # Same location and zone probability, opposite delta_v sign.
+ hittable=[_decision(1,.2)]; avoidable=[{**_decision(1,-.2)}]
+ assert seager_quadrants(hittable)=={'A':1,'B':0,'C':0,'D':0}
+ assert seager_quadrants(avoidable)=={'A':0,'B':1,'C':0,'D':0}
+
+
+def test_selection_tendency_and_hittable_takes_follow_the_repo_formula():
+ counts={'A':3,'B':7,'C':2,'D':6}
+ assert selection_tendency(counts)==round(100*6/(3+6),6)
+ assert hittable_take_rate(counts)==round(100*2/(2+6),6)
+ assert approach_rating(counts)==round(selection_tendency(counts)-hittable_take_rate(counts),6)
+
+
+def test_apr_direction_rewards_taking_bad_pitches_and_punishes_passing_good_ones():
+ base={'A':5,'B':5,'C':5,'D':5}
+ # Taking a non-hittable pitch raises selection tendency -> APR up.
+ assert approach_rating({**base,'D':base['D']+5})>approach_rating(base)
+ # Passing on a hittable pitch raises hittable-take rate -> APR down.
+ assert approach_rating({**base,'C':base['C']+5})<approach_rating(base)
+ # Swinging at a non-hittable pitch enters B, which neither ratio uses.
+ assert approach_rating({**base,'B':base['B']+5})==approach_rating(base)
+
+
+def test_apr_is_none_when_a_ratio_has_no_denominator():
+ assert approach_rating({'A':0,'B':4,'C':0,'D':0}) is None
+ assert selection_tendency({'A':0,'B':4,'C':0,'D':0}) is None
+
+
+def test_apr_plus_is_standardized_over_qualified_hitters():
+ players=[]
+ for i in range(4):
+  rows=[_decision(1,.2) for _ in range(60+10*i)]+[_decision(0,-.2) for _ in range(240-10*i)]
+  for r in rows: r['batter_id']=str(i); r['batter_name']='T'+str(i)
+  players.append(profile_summary(rows))
+ center,spread=add_apr_plus(players)
+ assert all(p['qualified_300'] for p in players)
+ for p in players:
+  assert abs(p['apr_plus']-(100+15*(p['apr_raw']-center)/spread))<1e-5
+
+
+def test_profile_summary_exposes_seager_quadrants_summing_to_pitches_seen():
+ rows=[_decision(1,.2),_decision(1,-.2),_decision(0,.2),_decision(0,-.2)]
+ s=profile_summary(rows)
+ assert s['seager_a']+s['seager_b']+s['seager_c']+s['seager_d']==s['pitches_seen']
+ assert s['apr_raw']==round(s['selection_tendency_pct']-s['hittable_take_pct'],6)
+
+
+def test_plus_scores_are_withheld_below_the_qualification_minimum():
+ # + scores are standardized on the qualified distribution, so extending them
+ # to small samples would inflate sampling error onto a 15-point scale.
+ qualified=[]
+ for i in range(4):
+  rows=[_decision(1,.2) for _ in range(60+10*i)]+[_decision(0,-.2) for _ in range(240-10*i)]
+  for r in rows: r['batter_id']=str(i)
+  qualified.append(profile_summary(rows))
+ small=[_decision(1,.2) for _ in range(10)]
+ for r in small: r['batter_id']='tiny'
+ players=qualified+[profile_summary(small)]
+ add_sbj_plus(players); add_apr_plus(players); add_dv_plus(players)
+ tiny=players[-1]
+ assert tiny['qualified_300'] is False
+ assert tiny['sbj_plus'] is None and tiny['apr_plus'] is None and tiny['dv_plus'] is None
+ # Raw components stay available for diagnostics.
+ assert tiny['sbj_raw'] is not None and tiny['pitches_seen']==10
+ assert all(p['sbj_plus'] is not None for p in qualified)
