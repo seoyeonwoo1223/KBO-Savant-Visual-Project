@@ -20,7 +20,8 @@ from sklearn.isotonic import IsotonicRegression
 from sklearn.model_selection import GroupKFold
 from scipy.optimize import minimize, LinearConstraint
 from . import plate_decision_v1 as old
-from .pitch_arsenal import _load_batter_hands, _resolved_batter_stance
+from .movement_calibration import calibrate
+from .pitch_arsenal import _load_batter_hands, _pitch_code, _resolved_batter_stance
 from .swing_take import PLATE_HALF_WIDTH_FT, _eligible, _relative_location, _state
 from .zone_awareness_v2 import _team_history
 from .curated import CM_PER_FOOT, _at_plane, load_rows as load_curated_rows, schema_sha256
@@ -187,15 +188,14 @@ def park_workbook(root, season):
  return root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'
 
 
-def raw_movement(rows):
- """Movement features without a park workbook: the raw VB HB/IVB, unadjusted."""
- available=0
- for r in rows:
-  hb,ivb=old._safe_float(r.get('horizontal_movement_cm')),old._safe_float(r.get('vertical_movement_cm'))
-  ok=not(np.isnan(hb) or np.isnan(ivb)); available+=ok
+def calibrated_movement(rows):
+ """Movement features without a park workbook: movement_calibration's TrackMan-validated stadium-day correction."""
+ corrected=calibrate(rows,[_pitch_code(r) for r in rows]); available=0
+ for r,(hb,ivb) in zip(rows,corrected):
+  ok=hb is not None and ivb is not None; available+=ok
   r['adjusted_hb_cm'],r['adjusted_ivb_cm']=(hb,ivb) if ok else (np.nan,np.nan)
- return {'movement_available':available,'movement_adjusted':0,'adjustment_coverage_pct':0.0,
-  'formula':'no park adjustment workbook for this season: raw Visual Baseball measurement'}
+ return {'movement_available':available,'movement_adjusted':available,'adjustment_coverage_pct':100.0 if available else 0.0,
+  'formula':'no park adjustment workbook for this season: movement_calibration stadium-day and plate-location correction (TrackMan-validated 2019-2024)'}
 
 
 def load_rows(root, season):
@@ -221,8 +221,8 @@ def load_rows(root, season):
   r['region'] = region(r)
   if pzone_fields(season)==PZONE_ABS: r.update(judgment_plane_location(r))
   valid.append(r)
- # 2019-2021 have no park workbook: p_swing then reads the raw VB movement (stadium stays a p_swing input).
- movement = old._movement_adjust(valid, root, season) if park_workbook(root,season).exists() else raw_movement(valid)
+ # 2019-2021 have no park workbook: p_swing then reads the TrackMan-validated movement_calibration values.
+ movement = old._movement_adjust(valid, root, season) if park_workbook(root,season).exists() else calibrated_movement(valid)
  # Retain pre-pitch features, transitions, identity and training target only.
  keep = set(NUMERIC + old.PZONE_NUMERIC + PZONE_ABS + PSWING_CATEGORICAL + ('plane_fallback','game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
  keep.update(f'{k}_{w}' for k in ('base_state_code','outs','balls','strikes') for w in ('before','after'))
