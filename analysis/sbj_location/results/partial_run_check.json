@@ -1,0 +1,33 @@
+{
+ "season": 2024,
+ "velocity_offset_kmh": -1.56,
+ "by_kind": {
+  "clean": {
+   "runs": 46150,
+   "pitches": 177037,
+   "accepted": 177037,
+   "pitch_group_agreement": 0.9551
+  },
+  "partial": {
+   "runs": 4232,
+   "pitches": 19305,
+   "accepted": 12337,
+   "pitch_group_agreement": 0.9591
+  }
+ },
+ "partial_ok_fraction_quartiles": [
+  0.5,
+  0.667,
+  0.8
+ ],
+ "partial_runs_under_half_ok": {
+  "runs": 879,
+  "accepted_pitches": 795
+ },
+ "partial_runs_where_shift_fits_better": {
+  "runs": 732,
+  "accepted_pitches": 939,
+  "pitch_group_agreement": 0.9565
+ },
+ "note": "Diagnostic only. Pitch-type group and velocity are not independent of each other; agreement does not prove identity."
+}

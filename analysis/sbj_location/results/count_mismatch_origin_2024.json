@@ -1,0 +1,64 @@
+{
+ "matched_candidates": 189613,
+ "count_mismatch": 1634,
+ "by_run_kind": {
+  "equal_length": 1510,
+  "equal_length_partial": 100,
+  "gap_tm_extra": 12,
+  "gap_vb_extra": 12
+ },
+ "by_cause": {
+  "propagated_from_previous_pitch": 968,
+  "previous_vb_B_tm_strike": 521,
+  "previous_vb_V": 100,
+  "previous_pitch_unlinked": 36,
+  "vb_first_pitch_but_tm_not_0_0": 8,
+  "other_prev_S_ball": 1
+ },
+ "origin_pitches": 666,
+ "origin_by_cause": {
+  "previous_vb_B_tm_strike": 521,
+  "previous_vb_V": 100,
+  "previous_pitch_unlinked": 36,
+  "vb_first_pitch_but_tm_not_0_0": 8,
+  "other_prev_S_ball": 1
+ },
+ "cause_by_run_kind": {
+  "other_prev_S_ball": {
+   "equal_length": 0,
+   "equal_length_partial": 0,
+   "gap_tm_extra": 1,
+   "gap_vb_extra": 0
+  },
+  "previous_pitch_unlinked": {
+   "equal_length": 0,
+   "equal_length_partial": 32,
+   "gap_tm_extra": 1,
+   "gap_vb_extra": 3
+  },
+  "previous_vb_B_tm_strike": {
+   "equal_length": 507,
+   "equal_length_partial": 14,
+   "gap_tm_extra": 0,
+   "gap_vb_extra": 0
+  },
+  "previous_vb_V": {
+   "equal_length": 94,
+   "equal_length_partial": 6,
+   "gap_tm_extra": 0,
+   "gap_vb_extra": 0
+  },
+  "propagated_from_previous_pitch": {
+   "equal_length": 904,
+   "equal_length_partial": 47,
+   "gap_tm_extra": 8,
+   "gap_vb_extra": 9
+  },
+  "vb_first_pitch_but_tm_not_0_0": {
+   "equal_length": 5,
+   "equal_length_partial": 1,
+   "gap_tm_extra": 2,
+   "gap_vb_extra": 0
+  }
+ }
+}

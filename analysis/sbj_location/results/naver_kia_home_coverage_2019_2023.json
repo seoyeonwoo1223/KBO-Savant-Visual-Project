@@ -1,0 +1,465 @@
+{
+ "definition": {
+  "pitch_level": "inning 1 has pitch options with pitchNum and pitchResult",
+  "full_game_sample": "first KIA home game with a pitch-level inning 1 in each month, all innings"
+ },
+ "seasons": {
+  "2019": {
+   "kia_home_games": 72,
+   "status": {
+    "pitch_level": 72
+   },
+   "not_pitch_level": [],
+   "full_game_sample": {
+    "20190323LGHT0": {
+     "pitches": 265,
+     "failed_innings": [],
+     "codes": {
+      "S": 27,
+      "H": 42,
+      "B": 98,
+      "T": 52,
+      "F": 45,
+      "W": 1
+     }
+    },
+    "20190405WOHT0": {
+     "pitches": 331,
+     "failed_innings": [],
+     "codes": {
+      "B": 126,
+      "H": 52,
+      "T": 61,
+      "F": 63,
+      "S": 27,
+      "W": 2
+     }
+    },
+    "20190501SSHT0": {
+     "pitches": 303,
+     "failed_innings": [],
+     "codes": {
+      "F": 54,
+      "B": 107,
+      "S": 13,
+      "T": 61,
+      "H": 68
+     }
+    },
+    "20190601WOHT0": {
+     "pitches": 307,
+     "failed_innings": [],
+     "codes": {
+      "F": 46,
+      "T": 55,
+      "B": 124,
+      "H": 55,
+      "S": 27
+     }
+    },
+    "20190702NCHT0": {
+     "pitches": 270,
+     "failed_innings": [],
+     "codes": {
+      "H": 51,
+      "B": 100,
+      "T": 42,
+      "F": 52,
+      "S": 24,
+      "W": 1
+     }
+    },
+    "20190803NCHT0": {
+     "pitches": 281,
+     "failed_innings": [],
+     "codes": {
+      "B": 111,
+      "T": 52,
+      "F": 38,
+      "S": 29,
+      "H": 49,
+      "W": 2
+     }
+    },
+    "20190901LTHT0": {
+     "pitches": 261,
+     "failed_innings": [],
+     "codes": {
+      "F": 32,
+      "S": 37,
+      "H": 50,
+      "T": 45,
+      "B": 96,
+      "W": 1
+     }
+    }
+   },
+   "sample_W_per_game": 1.0
+  },
+  "2020": {
+   "kia_home_games": 72,
+   "status": {
+    "pitch_level": 72
+   },
+   "not_pitch_level": [],
+   "full_game_sample": {
+    "20200505WOHT0": {
+     "pitches": 340,
+     "failed_innings": [],
+     "codes": {
+      "B": 139,
+      "S": 26,
+      "H": 58,
+      "F": 64,
+      "T": 52,
+      "W": 1
+     }
+    },
+    "20200602LTHT0": {
+     "pitches": 254,
+     "failed_innings": [],
+     "codes": {
+      "B": 96,
+      "H": 54,
+      "T": 45,
+      "S": 22,
+      "F": 37
+     }
+    },
+    "20200701HHHT0": {
+     "pitches": 294,
+     "failed_innings": [],
+     "codes": {
+      "T": 59,
+      "B": 106,
+      "S": 20,
+      "H": 60,
+      "F": 45,
+      "W": 3,
+      "V": 1
+     }
+    },
+    "20200804LGHT0": {
+     "pitches": 330,
+     "failed_innings": [],
+     "codes": {
+      "T": 64,
+      "H": 58,
+      "F": 48,
+      "B": 127,
+      "S": 33
+     }
+    },
+    "20200901SSHT0": {
+     "pitches": 309,
+     "failed_innings": [],
+     "codes": {
+      "B": 121,
+      "T": 45,
+      "H": 47,
+      "F": 62,
+      "W": 4,
+      "S": 29,
+      "V": 1
+     }
+    },
+    "20201006HHHT0": {
+     "pitches": 321,
+     "failed_innings": [],
+     "codes": {
+      "B": 127,
+      "S": 34,
+      "H": 54,
+      "T": 47,
+      "F": 57,
+      "W": 2
+     }
+    }
+   },
+   "sample_W_per_game": 1.67
+  },
+  "2021": {
+   "kia_home_games": 72,
+   "status": {
+    "pitch_level": 72
+   },
+   "not_pitch_level": [],
+   "full_game_sample": {
+    "20210409NCHT0": {
+     "pitches": 337,
+     "failed_innings": [],
+     "codes": {
+      "T": 64,
+      "B": 116,
+      "H": 65,
+      "F": 57,
+      "S": 33,
+      "V": 1,
+      "W": 1
+     }
+    },
+    "20210508OBHT0": {
+     "pitches": 314,
+     "failed_innings": [],
+     "codes": {
+      "H": 68,
+      "B": 115,
+      "T": 43,
+      "S": 28,
+      "F": 58,
+      "W": 1,
+      "V": 1
+     }
+    },
+    "20210604LGHT0": {
+     "pitches": 302,
+     "failed_innings": [],
+     "codes": {
+      "T": 48,
+      "S": 27,
+      "B": 109,
+      "H": 52,
+      "F": 63,
+      "W": 3
+     }
+    },
+    "20210701NCHT0": {
+     "pitches": 321,
+     "failed_innings": [],
+     "codes": {
+      "B": 126,
+      "T": 61,
+      "H": 57,
+      "S": 25,
+      "F": 50,
+      "W": 2
+     }
+    },
+    "20210810HHHT0": {
+     "pitches": 319,
+     "failed_innings": [],
+     "codes": {
+      "B": 122,
+      "T": 60,
+      "S": 40,
+      "H": 43,
+      "F": 52,
+      "W": 2
+     }
+    },
+    "20210902SSHT0": {
+     "pitches": 248,
+     "failed_innings": [],
+     "codes": {
+      "B": 89,
+      "T": 42,
+      "F": 38,
+      "H": 53,
+      "S": 24,
+      "W": 2
+     }
+    },
+    "20211001WOHT0": {
+     "pitches": 263,
+     "failed_innings": [],
+     "codes": {
+      "B": 96,
+      "H": 56,
+      "T": 45,
+      "S": 22,
+      "F": 44
+     }
+    }
+   },
+   "sample_W_per_game": 1.57
+  },
+  "2022": {
+   "kia_home_games": 72,
+   "status": {
+    "pitch_level": 72
+   },
+   "not_pitch_level": [],
+   "full_game_sample": {
+    "20220402LGHT0": {
+     "pitches": 255,
+     "failed_innings": [],
+     "codes": {
+      "H": 43,
+      "B": 84,
+      "S": 36,
+      "T": 39,
+      "F": 51,
+      "W": 1,
+      "V": 1
+     }
+    },
+    "20220501SSHT0": {
+     "pitches": 281,
+     "failed_innings": [],
+     "codes": {
+      "F": 59,
+      "B": 90,
+      "H": 58,
+      "S": 27,
+      "T": 46,
+      "W": 1
+     }
+    },
+    "20220608LGHT0": {
+     "pitches": 349,
+     "failed_innings": [],
+     "codes": {
+      "B": 134,
+      "F": 71,
+      "S": 25,
+      "T": 55,
+      "H": 63,
+      "W": 1
+     }
+    },
+    "20220706KTHT0": {
+     "pitches": 310,
+     "failed_innings": [],
+     "codes": {
+      "T": 52,
+      "F": 52,
+      "B": 119,
+      "H": 55,
+      "S": 31,
+      "W": 1
+     }
+    },
+    "20220805OBHT0": {
+     "pitches": 281,
+     "failed_innings": [],
+     "codes": {
+      "T": 40,
+      "B": 97,
+      "S": 30,
+      "H": 61,
+      "F": 51,
+      "W": 2
+     }
+    },
+    "20220901SSHT0": {
+     "pitches": 334,
+     "failed_innings": [],
+     "codes": {
+      "T": 57,
+      "B": 134,
+      "F": 62,
+      "H": 57,
+      "S": 20,
+      "W": 4
+     }
+    },
+    "20221001SKHT0": {
+     "pitches": 300,
+     "failed_innings": [],
+     "codes": {
+      "T": 59,
+      "B": 110,
+      "H": 60,
+      "F": 49,
+      "S": 21,
+      "W": 1
+     }
+    }
+   },
+   "sample_W_per_game": 1.57
+  },
+  "2023": {
+   "kia_home_games": 71,
+   "status": {
+    "pitch_level": 71
+   },
+   "not_pitch_level": [],
+   "full_game_sample": {
+    "20230407OBHT0": {
+     "pitches": 288,
+     "failed_innings": [],
+     "codes": {
+      "S": 30,
+      "F": 56,
+      "B": 100,
+      "T": 49,
+      "H": 51,
+      "W": 2
+     }
+    },
+    "20230502LTHT0": {
+     "pitches": 331,
+     "failed_innings": [],
+     "codes": {
+      "T": 56,
+      "F": 63,
+      "B": 121,
+      "H": 65,
+      "W": 1,
+      "S": 25
+     }
+    },
+    "20230606SKHT0": {
+     "pitches": 282,
+     "failed_innings": [],
+     "codes": {
+      "T": 53,
+      "B": 110,
+      "F": 45,
+      "H": 56,
+      "S": 17,
+      "W": 1
+     }
+    },
+    "20230712SSHT0": {
+     "pitches": 271,
+     "failed_innings": [],
+     "codes": {
+      "T": 49,
+      "B": 89,
+      "S": 22,
+      "F": 54,
+      "H": 56,
+      "W": 1
+     }
+    },
+    "20230804HHHT0": {
+     "pitches": 296,
+     "failed_innings": [],
+     "codes": {
+      "T": 58,
+      "B": 114,
+      "F": 35,
+      "S": 33,
+      "H": 56
+     }
+    },
+    "20230908LGHT0": {
+     "pitches": 331,
+     "failed_innings": [],
+     "codes": {
+      "B": 136,
+      "F": 56,
+      "S": 28,
+      "H": 60,
+      "T": 50,
+      "V": 1
+     }
+    },
+    "20231008SSHT0": {
+     "pitches": 257,
+     "failed_innings": [],
+     "codes": {
+      "T": 42,
+      "H": 52,
+      "F": 48,
+      "B": 87,
+      "S": 27,
+      "W": 1
+     }
+    }
+   },
+   "sample_W_per_game": 0.86
+  }
+ }
+}

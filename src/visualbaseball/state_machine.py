@@ -57,9 +57,9 @@ class GameState:
         code = (code or "").upper()
         if code == "B":
             self.balls = min(3, self.balls + 1)
-        elif code in {"S", "T"}:
+        elif code in {"S", "T", "V"}:
             self.strikes = min(2, self.strikes + 1)
-        elif code == "F" and self.strikes < 2:
+        elif code in {"F", "W"} and self.strikes < 2:
             self.strikes += 1
 
     def infer_runs(self, after_bases: dict | None, outs_after: int) -> int:

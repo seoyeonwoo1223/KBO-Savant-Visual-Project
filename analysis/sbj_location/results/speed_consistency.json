@@ -1,0 +1,87 @@
+{
+ "threshold_kmh": 8.0,
+ "seasons": {
+  "2019": {
+   "rows": 204683,
+   "median_offset_kmh": 0.07,
+   "p99_abs_residual": 7.65,
+   "gt8": 1861,
+   "gt8_pct": 0.9092
+  },
+  "2020": {
+   "rows": 220243,
+   "median_offset_kmh": 0.01,
+   "p99_abs_residual": 6.22,
+   "gt8": 1557,
+   "gt8_pct": 0.7069
+  },
+  "2021": {
+   "rows": 219944,
+   "median_offset_kmh": 0.21,
+   "p99_abs_residual": 5.12,
+   "gt8": 1287,
+   "gt8_pct": 0.5851,
+   "known_cases": {
+    "20210512SSKT0-20210512SSKT0-017-01": {
+     "residual_kmh": 1.4,
+     "note": "E: shown 116 changeup, real 114 curve"
+    },
+    "20210606HHNC0-20210606HHNC0-044-01": {
+     "residual_kmh": -8.0,
+     "note": "E: shown 137 slider, real 145 fastball"
+    }
+   }
+  },
+  "2022": {
+   "rows": 214771,
+   "median_offset_kmh": 0.25,
+   "p99_abs_residual": 4.19,
+   "gt8": 481,
+   "gt8_pct": 0.224
+  },
+  "2023": {
+   "rows": 215540,
+   "median_offset_kmh": 0.18,
+   "p99_abs_residual": 3.16,
+   "gt8": 14,
+   "gt8_pct": 0.0065
+  },
+  "2024": {
+   "rows": 222346,
+   "median_offset_kmh": -0.0,
+   "p99_abs_residual": 0.5,
+   "gt8": 17,
+   "gt8_pct": 0.0076,
+   "known_cases": {
+    "20240504OBLG0-20240504OBLG0-018-02": {
+     "residual_kmh": -3.3,
+     "note": "B: label suspected from previous pitch"
+    },
+    "20240504OBLG0-20240504OBLG0-073-04": {
+     "residual_kmh": -15.9,
+     "note": "B: label from previous pitch (fastball trajectory, shown 123 fork)"
+    }
+   }
+  },
+  "2025": {
+   "rows": 217769,
+   "median_offset_kmh": 1.52,
+   "p99_abs_residual": 2.61,
+   "gt8": 73,
+   "gt8_pct": 0.0335
+  },
+  "2026": {
+   "rows": 203176,
+   "median_offset_kmh": 1.18,
+   "p99_abs_residual": 3.58,
+   "gt8": 19,
+   "gt8_pct": 0.0094,
+   "known_cases": {
+    "20260509KTWO0-20260509KTWO0-093-04": {
+     "residual_kmh": -12.2,
+     "note": "A/B: shown 135 slider, fastball-speed trajectory"
+    }
+   }
+  }
+ }
+}

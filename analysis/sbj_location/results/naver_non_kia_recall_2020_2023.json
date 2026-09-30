@@ -1,0 +1,27 @@
+{
+ "definition": {
+  "sample": "naver_non_kia_W_sample_2020_2023.csv",
+  "join": "naver_kia_home_bunts.join (half-inning PA ordinal key)",
+  "caveat": "Naver and VB may share an upstream source; this is a record cross-check, not an independent measurement"
+ },
+ "seasons": {
+  "2020": {
+   "games": 30,
+   "stats": {
+    "corrected_trackman": 18,
+    "naver_W": 18
+   },
+   "W_per_game_matches_sample_csv": true,
+   "recall_of_vb_B_bunt_fouls": 1.0
+  },
+  "2023": {
+   "games": 30,
+   "stats": {
+    "corrected_trackman": 33,
+    "naver_W": 33
+   },
+   "W_per_game_matches_sample_csv": true,
+   "recall_of_vb_B_bunt_fouls": 1.0
+  }
+ }
+}

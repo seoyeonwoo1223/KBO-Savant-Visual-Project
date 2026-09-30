@@ -1,0 +1,397 @@
+{
+ "2024": {
+  "all": {
+   "vb_pitches": 223216,
+   "sbj_eligible": 222225,
+   "pzone_target_takes": 121112,
+   "pswing_train_and_scored": 222225,
+   "qualified_batters_touched": 155
+  },
+  "review_structural": {
+   "vb_pitches": 1037,
+   "sbj_eligible": 1028,
+   "pzone_target_takes": 734,
+   "pswing_train_and_scored": 1028,
+   "qualified_batters_touched": 80
+  },
+  "review_diagnostic": {
+   "vb_pitches": 274,
+   "sbj_eligible": 274,
+   "pzone_target_takes": 257,
+   "pswing_train_and_scored": 274,
+   "qualified_batters_touched": 84
+  },
+  "flag:BB_CONT": {
+   "vb_pitches": 649,
+   "sbj_eligible": 644,
+   "pzone_target_takes": 481,
+   "pswing_train_and_scored": 644,
+   "qualified_batters_touched": 48
+  },
+  "flag:B_NEAR_CENTER": {
+   "vb_pitches": 337,
+   "sbj_eligible": 337,
+   "pzone_target_takes": 337,
+   "pswing_train_and_scored": 337,
+   "qualified_batters_touched": 95
+  },
+  "flag:DUP_CONSEC": {
+   "vb_pitches": 23,
+   "sbj_eligible": 23,
+   "pzone_target_takes": 14,
+   "pswing_train_and_scored": 23,
+   "qualified_batters_touched": 4
+  },
+  "flag:DUP_TRAJ": {
+   "vb_pitches": 77,
+   "sbj_eligible": 77,
+   "pzone_target_takes": 40,
+   "pswing_train_and_scored": 77,
+   "qualified_batters_touched": 11
+  },
+  "flag:END_MISMATCH": {
+   "vb_pitches": 444,
+   "sbj_eligible": 438,
+   "pzone_target_takes": 304,
+   "pswing_train_and_scored": 438,
+   "qualified_batters_touched": 56
+  },
+  "flag:HALF_END": {
+   "vb_pitches": 427,
+   "sbj_eligible": 426,
+   "pzone_target_takes": 268,
+   "pswing_train_and_scored": 426,
+   "qualified_batters_touched": 80
+  },
+  "flag:K_CONT": {
+   "vb_pitches": 5,
+   "sbj_eligible": 5,
+   "pzone_target_takes": 3,
+   "pswing_train_and_scored": 5,
+   "qualified_batters_touched": 1
+  },
+  "flag:OTHER_OPEN": {
+   "vb_pitches": 238,
+   "sbj_eligible": 234,
+   "pzone_target_takes": 122,
+   "pswing_train_and_scored": 234,
+   "qualified_batters_touched": 49
+  },
+  "flag:SPLIT_SAME": {
+   "vb_pitches": 5,
+   "sbj_eligible": 5,
+   "pzone_target_takes": 4,
+   "pswing_train_and_scored": 5,
+   "qualified_batters_touched": 5
+  },
+  "flag:X_NONLAST": {
+   "vb_pitches": 15,
+   "sbj_eligible": 15,
+   "pzone_target_takes": 3,
+   "pswing_train_and_scored": 15,
+   "qualified_batters_touched": 2
+  },
+  "code_V": {
+   "vb_pitches": 136,
+   "sbj_eligible": 0,
+   "pzone_target_takes": 0,
+   "pswing_train_and_scored": 0,
+   "qualified_batters_touched": 0
+  },
+  "after_V_same_pa": {
+   "vb_pitches": 392,
+   "sbj_eligible": 376,
+   "pzone_target_takes": 172,
+   "pswing_train_and_scored": 376,
+   "qualified_batters_touched": 64
+  },
+  "code_B": {
+   "vb_pitches": 82517,
+   "sbj_eligible": 82167,
+   "pzone_target_takes": 82167,
+   "pswing_train_and_scored": 82167,
+   "qualified_batters_touched": 155
+  },
+  "tm_matched": {
+   "vb_pitches": 189613,
+   "sbj_eligible": 189357,
+   "pzone_target_takes": 102962,
+   "pswing_train_and_scored": 189357,
+   "qualified_batters_touched": 155
+  },
+  "tm_unmatched": {
+   "vb_pitches": 33603,
+   "sbj_eligible": 32868,
+   "pzone_target_takes": 18150,
+   "pswing_train_and_scored": 32868,
+   "qualified_batters_touched": 155
+  },
+  "tm_equal_length_partial": {
+   "vb_pitches": 12337,
+   "sbj_eligible": 12289,
+   "pzone_target_takes": 6864,
+   "pswing_train_and_scored": 12289,
+   "qualified_batters_touched": 154
+  },
+  "tm_count_mismatch": {
+   "vb_pitches": 1634,
+   "sbj_eligible": 1619,
+   "pzone_target_takes": 729,
+   "pswing_train_and_scored": 1619,
+   "qualified_batters_touched": 121
+  },
+  "tm_count_mismatch_in_partial": {
+   "vb_pitches": 100,
+   "sbj_eligible": 99,
+   "pzone_target_takes": 47,
+   "pswing_train_and_scored": 99,
+   "qualified_batters_touched": 30
+  },
+  "tm_B_then_tm_strike": {
+   "vb_pitches": 571,
+   "sbj_eligible": 571,
+   "pzone_target_takes": 571,
+   "pswing_train_and_scored": 571,
+   "qualified_batters_touched": 115
+  },
+  "tm_V_matched": {
+   "vb_pitches": 114,
+   "sbj_eligible": 0,
+   "pzone_target_takes": 0,
+   "pswing_train_and_scored": 0,
+   "qualified_batters_touched": 0
+  },
+  "unmatched_reasons": {
+   "game_unmapped": 26388,
+   "velocity_out_of_tolerance": 6244,
+   "outs_mismatch": 528,
+   "velocity_missing": 196,
+   "length_gap_gt3": 101,
+   "ambiguous_alignment": 63,
+   "unpaired_in_gap_vb_extra": 48,
+   "no_feasible_alignment": 35
+  },
+  "unmatched_game_unmapped_KIA_home": 22457
+ },
+ "2025": {
+  "all": {
+   "vb_pitches": 217852,
+   "sbj_eligible": 217623,
+   "pzone_target_takes": 119311,
+   "pswing_train_and_scored": 217623,
+   "qualified_batters_touched": 171
+  },
+  "review_structural": {
+   "vb_pitches": 1340,
+   "sbj_eligible": 1330,
+   "pzone_target_takes": 949,
+   "pswing_train_and_scored": 1330,
+   "qualified_batters_touched": 109
+  },
+  "review_diagnostic": {
+   "vb_pitches": 224,
+   "sbj_eligible": 224,
+   "pzone_target_takes": 222,
+   "pswing_train_and_scored": 224,
+   "qualified_batters_touched": 82
+  },
+  "flag:BB_CONT": {
+   "vb_pitches": 568,
+   "sbj_eligible": 565,
+   "pzone_target_takes": 422,
+   "pswing_train_and_scored": 565,
+   "qualified_batters_touched": 50
+  },
+  "flag:B_NEAR_CENTER": {
+   "vb_pitches": 344,
+   "sbj_eligible": 344,
+   "pzone_target_takes": 344,
+   "pswing_train_and_scored": 344,
+   "qualified_batters_touched": 103
+  },
+  "flag:DUP_CONSEC": {
+   "vb_pitches": 1,
+   "sbj_eligible": 1,
+   "pzone_target_takes": 0,
+   "pswing_train_and_scored": 1,
+   "qualified_batters_touched": 1
+  },
+  "flag:DUP_TRAJ": {
+   "vb_pitches": 11,
+   "sbj_eligible": 11,
+   "pzone_target_takes": 3,
+   "pswing_train_and_scored": 11,
+   "qualified_batters_touched": 2
+  },
+  "flag:END_MISMATCH": {
+   "vb_pitches": 820,
+   "sbj_eligible": 813,
+   "pzone_target_takes": 571,
+   "pswing_train_and_scored": 813,
+   "qualified_batters_touched": 93
+  },
+  "flag:HALF_END": {
+   "vb_pitches": 421,
+   "sbj_eligible": 420,
+   "pzone_target_takes": 303,
+   "pswing_train_and_scored": 420,
+   "qualified_batters_touched": 89
+  },
+  "flag:K_CONT": {
+   "vb_pitches": 8,
+   "sbj_eligible": 8,
+   "pzone_target_takes": 2,
+   "pswing_train_and_scored": 8,
+   "qualified_batters_touched": 1
+  },
+  "flag:OTHER_OPEN": {
+   "vb_pitches": 183,
+   "sbj_eligible": 181,
+   "pzone_target_takes": 86,
+   "pswing_train_and_scored": 181,
+   "qualified_batters_touched": 48
+  },
+  "flag:PLATE_X_DISAGREE": {
+   "vb_pitches": 6,
+   "sbj_eligible": 6,
+   "pzone_target_takes": 3,
+   "pswing_train_and_scored": 6,
+   "qualified_batters_touched": 3
+  },
+  "flag:SPLIT_SAME": {
+   "vb_pitches": 1,
+   "sbj_eligible": 1,
+   "pzone_target_takes": 1,
+   "pswing_train_and_scored": 1,
+   "qualified_batters_touched": 1
+  },
+  "flag:X_NONLAST": {
+   "vb_pitches": 8,
+   "sbj_eligible": 8,
+   "pzone_target_takes": 2,
+   "pswing_train_and_scored": 8,
+   "qualified_batters_touched": 1
+  },
+  "code_V": {
+   "vb_pitches": 147,
+   "sbj_eligible": 0,
+   "pzone_target_takes": 0,
+   "pswing_train_and_scored": 0,
+   "qualified_batters_touched": 0
+  },
+  "after_V_same_pa": {
+   "vb_pitches": 344,
+   "sbj_eligible": 342,
+   "pzone_target_takes": 156,
+   "pswing_train_and_scored": 342,
+   "qualified_batters_touched": 61
+  },
+  "code_B": {
+   "vb_pitches": 80101,
+   "sbj_eligible": 80064,
+   "pzone_target_takes": 80064,
+   "pswing_train_and_scored": 80064,
+   "qualified_batters_touched": 171
+  }
+ },
+ "2026": {
+  "all": {
+   "vb_pitches": 203262,
+   "sbj_eligible": 203072,
+   "pzone_target_takes": 112310,
+   "pswing_train_and_scored": 203072,
+   "qualified_batters_touched": 166
+  },
+  "review_structural": {
+   "vb_pitches": 1002,
+   "sbj_eligible": 997,
+   "pzone_target_takes": 722,
+   "pswing_train_and_scored": 997,
+   "qualified_batters_touched": 95
+  },
+  "review_diagnostic": {
+   "vb_pitches": 193,
+   "sbj_eligible": 193,
+   "pzone_target_takes": 191,
+   "pswing_train_and_scored": 193,
+   "qualified_batters_touched": 82
+  },
+  "flag:BB_CONT": {
+   "vb_pitches": 530,
+   "sbj_eligible": 529,
+   "pzone_target_takes": 399,
+   "pswing_train_and_scored": 529,
+   "qualified_batters_touched": 54
+  },
+  "flag:B_NEAR_CENTER": {
+   "vb_pitches": 276,
+   "sbj_eligible": 276,
+   "pzone_target_takes": 276,
+   "pswing_train_and_scored": 276,
+   "qualified_batters_touched": 95
+  },
+  "flag:DUP_TRAJ": {
+   "vb_pitches": 9,
+   "sbj_eligible": 9,
+   "pzone_target_takes": 5,
+   "pswing_train_and_scored": 9,
+   "qualified_batters_touched": 2
+  },
+  "flag:END_MISMATCH": {
+   "vb_pitches": 546,
+   "sbj_eligible": 542,
+   "pzone_target_takes": 386,
+   "pswing_train_and_scored": 542,
+   "qualified_batters_touched": 73
+  },
+  "flag:HALF_END": {
+   "vb_pitches": 430,
+   "sbj_eligible": 429,
+   "pzone_target_takes": 286,
+   "pswing_train_and_scored": 429,
+   "qualified_batters_touched": 87
+  },
+  "flag:OTHER_OPEN": {
+   "vb_pitches": 192,
+   "sbj_eligible": 189,
+   "pzone_target_takes": 97,
+   "pswing_train_and_scored": 189,
+   "qualified_batters_touched": 41
+  },
+  "flag:SPLIT_PCHANGE": {
+   "vb_pitches": 1,
+   "sbj_eligible": 1,
+   "pzone_target_takes": 1,
+   "pswing_train_and_scored": 1,
+   "qualified_batters_touched": 1
+  },
+  "flag:SPLIT_SAME": {
+   "vb_pitches": 2,
+   "sbj_eligible": 2,
+   "pzone_target_takes": 1,
+   "pswing_train_and_scored": 2,
+   "qualified_batters_touched": 1
+  },
+  "code_V": {
+   "vb_pitches": 104,
+   "sbj_eligible": 0,
+   "pzone_target_takes": 0,
+   "pswing_train_and_scored": 0,
+   "qualified_batters_touched": 0
+  },
+  "after_V_same_pa": {
+   "vb_pitches": 279,
+   "sbj_eligible": 276,
+   "pzone_target_takes": 122,
+   "pswing_train_and_scored": 276,
+   "qualified_batters_touched": 46
+  },
+  "code_B": {
+   "vb_pitches": 75519,
+   "sbj_eligible": 75482,
+   "pzone_target_takes": 75482,
+   "pswing_train_and_scored": 75482,
+   "qualified_batters_touched": 166
+  }
+ }
+}

@@ -1,0 +1,1972 @@
+{
+ "definition": {
+  "edge_cm_gt": 5.0,
+  "p_zone_ball_ge": 0.95,
+  "p_zone_strike_le": 0.05,
+  "bootstrap_reps": 1000,
+  "home": "home team code from game_id (park proxy; second parks not separated)",
+  "caveat": "2019-2023 are umpire seasons: queued takes mix true misses with record errors; compare teams within those seasons only"
+ },
+ "seasons": {
+  "2019": {
+   "pzone_input": "A_reported",
+   "takes": 110764,
+   "queued": 345,
+   "queued_ball_high_p": 151,
+   "queued_strike_low_p": 194,
+   "per_1000_takes": 3.115,
+   "N2_logloss_share": 0.0639,
+   "mean_log_loss": 0.1886,
+   "N3_by_home": {
+    "HH": {
+     "takes": 10054,
+     "queued": 16,
+     "per_1000": 1.591,
+     "ratio_vs_rest": 0.487,
+     "ci95": [
+      0.273,
+      0.764
+     ]
+    },
+    "HT": {
+     "takes": 11512,
+     "queued": 45,
+     "per_1000": 3.909,
+     "ratio_vs_rest": 1.293,
+     "ci95": [
+      0.872,
+      1.737
+     ]
+    },
+    "KT": {
+     "takes": 11113,
+     "queued": 44,
+     "per_1000": 3.959,
+     "ratio_vs_rest": 1.311,
+     "ci95": [
+      0.895,
+      1.788
+     ]
+    },
+    "LG": {
+     "takes": 11190,
+     "queued": 32,
+     "per_1000": 2.86,
+     "ratio_vs_rest": 0.91,
+     "ci95": [
+      0.663,
+      1.183
+     ]
+    },
+    "LT": {
+     "takes": 10609,
+     "queued": 28,
+     "per_1000": 2.639,
+     "ratio_vs_rest": 0.834,
+     "ci95": [
+      0.526,
+      1.245
+     ]
+    },
+    "NC": {
+     "takes": 11767,
+     "queued": 33,
+     "per_1000": 2.804,
+     "ratio_vs_rest": 0.89,
+     "ci95": [
+      0.56,
+      1.281
+     ]
+    },
+    "OB": {
+     "takes": 11176,
+     "queued": 43,
+     "per_1000": 3.848,
+     "ratio_vs_rest": 1.269,
+     "ci95": [
+      0.854,
+      1.786
+     ]
+    },
+    "SK": {
+     "takes": 11042,
+     "queued": 38,
+     "per_1000": 3.441,
+     "ratio_vs_rest": 1.118,
+     "ci95": [
+      0.706,
+      1.59
+     ]
+    },
+    "SS": {
+     "takes": 11198,
+     "queued": 41,
+     "per_1000": 3.661,
+     "ratio_vs_rest": 1.199,
+     "ci95": [
+      0.806,
+      1.673
+     ]
+    },
+    "WO": {
+     "takes": 11103,
+     "queued": 25,
+     "per_1000": 2.252,
+     "ratio_vs_rest": 0.701,
+     "ci95": [
+      0.413,
+      1.002
+     ]
+    }
+   },
+   "N3_by_batter_team": {
+    "HH": {
+     "takes": 10320,
+     "queued": 27,
+     "per_1000": 2.616,
+     "ratio_vs_rest": 0.826,
+     "ci95": [
+      0.526,
+      1.181
+     ]
+    },
+    "HT": {
+     "takes": 11431,
+     "queued": 38,
+     "per_1000": 3.324,
+     "ratio_vs_rest": 1.076,
+     "ci95": [
+      0.745,
+      1.484
+     ]
+    },
+    "KT": {
+     "takes": 11661,
+     "queued": 46,
+     "per_1000": 3.945,
+     "ratio_vs_rest": 1.307,
+     "ci95": [
+      0.91,
+      1.819
+     ]
+    },
+    "LG": {
+     "takes": 10924,
+     "queued": 28,
+     "per_1000": 2.563,
+     "ratio_vs_rest": 0.807,
+     "ci95": [
+      0.513,
+      1.156
+     ]
+    },
+    "LT": {
+     "takes": 10536,
+     "queued": 32,
+     "per_1000": 3.037,
+     "ratio_vs_rest": 0.973,
+     "ci95": [
+      0.624,
+      1.386
+     ]
+    },
+    "NC": {
+     "takes": 11002,
+     "queued": 34,
+     "per_1000": 3.09,
+     "ratio_vs_rest": 0.991,
+     "ci95": [
+      0.657,
+      1.335
+     ]
+    },
+    "OB": {
+     "takes": 11122,
+     "queued": 33,
+     "per_1000": 2.967,
+     "ratio_vs_rest": 0.948,
+     "ci95": [
+      0.638,
+      1.312
+     ]
+    },
+    "SK": {
+     "takes": 11049,
+     "queued": 32,
+     "per_1000": 2.896,
+     "ratio_vs_rest": 0.923,
+     "ci95": [
+      0.596,
+      1.372
+     ]
+    },
+    "SS": {
+     "takes": 11363,
+     "queued": 38,
+     "per_1000": 3.344,
+     "ratio_vs_rest": 1.083,
+     "ci95": [
+      0.735,
+      1.444
+     ]
+    },
+    "WO": {
+     "takes": 11356,
+     "queued": 37,
+     "per_1000": 3.258,
+     "ratio_vs_rest": 1.052,
+     "ci95": [
+      0.649,
+      1.561
+     ]
+    }
+   },
+   "N3_flagged_home": [],
+   "N3_flagged_batter_team": []
+  },
+  "2020": {
+   "pzone_input": "A_reported",
+   "takes": 119490,
+   "queued": 414,
+   "queued_ball_high_p": 181,
+   "queued_strike_low_p": 233,
+   "per_1000_takes": 3.465,
+   "N2_logloss_share": 0.0707,
+   "mean_log_loss": 0.18673,
+   "N3_by_home": {
+    "HH": {
+     "takes": 11919,
+     "queued": 35,
+     "per_1000": 2.936,
+     "ratio_vs_rest": 0.833,
+     "ci95": [
+      0.534,
+      1.158
+     ]
+    },
+    "HT": {
+     "takes": 12343,
+     "queued": 58,
+     "per_1000": 4.699,
+     "ratio_vs_rest": 1.414,
+     "ci95": [
+      0.978,
+      1.931
+     ]
+    },
+    "KT": {
+     "takes": 11763,
+     "queued": 35,
+     "per_1000": 2.975,
+     "ratio_vs_rest": 0.846,
+     "ci95": [
+      0.554,
+      1.148
+     ]
+    },
+    "LG": {
+     "takes": 11812,
+     "queued": 29,
+     "per_1000": 2.455,
+     "ratio_vs_rest": 0.687,
+     "ci95": [
+      0.41,
+      1.014
+     ]
+    },
+    "LT": {
+     "takes": 11548,
+     "queued": 20,
+     "per_1000": 1.732,
+     "ratio_vs_rest": 0.474,
+     "ci95": [
+      0.265,
+      0.71
+     ]
+    },
+    "NC": {
+     "takes": 12289,
+     "queued": 32,
+     "per_1000": 2.604,
+     "ratio_vs_rest": 0.731,
+     "ci95": [
+      0.466,
+      1.034
+     ]
+    },
+    "OB": {
+     "takes": 11615,
+     "queued": 42,
+     "per_1000": 3.616,
+     "ratio_vs_rest": 1.049,
+     "ci95": [
+      0.734,
+      1.445
+     ]
+    },
+    "SK": {
+     "takes": 11956,
+     "queued": 60,
+     "per_1000": 5.018,
+     "ratio_vs_rest": 1.524,
+     "ci95": [
+      0.966,
+      2.208
+     ]
+    },
+    "SS": {
+     "takes": 12237,
+     "queued": 64,
+     "per_1000": 5.23,
+     "ratio_vs_rest": 1.603,
+     "ci95": [
+      1.153,
+      2.153
+     ]
+    },
+    "WO": {
+     "takes": 12008,
+     "queued": 39,
+     "per_1000": 3.248,
+     "ratio_vs_rest": 0.931,
+     "ci95": [
+      0.564,
+      1.314
+     ]
+    }
+   },
+   "N3_by_batter_team": {
+    "HH": {
+     "takes": 11177,
+     "queued": 41,
+     "per_1000": 3.668,
+     "ratio_vs_rest": 1.065,
+     "ci95": [
+      0.709,
+      1.46
+     ]
+    },
+    "HT": {
+     "takes": 12261,
+     "queued": 43,
+     "per_1000": 3.507,
+     "ratio_vs_rest": 1.014,
+     "ci95": [
+      0.68,
+      1.411
+     ]
+    },
+    "KT": {
+     "takes": 12496,
+     "queued": 37,
+     "per_1000": 2.961,
+     "ratio_vs_rest": 0.84,
+     "ci95": [
+      0.583,
+      1.114
+     ]
+    },
+    "LG": {
+     "takes": 11888,
+     "queued": 26,
+     "per_1000": 2.187,
+     "ratio_vs_rest": 0.607,
+     "ci95": [
+      0.388,
+      0.888
+     ]
+    },
+    "LT": {
+     "takes": 11913,
+     "queued": 24,
+     "per_1000": 2.015,
+     "ratio_vs_rest": 0.556,
+     "ci95": [
+      0.328,
+      0.848
+     ]
+    },
+    "NC": {
+     "takes": 12258,
+     "queued": 54,
+     "per_1000": 4.405,
+     "ratio_vs_rest": 1.312,
+     "ci95": [
+      0.94,
+      1.748
+     ]
+    },
+    "OB": {
+     "takes": 11857,
+     "queued": 44,
+     "per_1000": 3.711,
+     "ratio_vs_rest": 1.079,
+     "ci95": [
+      0.737,
+      1.426
+     ]
+    },
+    "SK": {
+     "takes": 10927,
+     "queued": 48,
+     "per_1000": 4.393,
+     "ratio_vs_rest": 1.303,
+     "ci95": [
+      0.829,
+      1.83
+     ]
+    },
+    "SS": {
+     "takes": 12027,
+     "queued": 54,
+     "per_1000": 4.49,
+     "ratio_vs_rest": 1.34,
+     "ci95": [
+      0.97,
+      1.768
+     ]
+    },
+    "WO": {
+     "takes": 12686,
+     "queued": 43,
+     "per_1000": 3.39,
+     "ratio_vs_rest": 0.976,
+     "ci95": [
+      0.699,
+      1.337
+     ]
+    }
+   },
+   "N3_flagged_home": [],
+   "N3_flagged_batter_team": []
+  },
+  "2021": {
+   "pzone_input": "A_reported",
+   "takes": 122506,
+   "queued": 386,
+   "queued_ball_high_p": 175,
+   "queued_strike_low_p": 211,
+   "per_1000_takes": 3.151,
+   "N2_logloss_share": 0.07,
+   "mean_log_loss": 0.17242,
+   "N3_by_home": {
+    "HH": {
+     "takes": 12842,
+     "queued": 49,
+     "per_1000": 3.816,
+     "ratio_vs_rest": 1.242,
+     "ci95": [
+      0.84,
+      1.68
+     ]
+    },
+    "HT": {
+     "takes": 12443,
+     "queued": 31,
+     "per_1000": 2.491,
+     "ratio_vs_rest": 0.772,
+     "ci95": [
+      0.461,
+      1.139
+     ]
+    },
+    "KT": {
+     "takes": 12107,
+     "queued": 32,
+     "per_1000": 2.643,
+     "ratio_vs_rest": 0.824,
+     "ci95": [
+      0.581,
+      1.13
+     ]
+    },
+    "LG": {
+     "takes": 11747,
+     "queued": 41,
+     "per_1000": 3.49,
+     "ratio_vs_rest": 1.121,
+     "ci95": [
+      0.693,
+      1.55
+     ]
+    },
+    "LT": {
+     "takes": 12447,
+     "queued": 26,
+     "per_1000": 2.089,
+     "ratio_vs_rest": 0.639,
+     "ci95": [
+      0.41,
+      0.919
+     ]
+    },
+    "NC": {
+     "takes": 12088,
+     "queued": 48,
+     "per_1000": 3.971,
+     "ratio_vs_rest": 1.297,
+     "ci95": [
+      0.846,
+      1.838
+     ]
+    },
+    "OB": {
+     "takes": 12134,
+     "queued": 44,
+     "per_1000": 3.626,
+     "ratio_vs_rest": 1.17,
+     "ci95": [
+      0.801,
+      1.592
+     ]
+    },
+    "SK": {
+     "takes": 12544,
+     "queued": 37,
+     "per_1000": 2.95,
+     "ratio_vs_rest": 0.929,
+     "ci95": [
+      0.602,
+      1.327
+     ]
+    },
+    "SS": {
+     "takes": 11994,
+     "queued": 45,
+     "per_1000": 3.752,
+     "ratio_vs_rest": 1.216,
+     "ci95": [
+      0.839,
+      1.676
+     ]
+    },
+    "WO": {
+     "takes": 12160,
+     "queued": 33,
+     "per_1000": 2.714,
+     "ratio_vs_rest": 0.848,
+     "ci95": [
+      0.53,
+      1.192
+     ]
+    }
+   },
+   "N3_by_batter_team": {
+    "HH": {
+     "takes": 12621,
+     "queued": 44,
+     "per_1000": 3.486,
+     "ratio_vs_rest": 1.12,
+     "ci95": [
+      0.802,
+      1.48
+     ]
+    },
+    "HT": {
+     "takes": 12146,
+     "queued": 34,
+     "per_1000": 2.799,
+     "ratio_vs_rest": 0.878,
+     "ci95": [
+      0.555,
+      1.248
+     ]
+    },
+    "KT": {
+     "takes": 12893,
+     "queued": 36,
+     "per_1000": 2.792,
+     "ratio_vs_rest": 0.874,
+     "ci95": [
+      0.61,
+      1.191
+     ]
+    },
+    "LG": {
+     "takes": 12348,
+     "queued": 50,
+     "per_1000": 4.049,
+     "ratio_vs_rest": 1.328,
+     "ci95": [
+      0.889,
+      1.806
+     ]
+    },
+    "LT": {
+     "takes": 12465,
+     "queued": 33,
+     "per_1000": 2.647,
+     "ratio_vs_rest": 0.825,
+     "ci95": [
+      0.562,
+      1.135
+     ]
+    },
+    "NC": {
+     "takes": 11383,
+     "queued": 41,
+     "per_1000": 3.602,
+     "ratio_vs_rest": 1.16,
+     "ci95": [
+      0.784,
+      1.6
+     ]
+    },
+    "OB": {
+     "takes": 11724,
+     "queued": 39,
+     "per_1000": 3.327,
+     "ratio_vs_rest": 1.062,
+     "ci95": [
+      0.728,
+      1.463
+     ]
+    },
+    "SK": {
+     "takes": 12658,
+     "queued": 33,
+     "per_1000": 2.607,
+     "ratio_vs_rest": 0.811,
+     "ci95": [
+      0.531,
+      1.153
+     ]
+    },
+    "SS": {
+     "takes": 11909,
+     "queued": 40,
+     "per_1000": 3.359,
+     "ratio_vs_rest": 1.074,
+     "ci95": [
+      0.754,
+      1.452
+     ]
+    },
+    "WO": {
+     "takes": 12359,
+     "queued": 36,
+     "per_1000": 2.913,
+     "ratio_vs_rest": 0.917,
+     "ci95": [
+      0.63,
+      1.243
+     ]
+    }
+   },
+   "N3_flagged_home": [],
+   "N3_flagged_batter_team": []
+  },
+  "2022": {
+   "pzone_input": "A_reported",
+   "takes": 115337,
+   "queued": 377,
+   "queued_ball_high_p": 184,
+   "queued_strike_low_p": 193,
+   "per_1000_takes": 3.269,
+   "N2_logloss_share": 0.0735,
+   "mean_log_loss": 0.17249,
+   "N3_by_home": {
+    "HH": {
+     "takes": 12364,
+     "queued": 29,
+     "per_1000": 2.346,
+     "ratio_vs_rest": 0.694,
+     "ci95": [
+      0.441,
+      1.017
+     ]
+    },
+    "HT": {
+     "takes": 11720,
+     "queued": 27,
+     "per_1000": 2.304,
+     "ratio_vs_rest": 0.682,
+     "ci95": [
+      0.422,
+      1.004
+     ]
+    },
+    "KT": {
+     "takes": 11153,
+     "queued": 27,
+     "per_1000": 2.421,
+     "ratio_vs_rest": 0.721,
+     "ci95": [
+      0.459,
+      1.047
+     ]
+    },
+    "LG": {
+     "takes": 11401,
+     "queued": 50,
+     "per_1000": 4.386,
+     "ratio_vs_rest": 1.394,
+     "ci95": [
+      1.002,
+      1.848
+     ]
+    },
+    "LT": {
+     "takes": 10928,
+     "queued": 34,
+     "per_1000": 3.111,
+     "ratio_vs_rest": 0.947,
+     "ci95": [
+      0.591,
+      1.325
+     ]
+    },
+    "NC": {
+     "takes": 11864,
+     "queued": 52,
+     "per_1000": 4.383,
+     "ratio_vs_rest": 1.395,
+     "ci95": [
+      0.968,
+      1.866
+     ]
+    },
+    "OB": {
+     "takes": 11787,
+     "queued": 32,
+     "per_1000": 2.715,
+     "ratio_vs_rest": 0.815,
+     "ci95": [
+      0.521,
+      1.151
+     ]
+    },
+    "SK": {
+     "takes": 11360,
+     "queued": 52,
+     "per_1000": 4.577,
+     "ratio_vs_rest": 1.464,
+     "ci95": [
+      1.013,
+      1.975
+     ]
+    },
+    "SS": {
+     "takes": 11078,
+     "queued": 34,
+     "per_1000": 3.069,
+     "ratio_vs_rest": 0.933,
+     "ci95": [
+      0.583,
+      1.33
+     ]
+    },
+    "WO": {
+     "takes": 11682,
+     "queued": 40,
+     "per_1000": 3.424,
+     "ratio_vs_rest": 1.053,
+     "ci95": [
+      0.715,
+      1.457
+     ]
+    }
+   },
+   "N3_by_batter_team": {
+    "HH": {
+     "takes": 11708,
+     "queued": 35,
+     "per_1000": 2.989,
+     "ratio_vs_rest": 0.906,
+     "ci95": [
+      0.508,
+      1.404
+     ]
+    },
+    "HT": {
+     "takes": 11608,
+     "queued": 32,
+     "per_1000": 2.757,
+     "ratio_vs_rest": 0.829,
+     "ci95": [
+      0.554,
+      1.139
+     ]
+    },
+    "KT": {
+     "takes": 12197,
+     "queued": 33,
+     "per_1000": 2.706,
+     "ratio_vs_rest": 0.811,
+     "ci95": [
+      0.577,
+      1.079
+     ]
+    },
+    "LG": {
+     "takes": 11706,
+     "queued": 54,
+     "per_1000": 4.613,
+     "ratio_vs_rest": 1.48,
+     "ci95": [
+      1.061,
+      1.926
+     ]
+    },
+    "LT": {
+     "takes": 10713,
+     "queued": 24,
+     "per_1000": 2.24,
+     "ratio_vs_rest": 0.664,
+     "ci95": [
+      0.415,
+      0.954
+     ]
+    },
+    "NC": {
+     "takes": 11650,
+     "queued": 36,
+     "per_1000": 3.09,
+     "ratio_vs_rest": 0.94,
+     "ci95": [
+      0.621,
+      1.312
+     ]
+    },
+    "OB": {
+     "takes": 10901,
+     "queued": 31,
+     "per_1000": 2.844,
+     "ratio_vs_rest": 0.858,
+     "ci95": [
+      0.534,
+      1.245
+     ]
+    },
+    "SK": {
+     "takes": 11434,
+     "queued": 43,
+     "per_1000": 3.761,
+     "ratio_vs_rest": 1.17,
+     "ci95": [
+      0.797,
+      1.641
+     ]
+    },
+    "SS": {
+     "takes": 11254,
+     "queued": 42,
+     "per_1000": 3.732,
+     "ratio_vs_rest": 1.16,
+     "ci95": [
+      0.814,
+      1.574
+     ]
+    },
+    "WO": {
+     "takes": 12166,
+     "queued": 47,
+     "per_1000": 3.863,
+     "ratio_vs_rest": 1.208,
+     "ci95": [
+      0.831,
+      1.686
+     ]
+    }
+   },
+   "N3_flagged_home": [],
+   "N3_flagged_batter_team": []
+  },
+  "2023": {
+   "pzone_input": "A_reported",
+   "takes": 117687,
+   "queued": 418,
+   "queued_ball_high_p": 190,
+   "queued_strike_low_p": 228,
+   "per_1000_takes": 3.552,
+   "N2_logloss_share": 0.0782,
+   "mean_log_loss": 0.16965,
+   "N3_by_home": {
+    "HH": {
+     "takes": 12349,
+     "queued": 39,
+     "per_1000": 3.158,
+     "ratio_vs_rest": 0.878,
+     "ci95": [
+      0.634,
+      1.171
+     ]
+    },
+    "HT": {
+     "takes": 11524,
+     "queued": 45,
+     "per_1000": 3.905,
+     "ratio_vs_rest": 1.111,
+     "ci95": [
+      0.755,
+      1.509
+     ]
+    },
+    "KT": {
+     "takes": 11934,
+     "queued": 32,
+     "per_1000": 2.681,
+     "ratio_vs_rest": 0.735,
+     "ci95": [
+      0.482,
+      1.018
+     ]
+    },
+    "LG": {
+     "takes": 11754,
+     "queued": 31,
+     "per_1000": 2.637,
+     "ratio_vs_rest": 0.722,
+     "ci95": [
+      0.465,
+      1.042
+     ]
+    },
+    "LT": {
+     "takes": 11421,
+     "queued": 64,
+     "per_1000": 5.604,
+     "ratio_vs_rest": 1.682,
+     "ci95": [
+      1.219,
+      2.242
+     ]
+    },
+    "NC": {
+     "takes": 11962,
+     "queued": 31,
+     "per_1000": 2.592,
+     "ratio_vs_rest": 0.708,
+     "ci95": [
+      0.457,
+      1.018
+     ]
+    },
+    "OB": {
+     "takes": 12045,
+     "queued": 38,
+     "per_1000": 3.155,
+     "ratio_vs_rest": 0.877,
+     "ci95": [
+      0.56,
+      1.233
+     ]
+    },
+    "SK": {
+     "takes": 12412,
+     "queued": 61,
+     "per_1000": 4.915,
+     "ratio_vs_rest": 1.449,
+     "ci95": [
+      0.858,
+      2.274
+     ]
+    },
+    "SS": {
+     "takes": 10289,
+     "queued": 27,
+     "per_1000": 2.624,
+     "ratio_vs_rest": 0.721,
+     "ci95": [
+      0.447,
+      1.02
+     ]
+    },
+    "WO": {
+     "takes": 11997,
+     "queued": 50,
+     "per_1000": 4.168,
+     "ratio_vs_rest": 1.197,
+     "ci95": [
+      0.783,
+      1.648
+     ]
+    }
+   },
+   "N3_by_batter_team": {
+    "HH": {
+     "takes": 12237,
+     "queued": 35,
+     "per_1000": 2.86,
+     "ratio_vs_rest": 0.787,
+     "ci95": [
+      0.525,
+      1.093
+     ]
+    },
+    "HT": {
+     "takes": 11459,
+     "queued": 29,
+     "per_1000": 2.531,
+     "ratio_vs_rest": 0.691,
+     "ci95": [
+      0.439,
+      0.983
+     ]
+    },
+    "KT": {
+     "takes": 12362,
+     "queued": 42,
+     "per_1000": 3.398,
+     "ratio_vs_rest": 0.952,
+     "ci95": [
+      0.597,
+      1.312
+     ]
+    },
+    "LG": {
+     "takes": 12232,
+     "queued": 58,
+     "per_1000": 4.742,
+     "ratio_vs_rest": 1.389,
+     "ci95": [
+      1.034,
+      1.811
+     ]
+    },
+    "LT": {
+     "takes": 11669,
+     "queued": 59,
+     "per_1000": 5.056,
+     "ratio_vs_rest": 1.493,
+     "ci95": [
+      1.01,
+      2.13
+     ]
+    },
+    "NC": {
+     "takes": 11820,
+     "queued": 39,
+     "per_1000": 3.299,
+     "ratio_vs_rest": 0.922,
+     "ci95": [
+      0.596,
+      1.322
+     ]
+    },
+    "OB": {
+     "takes": 11373,
+     "queued": 35,
+     "per_1000": 3.077,
+     "ratio_vs_rest": 0.854,
+     "ci95": [
+      0.517,
+      1.224
+     ]
+    },
+    "SK": {
+     "takes": 11522,
+     "queued": 48,
+     "per_1000": 4.166,
+     "ratio_vs_rest": 1.195,
+     "ci95": [
+      0.815,
+      1.618
+     ]
+    },
+    "SS": {
+     "takes": 10906,
+     "queued": 42,
+     "per_1000": 3.851,
+     "ratio_vs_rest": 1.094,
+     "ci95": [
+      0.776,
+      1.496
+     ]
+    },
+    "WO": {
+     "takes": 12107,
+     "queued": 31,
+     "per_1000": 2.561,
+     "ratio_vs_rest": 0.699,
+     "ci95": [
+      0.434,
+      0.983
+     ]
+    }
+   },
+   "N3_flagged_home": [],
+   "N3_flagged_batter_team": []
+  },
+  "2024": {
+   "pzone_input": "B_za72",
+   "takes": 120449,
+   "queued": 8,
+   "queued_ball_high_p": 7,
+   "queued_strike_low_p": 1,
+   "per_1000_takes": 0.066,
+   "N2_logloss_share": 0.0657,
+   "mean_log_loss": 0.00785,
+   "N3_by_home": {
+    "HH": {
+     "takes": 11781,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "HT": {
+     "takes": 12212,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "KT": {
+     "takes": 11715,
+     "queued": 1,
+     "per_1000": 0.085,
+     "ratio_vs_rest": 1.326,
+     "ci95": [
+      0.0,
+      6.0
+     ]
+    },
+    "LG": {
+     "takes": 12549,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "LT": {
+     "takes": 11916,
+     "queued": 4,
+     "per_1000": 0.336,
+     "ratio_vs_rest": 9.108,
+     "ci95": [
+      0.0,
+      44.68
+     ]
+    },
+    "NC": {
+     "takes": 12305,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "OB": {
+     "takes": 12089,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "SK": {
+     "takes": 12027,
+     "queued": 2,
+     "per_1000": 0.166,
+     "ratio_vs_rest": 3.005,
+     "ci95": [
+      0.0,
+      13.554
+     ]
+    },
+    "SS": {
+     "takes": 12133,
+     "queued": 1,
+     "per_1000": 0.082,
+     "ratio_vs_rest": 1.275,
+     "ci95": [
+      0.0,
+      6.207
+     ]
+    },
+    "WO": {
+     "takes": 11722,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "N3_by_batter_team": {
+    "HH": {
+     "takes": 11804,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "HT": {
+     "takes": 12136,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "KT": {
+     "takes": 12822,
+     "queued": 1,
+     "per_1000": 0.078,
+     "ratio_vs_rest": 1.199,
+     "ci95": [
+      0.0,
+      5.445
+     ]
+    },
+    "LG": {
+     "takes": 12610,
+     "queued": 3,
+     "per_1000": 0.238,
+     "ratio_vs_rest": 5.131,
+     "ci95": [
+      0.0,
+      24.393
+     ]
+    },
+    "LT": {
+     "takes": 11849,
+     "queued": 1,
+     "per_1000": 0.084,
+     "ratio_vs_rest": 1.309,
+     "ci95": [
+      0.0,
+      7.275
+     ]
+    },
+    "NC": {
+     "takes": 12289,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "OB": {
+     "takes": 11870,
+     "queued": 1,
+     "per_1000": 0.084,
+     "ratio_vs_rest": 1.307,
+     "ci95": [
+      0.0,
+      6.278
+     ]
+    },
+    "SK": {
+     "takes": 11609,
+     "queued": 1,
+     "per_1000": 0.086,
+     "ratio_vs_rest": 1.339,
+     "ci95": [
+      0.0,
+      5.936
+     ]
+    },
+    "SS": {
+     "takes": 12021,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "WO": {
+     "takes": 11439,
+     "queued": 1,
+     "per_1000": 0.087,
+     "ratio_vs_rest": 1.361,
+     "ci95": [
+      0.0,
+      6.697
+     ]
+    }
+   },
+   "N3_flagged_home": [],
+   "N3_flagged_batter_team": []
+  },
+  "2025": {
+   "pzone_input": "B_za72",
+   "takes": 118557,
+   "queued": 3,
+   "queued_ball_high_p": 2,
+   "queued_strike_low_p": 1,
+   "per_1000_takes": 0.025,
+   "N2_logloss_share": 0.0269,
+   "mean_log_loss": 0.0064,
+   "N3_by_home": {
+    "HH": {
+     "takes": 11465,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "HT": {
+     "takes": 11685,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "KT": {
+     "takes": 11951,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "LG": {
+     "takes": 11940,
+     "queued": 1,
+     "per_1000": 0.084,
+     "ratio_vs_rest": 4.465,
+     "ci95": [
+      0.0,
+      13.152
+     ]
+    },
+    "LT": {
+     "takes": 12467,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "NC": {
+     "takes": 12074,
+     "queued": 2,
+     "per_1000": 0.166,
+     "ratio_vs_rest": 17.638,
+     "ci95": [
+      0.0,
+      54.958
+     ]
+    },
+    "OB": {
+     "takes": 11686,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "SK": {
+     "takes": 12263,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "SS": {
+     "takes": 11672,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "WO": {
+     "takes": 11354,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "N3_by_batter_team": {
+    "HH": {
+     "takes": 10913,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "HT": {
+     "takes": 12011,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "KT": {
+     "takes": 12776,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "LG": {
+     "takes": 12591,
+     "queued": 1,
+     "per_1000": 0.079,
+     "ratio_vs_rest": 4.208,
+     "ci95": [
+      0.0,
+      12.197
+     ]
+    },
+    "LT": {
+     "takes": 11937,
+     "queued": 2,
+     "per_1000": 0.168,
+     "ratio_vs_rest": 17.864,
+     "ci95": [
+      0.0,
+      53.701
+     ]
+    },
+    "NC": {
+     "takes": 11763,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "OB": {
+     "takes": 11050,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "SK": {
+     "takes": 11736,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "SS": {
+     "takes": 12368,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "WO": {
+     "takes": 11412,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "N3_flagged_home": [],
+   "N3_flagged_batter_team": []
+  },
+  "2026": {
+   "pzone_input": "B_za72",
+   "takes": 111687,
+   "queued": 2,
+   "queued_ball_high_p": 0,
+   "queued_strike_low_p": 2,
+   "per_1000_takes": 0.018,
+   "N2_logloss_share": 0.018,
+   "mean_log_loss": 0.00594,
+   "N3_by_home": {
+    "HH": {
+     "takes": 11777,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "HT": {
+     "takes": 10586,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "KT": {
+     "takes": 11274,
+     "queued": 1,
+     "per_1000": 0.089,
+     "ratio_vs_rest": 8.907,
+     "ci95": [
+      0.0,
+      29.399
+     ]
+    },
+    "LG": {
+     "takes": 11143,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "LT": {
+     "takes": 10487,
+     "queued": 1,
+     "per_1000": 0.095,
+     "ratio_vs_rest": 9.65,
+     "ci95": [
+      0.0,
+      28.097
+     ]
+    },
+    "NC": {
+     "takes": 11258,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "OB": {
+     "takes": 10733,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "SK": {
+     "takes": 11352,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "SS": {
+     "takes": 10896,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "WO": {
+     "takes": 12181,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "N3_by_batter_team": {
+    "HH": {
+     "takes": 11382,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "HT": {
+     "takes": 10569,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "KT": {
+     "takes": 12206,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "LG": {
+     "takes": 11476,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "LT": {
+     "takes": 10302,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "NC": {
+     "takes": 10873,
+     "queued": 1,
+     "per_1000": 0.092,
+     "ratio_vs_rest": 9.272,
+     "ci95": [
+      0.0,
+      27.692
+     ]
+    },
+    "OB": {
+     "takes": 10884,
+     "queued": 1,
+     "per_1000": 0.092,
+     "ratio_vs_rest": 9.262,
+     "ci95": [
+      0.0,
+      31.066
+     ]
+    },
+    "SK": {
+     "takes": 11137,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "SS": {
+     "takes": 11649,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    },
+    "WO": {
+     "takes": 11209,
+     "queued": 0,
+     "per_1000": 0.0,
+     "ratio_vs_rest": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ]
+    }
+   },
+   "N3_flagged_home": [],
+   "N3_flagged_batter_team": []
+  }
+ },
+ "pooled_2019_2024_trackman_corrected": {
+  "by_home": {
+   "HH": {
+    "takes": 71309,
+    "queued": 168,
+    "per_1000": 2.356,
+    "ratio_vs_rest": 0.84,
+    "ci95": [
+     0.693,
+     0.986
+    ]
+   },
+   "HT": {
+    "takes": 71754,
+    "queued": 206,
+    "per_1000": 2.871,
+    "ratio_vs_rest": 1.046,
+    "ci95": [
+     0.876,
+     1.231
+    ]
+   },
+   "KT": {
+    "takes": 69785,
+    "queued": 171,
+    "per_1000": 2.45,
+    "ratio_vs_rest": 0.878,
+    "ci95": [
+     0.747,
+     1.016
+    ]
+   },
+   "LG": {
+    "takes": 70453,
+    "queued": 183,
+    "per_1000": 2.597,
+    "ratio_vs_rest": 0.936,
+    "ci95": [
+     0.792,
+     1.111
+    ]
+   },
+   "LT": {
+    "takes": 68869,
+    "queued": 176,
+    "per_1000": 2.556,
+    "ratio_vs_rest": 0.919,
+    "ci95": [
+     0.768,
+     1.077
+    ]
+   },
+   "NC": {
+    "takes": 72275,
+    "queued": 196,
+    "per_1000": 2.712,
+    "ratio_vs_rest": 0.981,
+    "ci95": [
+     0.82,
+     1.155
+    ]
+   },
+   "OB": {
+    "takes": 70846,
+    "queued": 199,
+    "per_1000": 2.809,
+    "ratio_vs_rest": 1.02,
+    "ci95": [
+     0.851,
+     1.218
+    ]
+   },
+   "SK": {
+    "takes": 71341,
+    "queued": 250,
+    "per_1000": 3.504,
+    "ratio_vs_rest": 1.31,
+    "ci95": [
+     1.083,
+     1.571
+    ]
+   },
+   "SS": {
+    "takes": 68929,
+    "queued": 212,
+    "per_1000": 3.076,
+    "ratio_vs_rest": 1.129,
+    "ci95": [
+     0.961,
+     1.311
+    ]
+   },
+   "WO": {
+    "takes": 70672,
+    "queued": 187,
+    "per_1000": 2.646,
+    "ratio_vs_rest": 0.955,
+    "ci95": [
+     0.782,
+     1.132
+    ]
+   }
+  },
+  "flagged_home": [],
+  "HT_home": {
+   "takes": 71754,
+   "queued": 206,
+   "per_1000": 2.871,
+   "ratio_vs_rest": 1.046,
+   "ci95": [
+    0.876,
+    1.231
+   ]
+  }
+ },
+ "pooled_2025_2026_naver_corrected": {
+  "by_home": {
+   "HH": {
+    "takes": 23242,
+    "queued": 0,
+    "per_1000": 0.0,
+    "ratio_vs_rest": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "HT": {
+    "takes": 22271,
+    "queued": 0,
+    "per_1000": 0.0,
+    "ratio_vs_rest": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "KT": {
+    "takes": 23225,
+    "queued": 1,
+    "per_1000": 0.043,
+    "ratio_vs_rest": 2.228,
+    "ci95": [
+     0.0,
+     16.854
+    ]
+   },
+   "LG": {
+    "takes": 23083,
+    "queued": 1,
+    "per_1000": 0.043,
+    "ratio_vs_rest": 2.244,
+    "ci95": [
+     0.0,
+     13.92
+    ]
+   },
+   "LT": {
+    "takes": 22954,
+    "queued": 1,
+    "per_1000": 0.044,
+    "ratio_vs_rest": 2.258,
+    "ci95": [
+     0.0,
+     16.538
+    ]
+   },
+   "NC": {
+    "takes": 23332,
+    "queued": 2,
+    "per_1000": 0.086,
+    "ratio_vs_rest": 5.912,
+    "ci95": [
+     0.0,
+     34.907
+    ]
+   },
+   "OB": {
+    "takes": 22419,
+    "queued": 0,
+    "per_1000": 0.0,
+    "ratio_vs_rest": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "SK": {
+    "takes": 23615,
+    "queued": 0,
+    "per_1000": 0.0,
+    "ratio_vs_rest": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "SS": {
+    "takes": 22568,
+    "queued": 0,
+    "per_1000": 0.0,
+    "ratio_vs_rest": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "WO": {
+    "takes": 23535,
+    "queued": 0,
+    "per_1000": 0.0,
+    "ratio_vs_rest": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "flagged_home": [],
+  "HT_home": {
+   "takes": 22271,
+   "queued": 0,
+   "per_1000": 0.0,
+   "ratio_vs_rest": 0.0,
+   "ci95": [
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "N2_seasons_over_20pct": [],
+ "N3_any_flag": []
+}

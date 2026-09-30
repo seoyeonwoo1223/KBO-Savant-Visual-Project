@@ -1,0 +1,52 @@
+source,pitch_id,game_id,batter_name,balls_before,strikes_before,naver_text,next_pitch_count,verdict,vb_call,vb_next_count,vb_pa_sequence,offline_check
+"GPT Naver relay check, unverified",20240409LGHT0-20240409LGHT0-020-02,20240409LGHT0,박민,1,0,2구 번트파울,1-1,번트파울,B,2-0,1B 2B 3B 4B 5B 6T,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240409LGHT0-20240409LGHT0-020-05,20240409LGHT0,박민,3,0,5구 번트파울,3-2,확인 불가,B,3-0,1B 2B 3B 4B 5B 6T,same PA pitch 2 bunt foul recorded B
+"GPT Naver relay check, unverified",20240419NCHT0-20240419NCHT0-079-01,20240419NCHT0,최원준,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2S 3X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240420NCHT0-20240420NCHT0-037-01,20240420NCHT0,최원준,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2T 3X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240421LGSK2-20240421LGSK2-050-01,20240421LGSK2,박해민,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2B 3X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240502KTHT0-20240502KTHT0-062-02,20240502KTHT0,황재균,1,0,2구 번트파울,0-2,확인 불가,B,2-0,1B 2B 3X,pitch 1 must be a strike; not in queue
+"GPT Naver relay check, unverified",20240502WOLT0-20240502WOLT0-067-05,20240502WOLT0,김재현,2,2,5구 번트파울,,번트파울,B,,1S 2W 3B 4B 5B,ends PA; no next pitch to compare
+"GPT Naver relay check, unverified",20240503HHHT0-20240503HHHT0-008-03,20240503HHHT0,김선빈,1,1,3구 번트파울,1-2,번트파울,B,2-1,1B 2T 3B 4B 5T,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240503HHHT0-20240503HHHT0-069-01,20240503HHHT0,이원석,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2B 3B 4B 5B 6B,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240503HHHT0-20240503HHHT0-069-04,20240503HHHT0,이원석,3,0,4구 번트파울,2-2,확인 불가,B,3-0,1B 2B 3B 4B 5B 6B,same PA pitch 1 bunt foul recorded B
+"GPT Naver relay check, unverified",20240512SKHT1-20240512SKHT1-040-03,20240512SKHT1,최지훈,1,1,3구 번트파울,1-2,번트파울,B,2-1,1B 2T 3B 4X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240512SKHT1-20240512SKHT1-062-02,20240512SKHT1,정준재,1,0,2구 번트파울,1-1,번트파울,B,2-0,1B 2B 3B 4T,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240512SKHT2-20240512SKHT2-002-02,20240512SKHT2,최경모,1,0,2구 번트파울,1-1,번트파울,B,2-0,1B 2B 3T 4B 5S,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240512SKHT2-20240512SKHT2-009-01,20240512SKHT2,김도영,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2B 3X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240512SKHT2-20240512SKHT2-017-01,20240512SKHT2,최경모,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240515OBHT0-20240515OBHT0-041-02,20240515OBHT0,조수행,1,0,2구 번트파울,1-1,번트파울,B,2-0,1B 2B 3B 4B 5T 6X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240516OBHT0-20240516OBHT0-066-04,20240516OBHT0,최원준,2,1,4구 번트파울,2-2,번트파울,B,3-1,1B 2B 3T 4B 5B 6F 7F 8X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240516OBHT0-20240516OBHT0-099-01,20240516OBHT0,박찬호,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2B 3X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240524OBHT0-20240524OBHT0-062-02,20240524OBHT0,서예일,1,0,2구 번트파울,1-1,번트파울,B,2-0,1B 2B 3X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240605LTHT0-20240605LTHT0-047-02,20240605LTHT0,이창진,1,0,2구 번트파울,1-1,번트파울,B,2-0,1B 2B 3X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240606SSSK0-20240606SSSK0-035-01,20240606SSSK0,오태곤,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2W 3B 4B 5F 6S,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240619LGHT0-20240619LGHT0-020-01,20240619LGHT0,박해민,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240620LGHT0-20240620LGHT0-031-02,20240620LGHT0,구본혁,0,1,2구 번트파울,0-2,번트파울,B,1-1,1S 2B 3B 4X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240620LGHT0-20240620LGHT0-064-01,20240620LGHT0,김도영,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2B 3B 4X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240623HHHT1-20240623HHHT1-077-04,20240623HHHT1,홍종표,2,1,4구 번트파울,2-2,번트파울,B,3-1,1B 2B 3V 4B 5T,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240713SKHT0-20240713SKHT0-084-01,20240713SKHT0,최지훈,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2F 3F 4B 5B 6X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240714SKHT0-20240714SKHT0-003-04,20240714SKHT0,최정,2,1,4구 번트파울,2-2,번트파울,B,3-1,1B 2B 3T 4B 5X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240718OBLT0-20240718OBLT0-003-01,20240718OBLT0,라모스,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2B 3F 4S,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240718SSHT0-20240718SSHT0-048-01,20240718SSHT0,변우혁,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240723NCHT0-20240723NCHT0-006-01,20240723NCHT0,김도영,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240730OBHT0-20240730OBHT0-012-01,20240730OBHT0,조수행,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240801OBHT0-20240801OBHT0-031-02,20240801OBHT0,조수행,0,1,2구 번트파울,0-2,번트파울,B,1-1,1T 2B 3B 4T,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240801OBHT0-20240801OBHT0-049-02,20240801OBHT0,정수빈,1,0,2구 번트파울,1-1,번트파울,B,2-0,1B 2B 3B 4X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240801OBHT0-20240801OBHT0-065-05,20240801OBHT0,최원준,3,0,5구 번트파울,3-2,확인 불가,B,3-0,1B 2B 3B 4B 5B 6B,one of pitches 1-4 must be a strike; not in queue
+"GPT Naver relay check, unverified",20240803LGLT0-20240803LGLT0-014-01,20240803LGLT0,박해민,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2T 3X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240806KTHT0-20240806KTHT0-060-02,20240806KTHT0,박찬호,1,0,2구 번트파울,0-2,확인 불가,B,2-0,1B 2B 3B 4F 5B 6X,pitch 1 must be a strike; not in queue
+"GPT Naver relay check, unverified",20240811SSHT0-20240811SSHT0-071-02,20240811SSHT0,안주형,0,1,2구 번트파울,0-2,번트파울,B,1-1,1T 2B 3S,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240821LTHT0-20240821LTHT0-063-01,20240821LTHT0,김도영,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2B 3F 4B 5X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240821WOKT0-20240821WOKT0-003-03,20240821WOKT0,송성문,1,1,3구 스트라이크,1-2,다른 스트라이크,T,1-2,1T 2B 3T 4B 5B 6S,VB call T matches Naver strike; label not a correction target
+"GPT Naver relay check, unverified",20240822LTHT0-20240822LTHT0-064-02,20240822LTHT0,박찬호,0,1,2구 번트파울,0-2,번트파울,B,1-1,1T 2B 3X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240907SKLT0-20240907SKLT0-051-02,20240907SKLT0,윤동희,0,1,2구 번트파울,0-2,번트파울,B,1-1,1T 2B 3B 4S,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240908WOHT0-20240908WOHT0-053-02,20240908WOHT0,김재현,0,1,2구 번트파울,0-2,번트파울,B,1-1,1T 2B 3S,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240914WOHT0-20240914WOHT0-036-01,20240914WOHT0,김태군,0,0,1구 번트파울,0-1,번트파울,B,1-0,1B 2X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240916HTKT0-20240916HTKT0-069-03,20240916HTKT0,심우준,1,1,3구 번트파울,1-2,번트파울,B,2-1,1B 2T 3B 4B 5X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240923SSHT0-20240923SSHT0-019-02,20240923SSHT0,박정우,0,1,2구 번트파울,0-2,번트파울,B,1-1,1T 2B 3S,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20240928LGSS0-20240928LGSS0-061-04,20240928LGSS0,이주헌,1,2,4구 스트라이크,,다른 스트라이크,T,,1S 2F 3B 4T,VB call T matches Naver strike; label not a correction target
+"GPT Naver relay check, unverified",20250326HHLG0-20250326HHLG0-007-02,20250326HHLG0,문보경,1,0,2구 스트라이크,1-1,다른 스트라이크,T,1-1,1B 2T 3F 4B 5B 6X,VB call T matches Naver strike; label not a correction target
+"GPT Naver relay check, unverified",20250413LTNC0-20250413LTNC0-064-02,20250413LTNC0,김민성,1,0,2구 번트파울,1-1,번트파울,B,2-0,1B 2B 3B 4B 5X,VB counts it a ball; Naver next count is +1 strike
+"GPT Naver relay check, unverified",20250413LTNC0-20250413LTNC0-064-03,20250413LTNC0,김민성,2,0,3구 번트파울,1-2,확인 불가,B,3-0,1B 2B 3B 4B 5X,same PA pitch 2 bunt foul recorded B
+"GPT Naver relay check, unverified",20260624NCLT0-20260624NCLT0-047-01,20260624NCLT0,김주원,0,0,1구 스트라이크,0-1,다른 스트라이크,T,0-1,1T 2B 3B 4B 5X,VB call T matches Naver strike; label not a correction target
+"GPT Naver relay check, unverified",20260825OBKT0-20260825OBKT0-011-06,20260825OBKT0,세베리노,3,2,6구 스트라이크,,다른 스트라이크,T,,1S 2F 3B 4B 5B 6T,VB call T matches Naver strike; label not a correction target
