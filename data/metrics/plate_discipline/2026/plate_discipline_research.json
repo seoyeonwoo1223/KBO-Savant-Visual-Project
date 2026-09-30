@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "season": 2026,
-  "source": "data/metrics/swing_take/2026/decision_pitches.parquet",
+  "source": "data\\metrics\\swing_take\\2026\\decision_pitches.parquet",
   "pitches": 202448,
   "batters": 290,
   "qualified_batters": 166,
@@ -53,9 +53,9 @@
       "y": "observed_decision_run_per_100",
       "n": 166,
       "available": true,
-      "intercept": -1.3704731,
-      "slope": 0.02767385,
-      "r_squared": 0.03980737
+      "intercept": -1.37485528,
+      "slope": 0.02778653,
+      "r_squared": 0.04021133
     },
     {
       "name": "observed decision run vs simple judgment",
@@ -63,9 +63,9 @@
       "y": "observed_decision_run_per_100",
       "n": 166,
       "available": true,
-      "intercept": -7.69006465,
-      "slope": 0.11027082,
-      "r_squared": 0.07483061
+      "intercept": -7.69972466,
+      "slope": 0.11042037,
+      "r_squared": 0.07518166
     },
     {
       "name": "observed decision run vs Simple SEAGER",
@@ -73,9 +73,9 @@
       "y": "observed_decision_run_per_100",
       "n": 166,
       "available": true,
-      "intercept": -2.71031231,
-      "slope": 0.08869815,
-      "r_squared": 0.12215107
+      "intercept": -2.7050942,
+      "slope": 0.08853612,
+      "r_squared": 0.12194515
     }
   ],
   "clustering": {

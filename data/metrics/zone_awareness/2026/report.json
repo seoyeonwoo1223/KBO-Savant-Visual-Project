@@ -7,8 +7,8 @@
     "input_mode": "curated",
     "curated_version": null,
     "sha256": {
-      "schema_sha256": "8d811da998a9141e013d4eb016de9179862852365e7a418dacb11e02887e2d29",
-      "player_bio.parquet": "5027e77b7c5f5e7f8d0782734ca078ea2d7669e1c8d967bd5d623847d263829b",
+      "schema_sha256": "925d1033368c9ffd3b27b68ff1c9e974a3fd16a38f3d735fa1e1d6538d35fa23",
+      "player_bio.parquet": "cb7d1595612625d5fa78f67a5f681d849a85e930bad362281b7ccb55e044bd7d",
       "2026_VB_Park_Adjustment_v1.0.xlsx": "8c147711fb502314c70720a343a3d5a1966e0bb4719100915c6d2459a7291639"
     },
     "quality": {
@@ -55,220 +55,220 @@
     "test_pitches": 37630,
     "development": {
       "pitches": 38932,
-      "swing_log_loss": 0.444075113833197,
-      "swing_brier": 0.14637674395984324,
-      "raw_swing_log_loss": 0.44588851159221604,
-      "raw_swing_brier": 0.14650027128414211,
+      "swing_log_loss": 0.4448998875527545,
+      "swing_brier": 0.14660981826571298,
+      "raw_swing_log_loss": 0.44647374139038637,
+      "raw_swing_brier": 0.1466552807865005,
       "action_value": {
         "direct": {
-          "mse": 0.06840147132820733,
-          "swing_mse": 0.14789710042585164,
-          "take_mse": 0.002827079237631506
+          "mse": 0.06843740026127067,
+          "swing_mse": 0.1480493260715351,
+          "take_mse": 0.0027670772834402957
         },
         "staged": {
-          "mse": 0.0672001050552525,
-          "swing_mse": 0.14697163389458884,
-          "take_mse": 0.0013981286553912176
+          "mse": 0.0671389688103093,
+          "swing_mse": 0.14692478802473014,
+          "take_mse": 0.0013252045590963321
         },
         "unsmoothed": {
-          "mse": 0.0669730306853086,
-          "swing_mse": 0.14646927798081133,
-          "take_mse": 0.0013981286553912176
+          "mse": 0.06694681121144513,
+          "swing_mse": 0.14649967837369138,
+          "take_mse": 0.0013252045590963321
         }
       },
       "event_probability": {
-        "swing_log_loss": 0.9870016556506512,
-        "take_log_loss": 0.025976237226519254
+        "swing_log_loss": 0.9869884920405178,
+        "take_log_loss": 0.025820557311499605
       },
       "calibration_bins": [
         {
           "low": 0.0,
-          "n": 7836,
-          "predicted": 0.03489705332995742,
-          "observed": 0.034839203675344564
+          "n": 7676,
+          "predicted": 0.032855952609267394,
+          "observed": 0.03478374153204794
         },
         {
           "low": 0.1,
-          "n": 3775,
-          "predicted": 0.1462310098795993,
-          "observed": 0.15549668874172184
+          "n": 3656,
+          "predicted": 0.1385111263150282,
+          "observed": 0.14551422319474835
         },
         {
           "low": 0.2,
-          "n": 2983,
-          "predicted": 0.2509666493370294,
-          "observed": 0.25209520616828696
+          "n": 3536,
+          "predicted": 0.24626645855690021,
+          "observed": 0.2505656108597285
         },
         {
           "low": 0.3,
-          "n": 4129,
-          "predicted": 0.3459533467818824,
-          "observed": 0.3543230806490676
+          "n": 4281,
+          "predicted": 0.3556359903310527,
+          "observed": 0.3686054660126139
         },
         {
           "low": 0.4,
-          "n": 2611,
-          "predicted": 0.435281655018843,
-          "observed": 0.45576407506702415
+          "n": 2078,
+          "predicted": 0.44373405467472865,
+          "observed": 0.4542829643888354
         },
         {
           "low": 0.5,
-          "n": 3638,
-          "predicted": 0.5372427033206453,
-          "observed": 0.5357339197361187
+          "n": 3448,
+          "predicted": 0.5375798146871992,
+          "observed": 0.5324825986078886
         },
         {
           "low": 0.6,
-          "n": 3005,
-          "predicted": 0.6466845507630434,
-          "observed": 0.6459234608985025
+          "n": 3310,
+          "predicted": 0.6441860721510477,
+          "observed": 0.636858006042296
         },
         {
           "low": 0.7,
-          "n": 3565,
-          "predicted": 0.7444224471662734,
-          "observed": 0.7542776998597476
+          "n": 3200,
+          "predicted": 0.7357110929599174,
+          "observed": 0.7578125
         },
         {
           "low": 0.8,
-          "n": 2609,
-          "predicted": 0.8515741626860377,
-          "observed": 0.8524338827136834
+          "n": 3044,
+          "predicted": 0.845701745213239,
+          "observed": 0.8436268068331143
         },
         {
           "low": 0.9,
-          "n": 4781,
-          "predicted": 0.9477703355963721,
-          "observed": 0.9475005229031583
+          "n": 4703,
+          "predicted": 0.9475210978875871,
+          "observed": 0.9470550712311291
         }
       ],
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.017908739181554258
+        "max_constraint_violation": 5.551115123125783e-17,
+        "weighted_adjustment_rmse": 0.01800713560748636
       },
       "calibration_applied": true
     },
     "final_test": {
       "pitches": 37630,
-      "swing_log_loss": 0.4392313309262922,
-      "swing_brier": 0.14420527444435988,
-      "raw_swing_log_loss": 0.4404609701135963,
-      "raw_swing_brier": 0.144336200907822,
+      "swing_log_loss": 0.4400267287781232,
+      "swing_brier": 0.14433344631482586,
+      "raw_swing_log_loss": 0.44096345797968717,
+      "raw_swing_brier": 0.1444485885206515,
       "action_value": {
         "direct": {
-          "mse": 0.0645448037483843,
-          "swing_mse": 0.13900058331792023,
-          "take_mse": 0.003091246174983683
+          "mse": 0.06449442419825177,
+          "swing_mse": 0.13892105253353423,
+          "take_mse": 0.0030649271754610127
         },
         "staged": {
-          "mse": 0.06351588044128371,
-          "swing_mse": 0.13852683085542777,
-          "take_mse": 0.0016041015765414705
+          "mse": 0.06354422214146159,
+          "swing_mse": 0.13860779456448263,
+          "take_mse": 0.0015890106557617143
         },
         "unsmoothed": {
-          "mse": 0.06329941181043186,
-          "swing_mse": 0.13804809358954737,
-          "take_mse": 0.0016041015765414705
+          "mse": 0.06332669890578232,
+          "swing_mse": 0.13812672495774678,
+          "take_mse": 0.0015890106557617143
         }
       },
       "event_probability": {
-        "swing_log_loss": 0.9926297932751661,
-        "take_log_loss": 0.03083868176050248
+        "swing_log_loss": 0.9925629772221148,
+        "take_log_loss": 0.03087394302034763
       },
       "calibration_bins": [
         {
           "low": 0.0,
-          "n": 7328,
-          "predicted": 0.03162237505934218,
-          "observed": 0.0298853711790393
+          "n": 7338,
+          "predicted": 0.03172058195974101,
+          "observed": 0.031479967293540474
         },
         {
           "low": 0.1,
-          "n": 4011,
-          "predicted": 0.1442158046069044,
-          "observed": 0.15108451757666416
+          "n": 3559,
+          "predicted": 0.13961153376672059,
+          "observed": 0.13711716774374824
         },
         {
           "low": 0.2,
-          "n": 3285,
-          "predicted": 0.2601899789836136,
-          "observed": 0.2663622526636225
+          "n": 3383,
+          "predicted": 0.24810693766684006,
+          "observed": 0.2545078332840674
         },
         {
           "low": 0.3,
-          "n": 3591,
-          "predicted": 0.3640661932543513,
-          "observed": 0.353661932609301
+          "n": 3424,
+          "predicted": 0.3533117582717017,
+          "observed": 0.3507593457943925
         },
         {
           "low": 0.4,
-          "n": 2965,
-          "predicted": 0.45204970841350456,
-          "observed": 0.45059021922428333
+          "n": 3268,
+          "predicted": 0.43977091503308413,
+          "observed": 0.4427784577723378
         },
         {
           "low": 0.5,
-          "n": 2963,
-          "predicted": 0.5586466002252113,
-          "observed": 0.5504556193047587
+          "n": 2971,
+          "predicted": 0.555953193350848,
+          "observed": 0.5301245371928643
         },
         {
           "low": 0.6,
-          "n": 2789,
-          "predicted": 0.6517674860801658,
-          "observed": 0.6468268196486195
+          "n": 3130,
+          "predicted": 0.6480344836327728,
+          "observed": 0.6552715654952077
         },
         {
           "low": 0.7,
-          "n": 2886,
-          "predicted": 0.7432524756674497,
-          "observed": 0.7491337491337491
+          "n": 2715,
+          "predicted": 0.7448463883765959,
+          "observed": 0.7510128913443831
         },
         {
           "low": 0.8,
-          "n": 2763,
-          "predicted": 0.8414860529766586,
-          "observed": 0.8382193268186754
+          "n": 2923,
+          "predicted": 0.8432841059100069,
+          "observed": 0.8378378378378378
         },
         {
           "low": 0.9,
-          "n": 5049,
-          "predicted": 0.9481023321831975,
-          "observed": 0.9498910675381264
+          "n": 4919,
+          "predicted": 0.9480770243768435,
+          "observed": 0.9499898353323847
         }
       ],
       "re": {
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.01379106795549612
+        "weighted_adjustment_rmse": 0.013827268825338943
       },
       "calibration_applied": true
     },
-    "swing_log_loss": 0.4392313309262922,
-    "swing_brier": 0.14420527444435988,
+    "swing_log_loss": 0.4400267287781232,
+    "swing_brier": 0.14433344631482586,
     "action_value": {
       "direct": {
-        "mse": 0.0645448037483843,
-        "swing_mse": 0.13900058331792023,
-        "take_mse": 0.003091246174983683
+        "mse": 0.06449442419825177,
+        "swing_mse": 0.13892105253353423,
+        "take_mse": 0.0030649271754610127
       },
       "staged": {
-        "mse": 0.06351588044128371,
-        "swing_mse": 0.13852683085542777,
-        "take_mse": 0.0016041015765414705
+        "mse": 0.06354422214146159,
+        "swing_mse": 0.13860779456448263,
+        "take_mse": 0.0015890106557617143
       },
       "unsmoothed": {
-        "mse": 0.06329941181043186,
-        "swing_mse": 0.13804809358954737,
-        "take_mse": 0.0016041015765414705
+        "mse": 0.06332669890578232,
+        "swing_mse": 0.13812672495774678,
+        "take_mse": 0.0015890106557617143
       }
     },
     "event_probability": {
-      "swing_log_loss": 0.9926297932751661,
-      "take_log_loss": 0.03083868176050248
+      "swing_log_loss": 0.9925629772221148,
+      "take_log_loss": 0.03087394302034763
     },
     "selection_rule": "60/20/20 dates: development diagnostics, then final evaluation with frozen algorithm. Each fit selects optional calibration using only training-game OOF probabilities. Final 20% never selects settings. Direct and unpooled RVs are diagnostic baselines.",
     "counterfactual_validation": "Observed-action errors and conditional intervals do not identify unobserved opposite-action outcomes."
@@ -280,7 +280,7 @@
         2
       ],
       "batters_150_pitches_each": 110,
-      "pearson_r": 0.5682580979725921,
+      "pearson_r": 0.568115518045029,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     },
     {
@@ -289,7 +289,7 @@
         3
       ],
       "batters_150_pitches_each": 103,
-      "pearson_r": 0.4862661250365397,
+      "pearson_r": 0.481005958005767,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     }
   ],
@@ -330,7 +330,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.014913745532877859
+        "weighted_adjustment_rmse": 0.01494374768927856
       },
       "calibration_applied": true
     },
@@ -341,8 +341,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 4.440892098500626e-16,
-        "weighted_adjustment_rmse": 0.01777007358820657
+        "max_constraint_violation": 2.220446049250313e-16,
+        "weighted_adjustment_rmse": 0.017681286516959938
       },
       "calibration_applied": true
     },
@@ -353,8 +353,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 5.551115123125783e-17,
-        "weighted_adjustment_rmse": 0.01710315374212718
+        "max_constraint_violation": 0.0,
+        "weighted_adjustment_rmse": 0.017163190566208353
       },
       "calibration_applied": true
     }
@@ -374,7 +374,7 @@
   },
   "shrinkage": "Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.",
   "reproducibility": {
-    "python": "3.12.3",
+    "python": "3.12.10",
     "packages": {
       "numpy": "2.5.3",
       "pandas": "2.3.3",
@@ -384,10 +384,10 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "82e7569964d6c1a2396476a965ffac9dcbfed029fdc4dfc5bb6d90521d1a401b",
-      "plate_decision_v1.py": "94a9d4804c131a3119c959870fcb8926dc4f5177671e0d63e8cda6028465beb5",
-      "swing_take.py": "5ad2fe4a32e4380cce46e1a8562986a7198d83c409ea3fee62df69d500c5f019",
-      "pitch_arsenal.py": "1fef04925017ed52bda2ffe2df003200b221d83a1e34c11291b4912517355f67"
+      "zone_decision.py": "468dc218ead7bd3d81a520e744de374b9ba16e4470d5fd510cda7ae69e9e5e7b",
+      "plate_decision_v1.py": "5359e48fd0be0d337f33b784c5730aa8116d6fd0f1713ced936d8f2fec7c0c8c",
+      "swing_take.py": "68341a01c43e384922db0b8d03f6bcb02e08f22181ccd4ad059e5cd76a7fe5bf",
+      "pitch_arsenal.py": "c21c2eca58a9dcbef603e742be149678b31b463bf694ca98f44fb75eb5a88a68"
     }
   },
   "limitations": [

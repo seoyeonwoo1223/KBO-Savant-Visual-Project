@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-29T20:07:36+00:00",
+  "generated_at": "2026-09-30T10:37:56+00:00",
   "layout": "month",
-  "schema_sha256": "8d811da998a9141e013d4eb016de9179862852365e7a418dacb11e02887e2d29",
+  "schema_sha256": "925d1033368c9ffd3b27b68ff1c9e974a3fd16a38f3d735fa1e1d6538d35fa23",
   "reading": {
     "columns": "data/curated/schema.json",
     "integrity": "data/curated/partition-index.json (large; per-game digests, not for browsing)",
@@ -13,12 +13,12 @@
         "pitches": {
           "rows": 211628,
           "files": 720,
-          "bytes": 65978812
+          "bytes": 65978910
         },
         "events": {
           "rows": 270317,
           "files": 720,
-          "bytes": 8957926
+          "bytes": 8957968
         },
         "games": {
           "rows": 720,
@@ -58,12 +58,12 @@
         "pitches": {
           "rows": 220863,
           "files": 720,
-          "bytes": 68739374
+          "bytes": 68739521
         },
         "events": {
           "rows": 281328,
           "files": 720,
-          "bytes": 9065472
+          "bytes": 9065485
         },
         "games": {
           "rows": 720,
@@ -101,12 +101,12 @@
         "pitches": {
           "rows": 220742,
           "files": 720,
-          "bytes": 68733968
+          "bytes": 68734067
         },
         "events": {
           "rows": 280107,
           "files": 720,
-          "bytes": 9028137
+          "bytes": 9028155
         },
         "games": {
           "rows": 720,
@@ -145,17 +145,17 @@
         "pitches": {
           "rows": 217025,
           "files": 7,
-          "bytes": 30215832
+          "bytes": 30216763
         },
         "events": {
           "rows": 273038,
           "files": 7,
-          "bytes": 1330357
+          "bytes": 1331036
         },
         "games": {
           "rows": 720,
           "files": 7,
-          "bytes": 83394
+          "bytes": 83413
         }
       },
       "games": 720,
@@ -179,7 +179,6 @@
         "arm_angle",
         "blocking",
         "excel",
-        "pitch_arsenal",
         "plate_decision",
         "plate_discipline",
         "swing_take",
@@ -191,17 +190,17 @@
         "pitches": {
           "rows": 219839,
           "files": 7,
-          "bytes": 30368385
+          "bytes": 30373404
         },
         "events": {
           "rows": 276161,
           "files": 7,
-          "bytes": 1346402
+          "bytes": 1346422
         },
         "games": {
           "rows": 720,
           "files": 7,
-          "bytes": 84351
+          "bytes": 84364
         }
       },
       "games": 720,
@@ -225,7 +224,6 @@
         "arm_angle",
         "blocking",
         "excel",
-        "pitch_arsenal",
         "plate_decision",
         "plate_discipline",
         "swing_take",
@@ -237,17 +235,17 @@
         "pitches": {
           "rows": 223216,
           "files": 8,
-          "bytes": 31176195
+          "bytes": 31180388
         },
         "events": {
           "rows": 280544,
           "files": 8,
-          "bytes": 1369206
+          "bytes": 1369149
         },
         "games": {
           "rows": 720,
           "files": 8,
-          "bytes": 90916
+          "bytes": 90942
         }
       },
       "games": 720,
@@ -273,10 +271,8 @@
         "arm_angle",
         "blocking",
         "excel",
-        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -285,17 +281,17 @@
         "pitches": {
           "rows": 217852,
           "files": 8,
-          "bytes": 30776627
+          "bytes": 30785481
         },
         "events": {
           "rows": 277384,
           "files": 8,
-          "bytes": 1401658
+          "bytes": 1401263
         },
         "games": {
           "rows": 720,
           "files": 8,
-          "bytes": 90521
+          "bytes": 90634
         }
       },
       "games": 720,
@@ -321,10 +317,8 @@
         "arm_angle",
         "blocking",
         "excel",
-        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -333,17 +327,17 @@
         "pitches": {
           "rows": 203262,
           "files": 7,
-          "bytes": 29934288
+          "bytes": 29940860
         },
         "events": {
           "rows": 258696,
           "files": 7,
-          "bytes": 1294285
+          "bytes": 1295735
         },
         "games": {
           "rows": 660,
           "files": 7,
-          "bytes": 88380
+          "bytes": 88457
         }
       },
       "games": 660,

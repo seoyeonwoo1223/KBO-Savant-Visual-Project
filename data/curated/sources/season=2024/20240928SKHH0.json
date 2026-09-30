@@ -3,12 +3,12 @@
   "game_id": "20240928SKHH0",
   "season": 2024,
   "first_collected_at": "2026-09-09T16:32:21+00:00",
-  "last_collected_at": "2026-09-28T20:17:11+00:00",
-  "last_checked_at": "2026-09-28T20:17:11+00:00",
+  "last_collected_at": "2026-09-30T09:56:23+00:00",
+  "last_checked_at": "2026-09-30T09:56:23+00:00",
   "raw_sha256": null,
-  "pitch_sha256": "2fd1b30cd553053bc57812a4b24c590c3d74de9c0586b169f6582809d7c51951",
-  "schema_sha256": "8d811da998a9141e013d4eb016de9179862852365e7a418dacb11e02887e2d29",
-  "revision": 3,
+  "pitch_sha256": "cd7ba88eb6cfecd4ae981515b4127b90989ad7ccec3b09362eecad37b0c260d2",
+  "schema_sha256": "925d1033368c9ffd3b27b68ff1c9e974a3fd16a38f3d735fa1e1d6538d35fa23",
+  "revision": 4,
   "observed_y0": [
     50.0
   ],
