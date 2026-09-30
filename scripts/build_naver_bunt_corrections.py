@@ -45,6 +45,13 @@ def selected(row: dict) -> bool:
     return row["gate"] == "pass" and row["match_status"] in MATCHED | {"matched_without_pitcher"}
 
 
+def picked_rows(rows: list[dict], season: str, previous: dict) -> list[dict]:
+    """Selected rows of the season. An input written from curated after scripts/apply_call_corrections.py shows a
+    table pitch as VB W; it is read as its source call B, so a rerun keeps the row instead of dropping it."""
+    view = lambda r: {**r, "vb_call": "B"} if r["vb_call"] == "W" and r["pitch_id"] in previous else r
+    return [r for r in rows if r["season"] == season and selected(view(r))]
+
+
 def game_of(pitch_id: str) -> str:
     return pitch_id.split("-")[0]
 
@@ -86,12 +93,12 @@ def main() -> None:
     except ValueError:
         label = source.name
     for season in seasons:
-        picked = [r for r in rows if r["season"] == season and selected(r)]
         curated = {r["pitch_id"]: r for r in load_rows(ROOT, "pitches", int(season), columns=[
             "pitch_id", "batter_id", "pitcher_id", "velocity_kmh", "pitch_call_code", "is_pa_terminal"])}
         # Rows already applied to curated read W there now; keep their recorded entry so a rerun is a no-op.
         previous = {e["pitch_id"]: {k: v for k, v in e.items() if k != "source"}
                     for e in (table["seasons"].get(season) or {}).get("pitches", []) if e.get("source", "naver_relay") == "naver_relay"}
+        picked = picked_rows(rows, season, previous)
         entries, missing = [], 0
         for r in picked:
             c = curated.get(r["pitch_id"])

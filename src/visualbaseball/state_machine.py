@@ -61,9 +61,3 @@ class GameState:
             self.strikes = min(2, self.strikes + 1)
         elif code in {"F", "W"} and self.strikes < 2:
             self.strikes += 1
-
-    def infer_runs(self, after_bases: dict | None, outs_after: int) -> int:
-        before_runners = sum(bool(x) for x in (self.runner_1b_id, self.runner_2b_id, self.runner_3b_id))
-        probe = GameState(); probe.set_bases(after_bases)
-        after_runners = sum(bool(x) for x in (probe.runner_1b_id, probe.runner_2b_id, probe.runner_3b_id))
-        return max(0, before_runners + 1 - after_runners - max(0, outs_after - self.outs))

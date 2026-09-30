@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-30T11:38:34+00:00",
+  "generated_at": "2026-09-30T12:43:00+00:00",
   "layout": "month",
-  "schema_sha256": "925d1033368c9ffd3b27b68ff1c9e974a3fd16a38f3d735fa1e1d6538d35fa23",
+  "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
     "columns": "data/curated/schema.json",
     "integrity": "data/curated/partition-index.json (large; per-game digests, not for browsing)",
@@ -179,6 +179,7 @@
         "arm_angle",
         "blocking",
         "excel",
+        "pitch_arsenal",
         "plate_decision",
         "plate_discipline",
         "swing_take",
@@ -224,6 +225,7 @@
         "arm_angle",
         "blocking",
         "excel",
+        "pitch_arsenal",
         "plate_decision",
         "plate_discipline",
         "swing_take",
@@ -271,8 +273,10 @@
         "arm_angle",
         "blocking",
         "excel",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -317,8 +321,10 @@
         "arm_angle",
         "blocking",
         "excel",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },

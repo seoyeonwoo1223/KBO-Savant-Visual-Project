@@ -168,6 +168,20 @@ ZA report의 채점 투구 수는 2024 **221,551**, 2025 **216,858**, 2026 **202
 - 카운트 사건의 영향은 사건 뒤 같은 타석 몇 구에 국한되고 전체 투구의 약 **0.3–0.4%**로 추정된다. **카운트 정정**은 `p_swing`의 카운트 입력에만 영향이 있고 `p_zone`에는 없다. B→W·W→B **판정 정정**은 테이크 적격성과 `p_zone` 학습 대상도 바꾼다.
 - 그 밖 경기의 놓친 번트 파울과 TrackMan 오정정은 남아 있다. 네이버와 VB는 공급원을 공유할 수 있어 네이버는 독립 좌표 측정이 아니라 다른 기록 경로다.
 
+## 정정표 월간 갱신 (2026 시즌 진행 중)
+
+정정표는 만든 날까지의 경기만 담는다. 새 경기는 한 달에 한 번 아래 순서로 반영한다. 모든 명령에 `PYTHONPATH=src`가 필요하다. 네이버 중계 캐시(`data/raw/naver/relay_raw`)는 gitignore라 새 환경에서는 처음부터 받는다(1초당 1요청).
+
+1. **카운트 감사 대상 추가**: `python analysis/sbj_location/count_audit_targets.py analysis/sbj_location/results/naver_count_audit_games_2019_2026.json 2026`
+   - 기존 목록에 새 경기만 더하고 아무것도 빼지 않는다. 이미 정정한 경기는 카운트가 맞아 보여 다시 뽑히지 않지만, 빌더가 시즌을 감사 결과로 통째로 다시 만들므로 목록에서 빠지면 정정도 사라진다.
+2. **수집**: `python analysis/sbj_location/naver_relay_fetch.py analysis/sbj_location/results/naver_count_audit_games_2019_2026.json` (중단되면 같은 명령으로 이어받음)
+3. **감사**: `python analysis/sbj_location/naver_count_audit.py analysis/sbj_location/results/naver_count_audit_games_2019_2026.json` — 전 시즌을 돌린다. 시즌 인자를 주면 결과 CSV가 그 시즌만 남는다.
+4. **정정표**: `python scripts/build_naver_count_corrections.py analysis/sbj_location/results/naver_count_audit_2019_2026.csv`
+5. **2026 번트 파울(PR #32 경로)**: `python analysis/sbj_location/bunt_relay_fetch.py` → `python analysis/sbj_location/bunt_attempts.py` → `python scripts/build_naver_bunt_corrections.py analysis/sbj_location/results/bunt_attempts_2025_2026.csv 2026`
+   - 2025–2026 종료 경기 전부의 중계가 필요하다. 새 환경에서는 수집에 몇 시간이 걸리므로 시즌 종료 후 한 번 해도 된다.
+6. **적용과 확인**: 위 "적용과 확인 순서"대로 `apply_call_corrections.py --check` → 적용 → `check_call_corrections.py`(전 시즌 clean). 그 뒤 `--exports-only`, ZA 2024–2025, Pitch Plot 2022–2025를 다시 만들고 `check_zone_decision_outputs.py`, `pytest`를 통과시킨다.
+7. 정정표만 커밋하지 않는다. curated와 파생 산출물을 함께 커밋한다.
+
 ## SBJ 보고 위치·궤적 불일치 제외
 
 ABS 시즌(2024년부터)에 보고 `px/pz`가 자기 궤적의 보고면 값과 **1cm 넘게** 어긋나는 공은 SBJ 학습·채점에서 제외한다. `px`는 중간면, `pz`는 앞면과 비교한다. 원인을 알 수 없는 기록 혼합이므로 보고 위치나 궤적 중 하나를 대신 믿어 값을 덮어쓰지 않는다.
