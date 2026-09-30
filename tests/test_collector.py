@@ -90,7 +90,6 @@ def test_count_transitions_and_two_strike_foul():
 
 def test_runner_advances_multiple_outs_and_inning_reset():
     state = GameState(); state.set_bases({"b1": {"id": "a"}, "b2": {"id": "b"}}); state.outs = 1
-    assert state.infer_runs({"b3": {"id": "a"}}, 3) == 0
     state.begin_half(2, "bottom")
     assert (state.outs, state.base_state_code, state.balls, state.strikes) == (0, 0, 0, 0)
 

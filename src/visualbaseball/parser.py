@@ -121,7 +121,7 @@ def parse_game(payload: dict[str, Any], schedule_game: dict[str, Any] | None = N
             before_snapshot = GameState(); before_snapshot.set_bases(bases_before)
             source_snapshot_changed = False
             if state.base_state_code != before_snapshot.base_state_code or any(getattr(state, x) != getattr(before_snapshot, x) for x in ("runner_1b_id", "runner_2b_id", "runner_3b_id")):
-                event_seq += 1; before, state_before = state.snapshot(), deepcopy(state.snapshot()); state.set_bases(bases_before); after = state.snapshot()
+                event_seq += 1; before = state.snapshot(); state.set_bases(bases_before); after = state.snapshot()
                 events.append(_event(game, event_seq, pa_id, "state_adjustment", "SOURCE_SNAPSHOT", "Source base snapshot changed; underlying non-pitch event was not exposed.", pa, before, after, 0, "unknown")); unknown += 1
                 source_snapshot_changed = True
             for sub in pa.get("subs") or []:

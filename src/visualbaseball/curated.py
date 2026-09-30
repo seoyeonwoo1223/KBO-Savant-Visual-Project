@@ -18,7 +18,6 @@ import pyarrow.parquet as pq
 SCHEMA_VERSION = 1
 PARSER_REVISION = 1
 CM_PER_FOOT = 30.48
-PLATE_Y_FT = 17 / 12
 TRAJECTORY_FIELDS = ("x0", "y0", "z0", "vx0", "vy0", "vz0", "ax", "ay", "az")
 
 PITCH_INTEGER_FIELDS = {

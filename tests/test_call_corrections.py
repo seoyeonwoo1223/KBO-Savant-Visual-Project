@@ -117,6 +117,15 @@ def test_count_audit_call_changes_keep_other_inputs_and_never_reject_naver_rows(
     assert [e["pitch_id"] for e in naver_only["seasons"]["2025"]["pitches"]] == ["G2-G2-001-01"]
 
 
+def test_rerun_on_corrected_curated_keeps_table_rows():
+    import build_naver_bunt_corrections as nv
+    rows = [{"season": "2026", "pitch_id": "A-1", "naver_code": "W", "vb_call": "W", "match_status": "matched_id"},
+            {"season": "2026", "pitch_id": "B-1", "naver_code": "W", "vb_call": "W", "match_status": "matched_id"},
+            {"season": "2026", "pitch_id": "C-1", "naver_code": "W", "vb_call": "B", "match_status": "matched_id"}]
+    # A-1 was applied from the table (curated now W); B-1 is a W the table never listed.
+    assert [r["pitch_id"] for r in nv.picked_rows(rows, "2026", {"A-1": {}})] == ["A-1", "C-1"]
+
+
 def test_committed_curated_is_in_step_with_the_correction_table():
     """Harness gate: every table pitch is W in curated and W/V plate appearances follow the state rules.
 

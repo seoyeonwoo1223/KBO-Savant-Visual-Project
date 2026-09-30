@@ -137,7 +137,7 @@ def _auc(probabilities: np.ndarray, target: np.ndarray) -> float:
     return float((ranks[target == 1].sum() - positives * (positives + 1) / 2) / (positives * negatives))
 
 
-def build_blocking(root: Path, season: int = 2026, source_root: Path | None = None) -> Path:
+def build_blocking(root: Path, season: int = 2026) -> Path:
     """Build cross-fitted BAA results and browser-friendly JSON."""
     pitches = load_rows(root, "pitches", season)
     games = load_rows(root, "games", season)
