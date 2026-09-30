@@ -56,17 +56,25 @@ class Ensemble:
         return np.mean([m.predict_proba(x)[:, list(m.classes_).index(1)] for m in self.models], axis=0)
 
 
-def pswing_fit_predict(train, test, seeds=(RS,), es="auto"):
-    """fit_predict()의 propensity + 보정 게이트와 같은 절차."""
+def pswing_fit_predict(train, test, seeds=(RS,), es="auto", calibration="gate"):
+    """fit_predict()의 propensity + 보정 게이트와 같은 절차.
+
+    calibration: "gate"(운영: 80/20 날짜 게이트가 적용 여부 결정), "always"(항상 적용), "never"(보정 없음).
+    """
     sa, sb = zd.encode(train, test, zd.PSWING_CATEGORICAL)
     actions = np.array([r["decision_type"] == "Swing" for r in train], dtype=int)
     make = lambda: Ensemble(zd.pswing_classifier, seeds, es)
     raw_p = make().fit(sa, actions).proba(sb)
     p = raw_p.copy()
+    if calibration == "never":
+        return p, False
     groups = np.array([r["game_id"] for r in train]); folds = min(3, len(set(groups)))
     oof = np.empty(len(train))
     for fit, held in GroupKFold(folds).split(sa, actions, groups):
         oof[held] = make().fit(sa[fit], actions[fit]).proba(sa[held])
+    if calibration == "always":
+        cal = IsotonicRegression(out_of_bounds="clip", y_min=1e-6, y_max=1 - 1e-6).fit(oof, actions)
+        return cal.predict(raw_p), True
     days = sorted({r["game_id"][:8] for r in train}); cut = days[max(1, int(len(days) * .8)) - 1]
     fit_mask = np.array([r["game_id"][:8] <= cut for r in train]); held_mask = ~fit_mask
     applied = False
@@ -92,8 +100,12 @@ def pzone_fit_predict(train, test, fields, seeds=(RS,), es="auto"):
     return np.clip(model.proba(old._encode_numeric(test, fields)), 1e-6, 1 - 1e-6)
 
 
-def crossfit(rows, fields, pswing=True, seeds=(RS,), es="auto", drop_game=None):
-    """3블록 교차적합. drop_game이면 그 경기를 데이터에서 뺀다(블록 경계는 날짜 기준이라 그대로)."""
+def crossfit(rows, fields, pswing=True, seeds=(RS,), es="auto", drop_game=None, pswing_es=None, calibration="gate"):
+    """3블록 교차적합. drop_game이면 그 경기를 데이터에서 뺀다(블록 경계는 날짜 기준이라 그대로).
+
+    es는 p_zone(과 pswing_es가 없으면 p_swing)의 조기 종료, pswing_es는 p_swing만의 조기 종료다.
+    """
+    pswing_es = es if pswing_es is None else pswing_es
     if drop_game:
         rows = [r for r in rows if r["game_id"] != drop_game]
     ordered, fold, blocks = ordered_folds(rows)
@@ -105,7 +117,7 @@ def crossfit(rows, fields, pswing=True, seeds=(RS,), es="auto", drop_game=None):
         test = ordered[start:start + int((fold == f).sum())]
         sl = slice(start, start + len(test)); start += len(test)
         if pswing:
-            p_swing[sl], a = pswing_fit_predict(train, test, seeds, es); applied.append(bool(a))
+            p_swing[sl], a = pswing_fit_predict(train, test, seeds, pswing_es, calibration); applied.append(bool(a))
         p_zone[sl] = pzone_fit_predict(train, test, fields, seeds, es)
     return {"rows": ordered, "fold": fold, "p_swing": p_swing, "p_zone": p_zone,
             "calibration_applied": applied, "seconds": time.time() - t0}
