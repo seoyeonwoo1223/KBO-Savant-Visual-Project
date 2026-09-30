@@ -1,7 +1,21 @@
 from __future__ import annotations
 
 
-def validate_game(game: dict, events: list[dict], pitches: list[dict]) -> tuple[bool, str]:
+def _allowed_starts(fix: dict | None) -> set[tuple[int, int]]:
+    """Counts a plate appearance may begin at: 0-0, or the count a count-table row gives before its first pitch
+    (a count a pinch hitter inherits, a pitch-clock call before pitch 1)."""
+    allowed = {(0, 0)}
+    if fix:
+        from .state_machine import GameState
+        state = GameState(); state.balls, state.strikes = fix["start"]
+        for insert in fix.get("inserts", []):
+            if int(insert["before_pitch"]) == 1:
+                state.apply_non_terminal_pitch(insert["code"])
+        allowed.add((state.balls, state.strikes))
+    return allowed
+
+
+def validate_game(game: dict, events: list[dict], pitches: list[dict], count_corrections: dict[str, dict] | None = None) -> tuple[bool, str]:
     if not events or not pitches:
         return False, "No events or pitches were parsed"
     if len({event["event_seq"] for event in events}) != len(events):
@@ -14,7 +28,8 @@ def validate_game(game: dict, events: list[dict], pitches: list[dict]) -> tuple[
             return False, "Illegal count or outs"
         if pitch["pa_id"] not in pa_starts:
             pa_starts.add(pitch["pa_id"])
-            if (pitch["balls_before"], pitch["strikes_before"]) != (0, 0): return False, "Plate appearance did not begin at 0-0"
+            if (pitch["balls_before"], pitch["strikes_before"]) not in _allowed_starts((count_corrections or {}).get(pitch["pa_id"])):
+                return False, "Plate appearance did not begin at 0-0"
         if pitch["pitch_call_code"] == "F" and pitch["strikes_before"] == 2 and pitch["strikes_after"] != 2 and not pitch["is_pa_terminal"]:
             return False, "Two-strike foul changed the strike count"
         half = (pitch["inning"], pitch["inning_half"])
