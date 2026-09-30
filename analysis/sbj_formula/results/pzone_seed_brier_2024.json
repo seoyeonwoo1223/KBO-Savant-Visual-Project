@@ -1,0 +1,121 @@
+{
+ "season": 2024,
+ "takes": 120438,
+ "runs": [
+  {
+   "seed": 0,
+   "early_stopping": "auto",
+   "brier": 0.0020430959983437067,
+   "log_loss": 0.006685758057497018,
+   "n_iter": [
+    130,
+    130,
+    127
+   ]
+  },
+  {
+   "seed": 1,
+   "early_stopping": "auto",
+   "brier": 0.0019276084662376766,
+   "log_loss": 0.006434036459825214,
+   "n_iter": [
+    130,
+    126,
+    130
+   ]
+  },
+  {
+   "seed": 2,
+   "early_stopping": "auto",
+   "brier": 0.0018311827391802376,
+   "log_loss": 0.006128705033520639,
+   "n_iter": [
+    121,
+    126,
+    130
+   ]
+  },
+  {
+   "seed": 3,
+   "early_stopping": "auto",
+   "brier": 0.0018918670722989557,
+   "log_loss": 0.006395999795315805,
+   "n_iter": [
+    130,
+    120,
+    115
+   ]
+  },
+  {
+   "seed": 4,
+   "early_stopping": "auto",
+   "brier": 0.0021689322116200207,
+   "log_loss": 0.006990612934843394,
+   "n_iter": [
+    130,
+    130,
+    130
+   ]
+  },
+  {
+   "seed": 5,
+   "early_stopping": "auto",
+   "brier": 0.001921088758781251,
+   "log_loss": 0.00626969346761518,
+   "n_iter": [
+    130,
+    130,
+    130
+   ]
+  },
+  {
+   "seed": 6,
+   "early_stopping": "auto",
+   "brier": 0.001768425509234416,
+   "log_loss": 0.006056212939364287,
+   "n_iter": [
+    130,
+    130,
+    130
+   ]
+  },
+  {
+   "seed": 7,
+   "early_stopping": "auto",
+   "brier": 0.0017553128773850374,
+   "log_loss": 0.005946588352314455,
+   "n_iter": [
+    128,
+    130,
+    130
+   ]
+  },
+  {
+   "seed": 0,
+   "early_stopping": false,
+   "brier": 0.0019845844718755874,
+   "log_loss": 0.0065436077928553785,
+   "n_iter": [
+    130,
+    130,
+    130
+   ]
+  },
+  {
+   "seed": 1,
+   "early_stopping": false,
+   "brier": 0.0019845844718755874,
+   "log_loss": 0.0065436077928553785,
+   "n_iter": [
+    130,
+    130,
+    130
+   ]
+  }
+ ],
+ "auto_brier_range": [
+  0.0017553128773850374,
+  0.0021689322116200207
+ ],
+ "note": "OOF over the pitch-evidence fold labels; the take set is the current (post-correction) one."
+}

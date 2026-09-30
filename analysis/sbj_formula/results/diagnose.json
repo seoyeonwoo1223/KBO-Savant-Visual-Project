@@ -1,0 +1,1066 @@
+{
+ "2019": {
+  "pitches": 204021,
+  "qualified": {
+   "batters": 149,
+   "median_n": 1340,
+   "sd_score": 2.377141455876596,
+   "median_se": 0.8807951325040116,
+   "reliability_1_minus_se2_over_var": 0.7829802625304657,
+   "signal_sd": 2.1034414759992743,
+   "pitches_for_reliability": {
+    "0.5": 234,
+    "0.7": 545,
+    "0.8": 934
+   },
+   "shrink_factor_at_median_n": 0.851681747420814
+  },
+  "split_half_even_odd_games": {
+   "batters": 143,
+   "r": 0.609612973674193,
+   "spearman_brown": 0.7574652834496682
+  },
+  "block_reproducibility": {
+   "dv": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 109,
+     "r": 0.2888733552155528,
+     "expected_r_if_stable": 0.3915411397236716
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 103,
+     "r": 0.3751459274428293,
+     "expected_r_if_stable": 0.3804959782954951
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 99,
+     "r": 0.5083243482306996,
+     "expected_r_if_stable": 0.3432771295720472
+    }
+   ],
+   "judgment": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 109,
+     "r": 0.6279289878639052,
+     "expected_r_if_stable": 0.7117905645714684
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 103,
+     "r": 0.567808264540541,
+     "expected_r_if_stable": 0.6656834015119955
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 99,
+     "r": 0.4631614802097769,
+     "expected_r_if_stable": 0.6710329484936357
+    }
+   ]
+  },
+  "aggression": {
+   "corr_sbj_sa": 0.06680156797334992,
+   "sd_level_term": 0.2530993634737461,
+   "league_mean_w": -0.010991896034052883
+  },
+  "weight": {
+   "share_abs_w_lt_0.5": 0.13552036309987697,
+   "share_abs_w_lt_0.9": 0.37873552232368235,
+   "share_abs_w_ge_0.98": 0.3746722151151107
+  },
+  "region_variance_share": {
+   "chase": 0.2804452639048365,
+   "heart": 0.3728871906971838,
+   "shadow_in": 0.1682685830008785,
+   "shadow_out": 0.09852756239481661,
+   "waste": 0.07987140000228468
+  },
+  "region_pitch_share": {
+   "chase": 0.23930869861435833,
+   "heart": 0.23657858749834576,
+   "shadow_in": 0.21446321702177717,
+   "shadow_out": 0.19509756348611174,
+   "waste": 0.11455193337940703
+  },
+  "swing_side_variance_share": 0.5212658591535135,
+  "pzone_count_calibration": {
+   "0strike": {
+    "n": 16541,
+    "observed_minus_pred": 0.04588560645355406
+   },
+   "1strike": {
+    "n": 8149,
+    "observed_minus_pred": -0.05111153507158662
+   },
+   "2strike": {
+    "n": 3643,
+    "observed_minus_pred": -0.1122957599867941
+   }
+  },
+  "team_home_away": {
+   "sa": {
+    "sd_team_home": 0.8150355469621887,
+    "sd_team_away": 1.0570764488920588,
+    "corr_home_away": 0.8915709625411673
+   },
+   "judgment": {
+    "sd_team_home": 0.7821849078758885,
+    "sd_team_away": 1.0020889559744923,
+    "corr_home_away": 0.8308552959847203
+   }
+  }
+ },
+ "2020": {
+  "pitches": 219553,
+  "qualified": {
+   "batters": 166,
+   "median_n": 1056,
+   "sd_score": 2.516718057682803,
+   "median_se": 0.9787023743246486,
+   "reliability_1_minus_se2_over_var": 0.7958145465454491,
+   "signal_sd": 2.2451248758886826,
+   "pitches_for_reliability": {
+    "0.5": 205,
+    "0.7": 478,
+    "0.8": 818
+   },
+   "shrink_factor_at_median_n": 0.837858755882969
+  },
+  "split_half_even_odd_games": {
+   "batters": 157,
+   "r": 0.6566323193355176,
+   "spearman_brown": 0.7927315091847243
+  },
+  "block_reproducibility": {
+   "dv": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 105,
+     "r": 0.5125724844544455,
+     "expected_r_if_stable": 0.5573245514648134
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 106,
+     "r": 0.3676508059163425,
+     "expected_r_if_stable": 0.30111996056135876
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 100,
+     "r": 0.3135733702878473,
+     "expected_r_if_stable": 0.35179440279617763
+    }
+   ],
+   "judgment": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 105,
+     "r": 0.5846063252127134,
+     "expected_r_if_stable": 0.6574095528697417
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 106,
+     "r": 0.7386208620521943,
+     "expected_r_if_stable": 0.674594148021572
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 100,
+     "r": 0.6324091384200565,
+     "expected_r_if_stable": 0.6477924490421094
+    }
+   ]
+  },
+  "aggression": {
+   "corr_sbj_sa": 0.02572675453647315,
+   "sd_level_term": 0.30078756520727906,
+   "league_mean_w": -0.03512048597339226
+  },
+  "weight": {
+   "share_abs_w_lt_0.5": 0.13609470150715317,
+   "share_abs_w_lt_0.9": 0.38280506301439743,
+   "share_abs_w_ge_0.98": 0.3720559500439529
+  },
+  "region_variance_share": {
+   "chase": 0.3113946113167435,
+   "heart": 0.37142311056784827,
+   "shadow_in": 0.13546493911687615,
+   "shadow_out": 0.08666935931621667,
+   "waste": 0.09504797968231501
+  },
+  "region_pitch_share": {
+   "heart": 0.24223763738140677,
+   "chase": 0.23421224032465965,
+   "shadow_in": 0.2170546519519205,
+   "shadow_out": 0.19533779998451398,
+   "waste": 0.1111576703574991
+  },
+  "swing_side_variance_share": 0.5196517041775561,
+  "pzone_count_calibration": {
+   "0strike": {
+    "n": 17474,
+    "observed_minus_pred": 0.03817999836302959
+   },
+   "1strike": {
+    "n": 8861,
+    "observed_minus_pred": -0.03602387054017437
+   },
+   "2strike": {
+    "n": 3718,
+    "observed_minus_pred": -0.12205329885187886
+   }
+  },
+  "team_home_away": {
+   "sa": {
+    "sd_team_home": 1.0965228355687848,
+    "sd_team_away": 1.473899677751349,
+    "corr_home_away": 0.9444138720980159
+   },
+   "judgment": {
+    "sd_team_home": 0.6495373573652802,
+    "sd_team_away": 0.777611650908174,
+    "corr_home_away": 0.6127113510833327
+   }
+  }
+ },
+ "2021": {
+  "pitches": 219196,
+  "qualified": {
+   "batters": 166,
+   "median_n": 1041,
+   "sd_score": 2.673592398399941,
+   "median_se": 1.0104630090999693,
+   "reliability_1_minus_se2_over_var": 0.8207121371229227,
+   "signal_sd": 2.4220919473099602,
+   "pitches_for_reliability": {
+    "0.5": 184,
+    "0.7": 429,
+    "0.8": 735
+   },
+   "shrink_factor_at_median_n": 0.8500315861466787
+  },
+  "split_half_even_odd_games": {
+   "batters": 160,
+   "r": 0.689693410565913,
+   "spearman_brown": 0.8163533174162295
+  },
+  "block_reproducibility": {
+   "dv": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 115,
+     "r": 0.29017570300796075,
+     "expected_r_if_stable": 0.3853178697312151
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 115,
+     "r": 0.40013188865402977,
+     "expected_r_if_stable": 0.3881971949032846
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 98,
+     "r": 0.3705637856504838,
+     "expected_r_if_stable": 0.4288672262636831
+    }
+   ],
+   "judgment": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 115,
+     "r": 0.7436890624284868,
+     "expected_r_if_stable": 0.7263172663622083
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 115,
+     "r": 0.7199111884106375,
+     "expected_r_if_stable": 0.7412096000444025
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 98,
+     "r": 0.7448318439721827,
+     "expected_r_if_stable": 0.7418480229109352
+    }
+   ]
+  },
+  "aggression": {
+   "corr_sbj_sa": 0.11216389994275335,
+   "sd_level_term": 0.33393407204022896,
+   "league_mean_w": -0.046941673402105706
+  },
+  "weight": {
+   "share_abs_w_lt_0.5": 0.1312158981003303,
+   "share_abs_w_lt_0.9": 0.35330024270515886,
+   "share_abs_w_ge_0.98": 0.4385253380536141
+  },
+  "region_variance_share": {
+   "chase": 0.24908067763412656,
+   "heart": 0.4175525019216979,
+   "shadow_in": 0.16717181548165047,
+   "shadow_out": 0.10570298137974386,
+   "waste": 0.060492023582781225
+  },
+  "region_pitch_share": {
+   "heart": 0.25260041241628495,
+   "chase": 0.2268608916221099,
+   "shadow_in": 0.22143196043723426,
+   "shadow_out": 0.19231190350188873,
+   "waste": 0.10679483202248216
+  },
+  "swing_side_variance_share": 0.483500534410269,
+  "pzone_count_calibration": {
+   "0strike": {
+    "n": 17202,
+    "observed_minus_pred": 0.03993384855409556
+   },
+   "1strike": {
+    "n": 8482,
+    "observed_minus_pred": -0.041631918593468195
+   },
+   "2strike": {
+    "n": 3420,
+    "observed_minus_pred": -0.11614568335238817
+   }
+  },
+  "team_home_away": {
+   "sa": {
+    "sd_team_home": 1.2845063389388829,
+    "sd_team_away": 1.5864792343532894,
+    "corr_home_away": 0.9365301310767118
+   },
+   "judgment": {
+    "sd_team_home": 0.7801151681588885,
+    "sd_team_away": 0.9144391014783195,
+    "corr_home_away": 0.870253159077472
+   }
+  }
+ },
+ "2022": {
+  "pitches": 213888,
+  "qualified": {
+   "batters": 162,
+   "median_n": 1150,
+   "sd_score": 2.6948364302315873,
+   "median_se": 0.9294379261403248,
+   "reliability_1_minus_se2_over_var": 0.8212080280542631,
+   "signal_sd": 2.4420750294003533,
+   "pitches_for_reliability": {
+    "0.5": 179,
+    "0.7": 417,
+    "0.8": 715
+   },
+   "shrink_factor_at_median_n": 0.8655321611441162
+  },
+  "split_half_even_odd_games": {
+   "batters": 155,
+   "r": 0.6929006663789584,
+   "spearman_brown": 0.8185957748614312
+  },
+  "block_reproducibility": {
+   "dv": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 106,
+     "r": 0.37312601242175697,
+     "expected_r_if_stable": 0.48312793032798973
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 107,
+     "r": 0.3618133443853288,
+     "expected_r_if_stable": 0.47519628559911326
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 105,
+     "r": 0.3738381034277959,
+     "expected_r_if_stable": 0.4907342478596635
+    }
+   ],
+   "judgment": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 106,
+     "r": 0.7425477775732163,
+     "expected_r_if_stable": 0.7656332788110426
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 107,
+     "r": 0.7694127141797589,
+     "expected_r_if_stable": 0.751492176749009
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 105,
+     "r": 0.7334312131268983,
+     "expected_r_if_stable": 0.7067430426698831
+    }
+   ]
+  },
+  "aggression": {
+   "corr_sbj_sa": -0.030456825311524303,
+   "sd_level_term": 0.34648737508750665,
+   "league_mean_w": -0.008236854322008073
+  },
+  "weight": {
+   "share_abs_w_lt_0.5": 0.13024106074207062,
+   "share_abs_w_lt_0.9": 0.34245025433871934,
+   "share_abs_w_ge_0.98": 0.44218937013764215
+  },
+  "region_variance_share": {
+   "chase": 0.32980928268628296,
+   "heart": 0.35063328137420113,
+   "shadow_in": 0.13856768519267054,
+   "shadow_out": 0.12352025374964833,
+   "waste": 0.057469496997197105
+  },
+  "region_pitch_share": {
+   "heart": 0.2619081014362657,
+   "shadow_in": 0.22673081238779175,
+   "chase": 0.22024611011370437,
+   "shadow_out": 0.1935452199281867,
+   "waste": 0.09756975613405147
+  },
+  "swing_side_variance_share": 0.5154908922418708,
+  "pzone_count_calibration": {
+   "0strike": {
+    "n": 15641,
+    "observed_minus_pred": 0.04868047860069928
+   },
+   "1strike": {
+    "n": 7979,
+    "observed_minus_pred": -0.04850102525365894
+   },
+   "2strike": {
+    "n": 3526,
+    "observed_minus_pred": -0.12908190442557593
+   }
+  },
+  "team_home_away": {
+   "sa": {
+    "sd_team_home": 1.2682722543197311,
+    "sd_team_away": 1.6398733262972602,
+    "corr_home_away": 0.898111008224407
+   },
+   "judgment": {
+    "sd_team_home": 0.720586397119436,
+    "sd_team_away": 0.9269030978616997,
+    "corr_home_away": 0.8975171321908423
+   }
+  }
+ },
+ "2023": {
+  "pitches": 214504,
+  "qualified": {
+   "batters": 173,
+   "median_n": 1098,
+   "sd_score": 2.554536323888686,
+   "median_se": 0.9998668393952144,
+   "reliability_1_minus_se2_over_var": 0.7977780335495019,
+   "signal_sd": 2.2816715091641635,
+   "pitches_for_reliability": {
+    "0.5": 204,
+    "0.7": 475,
+    "0.8": 813
+   },
+   "shrink_factor_at_median_n": 0.8438688342656643
+  },
+  "split_half_even_odd_games": {
+   "batters": 165,
+   "r": 0.6432111222209487,
+   "spearman_brown": 0.7828709452155979
+  },
+  "block_reproducibility": {
+   "dv": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 109,
+     "r": 0.26644092475255665,
+     "expected_r_if_stable": 0.37761706015592394
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 110,
+     "r": 0.23734256413176336,
+     "expected_r_if_stable": 0.41948463681250303
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 102,
+     "r": 0.3787629483160169,
+     "expected_r_if_stable": 0.3664421166167119
+    }
+   ],
+   "judgment": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 109,
+     "r": 0.6333235886081111,
+     "expected_r_if_stable": 0.7207633504990361
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 110,
+     "r": 0.7021614394381821,
+     "expected_r_if_stable": 0.7328786820458857
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 102,
+     "r": 0.6719049913016354,
+     "expected_r_if_stable": 0.6946968973623817
+    }
+   ]
+  },
+  "aggression": {
+   "corr_sbj_sa": 0.11394890240166251,
+   "sd_level_term": 0.2630248926684637,
+   "league_mean_w": -0.01938814314844704
+  },
+  "weight": {
+   "share_abs_w_lt_0.5": 0.12499533808227352,
+   "share_abs_w_lt_0.9": 0.34488867340469176,
+   "share_abs_w_ge_0.98": 0.4426957073061575
+  },
+  "region_variance_share": {
+   "chase": 0.21736438468706523,
+   "heart": 0.43430293255765984,
+   "shadow_in": 0.1842701574690691,
+   "shadow_out": 0.10741113856890808,
+   "waste": 0.05665138671729793
+  },
+  "region_pitch_share": {
+   "heart": 0.270363256629247,
+   "shadow_in": 0.2273477417670533,
+   "chase": 0.2167931600343117,
+   "shadow_out": 0.19378659605415283,
+   "waste": 0.09170924551523514
+  },
+  "swing_side_variance_share": 0.497708938308569,
+  "pzone_count_calibration": {
+   "0strike": {
+    "n": 15891,
+    "observed_minus_pred": 0.04485541045642614
+   },
+   "1strike": {
+    "n": 7819,
+    "observed_minus_pred": -0.049665117523757345
+   },
+   "2strike": {
+    "n": 3311,
+    "observed_minus_pred": -0.1320139701505196
+   }
+  },
+  "team_home_away": {
+   "sa": {
+    "sd_team_home": 0.8088072473023398,
+    "sd_team_away": 1.3656606980153065,
+    "corr_home_away": 0.760537790772623
+   },
+   "judgment": {
+    "sd_team_home": 0.7419204593127102,
+    "sd_team_away": 0.9668637580244823,
+    "corr_home_away": 0.8339242400773265
+   }
+  }
+ },
+ "2024": {
+  "pitches": 221551,
+  "qualified": {
+   "batters": 155,
+   "median_n": 1341,
+   "sd_score": 3.0045673658062535,
+   "median_se": 1.0120010485717141,
+   "reliability_1_minus_se2_over_var": 0.8349607742529594,
+   "signal_sd": 2.7454591262648695,
+   "pitches_for_reliability": {
+    "0.5": 180,
+    "0.7": 420,
+    "0.8": 720
+   },
+   "shrink_factor_at_median_n": 0.8817001477443103
+  },
+  "split_half_even_odd_games": {
+   "batters": 150,
+   "r": 0.7507098142634218,
+   "spearman_brown": 0.8576062213705803
+  },
+  "block_reproducibility": {
+   "dv": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 109,
+     "r": 0.5203850276972805,
+     "expected_r_if_stable": 0.47658328057152777
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 112,
+     "r": 0.3529843131685635,
+     "expected_r_if_stable": 0.46531392006613526
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 100,
+     "r": 0.31495784320304987,
+     "expected_r_if_stable": 0.46853242585999316
+    }
+   ],
+   "judgment": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 109,
+     "r": 0.80554463718597,
+     "expected_r_if_stable": 0.7625500368052021
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 112,
+     "r": 0.6414732519887187,
+     "expected_r_if_stable": 0.708876774871047
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 100,
+     "r": 0.6106269170068089,
+     "expected_r_if_stable": 0.7490005552309812
+    }
+   ]
+  },
+  "aggression": {
+   "corr_sbj_sa": 0.03894285772775363,
+   "sd_level_term": 0.2033594564882587,
+   "league_mean_w": -0.006066835098133911
+  },
+  "weight": {
+   "share_abs_w_lt_0.5": 0.005944455227013193,
+   "share_abs_w_lt_0.9": 0.009320653032484619,
+   "share_abs_w_ge_0.98": 0.9877770806721703
+  },
+  "region_variance_share": {
+   "chase": 0.2796624568466142,
+   "heart": 0.3485998051752076,
+   "shadow_in": 0.16857382920122146,
+   "shadow_out": 0.12172689150233287,
+   "waste": 0.08143701727462367
+  },
+  "region_pitch_share": {
+   "heart": 0.23783237268168503,
+   "chase": 0.2362390600809746,
+   "shadow_in": 0.2110394446425428,
+   "shadow_out": 0.1926599293165005,
+   "waste": 0.1222291932782971
+  },
+  "swing_side_variance_share": 0.4996000986076663,
+  "pzone_count_calibration": {
+   "0strike": {
+    "n": 570,
+    "observed_minus_pred": -0.001023583397277232
+   },
+   "1strike": {
+    "n": 278,
+    "observed_minus_pred": -0.010245694081916388
+   },
+   "2strike": {
+    "n": 118,
+    "observed_minus_pred": 0.007998855692837616
+   }
+  },
+  "team_home_away": {
+   "sa": {
+    "sd_team_home": 1.0134597207433387,
+    "sd_team_away": 1.3377469291900463,
+    "corr_home_away": 0.8897183614948426
+   },
+   "judgment": {
+    "sd_team_home": 0.826819034029786,
+    "sd_team_away": 0.7498923747978831,
+    "corr_home_away": 0.7451334003158786
+   }
+  }
+ },
+ "2025": {
+  "pitches": 216858,
+  "qualified": {
+   "batters": 171,
+   "median_n": 1089,
+   "sd_score": 2.7868904058854995,
+   "median_se": 1.128412481180827,
+   "reliability_1_minus_se2_over_var": 0.7764839887228595,
+   "signal_sd": 2.4557612537984124,
+   "pitches_for_reliability": {
+    "0.5": 234,
+    "0.7": 546,
+    "0.8": 935
+   },
+   "shrink_factor_at_median_n": 0.8233369448702361
+  },
+  "split_half_even_odd_games": {
+   "batters": 162,
+   "r": 0.707495543981956,
+   "spearman_brown": 0.8286938686024852
+  },
+  "block_reproducibility": {
+   "dv": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 119,
+     "r": 0.3302017985198689,
+     "expected_r_if_stable": 0.4545713327629991
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 115,
+     "r": 0.42435268670470666,
+     "expected_r_if_stable": 0.4733088348690957
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 104,
+     "r": 0.33369137851273306,
+     "expected_r_if_stable": 0.49977001752405
+    }
+   ],
+   "judgment": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 119,
+     "r": 0.5351934910288734,
+     "expected_r_if_stable": 0.6899389853904658
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 115,
+     "r": 0.6281174310351791,
+     "expected_r_if_stable": 0.6474384361036074
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 104,
+     "r": 0.48015203548341634,
+     "expected_r_if_stable": 0.6801688420258628
+    }
+   ]
+  },
+  "aggression": {
+   "corr_sbj_sa": 0.03317574591527619,
+   "sd_level_term": 0.2999408941329061,
+   "league_mean_w": -0.00420917677369165
+  },
+  "weight": {
+   "share_abs_w_lt_0.5": 0.006013151463169448,
+   "share_abs_w_lt_0.9": 0.00994660100157707,
+   "share_abs_w_ge_0.98": 0.987466452701768
+  },
+  "region_variance_share": {
+   "chase": 0.2805674043081779,
+   "heart": 0.33114735887095026,
+   "shadow_in": 0.17601314712471516,
+   "shadow_out": 0.11184762095499315,
+   "waste": 0.1004244687411638
+  },
+  "region_pitch_share": {
+   "heart": 0.23899971409862675,
+   "chase": 0.23636204336478248,
+   "shadow_in": 0.21069086683451843,
+   "shadow_out": 0.18990768152431545,
+   "waste": 0.12403969417775687
+  },
+  "swing_side_variance_share": 0.4911679272452108,
+  "pzone_count_calibration": {
+   "0strike": {
+    "n": 601,
+    "observed_minus_pred": -0.04002528585983966
+   },
+   "1strike": {
+    "n": 320,
+    "observed_minus_pred": -0.02780967166716789
+   },
+   "2strike": {
+    "n": 119,
+    "observed_minus_pred": -0.05260878293543172
+   }
+  },
+  "team_home_away": {
+   "sa": {
+    "sd_team_home": 1.3731663818682929,
+    "sd_team_away": 1.9638067827186623,
+    "corr_home_away": 0.9589037214963003
+   },
+   "judgment": {
+    "sd_team_home": 0.8361617965424333,
+    "sd_team_away": 0.8461496432223,
+    "corr_home_away": 0.8189977624324309
+   }
+  }
+ },
+ "2026": {
+  "pitches": 206964,
+  "qualified": {
+   "batters": 166,
+   "median_n": 1124,
+   "sd_score": 2.901863173482981,
+   "median_se": 1.1370821049570639,
+   "reliability_1_minus_se2_over_var": 0.7952562420143361,
+   "signal_sd": 2.5877986046040506,
+   "pitches_for_reliability": {
+    "0.5": 210,
+    "0.7": 489,
+    "0.8": 838
+   },
+   "shrink_factor_at_median_n": 0.8429565974931085
+  },
+  "split_half_even_odd_games": {
+   "batters": 160,
+   "r": 0.6959089426718745,
+   "spearman_brown": 0.8206914005364961
+  },
+  "block_reproducibility": {
+   "dv": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 112,
+     "r": 0.6086481707285889,
+     "expected_r_if_stable": 0.4213634536118655
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 103,
+     "r": 0.3972113782497698,
+     "expected_r_if_stable": 0.3562172799167831
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 101,
+     "r": 0.2443851203113941,
+     "expected_r_if_stable": 0.45366563567930607
+    }
+   ],
+   "judgment": [
+    {
+     "blocks": [
+      1,
+      2
+     ],
+     "batters": 112,
+     "r": 0.7331584724805185,
+     "expected_r_if_stable": 0.6843670909117169
+    },
+    {
+     "blocks": [
+      2,
+      3
+     ],
+     "batters": 103,
+     "r": 0.7290362952700674,
+     "expected_r_if_stable": 0.6602801974784002
+    },
+    {
+     "blocks": [
+      1,
+      3
+     ],
+     "batters": 101,
+     "r": 0.5947613052896609,
+     "expected_r_if_stable": 0.6864853293246233
+    }
+   ]
+  },
+  "aggression": {
+   "corr_sbj_sa": 0.08006129689438769,
+   "sd_level_term": 0.30465436713656735,
+   "league_mean_w": -0.007746585530111785
+  },
+  "weight": {
+   "share_abs_w_lt_0.5": 0.005025028507373263,
+   "share_abs_w_lt_0.9": 0.010306140198295356,
+   "share_abs_w_ge_0.98": 0.9864710770955335
+  },
+  "region_variance_share": {
+   "chase": 0.2664107408042959,
+   "heart": 0.37825197118470644,
+   "shadow_in": 0.17715607933366972,
+   "shadow_out": 0.078823390741991,
+   "waste": 0.09935781793533689
+  },
+  "region_pitch_share": {
+   "heart": 0.23766935312421483,
+   "chase": 0.23558686534856305,
+   "shadow_in": 0.21093523511335305,
+   "shadow_out": 0.1904437486712665,
+   "waste": 0.1253647977426026
+  },
+  "swing_side_variance_share": 0.5378297338554571,
+  "pzone_count_calibration": {
+   "0strike": {
+    "n": 631,
+    "observed_minus_pred": 0.020860579634847786
+   },
+   "1strike": {
+    "n": 274,
+    "observed_minus_pred": -0.042704810767455414
+   },
+   "2strike": {
+    "n": 126,
+    "observed_minus_pred": -0.009999652128239847
+   }
+  },
+  "team_home_away": {
+   "sa": {
+    "sd_team_home": 1.2436871688268583,
+    "sd_team_away": 1.8208713217517924,
+    "corr_home_away": 0.97318062983207
+   },
+   "judgment": {
+    "sd_team_home": 0.7842588831914469,
+    "sd_team_away": 0.8326522369708129,
+    "corr_home_away": 0.4922233674361616
+   }
+  }
+ }
+}
