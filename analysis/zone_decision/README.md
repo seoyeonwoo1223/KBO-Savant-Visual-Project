@@ -1,4 +1,4 @@
-# ZA v7 · strike-zone judgment and decision value · 2019–2026
+# ZA v7 (za7.3) · strike-zone judgment and decision value · 2019–2026
 
 ZA is `100 * mean((S - p_swing) * (2*p_zone - 1))`, where p_zone comes from the take-only CalledStrike vs Ball/HBP model reused from `plate_decision_v1`. ZA is also the official SBJ ranking score: raw judgment accuracy `zone_judgment_pct` minus league-policy accuracy `expected_zone_judgment_pct` equals it exactly, so SBJ has no separate formula and the raw accuracy is descriptive only.
 
@@ -26,7 +26,7 @@ Features: normalized location, count, base/out state, velocity, release height, 
 
 Conditional models estimate Whiff/Foul/InPlay given Swing and Ball/CalledStrike/HBP given Take. Sparse Swing probabilities blend toward training-only count/region/type/stance frequencies, themselves shrunk toward count/region and action priors, with 50 prior observations. The model weight is `n/(n+50)` for same-action neighborhood counts. Neighborhoods use normalized half-unit location cells, count, pitch type, stance, 10 km/h velocity and 10 cm movement bins. Take probabilities retain the location-sensitive fitted model. Opposite-action support uses the same detailed bins, with the legacy coarse count retained in pitch evidence. These counts diagnose coverage; they do not establish causal overlap or effective sample size.
 
-Propensity calibration is optional within each training set. Game-group out-of-fold probabilities feed an isotonic calibrator; a training-date 80/20 split must improve log loss and not worsen Brier score before fitting it on all training OOF pairs. No scored-game outcome enters this gate. Whether calibration applied is recorded per fit.
+Propensity calibration is always applied (za7.3). Game-group out-of-fold probabilities from the training set feed an isotonic calibrator, which then maps the Swing propensity; no scored-game outcome enters it. The Swing propensity model runs without early stopping and p_zone averages five seeds (`PZONE_SEEDS`). Until za7.2 an 80/20 training-date gate decided per fit whether to calibrate, and HGB early stopping drew a random validation split; the gate flipped between refits and moved player SBJ by about 0.3 pp when it did. With za7.3, reseeding moves qualified-hitter SBJ by 0.02–0.03 on average and dropping one game by 0.04–0.05 (za7.2: 0.08–0.37 and 0.13–0.29), with equal or lower p_swing and p_zone log loss (analysis/sbj_formula, C0d).
 
 ## Evaluation and uncertainty
 

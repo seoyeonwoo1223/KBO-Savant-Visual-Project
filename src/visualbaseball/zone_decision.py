@@ -29,9 +29,12 @@ from .curated import CM_PER_FOOT, _at_plane, load_rows as load_curated_rows, sch
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
 NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
-MODEL_VERSION = 'za7.2-pswing-pitcher-hand'
+MODEL_VERSION = 'za7.3-stable-pswing-pzone'
 SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
+# za7.3: p_zone averages five seeds so one early-stopping validation split no longer moves player SBJ
+# (analysis/sbj_formula C0d).
+PZONE_SEEDS = tuple(range(old.RANDOM_STATE, old.RANDOM_STATE+5))
 ABS_FIRST_SEASON = 2024
 # ABS calls left/right at the plate's middle plane; top and bottom must hold at
 # both the middle and back planes. px/pz sit at the front plane, where a falling
@@ -339,7 +342,8 @@ def probability_prior(train,test,actions,events,action,indices):
 
 
 def pswing_classifier():
- return old._classifier(len(NUMERIC)).set_params(categorical_features=list(range(len(NUMERIC),len(NUMERIC)+len(PSWING_CATEGORICAL))))
+ # No early stopping: its random validation split made p_swing, and through it player SBJ, depend on the seed.
+ return old._classifier(len(NUMERIC)).set_params(categorical_features=list(range(len(NUMERIC),len(NUMERIC)+len(PSWING_CATEGORICAL))),early_stopping=False)
 
 
 def fit_model(model, features, target):
@@ -368,14 +372,11 @@ def fit_predict(train, test, candidate=True, calibration=True, support_prior=50)
   for fit,held in GroupKFold(folds).split(sa,actions,groups):
    model=fit_model(pswing_classifier(),sa[fit],actions[fit])
    oof[held]=model.predict_proba(sa[held])[:,list(model.classes_).index(1)]
-  days=sorted({r['game_id'][:8] for r in train});cut=days[max(1,int(len(days)*.8))-1]
-  fit_mask=np.array([r['game_id'][:8]<=cut for r in train]);held_mask=~fit_mask
-  if held_mask.any() and len(set(actions[fit_mask]))==2:
-   calibrator=IsotonicRegression(out_of_bounds='clip',y_min=1e-6,y_max=1-1e-6).fit(oof[fit_mask],actions[fit_mask])
-   corrected=calibrator.predict(oof[held_mask]);truth=actions[held_mask]
-   calibration_applied=(log_loss(truth,corrected,labels=[0,1])<log_loss(truth,oof[held_mask],labels=[0,1]) and brier_score_loss(truth,corrected)<=brier_score_loss(truth,oof[held_mask]))
-   if calibration_applied:
-    calibrator.fit(oof,actions);p=calibrator.predict(raw_p)
+  # Always calibrate (za7.3). The former 80/20 date gate flipped between refits and moved player SBJ by
+  # about 0.3 pp whenever it did (analysis/sbj_formula C0c/C0d).
+  if len(set(actions))==2:
+   calibrator=IsotonicRegression(out_of_bounds='clip',y_min=1e-6,y_max=1-1e-6).fit(oof,actions)
+   p=calibrator.predict(raw_p);calibration_applied=True
  probs = np.zeros((len(test),6)); direct=np.zeros((len(test),2)); staged=direct.copy();unsmoothed=direct.copy()
  counts = Counter((support_key(r),r['decision_type']) for r in train)
  support = np.array([[counts[(support_key(r),action)] for action in ('Take','Swing')] for r in test])
@@ -450,8 +451,8 @@ def temporal_evaluation(rows):
  print('  Development',dev_date,len(train),len(dev),flush=True)
  predicted=fit_predict(train,dev)
  development=evaluation_metrics(dev,predicted)
- # Same algorithm as season scoring. Optional probability calibration is gated
- # inside each training set, never with a scored/development/final-test outcome.
+ # Same algorithm as season scoring. p_swing calibration is fitted on training-game
+ # OOF probabilities only, never with a scored/development/final-test outcome.
  settings=dict(SCORE_SETTINGS)
  print('  Final untouched test',test_date,len(test),settings,flush=True)
  predicted=fit_predict(train+dev,test,**settings)
@@ -459,8 +460,20 @@ def temporal_evaluation(rows):
  return {'selected':'staged','settings':settings,'development_start':dev_date,'split_date':test_date,
   'train_pitches':len(train)+len(dev),'test_pitches':len(test),'development':development,'final_test':final,
   **{k:final[k] for k in ('swing_log_loss','swing_brier','action_value','event_probability')},
-  'selection_rule':'60/20/20 dates: development diagnostics, then final evaluation with frozen algorithm. Each fit selects optional calibration using only training-game OOF probabilities. Final 20% never selects settings. Direct and unpooled RVs are diagnostic baselines.',
+  'selection_rule':'60/20/20 dates: development diagnostics, then final evaluation with frozen algorithm. Each fit calibrates p_swing with isotonic regression on training-game OOF probabilities only. Final 20% never selects settings. Direct and unpooled RVs are diagnostic baselines.',
   'counterfactual_validation':'Observed-action errors and conditional intervals do not identify unobserved opposite-action outcomes.'}
+
+
+def predict_pzone(train, test, fields):
+ """old.predict_pzone averaged over PZONE_SEEDS: the take-only CalledStrike vs Ball/HBP model."""
+ take=[r for r in train if r['decision_type']=='Take']
+ target=np.array([str(r.get('pitch_call_code') or '').upper()=='T' or r.get('event')=='CalledStrike' for r in take],dtype=int)
+ x,xt=old._encode_numeric(take,fields),old._encode_numeric(test,fields)
+ probability=np.zeros(len(test))
+ for seed in PZONE_SEEDS:
+  model=old._classifier().set_params(random_state=seed).fit(x,target)
+  probability+=model.predict_proba(xt)[:,list(model.classes_).index(1)]
+ return np.clip(probability/len(PZONE_SEEDS),1e-6,1-1e-6)
 
 
 def r6(x): return round(float(x),6)
@@ -474,7 +487,7 @@ def score_crossfit(rows, selected, settings=SCORE_SETTINGS, pzone_features=old.P
   held=set(block); train=[r for r in rows if r['game_id'][:8] not in held]; test=[r for r in rows if r['game_id'][:8] in held]
   print('  Scoring block',fold+1,len(test),flush=True)
   pred=fit_predict(train,test,**settings)
-  pzone=old.predict_pzone(train,test,pzone_features)
+  pzone=predict_pzone(train,test,pzone_features)
   action=np.array([r['decision_type']=='Swing' for r in test],dtype=int)
   values=pred[selected]; dv=decision_value(action,values[:,1],values[:,0])
   for i,r in enumerate(test):
