@@ -47,7 +47,7 @@ Visual Baseball(VB) 원본에는 공 누락, 타석 분리, 궤적 복제, 구�
 6. **산출물**
    - `analysis/sbj_location/results/naver_pitch_lookup.csv`: 대상 공마다 한 행. 분류, 네이버 투구 ID, 위치 필드, 근거를 넣는다.
    - `analysis/sbj_location/results/naver_relay_fields.md`: Q1–Q3 답, 필드 목록, 대상 경기별 수집 성공·실패, 분류별 건수
-   - 수집·정규화·대조 스크립트: `analysis/sbj_location/naver_relay_fetch.py` 등. 기존 `NaverRelayClient`를 재사용해도 된다.
+   - 수집·정규화·대조 스크립트: `analysis/sbj_location/naver_relay_location_fetch.py` 등(처음 이름은 `naver_relay_fetch.py`). 기존 `NaverRelayClient`를 재사용해도 된다.
 
 ## 지켜야 할 규칙
 
