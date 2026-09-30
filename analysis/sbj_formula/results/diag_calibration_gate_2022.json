@@ -1,0 +1,88 @@
+{
+ "season": 2022,
+ "dropped_games": [
+  "20220712WOSK0",
+  "20220621LTHT0",
+  "20220611WOHT0"
+ ],
+ "configs": {
+  "B0": {
+   "full_calibration_applied": [
+    false,
+    true,
+    true
+   ],
+   "perturbations": [
+    {
+     "game": "20220712WOSK0",
+     "calibration_applied": [
+      true,
+      true,
+      true
+     ],
+     "flip": true,
+     "mean_abs_delta_sbj": 0.2873990177312584
+    },
+    {
+     "game": "20220621LTHT0",
+     "calibration_applied": [
+      false,
+      true,
+      true
+     ],
+     "flip": false,
+     "mean_abs_delta_sbj": 0.048952093490777164
+    },
+    {
+     "game": "20220611WOHT0",
+     "calibration_applied": [
+      false,
+      true,
+      true
+     ],
+     "flip": false,
+     "mean_abs_delta_sbj": 0.057853046194297895
+    }
+   ]
+  },
+  "C0a": {
+   "full_calibration_applied": [
+    false,
+    true,
+    true
+   ],
+   "perturbations": [
+    {
+     "game": "20220712WOSK0",
+     "calibration_applied": [
+      true,
+      true,
+      true
+     ],
+     "flip": true,
+     "mean_abs_delta_sbj": 0.3074472234741163
+    },
+    {
+     "game": "20220621LTHT0",
+     "calibration_applied": [
+      true,
+      true,
+      true
+     ],
+     "flip": true,
+     "mean_abs_delta_sbj": 0.29292796678527977
+    },
+    {
+     "game": "20220611WOHT0",
+     "calibration_applied": [
+      true,
+      true,
+      true
+     ],
+     "flip": true,
+     "mean_abs_delta_sbj": 0.2676774769934521
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,117 @@
+{
+ "season": 2026,
+ "base": "b0",
+ "pzone_fields_base": [
+  "x_mid_relative",
+  "top_gap_cm",
+  "bottom_gap_cm"
+ ],
+ "pzone_fields_c1": [
+  "x_mid_relative",
+  "top_gap_cm",
+  "bottom_gap_cm",
+  "balls_before",
+  "strikes_before"
+ ],
+ "takes": 114163,
+ "boundary_takes": 1031,
+ "take_log_loss": {
+  "base": 0.006962236792333358,
+  "c1": 0.006953983101540885,
+  "delta": -8.253690792474064e-06,
+  "cluster_z": -0.3399294919782868
+ },
+ "boundary_log_loss": {
+  "base": 0.5866431051413968,
+  "c1": 0.5884663227195456,
+  "delta": 0.0018232175781487728,
+  "cluster_z": 0.7647023030862568
+ },
+ "boundary_calibration": {
+  "base": {
+   "0strike": {
+    "n": 631,
+    "observed_minus_pred": 0.020860579634847887
+   },
+   "1strike": {
+    "n": 274,
+    "observed_minus_pred": -0.042704810767455414
+   },
+   "2strike": {
+    "n": 126,
+    "observed_minus_pred": -0.009999652128239778
+   },
+   "3ball": {
+    "n": 80,
+    "observed_minus_pred": -0.004337704196770598
+   }
+  },
+  "c1": {
+   "0strike": {
+    "n": 631,
+    "observed_minus_pred": 0.016641141805487092
+   },
+   "1strike": {
+    "n": 274,
+    "observed_minus_pred": -0.03868144189786571
+   },
+   "2strike": {
+    "n": 126,
+    "observed_minus_pred": 0.002947387774574539
+   },
+   "3ball": {
+    "n": 80,
+    "observed_minus_pred": -0.002302863973731084
+   }
+  }
+ },
+ "own_boundary_calibration_c1": {
+  "0strike": {
+   "n": 615,
+   "observed_minus_pred": 0.014449364309105706
+  },
+  "1strike": {
+   "n": 273,
+   "observed_minus_pred": -0.037938121399742675
+  },
+  "2strike": {
+   "n": 127,
+   "observed_minus_pred": -0.0025103183107571536
+  },
+  "3ball": {
+   "n": 81,
+   "observed_minus_pred": -0.013273294826992077
+  }
+ },
+ "players": {
+  "qualified": 166,
+  "qualification_changes": 0,
+  "mean_abs_delta": 0.007672526861564978,
+  "max_abs_delta": 0.06498379896799744,
+  "spearman": 0.9999527779053068,
+  "max_rank_shift": 3,
+  "moved_5_or_more": 0
+ },
+ "block_reproducibility": {
+  "base": [
+   0.7331584724805185,
+   0.7290362952700674,
+   0.5947613052896609
+  ],
+  "c1": [
+   0.7337196435402684,
+   0.7293095564396794,
+   0.5952500343624647
+  ],
+  "base_mean": 0.6856520243467489,
+  "c1_mean": 0.6860930781141376
+ },
+ "seconds_c1_pzone": 5.760271787643433,
+ "gates": {
+  "A1": {
+   "z_all": -0.3399294919782868,
+   "z_boundary": 0.7647023030862568,
+   "no_significant_gain": true
+  }
+ }
+}
