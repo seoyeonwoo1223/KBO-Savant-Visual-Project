@@ -183,6 +183,21 @@ def outcome(row):
  return {'S':'Whiff', 'F':'Foul', 'X':'InPlay', 'B':'Ball', 'T':'CalledStrike'}.get(code)
 
 
+def park_workbook(root, season):
+ return root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'
+
+
+def raw_movement(rows):
+ """Movement features without a park workbook: the raw VB HB/IVB, unadjusted."""
+ available=0
+ for r in rows:
+  hb,ivb=old._safe_float(r.get('horizontal_movement_cm')),old._safe_float(r.get('vertical_movement_cm'))
+  ok=not(np.isnan(hb) or np.isnan(ivb)); available+=ok
+  r['adjusted_hb_cm'],r['adjusted_ivb_cm']=(hb,ivb) if ok else (np.nan,np.nan)
+ return {'movement_available':available,'movement_adjusted':0,'adjustment_coverage_pct':0.0,
+  'formula':'no park adjustment workbook for this season: raw Visual Baseball measurement'}
+
+
 def load_rows(root, season):
  rows=load_curated_rows(root,'pitches',season)
  events=load_curated_rows(root,'events',season)
@@ -206,12 +221,13 @@ def load_rows(root, season):
   r['region'] = region(r)
   if pzone_fields(season)==PZONE_ABS: r.update(judgment_plane_location(r))
   valid.append(r)
- movement = old._movement_adjust(valid, root, season)
+ # 2019-2021 have no park workbook: p_swing then reads the raw VB movement (stadium stays a p_swing input).
+ movement = old._movement_adjust(valid, root, season) if park_workbook(root,season).exists() else raw_movement(valid)
  # Retain pre-pitch features, transitions, identity and training target only.
  keep = set(NUMERIC + old.PZONE_NUMERIC + PZONE_ABS + PSWING_CATEGORICAL + ('plane_fallback','game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
  keep.update(f'{k}_{w}' for k in ('base_state_code','outs','balls','strikes') for w in ('before','after'))
  valid = [{k:v for k,v in r.items() if k in keep} for r in valid]
- for p in (root/'data/curated/players/player_bio.parquet',root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'):
+ for p in (root/'data/curated/players/player_bio.parquet',park_workbook(root,season)):
   if p.exists():hashes[p.name]=file_hash(p)
  return sorted(valid, key=lambda r:r['game_id']), {'source':f'data/curated/pitches/season={season}','input_mode':'curated','curated_version':None,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'pzone_input':pzone_input(valid,season), 'unknown_stance':sum(not r['batter_stance'] for r in valid),'unknown_pitcher_hand':sum(not r['pitcher_throws'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
 

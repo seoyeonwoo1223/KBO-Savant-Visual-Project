@@ -1,4 +1,4 @@
-# ZA v7 · strike-zone judgment and decision value · 2024–2026
+# ZA v7 · strike-zone judgment and decision value · 2019–2026
 
 ZA is `100 * mean((S - p_swing) * (2*p_zone - 1))`, where p_zone comes from the take-only CalledStrike vs Ball/HBP model reused from `plate_decision_v1`. ZA is also the official SBJ ranking score: raw judgment accuracy `zone_judgment_pct` minus league-policy accuracy `expected_zone_judgment_pct` equals it exactly, so SBJ has no separate formula and the raw accuracy is descriptive only.
 
@@ -6,7 +6,7 @@ In ABS seasons (2024+) p_zone reads the judgment planes instead of the front-pla
 
 ## Model change map
 
-Keep metric edits to `zone_awareness()`, `decision_value()`, and `profile_summary()` in `src/visualbaseball/zone_decision.py`. `SCORE_SETTINGS` and `score_crossfit()` own fixed model settings and out-of-block scoring; `write_web()` only serializes the five displayed metrics. Rebuild a changed season with `python -m visualbaseball.zone_decision --seasons YEAR` after its season Excel is current. Every `daily_update` run also calls `python -m visualbaseball.cli --season <2024|2025> --only zone_decision`, which rebuilds a completed ABS season from stored curated data only when its metric_state input or code hash changed (the check takes well under a second otherwise). `scripts/check_zone_decision_outputs.py` then requires all three seasons to share the current `MODEL_VERSION`, player files, CSV and build state before the Release upload and the data commit.
+Keep metric edits to `zone_awareness()`, `decision_value()`, and `profile_summary()` in `src/visualbaseball/zone_decision.py`. `SCORE_SETTINGS` and `score_crossfit()` own fixed model settings and out-of-block scoring; `write_web()` only serializes the five displayed metrics. Rebuild a changed season with `python -m visualbaseball.zone_decision --seasons YEAR` after its season Excel is current. Every `daily_update` run also calls `python -m visualbaseball.cli --season <2019…2025> --only zone_decision`, which rebuilds a completed season from stored curated data only when its metric_state input or code hash changed (the check takes well under a second otherwise). `scripts/check_zone_decision_outputs.py` then requires all three seasons to share the current `MODEL_VERSION`, player files, CSV and build state before the Release upload and the data commit.
 
 ## Inputs and scoring states
 

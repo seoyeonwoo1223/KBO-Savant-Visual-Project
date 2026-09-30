@@ -24,6 +24,9 @@ from .curated import normalize_trajectory, pitch_sha256, schema_sha256, source_m
 from .metric_state import mark_built, needs_build
 from .dataset_summary import build_summary
 
+# SBJ seasons. 2024+ judge against the ABS planes; 2019-2023 against the umpire's calls (zone_decision.pzone_fields).
+SBJ_SEASONS = tuple(range(2019, 2027))
+
 
 def _is_final(game: dict) -> bool:
     status = str(game.get("status", ""))
@@ -80,7 +83,7 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
     if decision_source.exists():
         build("plate_discipline", lambda: build_plate_discipline(root, season, decision_source))
         if pq.read_metadata(decision_source).num_rows >= 1_000:
-            if season in (2024, 2025, 2026):
+            if season in SBJ_SEASONS:
                 build("zone_decision", lambda: build_zone_decision(root, season))
             else:
                 build("plate_decision", lambda: build_plate_decision_v1(root, season, decision_source, web_root=root / "web"))
@@ -121,10 +124,10 @@ def main() -> None:
     root = Path(args.root).resolve()
     storage_root = Path(args.storage_root).resolve() if args.storage_root else root
     if args.only == "zone_decision":
-        # Completed ABS seasons have no Swing/Take decision table, so this skips the
+        # Completed seasons have no Swing/Take decision table, so this skips the
         # _exports() gate; build_zone_decision reads curated data directly.
-        if args.season not in (2024, 2025, 2026):
-            parser.error("--only zone_decision covers the ABS seasons 2024-2026")
+        if args.season not in SBJ_SEASONS:
+            parser.error("--only zone_decision covers the SBJ seasons 2019-2026")
         _build_metric(root, args.season, "zone_decision", lambda: build_zone_decision(root, args.season))
         return
     if args.only == "pitch_arsenal":
