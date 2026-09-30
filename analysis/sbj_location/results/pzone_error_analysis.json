@@ -1,0 +1,145 @@
+{
+ "2024": {
+  "A_B_gap_gt_0.4_takes": 1394,
+  "by_nearest_edge": {
+   "bottom": {
+    "n": 519,
+    "B_right": 0.963,
+    "A_right": 0.329
+   },
+   "side": {
+    "n": 560,
+    "B_right": 0.827,
+    "A_right": 0.468
+   },
+   "top": {
+    "n": 315,
+    "B_right": 0.952,
+    "A_right": 0.292
+   }
+  },
+  "median_front_pz_minus_trajectory_cm": {
+   "top_edge": 2.05,
+   "bottom_edge": 5.59
+  },
+  "logloss_share_pct": {
+   "structural": {
+    "takes": 734,
+    "A": 12.8,
+    "B": 20.3
+   },
+   "B_NEAR_CENTER": {
+    "takes": 337,
+    "A": 27.7,
+    "B": 43.2
+   },
+   "any_flag": {
+    "takes": 991,
+    "A": 32.3,
+    "B": 50.4
+   },
+   "vb_ball_tm_next_strike": {
+    "takes": 571,
+    "A": 34.2,
+    "B": 54.4
+   }
+  },
+  "worst_200_B_takes": {
+   "flagged": 131,
+   "B_NEAR_CENTER": 94,
+   "vb_ball": 199
+  }
+ },
+ "2025": {
+  "A_B_gap_gt_0.4_takes": 1228,
+  "by_nearest_edge": {
+   "bottom": {
+    "n": 588,
+    "B_right": 0.957,
+    "A_right": 0.298
+   },
+   "side": {
+    "n": 357,
+    "B_right": 0.692,
+    "A_right": 0.515
+   },
+   "top": {
+    "n": 283,
+    "B_right": 0.915,
+    "A_right": 0.293
+   }
+  },
+  "median_front_pz_minus_trajectory_cm": {
+   "top_edge": 2.41,
+   "bottom_edge": 5.93
+  },
+  "logloss_share_pct": {
+   "structural": {
+    "takes": 949,
+    "A": 16.4,
+    "B": 23.6
+   },
+   "B_NEAR_CENTER": {
+    "takes": 344,
+    "A": 28.8,
+    "B": 41.3
+   },
+   "any_flag": {
+    "takes": 1171,
+    "A": 34.6,
+    "B": 50.0
+   }
+  },
+  "worst_200_B_takes": {
+   "flagged": 135,
+   "B_NEAR_CENTER": 91,
+   "vb_ball": 200
+  }
+ },
+ "2026": {
+  "A_B_gap_gt_0.4_takes": 1233,
+  "by_nearest_edge": {
+   "bottom": {
+    "n": 481,
+    "B_right": 0.956,
+    "A_right": 0.335
+   },
+   "side": {
+    "n": 489,
+    "B_right": 0.777,
+    "A_right": 0.438
+   },
+   "top": {
+    "n": 263,
+    "B_right": 0.916,
+    "A_right": 0.281
+   }
+  },
+  "median_front_pz_minus_trajectory_cm": {
+   "top_edge": 2.25,
+   "bottom_edge": 5.79
+  },
+  "logloss_share_pct": {
+   "structural": {
+    "takes": 722,
+    "A": 13.0,
+    "B": 19.7
+   },
+   "B_NEAR_CENTER": {
+    "takes": 276,
+    "A": 25.7,
+    "B": 39.0
+   },
+   "any_flag": {
+    "takes": 913,
+    "A": 30.6,
+    "B": 46.5
+   }
+  },
+  "worst_200_B_takes": {
+   "flagged": 130,
+   "B_NEAR_CENTER": 101,
+   "vb_ball": 198
+  }
+ }
+}

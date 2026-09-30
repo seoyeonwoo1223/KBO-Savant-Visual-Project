@@ -1,0 +1,29 @@
+{
+ "season": 2026,
+ "held_pas": 4,
+ "held_eligible_pitches": 9,
+ "held_takes": 5,
+ "qualified_batters": 166,
+ "all_qualified": {
+  "mean_abs_delta": 0.0593,
+  "max_abs_delta": 0.218,
+  "max_rank_shift": 7,
+  "spearman": 0.99938
+ },
+ "touched_batters": [
+  {
+   "batter_id": "76267",
+   "name": "최주환",
+   "pitches_base": 1265,
+   "za_base": -2.9947,
+   "za_held": -2.9471
+  },
+  {
+   "batter_id": "78168",
+   "name": "서건창",
+   "pitches_base": 1738,
+   "za_base": -2.2532,
+   "za_held": -2.1848
+  }
+ ]
+}

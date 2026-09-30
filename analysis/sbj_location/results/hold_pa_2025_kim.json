@@ -1,0 +1,22 @@
+{
+ "season": 2025,
+ "held_pas": 2,
+ "held_eligible_pitches": 9,
+ "held_takes": 3,
+ "qualified_batters": 171,
+ "all_qualified": {
+  "mean_abs_delta": 0.3031,
+  "max_abs_delta": 0.8266,
+  "max_rank_shift": 13,
+  "spearman": 0.9973
+ },
+ "touched_batters": [
+  {
+   "batter_id": "64340",
+   "name": "임지열",
+   "pitches_base": 1632,
+   "za_base": 2.2438,
+   "za_held": 2.5467
+  }
+ ]
+}

@@ -1,0 +1,402 @@
+{
+ "season": 2025,
+ "eligible_pitches": 217623,
+ "takes": 119311,
+ "strata_counts_all_pitches": {
+  "fallback": 0,
+  "disagree_gt1cm": 6,
+  "boundary_within_5cm": 85648
+ },
+ "metrics": {
+  "all": {
+   "takes": 119311,
+   "called_strike_rate": 0.3289,
+   "A_reported": {
+    "log_loss": 0.04056,
+    "brier": 0.01002,
+    "auc": 0.99718,
+    "cal_slope": 1.016,
+    "cal_intercept": -0.045,
+    "ece": 0.00056,
+    "misclass_at_0.5": 1498
+   },
+   "B_za72": {
+    "log_loss": 0.02923,
+    "brier": 0.00629,
+    "auc": 0.99707,
+    "cal_slope": 1.039,
+    "cal_intercept": -0.145,
+    "ece": 0.00061,
+    "misclass_at_0.5": 888
+   },
+   "C1_za72_flag": {
+    "log_loss": 0.02923,
+    "brier": 0.00629,
+    "auc": 0.99707,
+    "cal_slope": 1.039,
+    "cal_intercept": -0.145,
+    "ece": 0.00061,
+    "misclass_at_0.5": 888
+   },
+   "C2_split": {
+    "log_loss": 0.02911,
+    "brier": 0.00625,
+    "auc": 0.99708,
+    "cal_slope": 1.04,
+    "cal_intercept": -0.146,
+    "ece": 0.0008,
+    "misclass_at_0.5": 884
+   },
+   "D_za72_plus_front_pz": {
+    "log_loss": 0.02915,
+    "brier": 0.00627,
+    "auc": 0.99708,
+    "cal_slope": 1.036,
+    "cal_intercept": -0.138,
+    "ece": 0.0005,
+    "misclass_at_0.5": 875
+   }
+  },
+  "trajectory_ok": {
+   "takes": 119311,
+   "called_strike_rate": 0.3289,
+   "A_reported": {
+    "log_loss": 0.04056,
+    "brier": 0.01002,
+    "auc": 0.99718,
+    "cal_slope": 1.016,
+    "cal_intercept": -0.045,
+    "ece": 0.00056,
+    "misclass_at_0.5": 1498
+   },
+   "B_za72": {
+    "log_loss": 0.02923,
+    "brier": 0.00629,
+    "auc": 0.99707,
+    "cal_slope": 1.039,
+    "cal_intercept": -0.145,
+    "ece": 0.00061,
+    "misclass_at_0.5": 888
+   },
+   "C1_za72_flag": {
+    "log_loss": 0.02923,
+    "brier": 0.00629,
+    "auc": 0.99707,
+    "cal_slope": 1.039,
+    "cal_intercept": -0.145,
+    "ece": 0.00061,
+    "misclass_at_0.5": 888
+   },
+   "C2_split": {
+    "log_loss": 0.02911,
+    "brier": 0.00625,
+    "auc": 0.99708,
+    "cal_slope": 1.04,
+    "cal_intercept": -0.146,
+    "ece": 0.0008,
+    "misclass_at_0.5": 884
+   },
+   "D_za72_plus_front_pz": {
+    "log_loss": 0.02915,
+    "brier": 0.00627,
+    "auc": 0.99708,
+    "cal_slope": 1.036,
+    "cal_intercept": -0.138,
+    "ece": 0.0005,
+    "misclass_at_0.5": 875
+   }
+  },
+  "trajectory_missing_fallback": {
+   "takes": 0,
+   "called_strike_rate": null
+  },
+  "reported_vs_trajectory_disagree_gt1cm": {
+   "takes": 3,
+   "called_strike_rate": 0.0
+  },
+  "boundary_within_5cm": {
+   "takes": 46823,
+   "called_strike_rate": 0.4215,
+   "A_reported": {
+    "log_loss": 0.06882,
+    "brier": 0.01879,
+    "auc": 0.99519,
+    "cal_slope": 1.004,
+    "cal_intercept": 0.016,
+    "ece": 0.00188,
+    "misclass_at_0.5": 1177
+   },
+   "B_za72": {
+    "log_loss": 0.03937,
+    "brier": 0.00928,
+    "auc": 0.99609,
+    "cal_slope": 1.039,
+    "cal_intercept": -0.093,
+    "ece": 0.00163,
+    "misclass_at_0.5": 567
+   },
+   "C1_za72_flag": {
+    "log_loss": 0.03937,
+    "brier": 0.00928,
+    "auc": 0.99609,
+    "cal_slope": 1.039,
+    "cal_intercept": -0.093,
+    "ece": 0.00163,
+    "misclass_at_0.5": 567
+   },
+   "C2_split": {
+    "log_loss": 0.03917,
+    "brier": 0.00918,
+    "auc": 0.99606,
+    "cal_slope": 1.044,
+    "cal_intercept": -0.116,
+    "ece": 0.00209,
+    "misclass_at_0.5": 563
+   },
+   "D_za72_plus_front_pz": {
+    "log_loss": 0.03925,
+    "brier": 0.00923,
+    "auc": 0.99612,
+    "cal_slope": 1.035,
+    "cal_intercept": -0.091,
+    "ece": 0.00138,
+    "misclass_at_0.5": 554
+   }
+  },
+  "non_boundary": {
+   "takes": 72488,
+   "called_strike_rate": 0.2691,
+   "A_reported": {
+    "log_loss": 0.0223,
+    "brier": 0.00435,
+    "auc": 0.99792,
+    "cal_slope": 1.26,
+    "cal_intercept": -1.098,
+    "ece": 0.00054,
+    "misclass_at_0.5": 321
+   },
+   "B_za72": {
+    "log_loss": 0.02269,
+    "brier": 0.00436,
+    "auc": 0.9974,
+    "cal_slope": 1.109,
+    "cal_intercept": -0.491,
+    "ece": 0.00031,
+    "misclass_at_0.5": 321
+   },
+   "C1_za72_flag": {
+    "log_loss": 0.02269,
+    "brier": 0.00436,
+    "auc": 0.9974,
+    "cal_slope": 1.109,
+    "cal_intercept": -0.491,
+    "ece": 0.00031,
+    "misclass_at_0.5": 321
+   },
+   "C2_split": {
+    "log_loss": 0.02262,
+    "brier": 0.00436,
+    "auc": 0.99742,
+    "cal_slope": 1.077,
+    "cal_intercept": -0.349,
+    "ece": 0.00021,
+    "misclass_at_0.5": 321
+   },
+   "D_za72_plus_front_pz": {
+    "log_loss": 0.02262,
+    "brier": 0.00435,
+    "auc": 0.9974,
+    "cal_slope": 1.105,
+    "cal_intercept": -0.475,
+    "ece": 0.00029,
+    "misclass_at_0.5": 321
+   }
+  }
+ },
+ "logloss_diff_vs_B_za72": {
+  "all": {
+   "A_reported": {
+    "mean": 0.011326,
+    "ci95": [
+     0.01044,
+     0.012336
+    ]
+   },
+   "C1_za72_flag": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "C2_split": {
+    "mean": -0.00012,
+    "ci95": [
+     -0.000418,
+     0.000179
+    ]
+   },
+   "D_za72_plus_front_pz": {
+    "mean": -8.5e-05,
+    "ci95": [
+     -0.000175,
+     3e-05
+    ]
+   }
+  },
+  "boundary_within_5cm": {
+   "A_reported": {
+    "mean": 0.029457,
+    "ci95": [
+     0.027214,
+     0.031932
+    ]
+   },
+   "C1_za72_flag": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ]
+   },
+   "C2_split": {
+    "mean": -0.0002,
+    "ci95": [
+     -0.000978,
+     0.000607
+    ]
+   },
+   "D_za72_plus_front_pz": {
+    "mean": -0.000115,
+    "ci95": [
+     -0.000297,
+     8.9e-05
+    ]
+   }
+  }
+ },
+ "player_sbj_sensitivity": {
+  "qualified_batters": 171,
+  "A_reported": {
+   "spearman_vs_B": 0.99343,
+   "mean_abs_delta_za_raw": 0.175,
+   "max_abs_delta_za_raw": 1.0881,
+   "max_rank_shift": 21,
+   "rank_shift_ge5": 50,
+   "top10_overlap": 9,
+   "largest_changes": [
+    {
+     "batter_id": "65040",
+     "name": "김태훈",
+     "za_B": 0.192,
+     "za_alt": 1.28
+    },
+    {
+     "batter_id": "55326",
+     "name": "스톤",
+     "za_B": 4.19,
+     "za_alt": 3.488
+    },
+    {
+     "batter_id": "55252",
+     "name": "박준순",
+     "za_B": -2.927,
+     "za_alt": -2.292
+    }
+   ]
+  },
+  "C1_za72_flag": {
+   "spearman_vs_B": 1.0,
+   "mean_abs_delta_za_raw": 0.0,
+   "max_abs_delta_za_raw": 0.0,
+   "max_rank_shift": 0,
+   "rank_shift_ge5": 0,
+   "top10_overlap": 10,
+   "largest_changes": [
+    {
+     "batter_id": "50054",
+     "name": "천성호",
+     "za_B": 2.41,
+     "za_alt": 2.41
+    },
+    {
+     "batter_id": "50150",
+     "name": "손호영",
+     "za_B": -0.337,
+     "za_alt": -0.337
+    },
+    {
+     "batter_id": "50167",
+     "name": "이주형",
+     "za_B": 1.391,
+     "za_alt": 1.391
+    }
+   ]
+  },
+  "C2_split": {
+   "spearman_vs_B": 0.99856,
+   "mean_abs_delta_za_raw": 0.0645,
+   "max_abs_delta_za_raw": 0.4857,
+   "max_rank_shift": 16,
+   "rank_shift_ge5": 9,
+   "top10_overlap": 10,
+   "largest_changes": [
+    {
+     "batter_id": "69992",
+     "name": "최정원",
+     "za_B": -1.994,
+     "za_alt": -2.479
+    },
+    {
+     "batter_id": "66209",
+     "name": "조수행",
+     "za_B": -1.082,
+     "za_alt": -0.757
+    },
+    {
+     "batter_id": "68362",
+     "name": "추재현",
+     "za_B": -1.91,
+     "za_alt": -2.22
+    }
+   ]
+  },
+  "D_za72_plus_front_pz": {
+   "spearman_vs_B": 0.99988,
+   "mean_abs_delta_za_raw": 0.0118,
+   "max_abs_delta_za_raw": 0.0794,
+   "max_rank_shift": 3,
+   "rank_shift_ge5": 0,
+   "top10_overlap": 10,
+   "largest_changes": [
+    {
+     "batter_id": "65040",
+     "name": "김태훈",
+     "za_B": 0.192,
+     "za_alt": 0.271
+    },
+    {
+     "batter_id": "55013",
+     "name": "스티븐슨",
+     "za_B": -0.888,
+     "za_alt": -0.939
+    },
+    {
+     "batter_id": "76812",
+     "name": "이재원",
+     "za_B": -2.79,
+     "za_alt": -2.84
+    }
+   ]
+  }
+ },
+ "za_raw_sd_qualified_B": 2.7423,
+ "A_vs_B_disagreement_takes_gt0.4": {
+  "n": 1228,
+  "called_strike": 558,
+  "A_closer": 182,
+  "where_A_higher": 676,
+  "fallback": 0,
+  "boundary": 1228
+ }
+}

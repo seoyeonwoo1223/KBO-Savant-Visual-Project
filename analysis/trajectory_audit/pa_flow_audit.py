@@ -39,14 +39,15 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from visualbaseball.curated import load_rows
+from visualbaseball.curated import CM_PER_FOOT, _at_plane, load_rows
 
 ROOT = Path(__file__).resolve().parents[2]
 SEASONS = tuple(range(2019, 2027))
 TRAJ = ("x0", "y0", "z0", "vx0", "vy0", "vz0", "ax", "ay", "az")
 COLS = ["pitch_id", "pa_id", "game_id", "inning", "inning_half", "batter_id", "batter_name", "pitcher_id", "pitcher_name",
         "pitch_call_code", "pa_type", "pa_result", "velocity_kmh", "pitch_type_kr", "px", "pz", "game_pitch_number",
-        "balls_before", "strikes_before", "trajectory_status", "sz_top", "sz_bottom", *TRAJ]
+        "balls_before", "strikes_before", "trajectory_status", "plate_x_error_cm", "plate_z_error_cm",
+        "sz_top", "sz_bottom", *TRAJ]
 # 결과 문구로 종료 방식을 나눈다(2022–2024 curated에는 pa_type이 비어 있다).
 HBP_IBB = ("사구", "고의사")          # 볼카운트와 무관하게 끝날 수 있음 ("사구"=몸에 맞는 공)
 STRIKEOUT = ("삼진", "WP", "PB")   # 낫아웃 폭투·포일 포함. "포BO"는 마지막이 0–1스트라이크의 X인 타구 아웃이라 제외
@@ -112,6 +113,40 @@ def row_flags(d: pd.DataFrame) -> pd.DataFrame:
     valid = d.trajectory_status.eq("valid")
     dup_traj = valid & (d.assign(k=traj).groupby(["game_id", "k"]).pitch_id.transform("size") > 1)
     out = pd.DataFrame({"pitch_id": d.pitch_id, "pa_id": d.pa_id, "DUP_CONSEC": same, "DUP_TRAJ": dup_traj})
+    return out
+
+
+def pitch_quality_flags(d: pd.DataFrame, pa: pd.DataFrame, rf: pd.DataFrame, season: int) -> pd.DataFrame:
+    """Attach explainable review flags to every source pitch; never relabel or exclude it."""
+    out = d[["pitch_id", "pa_id", "game_id", "game_pitch_number"]].copy()
+    out["flags"] = out.pa_id.map(pa.set_index("pa_id")["flags"]).fillna("")
+    for column in ("DUP_CONSEC", "DUP_TRAJ"):
+        mask = rf.set_index("pitch_id")[column].reindex(out.pitch_id).fillna(False).to_numpy()
+        out[column.lower()] = mask
+        add = mask & ~out["flags"].str.contains(rf"(?:^|,){column}(?:,|$)").to_numpy()
+        out["flags"] += np.where(add, np.where(out["flags"].eq(""), "", ",") + column, "")
+    # Curated plate_x_error_cm uses the front plane, while VB px switches to the middle
+    # plane in 2024. Compare like with like; otherwise ordinary pitches look corrupted.
+    if season >= 2024:
+        x_error = pd.Series(np.nan, index=d.index)
+        valid = d.trajectory_status.eq("valid") & d.px.notna()
+        x_error.loc[valid] = [(_at_plane(row, 8.5 / 12) or (np.nan,))[0] - float(row["px"]) * CM_PER_FOOT
+                              for row in d.loc[valid, ["px", *TRAJ]].to_dict("records")]
+    else:
+        x_error = pd.to_numeric(d.plate_x_error_cm, errors="coerce")
+    soft = {"B_NEAR_CENTER": (season >= 2024) & d.pitch_call_code.fillna("").str.upper().eq("B")
+            & zone_distance(d).le(0.8),
+            "PLATE_X_DISAGREE": x_error.abs().gt(1),
+            "PLATE_Z_DISAGREE": pd.to_numeric(d.plate_z_error_cm, errors="coerce").abs().gt(1)}
+    for name, mask in soft.items():
+        out["flags"] += np.where(mask.to_numpy(), np.where(out["flags"].eq(""), "", ",") + name, "")
+    structural = r"(?:^|,)(?:K_CONT|BB_CONT|X_NONLAST|END_MISMATCH|SPLIT_SAME|SPLIT_PCHANGE)(?:,|$)"
+    contextual = r"^(?:HALF_END|OTHER_OPEN)$"
+    out["review_level"] = np.select([out["flags"].str.contains(structural),
+                                      out["flags"].ne("") & ~out["flags"].str.contains(contextual)],
+                                     ["structural", "diagnostic"], default="none")
+    if out.pitch_id.duplicated().any() or len(out) != len(d):
+        raise ValueError("quality flags must retain exactly one row per source pitch")
     return out
 
 
@@ -184,6 +219,7 @@ FLAGS = ("K_CONT", "BB_CONT", "X_NONLAST", "END_MISMATCH", "SPLIT_SAME", "SPLIT_
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument("--out", required=True)
     parser.add_argument("--seasons", nargs="+", type=int, default=list(SEASONS))
+    parser.add_argument("--skip-trackman", action="store_true", help="only source-record flags; use pa_flow_strict for TrackMan")
     args = parser.parse_args()
     out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
     summary = {}
@@ -200,11 +236,14 @@ def main():
         for flag in FLAGS:
             sel = pa["flags"].str.contains(flag)
             entry["flag_pas"][flag] = int(sel.sum()); entry["flag_pitches"][flag] = int(pa.pitches[sel].sum())
+        quality = pitch_quality_flags(d, pa, rf, season)
+        quality.to_csv(out / f"record_quality_{season}.csv.gz", index=False)
+        entry["review_levels"] = {name: int((quality.review_level == name).sum()) for name in ("structural", "diagnostic", "none")}
         # 보조 규칙: 존 중심 가까이의 VB "B" (ABS 시즌에서 TrackMan 없이 쓰는 탐지)
         near = (d.pitch_call_code.fillna("").str.upper() == "B") & (zone_distance(d) <= 0.8)
         entry["B_near_center_0.8"] = int(near.sum())
         d.loc[near, ["pitch_id", "pa_id", "px", "pz", "velocity_kmh"]].to_csv(out / f"b_near_center_{season}.csv", index=False)
-        tm_rows = trackman_counts(season, d)
+        tm_rows = None if args.skip_trackman else trackman_counts(season, d)
         if tm_rows is not None:
             tm_rows["state"] = tm_rows.balls_before.astype(int).astype(str) + "-" + tm_rows.strikes_before.astype(int).astype(str)
             tm = tm_rows.groupby(KEY).state.agg(list).rename("tm_states")

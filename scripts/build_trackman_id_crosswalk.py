@@ -27,6 +27,13 @@ GAME_MAX_RUNNER_UP = 0.3    # and no second candidate may come close
 MIN_SUPPORT = 20            # aligned pitches behind an accepted pair
 MIN_SHARE = 0.9             # share of the ID's aligned pitches, checked in both directions
 ROLES = {"pitcher": ("pitcher_trackman_id", "pitcher_id"), "batter": ("batter_trackman_id", "batter_id")}
+# The historical TrackMan export also contains Futures and KBO_ARM vs Futures games.
+# Require two regular-season club codes; filtering the pitcher side alone leaks minors.
+TRACKMAN_TO_VB_TEAM = {
+    "DOO_BEA": "OB", "HAN_EAG": "HH", "KIA_TIG": "HT", "KIW_HER": "WO",
+    "KT_WIZ": "KT", "LG_TWI": "LG", "LOT_GIA": "LT", "NC_DIN": "NC",
+    "SAM_LIO": "SS", "SK_WYV": "SK", "SSG_LAN": "SK",
+}
 
 
 def _write_json(path: Path, value: dict) -> None:
@@ -38,7 +45,8 @@ def _write_json(path: Path, value: dict) -> None:
 
 def _trackman(root: Path, season: int) -> pd.DataFrame:
     frame = pd.read_csv(root / "data" / "tracking" / "raw" / f"season={season}" / "trackman_history.csv", dtype=str)
-    frame = frame[~frame["pitcher_team"].fillna("").str.startswith("MIN_")].copy()  # KBO games only
+    frame = frame[frame["pitcher_team"].isin(TRACKMAN_TO_VB_TEAM)
+                  & frame["batter_team"].isin(TRACKMAN_TO_VB_TEAM)].copy()
     frame["date"] = pd.to_datetime(frame["game_date"], format="mixed").dt.strftime("%Y%m%d")  # 2019-21 use MM/DD/YYYY
     frame["half"] = frame["top_bottom"].str.lower().str.startswith("t").map({True: "top", False: "bottom"})
     for column in ("inning", "pitch_no", "pitch_of_pa", "balls_before", "strikes_before", "outs_before"):
@@ -61,7 +69,7 @@ def _visualbaseball(root: Path, season: int) -> pd.DataFrame:
 
 
 def map_games(trackman: pd.DataFrame, visualbaseball: pd.DataFrame) -> dict[str, str]:
-    """Pair games by same-date pitcher sets; drop ambiguous or doubly claimed games."""
+    """Pair games by pitchers, then uniquely identified date and first-team clubs."""
     vb_games = visualbaseball.groupby("game_id").agg(date=("date", "first"), pitchers=("pitcher_id", frozenset))
     by_date = defaultdict(list)
     for game_id, row in vb_games.iterrows():
@@ -74,7 +82,29 @@ def map_games(trackman: pd.DataFrame, visualbaseball: pd.DataFrame) -> dict[str,
         if scores and scores[0][0] >= GAME_MIN_JACCARD and (len(scores) == 1 or scores[1][0] < GAME_MAX_RUNNER_UP):
             pairs[game_id] = scores[0][1]
     claimed = pd.Series(pairs).value_counts()
-    return {tm: vb for tm, vb in pairs.items() if claimed[vb] == 1}
+    pairs = {tm: vb for tm, vb in pairs.items() if claimed[vb] == 1}
+    if not {"pitcher_team", "batter_team"}.issubset(trackman.columns):
+        return pairs
+    by_clubs = defaultdict(list)
+    for vb_id in vb_games.index:
+        by_clubs[(vb_id[:8], frozenset((vb_id[8:10], vb_id[10:12])))].append(vb_id)
+    fallback = {}
+    used = set(pairs.values())
+    for tm_id, rows in trackman.groupby("trackman_game_id"):
+        if tm_id in pairs:
+            continue
+        clubs = set(rows["pitcher_team"]) | set(rows["batter_team"])
+        if len(clubs) != 2 or not clubs.issubset(TRACKMAN_TO_VB_TEAM):
+            continue
+        key = (rows["date"].iat[0], frozenset(TRACKMAN_TO_VB_TEAM[club] for club in clubs))
+        candidates = by_clubs[key]
+        if len(candidates) == 1 and candidates[0] not in used:
+            fallback[tm_id] = candidates[0]
+    # Two TrackMan games claiming one VB game are ambiguous even with a unique
+    # club/date key (for example an incomplete doubleheader export).
+    fallback_claimed = pd.Series(fallback).value_counts()
+    pairs.update({tm: vb for tm, vb in fallback.items() if fallback_claimed[vb] == 1})
+    return pairs
 
 
 def align_pitches(trackman: pd.DataFrame, visualbaseball: pd.DataFrame, games: dict[str, str]) -> pd.DataFrame:
@@ -182,8 +212,9 @@ def build_season(root: Path, season: int) -> dict:
 def build(root: Path) -> dict:
     summary = json.loads((root / "data" / "tracking" / "summary.json").read_text(encoding="utf-8"))
     seasons = sorted(int(season) for season in summary["seasons"])
-    result = {"schema_version": 3,
-              "rule": {"games": f"same date, pitcher-set Jaccard >= {GAME_MIN_JACCARD}, runner-up < {GAME_MAX_RUNNER_UP}, one-to-one",
+    result = {"schema_version": 4,
+              "rule": {"trackman_scope": "both pitcher_team and batter_team are recognized KBO first-team clubs; no Futures/army rows",
+                       "games": f"same date, pitcher-set Jaccard >= {GAME_MIN_JACCARD}, runner-up < {GAME_MAX_RUNNER_UP}, one-to-one; else unique same-date first-team club pair",
                        "pitches": "k-th plate appearance of the half inning and n-th pitch of the plate appearance",
                        "trusted_pitches": "balls, strikes and outs before the pitch agree",
                        "pairs": f"support >= {MIN_SUPPORT} and share >= {MIN_SHARE} in both directions, one-to-one",
