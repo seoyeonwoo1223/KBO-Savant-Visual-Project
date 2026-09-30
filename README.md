@@ -81,6 +81,8 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 
 게임 최종 점수는 공개 PBP 스냅샷뿐 아니라 공식 라인스코어와도 대조합니다. 두 소스가 충돌하면 `SOURCE_SCORE_CONFLICT` 이벤트를 남기고 공식 라인스코어를 최종 기준으로 사용합니다. 공개 PBP가 제공하지 않는 주자 이벤트는 추측하지 않으며 `parse_status=unknown`으로 보존합니다.
 
+SBJ 투구 사건의 신뢰도, 1군 TrackMan 대조 범위, 미매칭 사유를 남기는 한 번의 실행 절차는 [SBJ 데이터 신뢰 감사](docs/sbj-data-quality.md)를 참조하십시오. 감사 플래그는 원본 수정이나 공개 점수 변경이 아닙니다.
+
 ## 자동 갱신
 
 `.github/workflows/daily_update.yml`은 한국 시간 매일 00:00에 테스트 후 신규·미완료·최근 7일 확정 경기만 갱신합니다. parser·상태 전이·canonical 변환·Naver 보강 코드를 바꾸는 push는 2026의 보존된 원시 PBP를 다시 파싱하고 Naver 보강도 새로 받습니다. 다른 코드 push는 기존 curated 데이터에서 산출물만 다시 만듭니다. 전체 reconcile은 주간 workflow 또는 수동 요청으로만 실행하며, 수동 `refresh_completed` workflow에서는 2022~2026 중 시즌을 골라 전체 재수집할 수 있습니다. canonical pitch shard가 Swing/Take 프로필의 단일 입력이며, 분석 입력이 바뀌면 프로필 JSON과 `data/metrics/swing_take/2026/decision_pitches.parquet`가 함께 재생성됩니다. 중간 분석 테이블인 Decision Pitches는 Excel에 넣지 않습니다. 분석 hash가 같으면 metric을 다시 만들지 않습니다.
@@ -111,7 +113,7 @@ Zone Awareness는 canonical pitch/event shard만 입력으로 받으며 Excel·l
 
 ## Pitch Arsenal
 
-`web/pitch-arsenal/`은 2022~2026 시즌 투수별 구종 사용률, 평균 구속, Horizontal Break와 Induced Vertical Break를 Savant형 화면으로 제공한다. 무브먼트는 `data/park_adjustments/`의 시즌·구장·구종별 오프셋을 사용해 `보정값 = 측정값 - 오프셋`으로 계산하며, 타원의 폭과 높이는 각각 중앙 75%(12.5~87.5 백분위) 범위다. 보정표에 독립 항목이 없는 투심은 싱커, 스위퍼는 슬라이더 오프셋에 연결한다. 원측정값과 보정값은 화면에서 전환할 수 있다.
+`web/pitch-arsenal/`은 2022~2026 시즌 투수별 구종 사용률, 평균 구속, Horizontal Break와 Induced Vertical Break를 Savant형 화면으로 제공한다. 무브먼트는 `movement_calibration.py`로 보정한다. 탄착 위치에 따른 측정 치우침을 빼고, 투수×구종과 구장×날짜 효과를 함께 추정해 구장·날짜별 편향을 뺀다(TrackMan 2019–2024 투구 단위 대조로 검증, `analysis/movement_calibration/`). 타원의 폭과 높이는 각각 중앙 75%(12.5~87.5 백분위) 범위이고, 원측정값과 보정값은 화면에서 전환할 수 있다. 한 투수가 10구 이하 또는 5% 미만으로 던진 구종은 중앙 구속 5km/h, 보정 HB·IVB 각 8cm, 탄착 중심 1.5ft 안에 드는 주력 구종이 있으면 그 구종에 묶어 보여 주고(표·툴팁에 원래 분류와 개수 표시), 없으면 점선 타원과 `소수 구종` 표시로 따로 둔다. 표시상의 묶음이며 curated `pitch_type`과 ZA/SBJ 입력은 바꾸지 않는다.
 
 ## Arm Angle Movement Zones
 

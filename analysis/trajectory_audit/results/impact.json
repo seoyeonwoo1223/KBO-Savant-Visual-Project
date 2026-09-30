@@ -1,0 +1,449 @@
+{
+ "2024": {
+  "pitches": 222225,
+  "plane_fallback": 0,
+  "by_category": {
+   "extreme_consistent": {
+    "pitches": 176,
+    "boundary": 55,
+    "plane_shift_cm_p50_p99_max": [
+     1.0545261486617008,
+     3.460529880786499,
+     3.814987562603811
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.9865971314802526,
+     0.9926092737010112
+    ],
+    "dp_over_0_05": 4,
+    "crosses_half": 3,
+    "boundary_and_dp_over_0_05": 4,
+    "abs_dp_zone_front_p50_p99": [
+     3.775640778439363e-05,
+     0.06946887023879228
+    ],
+    "takes": 102,
+    "take_call_agreement": {
+     "current": 1.0,
+     "anchored": 0.9803921568627451,
+     "front_model": 1.0
+    }
+   },
+   "extreme_release_mismatch": {
+    "pitches": 35,
+    "boundary": 13,
+    "plane_shift_cm_p50_p99_max": [
+     1.0106758442631332,
+     2.294384564948771,
+     2.334021889328163
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.010362135830481777,
+     0.01286285286687705
+    ],
+    "dp_over_0_05": 0,
+    "crosses_half": 0,
+    "boundary_and_dp_over_0_05": 0,
+    "abs_dp_zone_front_p50_p99": [
+     2.9416683689672033e-05,
+     0.33282236467899373
+    ],
+    "takes": 23,
+    "take_call_agreement": {
+     "current": 0.9565217391304348,
+     "anchored": 0.9565217391304348,
+     "front_model": 0.9565217391304348
+    }
+   },
+   "implausible_acceleration": {
+    "pitches": 3,
+    "boundary": 2,
+    "plane_shift_cm_p50_p99_max": [
+     1.5223514126842304,
+     1.6400574227336304,
+     1.6424595862040263
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "dp_over_0_05": 0,
+    "crosses_half": 0,
+    "boundary_and_dp_over_0_05": 0,
+    "abs_dp_zone_front_p50_p99": [
+     1.3758945618360036e-05,
+     0.0001115470745055285
+    ],
+    "takes": 1,
+    "take_call_agreement": {
+     "current": 1.0,
+     "anchored": 1.0,
+     "front_model": 1.0
+    }
+   },
+   "normal": {
+    "pitches": 222011,
+    "boundary": 72086,
+    "plane_shift_cm_p50_p99_max": [
+     0.5131411887795991,
+     2.170709831782319,
+     5.182815437109809
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.13652226910193693,
+     0.9959301725487194
+    ],
+    "dp_over_0_05": 2548,
+    "crosses_half": 1392,
+    "boundary_and_dp_over_0_05": 1549,
+    "abs_dp_zone_front_p50_p99": [
+     0.0003875967147500825,
+     0.4645973216651303
+    ],
+    "takes": 120986,
+    "take_call_agreement": {
+     "current": 0.9934289917841733,
+     "anchored": 0.9889160729340585,
+     "front_model": 0.9872133965913411
+    }
+   }
+  },
+  "sbj_if_replaced": {
+   "suspect_categories": {
+    "pitches_replaced": 38,
+    "qualified": 155,
+    "max_abs_delta_pp": 0.000357588945162135,
+    "players_delta_over_0_01pp": 0,
+    "players_delta_over_0_05pp": 0,
+    "max_rank_change": 0
+   },
+   "suspect_and_extreme_consistent": {
+    "pitches_replaced": 214,
+    "qualified": 155,
+    "max_abs_delta_pp": 0.08220583924945002,
+    "players_delta_over_0_01pp": 3,
+    "players_delta_over_0_05pp": 2,
+    "max_rank_change": 1
+   },
+   "every_pitch_sensitivity": {
+    "pitches_replaced": 222225,
+    "qualified": 155,
+    "max_abs_delta_pp": 0.725503522625919,
+    "players_delta_over_0_01pp": 149,
+    "players_delta_over_0_05pp": 110,
+    "max_rank_change": 16
+   }
+  }
+ },
+ "2025": {
+  "pitches": 217623,
+  "plane_fallback": 0,
+  "by_category": {
+   "extreme_consistent": {
+    "pitches": 239,
+    "boundary": 71,
+    "plane_shift_cm_p50_p99_max": [
+     0.9590958930872233,
+     4.774736681486538,
+     5.180660373389145
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.47205683276319454,
+     0.9630963503672826
+    ],
+    "dp_over_0_05": 3,
+    "crosses_half": 3,
+    "boundary_and_dp_over_0_05": 1,
+    "abs_dp_zone_front_p50_p99": [
+     0.00010840843576996817,
+     0.4485386012394091
+    ],
+    "takes": 140,
+    "take_call_agreement": {
+     "current": 1.0,
+     "anchored": 0.9857142857142858,
+     "front_model": 0.9928571428571429
+    }
+   },
+   "extreme_release_mismatch": {
+    "pitches": 27,
+    "boundary": 8,
+    "plane_shift_cm_p50_p99_max": [
+     0.392931323633789,
+     2.527090863507807,
+     2.626597099703247
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.008071237270397451,
+     0.009577727916043277
+    ],
+    "dp_over_0_05": 0,
+    "crosses_half": 0,
+    "boundary_and_dp_over_0_05": 0,
+    "abs_dp_zone_front_p50_p99": [
+     0.00014402981073824428,
+     0.019900754009597055
+    ],
+    "takes": 16,
+    "take_call_agreement": {
+     "current": 1.0,
+     "anchored": 1.0,
+     "front_model": 1.0
+    }
+   },
+   "implausible_acceleration": {
+    "pitches": 3,
+    "boundary": 0,
+    "plane_shift_cm_p50_p99_max": [
+     0.5267907159066993,
+     2.984768569699315,
+     3.0349313830420215
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "dp_over_0_05": 0,
+    "crosses_half": 0,
+    "boundary_and_dp_over_0_05": 0,
+    "abs_dp_zone_front_p50_p99": [
+     8.444234122756938e-05,
+     0.00010545251351287184
+    ],
+    "takes": 3,
+    "take_call_agreement": {
+     "current": 1.0,
+     "anchored": 1.0,
+     "front_model": 1.0
+    }
+   },
+   "normal": {
+    "pitches": 217348,
+    "boundary": 70387,
+    "plane_shift_cm_p50_p99_max": [
+     0.5302242835425321,
+     2.248036537367857,
+     6.6309579175514415
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.17465449370252123,
+     0.9924387769664774
+    ],
+    "dp_over_0_05": 2493,
+    "crosses_half": 1424,
+    "boundary_and_dp_over_0_05": 1546,
+    "abs_dp_zone_front_p50_p99": [
+     0.00039087313737951046,
+     0.4339827833466937
+    ],
+    "takes": 119149,
+    "take_call_agreement": {
+     "current": 0.9925555397023894,
+     "anchored": 0.9873435782087974,
+     "front_model": 0.9874442924405576
+    }
+   },
+   "trajectory_inconsistent": {
+    "pitches": 6,
+    "boundary": 3,
+    "plane_shift_cm_p50_p99_max": [
+     37.543883988640204,
+     254.0446699998598,
+     258.86603502878813
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.9849120488685612,
+     0.9933051509545519,
+     0.9934714181558497
+    ],
+    "dp_over_0_05": 4,
+    "crosses_half": 4,
+    "boundary_and_dp_over_0_05": 3,
+    "abs_dp_zone_front_p50_p99": [
+     0.9039484362579374,
+     0.9901156147235279
+    ],
+    "takes": 3,
+    "take_call_agreement": {
+     "current": 0.6666666666666666,
+     "anchored": 0.6666666666666666,
+     "front_model": 0.6666666666666666
+    }
+   }
+  },
+  "sbj_if_replaced": {
+   "suspect_categories": {
+    "pitches_replaced": 36,
+    "qualified": 171,
+    "max_abs_delta_pp": 0.22129395089807868,
+    "players_delta_over_0_01pp": 2,
+    "players_delta_over_0_05pp": 2,
+    "max_rank_change": 11
+   },
+   "suspect_and_extreme_consistent": {
+    "pitches_replaced": 275,
+    "qualified": 171,
+    "max_abs_delta_pp": 0.22129395089807868,
+    "players_delta_over_0_01pp": 4,
+    "players_delta_over_0_05pp": 2,
+    "max_rank_change": 11
+   },
+   "every_pitch_sensitivity": {
+    "pitches_replaced": 217623,
+    "qualified": 171,
+    "max_abs_delta_pp": 0.9641415764385237,
+    "players_delta_over_0_01pp": 159,
+    "players_delta_over_0_05pp": 122,
+    "max_rank_change": 19
+   }
+  }
+ },
+ "2026": {
+  "pitches": 203072,
+  "plane_fallback": 0,
+  "by_category": {
+   "extreme_consistent": {
+    "pitches": 387,
+    "boundary": 113,
+    "plane_shift_cm_p50_p99_max": [
+     0.9365438434862199,
+     3.546078438527247,
+     4.266448564131565
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.2539325630653154,
+     0.9226520700633578
+    ],
+    "dp_over_0_05": 5,
+    "crosses_half": 4,
+    "boundary_and_dp_over_0_05": 5,
+    "abs_dp_zone_front_p50_p99": [
+     0.00012144741893569441,
+     0.45420936760475866
+    ],
+    "takes": 233,
+    "take_call_agreement": {
+     "current": 1.0,
+     "anchored": 0.9957081545064378,
+     "front_model": 0.9914163090128756
+    }
+   },
+   "extreme_release_mismatch": {
+    "pitches": 38,
+    "boundary": 10,
+    "plane_shift_cm_p50_p99_max": [
+     0.6167666836051069,
+     2.842396842378734,
+     3.5295127211480413
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.07886131997989804,
+     0.11804196643495579
+    ],
+    "dp_over_0_05": 1,
+    "crosses_half": 0,
+    "boundary_and_dp_over_0_05": 1,
+    "abs_dp_zone_front_p50_p99": [
+     0.00018491729215421303,
+     0.4718177690578025
+    ],
+    "takes": 21,
+    "take_call_agreement": {
+     "current": 1.0,
+     "anchored": 1.0,
+     "front_model": 0.9523809523809523
+    }
+   },
+   "implausible_acceleration": {
+    "pitches": 4,
+    "boundary": 3,
+    "plane_shift_cm_p50_p99_max": [
+     0.4883621721074256,
+     5.614046144739653,
+     5.771875582159375
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     1.7347466339557995e-05,
+     1.7883985917070103e-05
+    ],
+    "dp_over_0_05": 0,
+    "crosses_half": 0,
+    "boundary_and_dp_over_0_05": 0,
+    "abs_dp_zone_front_p50_p99": [
+     0.001908367615253408,
+     0.7796075879362576
+    ],
+    "takes": 4,
+    "take_call_agreement": {
+     "current": 1.0,
+     "anchored": 1.0,
+     "front_model": 0.75
+    }
+   },
+   "normal": {
+    "pitches": 202643,
+    "boundary": 66142,
+    "plane_shift_cm_p50_p99_max": [
+     0.5229793586420541,
+     2.223894006393285,
+     5.248839850742456
+    ],
+    "abs_dp_zone_alt_p50_p99_max": [
+     0.0,
+     0.231175857956171,
+     0.9949286611931873
+    ],
+    "dp_over_0_05": 2471,
+    "crosses_half": 1335,
+    "boundary_and_dp_over_0_05": 1521,
+    "abs_dp_zone_front_p50_p99": [
+     0.00036406217045781286,
+     0.45046589022394284
+    ],
+    "takes": 112052,
+    "take_call_agreement": {
+     "current": 0.9930835683432692,
+     "anchored": 0.9883893192446365,
+     "front_model": 0.9871755970442294
+    }
+   }
+  },
+  "sbj_if_replaced": {
+   "suspect_categories": {
+    "pitches_replaced": 42,
+    "qualified": 166,
+    "max_abs_delta_pp": 0.002070492130672452,
+    "players_delta_over_0_01pp": 0,
+    "players_delta_over_0_05pp": 0,
+    "max_rank_change": 0
+   },
+   "suspect_and_extreme_consistent": {
+    "pitches_replaced": 429,
+    "qualified": 166,
+    "max_abs_delta_pp": 0.06026505878904842,
+    "players_delta_over_0_01pp": 4,
+    "players_delta_over_0_05pp": 1,
+    "max_rank_change": 1
+   },
+   "every_pitch_sensitivity": {
+    "pitches_replaced": 203072,
+    "qualified": 166,
+    "max_abs_delta_pp": 0.7512519061707401,
+    "players_delta_over_0_01pp": 157,
+    "players_delta_over_0_05pp": 132,
+    "max_rank_change": 14
+   }
+  }
+ }
+}

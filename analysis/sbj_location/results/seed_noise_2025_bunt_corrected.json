@@ -1,0 +1,20 @@
+{
+ "seed_1": {
+  "mean_abs_delta": 0.0768,
+  "max_abs_delta": 0.7197,
+  "max_rank_shift": 10,
+  "spearman": 0.99879
+ },
+ "seed_2": {
+  "mean_abs_delta": 0.0549,
+  "max_abs_delta": 0.2347,
+  "max_rank_shift": 7,
+  "spearman": 0.99944
+ },
+ "seed_3": {
+  "mean_abs_delta": 0.055,
+  "max_abs_delta": 0.2932,
+  "max_rank_shift": 5,
+  "spearman": 0.99948
+ }
+}

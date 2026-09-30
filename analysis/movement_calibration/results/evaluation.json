@@ -1,0 +1,1800 @@
+{
+ "reference": {
+  "2019": {
+   "hb": {
+    "bR": 0.8865607678431363,
+    "bL": 0.8661502101818981,
+    "aL": 9.11266259563676,
+    "aR": 2.8362872406963775,
+    "kx": -0.5032603467351803,
+    "kz": -0.21659414835089874
+   },
+   "ivb": {
+    "bR": 0.9143048563548697,
+    "bL": 0.895653816099106,
+    "aL": 1.4747134448874086,
+    "aR": 0.3403375039842869,
+    "kx": 0.5721047419253742,
+    "kz": -1.2026277381423234
+   }
+  },
+  "2020": {
+   "hb": {
+    "bR": 0.8902961289815816,
+    "bL": 0.8649567701800734,
+    "aL": 7.63022102876445,
+    "aR": 1.5752831684385444,
+    "kx": -0.30772820660237915,
+    "kz": -0.27460528184222427
+   },
+   "ivb": {
+    "bR": 0.9149849234546162,
+    "bL": 0.89511541129313,
+    "aL": 1.3815062783574423,
+    "aR": 0.38026772566994316,
+    "kx": 0.49878114527470896,
+    "kz": -1.0545485149726888
+   }
+  },
+  "2021": {
+   "hb": {
+    "bR": 0.9002360837763175,
+    "bL": 0.8722386160824265,
+    "aL": 7.22714890351504,
+    "aR": 0.9246997136898389,
+    "kx": -0.393469713814524,
+    "kz": -0.029884292303560378
+   },
+   "ivb": {
+    "bR": 0.9260278540265133,
+    "bL": 0.9013834034625591,
+    "aL": 1.6369646124524504,
+    "aR": 0.41497200697381387,
+    "kx": 0.4838532211165102,
+    "kz": -0.9523218363407207
+   }
+  },
+  "2022": {
+   "hb": {
+    "bR": 0.8260486588289904,
+    "bL": 0.8101261733875214,
+    "aL": 7.04849226992703,
+    "aR": 1.175987059097419,
+    "kx": -0.5952739275396238,
+    "kz": 0.015850604516429386
+   },
+   "ivb": {
+    "bR": 0.8562647860454785,
+    "bL": 0.8334587536760837,
+    "aL": 4.522235925800278,
+    "aR": 2.730188024682673,
+    "kx": 0.37679901774027486,
+    "kz": -1.008722653919045
+   }
+  },
+  "2023": {
+   "hb": {
+    "bR": 0.823495630928543,
+    "bL": 0.8113554815535752,
+    "aL": 5.681495175229777,
+    "aR": -0.31179048771157675,
+    "kx": -0.7443393371121404,
+    "kz": 0.009680533171644237
+   },
+   "ivb": {
+    "bR": 0.8612557097798558,
+    "bL": 0.8336008074039181,
+    "aL": 4.304067439661272,
+    "aR": 2.446585692655958,
+    "kx": 0.3729230433568826,
+    "kz": -1.0672947028232591
+   }
+  },
+  "2024": {
+   "hb": {
+    "bR": 0.8251748921188562,
+    "bL": 0.8155260480095277,
+    "aL": 4.360239335396751,
+    "aR": -0.5838473826344327,
+    "kx": -0.8387480791799835,
+    "kz": 0.09028324777423336
+   },
+   "ivb": {
+    "bR": 0.8584753101558894,
+    "bL": 0.8325555174675584,
+    "aL": 5.5012564744230374,
+    "aR": 2.308944689128851,
+    "kx": 0.49467879207479043,
+    "kz": -1.0057251545210735
+   }
+  }
+ },
+ "seasons": {
+  "2019": {
+   "matched_pitches": 165459,
+   "vb_pitches": 204683,
+   "location_coefficients": {
+    "hb": {
+     "kx": -0.5759118528497302,
+     "kz": -0.03773503773669553
+    },
+    "ivb": {
+     "kx": 0.4454070439126334,
+     "kz": -1.0177225725153574
+    }
+   },
+   "candidates": {
+    "hb": {
+     "raw": {
+      "pitch_mad": 5.341606847863847,
+      "pitch_sd": 7.742346441645496,
+      "park_day_bias_rms": 6.86618315143422,
+      "park_type_bias_rms": 6.6776515624684185,
+      "pitcher_type_mean_rms": 3.6123979281629603,
+      "pitcher_type_mean_p95": 7.858432457434002,
+      "pitcher_types": 696
+     },
+     "raw_loc": {
+      "pitch_mad": 5.277758025040306,
+      "pitch_sd": 7.706365981194091,
+      "park_day_bias_rms": 6.838205859814237,
+      "park_type_bias_rms": 6.649890060745195,
+      "pitcher_type_mean_rms": 3.5914881229462,
+      "pitcher_type_mean_p95": 7.9186955977245335,
+      "pitcher_types": 696
+     },
+     "fe_season": {
+      "pitch_mad": 2.824528290552294,
+      "pitch_sd": 4.331738642308906,
+      "park_day_bias_rms": 2.4415257219555833,
+      "park_type_bias_rms": 1.8360518771431804,
+      "pitcher_type_mean_rms": 1.644742854270528,
+      "pitcher_type_mean_p95": 3.4416806780167515,
+      "pitcher_types": 696
+     },
+     "fe_month": {
+      "pitch_mad": 2.713045675428827,
+      "pitch_sd": 4.205031947018562,
+      "park_day_bias_rms": 2.2086031315492045,
+      "park_type_bias_rms": 1.831615778296669,
+      "pitcher_type_mean_rms": 1.6225254220386007,
+      "pitcher_type_mean_p95": 3.4969162035230754,
+      "pitcher_types": 696
+     },
+     "fe_half": {
+      "pitch_mad": 2.7050476525070746,
+      "pitch_sd": 4.206695873396418,
+      "park_day_bias_rms": 2.2118446105087264,
+      "park_type_bias_rms": 1.8282743656888962,
+      "pitcher_type_mean_rms": 1.6086626800028052,
+      "pitcher_type_mean_p95": 3.4986522202601646,
+      "pitcher_types": 696
+     },
+     "fe_week": {
+      "pitch_mad": 2.711570526336315,
+      "pitch_sd": 4.209630005590081,
+      "park_day_bias_rms": 2.2174240589570005,
+      "park_type_bias_rms": 1.8319658672675834,
+      "pitcher_type_mean_rms": 1.6028473370491831,
+      "pitcher_type_mean_p95": 3.4255605436558754,
+      "pitcher_types": 696
+     },
+     "fe_series": {
+      "pitch_mad": 2.7167914950439886,
+      "pitch_sd": 4.216737054352248,
+      "park_day_bias_rms": 2.231033740408024,
+      "park_type_bias_rms": 1.8272539493185214,
+      "pitcher_type_mean_rms": 1.6061039833378044,
+      "pitcher_type_mean_p95": 3.4111971731784436,
+      "pitcher_types": 696
+     },
+     "fe_day": {
+      "pitch_mad": 2.7606972659249003,
+      "pitch_sd": 4.289749802333727,
+      "park_day_bias_rms": 2.365714690233647,
+      "park_type_bias_rms": 1.822885543771002,
+      "pitcher_type_mean_rms": 1.6124296254044361,
+      "pitcher_type_mean_p95": 3.513223772559269,
+      "pitcher_types": 696
+     },
+     "fe_season_loc": {
+      "pitch_mad": 2.780464898987031,
+      "pitch_sd": 4.309007155244768,
+      "park_day_bias_rms": 2.436580624970728,
+      "park_type_bias_rms": 1.8339670271968425,
+      "pitcher_type_mean_rms": 1.6444654260088825,
+      "pitcher_type_mean_p95": 3.4355554728032556,
+      "pitcher_types": 696
+     },
+     "fe_series_loc": {
+      "pitch_mad": 2.6723247401447825,
+      "pitch_sd": 4.196655062095073,
+      "park_day_bias_rms": 2.2317753195256795,
+      "park_type_bias_rms": 1.8264154995074238,
+      "pitcher_type_mean_rms": 1.6073455303387962,
+      "pitcher_type_mean_p95": 3.391989495789398,
+      "pitcher_types": 696
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 2.6676321426383662,
+      "pitch_sd": 4.187734727408909,
+      "park_day_bias_rms": 2.215121506141655,
+      "park_type_bias_rms": 1.8222780878272908,
+      "pitcher_type_mean_rms": 1.616683778868734,
+      "pitcher_type_mean_p95": 3.442978065639049,
+      "pitcher_types": 696
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 2.6665830504184864,
+      "pitch_sd": 4.1673499807885825,
+      "park_day_bias_rms": 2.1762793058727965,
+      "park_type_bias_rms": 1.8174135890584615,
+      "pitcher_type_mean_rms": 1.6084727982397657,
+      "pitcher_type_mean_p95": 3.419473054389269,
+      "pitcher_types": 696
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 2.6890335570495356,
+      "pitch_sd": 4.180811074529251,
+      "park_day_bias_rms": 2.201567860121274,
+      "park_type_bias_rms": 1.8147769810989602,
+      "pitcher_type_mean_rms": 1.6135980227323943,
+      "pitcher_type_mean_p95": 3.502525920696608,
+      "pitcher_types": 696
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 2.662726019729547,
+      "pitch_sd": 4.1818209352088145,
+      "park_day_bias_rms": 2.2037360280299723,
+      "park_type_bias_rms": 1.8242179577416335,
+      "pitcher_type_mean_rms": 1.6135961335336442,
+      "pitcher_type_mean_p95": 3.489341564340842,
+      "pitcher_types": 696
+     }
+    },
+    "ivb": {
+     "raw": {
+      "pitch_mad": 4.186295888761145,
+      "pitch_sd": 5.963180686232179,
+      "park_day_bias_rms": 4.332769436214009,
+      "park_type_bias_rms": 4.197201778328981,
+      "pitcher_type_mean_rms": 2.7241581331241904,
+      "pitcher_type_mean_p95": 5.973825294669821,
+      "pitcher_types": 696
+     },
+     "raw_loc": {
+      "pitch_mad": 4.085206466406476,
+      "pitch_sd": 5.803568521497687,
+      "park_day_bias_rms": 4.311097079511659,
+      "park_type_bias_rms": 4.190796379377012,
+      "pitcher_type_mean_rms": 2.742981281788614,
+      "pitcher_type_mean_p95": 5.930726589424252,
+      "pitcher_types": 696
+     },
+     "fe_season": {
+      "pitch_mad": 2.8942497470446265,
+      "pitch_sd": 4.731751956617468,
+      "park_day_bias_rms": 2.367880848237179,
+      "park_type_bias_rms": 2.127838642486573,
+      "pitcher_type_mean_rms": 2.081145965676091,
+      "pitcher_type_mean_p95": 4.505268828242859,
+      "pitcher_types": 696
+     },
+     "fe_month": {
+      "pitch_mad": 2.9050128434192786,
+      "pitch_sd": 4.752573402664997,
+      "park_day_bias_rms": 2.4091816614529984,
+      "park_type_bias_rms": 2.132796111071692,
+      "pitcher_type_mean_rms": 2.090026132752017,
+      "pitcher_type_mean_p95": 4.554433645823183,
+      "pitcher_types": 696
+     },
+     "fe_half": {
+      "pitch_mad": 2.9167099072049574,
+      "pitch_sd": 4.768208795897397,
+      "park_day_bias_rms": 2.4395603361623377,
+      "park_type_bias_rms": 2.1291365528838146,
+      "pitcher_type_mean_rms": 2.0995304456642705,
+      "pitcher_type_mean_p95": 4.560748195842166,
+      "pitcher_types": 696
+     },
+     "fe_week": {
+      "pitch_mad": 2.922918691888607,
+      "pitch_sd": 4.7753385491106695,
+      "park_day_bias_rms": 2.453487987375309,
+      "park_type_bias_rms": 2.1288376425810385,
+      "pitcher_type_mean_rms": 2.085098663530242,
+      "pitcher_type_mean_p95": 4.495004569949712,
+      "pitcher_types": 696
+     },
+     "fe_series": {
+      "pitch_mad": 2.930434684094699,
+      "pitch_sd": 4.790785206252799,
+      "park_day_bias_rms": 2.482815381463421,
+      "park_type_bias_rms": 2.1252455025801216,
+      "pitcher_type_mean_rms": 2.097379002352947,
+      "pitcher_type_mean_p95": 4.5416915218367215,
+      "pitcher_types": 696
+     },
+     "fe_day": {
+      "pitch_mad": 2.9557656307647378,
+      "pitch_sd": 4.824704238472807,
+      "park_day_bias_rms": 2.547329883437846,
+      "park_type_bias_rms": 2.08455869166229,
+      "pitcher_type_mean_rms": 2.0638030457005403,
+      "pitcher_type_mean_p95": 4.457929089973264,
+      "pitcher_types": 696
+     },
+     "fe_season_loc": {
+      "pitch_mad": 2.7671543954976876,
+      "pitch_sd": 4.5488120892372566,
+      "park_day_bias_rms": 2.3663623948069814,
+      "park_type_bias_rms": 2.1548069334641644,
+      "pitcher_type_mean_rms": 2.092861886896827,
+      "pitcher_type_mean_p95": 4.611805674116299,
+      "pitcher_types": 696
+     },
+     "fe_series_loc": {
+      "pitch_mad": 2.794430928009869,
+      "pitch_sd": 4.610841296355505,
+      "park_day_bias_rms": 2.4827068529630543,
+      "park_type_bias_rms": 2.148197984961856,
+      "pitcher_type_mean_rms": 2.105259472916035,
+      "pitcher_type_mean_p95": 4.74519465701858,
+      "pitcher_types": 696
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 2.7932859642707655,
+      "pitch_sd": 4.612168520512921,
+      "park_day_bias_rms": 2.4850715216273813,
+      "park_type_bias_rms": 2.1605936143673907,
+      "pitcher_type_mean_rms": 2.107025733109714,
+      "pitcher_type_mean_p95": 4.687795664136257,
+      "pitcher_types": 696
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 2.7724766047398504,
+      "pitch_sd": 4.575175772006675,
+      "park_day_bias_rms": 2.4160836838024218,
+      "park_type_bias_rms": 2.155060687652049,
+      "pitcher_type_mean_rms": 2.097365719592591,
+      "pitcher_type_mean_p95": 4.633658734159438,
+      "pitcher_types": 696
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 2.7583714475887398,
+      "pitch_sd": 4.552463372285432,
+      "park_day_bias_rms": 2.3728438433522845,
+      "park_type_bias_rms": 2.130296754579966,
+      "pitcher_type_mean_rms": 2.0731610680340538,
+      "pitcher_type_mean_p95": 4.561992740928729,
+      "pitcher_types": 696
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 2.787955362783478,
+      "pitch_sd": 4.598016070639512,
+      "park_day_bias_rms": 2.4592932221927937,
+      "park_type_bias_rms": 2.163844589526374,
+      "pitcher_type_mean_rms": 2.096989202335581,
+      "pitcher_type_mean_p95": 4.580781504343937,
+      "pitcher_types": 696
+     }
+    }
+   }
+  },
+  "2020": {
+   "matched_pitches": 181390,
+   "vb_pitches": 220243,
+   "location_coefficients": {
+    "hb": {
+     "kx": -0.6150182808762905,
+     "kz": -0.026132811038430424
+    },
+    "ivb": {
+     "kx": 0.46007176324276644,
+     "kz": -1.0473384171492843
+    }
+   },
+   "candidates": {
+    "hb": {
+     "raw": {
+      "pitch_mad": 5.080592079569424,
+      "pitch_sd": 8.701161396862355,
+      "park_day_bias_rms": 7.830610443153941,
+      "park_type_bias_rms": 7.572216938582587,
+      "pitcher_type_mean_rms": 4.04343519224337,
+      "pitcher_type_mean_p95": 7.945030187214666,
+      "pitcher_types": 748
+     },
+     "raw_loc": {
+      "pitch_mad": 5.067505203644955,
+      "pitch_sd": 8.701453361161466,
+      "park_day_bias_rms": 7.828676720571081,
+      "park_type_bias_rms": 7.566481481975239,
+      "pitcher_type_mean_rms": 4.047529066151365,
+      "pitcher_type_mean_p95": 7.883767164039522,
+      "pitcher_types": 748
+     },
+     "fe_season": {
+      "pitch_mad": 2.855716155717274,
+      "pitch_sd": 4.643573460023586,
+      "park_day_bias_rms": 2.677932644917159,
+      "park_type_bias_rms": 1.7735374876719194,
+      "pitcher_type_mean_rms": 1.6979242707147337,
+      "pitcher_type_mean_p95": 3.617795245260861,
+      "pitcher_types": 748
+     },
+     "fe_month": {
+      "pitch_mad": 2.857095448478228,
+      "pitch_sd": 4.524212426144751,
+      "park_day_bias_rms": 2.465167921600361,
+      "park_type_bias_rms": 1.7415958994722112,
+      "pitcher_type_mean_rms": 1.6838695501994558,
+      "pitcher_type_mean_p95": 3.61267231621096,
+      "pitcher_types": 748
+     },
+     "fe_half": {
+      "pitch_mad": 2.8377327094176623,
+      "pitch_sd": 4.472853989286261,
+      "park_day_bias_rms": 2.3695949362057673,
+      "park_type_bias_rms": 1.7256236618800898,
+      "pitcher_type_mean_rms": 1.6761890608163819,
+      "pitcher_type_mean_p95": 3.5982290260341374,
+      "pitcher_types": 748
+     },
+     "fe_week": {
+      "pitch_mad": 2.820979581016705,
+      "pitch_sd": 4.4111805171953185,
+      "park_day_bias_rms": 2.2510161989901367,
+      "park_type_bias_rms": 1.728137502224561,
+      "pitcher_type_mean_rms": 1.6662695876008846,
+      "pitcher_type_mean_p95": 3.6332427834450356,
+      "pitcher_types": 748
+     },
+     "fe_series": {
+      "pitch_mad": 2.821717225168534,
+      "pitch_sd": 4.415725054661405,
+      "park_day_bias_rms": 2.2599088278176156,
+      "park_type_bias_rms": 1.7308197096642013,
+      "pitcher_type_mean_rms": 1.6657768390846543,
+      "pitcher_type_mean_p95": 3.6267389170164623,
+      "pitcher_types": 748
+     },
+     "fe_day": {
+      "pitch_mad": 2.8506881492282146,
+      "pitch_sd": 4.435312579905106,
+      "park_day_bias_rms": 2.2979462303027347,
+      "park_type_bias_rms": 1.7054583965393002,
+      "pitcher_type_mean_rms": 1.6574741609222565,
+      "pitcher_type_mean_p95": 3.685399248469691,
+      "pitcher_types": 748
+     },
+     "fe_season_loc": {
+      "pitch_mad": 2.838297708254199,
+      "pitch_sd": 4.651362825077279,
+      "park_day_bias_rms": 2.684839449950419,
+      "park_type_bias_rms": 1.7669343783518985,
+      "pitcher_type_mean_rms": 1.7053994704506878,
+      "pitcher_type_mean_p95": 3.720169882007934,
+      "pitcher_types": 748
+     },
+     "fe_series_loc": {
+      "pitch_mad": 2.7930822132236433,
+      "pitch_sd": 4.418991863812859,
+      "park_day_bias_rms": 2.2584701577807924,
+      "park_type_bias_rms": 1.725129221436854,
+      "pitcher_type_mean_rms": 1.674235045938697,
+      "pitcher_type_mean_p95": 3.670826133953836,
+      "pitcher_types": 748
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 2.7862092746315597,
+      "pitch_sd": 4.400871233463636,
+      "park_day_bias_rms": 2.22280607695836,
+      "park_type_bias_rms": 1.680095661187203,
+      "pitcher_type_mean_rms": 1.6695581752170292,
+      "pitcher_type_mean_p95": 3.655570348589714,
+      "pitcher_types": 748
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 2.769799840583296,
+      "pitch_sd": 4.376551461195149,
+      "park_day_bias_rms": 2.1742592098351925,
+      "park_type_bias_rms": 1.6815301568819423,
+      "pitcher_type_mean_rms": 1.662474558051498,
+      "pitcher_type_mean_p95": 3.5953941543532757,
+      "pitcher_types": 748
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 2.7778247333735617,
+      "pitch_sd": 4.384405521482347,
+      "park_day_bias_rms": 2.1900255287382686,
+      "park_type_bias_rms": 1.6874557519625624,
+      "pitcher_type_mean_rms": 1.6503876324045124,
+      "pitcher_type_mean_p95": 3.618258719407661,
+      "pitcher_types": 748
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 2.7867406524357747,
+      "pitch_sd": 4.3978276173672795,
+      "park_day_bias_rms": 2.2167740394434765,
+      "park_type_bias_rms": 1.6802929347637128,
+      "pitcher_type_mean_rms": 1.6705007599716695,
+      "pitcher_type_mean_p95": 3.6544795003791455,
+      "pitcher_types": 748
+     }
+    },
+    "ivb": {
+     "raw": {
+      "pitch_mad": 4.289045917444847,
+      "pitch_sd": 5.984682741318369,
+      "park_day_bias_rms": 4.2876481911504865,
+      "park_type_bias_rms": 4.140293208706682,
+      "pitcher_type_mean_rms": 2.6733407744508404,
+      "pitcher_type_mean_p95": 5.250283983471972,
+      "pitcher_types": 748
+     },
+     "raw_loc": {
+      "pitch_mad": 4.253510424275512,
+      "pitch_sd": 5.873466196978377,
+      "park_day_bias_rms": 4.2896717703734035,
+      "park_type_bias_rms": 4.160505688629233,
+      "pitcher_type_mean_rms": 2.700760412008019,
+      "pitcher_type_mean_p95": 5.227867001047183,
+      "pitcher_types": 748
+     },
+     "fe_season": {
+      "pitch_mad": 2.9613186617122293,
+      "pitch_sd": 4.757930035632087,
+      "park_day_bias_rms": 2.2815499937150125,
+      "park_type_bias_rms": 1.9927991299757695,
+      "pitcher_type_mean_rms": 2.034622949004135,
+      "pitcher_type_mean_p95": 3.8468417024884314,
+      "pitcher_types": 748
+     },
+     "fe_month": {
+      "pitch_mad": 2.9787160908844887,
+      "pitch_sd": 4.784444864330347,
+      "park_day_bias_rms": 2.336339747297846,
+      "park_type_bias_rms": 1.9965445688783876,
+      "pitcher_type_mean_rms": 2.0501148009778,
+      "pitcher_type_mean_p95": 3.9973067525644237,
+      "pitcher_types": 748
+     },
+     "fe_half": {
+      "pitch_mad": 2.9909820698899168,
+      "pitch_sd": 4.78859936128501,
+      "park_day_bias_rms": 2.344835682649869,
+      "park_type_bias_rms": 1.990503767763524,
+      "pitcher_type_mean_rms": 2.0455004120043165,
+      "pitcher_type_mean_p95": 4.014899495007781,
+      "pitcher_types": 748
+     },
+     "fe_week": {
+      "pitch_mad": 3.0160270562431535,
+      "pitch_sd": 4.8066265347272035,
+      "park_day_bias_rms": 2.381434069308943,
+      "park_type_bias_rms": 1.9932522439720088,
+      "pitcher_type_mean_rms": 2.0599201759179846,
+      "pitcher_type_mean_p95": 3.9959029486857776,
+      "pitcher_types": 748
+     },
+     "fe_series": {
+      "pitch_mad": 3.018551817177869,
+      "pitch_sd": 4.808835101532589,
+      "park_day_bias_rms": 2.3858886182673738,
+      "park_type_bias_rms": 1.9901792219020717,
+      "pitcher_type_mean_rms": 2.0514900987638147,
+      "pitcher_type_mean_p95": 3.9250683045577897,
+      "pitcher_types": 748
+     },
+     "fe_day": {
+      "pitch_mad": 3.050870526454318,
+      "pitch_sd": 4.855116952631051,
+      "park_day_bias_rms": 2.47784737685832,
+      "park_type_bias_rms": 2.002615388218402,
+      "pitcher_type_mean_rms": 2.044021543123888,
+      "pitcher_type_mean_p95": 3.930818300356123,
+      "pitcher_types": 748
+     },
+     "fe_season_loc": {
+      "pitch_mad": 2.861483709327196,
+      "pitch_sd": 4.6152032856115985,
+      "park_day_bias_rms": 2.2811954882530396,
+      "park_type_bias_rms": 2.0288032361414925,
+      "pitcher_type_mean_rms": 2.0534964242684306,
+      "pitcher_type_mean_p95": 3.7547588641017313,
+      "pitcher_types": 748
+     },
+     "fe_series_loc": {
+      "pitch_mad": 2.9158254504829237,
+      "pitch_sd": 4.6668548248398976,
+      "park_day_bias_rms": 2.38396367445765,
+      "park_type_bias_rms": 2.025606682813321,
+      "pitcher_type_mean_rms": 2.067379643324456,
+      "pitcher_type_mean_p95": 3.912085186469246,
+      "pitcher_types": 748
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 2.907733504558861,
+      "pitch_sd": 4.661535984994747,
+      "park_day_bias_rms": 2.3735346759498785,
+      "park_type_bias_rms": 2.0275840575867496,
+      "pitcher_type_mean_rms": 2.068686983747568,
+      "pitcher_type_mean_p95": 3.938367497120634,
+      "pitcher_types": 748
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 2.883439770235901,
+      "pitch_sd": 4.636073792339832,
+      "park_day_bias_rms": 2.3231294909422897,
+      "park_type_bias_rms": 2.0294217209864756,
+      "pitcher_type_mean_rms": 2.0662313783827675,
+      "pitcher_type_mean_p95": 3.9109779937385265,
+      "pitcher_types": 748
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 2.8730382830532903,
+      "pitch_sd": 4.6213540623877805,
+      "park_day_bias_rms": 2.293613861322425,
+      "park_type_bias_rms": 2.033128408463806,
+      "pitcher_type_mean_rms": 2.053590859882419,
+      "pitcher_type_mean_p95": 3.934598546883033,
+      "pitcher_types": 748
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 2.9038989192646527,
+      "pitch_sd": 4.659898200631008,
+      "park_day_bias_rms": 2.3703165280070935,
+      "park_type_bias_rms": 2.0281149424499847,
+      "pitcher_type_mean_rms": 2.076383843364047,
+      "pitcher_type_mean_p95": 3.945413816542217,
+      "pitcher_types": 748
+     }
+    }
+   }
+  },
+  "2021": {
+   "matched_pitches": 178821,
+   "vb_pitches": 219944,
+   "location_coefficients": {
+    "hb": {
+     "kx": -0.5978699794338616,
+     "kz": -0.0750770089461632
+    },
+    "ivb": {
+     "kx": 0.46305734807440624,
+     "kz": -1.067783752875678
+    }
+   },
+   "candidates": {
+    "hb": {
+     "raw": {
+      "pitch_mad": 5.0034726423084415,
+      "pitch_sd": 8.395855197875445,
+      "park_day_bias_rms": 7.558760807459796,
+      "park_type_bias_rms": 7.424639867888996,
+      "pitcher_type_mean_rms": 4.107795925377285,
+      "pitcher_type_mean_p95": 8.193936095904157,
+      "pitcher_types": 798
+     },
+     "raw_loc": {
+      "pitch_mad": 4.950658652010109,
+      "pitch_sd": 8.3798392237168,
+      "park_day_bias_rms": 7.545999294849639,
+      "park_type_bias_rms": 7.410305405266613,
+      "pitcher_type_mean_rms": 4.104768392458428,
+      "pitcher_type_mean_p95": 8.325588698246102,
+      "pitcher_types": 798
+     },
+     "fe_season": {
+      "pitch_mad": 2.837712610105715,
+      "pitch_sd": 4.261006112675939,
+      "park_day_bias_rms": 2.1911061579755917,
+      "park_type_bias_rms": 1.7102198726874742,
+      "pitcher_type_mean_rms": 1.733188926391618,
+      "pitcher_type_mean_p95": 3.5248975094077433,
+      "pitcher_types": 798
+     },
+     "fe_month": {
+      "pitch_mad": 2.8457197359438746,
+      "pitch_sd": 4.264136692512637,
+      "park_day_bias_rms": 2.1971879042179476,
+      "park_type_bias_rms": 1.7112402671260323,
+      "pitcher_type_mean_rms": 1.7256850691000145,
+      "pitcher_type_mean_p95": 3.555482190860422,
+      "pitcher_types": 798
+     },
+     "fe_half": {
+      "pitch_mad": 2.8510398478547945,
+      "pitch_sd": 4.269690140772808,
+      "park_day_bias_rms": 2.2079462373880028,
+      "park_type_bias_rms": 1.7168491157056855,
+      "pitcher_type_mean_rms": 1.7219140823615393,
+      "pitcher_type_mean_p95": 3.469907374001765,
+      "pitcher_types": 798
+     },
+     "fe_week": {
+      "pitch_mad": 2.8515124900448576,
+      "pitch_sd": 4.272268954542387,
+      "park_day_bias_rms": 2.2129289608445872,
+      "park_type_bias_rms": 1.7104253780620409,
+      "pitcher_type_mean_rms": 1.7219304584608186,
+      "pitcher_type_mean_p95": 3.5653057579942793,
+      "pitcher_types": 798
+     },
+     "fe_series": {
+      "pitch_mad": 2.84916915551943,
+      "pitch_sd": 4.268354608072626,
+      "park_day_bias_rms": 2.2053625128320533,
+      "park_type_bias_rms": 1.713435185095505,
+      "pitcher_type_mean_rms": 1.710264192415525,
+      "pitcher_type_mean_p95": 3.5735152125726337,
+      "pitcher_types": 798
+     },
+     "fe_day": {
+      "pitch_mad": 2.8657900534334595,
+      "pitch_sd": 4.29617852605548,
+      "park_day_bias_rms": 2.2587433116401527,
+      "park_type_bias_rms": 1.701698968198458,
+      "pitcher_type_mean_rms": 1.7370676878850921,
+      "pitcher_type_mean_p95": 3.648556349035655,
+      "pitcher_types": 798
+     },
+     "fe_season_loc": {
+      "pitch_mad": 2.8096099775702603,
+      "pitch_sd": 4.252471075697577,
+      "park_day_bias_rms": 2.1918489360749516,
+      "park_type_bias_rms": 1.7059877067210483,
+      "pitcher_type_mean_rms": 1.7453164336478098,
+      "pitcher_type_mean_p95": 3.4746793208574003,
+      "pitcher_types": 798
+     },
+     "fe_series_loc": {
+      "pitch_mad": 2.8255046384810285,
+      "pitch_sd": 4.260038298825587,
+      "park_day_bias_rms": 2.206494381629538,
+      "park_type_bias_rms": 1.7089663547235068,
+      "pitcher_type_mean_rms": 1.7226647159642225,
+      "pitcher_type_mean_p95": 3.569755054782436,
+      "pitcher_types": 798
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 2.8079536129553024,
+      "pitch_sd": 4.240710294864979,
+      "park_day_bias_rms": 2.168943492229713,
+      "park_type_bias_rms": 1.6908675041524168,
+      "pitcher_type_mean_rms": 1.710017373617425,
+      "pitcher_type_mean_p95": 3.6203457012405917,
+      "pitcher_types": 798
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 2.7945905299444966,
+      "pitch_sd": 4.215894768449853,
+      "park_day_bias_rms": 2.1200146083702083,
+      "park_type_bias_rms": 1.6956106554752814,
+      "pitcher_type_mean_rms": 1.7107423145741627,
+      "pitcher_type_mean_p95": 3.542217832866547,
+      "pitcher_types": 798
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 2.7756248682838596,
+      "pitch_sd": 4.185967702650816,
+      "park_day_bias_rms": 2.0598592803422573,
+      "park_type_bias_rms": 1.6834824457806348,
+      "pitcher_type_mean_rms": 1.7185630828851521,
+      "pitcher_type_mean_p95": 3.5640720138433526,
+      "pitcher_types": 798
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 2.8096622742206634,
+      "pitch_sd": 4.244016738823974,
+      "park_day_bias_rms": 2.1754011101507715,
+      "park_type_bias_rms": 1.6880629270870853,
+      "pitcher_type_mean_rms": 1.720768980842051,
+      "pitcher_type_mean_p95": 3.589268627753281,
+      "pitcher_types": 798
+     }
+    },
+    "ivb": {
+     "raw": {
+      "pitch_mad": 3.97781929467644,
+      "pitch_sd": 5.644769328311764,
+      "park_day_bias_rms": 4.012138414836819,
+      "park_type_bias_rms": 3.8908393122621283,
+      "pitcher_type_mean_rms": 2.4813298595659345,
+      "pitcher_type_mean_p95": 4.991324647933696,
+      "pitcher_types": 798
+     },
+     "raw_loc": {
+      "pitch_mad": 3.9849619040801834,
+      "pitch_sd": 5.5453171308573745,
+      "park_day_bias_rms": 4.00833435106631,
+      "park_type_bias_rms": 3.8996348987947926,
+      "pitcher_type_mean_rms": 2.4826515075831703,
+      "pitcher_type_mean_p95": 4.915984239857068,
+      "pitcher_types": 798
+     },
+     "fe_season": {
+      "pitch_mad": 2.9461066942113554,
+      "pitch_sd": 4.669287845968178,
+      "park_day_bias_rms": 2.456855539585858,
+      "park_type_bias_rms": 2.2569440339964353,
+      "pitcher_type_mean_rms": 2.0788857949005894,
+      "pitcher_type_mean_p95": 4.272971454543484,
+      "pitcher_types": 798
+     },
+     "fe_month": {
+      "pitch_mad": 2.9792100078792823,
+      "pitch_sd": 4.71044148976386,
+      "park_day_bias_rms": 2.5341955377865055,
+      "park_type_bias_rms": 2.257816001448228,
+      "pitcher_type_mean_rms": 2.087231887529488,
+      "pitcher_type_mean_p95": 4.3614522583038555,
+      "pitcher_types": 798
+     },
+     "fe_half": {
+      "pitch_mad": 2.996220963784694,
+      "pitch_sd": 4.7330292332114645,
+      "park_day_bias_rms": 2.5759372129056666,
+      "park_type_bias_rms": 2.2671515742439006,
+      "pitcher_type_mean_rms": 2.095514091129256,
+      "pitcher_type_mean_p95": 4.398140521372512,
+      "pitcher_types": 798
+     },
+     "fe_week": {
+      "pitch_mad": 2.9992366970597644,
+      "pitch_sd": 4.742326785065225,
+      "park_day_bias_rms": 2.592980841827968,
+      "park_type_bias_rms": 2.272701957942514,
+      "pitcher_type_mean_rms": 2.101478189183442,
+      "pitcher_type_mean_p95": 4.387860907326935,
+      "pitcher_types": 798
+     },
+     "fe_series": {
+      "pitch_mad": 2.9989954477078413,
+      "pitch_sd": 4.745933838331409,
+      "park_day_bias_rms": 2.599571910174497,
+      "park_type_bias_rms": 2.2731558699781202,
+      "pitcher_type_mean_rms": 2.097940224478765,
+      "pitcher_type_mean_p95": 4.362817744362275,
+      "pitcher_types": 798
+     },
+     "fe_day": {
+      "pitch_mad": 3.048440956419089,
+      "pitch_sd": 4.7945516580344725,
+      "park_day_bias_rms": 2.6873051791794893,
+      "park_type_bias_rms": 2.260364963901465,
+      "pitcher_type_mean_rms": 2.095535128678441,
+      "pitcher_type_mean_p95": 4.334223268761826,
+      "pitcher_types": 798
+     },
+     "fe_season_loc": {
+      "pitch_mad": 2.868770720840045,
+      "pitch_sd": 4.544514451598968,
+      "park_day_bias_rms": 2.443127147415523,
+      "park_type_bias_rms": 2.2640416329064657,
+      "pitcher_type_mean_rms": 2.091104325965023,
+      "pitcher_type_mean_p95": 4.357087066731958,
+      "pitcher_types": 798
+     },
+     "fe_series_loc": {
+      "pitch_mad": 2.9275806844217698,
+      "pitch_sd": 4.624247380938228,
+      "park_day_bias_rms": 2.5884200604967513,
+      "park_type_bias_rms": 2.2853270195438786,
+      "pitcher_type_mean_rms": 2.113300388560105,
+      "pitcher_type_mean_p95": 4.488394835129171,
+      "pitcher_types": 798
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 2.9398726379423152,
+      "pitch_sd": 4.639874095561084,
+      "park_day_bias_rms": 2.61623496317869,
+      "park_type_bias_rms": 2.3184353908610804,
+      "pitcher_type_mean_rms": 2.1300937111772877,
+      "pitcher_type_mean_p95": 4.517549646095511,
+      "pitcher_types": 798
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 2.9186588013956154,
+      "pitch_sd": 4.608041444475424,
+      "park_day_bias_rms": 2.5593556533162576,
+      "park_type_bias_rms": 2.315195575202546,
+      "pitcher_type_mean_rms": 2.1222550277250027,
+      "pitcher_type_mean_p95": 4.516404260685623,
+      "pitcher_types": 798
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 2.906805776819624,
+      "pitch_sd": 4.590311354258633,
+      "park_day_bias_rms": 2.5272939376357737,
+      "park_type_bias_rms": 2.307816841323321,
+      "pitcher_type_mean_rms": 2.1087462514507154,
+      "pitcher_type_mean_p95": 4.444110812979835,
+      "pitcher_types": 798
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 2.937427108492816,
+      "pitch_sd": 4.636817461279109,
+      "park_day_bias_rms": 2.6108102358638745,
+      "park_type_bias_rms": 2.316425330791594,
+      "pitcher_type_mean_rms": 2.1314947577282073,
+      "pitcher_type_mean_p95": 4.516427200216618,
+      "pitcher_types": 798
+     }
+    }
+   }
+  },
+  "2022": {
+   "matched_pitches": 174258,
+   "vb_pitches": 214771,
+   "location_coefficients": {
+    "hb": {
+     "kx": -0.5575091366888415,
+     "kz": -0.08422398831016116
+    },
+    "ivb": {
+     "kx": 0.48446818874965336,
+     "kz": -1.056503589360013
+    }
+   },
+   "candidates": {
+    "hb": {
+     "raw": {
+      "pitch_mad": 6.079191122915951,
+      "pitch_sd": 7.6860940200019385,
+      "park_day_bias_rms": 7.03616140161672,
+      "park_type_bias_rms": 6.979669334966394,
+      "pitcher_type_mean_rms": 3.7151786538182368,
+      "pitcher_type_mean_p95": 7.401508840560354,
+      "pitcher_types": 756
+     },
+     "raw_loc": {
+      "pitch_mad": 6.0672851876930665,
+      "pitch_sd": 7.679384661676003,
+      "park_day_bias_rms": 7.045362459552407,
+      "park_type_bias_rms": 6.987269392714237,
+      "pitcher_type_mean_rms": 3.716831938102812,
+      "pitcher_type_mean_p95": 7.41681375297374,
+      "pitcher_types": 756
+     },
+     "workbook": {
+      "pitch_mad": 5.736610232908599,
+      "pitch_sd": 9.20835767233794,
+      "park_day_bias_rms": 7.081653135567482,
+      "park_type_bias_rms": 8.640624322938743,
+      "pitcher_type_mean_rms": 4.492114687486723,
+      "pitcher_type_mean_p95": 9.805932577844967,
+      "pitcher_types": 756
+     },
+     "fe_season": {
+      "pitch_mad": 2.064487328875829,
+      "pitch_sd": 3.264230355087975,
+      "park_day_bias_rms": 1.0425946791803216,
+      "park_type_bias_rms": 0.6280016673819372,
+      "pitcher_type_mean_rms": 1.2718575205309037,
+      "pitcher_type_mean_p95": 2.9786383634369042,
+      "pitcher_types": 756
+     },
+     "fe_month": {
+      "pitch_mad": 2.0731407280085277,
+      "pitch_sd": 3.274992763780061,
+      "park_day_bias_rms": 1.0758164587502332,
+      "park_type_bias_rms": 0.6250893730136413,
+      "pitcher_type_mean_rms": 1.2533679427119608,
+      "pitcher_type_mean_p95": 2.943990450850741,
+      "pitcher_types": 756
+     },
+     "fe_half": {
+      "pitch_mad": 2.0742044253094463,
+      "pitch_sd": 3.279841797052675,
+      "park_day_bias_rms": 1.0904886434072245,
+      "park_type_bias_rms": 0.6231739365006391,
+      "pitcher_type_mean_rms": 1.253512628919254,
+      "pitcher_type_mean_p95": 2.8888090197089507,
+      "pitcher_types": 756
+     },
+     "fe_week": {
+      "pitch_mad": 2.0792642062598308,
+      "pitch_sd": 3.283687050089143,
+      "park_day_bias_rms": 1.1019998937367694,
+      "park_type_bias_rms": 0.6069891109113071,
+      "pitcher_type_mean_rms": 1.2612822076952177,
+      "pitcher_type_mean_p95": 2.9829614699198013,
+      "pitcher_types": 756
+     },
+     "fe_series": {
+      "pitch_mad": 2.082334856653411,
+      "pitch_sd": 3.286550180624169,
+      "park_day_bias_rms": 1.1105021858068427,
+      "park_type_bias_rms": 0.6170351376606411,
+      "pitcher_type_mean_rms": 1.264142908516603,
+      "pitcher_type_mean_p95": 2.9642913060142764,
+      "pitcher_types": 756
+     },
+     "fe_day": {
+      "pitch_mad": 2.121047593087914,
+      "pitch_sd": 3.323678840110713,
+      "park_day_bias_rms": 1.2159945060311335,
+      "park_type_bias_rms": 0.628180561116678,
+      "pitcher_type_mean_rms": 1.294325737193474,
+      "pitcher_type_mean_p95": 3.13049903524472,
+      "pitcher_types": 756
+     },
+     "fe_season_loc": {
+      "pitch_mad": 2.0258273199791956,
+      "pitch_sd": 3.2275378167592845,
+      "park_day_bias_rms": 1.039933847468199,
+      "park_type_bias_rms": 0.6071659019587278,
+      "pitcher_type_mean_rms": 1.2617536601594161,
+      "pitcher_type_mean_p95": 3.0027167793147997,
+      "pitcher_types": 756
+     },
+     "fe_series_loc": {
+      "pitch_mad": 2.0392530363854817,
+      "pitch_sd": 3.2518954131691014,
+      "park_day_bias_rms": 1.1132317463137367,
+      "park_type_bias_rms": 0.5987360182824666,
+      "pitcher_type_mean_rms": 1.2572123556263206,
+      "pitcher_type_mean_p95": 3.0361822360178525,
+      "pitcher_types": 756
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 2.0378211302236084,
+      "pitch_sd": 3.2496575188183225,
+      "park_day_bias_rms": 1.1066775573393628,
+      "park_type_bias_rms": 0.5940658194265301,
+      "pitcher_type_mean_rms": 1.2584493680557225,
+      "pitcher_type_mean_p95": 3.036300010632049,
+      "pitcher_types": 756
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 2.0191111046464947,
+      "pitch_sd": 3.2224634527657035,
+      "park_day_bias_rms": 1.0240766283498248,
+      "park_type_bias_rms": 0.5935851828888843,
+      "pitcher_type_mean_rms": 1.2556984611389352,
+      "pitcher_type_mean_p95": 3.0386369984164965,
+      "pitcher_types": 756
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 1.9988841359880407,
+      "pitch_sd": 3.1948579672049697,
+      "park_day_bias_rms": 0.9335848561055533,
+      "park_type_bias_rms": 0.604963128536784,
+      "pitcher_type_mean_rms": 1.2642143999795394,
+      "pitcher_type_mean_p95": 2.97890033784134,
+      "pitcher_types": 756
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 2.0363858512333444,
+      "pitch_sd": 3.246606057841133,
+      "park_day_bias_rms": 1.0976849433576392,
+      "park_type_bias_rms": 0.5836105967382101,
+      "pitcher_type_mean_rms": 1.2553349148566924,
+      "pitcher_type_mean_p95": 3.0119012486910846,
+      "pitcher_types": 756
+     }
+    },
+    "ivb": {
+     "raw": {
+      "pitch_mad": 2.4946443685603183,
+      "pitch_sd": 4.2947830864352285,
+      "park_day_bias_rms": 3.357748629640892,
+      "park_type_bias_rms": 3.3118060565409104,
+      "pitcher_type_mean_rms": 2.1585376374626906,
+      "pitcher_type_mean_p95": 4.8218689484735755,
+      "pitcher_types": 756
+     },
+     "raw_loc": {
+      "pitch_mad": 2.381235074105607,
+      "pitch_sd": 4.1150357097642045,
+      "park_day_bias_rms": 3.2987625729348107,
+      "park_type_bias_rms": 3.2418973254158794,
+      "pitcher_type_mean_rms": 2.0837119769211783,
+      "pitcher_type_mean_p95": 4.583204680937731,
+      "pitcher_types": 756
+     },
+     "workbook": {
+      "pitch_mad": 2.0460348008296854,
+      "pitch_sd": 3.36564984889717,
+      "park_day_bias_rms": 1.402880158534661,
+      "park_type_bias_rms": 1.9591876418722085,
+      "pitcher_type_mean_rms": 1.6461792294275581,
+      "pitcher_type_mean_p95": 3.9730947700411656,
+      "pitcher_types": 756
+     },
+     "fe_season": {
+      "pitch_mad": 1.7043168234284192,
+      "pitch_sd": 2.8261755034489173,
+      "park_day_bias_rms": 0.9036825164136474,
+      "park_type_bias_rms": 0.7017844162765522,
+      "pitcher_type_mean_rms": 1.3919807882623332,
+      "pitcher_type_mean_p95": 3.1233753377777926,
+      "pitcher_types": 756
+     },
+     "fe_month": {
+      "pitch_mad": 1.7167967148797096,
+      "pitch_sd": 2.840350531962127,
+      "park_day_bias_rms": 0.9470822549549575,
+      "park_type_bias_rms": 0.7114661745840237,
+      "pitcher_type_mean_rms": 1.3865568756373894,
+      "pitcher_type_mean_p95": 3.2013852339713207,
+      "pitcher_types": 756
+     },
+     "fe_half": {
+      "pitch_mad": 1.72156738209407,
+      "pitch_sd": 2.844797162202624,
+      "park_day_bias_rms": 0.9603355675170615,
+      "park_type_bias_rms": 0.7060540930562323,
+      "pitcher_type_mean_rms": 1.3834280482046337,
+      "pitcher_type_mean_p95": 3.1692435556664096,
+      "pitcher_types": 756
+     },
+     "fe_week": {
+      "pitch_mad": 1.734132252546177,
+      "pitch_sd": 2.8607372345958106,
+      "park_day_bias_rms": 1.0065736493954,
+      "park_type_bias_rms": 0.7065651059618334,
+      "pitcher_type_mean_rms": 1.3875614006648231,
+      "pitcher_type_mean_p95": 3.2097677652205716,
+      "pitcher_types": 756
+     },
+     "fe_series": {
+      "pitch_mad": 1.738527705341852,
+      "pitch_sd": 2.8650313196221835,
+      "park_day_bias_rms": 1.0187135552132853,
+      "park_type_bias_rms": 0.7099950293374296,
+      "pitcher_type_mean_rms": 1.3857526864298721,
+      "pitcher_type_mean_p95": 3.237094414925813,
+      "pitcher_types": 756
+     },
+     "fe_day": {
+      "pitch_mad": 1.799047428489775,
+      "pitch_sd": 2.9383401684238404,
+      "park_day_bias_rms": 1.2096335598451304,
+      "park_type_bias_rms": 0.719413412681378,
+      "pitcher_type_mean_rms": 1.3948251125162994,
+      "pitcher_type_mean_p95": 3.1526544565184533,
+      "pitcher_types": 756
+     },
+     "fe_season_loc": {
+      "pitch_mad": 1.5933298693484002,
+      "pitch_sd": 2.622454316987606,
+      "park_day_bias_rms": 0.908647331824889,
+      "park_type_bias_rms": 0.6608145666586578,
+      "pitcher_type_mean_rms": 1.3482415883442722,
+      "pitcher_type_mean_p95": 3.2344324968756704,
+      "pitcher_types": 756
+     },
+     "fe_series_loc": {
+      "pitch_mad": 1.6350702071087424,
+      "pitch_sd": 2.6644058846854253,
+      "park_day_bias_rms": 1.0234406551002457,
+      "park_type_bias_rms": 0.6675476198480188,
+      "pitcher_type_mean_rms": 1.3427069607788906,
+      "pitcher_type_mean_p95": 3.2206867712574994,
+      "pitcher_types": 756
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 1.6303333541934872,
+      "pitch_sd": 2.6618824876803404,
+      "park_day_bias_rms": 1.0168532399092516,
+      "park_type_bias_rms": 0.6527261014653382,
+      "pitcher_type_mean_rms": 1.3398303428766485,
+      "pitcher_type_mean_p95": 3.1669989478069462,
+      "pitcher_types": 756
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 1.5918460416063045,
+      "pitch_sd": 2.6196107904039834,
+      "park_day_bias_rms": 0.9004077452388425,
+      "park_type_bias_rms": 0.6443662425904501,
+      "pitcher_type_mean_rms": 1.3323219188462296,
+      "pitcher_type_mean_p95": 3.0823114329474617,
+      "pitcher_types": 756
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 1.5892613056587948,
+      "pitch_sd": 2.615958173029801,
+      "park_day_bias_rms": 0.8897250627408188,
+      "park_type_bias_rms": 0.6485971298674594,
+      "pitcher_type_mean_rms": 1.3327116508540509,
+      "pitcher_type_mean_p95": 3.0555198106722683,
+      "pitcher_types": 756
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 1.6257779990959103,
+      "pitch_sd": 2.6572592249274085,
+      "park_day_bias_rms": 1.0046884407015704,
+      "park_type_bias_rms": 0.6492411617526432,
+      "pitcher_type_mean_rms": 1.3413779369690204,
+      "pitcher_type_mean_p95": 3.163083617899735,
+      "pitcher_types": 756
+     }
+    }
+   }
+  },
+  "2023": {
+   "matched_pitches": 182793,
+   "vb_pitches": 215540,
+   "location_coefficients": {
+    "hb": {
+     "kx": -0.5276960547743382,
+     "kz": -0.08298997404120412
+    },
+    "ivb": {
+     "kx": 0.4852433836263318,
+     "kz": -1.0447891795791702
+    }
+   },
+   "candidates": {
+    "hb": {
+     "raw": {
+      "pitch_mad": 5.515955976192663,
+      "pitch_sd": 8.094194134621748,
+      "park_day_bias_rms": 7.450938096504369,
+      "park_type_bias_rms": 7.370335548544821,
+      "pitcher_type_mean_rms": 3.9072957638723698,
+      "pitcher_type_mean_p95": 7.441632036064095,
+      "pitcher_types": 774
+     },
+     "raw_loc": {
+      "pitch_mad": 5.455820316342563,
+      "pitch_sd": 8.082708869950201,
+      "park_day_bias_rms": 7.460344446775825,
+      "park_type_bias_rms": 7.379337191635838,
+      "pitcher_type_mean_rms": 3.911615469704112,
+      "pitcher_type_mean_p95": 7.495840406233823,
+      "pitcher_types": 774
+     },
+     "workbook": {
+      "pitch_mad": 5.788118892053069,
+      "pitch_sd": 9.003972840921556,
+      "park_day_bias_rms": 6.783000440297809,
+      "park_type_bias_rms": 8.359260653999714,
+      "pitcher_type_mean_rms": 4.361806699865626,
+      "pitcher_type_mean_p95": 9.130677897245913,
+      "pitcher_types": 774
+     },
+     "fe_season": {
+      "pitch_mad": 2.1345163348667207,
+      "pitch_sd": 3.385691244351746,
+      "park_day_bias_rms": 1.2098350042667076,
+      "park_type_bias_rms": 0.518167128529679,
+      "pitcher_type_mean_rms": 1.3708093324910913,
+      "pitcher_type_mean_p95": 2.865605566470237,
+      "pitcher_types": 774
+     },
+     "fe_month": {
+      "pitch_mad": 2.1018334567048695,
+      "pitch_sd": 3.3071728615605682,
+      "park_day_bias_rms": 0.9686024708922744,
+      "park_type_bias_rms": 0.49915180224711614,
+      "pitcher_type_mean_rms": 1.3342035960823273,
+      "pitcher_type_mean_p95": 2.687970946890335,
+      "pitcher_types": 774
+     },
+     "fe_half": {
+      "pitch_mad": 2.099504636367312,
+      "pitch_sd": 3.312546074618977,
+      "park_day_bias_rms": 0.9867926389380878,
+      "park_type_bias_rms": 0.500163557903438,
+      "pitcher_type_mean_rms": 1.3378250494501753,
+      "pitcher_type_mean_p95": 2.663442515182487,
+      "pitcher_types": 774
+     },
+     "fe_week": {
+      "pitch_mad": 2.114452266175846,
+      "pitch_sd": 3.3311314100594167,
+      "park_day_bias_rms": 1.047489384854339,
+      "park_type_bias_rms": 0.5134766567273901,
+      "pitcher_type_mean_rms": 1.3557458856134152,
+      "pitcher_type_mean_p95": 2.7123224265880013,
+      "pitcher_types": 774
+     },
+     "fe_series": {
+      "pitch_mad": 2.1177188647212652,
+      "pitch_sd": 3.3330494134551585,
+      "park_day_bias_rms": 1.0535729034605048,
+      "park_type_bias_rms": 0.5166234166187366,
+      "pitcher_type_mean_rms": 1.3594464046928667,
+      "pitcher_type_mean_p95": 2.713272920444378,
+      "pitcher_types": 774
+     },
+     "fe_day": {
+      "pitch_mad": 2.153283591454648,
+      "pitch_sd": 3.3766980540119342,
+      "park_day_bias_rms": 1.1844347243044497,
+      "park_type_bias_rms": 0.5125182756014807,
+      "pitcher_type_mean_rms": 1.3784148678342456,
+      "pitcher_type_mean_p95": 2.8444797135509345,
+      "pitcher_types": 774
+     },
+     "fe_season_loc": {
+      "pitch_mad": 2.080378405564245,
+      "pitch_sd": 3.3362328057724895,
+      "park_day_bias_rms": 1.2071878193890473,
+      "park_type_bias_rms": 0.5045656526002503,
+      "pitcher_type_mean_rms": 1.3577834356366927,
+      "pitcher_type_mean_p95": 2.8433557518251704,
+      "pitcher_types": 774
+     },
+     "fe_series_loc": {
+      "pitch_mad": 2.0619038986584926,
+      "pitch_sd": 3.283424445227131,
+      "park_day_bias_rms": 1.052488050708095,
+      "park_type_bias_rms": 0.5036133251812029,
+      "pitcher_type_mean_rms": 1.3465512551970136,
+      "pitcher_type_mean_p95": 2.667519599943865,
+      "pitcher_types": 774
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 2.059577864498202,
+      "pitch_sd": 3.280298693479944,
+      "park_day_bias_rms": 1.0426958521322593,
+      "park_type_bias_rms": 0.49851495770697724,
+      "pitcher_type_mean_rms": 1.3441216529643034,
+      "pitcher_type_mean_p95": 2.683362600381043,
+      "pitcher_types": 774
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 2.0392101117027757,
+      "pitch_sd": 3.2558364074785637,
+      "park_day_bias_rms": 0.9629780415820741,
+      "park_type_bias_rms": 0.5038140688693629,
+      "pitcher_type_mean_rms": 1.3408954094578986,
+      "pitcher_type_mean_p95": 2.6661516751856813,
+      "pitcher_types": 774
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 2.027809105791242,
+      "pitch_sd": 3.2426551223282605,
+      "park_day_bias_rms": 0.9174250417757126,
+      "park_type_bias_rms": 0.5001827313569029,
+      "pitcher_type_mean_rms": 1.3401213373220715,
+      "pitcher_type_mean_p95": 2.708672795067915,
+      "pitcher_types": 774
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 2.0529841498327457,
+      "pitch_sd": 3.2773687326485446,
+      "park_day_bias_rms": 1.0334413560825586,
+      "park_type_bias_rms": 0.4955560466380132,
+      "pitcher_type_mean_rms": 1.338713765310045,
+      "pitcher_type_mean_p95": 2.6966426654735693,
+      "pitcher_types": 774
+     }
+    },
+    "ivb": {
+     "raw": {
+      "pitch_mad": 2.9522278508147224,
+      "pitch_sd": 4.675102719852259,
+      "park_day_bias_rms": 3.800622941705941,
+      "park_type_bias_rms": 3.738989448944357,
+      "pitcher_type_mean_rms": 2.2756704428905383,
+      "pitcher_type_mean_p95": 4.808051817776326,
+      "pitcher_types": 774
+     },
+     "raw_loc": {
+      "pitch_mad": 2.833948217076916,
+      "pitch_sd": 4.504314503484422,
+      "park_day_bias_rms": 3.7549263586745774,
+      "park_type_bias_rms": 3.681585367049996,
+      "pitcher_type_mean_rms": 2.213318634712034,
+      "pitcher_type_mean_p95": 4.6814288650486935,
+      "pitcher_types": 774
+     },
+     "workbook": {
+      "pitch_mad": 2.009670140440309,
+      "pitch_sd": 3.4422795889216684,
+      "park_day_bias_rms": 1.2584886931509796,
+      "park_type_bias_rms": 1.993316493800607,
+      "pitcher_type_mean_rms": 1.6089175686908912,
+      "pitcher_type_mean_p95": 3.5794435475032693,
+      "pitcher_types": 774
+     },
+     "fe_season": {
+      "pitch_mad": 1.7527053808088766,
+      "pitch_sd": 2.8715251934351462,
+      "park_day_bias_rms": 0.9131706857258577,
+      "park_type_bias_rms": 0.6080766882952888,
+      "pitcher_type_mean_rms": 1.4417808150534606,
+      "pitcher_type_mean_p95": 3.0648674249888135,
+      "pitcher_types": 774
+     },
+     "fe_month": {
+      "pitch_mad": 1.7398988485798235,
+      "pitch_sd": 2.866280323395006,
+      "park_day_bias_rms": 0.8965415894715737,
+      "park_type_bias_rms": 0.600590009273712,
+      "pitcher_type_mean_rms": 1.4402346062906113,
+      "pitcher_type_mean_p95": 3.0522603989210135,
+      "pitcher_types": 774
+     },
+     "fe_half": {
+      "pitch_mad": 1.7499851596870073,
+      "pitch_sd": 2.8757420208299007,
+      "park_day_bias_rms": 0.9263454013056781,
+      "park_type_bias_rms": 0.6016418761141729,
+      "pitcher_type_mean_rms": 1.4422681504190848,
+      "pitcher_type_mean_p95": 3.1016907049909284,
+      "pitcher_types": 774
+     },
+     "fe_week": {
+      "pitch_mad": 1.761633905529985,
+      "pitch_sd": 2.8942887444973806,
+      "park_day_bias_rms": 0.9824104962962313,
+      "park_type_bias_rms": 0.6036182466533372,
+      "pitcher_type_mean_rms": 1.4461837263884614,
+      "pitcher_type_mean_p95": 3.1395925372825984,
+      "pitcher_types": 774
+     },
+     "fe_series": {
+      "pitch_mad": 1.7647994585109146,
+      "pitch_sd": 2.8971260424423626,
+      "park_day_bias_rms": 0.9907382412184691,
+      "park_type_bias_rms": 0.6081475880567923,
+      "pitcher_type_mean_rms": 1.4465972431099738,
+      "pitcher_type_mean_p95": 3.11551361803041,
+      "pitcher_types": 774
+     },
+     "fe_day": {
+      "pitch_mad": 1.8186582063134438,
+      "pitch_sd": 2.9628491930628438,
+      "park_day_bias_rms": 1.1690578217933838,
+      "park_type_bias_rms": 0.617304754620769,
+      "pitcher_type_mean_rms": 1.4746062861008489,
+      "pitcher_type_mean_p95": 3.2040993833041043,
+      "pitcher_types": 774
+     },
+     "fe_season_loc": {
+      "pitch_mad": 1.6101530570398026,
+      "pitch_sd": 2.65024952185752,
+      "park_day_bias_rms": 0.9135195178237988,
+      "park_type_bias_rms": 0.538331660414373,
+      "pitcher_type_mean_rms": 1.3919136220146473,
+      "pitcher_type_mean_p95": 2.935952805252106,
+      "pitcher_types": 774
+     },
+     "fe_series_loc": {
+      "pitch_mad": 1.6273418404893576,
+      "pitch_sd": 2.676045230440665,
+      "park_day_bias_rms": 0.9858563308401915,
+      "park_type_bias_rms": 0.5314344654786691,
+      "pitcher_type_mean_rms": 1.3930185494735015,
+      "pitcher_type_mean_p95": 3.037840628441665,
+      "pitcher_types": 774
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 1.6203051961083588,
+      "pitch_sd": 2.667823805836837,
+      "park_day_bias_rms": 0.9633165258796063,
+      "park_type_bias_rms": 0.5297447271426625,
+      "pitcher_type_mean_rms": 1.3910921234508973,
+      "pitcher_type_mean_p95": 3.012626751583138,
+      "pitcher_types": 774
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 1.593863425823212,
+      "pitch_sd": 2.6307689468433786,
+      "park_day_bias_rms": 0.8553602725296291,
+      "park_type_bias_rms": 0.5222657177645823,
+      "pitcher_type_mean_rms": 1.3840366630882097,
+      "pitcher_type_mean_p95": 2.984939978644429,
+      "pitcher_types": 774
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 1.5934180062046401,
+      "pitch_sd": 2.631183528771014,
+      "park_day_bias_rms": 0.8566345161666705,
+      "park_type_bias_rms": 0.5412750154248415,
+      "pitcher_type_mean_rms": 1.396312933990568,
+      "pitcher_type_mean_p95": 3.0005786227478715,
+      "pitcher_types": 774
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 1.6169651508241114,
+      "pitch_sd": 2.6652747853532555,
+      "park_day_bias_rms": 0.9562346081648035,
+      "park_type_bias_rms": 0.5244691221061418,
+      "pitcher_type_mean_rms": 1.3911799107058227,
+      "pitcher_type_mean_p95": 3.0276969400981657,
+      "pitcher_types": 774
+     }
+    }
+   }
+  },
+  "2024": {
+   "matched_pitches": 185203,
+   "vb_pitches": 222346,
+   "location_coefficients": {
+    "hb": {
+     "kx": -0.5088143063607695,
+     "kz": -0.09911051696172193
+    },
+    "ivb": {
+     "kx": 0.4608922338827502,
+     "kz": -1.0571030892396074
+    }
+   },
+   "candidates": {
+    "hb": {
+     "raw": {
+      "pitch_mad": 4.876575545647434,
+      "pitch_sd": 8.161438753889069,
+      "park_day_bias_rms": 7.184669428371623,
+      "park_type_bias_rms": 6.969741739838715,
+      "pitcher_type_mean_rms": 3.6903184184039635,
+      "pitcher_type_mean_p95": 7.513486479953943,
+      "pitcher_types": 834
+     },
+     "raw_loc": {
+      "pitch_mad": 4.813129168150269,
+      "pitch_sd": 8.132436238102281,
+      "park_day_bias_rms": 7.178530582834546,
+      "park_type_bias_rms": 6.961240552625367,
+      "pitcher_type_mean_rms": 3.679455619906655,
+      "pitcher_type_mean_p95": 7.500000377073349,
+      "pitcher_types": 834
+     },
+     "workbook": {
+      "pitch_mad": 4.287673279520657,
+      "pitch_sd": 8.853789243694566,
+      "park_day_bias_rms": 6.477257012381683,
+      "park_type_bias_rms": 7.769104473975942,
+      "pitcher_type_mean_rms": 4.0865172858785535,
+      "pitcher_type_mean_p95": 9.682006513636079,
+      "pitcher_types": 834
+     },
+     "fe_season": {
+      "pitch_mad": 2.5857192058824445,
+      "pitch_sd": 4.291310514359749,
+      "park_day_bias_rms": 1.8509452756076765,
+      "park_type_bias_rms": 0.617925599670785,
+      "pitcher_type_mean_rms": 1.2901568462355024,
+      "pitcher_type_mean_p95": 2.759215583305832,
+      "pitcher_types": 834
+     },
+     "fe_month": {
+      "pitch_mad": 2.490210633840894,
+      "pitch_sd": 4.089270571907117,
+      "park_day_bias_rms": 1.3163568799422742,
+      "park_type_bias_rms": 0.5785831628732078,
+      "pitcher_type_mean_rms": 1.2009864881583505,
+      "pitcher_type_mean_p95": 2.5488437666812493,
+      "pitcher_types": 834
+     },
+     "fe_half": {
+      "pitch_mad": 2.4768792877020527,
+      "pitch_sd": 4.058074726737923,
+      "park_day_bias_rms": 1.2159907422529075,
+      "park_type_bias_rms": 0.575893687861631,
+      "pitcher_type_mean_rms": 1.1875507828568994,
+      "pitcher_type_mean_p95": 2.5131661850396165,
+      "pitcher_types": 834
+     },
+     "fe_week": {
+      "pitch_mad": 2.460670356996676,
+      "pitch_sd": 4.026112099023185,
+      "park_day_bias_rms": 1.1046461091853745,
+      "park_type_bias_rms": 0.568608360815321,
+      "pitcher_type_mean_rms": 1.2010263904909289,
+      "pitcher_type_mean_p95": 2.5508764216994093,
+      "pitcher_types": 834
+     },
+     "fe_series": {
+      "pitch_mad": 2.4658733424072388,
+      "pitch_sd": 4.027532128917245,
+      "park_day_bias_rms": 1.109810515514915,
+      "park_type_bias_rms": 0.5810056410876564,
+      "pitcher_type_mean_rms": 1.2074582492095547,
+      "pitcher_type_mean_p95": 2.556271398241013,
+      "pitcher_types": 834
+     },
+     "fe_day": {
+      "pitch_mad": 2.4899283624313604,
+      "pitch_sd": 4.022656138733531,
+      "park_day_bias_rms": 1.091983037103245,
+      "park_type_bias_rms": 0.5662605213958646,
+      "pitcher_type_mean_rms": 1.201911389405144,
+      "pitcher_type_mean_p95": 2.5440662134568868,
+      "pitcher_types": 834
+     },
+     "fe_season_loc": {
+      "pitch_mad": 2.531485138274112,
+      "pitch_sd": 4.247576109089849,
+      "park_day_bias_rms": 1.8538998490612035,
+      "park_type_bias_rms": 0.6022108384255872,
+      "pitcher_type_mean_rms": 1.2679656014860505,
+      "pitcher_type_mean_p95": 2.759366484621871,
+      "pitcher_types": 834
+     },
+     "fe_series_loc": {
+      "pitch_mad": 2.4128065018447202,
+      "pitch_sd": 3.9788999122993487,
+      "park_day_bias_rms": 1.1075641264417853,
+      "park_type_bias_rms": 0.5664776553488815,
+      "pitcher_type_mean_rms": 1.1835460054707918,
+      "pitcher_type_mean_p95": 2.485875088351297,
+      "pitcher_types": 834
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 2.412173367774873,
+      "pitch_sd": 3.978988918996711,
+      "park_day_bias_rms": 1.1078838367622843,
+      "park_type_bias_rms": 0.5706565435314058,
+      "pitcher_type_mean_rms": 1.1859758751512324,
+      "pitcher_type_mean_p95": 2.48536161798469,
+      "pitcher_types": 834
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 2.408620695005311,
+      "pitch_sd": 3.9866810880947434,
+      "park_day_bias_rms": 1.135200222687129,
+      "park_type_bias_rms": 0.5789024699718538,
+      "pitcher_type_mean_rms": 1.1897134147546522,
+      "pitcher_type_mean_p95": 2.4455372410613068,
+      "pitcher_types": 834
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 2.420223587160205,
+      "pitch_sd": 3.9992919826277613,
+      "park_day_bias_rms": 1.1787235748657088,
+      "park_type_bias_rms": 0.5651519322864283,
+      "pitcher_type_mean_rms": 1.1970989352495005,
+      "pitcher_type_mean_p95": 2.5172972394338107,
+      "pitcher_types": 834
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 2.4054203387229083,
+      "pitch_sd": 3.97838561225821,
+      "park_day_bias_rms": 1.1057151007402999,
+      "park_type_bias_rms": 0.5594112533370861,
+      "pitcher_type_mean_rms": 1.1795892654750209,
+      "pitcher_type_mean_p95": 2.4500421085085895,
+      "pitcher_types": 834
+     }
+    },
+    "ivb": {
+     "raw": {
+      "pitch_mad": 3.7703965984503753,
+      "pitch_sd": 5.819388134226695,
+      "park_day_bias_rms": 4.564088739224442,
+      "park_type_bias_rms": 4.243778351102074,
+      "pitcher_type_mean_rms": 2.5132333449108177,
+      "pitcher_type_mean_p95": 5.645101201849874,
+      "pitcher_types": 834
+     },
+     "raw_loc": {
+      "pitch_mad": 3.618395986887304,
+      "pitch_sd": 5.687598973143771,
+      "park_day_bias_rms": 4.536969009403592,
+      "park_type_bias_rms": 4.203081707165927,
+      "pitcher_type_mean_rms": 2.470897104426376,
+      "pitcher_type_mean_p95": 5.629575806685039,
+      "pitcher_types": 834
+     },
+     "workbook": {
+      "pitch_mad": 2.565688754754909,
+      "pitch_sd": 4.281461053236246,
+      "park_day_bias_rms": 1.9939359121224831,
+      "park_type_bias_rms": 1.5735241213889573,
+      "pitcher_type_mean_rms": 1.7228747908661717,
+      "pitcher_type_mean_p95": 3.808992946599827,
+      "pitcher_types": 834
+     },
+     "fe_season": {
+      "pitch_mad": 2.377259389215567,
+      "pitch_sd": 4.053813677346613,
+      "park_day_bias_rms": 1.8436722095965277,
+      "park_type_bias_rms": 0.7596381130479752,
+      "pitcher_type_mean_rms": 1.5714446046998907,
+      "pitcher_type_mean_p95": 3.4058097257600015,
+      "pitcher_types": 834
+     },
+     "fe_month": {
+      "pitch_mad": 2.307858576060571,
+      "pitch_sd": 3.9009898939436276,
+      "park_day_bias_rms": 1.4776503654464683,
+      "park_type_bias_rms": 0.7856947353304916,
+      "pitcher_type_mean_rms": 1.5714429742975176,
+      "pitcher_type_mean_p95": 3.411205924157755,
+      "pitcher_types": 834
+     },
+     "fe_half": {
+      "pitch_mad": 2.2921757124085307,
+      "pitch_sd": 3.8733001315123565,
+      "park_day_bias_rms": 1.4029196416630942,
+      "park_type_bias_rms": 0.7764807009951747,
+      "pitcher_type_mean_rms": 1.5720351475358065,
+      "pitcher_type_mean_p95": 3.525980899588227,
+      "pitcher_types": 834
+     },
+     "fe_week": {
+      "pitch_mad": 2.2874150798934068,
+      "pitch_sd": 3.8472816286156104,
+      "park_day_bias_rms": 1.3294008525310934,
+      "park_type_bias_rms": 0.7624584642146024,
+      "pitcher_type_mean_rms": 1.5551518613779671,
+      "pitcher_type_mean_p95": 3.520995178537459,
+      "pitcher_types": 834
+     },
+     "fe_series": {
+      "pitch_mad": 2.2851058317402853,
+      "pitch_sd": 3.838756950652375,
+      "park_day_bias_rms": 1.3045251920865752,
+      "park_type_bias_rms": 0.7605913463059891,
+      "pitcher_type_mean_rms": 1.5542931366687793,
+      "pitcher_type_mean_p95": 3.492879549744765,
+      "pitcher_types": 834
+     },
+     "fe_day": {
+      "pitch_mad": 2.276757933299315,
+      "pitch_sd": 3.795679548948747,
+      "park_day_bias_rms": 1.1717150099963094,
+      "park_type_bias_rms": 0.74348071470906,
+      "pitcher_type_mean_rms": 1.5313696383340654,
+      "pitcher_type_mean_p95": 3.5140717280596934,
+      "pitcher_types": 834
+     },
+     "fe_season_loc": {
+      "pitch_mad": 2.254324165144155,
+      "pitch_sd": 3.9001671266013287,
+      "park_day_bias_rms": 1.856529520876565,
+      "park_type_bias_rms": 0.7265292056507632,
+      "pitcher_type_mean_rms": 1.5316633772004562,
+      "pitcher_type_mean_p95": 3.290263953001617,
+      "pitcher_types": 834
+     },
+     "fe_series_loc": {
+      "pitch_mad": 2.155804241831415,
+      "pitch_sd": 3.6711909754903784,
+      "park_day_bias_rms": 1.3088356603685387,
+      "park_type_bias_rms": 0.7308636545160992,
+      "pitcher_type_mean_rms": 1.5158197048831958,
+      "pitcher_type_mean_p95": 3.3646822957827394,
+      "pitcher_types": 834
+     },
+     "fe_series_loc_robust": {
+      "pitch_mad": 2.154431080651875,
+      "pitch_sd": 3.669889612796723,
+      "park_day_bias_rms": 1.305180994738689,
+      "park_type_bias_rms": 0.7299535203908318,
+      "pitcher_type_mean_rms": 1.514527425519819,
+      "pitcher_type_mean_p95": 3.3812647565889336,
+      "pitcher_types": 834
+     },
+     "fe_series_loc_robust_shrink": {
+      "pitch_mad": 2.1431277137122144,
+      "pitch_sd": 3.676495255589815,
+      "park_day_bias_rms": 1.3236407221237985,
+      "park_type_bias_rms": 0.7199408773025288,
+      "pitcher_type_mean_rms": 1.5049055608600272,
+      "pitcher_type_mean_p95": 3.2939621406448847,
+      "pitcher_types": 834
+     },
+     "fe_day_loc_robust_shrink": {
+      "pitch_mad": 2.1302367639922495,
+      "pitch_sd": 3.6394573983164347,
+      "park_day_bias_rms": 1.216987680353589,
+      "park_type_bias_rms": 0.713643956933629,
+      "pitcher_type_mean_rms": 1.4842483137010523,
+      "pitcher_type_mean_p95": 3.222610346870189,
+      "pitcher_types": 834
+     },
+     "fe_week_loc_robust": {
+      "pitch_mad": 2.156169190118945,
+      "pitch_sd": 3.6783567323213235,
+      "park_day_bias_rms": 1.32880230778695,
+      "park_type_bias_rms": 0.73062522974999,
+      "pitcher_type_mean_rms": 1.515398275415364,
+      "pitcher_type_mean_p95": 3.382638057522084,
+      "pitcher_types": 834
+     }
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,92 @@
+{
+ "season": 2024,
+ "held_pas": 17,
+ "held_eligible_pitches": 77,
+ "held_takes": 40,
+ "qualified_batters": 155,
+ "all_qualified": {
+  "mean_abs_delta": 0.2506,
+  "max_abs_delta": 0.7372,
+  "max_rank_shift": 7,
+  "spearman": 0.99871
+ },
+ "touched_batters": [
+  {
+   "batter_id": "50167",
+   "name": "이주형",
+   "pitches_base": 1982,
+   "za_base": 2.5728,
+   "za_held": 2.9261
+  },
+  {
+   "batter_id": "53123",
+   "name": "오스틴",
+   "pitches_base": 2287,
+   "za_base": -2.7035,
+   "za_held": -2.3684
+  },
+  {
+   "batter_id": "53312",
+   "name": "김건희",
+   "pitches_base": 1061,
+   "za_base": -3.2243,
+   "za_held": -3.0167
+  },
+  {
+   "batter_id": "62415",
+   "name": "박해민",
+   "pitches_base": 2261,
+   "za_base": -2.0417,
+   "za_held": -1.7827
+  },
+  {
+   "batter_id": "62931",
+   "name": "노진혁",
+   "pitches_base": 607,
+   "za_base": 1.3179,
+   "za_held": 1.4392
+  },
+  {
+   "batter_id": "66209",
+   "name": "조수행",
+   "pitches_base": 1384,
+   "za_base": 1.1952,
+   "za_held": 1.3558
+  },
+  {
+   "batter_id": "67644",
+   "name": "이정훈",
+   "pitches_base": 475,
+   "za_base": 2.9893,
+   "za_held": 2.9836
+  },
+  {
+   "batter_id": "78135",
+   "name": "이형종",
+   "pitches_base": 497,
+   "za_base": 3.8276,
+   "za_held": 4.2906
+  },
+  {
+   "batter_id": "79192",
+   "name": "채은성",
+   "pitches_base": 1882,
+   "za_base": -0.7008,
+   "za_held": -0.4134
+  },
+  {
+   "batter_id": "79231",
+   "name": "정수빈",
+   "pitches_base": 2494,
+   "za_base": -1.3468,
+   "za_held": -1.1771
+  },
+  {
+   "batter_id": "79240",
+   "name": "허경민",
+   "pitches_base": 1770,
+   "za_base": -6.1503,
+   "za_held": -5.7997
+  }
+ ]
+}

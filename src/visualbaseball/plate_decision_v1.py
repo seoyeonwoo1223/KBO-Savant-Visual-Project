@@ -148,12 +148,12 @@ def _crossfit_pzone(rows: list[dict], groups: np.ndarray) -> np.ndarray:
     return np.clip(result, 1e-6, 1 - 1e-6)
 
 
-def predict_pzone(train: list[dict], test: list[dict]) -> np.ndarray:
+def predict_pzone(train: list[dict], test: list[dict], fields: tuple[str, ...] = PZONE_NUMERIC) -> np.ndarray:
     """Fit the take-only CalledStrike vs Ball/HBP model and score held-out pitches."""
     take = [row for row in train if row["decision_type"] == "Take"]
     target = np.array([str(row.get("pitch_call_code") or "").upper() == "T" or row.get("event") == "CalledStrike" for row in take], dtype=int)
-    model = _classifier().fit(_encode_numeric(take, PZONE_NUMERIC), target)
-    probability = model.predict_proba(_encode_numeric(test, PZONE_NUMERIC))[:, list(model.classes_).index(1)]
+    model = _classifier().fit(_encode_numeric(take, fields), target)
+    probability = model.predict_proba(_encode_numeric(test, fields))[:, list(model.classes_).index(1)]
     return np.clip(probability, 1e-6, 1 - 1e-6)
 
 

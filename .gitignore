@@ -14,3 +14,8 @@ data/processed/
 exports/visualbaseball_savant_*_latest.xlsx
 
 .cache/
+
+# 완료된 ABS 시즌의 ZA 투구 근거 파일은 curated에서 재생성할 수 있고(시즌당 약 30MB),
+# metric_state 출력 목록에도 없습니다. 코드가 바뀔 때마다 이력이 커지지 않게 커밋하지 않습니다.
+data/metrics/zone_awareness/2024/pitches.parquet
+data/metrics/zone_awareness/2025/pitches.parquet

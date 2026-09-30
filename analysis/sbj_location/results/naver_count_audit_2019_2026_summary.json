@@ -1,0 +1,128 @@
+{
+ "definition": {
+  "doc": "GAMES_JSON lists the games to audit ({\"<season>\": [game_id, ...]}, or that under \"games\" as in\nresults/naver_count_audit_games_2019_2026.json); relays must already be cached under\ndata/raw/naver/relay_raw (naver_kia_home_bunts.fetch). A game with a missing inning is not used.",
+  "caveat": "Naver and VB may share an upstream source"
+ },
+ "seasons": {
+  "2019": {
+   "games": 13,
+   "games_used": 13,
+   "incomplete_games": [],
+   "stats": {
+    "code_B_naver_W": 6,
+    "code_W_naver_B": 1,
+    "fix_pass_bunt_foul": 6,
+    "fix_pass_inherited_count": 7,
+    "fix_pass_not_bunt_foul": 1,
+    "pa_count_equal": 1076,
+    "pa_fix_pass": 14,
+    "vb_pas": 1090
+   }
+  },
+  "2020": {
+   "games": 19,
+   "games_used": 19,
+   "incomplete_games": [],
+   "stats": {
+    "code_B_naver_W": 5,
+    "code_W_naver_B": 1,
+    "fix_pass_bunt_foul": 4,
+    "fix_pass_inherited_count": 14,
+    "fix_pass_not_bunt_foul": 1,
+    "pa_count_equal": 1490,
+    "pa_fix_pass": 19,
+    "vb_pas": 1509
+   }
+  },
+  "2021": {
+   "games": 12,
+   "games_used": 12,
+   "incomplete_games": [],
+   "stats": {
+    "code_B_naver_W": 10,
+    "code_W_naver_B": 3,
+    "fix_pass_bunt_foul": 8,
+    "fix_pass_inherited_count": 4,
+    "fix_pass_not_bunt_foul": 2,
+    "pa_count_equal": 860,
+    "pa_fix_pass": 13,
+    "pa_unexplained": 1,
+    "pa_unjoined": 21,
+    "vb_pas": 895
+   }
+  },
+  "2022": {
+   "games": 15,
+   "games_used": 15,
+   "incomplete_games": [],
+   "stats": {
+    "code_B_naver_W": 7,
+    "code_W_naver_B": 1,
+    "fix_pass_bunt_foul": 7,
+    "fix_pass_inherited_count": 11,
+    "fix_pass_not_bunt_foul": 1,
+    "pa_count_equal": 1183,
+    "pa_fix_pass": 19,
+    "vb_pas": 1202
+   }
+  },
+  "2023": {
+   "games": 17,
+   "games_used": 17,
+   "incomplete_games": [],
+   "stats": {
+    "code_B_naver_W": 4,
+    "code_W_naver_B": 1,
+    "fix_pass_bunt_foul": 4,
+    "fix_pass_inherited_count": 16,
+    "fix_pass_not_bunt_foul": 1,
+    "pa_count_equal": 1393,
+    "pa_fix_pass": 21,
+    "vb_pas": 1414
+   }
+  },
+  "2024": {
+   "games": 15,
+   "games_used": 15,
+   "incomplete_games": [],
+   "stats": {
+    "code_B_naver_W": 4,
+    "fix_pass_bunt_foul": 3,
+    "fix_pass_inherited_count": 11,
+    "pa_count_equal": 1149,
+    "pa_fix_pass": 14,
+    "pa_length_differs": 10,
+    "pa_unexplained": 8,
+    "pa_unjoined": 26,
+    "vb_pas": 1207
+   }
+  },
+  "2025": {
+   "games": 60,
+   "games_used": 60,
+   "incomplete_games": [],
+   "stats": {
+    "fix_pass_inherited_count": 13,
+    "fix_pass_pitch_clock": 59,
+    "pa_count_equal": 4692,
+    "pa_fix_pass": 72,
+    "pa_unexplained": 1,
+    "vb_pas": 4765
+   }
+  },
+  "2026": {
+   "games": 50,
+   "games_used": 50,
+   "incomplete_games": [],
+   "stats": {
+    "fix_pass_inherited_count": 15,
+    "fix_pass_pitch_clock": 34,
+    "pa_count_equal": 4049,
+    "pa_fix_pass": 49,
+    "pa_unexplained": 2,
+    "pa_unjoined": 2,
+    "vb_pas": 4102
+   }
+  }
+ }
+}

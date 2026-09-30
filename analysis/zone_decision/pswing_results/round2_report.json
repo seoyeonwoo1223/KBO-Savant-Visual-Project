@@ -1,0 +1,1166 @@
+{
+ "2024": {
+  "models": {
+   "H1": {
+    "oof_logloss": 0.4452786660133225,
+    "oof_brier": 0.146419137002476,
+    "oof_ece": 0.005247781907224147,
+    "oof_slope": 1.0363996290663906,
+    "batter_holdout_logloss": 0.44680741729970086,
+    "batter_holdout_ece": 0.010060686837962022,
+    "park_type": {
+     "rms_pp": 0.851320434869176,
+     "cells": 66,
+     "cells_abs_z_gt_3": 1,
+     "mean_z2": 1.5869372570098008
+    },
+    "split_half": {
+     "batters": 150,
+     "r": 0.7513643024263752,
+     "spearman_brown": 0.858033136093296
+    }
+   },
+   "H1M0": {
+    "oof_logloss": 0.4544428333619449,
+    "oof_brier": 0.14965265216036064,
+    "oof_ece": 0.00726245088664646,
+    "oof_slope": 1.065199551674576,
+    "batter_holdout_logloss": 0.4550733691183043,
+    "batter_holdout_ece": 0.009645098508112803,
+    "park_type": {
+     "rms_pp": 0.8048889606558024,
+     "cells": 66,
+     "cells_abs_z_gt_3": 1,
+     "mean_z2": 1.3745017233663959
+    },
+    "split_half": {
+     "batters": 150,
+     "r": 0.7396835328904413,
+     "spearman_brown": 0.8503656198452086
+    }
+   },
+   "H1M2": {
+    "oof_logloss": 0.4446987995028668,
+    "oof_brier": 0.1460244883682203,
+    "oof_ece": 0.008632511486327842,
+    "oof_slope": 1.072139165705773,
+    "batter_holdout_logloss": 0.4455626117479125,
+    "batter_holdout_ece": 0.01079646759330791,
+    "park_type": {
+     "rms_pp": 0.8412640964752176,
+     "cells": 66,
+     "cells_abs_z_gt_3": 1,
+     "mean_z2": 1.532480049532028
+    },
+    "split_half": {
+     "batters": 150,
+     "r": 0.7492994331932076,
+     "spearman_brown": 0.8566851608994359
+    }
+   },
+   "H1M3": {
+    "oof_logloss": 0.44540529705662046,
+    "oof_brier": 0.1462598955329302,
+    "oof_ece": 0.008510349282662769,
+    "oof_slope": 1.0716733638101275,
+    "batter_holdout_logloss": 0.44635274459458707,
+    "batter_holdout_ece": 0.010965579758226639,
+    "park_type": {
+     "rms_pp": 0.8435524530123748,
+     "cells": 66,
+     "cells_abs_z_gt_3": 1,
+     "mean_z2": 1.5362595817411644
+    },
+    "split_half": {
+     "batters": 150,
+     "r": 0.7501151658452447,
+     "spearman_brown": 0.8572180625415758
+    }
+   },
+   "H1M0Trel": {
+    "oof_logloss": 0.4537059336143825,
+    "oof_brier": 0.14935543549486754,
+    "oof_ece": 0.007457540966091614,
+    "oof_slope": 1.0667451188174815,
+    "batter_holdout_logloss": 0.4547217302753525,
+    "batter_holdout_ece": 0.009412621942596618,
+    "park_type": {
+     "rms_pp": 0.7991868221767445,
+     "cells": 66,
+     "cells_abs_z_gt_3": 1,
+     "mean_z2": 1.3574580040574393
+    },
+    "split_half": {
+     "batters": 150,
+     "r": 0.74196404202278,
+     "spearman_brown": 0.8518706748518259
+    }
+   }
+  },
+  "comparisons": {
+   "[H1] 현행 보정 무브먼트": {
+    "oof": {
+     "delta": -0.009164167348622344,
+     "se_game": 0.0003276346118069931,
+     "se_batter": 0.0004481263839857098,
+     "z": -20.44996160930033
+    },
+    "batter_holdout": {
+     "delta": -0.008265951818603469,
+     "se_game": 0.00028697001463073017,
+     "se_batter": 0.0003949974154150922,
+     "z": -20.9265972282806
+    },
+    "oof_raw": {
+     "delta": -0.00847477852652302,
+     "se_game": 0.00029161004610444083,
+     "se_batter": 0.00040185171077990244,
+     "z": -21.089318022499917
+    },
+    "ece_delta": -0.002014668979422313,
+    "park_rms_ratio": 1.057686807103855,
+    "park_mean_z2": [
+     1.3745017233663959,
+     1.5869372570098008
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 155,
+     "spearman": 0.9969901066675261,
+     "mean_abs_delta": 0.2537584005715644,
+     "max_abs_delta": 0.8082393121448431,
+     "max_rank_change": 13,
+     "top20_changed": 1,
+     "stadium_mean_judgment_range": 0.2501032141981034
+    }
+   },
+   "[H1] 재추정(구종) 무브먼트": {
+    "oof": {
+     "delta": -0.009744033859078105,
+     "se_game": 0.0003186838394691952,
+     "se_batter": 0.0004311310207275344,
+     "z": -22.601096628665292
+    },
+    "batter_holdout": {
+     "delta": -0.009510757370391783,
+     "se_game": 0.00030261052858445174,
+     "se_batter": 0.000407064194385609,
+     "z": -23.36426907983538
+    },
+    "oof_raw": {
+     "delta": -0.009654923390037875,
+     "se_game": 0.0003069555507821571,
+     "se_batter": 0.00041926046407407064,
+     "z": -23.02846134409693
+    },
+    "ece_delta": 0.0013700605996813811,
+    "park_rms_ratio": 1.0451927378775052,
+    "park_mean_z2": [
+     1.3745017233663959,
+     1.532480049532028
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 155,
+     "spearman": 0.9973220328059037,
+     "mean_abs_delta": 0.15893636123999233,
+     "max_abs_delta": 0.6264116821860765,
+     "max_rank_change": 13,
+     "top20_changed": 1,
+     "stadium_mean_judgment_range": 0.21184219970420018
+    }
+   },
+   "[H1] 재추정(구종×손) 무브먼트": {
+    "oof": {
+     "delta": -0.009037536305324391,
+     "se_game": 0.00032490681478634074,
+     "se_batter": 0.0004206673654131682,
+     "z": -21.483806561623734
+    },
+    "batter_holdout": {
+     "delta": -0.00872062452371722,
+     "se_game": 0.00030259584754216537,
+     "se_batter": 0.00039122970001848094,
+     "z": -22.290292693282936
+    },
+    "oof_raw": {
+     "delta": -0.009005949484430925,
+     "se_game": 0.00031045386040191533,
+     "se_batter": 0.00040909156553646964,
+     "z": -22.014507858701048
+    },
+    "ece_delta": 0.0012478983960163082,
+    "park_rms_ratio": 1.048035808970557,
+    "park_mean_z2": [
+     1.3745017233663959,
+     1.5362595817411644
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 155,
+     "spearman": 0.9975250555895717,
+     "mean_abs_delta": 0.15898491848735435,
+     "max_abs_delta": 0.723342656736592,
+     "max_rank_change": 14,
+     "top20_changed": 1,
+     "stadium_mean_judgment_range": 0.22238338441622194
+    }
+   },
+   "[H1] 재추정(구종×손) vs 현행": {
+    "oof": {
+     "delta": 0.00012663104329795237,
+     "se_game": 0.00021721133371814123,
+     "se_batter": 0.00024107396334994323,
+     "z": 0.5252788046386188
+    },
+    "batter_holdout": {
+     "delta": -0.00045467270511375237,
+     "se_game": 0.0001575347016623788,
+     "se_batter": 0.0001698648437498995,
+     "z": -2.6766733779427
+    },
+    "oof_raw": {
+     "delta": -0.0005311709579079051,
+     "se_game": 0.0001664310641858838,
+     "se_batter": 0.00016957914549861828,
+     "z": -3.1322893882150917
+    },
+    "ece_delta": 0.0032625673754386212,
+    "park_rms_ratio": 0.9908753724935607,
+    "park_mean_z2": [
+     1.5869372570098008,
+     1.5362595817411644
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 155,
+     "spearman": 0.99845638232735,
+     "mean_abs_delta": 0.28384796340890195,
+     "max_abs_delta": 1.0905383794390744,
+     "max_rank_change": 9,
+     "top20_changed": 0,
+     "stadium_mean_judgment_range": 0.25964510535870544
+    }
+   },
+   "[H1] 릴리스 좌우 (무브먼트 제외)": {
+    "oof": {
+     "delta": -0.0007368997475623325,
+     "se_game": 9.517403806820846e-05,
+     "se_batter": 9.656020436955863e-05,
+     "z": -7.631505674346378
+    },
+    "batter_holdout": {
+     "delta": -0.0003516388429517871,
+     "se_game": 8.065904999761137e-05,
+     "se_batter": 9.322427726347914e-05,
+     "z": -3.771966415550239
+    },
+    "oof_raw": {
+     "delta": -0.0007095003221447606,
+     "se_game": 8.53522040834113e-05,
+     "se_batter": 8.643772661724578e-05,
+     "z": -8.208225157129519
+    },
+    "ece_delta": 0.00019509007944515377,
+    "park_rms_ratio": 0.992915620964149,
+    "park_mean_z2": [
+     1.3745017233663959,
+     1.3574580040574393
+    ],
+    "passes": true,
+    "players": {
+     "qualified": 155,
+     "spearman": 0.9995359479230447,
+     "mean_abs_delta": 0.052156191778152276,
+     "max_abs_delta": 0.28514530391662163,
+     "max_rank_change": 5,
+     "top20_changed": 1,
+     "stadium_mean_judgment_range": 0.08460873596524093
+    }
+   },
+   "[H1] 릴리스 좌우 대신 현행 무브먼트": {
+    "oof": {
+     "delta": -0.00842726760106001,
+     "se_game": 0.00032472221939628965,
+     "se_batter": 0.0004222452444123485,
+     "z": -19.958229755289473
+    },
+    "batter_holdout": {
+     "delta": -0.007914312975651682,
+     "se_game": 0.0002759393383227794,
+     "se_batter": 0.0003858927218028701,
+     "z": -20.50910143802774
+    },
+    "oof_raw": {
+     "delta": -0.0077652782043782596,
+     "se_game": 0.0002865772981715351,
+     "se_batter": 0.00037507030785027156,
+     "z": -20.70352689042548
+    },
+    "ece_delta": -0.002209759058867467,
+    "park_rms_ratio": 1.0652333237307832,
+    "park_mean_z2": [
+     1.3574580040574393,
+     1.5869372570098008
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 155,
+     "spearman": 0.9974702716638202,
+     "mean_abs_delta": 0.2403864890969195,
+     "max_abs_delta": 0.7367298386830052,
+     "max_rank_change": 10,
+     "top20_changed": 2,
+     "stadium_mean_judgment_range": 0.21503549309693198
+    }
+   }
+  },
+  "calibration_applied": {
+   "H1": [
+    false,
+    true,
+    true
+   ],
+   "H1M0": [
+    false,
+    false,
+    true
+   ],
+   "H1M2": [
+    false,
+    false,
+    true
+   ],
+   "H1M3": [
+    false,
+    false,
+    true
+   ],
+   "H1M0Trel": [
+    false,
+    false,
+    true
+   ]
+  },
+  "feature_park_bias": {
+   "horizontal_movement_cm": {
+    "park_range": 43.37410821075649,
+    "max_abs_park_type": 31.500097504989213,
+    "within_pitcher_type_sd": 6.510432507656704,
+    "range_over_sd": 6.662246810752686
+   },
+   "adjusted_hb_cm": {
+    "park_range": 23.434372111986985,
+    "max_abs_park_type": 23.233406686326518,
+    "within_pitcher_type_sd": 6.5034215162473945,
+    "range_over_sd": 3.6033912385105693
+   },
+   "vertical_movement_cm": {
+    "park_range": 14.578246469087633,
+    "max_abs_park_type": 10.649378769077606,
+    "within_pitcher_type_sd": 6.486286065512004,
+    "range_over_sd": 2.2475491092816733
+   },
+   "adjusted_ivb_cm": {
+    "park_range": 2.4689332405536715,
+    "max_abs_park_type": 4.776435341370211,
+    "within_pitcher_type_sd": 6.481028811698388,
+    "range_over_sd": 0.38094773411548444
+   },
+   "release_x_55": {
+    "park_range": 9.383693403297977,
+    "max_abs_park_type": 5.858122415541924,
+    "within_pitcher_type_sd": 6.8344007608219925,
+    "range_over_sd": 1.3730089486542452
+   },
+   "vaa_deg": {
+    "park_range": 0.5256133279187641,
+    "max_abs_park_type": 0.45296357774592266,
+    "within_pitcher_type_sd": 1.0177386375708892,
+    "range_over_sd": 0.516452170051521
+   },
+   "haa_deg": {
+    "park_range": 2.120757859801115,
+    "max_abs_park_type": 1.4884339871464936,
+    "within_pitcher_type_sd": 0.9099202482251236,
+    "range_over_sd": 2.330707404234418
+   }
+  }
+ },
+ "2025": {
+  "models": {
+   "H1": {
+    "oof_logloss": 0.4462615158529612,
+    "oof_brier": 0.14697351480267806,
+    "oof_ece": 0.0015275182958749919,
+    "oof_slope": 0.9969274343376693,
+    "batter_holdout_logloss": 0.4489219508512649,
+    "batter_holdout_ece": 0.012383807573789679,
+    "park_type": {
+     "rms_pp": 0.9060433350912093,
+     "cells": 68,
+     "cells_abs_z_gt_3": 4,
+     "mean_z2": 1.741976655953204
+    },
+    "split_half": {
+     "batters": 163,
+     "r": 0.7081711881134252,
+     "spearman_brown": 0.8291571629838327
+    }
+   },
+   "H1M0": {
+    "oof_logloss": 0.45532857448514225,
+    "oof_brier": 0.14997715778042087,
+    "oof_ece": 0.007375370625894758,
+    "oof_slope": 1.0694869812104228,
+    "batter_holdout_logloss": 0.45648097221719103,
+    "batter_holdout_ece": 0.011115330119436688,
+    "park_type": {
+     "rms_pp": 0.9279668154150433,
+     "cells": 68,
+     "cells_abs_z_gt_3": 2,
+     "mean_z2": 1.7253360721786015
+    },
+    "split_half": {
+     "batters": 163,
+     "r": 0.6882645860833365,
+     "spearman_brown": 0.8153515648634974
+    }
+   },
+   "H1M2": {
+    "oof_logloss": 0.44513620650288505,
+    "oof_brier": 0.14636625766550246,
+    "oof_ece": 0.005682707377392784,
+    "oof_slope": 1.0395377070979932,
+    "batter_holdout_logloss": 0.44696248670012556,
+    "batter_holdout_ece": 0.01166043046060231,
+    "park_type": {
+     "rms_pp": 0.9837783538072042,
+     "cells": 68,
+     "cells_abs_z_gt_3": 4,
+     "mean_z2": 2.0194330475252293
+    },
+    "split_half": {
+     "batters": 163,
+     "r": 0.7109913612420977,
+     "spearman_brown": 0.8310870263260149
+    }
+   },
+   "H1M3": {
+    "oof_logloss": 0.44609971411982047,
+    "oof_brier": 0.1467204440636543,
+    "oof_ece": 0.0050259583297088805,
+    "oof_slope": 1.039385084564446,
+    "batter_holdout_logloss": 0.44770334556641456,
+    "batter_holdout_ece": 0.011244607819685015,
+    "park_type": {
+     "rms_pp": 0.9761781399758975,
+     "cells": 68,
+     "cells_abs_z_gt_3": 4,
+     "mean_z2": 1.979556195557474
+    },
+    "split_half": {
+     "batters": 163,
+     "r": 0.7021839234436688,
+     "spearman_brown": 0.8250388383684044
+    }
+   },
+   "H1M0Trel": {
+    "oof_logloss": 0.4552724498858552,
+    "oof_brier": 0.14992613762860113,
+    "oof_ece": 0.007920621609304637,
+    "oof_slope": 1.0729866966734911,
+    "batter_holdout_logloss": 0.4562795206851487,
+    "batter_holdout_ece": 0.010943112601678354,
+    "park_type": {
+     "rms_pp": 0.9273216601786112,
+     "cells": 68,
+     "cells_abs_z_gt_3": 2,
+     "mean_z2": 1.721285630003588
+    },
+    "split_half": {
+     "batters": 163,
+     "r": 0.6857718824705143,
+     "spearman_brown": 0.8135998584405255
+    }
+   }
+  },
+  "comparisons": {
+   "[H1] 현행 보정 무브먼트": {
+    "oof": {
+     "delta": -0.009067058632181109,
+     "se_game": 0.0003493268099929901,
+     "se_batter": 0.00038974229003717765,
+     "z": -23.264241176691907
+    },
+    "batter_holdout": {
+     "delta": -0.007559021365926121,
+     "se_game": 0.0002974751057620475,
+     "se_batter": 0.0003869916962653058,
+     "z": -19.53277405917248
+    },
+    "oof_raw": {
+     "delta": -0.007717731859712255,
+     "se_game": 0.000305505604902217,
+     "se_batter": 0.0003590885751399642,
+     "z": -21.49255753042008
+    },
+    "ece_delta": -0.005847852330019766,
+    "park_rms_ratio": 0.9763747151733777,
+    "park_mean_z2": [
+     1.7253360721786015,
+     1.741976655953204
+    ],
+    "passes": true,
+    "players": {
+     "qualified": 171,
+     "spearman": 0.9950344397244825,
+     "mean_abs_delta": 0.5123427099608762,
+     "max_abs_delta": 1.1922433352506034,
+     "max_rank_change": 24,
+     "top20_changed": 0,
+     "stadium_mean_judgment_range": 0.4567949588109644
+    }
+   },
+   "[H1] 재추정(구종) 무브먼트": {
+    "oof": {
+     "delta": -0.010192367982257264,
+     "se_game": 0.0003629009924874038,
+     "se_batter": 0.0004258629360725719,
+     "z": -23.933446935425177
+    },
+    "batter_holdout": {
+     "delta": -0.00951848551706543,
+     "se_game": 0.00032351207624945535,
+     "se_batter": 0.0004024785558145378,
+     "z": -23.64967121739413
+    },
+    "oof_raw": {
+     "delta": -0.00947220199166472,
+     "se_game": 0.00033179236098721427,
+     "se_batter": 0.0004033338297252923,
+     "z": -23.48476942317526
+    },
+    "ece_delta": -0.0016926632485019738,
+    "park_rms_ratio": 1.060143894657697,
+    "park_mean_z2": [
+     1.7253360721786015,
+     2.0194330475252293
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 171,
+     "spearman": 0.9953656370749036,
+     "mean_abs_delta": 0.24569311803804014,
+     "max_abs_delta": 1.0132002811220788,
+     "max_rank_change": 21,
+     "top20_changed": 0,
+     "stadium_mean_judgment_range": 0.3047191236602236
+    }
+   },
+   "[H1] 재추정(구종×손) 무브먼트": {
+    "oof": {
+     "delta": -0.009228860365321818,
+     "se_game": 0.00034377964675826083,
+     "se_batter": 0.0003801031262246758,
+     "z": -24.27988545368268
+    },
+    "batter_holdout": {
+     "delta": -0.008777626650776485,
+     "se_game": 0.00031507242080087907,
+     "se_batter": 0.0003822723818525435,
+     "z": -22.961707587241648
+    },
+    "oof_raw": {
+     "delta": -0.008592723372326678,
+     "se_game": 0.0003107869596837116,
+     "se_batter": 0.00035955333731693245,
+     "z": -23.898327398231107
+    },
+    "ece_delta": -0.0023494122961858774,
+    "park_rms_ratio": 1.0519537161889687,
+    "park_mean_z2": [
+     1.7253360721786015,
+     1.979556195557474
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 171,
+     "spearman": 0.9953008375932993,
+     "mean_abs_delta": 0.2275195091109913,
+     "max_abs_delta": 1.0018094907181725,
+     "max_rank_change": 16,
+     "top20_changed": 1,
+     "stadium_mean_judgment_range": 0.20291399127931414
+    }
+   },
+   "[H1] 재추정(구종×손) vs 현행": {
+    "oof": {
+     "delta": -0.00016180173314070937,
+     "se_game": 0.00024033483282734212,
+     "se_batter": 0.0002628595068307194,
+     "z": -0.6155445359064344
+    },
+    "batter_holdout": {
+     "delta": -0.0012186052848503636,
+     "se_game": 0.00017287869696176,
+     "se_batter": 0.0001860731754882283,
+     "z": -6.549064805568695
+    },
+    "oof_raw": {
+     "delta": -0.0008749915126144247,
+     "se_game": 0.0001826156728775273,
+     "se_batter": 0.0001882319608543711,
+     "z": -4.6484747257739985
+    },
+    "ece_delta": 0.0034984400338338886,
+    "park_rms_ratio": 1.0774077819110361,
+    "park_mean_z2": [
+     1.741976655953204,
+     1.979556195557474
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 171,
+     "spearman": 0.9955744354045168,
+     "mean_abs_delta": 0.33985716781510855,
+     "max_abs_delta": 0.911158526944388,
+     "max_rank_change": 21,
+     "top20_changed": 1,
+     "stadium_mean_judgment_range": 0.3835602429046002
+    }
+   },
+   "[H1] 릴리스 좌우 (무브먼트 제외)": {
+    "oof": {
+     "delta": -5.6124599287068694e-05,
+     "se_game": 8.501634361636999e-05,
+     "se_batter": 7.108646354594908e-05,
+     "z": -0.6601624687639688
+    },
+    "batter_holdout": {
+     "delta": -0.00020145153204228111,
+     "se_game": 7.392132895874378e-05,
+     "se_batter": 7.374140254486539e-05,
+     "z": -2.7252152373331007
+    },
+    "oof_raw": {
+     "delta": -3.8867642388082736e-05,
+     "se_game": 7.889842954524127e-05,
+     "se_batter": 6.998095444157852e-05,
+     "z": -0.4926288471406846
+    },
+    "ece_delta": 0.0005452509834098793,
+    "park_rms_ratio": 0.999304764754822,
+    "park_mean_z2": [
+     1.7253360721786015,
+     1.721285630003588
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 171,
+     "spearman": 0.9994024047807619,
+     "mean_abs_delta": 0.05972530572741305,
+     "max_abs_delta": 0.223666182202086,
+     "max_rank_change": 6,
+     "top20_changed": 0,
+     "stadium_mean_judgment_range": 0.08462551009343787
+    }
+   },
+   "[H1] 릴리스 좌우 대신 현행 무브먼트": {
+    "oof": {
+     "delta": -0.00901093403289404,
+     "se_game": 0.00034202219577787345,
+     "se_batter": 0.0003975746937596122,
+     "z": -22.66475752690228
+    },
+    "batter_holdout": {
+     "delta": -0.007357569833883841,
+     "se_game": 0.0002867914946703672,
+     "se_batter": 0.000373543872841432,
+     "z": -19.696668500856664
+    },
+    "oof_raw": {
+     "delta": -0.007678864217324172,
+     "se_game": 0.00029914258592574056,
+     "se_batter": 0.000361133934606391,
+     "z": -21.263203153958823
+    },
+    "ece_delta": -0.006393103313429646,
+    "park_rms_ratio": 0.9770539975489158,
+    "park_mean_z2": [
+     1.721285630003588,
+     1.741976655953204
+    ],
+    "passes": true,
+    "players": {
+     "qualified": 171,
+     "spearman": 0.994780041759666,
+     "mean_abs_delta": 0.552637961854553,
+     "max_abs_delta": 1.2692615023078335,
+     "max_rank_change": 23,
+     "top20_changed": 0,
+     "stadium_mean_judgment_range": 0.422331426749078
+    }
+   }
+  },
+  "calibration_applied": {
+   "H1": [
+    true,
+    true,
+    true
+   ],
+   "H1M0": [
+    false,
+    false,
+    true
+   ],
+   "H1M2": [
+    false,
+    true,
+    true
+   ],
+   "H1M3": [
+    false,
+    true,
+    true
+   ],
+   "H1M0Trel": [
+    false,
+    false,
+    true
+   ]
+  },
+  "feature_park_bias": {
+   "horizontal_movement_cm": {
+    "park_range": 30.5496024198696,
+    "max_abs_park_type": 18.530629336471346,
+    "within_pitcher_type_sd": 7.903458645263819,
+    "range_over_sd": 3.8653460201473413
+   },
+   "adjusted_hb_cm": {
+    "park_range": 37.45366708903476,
+    "max_abs_park_type": 26.259303769296558,
+    "within_pitcher_type_sd": 7.891570885908659,
+    "range_over_sd": 4.746034424643229
+   },
+   "vertical_movement_cm": {
+    "park_range": 21.06634995554654,
+    "max_abs_park_type": 11.572127823967222,
+    "within_pitcher_type_sd": 8.189592988273526,
+    "range_over_sd": 2.572331736841003
+   },
+   "adjusted_ivb_cm": {
+    "park_range": 12.28824114243562,
+    "max_abs_park_type": 7.342797494497586,
+    "within_pitcher_type_sd": 8.19298415843037,
+    "range_over_sd": 1.4998492496523792
+   },
+   "release_x_55": {
+    "park_range": 8.119406376770211,
+    "max_abs_park_type": 5.475667623124292,
+    "within_pitcher_type_sd": 7.144723347229573,
+    "range_over_sd": 1.1364199818763563
+   },
+   "vaa_deg": {
+    "park_range": 0.9265487754141064,
+    "max_abs_park_type": 0.5736895308779952,
+    "within_pitcher_type_sd": 1.0426614255955158,
+    "range_over_sd": 0.8886382028422202
+   },
+   "haa_deg": {
+    "park_range": 1.3835923294004635,
+    "max_abs_park_type": 0.8222755275480971,
+    "within_pitcher_type_sd": 0.9301721591715142,
+    "range_over_sd": 1.487458333124915
+   }
+  }
+ },
+ "2026": {
+  "models": {
+   "H1": {
+    "oof_logloss": 0.444366990687964,
+    "oof_brier": 0.14635258323036834,
+    "oof_ece": 0.00350472133862837,
+    "oof_slope": 0.9937283698827525,
+    "batter_holdout_logloss": 0.44572476157646124,
+    "batter_holdout_ece": 0.009865213026534304,
+    "park_type": {
+     "rms_pp": 0.9266024683405184,
+     "cells": 72,
+     "cells_abs_z_gt_3": 1,
+     "mean_z2": 1.6467299174890335
+    },
+    "split_half": {
+     "batters": 158,
+     "r": 0.6855735105395484,
+     "spearman_brown": 0.8134602332711053
+    }
+   },
+   "H1M0": {
+    "oof_logloss": 0.451644096330108,
+    "oof_brier": 0.14882842032589624,
+    "oof_ece": 0.0048385033966633195,
+    "oof_slope": 1.0351433474085063,
+    "batter_holdout_logloss": 0.4526364180586592,
+    "batter_holdout_ece": 0.010113888748479165,
+    "park_type": {
+     "rms_pp": 0.8728035517425287,
+     "cells": 72,
+     "cells_abs_z_gt_3": 1,
+     "mean_z2": 1.403161294461228
+    },
+    "split_half": {
+     "batters": 158,
+     "r": 0.6851970326352179,
+     "spearman_brown": 0.8131951568461341
+    }
+   },
+   "H1M2": {
+    "oof_logloss": 0.4445068993413604,
+    "oof_brier": 0.14635509431306454,
+    "oof_ece": 0.0033633723751935927,
+    "oof_slope": 0.9889086413050568,
+    "batter_holdout_logloss": 0.4451518860161718,
+    "batter_holdout_ece": 0.009968939168307345,
+    "park_type": {
+     "rms_pp": 0.9553889210568782,
+     "cells": 72,
+     "cells_abs_z_gt_3": 1,
+     "mean_z2": 1.750877794672829
+    },
+    "split_half": {
+     "batters": 158,
+     "r": 0.6851875453123558,
+     "spearman_brown": 0.8131884753341846
+    }
+   },
+   "H1M3": {
+    "oof_logloss": 0.44516165457195683,
+    "oof_brier": 0.1465961986192798,
+    "oof_ece": 0.003436849399518081,
+    "oof_slope": 0.9915239871144036,
+    "batter_holdout_logloss": 0.44572566258033286,
+    "batter_holdout_ece": 0.010239299963624052,
+    "park_type": {
+     "rms_pp": 0.9372815773578286,
+     "cells": 72,
+     "cells_abs_z_gt_3": 1,
+     "mean_z2": 1.6807086093450796
+    },
+    "split_half": {
+     "batters": 158,
+     "r": 0.6874276900322885,
+     "spearman_brown": 0.8147640270370753
+    }
+   },
+   "H1M0Trel": {
+    "oof_logloss": 0.45129454900476185,
+    "oof_brier": 0.14869963253513435,
+    "oof_ece": 0.0032447542180939902,
+    "oof_slope": 1.0249754133504834,
+    "batter_holdout_logloss": 0.45244306903359927,
+    "batter_holdout_ece": 0.010299056146642187,
+    "park_type": {
+     "rms_pp": 0.873709231128373,
+     "cells": 72,
+     "cells_abs_z_gt_3": 1,
+     "mean_z2": 1.4156387226492049
+    },
+    "split_half": {
+     "batters": 158,
+     "r": 0.6794939160206313,
+     "spearman_brown": 0.8091650818606291
+    }
+   }
+  },
+  "comparisons": {
+   "[H1] 현행 보정 무브먼트": {
+    "oof": {
+     "delta": -0.0072771056421440045,
+     "se_game": 0.00038149470286659345,
+     "se_batter": 0.0004099600040561048,
+     "z": -17.75076975837892
+    },
+    "batter_holdout": {
+     "delta": -0.006911656482197965,
+     "se_game": 0.00029491726583305377,
+     "se_batter": 0.00038782061877235143,
+     "z": -17.8217870521605
+    },
+    "oof_raw": {
+     "delta": -0.0066308728835635985,
+     "se_game": 0.00032115275076596784,
+     "se_batter": 0.00035894621631199004,
+     "z": -18.473165566955455
+    },
+    "ece_delta": -0.0013337820580349496,
+    "park_rms_ratio": 1.0616392044814456,
+    "park_mean_z2": [
+     1.403161294461228,
+     1.6467299174890335
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 166,
+     "spearman": 0.9970066438863785,
+     "mean_abs_delta": 0.2362088876327369,
+     "max_abs_delta": 0.9864554086699703,
+     "max_rank_change": 13,
+     "top20_changed": 1,
+     "stadium_mean_judgment_range": 0.290377910978466
+    }
+   },
+   "[H1] 재추정(구종) 무브먼트": {
+    "oof": {
+     "delta": -0.007137196988747682,
+     "se_game": 0.00041829237045844285,
+     "se_batter": 0.0004323022690498258,
+     "z": -16.509737514065815
+    },
+    "batter_holdout": {
+     "delta": -0.00748453204248742,
+     "se_game": 0.0002985070059313161,
+     "se_batter": 0.0004001643326758836,
+     "z": -18.703646055705768
+    },
+    "oof_raw": {
+     "delta": -0.006560354162029969,
+     "se_game": 0.0003562120422404348,
+     "se_batter": 0.0003873779664382217,
+     "z": -16.93527957294443
+    },
+    "ece_delta": -0.0014751310214697268,
+    "park_rms_ratio": 1.0946207988607175,
+    "park_mean_z2": [
+     1.403161294461228,
+     1.750877794672829
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 166,
+     "spearman": 0.9964530959985834,
+     "mean_abs_delta": 0.26207887227950805,
+     "max_abs_delta": 1.118229091773673,
+     "max_rank_change": 11,
+     "top20_changed": 2,
+     "stadium_mean_judgment_range": 0.2947240491410115
+    }
+   },
+   "[H1] 재추정(구종×손) 무브먼트": {
+    "oof": {
+     "delta": -0.006482441758151236,
+     "se_game": 0.00040877171148349093,
+     "se_batter": 0.0004315213569895129,
+     "z": -15.02229647073708
+    },
+    "batter_holdout": {
+     "delta": -0.006910755478326244,
+     "se_game": 0.0002960954499604502,
+     "se_batter": 0.00038400884269617676,
+     "z": -17.996344640933053
+    },
+    "oof_raw": {
+     "delta": -0.005882401143492628,
+     "se_game": 0.00034598627118872816,
+     "se_batter": 0.0003702087138492924,
+     "z": -15.889418383294144
+    },
+    "ece_delta": -0.0014016539971452384,
+    "park_rms_ratio": 1.0738746141518,
+    "park_mean_z2": [
+     1.403161294461228,
+     1.6807086093450796
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 166,
+     "spearman": 0.9964032504541849,
+     "mean_abs_delta": 0.2758724198373119,
+     "max_abs_delta": 1.057596615384138,
+     "max_rank_change": 15,
+     "top20_changed": 1,
+     "stadium_mean_judgment_range": 0.2328960571795915
+    }
+   },
+   "[H1] 재추정(구종×손) vs 현행": {
+    "oof": {
+     "delta": 0.0007946638839927681,
+     "se_game": 0.0002102150933384232,
+     "se_batter": 0.0001918214999183419,
+     "z": 3.7802418055369915
+    },
+    "batter_holdout": {
+     "delta": 9.01003871720637e-07,
+     "se_game": 0.00014575358346530007,
+     "se_batter": 0.0001476563679722461,
+     "z": 0.006102031927874538
+    },
+    "oof_raw": {
+     "delta": 0.0007484717400709716,
+     "se_game": 0.0001715273695662378,
+     "se_batter": 0.0001409130642252891,
+     "z": 4.363570326786469
+    },
+    "ece_delta": -6.787193911028883e-05,
+    "park_rms_ratio": 1.0115250168029832,
+    "park_mean_z2": [
+     1.6467299174890335,
+     1.6807086093450796
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 166,
+     "spearman": 0.9989401263191033,
+     "mean_abs_delta": 0.09886758476967832,
+     "max_abs_delta": 0.3649652972419295,
+     "max_rank_change": 8,
+     "top20_changed": 0,
+     "stadium_mean_judgment_range": 0.26590228589945625
+    }
+   },
+   "[H1] 릴리스 좌우 (무브먼트 제외)": {
+    "oof": {
+     "delta": -0.00034954732534622947,
+     "se_game": 0.0001798220820530648,
+     "se_batter": 0.00019556911394749655,
+     "z": -1.7873339930356829
+    },
+    "batter_holdout": {
+     "delta": -0.0001933490250599081,
+     "se_game": 8.584914285092484e-05,
+     "se_batter": 9.411038787891558e-05,
+     "z": -2.0544918517249666
+    },
+    "oof_raw": {
+     "delta": -0.0003736947231073952,
+     "se_game": 9.124167959976462e-05,
+     "se_batter": 9.305374493526813e-05,
+     "z": -4.0159020291698315
+    },
+    "ece_delta": -0.0015937491785693292,
+    "park_rms_ratio": 1.0010376669343704,
+    "park_mean_z2": [
+     1.403161294461228,
+     1.4156387226492049
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 166,
+     "spearman": 0.9949865876133823,
+     "mean_abs_delta": 0.21897645080833497,
+     "max_abs_delta": 0.8433524011384812,
+     "max_rank_change": 15,
+     "top20_changed": 2,
+     "stadium_mean_judgment_range": 0.16803884151463075
+    }
+   },
+   "[H1] 릴리스 좌우 대신 현행 무브먼트": {
+    "oof": {
+     "delta": -0.006927558316797775,
+     "se_game": 0.0003588138029311068,
+     "se_batter": 0.00039494525267786274,
+     "z": -17.540553456021005
+    },
+    "batter_holdout": {
+     "delta": -0.006718307457138057,
+     "se_game": 0.00029235244573378735,
+     "se_batter": 0.0003683762001519299,
+     "z": -18.23762624829513
+    },
+    "oof_raw": {
+     "delta": -0.006257178160456203,
+     "se_game": 0.00031207269344733004,
+     "se_batter": 0.0003502947043098197,
+     "z": -17.862611348306352
+    },
+    "ece_delta": 0.0002599671205343796,
+    "park_rms_ratio": 1.0605387185206172,
+    "park_mean_z2": [
+     1.4156387226492049,
+     1.6467299174890335
+    ],
+    "passes": false,
+    "players": {
+     "qualified": 166,
+     "spearman": 0.9945196135658585,
+     "mean_abs_delta": 0.22006847990675296,
+     "max_abs_delta": 1.2376740906833783,
+     "max_rank_change": 18,
+     "top20_changed": 1,
+     "stadium_mean_judgment_range": 0.31996572915080085
+    }
+   }
+  },
+  "calibration_applied": {
+   "H1": [
+    true,
+    true,
+    true
+   ],
+   "H1M0": [
+    false,
+    true,
+    true
+   ],
+   "H1M2": [
+    true,
+    true,
+    true
+   ],
+   "H1M3": [
+    true,
+    true,
+    true
+   ],
+   "H1M0Trel": [
+    true,
+    true,
+    false
+   ]
+  },
+  "feature_park_bias": {
+   "horizontal_movement_cm": {
+    "park_range": 11.790788498026433,
+    "max_abs_park_type": 8.183902953005557,
+    "within_pitcher_type_sd": 8.889812559023625,
+    "range_over_sd": 1.3263258836721104
+   },
+   "adjusted_hb_cm": {
+    "park_range": 11.431086667686367,
+    "max_abs_park_type": 10.088579228585534,
+    "within_pitcher_type_sd": 8.897730774388505,
+    "range_over_sd": 1.2847193242337642
+   },
+   "vertical_movement_cm": {
+    "park_range": 11.0994733120211,
+    "max_abs_park_type": 7.577322522086685,
+    "within_pitcher_type_sd": 7.71096687999878,
+    "range_over_sd": 1.4394398892843976
+   },
+   "adjusted_ivb_cm": {
+    "park_range": 4.790824081972317,
+    "max_abs_park_type": 4.770607290008453,
+    "within_pitcher_type_sd": 7.717056880459603,
+    "range_over_sd": 0.6208097408356786
+   },
+   "release_x_55": {
+    "park_range": 8.778216432612158,
+    "max_abs_park_type": 5.900245191163491,
+    "within_pitcher_type_sd": 6.934465632774636,
+    "range_over_sd": 1.2658821742692516
+   },
+   "vaa_deg": {
+    "park_range": 0.6040230808768405,
+    "max_abs_park_type": 0.43698658252178957,
+    "within_pitcher_type_sd": 1.043770542402742,
+    "range_over_sd": 0.5786933586824454
+   },
+   "haa_deg": {
+    "park_range": 0.6099767767450042,
+    "max_abs_park_type": 0.40702015845928546,
+    "within_pitcher_type_sd": 0.9594454348590497,
+    "range_over_sd": 0.6357597363883593
+   }
+  }
+ }
+}

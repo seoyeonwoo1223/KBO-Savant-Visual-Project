@@ -1,0 +1,1012 @@
+{
+ "2019": {
+  "vb_pitches": 211628,
+  "vb_pitches_in_mapped_games": 178399,
+  "velocity_offset_kmh": -0.71,
+  "tolerance_kmh": 2.0,
+  "matched": 127170,
+  "matched_share": 0.6009,
+  "matched_by_kind": {
+   "equal_length": 127014,
+   "gap_tm_extra": 103,
+   "gap_vb_extra": 53
+  },
+  "lost_vb_pitches_by_reason": {
+   "velocity_out_of_tolerance": 49160,
+   "game_unmapped": 33229,
+   "outs_mismatch": 995,
+   "velocity_missing": 852,
+   "length_gap_gt3": 83,
+   "unpaired_in_gap_vb_extra": 50,
+   "no_feasible_alignment": 35,
+   "run_unresolved_trackman_id": 29,
+   "ambiguous_alignment": 25,
+   "unpaired_in_gap_tm_extra": 0
+  },
+  "runs": {
+   "accepted_equal_length": 34951,
+   "rejected_equal_length": 11849,
+   "accepted_gap_vb_extra": 24,
+   "rejected_gap": 14,
+   "accepted_gap_tm_extra": 41,
+   "rejected_ambiguous": 6,
+   "rejected_infeasible": 10
+  },
+  "abs_dv_p50_p95_max": [
+   0.49,
+   1.53,
+   2.0
+  ],
+  "pitch_group_agreement": 0.9156,
+  "count_mismatch": {
+   "pitches": 1215,
+   "denominator": 127170,
+   "rate": 0.0096
+  },
+  "transitions": 92154,
+  "code_vs_tm_event": {
+   "B": {
+    "ball": 42967,
+    "strike": 441
+   },
+   "F": {
+    "none": 7477,
+    "strike": 13245
+   },
+   "S": {
+    "strike": 7327
+   },
+   "T": {
+    "ball": 1,
+    "strike": 20602
+   },
+   "V": {
+    "strike": 94
+   }
+  },
+  "B_to_tm_strike": {
+   "pitches": 441,
+   "denominator_B_transitions": 43408,
+   "rate": 0.0102
+  },
+  "V_to_tm_strike": {
+   "pitches": 94,
+   "denominator_V_transitions": 94
+  },
+  "loose": {
+   "count_mismatch_pitches": 1669,
+   "aligned_pitches": 178272,
+   "B_to_tm_strike": 597,
+   "B_transitions": 61495,
+   "V_to_tm_strike": 123
+  },
+  "inzone_share_by_code_event": {
+   "B_ball": {
+    "n": 42967,
+    "inzone": 0.047
+   },
+   "B_strike": {
+    "n": 441,
+    "inzone": 0.676
+   },
+   "S_strike": {
+    "n": 7327,
+    "inzone": 0.473
+   },
+   "T_strike": {
+    "n": 20602,
+    "inzone": 0.759
+   },
+   "V_strike": {
+    "n": 94,
+    "inzone": 0.606
+   }
+  },
+  "B_near_center_0.8": {
+   "all_vb": 1073,
+   "matched": 632,
+   "matched_with_transition": 618,
+   "matched_without_transition": 14,
+   "unmatched": 441,
+   "unmatched_by_reason": {
+    "velocity_out_of_tolerance": 247,
+    "game_unmapped": 184,
+    "outs_mismatch": 8,
+    "no_feasible_alignment": 1,
+    "velocity_missing": 1
+   },
+   "tm_event": {
+    "ball": 391,
+    "strike": 227
+   },
+   "precision_tm_strike": 0.3673,
+   "abs_dv_p50_p95_max": [
+    0.45,
+    1.53,
+    1.98
+   ],
+   "pitch_group_agreement": 0.9103
+  },
+  "loose_near_center_strike_cases": {
+   "loose_cases": 310,
+   "strict_matched": 227,
+   "dropped_by_reason": {
+    "velocity_out_of_tolerance": 81,
+    "no_feasible_alignment": 1,
+    "outs_mismatch": 1
+   },
+   "strict_with_transition": 227,
+   "strict_tm_event": {
+    "strike": 227
+   }
+  },
+  "mismatch_onset": {
+   "prev_vb_B_tm_strike": 399,
+   "prev_vb_V_tm_strike": 87,
+   "vb_pa_split": 3,
+   "prev_vb_T_tm_ball": 1,
+   "after_unmatched_pitch": 1
+  },
+  "B_to_tm_strike_vb_internal": {
+   "vb_flow_undecided": 296,
+   "vb_flow_supports_strike": 95,
+   "no_result": 26,
+   "vb_flow_broken_either_way": 24
+  },
+  "B_to_tm_ball_vb_internal_sample5000": {
+   "vb_flow_supports_ball": 2579,
+   "vb_flow_undecided": 2116,
+   "no_result": 279,
+   "vb_flow_supports_strike": 21,
+   "vb_flow_broken_either_way": 5
+  },
+  "V_pa_consistency": {
+   "pas_with_V": 139,
+   "consistent_if_V_strike": 126,
+   "consistent_if_V_ignored": 109,
+   "no_result": 8
+  }
+ },
+ "2020": {
+  "vb_pitches": 220863,
+  "vb_pitches_in_mapped_games": 191391,
+  "velocity_offset_kmh": -0.8,
+  "tolerance_kmh": 2.0,
+  "matched": 149131,
+  "matched_share": 0.6752,
+  "matched_by_kind": {
+   "equal_length": 148933,
+   "gap_tm_extra": 130,
+   "gap_vb_extra": 68
+  },
+  "lost_vb_pitches_by_reason": {
+   "velocity_out_of_tolerance": 40287,
+   "game_unmapped": 29472,
+   "outs_mismatch": 1041,
+   "velocity_missing": 661,
+   "length_gap_gt3": 117,
+   "unpaired_in_gap_vb_extra": 49,
+   "no_feasible_alignment": 38,
+   "ambiguous_alignment": 34,
+   "run_sequence_mismatch": 17,
+   "run_unresolved_trackman_id": 16,
+   "unpaired_in_gap_tm_extra": 0
+  },
+  "runs": {
+   "accepted_equal_length": 39493,
+   "rejected_equal_length": 9495,
+   "accepted_gap_tm_extra": 55,
+   "rejected_ambiguous": 10,
+   "accepted_gap_vb_extra": 30,
+   "rejected_infeasible": 11,
+   "rejected_gap": 18
+  },
+  "abs_dv_p50_p95_max": [
+   0.56,
+   1.6,
+   2.0
+  ],
+  "pitch_group_agreement": 0.9124,
+  "count_mismatch": {
+   "pitches": 1224,
+   "denominator": 149131,
+   "rate": 0.0082
+  },
+  "transitions": 109550,
+  "code_vs_tm_event": {
+   "B": {
+    "ball": 51144,
+    "strike": 452
+   },
+   "F": {
+    "none": 9785,
+    "strike": 15622
+   },
+   "S": {
+    "strike": 8764
+   },
+   "T": {
+    "ball": 2,
+    "strike": 23699
+   },
+   "V": {
+    "strike": 82
+   }
+  },
+  "B_to_tm_strike": {
+   "pitches": 452,
+   "denominator_B_transitions": 51596,
+   "rate": 0.0088
+  },
+  "V_to_tm_strike": {
+   "pitches": 82,
+   "denominator_V_transitions": 82
+  },
+  "loose": {
+   "count_mismatch_pitches": 1614,
+   "aligned_pitches": 191158,
+   "B_to_tm_strike": 571,
+   "B_transitions": 66713,
+   "V_to_tm_strike": 106
+  },
+  "inzone_share_by_code_event": {
+   "B_ball": {
+    "n": 51144,
+    "inzone": 0.054
+   },
+   "B_strike": {
+    "n": 452,
+    "inzone": 0.611
+   },
+   "S_strike": {
+    "n": 8764,
+    "inzone": 0.491
+   },
+   "T_strike": {
+    "n": 23699,
+    "inzone": 0.798
+   },
+   "V_strike": {
+    "n": 82,
+    "inzone": 0.512
+   }
+  },
+  "B_near_center_0.8": {
+   "all_vb": 1171,
+   "matched": 770,
+   "matched_with_transition": 735,
+   "matched_without_transition": 35,
+   "unmatched": 401,
+   "unmatched_by_reason": {
+    "velocity_out_of_tolerance": 209,
+    "game_unmapped": 180,
+    "outs_mismatch": 8,
+    "velocity_missing": 2,
+    "length_gap_gt3": 1,
+    "unpaired_in_gap_vb_extra": 1
+   },
+   "tm_event": {
+    "ball": 533,
+    "strike": 202
+   },
+   "precision_tm_strike": 0.2748,
+   "abs_dv_p50_p95_max": [
+    0.52,
+    1.61,
+    1.96
+   ],
+   "pitch_group_agreement": 0.9037
+  },
+  "loose_near_center_strike_cases": {
+   "loose_cases": 268,
+   "strict_matched": 202,
+   "dropped_by_reason": {
+    "velocity_out_of_tolerance": 61,
+    "velocity_missing": 2,
+    "outs_mismatch": 2,
+    "unpaired_in_gap_vb_extra": 1
+   },
+   "strict_with_transition": 202,
+   "strict_tm_event": {
+    "strike": 202
+   }
+  },
+  "mismatch_onset": {
+   "prev_vb_B_tm_strike": 395,
+   "prev_vb_V_tm_strike": 75,
+   "vb_pa_split": 7,
+   "prev_vb_T_tm_ball": 2,
+   "after_unmatched_pitch": 1
+  },
+  "B_to_tm_strike_vb_internal": {
+   "vb_flow_undecided": 292,
+   "vb_flow_supports_strike": 111,
+   "vb_flow_broken_either_way": 48,
+   "no_result": 1
+  },
+  "B_to_tm_ball_vb_internal_sample5000": {
+   "vb_flow_supports_ball": 2830,
+   "vb_flow_undecided": 2140,
+   "vb_flow_supports_strike": 12,
+   "no_result": 10,
+   "vb_flow_broken_either_way": 8
+  },
+  "V_pa_consistency": {
+   "pas_with_V": 124,
+   "consistent_if_V_strike": 114,
+   "consistent_if_V_ignored": 97,
+   "no_result": 2
+  }
+ },
+ "2021": {
+  "vb_pitches": 220742,
+  "vb_pitches_in_mapped_games": 188365,
+  "velocity_offset_kmh": -0.59,
+  "tolerance_kmh": 2.0,
+  "matched": 145763,
+  "matched_share": 0.6603,
+  "matched_by_kind": {
+   "equal_length": 145604,
+   "gap_tm_extra": 140,
+   "gap_vb_extra": 19
+  },
+  "lost_vb_pitches_by_reason": {
+   "velocity_out_of_tolerance": 40792,
+   "game_unmapped": 32377,
+   "outs_mismatch": 904,
+   "velocity_missing": 675,
+   "length_gap_gt3": 78,
+   "no_feasible_alignment": 71,
+   "run_unresolved_trackman_id": 43,
+   "unpaired_in_gap_vb_extra": 26,
+   "ambiguous_alignment": 12,
+   "run_sequence_mismatch": 1,
+   "unpaired_in_gap_tm_extra": 0
+  },
+  "runs": {
+   "rejected_equal_length": 9788,
+   "accepted_equal_length": 37945,
+   "accepted_gap_tm_extra": 52,
+   "accepted_gap_vb_extra": 12,
+   "rejected_infeasible": 21,
+   "rejected_gap": 15,
+   "rejected_ambiguous": 3
+  },
+  "abs_dv_p50_p95_max": [
+   0.41,
+   1.34,
+   2.0
+  ],
+  "pitch_group_agreement": 0.9196,
+  "count_mismatch": {
+   "pitches": 1184,
+   "denominator": 145763,
+   "rate": 0.0081
+  },
+  "transitions": 107754,
+  "code_vs_tm_event": {
+   "B": {
+    "ball": 50953,
+    "strike": 437
+   },
+   "F": {
+    "ball": 1,
+    "none": 9377,
+    "strike": 14580
+   },
+   "S": {
+    "strike": 8487
+   },
+   "T": {
+    "ball": 4,
+    "strike": 23846
+   },
+   "V": {
+    "strike": 69
+   }
+  },
+  "B_to_tm_strike": {
+   "pitches": 437,
+   "denominator_B_transitions": 51390,
+   "rate": 0.0085
+  },
+  "V_to_tm_strike": {
+   "pitches": 69,
+   "denominator_V_transitions": 69
+  },
+  "loose": {
+   "count_mismatch_pitches": 1642,
+   "aligned_pitches": 188159,
+   "B_to_tm_strike": 589,
+   "B_transitions": 66713,
+   "V_to_tm_strike": 106
+  },
+  "inzone_share_by_code_event": {
+   "B_ball": {
+    "n": 50953,
+    "inzone": 0.061
+   },
+   "B_strike": {
+    "n": 437,
+    "inzone": 0.627
+   },
+   "S_strike": {
+    "n": 8487,
+    "inzone": 0.504
+   },
+   "T_strike": {
+    "n": 23846,
+    "inzone": 0.841
+   },
+   "V_strike": {
+    "n": 69,
+    "inzone": 0.464
+   }
+  },
+  "B_near_center_0.8": {
+   "all_vb": 1294,
+   "matched": 844,
+   "matched_with_transition": 806,
+   "matched_without_transition": 38,
+   "unmatched": 450,
+   "unmatched_by_reason": {
+    "velocity_out_of_tolerance": 231,
+    "game_unmapped": 207,
+    "outs_mismatch": 8,
+    "velocity_missing": 3,
+    "run_sequence_mismatch": 1
+   },
+   "tm_event": {
+    "ball": 598,
+    "strike": 208
+   },
+   "precision_tm_strike": 0.2581,
+   "abs_dv_p50_p95_max": [
+    0.4,
+    1.3,
+    1.94
+   ],
+   "pitch_group_agreement": 0.9178
+  },
+  "loose_near_center_strike_cases": {
+   "loose_cases": 283,
+   "strict_matched": 208,
+   "dropped_by_reason": {
+    "velocity_out_of_tolerance": 69,
+    "outs_mismatch": 4,
+    "velocity_missing": 2
+   },
+   "strict_with_transition": 208,
+   "strict_tm_event": {
+    "strike": 208
+   }
+  },
+  "mismatch_onset": {
+   "prev_vb_B_tm_strike": 394,
+   "prev_vb_V_tm_strike": 65,
+   "prev_vb_T_tm_ball": 4,
+   "vb_pa_split": 3,
+   "prev_vb_F_tm_ball": 1
+  },
+  "B_to_tm_strike_vb_internal": {
+   "vb_flow_undecided": 296,
+   "vb_flow_supports_strike": 106,
+   "vb_flow_broken_either_way": 30,
+   "no_result": 5
+  },
+  "B_to_tm_ball_vb_internal_sample5000": {
+   "vb_flow_supports_ball": 2901,
+   "vb_flow_undecided": 2065,
+   "vb_flow_supports_strike": 22,
+   "no_result": 8,
+   "vb_flow_broken_either_way": 4
+  },
+  "V_pa_consistency": {
+   "pas_with_V": 129,
+   "consistent_if_V_strike": 120,
+   "consistent_if_V_ignored": 97,
+   "no_result": 2
+  }
+ },
+ "2022": {
+  "vb_pitches": 217025,
+  "vb_pitches_in_mapped_games": 185560,
+  "velocity_offset_kmh": -0.82,
+  "tolerance_kmh": 2.0,
+  "matched": 139218,
+  "matched_share": 0.6415,
+  "matched_by_kind": {
+   "equal_length": 139067,
+   "gap_tm_extra": 120,
+   "gap_vb_extra": 31
+  },
+  "lost_vb_pitches_by_reason": {
+   "velocity_out_of_tolerance": 44788,
+   "game_unmapped": 31465,
+   "outs_mismatch": 1145,
+   "velocity_missing": 266,
+   "length_gap_gt3": 74,
+   "no_feasible_alignment": 29,
+   "unpaired_in_gap_vb_extra": 27,
+   "ambiguous_alignment": 8,
+   "run_unresolved_trackman_id": 4,
+   "run_sequence_mismatch": 1,
+   "unpaired_in_gap_tm_extra": 0
+  },
+  "runs": {
+   "accepted_equal_length": 37062,
+   "rejected_equal_length": 10774,
+   "rejected_infeasible": 10,
+   "rejected_gap": 14,
+   "accepted_gap_vb_extra": 14,
+   "accepted_gap_tm_extra": 49,
+   "rejected_ambiguous": 2
+  },
+  "abs_dv_p50_p95_max": [
+   0.55,
+   1.45,
+   2.0
+  ],
+  "pitch_group_agreement": 0.9268,
+  "count_mismatch": {
+   "pitches": 1349,
+   "denominator": 139218,
+   "rate": 0.0097
+  },
+  "transitions": 102092,
+  "code_vs_tm_event": {
+   "B": {
+    "ball": 46671,
+    "strike": 503
+   },
+   "F": {
+    "ball": 4,
+    "none": 9111,
+    "strike": 14389
+   },
+   "S": {
+    "ball": 1,
+    "strike": 8685
+   },
+   "T": {
+    "ball": 10,
+    "strike": 22630
+   },
+   "V": {
+    "strike": 88
+   }
+  },
+  "B_to_tm_strike": {
+   "pitches": 503,
+   "denominator_B_transitions": 47174,
+   "rate": 0.0107
+  },
+  "V_to_tm_strike": {
+   "pitches": 88,
+   "denominator_V_transitions": 88
+  },
+  "loose": {
+   "count_mismatch_pitches": 1801,
+   "aligned_pitches": 185392,
+   "B_to_tm_strike": 656,
+   "B_transitions": 63332,
+   "V_to_tm_strike": 117
+  },
+  "inzone_share_by_code_event": {
+   "B_ball": {
+    "n": 46671,
+    "inzone": 0.057
+   },
+   "B_strike": {
+    "n": 503,
+    "inzone": 0.68
+   },
+   "S_strike": {
+    "n": 8685,
+    "inzone": 0.513
+   },
+   "T_strike": {
+    "n": 22630,
+    "inzone": 0.844
+   },
+   "V_strike": {
+    "n": 88,
+    "inzone": 0.614
+   }
+  },
+  "B_near_center_0.8": {
+   "all_vb": 1030,
+   "matched": 691,
+   "matched_with_transition": 667,
+   "matched_without_transition": 24,
+   "unmatched": 339,
+   "unmatched_by_reason": {
+    "velocity_out_of_tolerance": 199,
+    "game_unmapped": 131,
+    "outs_mismatch": 6,
+    "velocity_missing": 3
+   },
+   "tm_event": {
+    "ball": 393,
+    "strike": 274
+   },
+   "precision_tm_strike": 0.4108,
+   "abs_dv_p50_p95_max": [
+    0.56,
+    1.42,
+    2.0
+   ],
+   "pitch_group_agreement": 0.9067
+  },
+  "loose_near_center_strike_cases": {
+   "loose_cases": 347,
+   "strict_matched": 274,
+   "dropped_by_reason": {
+    "velocity_out_of_tolerance": 70,
+    "outs_mismatch": 2,
+    "velocity_missing": 1
+   },
+   "strict_with_transition": 274,
+   "strict_tm_event": {
+    "strike": 274
+   }
+  },
+  "mismatch_onset": {
+   "prev_vb_B_tm_strike": 454,
+   "prev_vb_V_tm_strike": 86,
+   "vb_pa_split": 9,
+   "prev_vb_T_tm_ball": 8,
+   "prev_vb_F_tm_ball": 3,
+   "after_unmatched_pitch": 1
+  },
+  "B_to_tm_strike_vb_internal": {
+   "vb_flow_undecided": 339,
+   "vb_flow_supports_strike": 132,
+   "vb_flow_broken_either_way": 27,
+   "vb_flow_supports_ball": 3,
+   "no_result": 2
+  },
+  "B_to_tm_ball_vb_internal_sample5000": {
+   "vb_flow_supports_ball": 2803,
+   "vb_flow_undecided": 2157,
+   "vb_flow_supports_strike": 23,
+   "no_result": 14,
+   "vb_flow_broken_either_way": 3
+  },
+  "V_pa_consistency": {
+   "pas_with_V": 133,
+   "consistent_if_V_strike": 125,
+   "consistent_if_V_ignored": 102,
+   "no_result": 0
+  }
+ },
+ "2023": {
+  "vb_pitches": 219839,
+  "vb_pitches_in_mapped_games": 188680,
+  "velocity_offset_kmh": -1.06,
+  "tolerance_kmh": 2.0,
+  "matched": 161300,
+  "matched_share": 0.7337,
+  "matched_by_kind": {
+   "equal_length": 161139,
+   "gap_tm_extra": 131,
+   "gap_vb_extra": 30
+  },
+  "lost_vb_pitches_by_reason": {
+   "game_unmapped": 31159,
+   "velocity_out_of_tolerance": 25884,
+   "outs_mismatch": 1132,
+   "velocity_missing": 165,
+   "length_gap_gt3": 100,
+   "no_feasible_alignment": 48,
+   "unpaired_in_gap_vb_extra": 30,
+   "ambiguous_alignment": 21,
+   "unpaired_in_gap_tm_extra": 0
+  },
+  "runs": {
+   "accepted_equal_length": 41868,
+   "rejected_equal_length": 6264,
+   "accepted_gap_vb_extra": 15,
+   "rejected_ambiguous": 4,
+   "accepted_gap_tm_extra": 52,
+   "rejected_infeasible": 16,
+   "rejected_gap": 19
+  },
+  "abs_dv_p50_p95_max": [
+   0.58,
+   1.46,
+   2.0
+  ],
+  "pitch_group_agreement": 0.939,
+  "count_mismatch": {
+   "pitches": 1781,
+   "denominator": 161300,
+   "rate": 0.011
+  },
+  "transitions": 119365,
+  "code_vs_tm_event": {
+   "B": {
+    "ball": 55059,
+    "strike": 679
+   },
+   "F": {
+    "none": 11154,
+    "strike": 16477
+   },
+   "S": {
+    "strike": 9099
+   },
+   "T": {
+    "strike": 26798
+   },
+   "V": {
+    "strike": 99
+   }
+  },
+  "B_to_tm_strike": {
+   "pitches": 679,
+   "denominator_B_transitions": 55738,
+   "rate": 0.0122
+  },
+  "V_to_tm_strike": {
+   "pitches": 99,
+   "denominator_V_transitions": 99
+  },
+  "loose": {
+   "count_mismatch_pitches": 2113,
+   "aligned_pitches": 188504,
+   "B_to_tm_strike": 789,
+   "B_transitions": 65500,
+   "V_to_tm_strike": 123
+  },
+  "inzone_share_by_code_event": {
+   "B_ball": {
+    "n": 55059,
+    "inzone": 0.063
+   },
+   "B_strike": {
+    "n": 679,
+    "inzone": 0.686
+   },
+   "S_strike": {
+    "n": 9099,
+    "inzone": 0.522
+   },
+   "T_strike": {
+    "n": 26798,
+    "inzone": 0.869
+   },
+   "V_strike": {
+    "n": 99,
+    "inzone": 0.576
+   }
+  },
+  "B_near_center_0.8": {
+   "all_vb": 1309,
+   "matched": 971,
+   "matched_with_transition": 926,
+   "matched_without_transition": 45,
+   "unmatched": 338,
+   "unmatched_by_reason": {
+    "game_unmapped": 197,
+    "velocity_out_of_tolerance": 127,
+    "outs_mismatch": 13,
+    "velocity_missing": 1
+   },
+   "tm_event": {
+    "ball": 572,
+    "strike": 354
+   },
+   "precision_tm_strike": 0.3823,
+   "abs_dv_p50_p95_max": [
+    0.56,
+    1.37,
+    1.92
+   ],
+   "pitch_group_agreement": 0.9244
+  },
+  "loose_near_center_strike_cases": {
+   "loose_cases": 403,
+   "strict_matched": 354,
+   "dropped_by_reason": {
+    "velocity_out_of_tolerance": 43,
+    "outs_mismatch": 6
+   },
+   "strict_with_transition": 354,
+   "strict_tm_event": {
+    "strike": 354
+   }
+  },
+  "mismatch_onset": {
+   "prev_vb_B_tm_strike": 613,
+   "prev_vb_V_tm_strike": 92,
+   "vb_pa_split": 9,
+   "after_unmatched_pitch": 1
+  },
+  "B_to_tm_strike_vb_internal": {
+   "vb_flow_undecided": 455,
+   "vb_flow_supports_strike": 187,
+   "vb_flow_broken_either_way": 37
+  },
+  "B_to_tm_ball_vb_internal_sample5000": {
+   "vb_flow_supports_ball": 2842,
+   "vb_flow_undecided": 2112,
+   "vb_flow_supports_strike": 27,
+   "no_result": 13,
+   "vb_flow_broken_either_way": 6
+  },
+  "V_pa_consistency": {
+   "pas_with_V": 147,
+   "consistent_if_V_strike": 136,
+   "consistent_if_V_ignored": 111,
+   "no_result": 2
+  }
+ },
+ "2024": {
+  "vb_pitches": 223216,
+  "vb_pitches_in_mapped_games": 188857,
+  "velocity_offset_kmh": -1.56,
+  "tolerance_kmh": 2.0,
+  "matched": 170030,
+  "matched_share": 0.7617,
+  "matched_by_kind": {
+   "equal_length": 169800,
+   "gap_tm_extra": 140,
+   "gap_vb_extra": 90
+  },
+  "lost_vb_pitches_by_reason": {
+   "game_unmapped": 34359,
+   "velocity_out_of_tolerance": 17063,
+   "outs_mismatch": 939,
+   "velocity_missing": 581,
+   "length_gap_gt3": 101,
+   "ambiguous_alignment": 63,
+   "unpaired_in_gap_vb_extra": 47,
+   "no_feasible_alignment": 33,
+   "unpaired_in_gap_tm_extra": 0
+  },
+  "runs": {
+   "accepted_equal_length": 44207,
+   "rejected_equal_length": 4066,
+   "accepted_gap_vb_extra": 28,
+   "accepted_gap_tm_extra": 50,
+   "rejected_ambiguous": 13,
+   "rejected_infeasible": 6,
+   "rejected_gap": 17
+  },
+  "abs_dv_p50_p95_max": [
+   0.52,
+   1.52,
+   2.0
+  ],
+  "pitch_group_agreement": 0.9544,
+  "count_mismatch": {
+   "pitches": 1496,
+   "denominator": 170030,
+   "rate": 0.0088
+  },
+  "transitions": 125744,
+  "code_vs_tm_event": {
+   "B": {
+    "ball": 57347,
+    "strike": 538
+   },
+   "F": {
+    "ball": 1,
+    "none": 11953,
+    "strike": 17692
+   },
+   "S": {
+    "ball": 1,
+    "strike": 10294
+   },
+   "T": {
+    "strike": 27818
+   },
+   "V": {
+    "strike": 100
+   }
+  },
+  "B_to_tm_strike": {
+   "pitches": 538,
+   "denominator_B_transitions": 57885,
+   "rate": 0.0093
+  },
+  "V_to_tm_strike": {
+   "pitches": 100,
+   "denominator_V_transitions": 100
+  },
+  "loose": {
+   "count_mismatch_pitches": 1639,
+   "aligned_pitches": 188618,
+   "B_to_tm_strike": 587,
+   "B_transitions": 64652,
+   "V_to_tm_strike": 115
+  },
+  "inzone_share_by_code_event": {
+   "B_ball": {
+    "n": 57347,
+    "inzone": 0.005
+   },
+   "B_strike": {
+    "n": 538,
+    "inzone": 0.656
+   },
+   "S_strike": {
+    "n": 10294,
+    "inzone": 0.469
+   },
+   "T_strike": {
+    "n": 27818,
+    "inzone": 0.856
+   },
+   "V_strike": {
+    "n": 100,
+    "inzone": 0.43
+   }
+  },
+  "B_near_center_0.8": {
+   "all_vb": 337,
+   "matched": 269,
+   "matched_with_transition": 268,
+   "matched_without_transition": 1,
+   "unmatched": 68,
+   "unmatched_by_reason": {
+    "game_unmapped": 47,
+    "velocity_out_of_tolerance": 16,
+    "outs_mismatch": 3,
+    "velocity_missing": 2
+   },
+   "tm_event": {
+    "strike": 268
+   },
+   "precision_tm_strike": 1.0,
+   "abs_dv_p50_p95_max": [
+    0.55,
+    1.37,
+    1.89
+   ],
+   "pitch_group_agreement": 0.9209
+  },
+  "loose_near_center_strike_cases": {
+   "loose_cases": 289,
+   "strict_matched": 268,
+   "dropped_by_reason": {
+    "velocity_out_of_tolerance": 16,
+    "outs_mismatch": 3,
+    "velocity_missing": 2
+   },
+   "strict_with_transition": 268,
+   "strict_tm_event": {
+    "strike": 268
+   }
+  },
+  "mismatch_onset": {
+   "prev_vb_B_tm_strike": 493,
+   "prev_vb_V_tm_strike": 91,
+   "vb_pa_split": 5,
+   "after_unmatched_pitch": 3,
+   "first_pitch_of_tm_pa": 3,
+   "prev_vb_S_tm_ball": 1
+  },
+  "B_to_tm_strike_vb_internal": {
+   "vb_flow_undecided": 371,
+   "vb_flow_supports_strike": 130,
+   "vb_flow_broken_either_way": 34,
+   "no_result": 3
+  },
+  "B_to_tm_ball_vb_internal_sample5000": {
+   "vb_flow_supports_ball": 2845,
+   "vb_flow_undecided": 2115,
+   "vb_flow_supports_strike": 24,
+   "no_result": 10,
+   "vb_flow_broken_either_way": 6
+  },
+  "V_pa_consistency": {
+   "pas_with_V": 135,
+   "consistent_if_V_strike": 125,
+   "consistent_if_V_ignored": 108,
+   "no_result": 1
+  }
+ }
+}

@@ -1,0 +1,13 @@
+case,vb_pitch_id,batter_name,pitcher_name,code,vb_velocity_kmh,tm_rel_speed,vb_pitch_type_kr,tm_tagged_pitch_type,vb_balls_before,vb_strikes_before,tm_balls_before,tm_strikes_before,dist,vb_pa_result,vb_pa_sequence,vb_internal,naver_relay
+B·VB흐름이 스트라이크 지지·존 안,20240329NCLT0-20240329NCLT0-064-03,박영빈,김원중,B,142.0,144.2,포심,Fastball,2,0,2,0,0.648,삼진,1B130 2B142 3B142 4F132 5F136 6F145 7B133 8F131 9S143,vb_flow_supports_strike,https://m.sports.naver.com/game/20240329NCLT02024/relay
+B·VB흐름이 스트라이크 지지·존 안,20240407SKNC0-20240407SKNC0-038-02,최지훈,하트,B,132.0,132.379,커터,Slider,1,0,1,0,0.504,중비,1B146 2B132 3F143 4B133 5B127 6F144 7X134,vb_flow_supports_strike,https://m.sports.naver.com/game/20240407SKNC02024/relay
+B·VB흐름이 스트라이크 지지·존 밖,20240416HHNC0-20240416HHNC0-070-01,도태훈,장시환,B,145.0,146.5,포심,Fastball,0,0,0,0,1.38,삼진,1B145 2F147 3B124 4S136,vb_flow_supports_strike,https://m.sports.naver.com/game/20240416HHNC02024/relay
+B·VB흐름이 스트라이크 지지·존 밖,20240419KTLT0-20240419KTLT0-066-03,정보근,주권,B,141.0,143.163,포심,Sinker,2,0,2,0,1.4240963855421687,투희,1B140 2B139 3B141 4B121 5X140,vb_flow_supports_strike,https://m.sports.naver.com/game/20240419KTLT02024/relay
+B·흐름 판별 불가·존 안(d≤0.8),20240323HHLG0-20240323HHLG0-030-01,김강민,엔스,B,145.0,146.595,포심,Fastball,0,0,0,0,0.7587412587412591,우안,1B145 2B146 3X146,vb_flow_undecided,https://m.sports.naver.com/game/20240323HHLG02024/relay
+B·흐름 판별 불가·존 안(d≤0.8),20240323SSKT0-20240323SSKT0-068-01,김지찬,박영현,B,146.0,147.212,포심,Fastball,0,0,0,0,0.45599999999999996,삼땅,1B146 2T146 3X144,vb_flow_undecided,https://m.sports.naver.com/game/20240323SSKT02024/relay
+B·흐름 판별 불가·존 밖,20240323SSKT0-20240323SSKT0-035-01,김성윤,쿠에바스,B,141.0,143.004,투심,Fastball,0,0,0,0,1.985933503836317,우비,1B141 2X136,vb_flow_undecided,https://m.sports.naver.com/game/20240323SSKT02024/relay
+B·흐름 판별 불가·존 밖,20240330KTHH0-20240330KTHH0-065-01,하주석,주권,B,127.0,129.219,체인지업,ChangeUp,0,0,0,0,1.849537037037037,이땅,1B127 2X138,vb_flow_undecided,https://m.sports.naver.com/game/20240330KTHH02024/relay
+V·삼진 타석,20240327HHSK0-20240327HHSK0-017-03,박성한,산체스,V,147.0,147.225,투심,Fastball,1,1,1,1,1.26,삼진,1T147 2B122 3V147 4S150,,https://m.sports.naver.com/game/20240327HHSK02024/relay
+V·삼진 타석,20240405HHWO0-20240405HHWO0-067-01,이형종,이태양,V,130.0,131.321,커터,Splitter,0,0,0,0,0.6911332941867295,삼진,1V130 2B103 3T122 4B133 5F139 6S124,,https://m.sports.naver.com/game/20240405HHWO02024/relay
+V·그 밖 타석,20240328OBKT0-20240328OBKT0-088-02,배정대,박치국,V,118.0,120.804,커브,Curveball,0,1,0,1,1.488,좌비,1S138 2V118 3F119 4X128,,https://m.sports.naver.com/game/20240328OBKT02024/relay
+V·그 밖 타석,20240329HTOB0-20240329HTOB0-025-02,이우성,알칸타라,V,142.0,144.137,포심,Fastball,1,0,1,0,0.5057603686635945,투야선,1B145 2V142 3T132 4X145,,https://m.sports.naver.com/game/20240329HTOB02024/relay

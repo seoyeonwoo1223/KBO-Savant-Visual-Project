@@ -98,6 +98,7 @@ th { background: #f4f7fa; color: #5c6b7e; font-size: .9rem; letter-spacing: .01e
 th:first-child, td:first-child { min-width: 108px; text-align: center; }
 .graded-head { background: #e9eff5; color: #2e4864; }
 .pitch-key { display: inline-flex; align-items: center; justify-content: center; font-weight: 800; }
+.pitch-note { display: block; margin-top: 2px; font-size: 11px; font-weight: 500; color: var(--muted); white-space: nowrap; }
 .overall-row td { background: #f6f8fb; font-weight: 800; }
 .overall-row td.metric-cell { background: var(--metric-bg, #f6f8fb); }
 .metric-cell { min-width: 84px; background: var(--metric-bg, #fff); color: var(--metric-ink, #23364d); }

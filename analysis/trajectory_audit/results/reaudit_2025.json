@@ -1,0 +1,1296 @@
+{
+ "record_anomalies": {
+  "2024": {
+   "valid_pitches": 222358,
+   "duplicate_trajectory_pitches": 30,
+   "duplicate_trajectory_caught_by_1cm_rule": 0,
+   "x_traj_matches_previous_px_not_own": 0,
+   "of_which_caught_by_1cm_rule": 0,
+   "duplicate_examples": [
+    "20240404LTHH0-20240404LTHH0-048-02",
+    "20240404LTHH0-20240404LTHH0-048-03",
+    "20240404LTHH0-20240404LTHH0-048-04",
+    "20240404LTHH0-20240404LTHH0-048-05",
+    "20240404LTHH0-20240404LTHH0-059-05",
+    "20240404LTHH0-20240404LTHH0-059-06",
+    "20240404LTHH0-20240404LTHH0-059-07",
+    "20240404LTHH0-20240404LTHH0-059-08",
+    "20240404LTHH0-20240404LTHH0-073-01",
+    "20240404LTHH0-20240404LTHH0-074-01",
+    "20240504OBLG0-20240504OBLG0-018-03",
+    "20240504OBLG0-20240504OBLG0-018-04"
+   ],
+   "abs_x_mid_minus_px_cm_bands": {
+    "(-0.01, 0.15]": 214636,
+    "(0.15, 0.5]": 7722
+   },
+   "duplicate_groups": [
+    {
+     "pitch_ids": [
+      "20240404LTHH0-20240404LTHH0-073-01",
+      "20240404LTHH0-20240404LTHH0-074-01"
+     ],
+     "px": [
+      -0.52,
+      -0.52
+     ],
+     "pz": [
+      3.01,
+      3.01
+     ],
+     "velocity": [
+      143.0,
+      143.0
+     ],
+     "type": [
+      "포심",
+      "포심"
+     ],
+     "call": [
+      "T",
+      "T"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240404LTHH0-20240404LTHH0-059-06",
+      "20240404LTHH0-20240404LTHH0-059-08"
+     ],
+     "px": [
+      0.59,
+      0.59
+     ],
+     "pz": [
+      2.61,
+      2.61
+     ],
+     "velocity": [
+      142.0,
+      142.0
+     ],
+     "type": [
+      "포심",
+      "포심"
+     ],
+     "call": [
+      "X",
+      "X"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240404LTHH0-20240404LTHH0-059-05",
+      "20240404LTHH0-20240404LTHH0-059-07"
+     ],
+     "px": [
+      1.01,
+      1.01
+     ],
+     "pz": [
+      2.56,
+      2.56
+     ],
+     "velocity": [
+      132.0,
+      132.0
+     ],
+     "type": [
+      "슬라이더",
+      "슬라이더"
+     ],
+     "call": [
+      "F",
+      "F"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240404LTHH0-20240404LTHH0-048-03",
+      "20240404LTHH0-20240404LTHH0-048-05"
+     ],
+     "px": [
+      1.67,
+      1.67
+     ],
+     "pz": [
+      2.8,
+      2.8
+     ],
+     "velocity": [
+      132.0,
+      132.0
+     ],
+     "type": [
+      "슬라이더",
+      "슬라이더"
+     ],
+     "call": [
+      "B",
+      "B"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240404LTHH0-20240404LTHH0-048-02",
+      "20240404LTHH0-20240404LTHH0-048-04"
+     ],
+     "px": [
+      0.49,
+      0.49
+     ],
+     "pz": [
+      3.73,
+      3.73
+     ],
+     "velocity": [
+      141.0,
+      141.0
+     ],
+     "type": [
+      "포심",
+      "포심"
+     ],
+     "call": [
+      "F",
+      "F"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240504OBLG0-20240504OBLG0-023-02",
+      "20240504OBLG0-20240504OBLG0-023-03"
+     ],
+     "px": [
+      0.08,
+      0.08
+     ],
+     "pz": [
+      2.04,
+      2.04
+     ],
+     "velocity": [
+      145.0,
+      134.0
+     ],
+     "type": [
+      "포심",
+      "포크"
+     ],
+     "call": [
+      "F",
+      "F"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240504OBLG0-20240504OBLG0-060-01",
+      "20240504OBLG0-20240504OBLG0-061-01"
+     ],
+     "px": [
+      -0.41,
+      -0.41
+     ],
+     "pz": [
+      2.45,
+      2.45
+     ],
+     "velocity": [
+      0.0,
+      130.0
+     ],
+     "type": [
+      null,
+      "슬라이더"
+     ],
+     "call": [
+      "S",
+      "S"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240504OBLG0-20240504OBLG0-073-05",
+      "20240504OBLG0-20240504OBLG0-073-06"
+     ],
+     "px": [
+      0.28,
+      0.28
+     ],
+     "pz": [
+      2.11,
+      2.11
+     ],
+     "velocity": [
+      139.0,
+      138.0
+     ],
+     "type": [
+      "포심",
+      "포심"
+     ],
+     "call": [
+      "F",
+      "F"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240504OBLG0-20240504OBLG0-018-03",
+      "20240504OBLG0-20240504OBLG0-018-04"
+     ],
+     "px": [
+      -0.78,
+      -0.78
+     ],
+     "pz": [
+      1.56,
+      1.56
+     ],
+     "velocity": [
+      128.0,
+      131.0
+     ],
+     "type": [
+      "슬라이더",
+      "슬라이더"
+     ],
+     "call": [
+      "B",
+      "B"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240504OBLG0-20240504OBLG0-043-01",
+      "20240504OBLG0-20240504OBLG0-044-01"
+     ],
+     "px": [
+      2.09,
+      2.09
+     ],
+     "pz": [
+      3.15,
+      3.15
+     ],
+     "velocity": [
+      0.0,
+      144.0
+     ],
+     "type": [
+      null,
+      "포심"
+     ],
+     "call": [
+      "B",
+      "B"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240724WOOB0-20240724WOOB0-054-06",
+      "20240724WOOB0-20240724WOOB0-054-07"
+     ],
+     "px": [
+      -0.43,
+      -0.43
+     ],
+     "pz": [
+      2.4,
+      2.4
+     ],
+     "velocity": [
+      143.0,
+      143.0
+     ],
+     "type": [
+      "포심",
+      "포심"
+     ],
+     "call": [
+      "X",
+      "X"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240724WOOB0-20240724WOOB0-037-03",
+      "20240724WOOB0-20240724WOOB0-037-05"
+     ],
+     "px": [
+      0.74,
+      0.74
+     ],
+     "pz": [
+      1.98,
+      1.98
+     ],
+     "velocity": [
+      118.0,
+      118.0
+     ],
+     "type": [
+      "커브",
+      "커브"
+     ],
+     "call": [
+      "F",
+      "F"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240724WOOB0-20240724WOOB0-037-02",
+      "20240724WOOB0-20240724WOOB0-037-04"
+     ],
+     "px": [
+      0.14,
+      0.14
+     ],
+     "pz": [
+      3.1,
+      3.1
+     ],
+     "velocity": [
+      134.0,
+      134.0
+     ],
+     "type": [
+      "슬라이더",
+      "슬라이더"
+     ],
+     "call": [
+      "T",
+      "T"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240724WOOB0-20240724WOOB0-045-01",
+      "20240724WOOB0-20240724WOOB0-046-01"
+     ],
+     "px": [
+      -0.67,
+      -0.67
+     ],
+     "pz": [
+      3.3,
+      3.3
+     ],
+     "velocity": [
+      148.0,
+      148.0
+     ],
+     "type": [
+      "포심",
+      "포심"
+     ],
+     "call": [
+      "T",
+      "T"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20240724WOOB0-20240724WOOB0-029-01",
+      "20240724WOOB0-20240724WOOB0-030-01"
+     ],
+     "px": [
+      0.59,
+      0.59
+     ],
+     "pz": [
+      1.94,
+      1.94
+     ],
+     "velocity": [
+      137.0,
+      137.0
+     ],
+     "type": [
+      "슬라이더",
+      "슬라이더"
+     ],
+     "call": [
+      "T",
+      "T"
+     ]
+    }
+   ]
+  },
+  "2025": {
+   "valid_pitches": 217769,
+   "duplicate_trajectory_pitches": 6,
+   "duplicate_trajectory_caught_by_1cm_rule": 1,
+   "x_traj_matches_previous_px_not_own": 5,
+   "of_which_caught_by_1cm_rule": 4,
+   "duplicate_examples": [
+    "20250614HTNC0-20250614HTNC0-084-01",
+    "20250614HTNC0-20250614HTNC0-085-01",
+    "20250809OBWO0-20250809OBWO0-082-01",
+    "20250809OBWO0-20250809OBWO0-083-01",
+    "20250809OBWO0-20250809OBWO0-083-06",
+    "20250809OBWO0-20250809OBWO0-083-07"
+   ],
+   "abs_x_mid_minus_px_cm_bands": {
+    "(-0.01, 0.15]": 210143,
+    "(0.15, 0.5]": 7619,
+    "(0.5, 1.0]": 1,
+    "(6.0, 1000000000.0]": 6
+   },
+   "duplicate_groups": [
+    {
+     "pitch_ids": [
+      "20250614HTNC0-20250614HTNC0-084-01",
+      "20250614HTNC0-20250614HTNC0-085-01"
+     ],
+     "px": [
+      -0.44,
+      -0.44
+     ],
+     "pz": [
+      1.25,
+      1.25
+     ],
+     "velocity": [
+      137.0,
+      137.0
+     ],
+     "type": [
+      "포크",
+      "포크"
+     ],
+     "call": [
+      "X",
+      "X"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20250809OBWO0-20250809OBWO0-083-06",
+      "20250809OBWO0-20250809OBWO0-083-07"
+     ],
+     "px": [
+      -0.12,
+      1.17
+     ],
+     "pz": [
+      3.76,
+      3.76
+     ],
+     "velocity": [
+      151.0,
+      136.0
+     ],
+     "type": [
+      "포심",
+      "슬라이더"
+     ],
+     "call": [
+      "F",
+      "X"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20250809OBWO0-20250809OBWO0-082-01",
+      "20250809OBWO0-20250809OBWO0-083-01"
+     ],
+     "px": [
+      1.1,
+      1.13
+     ],
+     "pz": [
+      0.47,
+      0.47
+     ],
+     "velocity": [
+      134.0,
+      137.0
+     ],
+     "type": [
+      "슬라이더",
+      "슬라이더"
+     ],
+     "call": [
+      "B",
+      "B"
+     ]
+    }
+   ]
+  },
+  "2026": {
+   "valid_pitches": 203176,
+   "duplicate_trajectory_pitches": 6,
+   "duplicate_trajectory_caught_by_1cm_rule": 0,
+   "x_traj_matches_previous_px_not_own": 0,
+   "of_which_caught_by_1cm_rule": 0,
+   "duplicate_examples": [
+    "20260509KTWO0-20260509KTWO0-092-01",
+    "20260509KTWO0-20260509KTWO0-092-02",
+    "20260509KTWO0-20260509KTWO0-093-01",
+    "20260509KTWO0-20260509KTWO0-093-02",
+    "20260509KTWO0-20260509KTWO0-095-01",
+    "20260509KTWO0-20260509KTWO0-096-01"
+   ],
+   "abs_x_mid_minus_px_cm_bands": {
+    "(-0.01, 0.15]": 196041,
+    "(0.15, 0.5]": 7135
+   },
+   "duplicate_groups": [
+    {
+     "pitch_ids": [
+      "20260509KTWO0-20260509KTWO0-095-01",
+      "20260509KTWO0-20260509KTWO0-096-01"
+     ],
+     "px": [
+      -0.33,
+      -0.33
+     ],
+     "pz": [
+      0.1,
+      0.1
+     ],
+     "velocity": [
+      145.0,
+      147.0
+     ],
+     "type": [
+      "포심",
+      "포심"
+     ],
+     "call": [
+      "B",
+      "S"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20260509KTWO0-20260509KTWO0-092-02",
+      "20260509KTWO0-20260509KTWO0-093-02"
+     ],
+     "px": [
+      0.67,
+      0.67
+     ],
+     "pz": [
+      0.49,
+      0.49
+     ],
+     "velocity": [
+      149.0,
+      148.0
+     ],
+     "type": [
+      "포심",
+      "포심"
+     ],
+     "call": [
+      "B",
+      "B"
+     ]
+    },
+    {
+     "pitch_ids": [
+      "20260509KTWO0-20260509KTWO0-092-01",
+      "20260509KTWO0-20260509KTWO0-093-01"
+     ],
+     "px": [
+      0.44,
+      0.44
+     ],
+     "pz": [
+      3.66,
+      3.66
+     ],
+     "velocity": [
+      131.0,
+      148.0
+     ],
+     "type": [
+      "체인지업",
+      "포심"
+     ],
+     "call": [
+      "F",
+      "S"
+     ]
+    }
+   ]
+  }
+ },
+ "edges_2025": {
+  "side_cm": {
+   "edge": 27.071154395233695,
+   "scale_cm": 0.7779259420090445,
+   "takes": 19284
+  },
+  "top_gap_cm": {
+   "edge": 3.342505492609654,
+   "scale_cm": 1.2387436740207705,
+   "takes": 11042
+  },
+  "bottom_gap_cm": {
+   "edge": -4.932993629449306,
+   "scale_cm": 1.0022877484967812,
+   "takes": 11697
+  }
+ },
+ "geometry_2025": {
+  "front_minus_higher_plane_cm_p5_p50_p95": [
+   1.4,
+   2.39,
+   3.91
+  ],
+  "front_minus_lower_plane_cm_p5_p50_p95": [
+   2.81,
+   4.81,
+   7.87
+  ],
+  "by_type_median": {
+   "2-Seam Fastball": {
+    "top_bias": 2.22,
+    "bottom_bias": 4.47
+   },
+   "4-Seam Fastball": {
+    "top_bias": 1.9,
+    "bottom_bias": 3.81
+   },
+   "Changeup": {
+    "top_bias": 2.82,
+    "bottom_bias": 5.68
+   },
+   "Curveball": {
+    "top_bias": 3.83,
+    "bottom_bias": 7.73
+   },
+   "Cutter": {
+    "top_bias": 2.45,
+    "bottom_bias": 4.93
+   },
+   "Forkball": {
+    "top_bias": 3.03,
+    "bottom_bias": 6.1
+   },
+   "Sinker": {
+    "top_bias": 2.9,
+    "bottom_bias": 5.84
+   },
+   "Slider": {
+    "top_bias": 2.9,
+    "bottom_bias": 5.84
+   },
+   "Sweeper": {
+    "top_bias": 3.1,
+    "bottom_bias": 6.24
+   },
+   "너클볼": {
+    "top_bias": 3.28,
+    "bottom_bias": 6.64
+   },
+   "슬러브": {
+    "top_bias": 3.28,
+    "bottom_bias": 6.61
+   }
+  }
+ },
+ "six": [
+  {
+   "pitch_id": "20250418NCHH0-20250418NCHH0-085-04",
+   "game": "20250418NCHH0",
+   "stadium": "대전",
+   "inning": "9초",
+   "pa": "085",
+   "pitch_no": "04",
+   "count_outs": "1-2, 2아웃",
+   "pitcher": "김승일",
+   "batter": "최정원",
+   "type": "체인지업",
+   "velocity_kmh": 126.0,
+   "swing": 0,
+   "call_raw_r": "B",
+   "event": "Ball",
+   "raw_px_ft": -0.43,
+   "raw_pz_ft": 3.41,
+   "sz_top_ft": 3.245,
+   "sz_bottom_ft": 1.574,
+   "traj_x_mid_cm": -272.0,
+   "traj_z_mid_cm": 102.0,
+   "traj_z_back_cm": 99.8,
+   "x_mismatch_cm": -258.9,
+   "z_front_mismatch_cm": 0.08,
+   "release_x55_dev_from_game_median_cm": -0.0,
+   "side_cm_now": 272.0,
+   "side_cm_px": 13.1,
+   "top_gap_cm": 3.0,
+   "bottom_gap_cm": 51.9,
+   "to_side_edge_cm_px": 14.0,
+   "to_top_edge_cm": 0.3,
+   "to_bottom_edge_cm": 56.8,
+   "p_zone_now": 0.0,
+   "p_zone_px_direct": 0.986,
+   "p_zone_px_za7_3": 0.986,
+   "edge_logistic_p_px": 0.559,
+   "p_swing": 0.65,
+   "vb_page": "https://visualbaseball.com/game/20250418NCHH0/pbp"
+  },
+  {
+   "pitch_id": "20250611SKLG0-20250611SKLG0-019-01",
+   "game": "20250611SKLG0",
+   "stadium": "잠실",
+   "inning": "2말",
+   "pa": "019",
+   "pitch_no": "01",
+   "count_outs": "0-0, 2아웃",
+   "pitcher": "화이트",
+   "batter": "신민재",
+   "type": "포심",
+   "velocity_kmh": 142.0,
+   "swing": 0,
+   "call_raw_r": "B",
+   "event": "Ball",
+   "raw_px_ft": 0.02,
+   "raw_pz_ft": 4.34,
+   "sz_top_ft": 3.133,
+   "sz_bottom_ft": 1.52,
+   "traj_x_mid_cm": -161.8,
+   "traj_z_mid_cm": 130.4,
+   "traj_z_back_cm": 128.7,
+   "x_mismatch_cm": -162.4,
+   "z_front_mismatch_cm": -0.13,
+   "release_x55_dev_from_game_median_cm": -12.9,
+   "side_cm_now": 161.8,
+   "side_cm_px": 0.6,
+   "top_gap_cm": 34.9,
+   "bottom_gap_cm": 82.4,
+   "to_side_edge_cm_px": 26.5,
+   "to_top_edge_cm": -31.6,
+   "to_bottom_edge_cm": 87.3,
+   "p_zone_now": 0.0,
+   "p_zone_px_direct": 0.0,
+   "p_zone_px_za7_3": 0.0,
+   "edge_logistic_p_px": 0.0,
+   "p_swing": 0.006,
+   "vb_page": "https://visualbaseball.com/game/20250611SKLG0/pbp"
+  },
+  {
+   "pitch_id": "20250809OBWO0-20250809OBWO0-083-02",
+   "game": "20250809OBWO0",
+   "stadium": "고척",
+   "inning": "9말",
+   "pa": "083",
+   "pitch_no": "02",
+   "count_outs": "1-0, 1아웃",
+   "pitcher": "김택연",
+   "batter": "임지열",
+   "type": "포심",
+   "velocity_kmh": 151.0,
+   "swing": 1,
+   "call_raw_r": "S",
+   "event": "Whiff",
+   "raw_px_ft": 0.78,
+   "raw_pz_ft": 1.94,
+   "sz_top_ft": 3.292,
+   "sz_bottom_ft": 1.597,
+   "traj_x_mid_cm": 34.3,
+   "traj_z_mid_cm": 56.5,
+   "traj_z_back_cm": 53.8,
+   "x_mismatch_cm": 10.5,
+   "z_front_mismatch_cm": -0.1,
+   "release_x55_dev_from_game_median_cm": -5.0,
+   "side_cm_now": 34.3,
+   "side_cm_px": 23.8,
+   "top_gap_cm": -43.9,
+   "bottom_gap_cm": 5.2,
+   "to_side_edge_cm_px": 3.3,
+   "to_top_edge_cm": 47.2,
+   "to_bottom_edge_cm": 10.1,
+   "p_zone_now": 0.0,
+   "p_zone_px_direct": 0.993,
+   "p_zone_px_za7_3": 0.993,
+   "edge_logistic_p_px": 0.986,
+   "p_swing": 0.385,
+   "vb_page": "https://visualbaseball.com/game/20250809OBWO0/pbp"
+  },
+  {
+   "pitch_id": "20250809OBWO0-20250809OBWO0-083-03",
+   "game": "20250809OBWO0",
+   "stadium": "고척",
+   "inning": "9말",
+   "pa": "083",
+   "pitch_no": "03",
+   "count_outs": "1-1, 1아웃",
+   "pitcher": "김택연",
+   "batter": "임지열",
+   "type": "포심",
+   "velocity_kmh": 150.0,
+   "swing": 0,
+   "call_raw_r": "B",
+   "event": "Ball",
+   "raw_px_ft": 0.98,
+   "raw_pz_ft": 3.08,
+   "sz_top_ft": 3.292,
+   "sz_bottom_ft": 1.597,
+   "traj_x_mid_cm": 23.7,
+   "traj_z_mid_cm": 92.7,
+   "traj_z_back_cm": 91.5,
+   "x_mismatch_cm": -6.2,
+   "z_front_mismatch_cm": 0.13,
+   "release_x55_dev_from_game_median_cm": 0.0,
+   "side_cm_now": 23.7,
+   "side_cm_px": 29.9,
+   "top_gap_cm": -7.6,
+   "bottom_gap_cm": 42.8,
+   "to_side_edge_cm_px": -2.8,
+   "to_top_edge_cm": 10.9,
+   "to_bottom_edge_cm": 47.7,
+   "p_zone_now": 0.99,
+   "p_zone_px_direct": 0.0,
+   "p_zone_px_za7_3": 0.0,
+   "edge_logistic_p_px": 0.027,
+   "p_swing": 0.605,
+   "vb_page": "https://visualbaseball.com/game/20250809OBWO0/pbp"
+  },
+  {
+   "pitch_id": "20250809OBWO0-20250809OBWO0-083-04",
+   "game": "20250809OBWO0",
+   "stadium": "고척",
+   "inning": "9말",
+   "pa": "083",
+   "pitch_no": "04",
+   "count_outs": "2-1, 1아웃",
+   "pitcher": "김택연",
+   "batter": "임지열",
+   "type": "포심",
+   "velocity_kmh": 151.0,
+   "swing": 1,
+   "call_raw_r": "S",
+   "event": "Whiff",
+   "raw_px_ft": -0.19,
+   "raw_pz_ft": 3.39,
+   "sz_top_ft": 3.292,
+   "sz_bottom_ft": 1.597,
+   "traj_x_mid_cm": 30.0,
+   "traj_z_mid_cm": 102.0,
+   "traj_z_back_cm": 100.8,
+   "x_mismatch_cm": 35.8,
+   "z_front_mismatch_cm": -0.06,
+   "release_x55_dev_from_game_median_cm": -0.6,
+   "side_cm_now": 30.0,
+   "side_cm_px": 5.8,
+   "top_gap_cm": 1.7,
+   "bottom_gap_cm": 52.1,
+   "to_side_edge_cm_px": 21.3,
+   "to_top_edge_cm": 1.6,
+   "to_bottom_edge_cm": 57.1,
+   "p_zone_now": 0.0,
+   "p_zone_px_direct": 0.983,
+   "p_zone_px_za7_3": 0.982,
+   "edge_logistic_p_px": 0.79,
+   "p_swing": 0.925,
+   "vb_page": "https://visualbaseball.com/game/20250809OBWO0/pbp"
+  },
+  {
+   "pitch_id": "20250809OBWO0-20250809OBWO0-083-07",
+   "game": "20250809OBWO0",
+   "stadium": "고척",
+   "inning": "9말",
+   "pa": "083",
+   "pitch_no": "07",
+   "count_outs": "2-2, 1아웃",
+   "pitcher": "김택연",
+   "batter": "임지열",
+   "type": "슬라이더",
+   "velocity_kmh": 136.0,
+   "swing": 1,
+   "call_raw_r": "X",
+   "event": "InPlay",
+   "raw_px_ft": 1.17,
+   "raw_pz_ft": 3.76,
+   "sz_top_ft": 3.292,
+   "sz_bottom_ft": 1.597,
+   "traj_x_mid_cm": -3.6,
+   "traj_z_mid_cm": 113.6,
+   "traj_z_back_cm": 112.5,
+   "x_mismatch_cm": -39.3,
+   "z_front_mismatch_cm": 0.09,
+   "release_x55_dev_from_game_median_cm": 0.7,
+   "side_cm_now": 3.6,
+   "side_cm_px": 35.7,
+   "top_gap_cm": 13.2,
+   "bottom_gap_cm": 63.8,
+   "to_side_edge_cm_px": -8.6,
+   "to_top_edge_cm": -9.9,
+   "to_bottom_edge_cm": 68.7,
+   "p_zone_now": 0.0,
+   "p_zone_px_direct": 0.0,
+   "p_zone_px_za7_3": 0.0,
+   "edge_logistic_p_px": 0.0,
+   "p_swing": 0.358,
+   "vb_page": "https://visualbaseball.com/game/20250809OBWO0/pbp"
+  }
+ ],
+ "sbj_2025": {
+  "A_current_trajectory": {
+   "qualified": 171,
+   "players_over_0_01pp": 0,
+   "players_over_0_05pp": 0,
+   "max_abs_delta_pp": 0.0,
+   "focus": {
+    "64340 임지열": {
+     "za": 2.2438,
+     "delta_pp": 0.0,
+     "rank": 29,
+     "rank_before": 29
+    },
+    "65207 신민재": {
+     "za": 1.5172,
+     "delta_pp": 0.0,
+     "rank": 41,
+     "rank_before": 41
+    },
+    "69992 최정원": {
+     "za": -1.9937,
+     "delta_pp": 0.0,
+     "rank": 123,
+     "rank_before": 123
+    }
+   }
+  },
+  "B_px_direct_all_six": {
+   "qualified": 171,
+   "players_over_0_01pp": 2,
+   "players_over_0_05pp": 2,
+   "max_abs_delta_pp": 0.22118529347021765,
+   "focus": {
+    "64340 임지열": {
+     "za": 2.4011,
+     "delta_pp": 0.1573,
+     "rank": 25,
+     "rank_before": 29
+    },
+    "65207 신민재": {
+     "za": 1.5172,
+     "delta_pp": -0.0,
+     "rank": 41,
+     "rank_before": 41
+    },
+    "69992 최정원": {
+     "za": -2.2149,
+     "delta_pp": -0.2212,
+     "rank": 134,
+     "rank_before": 123
+    }
+   }
+  },
+  "B_px_direct_crossing_four_only": {
+   "qualified": 171,
+   "players_over_0_01pp": 2,
+   "players_over_0_05pp": 2,
+   "max_abs_delta_pp": 0.22118529347021765,
+   "focus": {
+    "64340 임지열": {
+     "za": 2.4011,
+     "delta_pp": 0.1573,
+     "rank": 25,
+     "rank_before": 29
+    },
+    "65207 신민재": {
+     "za": 1.5172,
+     "delta_pp": 0.0,
+     "rank": 41,
+     "rank_before": 41
+    },
+    "69992 최정원": {
+     "za": -2.2149,
+     "delta_pp": -0.2212,
+     "rank": 134,
+     "rank_before": 123
+    }
+   }
+  },
+  "B_px_direct_other_two_only": {
+   "qualified": 171,
+   "players_over_0_01pp": 0,
+   "players_over_0_05pp": 0,
+   "max_abs_delta_pp": 1.9417836227830776e-09,
+   "focus": {
+    "64340 임지열": {
+     "za": 2.2438,
+     "delta_pp": 0.0,
+     "rank": 29,
+     "rank_before": 29
+    },
+    "65207 신민재": {
+     "za": 1.5172,
+     "delta_pp": -0.0,
+     "rank": 41,
+     "rank_before": 41
+    },
+    "69992 최정원": {
+     "za": -1.9937,
+     "delta_pp": 0.0,
+     "rank": 123,
+     "rank_before": 123
+    }
+   }
+  },
+  "B_px_full_retrained_za7_3": {
+   "qualified": 171,
+   "players_over_0_01pp": 20,
+   "players_over_0_05pp": 2,
+   "max_abs_delta_pp": 0.20504098647825098,
+   "focus": {
+    "64340 임지열": {
+     "za": 2.4072,
+     "delta_pp": 0.1634,
+     "rank": 24,
+     "rank_before": 29
+    },
+    "65207 신민재": {
+     "za": 1.5511,
+     "delta_pp": 0.0339,
+     "rank": 41,
+     "rank_before": 41
+    },
+    "69992 최정원": {
+     "za": -2.1987,
+     "delta_pp": -0.205,
+     "rank": 134,
+     "rank_before": 123
+    }
+   }
+  },
+  "B_ripple_only_non_six": {
+   "qualified": 171,
+   "players_over_0_01pp": 19,
+   "players_over_0_05pp": 0,
+   "max_abs_delta_pp": 0.03392129722387072,
+   "focus": {
+    "64340 임지열": {
+     "za": 2.2499,
+     "delta_pp": 0.0061,
+     "rank": 29,
+     "rank_before": 29
+    },
+    "65207 신민재": {
+     "za": 1.5511,
+     "delta_pp": 0.0339,
+     "rank": 41,
+     "rank_before": 41
+    },
+    "69992 최정원": {
+     "za": -1.9776,
+     "delta_pp": 0.0161,
+     "rank": 122,
+     "rank_before": 123
+    }
+   }
+  },
+  "C_exclude_six_scoring_only": {
+   "qualified": 171,
+   "players_over_0_01pp": 2,
+   "players_over_0_05pp": 2,
+   "max_abs_delta_pp": 0.12379480187513359,
+   "focus": {
+    "64340 임지열": {
+     "za": 2.3676,
+     "delta_pp": 0.1238,
+     "rank": 26,
+     "rank_before": 29
+    },
+    "65207 신민재": {
+     "za": 1.5176,
+     "delta_pp": 0.0005,
+     "rank": 41,
+     "rank_before": 41
+    },
+    "69992 최정원": {
+     "za": -2.1095,
+     "delta_pp": -0.1158,
+     "rank": 131,
+     "rank_before": 123
+    }
+   }
+  },
+  "C_exclude_six_and_corrupt_pa_scoring_only": {
+   "qualified": 171,
+   "players_over_0_01pp": 2,
+   "players_over_0_05pp": 2,
+   "max_abs_delta_pp": 0.14652360061044023,
+   "focus": {
+    "64340 임지열": {
+     "za": 2.3903,
+     "delta_pp": 0.1465,
+     "rank": 25,
+     "rank_before": 29
+    },
+    "65207 신민재": {
+     "za": 1.5176,
+     "delta_pp": 0.0005,
+     "rank": 41,
+     "rank_before": 41
+    },
+    "69992 최정원": {
+     "za": -2.1095,
+     "delta_pp": -0.1158,
+     "rank": 131,
+     "rank_before": 123
+    }
+   }
+  },
+  "C_exclude_six_retrained": {
+   "qualified": 171,
+   "players_over_0_01pp": 149,
+   "players_over_0_05pp": 82,
+   "max_abs_delta_pp": 0.4168624357049464,
+   "focus": {
+    "64340 임지열": {
+     "za": 2.4308,
+     "delta_pp": 0.187,
+     "rank": 25,
+     "rank_before": 29
+    },
+    "65207 신민재": {
+     "za": 1.3768,
+     "delta_pp": -0.1403,
+     "rank": 44,
+     "rank_before": 41
+    },
+    "69992 최정원": {
+     "za": -2.4105,
+     "delta_pp": -0.4169,
+     "rank": 137,
+     "rank_before": 123
+    }
+   }
+  }
+ },
+ "take_call_agreement": {
+  "2024": {
+   "all_takes": {
+    "extreme_consistent": {
+     "takes": 102,
+     "current": 1.0,
+     "anchored": 0.9804,
+     "front_model": 1.0
+    },
+    "normal": {
+     "takes": 120986,
+     "current": 0.9934,
+     "anchored": 0.9889,
+     "front_model": 0.9872
+    },
+    "suspect": {
+     "takes": 24,
+     "current": 0.9583,
+     "anchored": 0.9583,
+     "front_model": 0.9583
+    }
+   },
+   "boundary_takes": {
+    "extreme_consistent": {
+     "takes": 28,
+     "current": 1.0,
+     "anchored": 0.9286,
+     "front_model": 1.0
+    },
+    "normal": {
+     "takes": 40457,
+     "current": 0.9909,
+     "anchored": 0.9835,
+     "front_model": 0.9777
+    },
+    "suspect": {
+     "takes": 10,
+     "current": 0.9,
+     "anchored": 0.9,
+     "front_model": 0.9
+    }
+   }
+  },
+  "2025": {
+   "all_takes": {
+    "extreme_consistent": {
+     "takes": 140,
+     "current": 1.0,
+     "anchored": 0.9857,
+     "front_model": 0.9929
+    },
+    "normal": {
+     "takes": 119149,
+     "current": 0.9926,
+     "anchored": 0.9873,
+     "front_model": 0.9874
+    },
+    "suspect": {
+     "takes": 22,
+     "current": 0.9545,
+     "anchored": 0.9545,
+     "front_model": 0.9545
+    }
+   },
+   "boundary_takes": {
+    "extreme_consistent": {
+     "takes": 41,
+     "current": 1.0,
+     "anchored": 0.9756,
+     "front_model": 1.0
+    },
+    "normal": {
+     "takes": 39479,
+     "current": 0.9881,
+     "anchored": 0.9799,
+     "front_model": 0.9793
+    },
+    "suspect": {
+     "takes": 8,
+     "current": 0.875,
+     "anchored": 0.875,
+     "front_model": 0.875
+    }
+   }
+  },
+  "2026": {
+   "all_takes": {
+    "extreme_consistent": {
+     "takes": 233,
+     "current": 1.0,
+     "anchored": 0.9957,
+     "front_model": 0.9914
+    },
+    "normal": {
+     "takes": 112052,
+     "current": 0.9931,
+     "anchored": 0.9884,
+     "front_model": 0.9872
+    },
+    "suspect": {
+     "takes": 25,
+     "current": 1.0,
+     "anchored": 1.0,
+     "front_model": 0.92
+    }
+   },
+   "boundary_takes": {
+    "extreme_consistent": {
+     "takes": 67,
+     "current": 1.0,
+     "anchored": 0.9851,
+     "front_model": 0.9701
+    },
+    "normal": {
+     "takes": 37568,
+     "current": 0.9892,
+     "anchored": 0.9816,
+     "front_model": 0.9776
+    },
+    "suspect": {
+     "takes": 9,
+     "current": 1.0,
+     "anchored": 1.0,
+     "front_model": 0.7778
+    }
+   }
+  }
+ }
+}
