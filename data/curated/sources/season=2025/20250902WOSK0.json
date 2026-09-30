@@ -3,12 +3,12 @@
   "game_id": "20250902WOSK0",
   "season": 2025,
   "first_collected_at": "2026-09-09T16:12:37+00:00",
-  "last_collected_at": "2026-09-28T20:43:16+00:00",
-  "last_checked_at": "2026-09-28T20:43:16+00:00",
+  "last_collected_at": "2026-09-30T09:57:52+00:00",
+  "last_checked_at": "2026-09-30T09:57:52+00:00",
   "raw_sha256": "32c63e4a786950aeccf1dc7564ca604d6f710c9f856a5029035eead569e5db75",
-  "pitch_sha256": "29ae515bb0e523fb8f21ad0cdaf66bb949126fefe7909cc89ce013bcfa234820",
-  "schema_sha256": "8d811da998a9141e013d4eb016de9179862852365e7a418dacb11e02887e2d29",
-  "revision": 4,
+  "pitch_sha256": "34700dd96e785eab440b343a7f58050e4fb824adcedb70d50c5b8b072a0071c6",
+  "schema_sha256": "925d1033368c9ffd3b27b68ff1c9e974a3fd16a38f3d735fa1e1d6538d35fa23",
+  "revision": 5,
   "observed_y0": [
     50.0
   ],

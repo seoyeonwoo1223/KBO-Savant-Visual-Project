@@ -1,0 +1,2832 @@
+{
+ "description": "Plate-appearance count corrections for count events Visual Baseball does not record as pitches. Applied by the parser (collector.count_corrections) and scripts/apply_call_corrections.py.",
+ "fields": {
+  "start": "balls, strikes before the first VB pitch",
+  "inserts": "calls added before VB pitch number before_pitch",
+  "source_codes": "VB pitch codes of the plate appearance the row applies to (after bunt-foul corrections)"
+ },
+ "seasons": {
+  "2019": {
+   "source": "naver_relay",
+   "rule": "Naver relay running count (currentGameState): a plate appearance starts at the count of its first relay line (a pinch hitter inherits the count) and a pitch-clock violation adds a ball (pitcher) or strike (batter) before the next pitch. Used only when these, replayed through the parser's count rules on the VB pitch codes, equal the Naver count before every pitch of the plate appearance.",
+   "input": "analysis/sbj_location/results/naver_count_audit_2019_2026.csv",
+   "stats": {
+    "bunt_foul": 6,
+    "calls_bunt_fouls": 6,
+    "calls_bunt_fouls_already_in_table": 0,
+    "calls_reject_conflicts_naver_row": 0,
+    "calls_rejected": 1,
+    "count_corrections": 7,
+    "fix_pass": 14,
+    "inherited_count": 7,
+    "not_bunt_foul": 1,
+    "unexplained": 0
+   },
+   "pas": [
+    {
+     "pa_id": "20190510LTSS0-051",
+     "batter_id": "60523",
+     "pitcher_id": "61365",
+     "source_codes": "BST",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20190521HHSS0-042",
+     "batter_id": "69766",
+     "pitcher_id": "69413",
+     "source_codes": "S",
+     "start": [
+      1,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20190604OBHT0-054",
+     "batter_id": "77248",
+     "pitcher_id": "60634",
+     "source_codes": "T",
+     "start": [
+      2,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20190616HTLT0-012",
+     "batter_id": "66615",
+     "pitcher_id": "77318",
+     "source_codes": "BTFBFFFX",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20190707SKOB0-058",
+     "batter_id": "71837",
+     "pitcher_id": "62242",
+     "source_codes": "X",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20190714HHHT0-055",
+     "batter_id": "61700",
+     "pitcher_id": "66609",
+     "source_codes": "BTFX",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20190926HHNC0-062",
+     "batter_id": "73136",
+     "pitcher_id": "63991",
+     "source_codes": "SB",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    }
+   ]
+  },
+  "2020": {
+   "source": "naver_relay",
+   "rule": "Naver relay running count (currentGameState): a plate appearance starts at the count of its first relay line (a pinch hitter inherits the count) and a pitch-clock violation adds a ball (pitcher) or strike (batter) before the next pitch. Used only when these, replayed through the parser's count rules on the VB pitch codes, equal the Naver count before every pitch of the plate appearance.",
+   "input": "analysis/sbj_location/results/naver_count_audit_2019_2026.csv",
+   "stats": {
+    "bunt_foul": 4,
+    "calls_bunt_fouls": 5,
+    "calls_bunt_fouls_already_in_table": 0,
+    "calls_reject_conflicts_naver_row": 0,
+    "calls_rejected": 1,
+    "count_corrections": 14,
+    "fix_pass": 19,
+    "inherited_count": 14,
+    "not_bunt_foul": 1,
+    "unexplained": 0
+   },
+   "pas": [
+    {
+     "pa_id": "20200514SKLG0-060",
+     "batter_id": "71837",
+     "pitcher_id": "65117",
+     "source_codes": "SFFBS",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20200523HHNC0-048",
+     "batter_id": "64984",
+     "pitcher_id": "65764",
+     "source_codes": "TBX",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20200724SKHH0-039",
+     "batter_id": "50854",
+     "pitcher_id": "77318",
+     "source_codes": "BBBB",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20200731OBNC0-059",
+     "batter_id": "63963",
+     "pitcher_id": "62951",
+     "source_codes": "BFBS",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20200823OBSK0-061",
+     "batter_id": "66203",
+     "pitcher_id": "62056",
+     "source_codes": "BX",
+     "start": [
+      0,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20200906KTWO0-080",
+     "batter_id": "50054",
+     "pitcher_id": "66018",
+     "source_codes": "FS",
+     "start": [
+      2,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20200913HHKT0-055",
+     "batter_id": "61208",
+     "pitcher_id": "75342",
+     "source_codes": "FX",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20200917HHWO0-018",
+     "batter_id": "50707",
+     "pitcher_id": "67313",
+     "source_codes": "TT",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20200917NCSK0-056",
+     "batter_id": "62025",
+     "pitcher_id": "62056",
+     "source_codes": "BBB",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20200924SKWO0-070",
+     "batter_id": "77463",
+     "pitcher_id": "61268",
+     "source_codes": "BB",
+     "start": [
+      2,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20200927NCHH0-076",
+     "batter_id": "74729",
+     "pitcher_id": "76118",
+     "source_codes": "BSBFBS",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20201004LGKT0-081",
+     "batter_id": "64007",
+     "pitcher_id": "65117",
+     "source_codes": "BBWS",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20201015HHOB0-061",
+     "batter_id": "66203",
+     "pitcher_id": "64760",
+     "source_codes": "BSBFB",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20201030KTHH0-057",
+     "batter_id": "61554",
+     "pitcher_id": "64047",
+     "source_codes": "FBB",
+     "start": [
+      2,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    }
+   ]
+  },
+  "2021": {
+   "source": "naver_relay",
+   "rule": "Naver relay running count (currentGameState): a plate appearance starts at the count of its first relay line (a pinch hitter inherits the count) and a pitch-clock violation adds a ball (pitcher) or strike (batter) before the next pitch. Used only when these, replayed through the parser's count rules on the VB pitch codes, equal the Naver count before every pitch of the plate appearance.",
+   "input": "analysis/sbj_location/results/naver_count_audit_2019_2026.csv",
+   "stats": {
+    "bunt_foul": 8,
+    "calls_bunt_fouls": 10,
+    "calls_bunt_fouls_already_in_table": 0,
+    "calls_reject_conflicts_naver_row": 0,
+    "calls_rejected": 3,
+    "count_corrections": 4,
+    "fix_pass": 13,
+    "inherited_count": 4,
+    "not_bunt_foul": 2,
+    "unexplained": 1
+   },
+   "pas": [
+    {
+     "pa_id": "20210505LGOB0-085",
+     "batter_id": "64213",
+     "pitcher_id": "67119",
+     "source_codes": "X",
+     "start": [
+      2,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20210818NCSK0-069",
+     "batter_id": "66864",
+     "pitcher_id": "67956",
+     "source_codes": "BSBS",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20210824SKSS0-069",
+     "batter_id": "66917",
+     "pitcher_id": "67421",
+     "source_codes": "BWBBX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count+bunt_foul"
+    },
+    {
+     "pa_id": "20210919SSSK0-069",
+     "batter_id": "61197",
+     "pitcher_id": "65343",
+     "source_codes": "BFBB",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    }
+   ]
+  },
+  "2022": {
+   "source": "naver_relay",
+   "rule": "Naver relay running count (currentGameState): a plate appearance starts at the count of its first relay line (a pinch hitter inherits the count) and a pitch-clock violation adds a ball (pitcher) or strike (batter) before the next pitch. Used only when these, replayed through the parser's count rules on the VB pitch codes, equal the Naver count before every pitch of the plate appearance.",
+   "input": "analysis/sbj_location/results/naver_count_audit_2019_2026.csv",
+   "stats": {
+    "bunt_foul": 7,
+    "calls_bunt_fouls": 7,
+    "calls_bunt_fouls_already_in_table": 0,
+    "calls_reject_conflicts_naver_row": 0,
+    "calls_rejected": 1,
+    "count_corrections": 11,
+    "fix_pass": 19,
+    "inherited_count": 11,
+    "not_bunt_foul": 1,
+    "unexplained": 0
+   },
+   "pas": [
+    {
+     "pa_id": "20220417WOOB0-054",
+     "batter_id": "64468",
+     "pitcher_id": "69399",
+     "source_codes": "SBFBBS",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20220423LGOB0-023",
+     "batter_id": "69102",
+     "pitcher_id": "51257",
+     "source_codes": "TS",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20220505NCSS0-066",
+     "batter_id": "51403",
+     "pitcher_id": "61411",
+     "source_codes": "VT",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20220722LGNC0-062",
+     "batter_id": "61186",
+     "pitcher_id": "63959",
+     "source_codes": "FT",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20220730KTLG0-049",
+     "batter_id": "64004",
+     "pitcher_id": "69134",
+     "source_codes": "X",
+     "start": [
+      1,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20220803KTNC0-050",
+     "batter_id": "62556",
+     "pitcher_id": "51948",
+     "source_codes": "TFBBFX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20220804SSOB0-019",
+     "batter_id": "69203",
+     "pitcher_id": "69446",
+     "source_codes": "FBX",
+     "start": [
+      2,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20220814SKOB0-070",
+     "batter_id": "76802",
+     "pitcher_id": "61643",
+     "source_codes": "WBX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20220911SKHH0-036",
+     "batter_id": "50709",
+     "pitcher_id": "77829",
+     "source_codes": "BX",
+     "start": [
+      1,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20220918OBSK0-038",
+     "batter_id": "50820",
+     "pitcher_id": "68249",
+     "source_codes": "BBTS",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20220921KTSK0-044",
+     "batter_id": "64014",
+     "pitcher_id": "50859",
+     "source_codes": "BFS",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    }
+   ]
+  },
+  "2023": {
+   "source": "naver_relay",
+   "rule": "Naver relay running count (currentGameState): a plate appearance starts at the count of its first relay line (a pinch hitter inherits the count) and a pitch-clock violation adds a ball (pitcher) or strike (batter) before the next pitch. Used only when these, replayed through the parser's count rules on the VB pitch codes, equal the Naver count before every pitch of the plate appearance.",
+   "input": "analysis/sbj_location/results/naver_count_audit_2019_2026.csv",
+   "stats": {
+    "bunt_foul": 4,
+    "calls_bunt_fouls": 4,
+    "calls_bunt_fouls_already_in_table": 0,
+    "calls_reject_conflicts_naver_row": 0,
+    "calls_rejected": 1,
+    "count_corrections": 16,
+    "fix_pass": 21,
+    "inherited_count": 16,
+    "not_bunt_foul": 1,
+    "unexplained": 0
+   },
+   "pas": [
+    {
+     "pa_id": "20230414HHKT0-058",
+     "batter_id": "53036",
+     "pitcher_id": "69213",
+     "source_codes": "B",
+     "start": [
+      3,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230426HHLT0-046",
+     "batter_id": "66704",
+     "pitcher_id": "51516",
+     "source_codes": "TTBS",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230502KTSK0-021",
+     "batter_id": "64004",
+     "pitcher_id": "62869",
+     "source_codes": "TBFX",
+     "start": [
+      2,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230514HHSK0-080",
+     "batter_id": "67807",
+     "pitcher_id": "67703",
+     "source_codes": "BBB",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230516HTSS0-017",
+     "batter_id": "65610",
+     "pitcher_id": "69446",
+     "source_codes": "BX",
+     "start": [
+      1,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230521SKLT0-035",
+     "batter_id": "67893",
+     "pitcher_id": "52528",
+     "source_codes": "S",
+     "start": [
+      0,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230531KTHT0-067",
+     "batter_id": "64504",
+     "pitcher_id": "53609",
+     "source_codes": "BTSS",
+     "start": [
+      2,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230606HHOB0-049",
+     "batter_id": "69766",
+     "pitcher_id": "67266",
+     "source_codes": "X",
+     "start": [
+      0,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230609WOKT0-062",
+     "batter_id": "78548",
+     "pitcher_id": "67391",
+     "source_codes": "BX",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230712KTWO0-068",
+     "batter_id": "64166",
+     "pitcher_id": "51301",
+     "source_codes": "BSX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230725HTNC0-075",
+     "batter_id": "69727",
+     "pitcher_id": "77211",
+     "source_codes": "S",
+     "start": [
+      2,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230812SSSK0-058",
+     "batter_id": "69813",
+     "pitcher_id": "63492",
+     "source_codes": "BBX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230822SSHH0-054",
+     "batter_id": "66704",
+     "pitcher_id": "50404",
+     "source_codes": "FFBBB",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230825LGNC0-047",
+     "batter_id": "62934",
+     "pitcher_id": "69159",
+     "source_codes": "B",
+     "start": [
+      3,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230922KTHT0-072",
+     "batter_id": "68504",
+     "pitcher_id": "50662",
+     "source_codes": "BX",
+     "start": [
+      0,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20230922KTHT0-074",
+     "batter_id": "67006",
+     "pitcher_id": "50662",
+     "source_codes": "BX",
+     "start": [
+      1,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    }
+   ]
+  },
+  "2024": {
+   "source": "naver_relay",
+   "rule": "Naver relay running count (currentGameState): a plate appearance starts at the count of its first relay line (a pinch hitter inherits the count) and a pitch-clock violation adds a ball (pitcher) or strike (batter) before the next pitch. Used only when these, replayed through the parser's count rules on the VB pitch codes, equal the Naver count before every pitch of the plate appearance.",
+   "input": "analysis/sbj_location/results/naver_count_audit_2019_2026.csv",
+   "stats": {
+    "bunt_foul": 3,
+    "calls_bunt_fouls": 4,
+    "calls_bunt_fouls_already_in_table": 0,
+    "calls_reject_conflicts_naver_row": 0,
+    "calls_rejected": 0,
+    "count_corrections": 11,
+    "fix_pass": 14,
+    "inherited_count": 11,
+    "unexplained": 8
+   },
+   "pas": [
+    {
+     "pa_id": "20240406SSHT0-080",
+     "batter_id": "61404",
+     "pitcher_id": "66609",
+     "source_codes": "SFBX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20240421WOOB1-072",
+     "batter_id": "64340",
+     "pitcher_id": "68249",
+     "source_codes": "TBBFX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20240430SKHH0-074",
+     "batter_id": "50704",
+     "pitcher_id": "64893",
+     "source_codes": "S",
+     "start": [
+      1,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20240516LTKT0-039",
+     "batter_id": "64868",
+     "pitcher_id": "64021",
+     "source_codes": "BBX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20240517HHSS0-069",
+     "batter_id": "65040",
+     "pitcher_id": "50726",
+     "source_codes": "BBSX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20240517HTNC0-082",
+     "batter_id": "68904",
+     "pitcher_id": "66609",
+     "source_codes": "BX",
+     "start": [
+      2,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20240628LGNC0-057",
+     "batter_id": "62934",
+     "pitcher_id": "61145",
+     "source_codes": "BFBFX",
+     "start": [
+      0,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20240806KTHT0-070",
+     "batter_id": "64560",
+     "pitcher_id": "65048",
+     "source_codes": "FBBT",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20240824LTSS0-078",
+     "batter_id": "68507",
+     "pitcher_id": "61268",
+     "source_codes": "X",
+     "start": [
+      2,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20240827KTLG0-056",
+     "batter_id": "78548",
+     "pitcher_id": "75867",
+     "source_codes": "X",
+     "start": [
+      2,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20240928SKHH0-078",
+     "batter_id": "66662",
+     "pitcher_id": "51713",
+     "source_codes": "X",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    }
+   ]
+  },
+  "2025": {
+   "source": "naver_relay",
+   "rule": "Naver relay running count (currentGameState): a plate appearance starts at the count of its first relay line (a pinch hitter inherits the count) and a pitch-clock violation adds a ball (pitcher) or strike (batter) before the next pitch. Used only when these, replayed through the parser's count rules on the VB pitch codes, equal the Naver count before every pitch of the plate appearance.",
+   "input": "analysis/sbj_location/results/naver_count_audit_2019_2026.csv",
+   "stats": {
+    "calls_bunt_fouls": 0,
+    "calls_bunt_fouls_already_in_table": 0,
+    "calls_reject_conflicts_naver_row": 0,
+    "calls_rejected": 0,
+    "count_corrections": 72,
+    "fix_pass": 72,
+    "inherited_count": 13,
+    "pitch_clock": 59,
+    "unexplained": 1
+   },
+   "pas": [
+    {
+     "pa_id": "20250325LTSK0-005",
+     "batter_id": "52591",
+     "pitcher_id": "62869",
+     "source_codes": "BTFFX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250325LTSK0-079",
+     "batter_id": "68205",
+     "pitcher_id": "61895",
+     "source_codes": "BBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250325WOHT0-046",
+     "batter_id": "78168",
+     "pitcher_id": "54319",
+     "source_codes": "BX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250325WOHT0-065",
+     "batter_id": "54444",
+     "pitcher_id": "53609",
+     "source_codes": "SBBSB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 5,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250404KTSK0-027",
+     "batter_id": "53827",
+     "pitcher_id": "69032",
+     "source_codes": "FSBBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 3,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250404OBLT0-015",
+     "batter_id": "54598",
+     "pitcher_id": "55239",
+     "source_codes": "FBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250406HHSS0-035",
+     "batter_id": "50704",
+     "pitcher_id": "54443",
+     "source_codes": "BBBT",
+     "start": [
+      0,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250412WOHH0-042",
+     "batter_id": "53312",
+     "pitcher_id": "65117",
+     "source_codes": "TBX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250412WOHH0-078",
+     "batter_id": "64984",
+     "pitcher_id": "54768",
+     "source_codes": "BBFS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250420NCHH0-037",
+     "batter_id": "50707",
+     "pitcher_id": "67954",
+     "source_codes": "BBX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250424HHLT0-051",
+     "batter_id": "61102",
+     "pitcher_id": "76715",
+     "source_codes": "TBX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250424HHLT0-053",
+     "batter_id": "54795",
+     "pitcher_id": "76430",
+     "source_codes": "BX",
+     "start": [
+      1,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250427KTHH0-045",
+     "batter_id": "69737",
+     "pitcher_id": "50859",
+     "source_codes": "BFBFFFFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 8,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250427LTOB0-030",
+     "batter_id": "63123",
+     "pitcher_id": "51594",
+     "source_codes": "BBTSB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250430KTOB0-068",
+     "batter_id": "64153",
+     "pitcher_id": "69041",
+     "source_codes": "BTX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250430KTOB0-073",
+     "batter_id": "67025",
+     "pitcher_id": "68200",
+     "source_codes": "TBTFBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250503WOKT0-070",
+     "batter_id": "67006",
+     "pitcher_id": "50036",
+     "source_codes": "TT",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250517OBHT1-059",
+     "batter_id": "72443",
+     "pitcher_id": "72523",
+     "source_codes": "TBSBFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250518OBHT0-071",
+     "batter_id": "69727",
+     "pitcher_id": "54263",
+     "source_codes": "TBBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250518OBHT0-078",
+     "batter_id": "50208",
+     "pitcher_id": "68619",
+     "source_codes": "FTX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 2,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250520HTKT0-008",
+     "batter_id": "67025",
+     "pitcher_id": "53613",
+     "source_codes": "FBBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250521SSWO0-023",
+     "batter_id": "62404",
+     "pitcher_id": "64350",
+     "source_codes": "SFBBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250523HTSS0-013",
+     "batter_id": "64646",
+     "pitcher_id": "50441",
+     "source_codes": "FBFFBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250524LGSK0-021",
+     "batter_id": "53123",
+     "pitcher_id": "51867",
+     "source_codes": "TBBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250527HHLG0-056",
+     "batter_id": "53123",
+     "pitcher_id": "55743",
+     "source_codes": "TFBFBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250527NCSK0-062",
+     "batter_id": "62244",
+     "pitcher_id": "53892",
+     "source_codes": "FBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250605HTOB0-011",
+     "batter_id": "67610",
+     "pitcher_id": "67263",
+     "source_codes": "BSBBT",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250605HTOB0-014",
+     "batter_id": "65269",
+     "pitcher_id": "69745",
+     "source_codes": "FBFS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250617SKWO0-043",
+     "batter_id": "67893",
+     "pitcher_id": "54319",
+     "source_codes": "BBTTB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250619OBSS0-069",
+     "batter_id": "75125",
+     "pitcher_id": "66291",
+     "source_codes": "SSBBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 5,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250621HTSK0-048",
+     "batter_id": "64646",
+     "pitcher_id": "52809",
+     "source_codes": "BBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250622HTSK0-055",
+     "batter_id": "53827",
+     "pitcher_id": "54640",
+     "source_codes": "FX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250622HTSK0-070",
+     "batter_id": "72443",
+     "pitcher_id": "51897",
+     "source_codes": "BBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250627OBNC0-081",
+     "batter_id": "62907",
+     "pitcher_id": "66291",
+     "source_codes": "BBTB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250628HHSK0-072",
+     "batter_id": "51865",
+     "pitcher_id": "53754",
+     "source_codes": "BX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250628HTLG0-059",
+     "batter_id": "72443",
+     "pitcher_id": "61145",
+     "source_codes": "FBFBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250703NCHH0-062",
+     "batter_id": "69737",
+     "pitcher_id": "68900",
+     "source_codes": "BFS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250710HTHH0-069",
+     "batter_id": "62700",
+     "pitcher_id": "50662",
+     "source_codes": "X",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250719HHKT0-046",
+     "batter_id": "78288",
+     "pitcher_id": "54063",
+     "source_codes": "TBBTB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250719HHKT0-052",
+     "batter_id": "79240",
+     "pitcher_id": "54768",
+     "source_codes": "BTBTX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250724HHOB0-045",
+     "batter_id": "62700",
+     "pitcher_id": "67266",
+     "source_codes": "X",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250724HHOB0-084",
+     "batter_id": "55703",
+     "pitcher_id": "68249",
+     "source_codes": "BX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250729NCLT0-003",
+     "batter_id": "62907",
+     "pitcher_id": "64021",
+     "source_codes": "TSFBBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 3,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250729NCLT0-054",
+     "batter_id": "50500",
+     "pitcher_id": "67954",
+     "source_codes": "WBBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250731WOSK0-004",
+     "batter_id": "50357",
+     "pitcher_id": "54833",
+     "source_codes": "TT",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250731WOSK0-030",
+     "batter_id": "54344",
+     "pitcher_id": "54833",
+     "source_codes": "X",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250801SKOB0-044",
+     "batter_id": "55208",
+     "pitcher_id": "77829",
+     "source_codes": "TFBFFBFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250801SKOB0-049",
+     "batter_id": "76802",
+     "pitcher_id": "67263",
+     "source_codes": "FFBBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 5,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250802LTWO0-043",
+     "batter_id": "76267",
+     "pitcher_id": "67539",
+     "source_codes": "TBBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250805HTLT0-019",
+     "batter_id": "64646",
+     "pitcher_id": "55532",
+     "source_codes": "SBBTFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250805HTLT0-062",
+     "batter_id": "55645",
+     "pitcher_id": "69594",
+     "source_codes": "BFSBFFS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250805OBLG0-064",
+     "batter_id": "69100",
+     "pitcher_id": "61643",
+     "source_codes": "BBTB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250806KTHH0-054",
+     "batter_id": "64115",
+     "pitcher_id": "67703",
+     "source_codes": "SBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250817LGSK0-067",
+     "batter_id": "62895",
+     "pitcher_id": "68419",
+     "source_codes": "BBTB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250820LTLG0-027",
+     "batter_id": "53123",
+     "pitcher_id": "67539",
+     "source_codes": "BTBTB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 5,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250820SSNC0-048",
+     "batter_id": "54944",
+     "pitcher_id": "69446",
+     "source_codes": "FBFBFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 5,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250821SSNC0-055",
+     "batter_id": "62404",
+     "pitcher_id": "68900",
+     "source_codes": "TFBX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250821SSNC0-059",
+     "batter_id": "51344",
+     "pitcher_id": "55460",
+     "source_codes": "BBTFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250823LTNC0-059",
+     "batter_id": "52568",
+     "pitcher_id": "54904",
+     "source_codes": "BTX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250827LGNC0-053",
+     "batter_id": "51344",
+     "pitcher_id": "55146",
+     "source_codes": "TBFFT",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250829OBLT0-003",
+     "batter_id": "55208",
+     "pitcher_id": "55526",
+     "source_codes": "BFTBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250830HTKT0-038",
+     "batter_id": "52001",
+     "pitcher_id": "55633",
+     "source_codes": "TFFBBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250830HTKT0-064",
+     "batter_id": "68646",
+     "pitcher_id": "69041",
+     "source_codes": "TSBX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250831HTKT0-040",
+     "batter_id": "78603",
+     "pitcher_id": "50859",
+     "source_codes": "SBTBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250831HTKT0-066",
+     "batter_id": "62947",
+     "pitcher_id": "73117",
+     "source_codes": "SFBX",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250902WOSK0-009",
+     "batter_id": "76802",
+     "pitcher_id": "55342",
+     "source_codes": "TS",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250906HTNC0-038",
+     "batter_id": "64646",
+     "pitcher_id": "55903",
+     "source_codes": "BTBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250913HTLG0-071",
+     "batter_id": "53659",
+     "pitcher_id": "51111",
+     "source_codes": "SS",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250913OBNC0-024",
+     "batter_id": "78224",
+     "pitcher_id": "52995",
+     "source_codes": "FFBX",
+     "start": [
+      1,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20250914KTSS0-023",
+     "batter_id": "55013",
+     "pitcher_id": "51454",
+     "source_codes": "BBTTFFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20250919LTNC0-048",
+     "batter_id": "67905",
+     "pitcher_id": "50556",
+     "source_codes": "T",
+     "start": [
+      3,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20251004SSHT0-026",
+     "batter_id": "52430",
+     "pitcher_id": "77637",
+     "source_codes": "TFBBFFFFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    }
+   ]
+  },
+  "2026": {
+   "source": "naver_relay",
+   "rule": "Naver relay running count (currentGameState): a plate appearance starts at the count of its first relay line (a pinch hitter inherits the count) and a pitch-clock violation adds a ball (pitcher) or strike (batter) before the next pitch. Used only when these, replayed through the parser's count rules on the VB pitch codes, equal the Naver count before every pitch of the plate appearance.",
+   "input": "analysis/sbj_location/results/naver_count_audit_2019_2026.csv",
+   "stats": {
+    "calls_bunt_fouls": 0,
+    "calls_bunt_fouls_already_in_table": 0,
+    "calls_reject_conflicts_naver_row": 0,
+    "calls_rejected": 0,
+    "count_corrections": 49,
+    "fix_pass": 49,
+    "inherited_count": 15,
+    "pitch_clock": 34,
+    "unexplained": 2
+   },
+   "pas": [
+    {
+     "pa_id": "20260328LTSS0-041",
+     "batter_id": "52415",
+     "pitcher_id": "56531",
+     "source_codes": "BFBFFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 3,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260404SKLT0-047",
+     "batter_id": "51865",
+     "pitcher_id": "56548",
+     "source_codes": "BSTFBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260404SKLT0-059",
+     "batter_id": "62895",
+     "pitcher_id": "68242",
+     "source_codes": "TTT",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260408WOOB0-081",
+     "batter_id": "78756",
+     "pitcher_id": "54263",
+     "source_codes": "BSS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260411NCSS0-074",
+     "batter_id": "52415",
+     "pitcher_id": "52902",
+     "source_codes": "BTS",
+     "start": [
+      1,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260418SKNC0-009",
+     "batter_id": "60558",
+     "pitcher_id": "56966",
+     "source_codes": "BBBT",
+     "start": [
+      0,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260421NCWO0-059",
+     "batter_id": "50357",
+     "pitcher_id": "68900",
+     "source_codes": "BWBBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260424LGOB0-006",
+     "batter_id": "55252",
+     "pitcher_id": "61101",
+     "source_codes": "BTSBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 5,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260429LGKT0-080",
+     "batter_id": "66606",
+     "pitcher_id": "63950",
+     "source_codes": "TBFFBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 6,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260430LGKT0-009",
+     "batter_id": "78548",
+     "pitcher_id": "61101",
+     "source_codes": "BBTT",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260430SSOB0-038",
+     "batter_id": "64646",
+     "pitcher_id": "65320",
+     "source_codes": "TS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260501LTSK0-007",
+     "batter_id": "75847",
+     "pitcher_id": "64021",
+     "source_codes": "SSFX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 3,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260501LTSK0-009",
+     "batter_id": "62895",
+     "pitcher_id": "64021",
+     "source_codes": "TFS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260501LTSK0-084",
+     "batter_id": "54598",
+     "pitcher_id": "68043",
+     "source_codes": "VS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 2,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260508SSNC0-033",
+     "batter_id": "63963",
+     "pitcher_id": "56460",
+     "source_codes": "TFBBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 5,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260512HHWO0-073",
+     "batter_id": "69737",
+     "pitcher_id": "53164",
+     "source_codes": "BX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260512OBHT0-056",
+     "batter_id": "50657",
+     "pitcher_id": "55215",
+     "source_codes": "TS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260513OBHT0-026",
+     "batter_id": "62947",
+     "pitcher_id": "53259",
+     "source_codes": "SBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260513OBHT0-034",
+     "batter_id": "66614",
+     "pitcher_id": "68830",
+     "source_codes": "BBSX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260524SKHT0-007",
+     "batter_id": "52605",
+     "pitcher_id": "56823",
+     "source_codes": "X",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260524SKHT0-057",
+     "batter_id": "52605",
+     "pitcher_id": "51897",
+     "source_codes": "SBT",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260528HHNC0-081",
+     "batter_id": "68050",
+     "pitcher_id": "54904",
+     "source_codes": "FBBSB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 5,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260603LTHT0-059",
+     "batter_id": "69636",
+     "pitcher_id": "56536",
+     "source_codes": "BTSFFBFX",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260614LTLG0-047",
+     "batter_id": "68119",
+     "pitcher_id": "56523",
+     "source_codes": "FBFS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260614LTLG0-076",
+     "batter_id": "61102",
+     "pitcher_id": "67143",
+     "source_codes": "SBFS",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260617HHNC0-070",
+     "batter_id": "66965",
+     "pitcher_id": "65117",
+     "source_codes": "T",
+     "start": [
+      0,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260619LTWO0-031",
+     "batter_id": "54307",
+     "pitcher_id": "52530",
+     "source_codes": "TBFBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 5,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260620HTKT0-097",
+     "batter_id": "64166",
+     "pitcher_id": "65769",
+     "source_codes": "BSBX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260627WONC0-030",
+     "batter_id": "79608",
+     "pitcher_id": "65933",
+     "source_codes": "TFFBT",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 5,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260628HHSK0-035",
+     "batter_id": "54730",
+     "pitcher_id": "64861",
+     "source_codes": "WSFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260717OBNC0-077",
+     "batter_id": "56950",
+     "pitcher_id": "66291",
+     "source_codes": "BSBFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 3,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260719WOHH0-090",
+     "batter_id": "56754",
+     "pitcher_id": "55394",
+     "source_codes": "TBBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260721NCLG0-064",
+     "batter_id": "63260",
+     "pitcher_id": "50157",
+     "source_codes": "BBTB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 3,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260725LGHH0-029",
+     "batter_id": "69100",
+     "pitcher_id": "56709",
+     "source_codes": "BBFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260801SKWO0-019",
+     "batter_id": "67893",
+     "pitcher_id": "54319",
+     "source_codes": "BBTFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260811KTNC0-031",
+     "batter_id": "69995",
+     "pitcher_id": "55912",
+     "source_codes": "B",
+     "start": [
+      3,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260814NCLT0-083",
+     "batter_id": "63260",
+     "pitcher_id": "62528",
+     "source_codes": "SBX",
+     "start": [
+      1,
+      0
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260901SKWO0-066",
+     "batter_id": "78135",
+     "pitcher_id": "68043",
+     "source_codes": "BBB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 2,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260902HHKT0-055",
+     "batter_id": "51013",
+     "pitcher_id": "67703",
+     "source_codes": "S",
+     "start": [
+      0,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260902HTNC0-050",
+     "batter_id": "62700",
+     "pitcher_id": "53919",
+     "source_codes": "SBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260902HTNC0-064",
+     "batter_id": "78122",
+     "pitcher_id": "69969",
+     "source_codes": "TX",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 2,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260904KTHT0-069",
+     "batter_id": "64007",
+     "pitcher_id": "51648",
+     "source_codes": "BTX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260908HTSS0-030",
+     "batter_id": "69403",
+     "pitcher_id": "54843",
+     "source_codes": "FBBFX",
+     "start": [
+      1,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260908OBHH0-034",
+     "batter_id": "54795",
+     "pitcher_id": "67266",
+     "source_codes": "FBT",
+     "start": [
+      2,
+      2
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260909KTSS0-029",
+     "batter_id": "65586",
+     "pitcher_id": "64001",
+     "source_codes": "FBBS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 4,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260909NCHT0-028",
+     "batter_id": "50657",
+     "pitcher_id": "69962",
+     "source_codes": "TFS",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260910KTLT0-075",
+     "batter_id": "68507",
+     "pitcher_id": "67419",
+     "source_codes": "BTX",
+     "start": [
+      0,
+      1
+     ],
+     "inserts": [],
+     "kind": "inherited_count"
+    },
+    {
+     "pa_id": "20260915HTSK0-021",
+     "batter_id": "68646",
+     "pitcher_id": "56840",
+     "source_codes": "BBTFB",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 3,
+       "code": "B"
+      }
+     ],
+     "kind": "pitch_clock"
+    },
+    {
+     "pa_id": "20260920OBKT0-080",
+     "batter_id": "50208",
+     "pitcher_id": "53029",
+     "source_codes": "BSS",
+     "start": [
+      0,
+      0
+     ],
+     "inserts": [
+      {
+       "before_pitch": 1,
+       "code": "S"
+      }
+     ],
+     "kind": "pitch_clock"
+    }
+   ]
+  }
+ }
+}
