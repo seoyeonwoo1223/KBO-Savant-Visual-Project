@@ -15,6 +15,7 @@ SPECS = {
  "zone_profiles": (("pitches",), (), ("web/data/zones/index.json",)),
  "pitch_arsenal": (("pitches",), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet"), ("web/data/pitch_arsenal/{season}/index.json",)),
  "blocking": (("games", "pitches"), (), ("data/metrics/blocking/{season}/pitches.parquet", "web/data/blocking/{season}/leaderboard.json")),
+ "movement_zones": (("pitches",), ("data/curated/players/player_bio.parquet", "data/tracking/player_id_crosswalk.json", *(f"data/tracking/raw/season={year}/trackman_history.csv" for year in range(2019, 2025))), ("web/data/movement_zones/profiles.json",)),
 }
 CODE = {
  "excel": ("export_excel.py", "curated.py"), "arm_angle": ("arm_angle.py", "curated.py"),
@@ -22,6 +23,7 @@ CODE = {
  "zone_decision": ("zone_decision.py", "plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "movement_calibration.py", "swing_take.py", "curated.py"),
  "plate_decision": ("plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "swing_take.py", "curated.py"),
  "zone_profiles": ("zone_profile.py", "curated.py"), "pitch_arsenal": ("pitch_arsenal.py", "movement_calibration.py", "curated.py"), "blocking": ("blocking.py", "curated.py"),
+ "movement_zones": ("movement_zones.py", "movement_calibration.py", "pitch_arsenal.py", "curated.py", "../../analysis/movement_calibration/match_trackman.py", "../../scripts/build_trackman_id_crosswalk.py"),
 }
 
 def _index(root: Path) -> dict:
@@ -31,7 +33,7 @@ def _index(root: Path) -> dict:
 def metric_input_hash(root: Path, season: int, name: str) -> str:
  tables, extras, _ = SPECS[name]; index = _index(root)
  games = index.get("seasons", {}).get(str(season), {}).get("games", {})
- if name == "arm_angle": games = {f"{year}/{game}": value for year, data in index.get("seasons", {}).items() for game, value in data.get("games", {}).items()}
+ if name in {"arm_angle", "movement_zones"}: games = {f"{year}/{game}": value for year, data in index.get("seasons", {}).items() for game, value in data.get("games", {}).items()}
  if not games:
   directory = root / "data" / "curated" / "sources" / f"season={season}"
   games = {p.stem: {"tables": {table: json.loads(p.read_text(encoding="utf-8")).get("pitch_sha256") for table in tables}} for p in sorted(directory.glob("*.json"))}

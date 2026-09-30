@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Arm Angle Movement Zones</title>
   <link rel="stylesheet" href="../theme.css?v=20260913-4">
-  <link rel="stylesheet" href="movement-zones.css?v=20260913-2">
+  <link rel="stylesheet" href="movement-zones.css?v=20261001-1">
   <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
   <style>html.thumbnail-mode .site-header,html.thumbnail-mode main>nav,html.thumbnail-mode main>header,html.thumbnail-mode .controls,html.thumbnail-mode .side-panel{display:none}html.thumbnail-mode main{width:600px;margin:0;padding:0}html.thumbnail-mode .workspace{display:block}html.thumbnail-mode [data-thumbnail-target]{display:flex;width:600px;height:600px;padding:12px;flex-direction:column;overflow:hidden}html.thumbnail-mode [data-thumbnail-target] .chart-heading{padding:2px 4px 5px}html.thumbnail-mode #movement-chart{flex:1;min-height:0;width:100%;height:auto}</style>
 </head>
@@ -16,20 +16,21 @@
     <header>
       <p class="eyebrow">KBO PITCH DESIGN · CATCHER'S PERSPECTIVE</p>
       <h1>Arm Angle Movement Zones</h1>
-      <p>팔각도·투수 손·구종에 따른 엘리트·평균·데드존 무브먼트 범위</p>
+      <p>TrackMan × Visual Baseball · 1도씩 움직이는 회귀 기반 무브먼트 프로파일</p>
     </header>
 
     <section class="controls" aria-label="차트 설정">
       <div class="angle-control">
         <div class="control-heading">
-          <span>팔각도</span>
+          <label for="angle">팔각도 추정값</label>
           <strong id="angle-value">45°</strong>
         </div>
         <div class="angle-row">
           <button id="play" class="play-button" type="button" aria-label="팔각도 자동 재생">▶</button>
-          <input id="angle" type="range" min="0" max="3" step="1" value="2" aria-label="팔각도">
+          <input id="angle" type="range" min="-60" max="85" step="1" value="45" aria-label="팔각도 추정값" aria-describedby="angle-definition" disabled>
         </div>
-        <div class="angle-ticks" aria-hidden="true"><span>15°</span><span>30°</span><span>45°</span><span>60°</span></div>
+        <div class="angle-ticks" aria-hidden="true"><span>−60°</span><span>0°</span><span>45°</span><span>85°</span></div>
+        <small class="control-note">← → 키로 1° 조절 · 릴리스 위치 기반 추정</small>
       </div>
       <div class="hand-control">
         <span class="control-label">투수 손</span>
@@ -41,7 +42,7 @@
       </div>
       <div class="pitch-control">
         <span class="control-label">구종</span>
-        <div id="pitch-tabs" class="pitch-tabs" role="tablist" aria-label="구종 선택"></div>
+        <div id="pitch-tabs" class="pitch-tabs" role="group" aria-label="구종 선택"></div>
       </div>
     </section>
 
@@ -62,24 +63,27 @@
 
       <aside class="side-panel">
         <div class="legend" aria-label="범례">
-          <div><span class="swatch elite"></span><div><strong>Elite</strong><small>타자 대응이 가장 어려운 범위</small></div></div>
-          <div><span class="swatch average"></span><div><strong>Average</strong><small>리그 평균 수준의 범위</small></div></div>
-          <div><span class="swatch dead"></span><div><strong>Dead Zone</strong><small>타자에게 상대적으로 취약한 범위</small></div></div>
+          <div><span class="swatch elite"></span><div><strong>Elite</strong><small>추정 헛스윙률 상위 25%</small></div></div>
+          <div><span class="swatch average"></span><div><strong>Average</strong><small>추정 헛스윙률 중간 50%</small></div></div>
+          <div><span class="swatch dead"></span><div><strong>Dead Zone</strong><small>추정 헛스윙률 하위 25%</small></div></div>
         </div>
         <div class="range-table-wrap">
           <table>
-            <thead><tr><th>구분</th><th>IVB</th><th>HB</th></tr></thead>
+            <thead><tr><th>구분</th><th>IVB</th><th>HB</th><th>Whiff%</th></tr></thead>
             <tbody id="range-table"></tbody>
           </table>
         </div>
+        <p id="sample-status" class="model-status" role="status" aria-live="polite">회귀 프로파일을 불러오는 중…</p>
         <div class="reading-note">
           <strong>읽는 법</strong>
-          <p>포수 시점 기준입니다. 우투는 암사이드가 −HB, 좌투는 +HB이며 글러브사이드는 반대입니다. 외곽선은 엑셀의 최솟값~최댓값을 나타내며 안쪽 선은 분포 형태를 보여주기 위한 보조선입니다.</p>
+          <p>포수 시점입니다. 우투 암사이드는 −HB, 좌투 암사이드는 +HB입니다. 각 손·구종의 실제 관측 분포에서 회귀 헛스윙률로 구분한 영역을 75% 타원으로 요약합니다. 안쪽 선은 보조선이며, 타원 전체가 같은 성능이라는 의미는 아닙니다.</p>
+          <p>Whiff%는 스윙 중 헛스윙 확률입니다. 존 중앙·1볼 1스트라이크·타자 좌우 50:50·해당 손과 구종의 중앙 구속으로 통제합니다. 타구 질·종합 구종 가치를 뜻하지 않습니다.</p>
+          <p id="angle-definition">각도 = atan2(55ft 릴리스 높이 − 기준 어깨 높이 130cm, |55ft 릴리스 좌우 위치|). 어깨 실측과 선수 신장이 없어 공통 기준점을 쓴 릴리스 각도 대용치이며, Statcast 실측 팔각도와 직접 비교할 수 없습니다.</p>
         </div>
       </aside>
     </section>
-
+    <details class="model-details"><summary>데이터·회귀 검증</summary><div id="model-details">데이터를 불러오는 중…</div></details>
   </main>
-  <script src="movement-zones.js?v=20260913-1"></script>
+  <script src="movement-zones.js?v=20261001-1"></script>
 </body>
 </html>

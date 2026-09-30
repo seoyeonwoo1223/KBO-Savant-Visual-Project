@@ -18,8 +18,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-${{ github.event_name }}
-  cancel-in-progress: true
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   deploy:

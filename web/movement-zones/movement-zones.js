@@ -1,146 +1,115 @@
-const Z=(ivb,hb,ivbLabel=null,hbLabel=null)=>({ivb,hb,ivbLabel,hbLabel});
-const D={
-  60:{
-    FF:['4-Seam',Z([18,22],[4,8]),Z([15,18],[5,9]),Z([11,14],[6,10])],
-    SI:['Sinker',Z([8,11],[14,18]),Z([6,9],[11,14]),Z([10,13],[8,11])],
-    FC:['Cutter',Z([10,13],[-5,-2]),Z([8,11],[-3,0]),Z([5,8],[-2,1])],
-    GY:['Gyro Slider',Z([1,3],[-5,-2]),Z([2,5],[-7,-4]),Z([5,8],[-10,-7])],
-    SW:['Sweeper',Z([-2,1],[-19,-15]),Z([0,3],[-15,-11]),Z([4,7],[-10,-7])],
-    CU:['Curveball',Z([-16,-12],[-6,-2]),Z([-12,-9],[-7,-3]),Z([-8,-5],[-6,-3])],
-    CH:['Changeup',Z([3,6],[12,16]),Z([5,8],[10,13]),Z([8,11],[7,10])]
-  },
-  45:{
-    FF:['4-Seam',Z([15,19],[5,9]),Z([12,15],[6,10]),Z([9,12],[7,11])],
-    SI:['Sinker',Z([6,9],[15,19]),Z([5,8],[12,15]),Z([8,11],[9,12])],
-    FC:['Cutter',Z([8,11],[-6,-3]),Z([6,9],[-4,-1]),Z([4,7],[-2,1])],
-    GY:['Gyro Slider',Z([0,2],[-6,-3]),Z([1,4],[-8,-5]),Z([4,7],[-11,-8])],
-    SW:['Sweeper',Z([-3,0],[-20,-16]),Z([-1,2],[-16,-12]),Z([3,6],[-11,-8])],
-    CU:['Curveball',Z([-15,-11],[-8,-4]),Z([-11,-8],[-8,-4]),Z([-7,-4],[-7,-4])],
-    CH:['Changeup',Z([2,5],[14,18]),Z([4,7],[11,14]),Z([7,10],[8,11])]
-  },
-  30:{
-    FF:['4-Seam',Z([10,14],[8,12]),Z([8,11],[9,13]),Z([5,8],[8,11])],
-    SI:['Sinker',Z([4,7],[16,21]),Z([3,6],[13,17]),Z([6,9],[10,13])],
-    FC:['Cutter',Z([6,9],[-7,-4]),Z([4,7],[-5,-2]),Z([2,5],[-2,0])],
-    GY:['Gyro Slider',Z([-1,2],[-5,-2]),Z([1,3],[-7,-4]),Z([4,7],[-10,-7])],
-    SW:['Sweeper',Z([-4,-1],[-21,-17]),Z([-2,1],[-17,-13]),Z([2,5],[-12,-9])],
-    CU:['Curveball',Z([-13,-9],[-10,-6]),Z([-10,-7],[-9,-5]),Z([-6,-3],[-7,-4])],
-    CH:['Changeup',Z([1,4],[16,20]),Z([3,6],[13,16]),Z([6,9],[10,13])]
-  },
-  15:{
-    FF:['Fastball / Sinker',Z([-2,2],[18,23],null,'+18~22+'),Z([3,6],[14,17]),Z([7,10],[10,13])],
-    FC:['Cutter',Z([0,3],[-10,-6]),Z([3,5],[-6,-3]),Z([6,8],[-2,0])],
-    GY:['Gyro Slider',Z([-1,2],[-5,-2]),Z([2,5],[-7,-4]),Z([6,9],[-10,-7])],
-    SW:['Sweeper',Z([-4,0],[-23,-18],null,'−18~−22+'),Z([-1,2],[-16,-13]),Z([3,6],[-10,-7])],
-    CH:['Changeup',Z([-3,1],[17,22],null,'+17~21+'),Z([2,5],[13,16]),Z([6,9],[9,12])],
-    CU:['Curveball',Z([-8,-5],[-16,-12]),Z([-4,-2],[-11,-8]),Z([1,3],[-7,-4])],
-    SL:['Slurve',Z([-3,-1],[-14,-10]),Z([-1,1],[-10,-7]),Z([2,5],[-6,-3])]
-  }
-};
-
-const angles=[15,30,45,60], categories=[
-  {key:'elite',label:'Elite',index:1,color:'#df243e',pattern:'elitePattern'},
-  {key:'average',label:'Average',index:2,color:'#13aa42',pattern:'averagePattern'},
-  {key:'dead',label:'Dead Zone',index:3,color:'#252525',pattern:'deadPattern'}
+const categories = [
+  {key:'elite',label:'Elite',color:'#df243e',pattern:'elitePattern'},
+  {key:'average',label:'Average',color:'#13aa42',pattern:'averagePattern'},
+  {key:'dead',label:'Dead Zone',color:'#252525',pattern:'deadPattern'}
 ];
-const pitchOrder=['FF','SI','FC','GY','SW','CU','CH','SL'];
 const angleInput=document.querySelector('#angle'), angleValue=document.querySelector('#angle-value');
 const tabs=document.querySelector('#pitch-tabs'), handTabs=document.querySelector('#hand-tabs'), chart=document.querySelector('#movement-chart');
-const rangeTable=document.querySelector('#range-table'), playButton=document.querySelector('#play');
-let selected='FF', selectedHand='R', timer=null;
-const thumbnailParams=new URLSearchParams(location.search);
-
-const fmt=n=>`${n>0?'+':''}${n}`.replace('-', '−');
-const rangeText=(range,label)=>label||`${fmt(range[range[0] < 0 && range[1] < 0 ? 1 : 0])}~${fmt(range[range[0] < 0 && range[1] < 0 ? 0 : 1])}`;
-const sx=x=>92+(x+25)*(616/50), sy=y=>574-(y+20)*(520/45);
-const escapeHtml=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rangeTable=document.querySelector('#range-table'), playButton=document.querySelector('#play'), status=document.querySelector('#sample-status');
+const params=new URLSearchParams(location.search);
+let data=null, selected='FF', selectedHand=params.get('hand')==='L'?'L':'R', timer=null;
+const fmt=n=>`${n>0?'+':''}${n.toFixed(1)}`.replace('-', '−');
+const rangeText=range=>`${fmt(range[0])} ~ ${fmt(range[1])}`;
+const sx=x=>92+(x+30)*(616/60), sy=y=>574-(y+25)*(520/55);
+const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const handFactor=()=>selectedHand==='R'?-1:1;
 
-function mirroredHbLabel(zone){
-  if(!zone.hbLabel) return null;
-  if(handFactor()===1) return zone.hbLabel;
-  const numbers=[...zone.hbLabel.matchAll(/\d+/g)].map(match=>match[0]);
-  if(numbers.length<2) return null;
-  const originalNegative=zone.hb[0]<0&&zone.hb[1]<0;
-  const sign=originalNegative?'+':'−';
-  const openEnded=zone.hbLabel.endsWith('+')?'+':'';
-  return `${sign}${numbers[0]}~${sign}${numbers[1]}${openEnded}`;
-}
-
 function viewZone(zone){
-  const hb=zone.hb.map(value=>value*handFactor()).sort((a,b)=>a-b);
-  return {...zone,hb,hbLabel:mirroredHbLabel(zone)};
+  return {...zone,hb:zone.hb.map(x=>x*handFactor()).sort((a,b)=>a-b)};
 }
 
-function renderTabs(angle){
-  const available=pitchOrder.filter(key=>D[angle][key]);
-  if(!available.includes(selected)) selected=available[0];
-  tabs.innerHTML=available.map(key=>`<button type="button" role="tab" data-pitch="${key}" aria-selected="${key===selected}">${escapeHtml(D[angle][key][0])}</button>`).join('');
-  tabs.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{selected=button.dataset.pitch;render();}));
-}
-
-function renderHandTabs(){
-  handTabs.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.hand===selectedHand)));
+function renderTabs(){
+  tabs.innerHTML=Object.entries(data.pitches).map(([key,pitch])=>`<button type="button" data-pitch="${escapeHtml(key)}" aria-pressed="${key===selected}">${escapeHtml(pitch.name)}</button>`).join('');
 }
 
 function defs(){
-  const [elite,average,dead]=categories.map(c=>c.color);
   return `<defs>
-  <pattern id="elitePattern" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="${elite}" fill-opacity=".08"/><line x1="0" y1="0" x2="0" y2="8" stroke="${elite}" stroke-opacity=".35" stroke-width="2"/></pattern>
-  <pattern id="averagePattern" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="${average}" fill-opacity=".07"/><line x1="0" y1="2" x2="8" y2="2" stroke="${average}" stroke-opacity=".3" stroke-width="2"/></pattern>
-  <pattern id="deadPattern" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="${dead}" fill-opacity=".08"/><circle cx="2" cy="2" r="1" fill="${dead}" fill-opacity=".3"/></pattern>
-  <filter id="soft"><feGaussianBlur stdDeviation=".22"/></filter>
-  </defs>`}
+  <pattern id="elitePattern" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#df243e" fill-opacity=".08"/><line x1="0" y1="0" x2="0" y2="8" stroke="#df243e" stroke-opacity=".35" stroke-width="2"/></pattern>
+  <pattern id="averagePattern" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#13aa42" fill-opacity=".07"/><line x1="0" y1="2" x2="8" y2="2" stroke="#13aa42" stroke-opacity=".3" stroke-width="2"/></pattern>
+  <pattern id="deadPattern" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#252525" fill-opacity=".08"/><circle cx="2" cy="2" r="1" fill="#252525" fill-opacity=".3"/></pattern>
+  <clipPath id="plotClip"><rect x="92" y="54" width="616" height="520"/></clipPath>
+  </defs>`;
+}
 
 function grid(){
   let out='';
-  for(let x=-25;x<=25;x+=5) out+=`<line x1="${sx(x)}" y1="54" x2="${sx(x)}" y2="574" class="grid ${x===0?'zero':''}"/><text x="${sx(x)}" y="600" text-anchor="middle" class="axis-text">${x}</text>`;
-  for(let y=-20;y<=25;y+=5) out+=`<line x1="92" y1="${sy(y)}" x2="708" y2="${sy(y)}" class="grid ${y===0?'zero':''}"/><text x="78" y="${sy(y)+5}" text-anchor="end" class="axis-text">${y}</text>`;
+  for(let x=-30;x<=30;x+=5) out+=`<line x1="${sx(x)}" y1="54" x2="${sx(x)}" y2="574" class="grid ${x===0?'zero':''}"/><text x="${sx(x)}" y="600" text-anchor="middle" class="axis-text">${x}</text>`;
+  for(let y=-25;y<=30;y+=5) out+=`<line x1="92" y1="${sy(y)}" x2="708" y2="${sy(y)}" class="grid ${y===0?'zero':''}"/><text x="78" y="${sy(y)+5}" text-anchor="end" class="axis-text">${y}</text>`;
   return `${out}<text x="400" y="34" text-anchor="middle" class="direction-label">3B &lt; MOVES TOWARD &gt; 1B</text><text x="400" y="646" text-anchor="middle" class="axis-title">Horizontal Break (inches) · 포수 시점</text><text x="22" y="314" text-anchor="middle" class="axis-title" transform="rotate(-90 22 314)">Induced Vertical Break (inches)</text>`;
 }
 
 function armLine(angle){
-  const radians=angle*Math.PI/180;
-  const side=handFactor();
-  const xEnd=Math.min(25,25/Math.tan(radians))*side;
-  const yEnd=Math.min(25,25*Math.tan(radians));
-  const labelX=sx(xEnd*.55)+(side>0?8:-8);
-  const anchor=side>0?'start':'end';
-  return `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(xEnd)}" y2="${sy(yEnd)}" class="arm-line"/><text x="${labelX}" y="${sy(yEnd*.55)-8}" text-anchor="${anchor}" class="arm-label">${angle}° arm angle</text>`;
+  const rad=angle*Math.PI/180, x=25*Math.cos(rad)*handFactor(), y=25*Math.sin(rad);
+  return `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(x)}" y2="${sy(y)}" class="arm-line"/><text x="${sx(x*.55)}" y="${sy(y*.55)-10}" text-anchor="middle" class="arm-label">${angle}° estimated slot</text>`;
 }
 
-function zoneSvg(rawZone,cat){
-  const zone=viewZone(rawZone);
-  const [y0,y1]=zone.ivb,[x0,x1]=zone.hb,cx=(sx(x0)+sx(x1))/2,cy=(sy(y0)+sy(y1))/2;
-  const rx=Math.max(13,Math.abs(sx(x1)-sx(x0))/2),ry=Math.max(13,Math.abs(sy(y1)-sy(y0))/2);
-  const rings=[1,.76,.52].map((scale,i)=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx*scale}" ry="${ry*scale}" fill="${i===0?`url(#${cat.pattern})`:'none'}" stroke="${cat.color}" stroke-width="${i===0?2.4:1.25}" stroke-opacity="${i===0?.96:.48}"/>`).join('');
-  return `<g class="zone zone-${cat.key}" filter="url(#soft)">${rings}<circle cx="${cx}" cy="${cy}" r="3.5" fill="${cat.color}"/></g>`;
+function zoneSvg(zone,cat){
+  const cx=sx(zone.center[0]*handFactor()), cy=sy(zone.center[1]);
+  const xx=zone.covariance[0][0]*(616/60)**2, yy=zone.covariance[1][1]*(520/55)**2;
+  const xy=-handFactor()*zone.covariance[0][1]*(616/60)*(520/55);
+  const discriminant=Math.hypot(xx-yy,2*xy), radius=Math.sqrt(-2*Math.log(.25));
+  const rx=radius*Math.sqrt(Math.max(0,(xx+yy+discriminant)/2)), ry=radius*Math.sqrt(Math.max(0,(xx+yy-discriminant)/2));
+  const rotation=Math.atan2(2*xy,xx-yy)*90/Math.PI;
+  const rings=[1,.76,.52].map((scale,i)=>`<ellipse cx="0" cy="0" rx="${rx*scale}" ry="${ry*scale}" fill="${i===0?`url(#${cat.pattern})`:'none'}" stroke="${cat.color}" stroke-width="${i===0?2.4:1.25}" stroke-opacity="${i===0?.96:.48}"/>`).join('');
+  return `<g class="zone zone-${cat.key}" data-center-hb="${zone.center[0]*handFactor()}" data-center-ivb="${zone.center[1]}" data-whiff="${zone.whiff_pct}" transform="translate(${cx} ${cy}) rotate(${rotation})"><title>${cat.label}: 추정 Whiff ${zone.whiff_pct.toFixed(1)}%</title>${rings}<circle r="3.5" fill="${cat.color}"/></g>`;
 }
 
 function render(){
-  const angle=angles[Number(angleInput.value)];
-  renderTabs(angle);
-  renderHandTabs();
-  const pitch=D[angle][selected],name=pitch[0],handLabel=selectedHand==='R'?'RHP':'LHP';
+  if(!data) return;
+  const angle=Number(angleInput.value), pitch=data.pitches[selected], handLabel=selectedHand==='R'?'RHP':'LHP';
+  const hand=pitch.hands[selectedHand], profile=hand.profiles[angle-data.angle_min], zones=profile.zones;
   angleValue.textContent=`${angle}°`;
-  document.querySelector('#chart-kicker').textContent=`${angle}° · ${handLabel} · ${name.toUpperCase()}`;
-  document.querySelector('#chart-title').textContent=`${name} Movement Map`;
-  rangeTable.innerHTML=categories.map(cat=>{
-    const z=viewZone(pitch[cat.index]);
-    return `<tr><td style="color:${cat.color}">${cat.label}</td><td>${rangeText(z.ivb,z.ivbLabel)}</td><td>${rangeText(z.hb,z.hbLabel)}</td></tr>`;
-  }).join('');
-  chart.innerHTML=`<title id="svg-title">팔각도별 구종 무브먼트 존</title><desc id="svg-desc">${handLabel} 투수의 포수 시점 수평 무브먼트와 induced vertical break를 표시합니다.</desc>${defs()}<style>.grid{stroke:#d9dddd;stroke-width:1}.grid.zero{stroke:#70787b;stroke-width:1.6}.axis-text{font:12px Arial;fill:#667075}.axis-title{font:700 14px Arial;fill:#343a3d}.direction-label{font:700 11px Arial;letter-spacing:.08em;fill:#737b7e}.arm-line{stroke:#878f92;stroke-width:1.8;stroke-dasharray:7 6}.arm-label{font:italic 12px Arial;fill:#767e82}.zone{transition:opacity .2s}</style>${grid()}${armLine(angle)}${[...categories].reverse().map(cat=>zoneSvg(pitch[cat.index],cat)).join('')}`;
+  angleInput.setAttribute('aria-valuetext',`${angle}도, 릴리스 위치 기반 추정`);
+  document.querySelector('#chart-kicker').textContent=`${angle}° · ${handLabel} · ${pitch.name.toUpperCase()}`;
+  document.querySelector('#chart-title').textContent=`${pitch.name} Movement Map`;
+  handTabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.hand===selectedHand)));
+  tabs.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.pitch===selected)));
+  rangeTable.innerHTML=zones?categories.map(cat=>{
+    const z=viewZone(zones[cat.key]);
+    return `<tr><td style="color:${cat.color}">${cat.label}</td><td>${rangeText(z.ivb)}</td><td>${rangeText(z.hb)}</td><td>${z.whiff_pct.toFixed(1)}%</td></tr>`;
+  }).join(''):'<tr><td colspan="4">이 각도·손·구종은 표본 부족</td></tr>';
+  const validationNote=!pitch.validation?' · 시간 검증 표본 부족 (실험)':pitch.validation.movement.log_loss>=pitch.validation.controls_only.log_loss?' · 최신 시즌 예측 개선 미확인':'';
+  status.textContent=`${angle}° ± ${data.window_deg}° · ${profile.swings.toLocaleString('ko-KR')} 스윙 · ${profile.pitchers}명 · 기준 구속 ${hand.velocity_kmh.toFixed(1)} km/h${zones?'':` · 최소 ${data.min_swings}스윙·${data.min_pitchers}명 필요`}${validationNote}`;
+  const description=zones?`Elite ${zones.elite.whiff_pct}%, Average ${zones.average.whiff_pct}%, Dead Zone ${zones.dead.whiff_pct}%, 추정 헛스윙률.`:'표본이 부족하여 프로파일을 표시하지 않습니다.';
+  chart.innerHTML=`<title id="svg-title">${escapeHtml(pitch.name)} ${angle}도 ${handLabel} 무브먼트 회귀</title><desc id="svg-desc">포수 시점. ${description}</desc>${defs()}${grid()}<g clip-path="url(#plotClip)">${armLine(angle)}${zones?[...categories].reverse().map(cat=>zoneSvg(zones[cat.key],cat)).join(''):''}</g>${zones?'':`<text x="400" y="300" text-anchor="middle" class="empty-chart">이 구간은 관측 표본이 부족합니다</text><text x="400" y="327" text-anchor="middle" class="axis-text">다른 각도·투수 손·구종을 선택하세요</text>`}`;
   const target=document.querySelector('[data-thumbnail-target]');
   if(target) target.dataset.thumbnailReady='true';
 }
 
 function stop(){clearInterval(timer);timer=null;playButton.textContent='▶';playButton.setAttribute('aria-pressed','false');playButton.setAttribute('aria-label','팔각도 자동 재생');}
-function play(){timer=setInterval(()=>{angleInput.value=(Number(angleInput.value)+1)%angles.length;render();},1200);playButton.textContent='Ⅱ';playButton.setAttribute('aria-pressed','true');playButton.setAttribute('aria-label','팔각도 자동 재생 정지');}
+function play(){
+  if(!data) return;
+  timer=setInterval(()=>{angleInput.value=Number(angleInput.value)>=data.angle_max?data.angle_min:Number(angleInput.value)+1;render();},100);
+  playButton.textContent='Ⅱ';playButton.setAttribute('aria-pressed','true');playButton.setAttribute('aria-label','팔각도 자동 재생 정지');
+}
 angleInput.addEventListener('input',()=>{stop();render();});
 playButton.addEventListener('click',()=>timer?stop():play());
+tabs.addEventListener('click',event=>{const button=event.target.closest('[data-pitch]');if(button){selected=button.dataset.pitch;render();}});
 handTabs.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{selectedHand=button.dataset.hand;render();}));
-const requestedAngle=Number(thumbnailParams.get('angle'));
-if(angles.includes(requestedAngle)) angleInput.value=String(angles.indexOf(requestedAngle));
-if(['R','L'].includes(thumbnailParams.get('hand'))) selectedHand=thumbnailParams.get('hand');
-if(thumbnailParams.get('pitch')) selected=thumbnailParams.get('pitch');
-render();
+document.addEventListener('visibilitychange',()=>{if(document.hidden) stop();});
+
+async function load(){
+  playButton.disabled=true;
+  try{
+    const response=await fetch('../data/movement_zones/profiles.json?v=20261001-1');
+    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+    data=await response.json();
+    if(data.schema_version!==1||!data.pitches.FF) throw new Error('회귀 데이터 형식 오류');
+    angleInput.min=data.angle_min;angleInput.max=data.angle_max;
+    if(params.has('angle')&&Number.isFinite(Number(params.get('angle')))) angleInput.value=String(Math.max(data.angle_min,Math.min(data.angle_max,Math.round(Number(params.get('angle'))))));
+    if(data.pitches[params.get('pitch')]) selected=params.get('pitch');
+    renderTabs();render();
+    const sources=data.sources.map(s=>`<tr><td>${s.season}</td><td>${s.vb_pitches.toLocaleString('ko-KR')}</td><td>${s.eligible_swings.toLocaleString('ko-KR')}</td><td>${s.trackman_swings.toLocaleString('ko-KR')}</td></tr>`).join('');
+    const validation=Object.values(data.pitches).map(p=>{
+      const v=p.validation;
+      return v?`<tr><td>${escapeHtml(p.name)}</td><td>${v.test_swings.toLocaleString('ko-KR')}</td><td>${v.movement.auc.toFixed(3)}</td><td>${v.movement.log_loss.toFixed(4)}</td><td>${v.controls_only.log_loss.toFixed(4)}</td></tr>`:`<tr><td>${escapeHtml(p.name)}</td><td colspan="4">이전 시즌 표본 부족 · 시간 검증 불가</td></tr>`;
+    }).join('');
+    document.querySelector('#model-details').innerHTML=`<p>${data.seasons[0]}–${data.seasons.at(-1)} · ${data.swings.toLocaleString('ko-KR')}개 유효 스윙 중 ${data.trackman_swings.toLocaleString('ko-KR')}개에 투구 단위로 매칭한 TrackMan 무브먼트를 사용합니다. 같은 투구는 한 번만 학습합니다. 나머지는 구장·날짜·탄착 위치 보정 VB를 TrackMan 척도로 회귀 변환합니다. 2025 이후 변환 계수는 2022–2024 매칭 자료에서 추정합니다.</p><p>각도·HB·IVB의 이차항과 상호작용을 포함한 로지스틱 회귀입니다. 구속·위치·볼카운트·타자 상대 손·투수 손·시즌·측정 출처를 통제합니다. 각도 5°와 무브먼트 1인치 폭으로 관측 분포를 평활합니다. 각도 1°는 조작 간격이며 추정 정확도 1°를 뜻하지 않습니다.</p><div class="evidence-table"><table><thead><tr><th>시즌</th><th>VB 전체 투구</th><th>유효 스윙</th><th>TM 스윙</th></tr></thead><tbody>${sources}</tbody></table></div><p>${data.seasons.at(-1)}년 전체를 분리한 시간 검증입니다. 표의 값은 이전 시즌으로 학습한 결과이며, 화면은 검증 후 전체 시즌으로 다시 적합했습니다. Log loss는 낮을수록 좋으며, 개선이 없는 구종의 성능 우위는 확정할 수 없습니다.</p><div class="evidence-table"><table><thead><tr><th>구종</th><th>검증 스윙</th><th>AUC</th><th>회귀 Log loss</th><th>통제변수만 Log loss</th></tr></thead><tbody>${validation}</tbody></table></div><p>실측 어깨 좌표가 없고, 미매칭·2군 TrackMan은 학습에 합치지 않습니다. 타자 손·무브먼트·궤적·카운트 누락 및 명시 범위 밖 값도 제외합니다. 모델은 관측 연관성을 보여 주며 팔각도 변경의 인과 효과를 보장하지 않습니다.</p>`;
+    angleInput.disabled=false;playButton.disabled=false;
+  }catch(error){
+    data=null;stop();
+    status.textContent=`회귀 데이터를 불러오지 못했습니다: ${error.message}. 페이지를 새로고침해 주세요.`;
+    document.querySelector('#model-details').textContent=status.textContent;
+  }
+}
+load();

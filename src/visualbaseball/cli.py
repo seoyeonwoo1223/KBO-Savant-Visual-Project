@@ -20,6 +20,7 @@ from .plate_discipline import build_plate_discipline
 from .plate_decision_v1 import build_plate_decision_v1
 from .zone_decision import build_zone_decision
 from .arm_angle import build_arm_angle_input
+from .movement_zones import build_movement_zones
 from .curated import normalize_trajectory, pitch_sha256, schema_sha256, source_manifest_path
 from .metric_state import mark_built, needs_build
 from .dataset_summary import build_summary
@@ -101,7 +102,7 @@ def main() -> None:
     parser.add_argument("--season", type=int, default=2026)
     parser.add_argument("--game-id")
     parser.add_argument("--rebuild-from-raw", action="store_true")
-    parser.add_argument("--only", choices=("zone_decision", "pitch_arsenal"),
+    parser.add_argument("--only", choices=("zone_decision", "pitch_arsenal", "movement_zones"),
                         help="Rebuild just this metric for --season from curated data, only when its inputs or code changed.")
     parser.add_argument("--exports-only", action="store_true",
                         help="Rebuild exports from the curated data already on disk; no network fetch.")
@@ -123,6 +124,9 @@ def main() -> None:
     args = parser.parse_args()
     root = Path(args.root).resolve()
     storage_root = Path(args.storage_root).resolve() if args.storage_root else root
+    if args.only == "movement_zones":
+        _build_metric(root, args.season, "movement_zones", lambda: build_movement_zones(root))
+        return
     if args.only == "zone_decision":
         # Completed seasons have no Swing/Take decision table, so this skips the
         # _exports() gate; build_zone_decision reads curated data directly.
