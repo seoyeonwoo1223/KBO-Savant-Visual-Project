@@ -52,7 +52,7 @@ def count_corrections(season: int) -> dict[str, dict]:
 
 def prepare_game(payload: dict, schedule_game: dict | None = None, season: int = 2026, naver_enrichment: NaverEnrichment | None = None) -> PreparedGame:
     game, events, pitches, _ = parse_game(payload, schedule_game, season, naver_enrichment, call_corrections(season), count_corrections(season))
-    valid, message = validate_game(game, events, pitches)
+    valid, message = validate_game(game, events, pitches, count_corrections(season))
     game["validation_status"] = "PASS" if valid and game["is_final"] else f"FAIL: {message}"
     return PreparedGame(game, events, pitches, valid, message)
 

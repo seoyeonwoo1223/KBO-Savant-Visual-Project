@@ -192,5 +192,8 @@ def test_count_correction_sets_start_and_inserts_calls_only_when_the_pa_matches(
     assert (rows[0]["balls_before"], rows[0]["strikes_before"]) == (0, 1)
     changed = {b["pitch_id"] for b, f in zip(base, fixed) if b != f}
     assert changed and all(pid.rsplit("-", 1)[0].endswith(pa_id) for pid in changed)
+    fixed_game, fixed_events, fixed_pitches, _ = parse_game(payload, season=2026, count_corrections={pa_id: fix})
+    assert not validate_game(fixed_game, fixed_events, fixed_pitches)[0]  # without the table the start looks wrong
+    assert validate_game(fixed_game, fixed_events, fixed_pitches, {pa_id: fix})[0]
     stale = {**fix, "source_codes": codes + "B"}
     assert parse_game(payload, season=2026, count_corrections={pa_id: stale})[2] == base
