@@ -20,7 +20,8 @@ from sklearn.isotonic import IsotonicRegression
 from sklearn.model_selection import GroupKFold
 from scipy.optimize import minimize, LinearConstraint
 from . import plate_decision_v1 as old
-from .pitch_arsenal import _load_batter_hands, _resolved_batter_stance
+from .movement_calibration import calibrate
+from .pitch_arsenal import _load_batter_hands, _pitch_code, _resolved_batter_stance
 from .swing_take import PLATE_HALF_WIDTH_FT, _eligible, _relative_location, _state
 from .zone_awareness_v2 import _team_history
 from .curated import CM_PER_FOOT, _at_plane, load_rows as load_curated_rows, schema_sha256
@@ -183,6 +184,20 @@ def outcome(row):
  return {'S':'Whiff', 'F':'Foul', 'X':'InPlay', 'B':'Ball', 'T':'CalledStrike'}.get(code)
 
 
+def park_workbook(root, season):
+ return root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'
+
+
+def calibrated_movement(rows):
+ """Movement features without a park workbook: movement_calibration's TrackMan-validated stadium-day correction."""
+ corrected=calibrate(rows,[_pitch_code(r) for r in rows]); available=0
+ for r,(hb,ivb) in zip(rows,corrected):
+  ok=hb is not None and ivb is not None; available+=ok
+  r['adjusted_hb_cm'],r['adjusted_ivb_cm']=(hb,ivb) if ok else (np.nan,np.nan)
+ return {'movement_available':available,'movement_adjusted':available,'adjustment_coverage_pct':100.0 if available else 0.0,
+  'formula':'no park adjustment workbook for this season: movement_calibration stadium-day and plate-location correction (TrackMan-validated 2019-2024)'}
+
+
 def load_rows(root, season):
  rows=load_curated_rows(root,'pitches',season)
  events=load_curated_rows(root,'events',season)
@@ -206,12 +221,13 @@ def load_rows(root, season):
   r['region'] = region(r)
   if pzone_fields(season)==PZONE_ABS: r.update(judgment_plane_location(r))
   valid.append(r)
- movement = old._movement_adjust(valid, root, season)
+ # 2019-2021 have no park workbook: p_swing then reads the TrackMan-validated movement_calibration values.
+ movement = old._movement_adjust(valid, root, season) if park_workbook(root,season).exists() else calibrated_movement(valid)
  # Retain pre-pitch features, transitions, identity and training target only.
  keep = set(NUMERIC + old.PZONE_NUMERIC + PZONE_ABS + PSWING_CATEGORICAL + ('plane_fallback','game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
  keep.update(f'{k}_{w}' for k in ('base_state_code','outs','balls','strikes') for w in ('before','after'))
  valid = [{k:v for k,v in r.items() if k in keep} for r in valid]
- for p in (root/'data/curated/players/player_bio.parquet',root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'):
+ for p in (root/'data/curated/players/player_bio.parquet',park_workbook(root,season)):
   if p.exists():hashes[p.name]=file_hash(p)
  return sorted(valid, key=lambda r:r['game_id']), {'source':f'data/curated/pitches/season={season}','input_mode':'curated','curated_version':None,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'pzone_input':pzone_input(valid,season), 'unknown_stance':sum(not r['batter_stance'] for r in valid),'unknown_pitcher_hand':sum(not r['pitcher_throws'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
 

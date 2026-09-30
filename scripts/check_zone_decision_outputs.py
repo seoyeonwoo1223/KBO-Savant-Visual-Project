@@ -1,4 +1,4 @@
-"""Fail unless every ABS season's ZA/SBJ output comes from the current code and agrees,
+"""Fail unless every SBJ season's output comes from the current code and agrees,
 and every Pitch Plot season carries the current profile schema and build state.
 
 daily_update runs this before anything is published (Release upload, data commit, and
@@ -12,11 +12,12 @@ import json
 import sys
 from pathlib import Path
 
+from visualbaseball.cli import SBJ_SEASONS
 from visualbaseball.metric_state import _path, metric_input_hash
 from visualbaseball.pitch_arsenal import PITCH_ARSENAL_SEASONS, PROFILE_SCHEMA_VERSION
 from visualbaseball.zone_decision import MODEL_VERSION
 
-SEASONS = (2024, 2025, 2026)
+SEASONS = SBJ_SEASONS
 
 
 def _shard(batter_id: str) -> str:

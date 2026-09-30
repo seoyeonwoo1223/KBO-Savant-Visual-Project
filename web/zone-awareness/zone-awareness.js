@@ -1,5 +1,5 @@
-// SBJ (za7.2) is published from the 2024 ABS season; 2022-2023 files hold the retired ZA model and are not listed.
-const SBJ_FIRST_SEASON=2024;
+// SBJ (za7.2) is published from 2019. Before the 2024 ABS season p_zone learns the umpire's calls, not the ABS planes.
+const SBJ_FIRST_SEASON=2019,ABS_FIRST_SEASON=2024;
 const $ = (selector) => document.querySelector(selector);
 const thumbnailMode = new URLSearchParams(location.search).get("thumb") === "1";
 const state = { season: null, players: [], sort: "za_percentile", direction: -1, selected: null, profile: null, cell: null };
@@ -37,7 +37,7 @@ async function loadSeason(season) {
   $("#season-method").textContent=state.modern ? `이벤트 확률은 Swing·Take 각각의 조건부 확률입니다. 채택 모델: ${data.selected_value_model==="staged"?"이벤트 분해":"직접 행동 가치"}.` : "이 시즌은 개편 전 지표입니다. ZA는 존 판단, 누적 가치는 기존 DV 산식이며 2024–2026과 직접 비교할 수 없습니다.";
   if(data.schema_version>=5){
     const q=data.data_quality;
-    $("#season-method").textContent=`SBJ · 득점 시점을 확정할 수 없는 ${q.excluded_halves.toLocaleString()}개 공격 이닝, ${q.excluded_pitches.toLocaleString()}구를 제외했습니다. 비투구 사건의 확인된 ${fmt(q.included_timed_nonpitch_runs,0)}득점은 이닝 잔여 득점에 반영했습니다. 일반 볼·스트라이크·파울은 규칙에 따른 상태 전이로 계산하고, 스윙 표본이 적으면 더 넓은 조건의 결과 분포를 함께 사용합니다. 순위는 추정값의 순서이며 선수 간 우열이 확정되었다는 뜻은 아닙니다.`;
+    $("#season-method").textContent=`SBJ · 득점 시점을 확정할 수 없는 ${q.excluded_halves.toLocaleString()}개 공격 이닝, ${q.excluded_pitches.toLocaleString()}구를 제외했습니다. 비투구 사건의 확인된 ${fmt(q.included_timed_nonpitch_runs,0)}득점은 이닝 잔여 득점에 반영했습니다. 일반 볼·스트라이크·파울은 규칙에 따른 상태 전이로 계산하고, 스윙 표본이 적으면 더 넓은 조건의 결과 분포를 함께 사용합니다. 순위는 추정값의 순서이며 선수 간 우열이 확정되었다는 뜻은 아닙니다.`+(state.season<ABS_FIRST_SEASON?` ${state.season}년은 ABS 도입 전이라 스트라이크 확률을 구심 판정으로 학습했습니다. 판정 기준이 달라 2024년 이후 SBJ와 직접 비교할 수 없습니다.${state.season<2022?' 이 시즌은 구장 보정표가 없어 스윙 기대치의 무브먼트에 TrackMan으로 검증한 구장·날짜 보정(Pitch Plot과 같은 방식)을 썼습니다.':''}`:'');
   }
   $("#score-za").previousElementSibling.textContent=state.modern?"SBJ":"기존 ZA Raw";
   data.players.forEach(player=>{player.team=teamData.teams?.[player.batter_id]||player.team||"—";});

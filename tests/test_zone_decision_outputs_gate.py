@@ -25,8 +25,8 @@ def _season(root, season, version="v2", za=1.5):
 def _root(tmp_path, monkeypatch):
     monkeypatch.setattr(gate, "metric_input_hash", lambda root, season, name: f"h{season}")
     (tmp_path / "web/data/zone_awareness").mkdir(parents=True)
-    (tmp_path / "web/data/zone_awareness/index.json").write_text(json.dumps({"seasons": [2026, 2025, 2024]}), encoding="utf-8")
-    for season in (2024, 2025, 2026):
+    (tmp_path / "web/data/zone_awareness/index.json").write_text(json.dumps({"seasons": sorted(gate.SEASONS, reverse=True)}), encoding="utf-8")
+    for season in gate.SEASONS:
         _season(tmp_path, season)
     return tmp_path
 

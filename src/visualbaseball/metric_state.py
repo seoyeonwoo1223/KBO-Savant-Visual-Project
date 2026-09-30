@@ -19,7 +19,7 @@ SPECS = {
 CODE = {
  "excel": ("export_excel.py", "curated.py"), "arm_angle": ("arm_angle.py", "curated.py"),
  "swing_take": ("swing_take.py", "curated.py"), "plate_discipline": ("plate_discipline.py", "swing_take.py", "curated.py"),
- "zone_decision": ("zone_decision.py", "plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "swing_take.py", "curated.py"),
+ "zone_decision": ("zone_decision.py", "plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "movement_calibration.py", "swing_take.py", "curated.py"),
  "plate_decision": ("plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "swing_take.py", "curated.py"),
  "zone_profiles": ("zone_profile.py", "curated.py"), "pitch_arsenal": ("pitch_arsenal.py", "movement_calibration.py", "curated.py"), "blocking": ("blocking.py", "curated.py"),
 }

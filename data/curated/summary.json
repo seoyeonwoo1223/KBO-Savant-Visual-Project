@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T14:32:49+00:00",
+  "generated_at": "2026-09-30T17:55:11+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -41,7 +41,9 @@
         "2019-03-23",
         "2019-10-01"
       ],
-      "metrics": [],
+      "metrics": [
+        "zone_awareness"
+      ],
       "stale_metrics": [
         "arm_angle",
         "blocking",
@@ -84,7 +86,9 @@
         "2020-05-05",
         "2020-10-31"
       ],
-      "metrics": [],
+      "metrics": [
+        "zone_awareness"
+      ],
       "stale_metrics": [
         "arm_angle",
         "blocking",
@@ -128,7 +132,9 @@
         "2021-04-03",
         "2021-10-30"
       ],
-      "metrics": [],
+      "metrics": [
+        "zone_awareness"
+      ],
       "stale_metrics": [
         "arm_angle",
         "blocking",
@@ -173,7 +179,8 @@
         "2022-10-11"
       ],
       "metrics": [
-        "arm_angle"
+        "arm_angle",
+        "zone_awareness"
       ],
       "stale_metrics": [
         "arm_angle",
@@ -218,7 +225,8 @@
         "2023-10-17"
       ],
       "metrics": [
-        "arm_angle"
+        "arm_angle",
+        "zone_awareness"
       ],
       "stale_metrics": [
         "arm_angle",
@@ -365,7 +373,7 @@
     }
   },
   "published": {
-    "web_json": 210,
-    "exports": 28
+    "web_json": 278,
+    "exports": 33
   }
 }
