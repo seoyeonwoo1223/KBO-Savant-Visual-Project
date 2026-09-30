@@ -1,6 +1,6 @@
 {
   "schema_version": 5,
-  "model_version": "za7.2-pswing-pitcher-hand",
+  "model_version": "za7.3-stable-pswing-pzone",
   "season": 2023,
   "source": {
     "source": "data/curated/pitches/season=2023",
@@ -56,10 +56,10 @@
     "test_pitches": 35990,
     "development": {
       "pitches": 43384,
-      "swing_log_loss": 0.45311462609683945,
-      "swing_brier": 0.1489684923412433,
-      "raw_swing_log_loss": 0.4541886905334503,
-      "raw_swing_brier": 0.1491342152980201,
+      "swing_log_loss": 0.4523772374185272,
+      "swing_brier": 0.14880887290439432,
+      "raw_swing_log_loss": 0.45357862269031335,
+      "raw_swing_brier": 0.14889404245445823,
       "action_value": {
         "direct": {
           "mse": 0.06239498284277479,
@@ -84,63 +84,63 @@
       "calibration_bins": [
         {
           "low": 0.0,
-          "n": 7826,
-          "predicted": 0.03589010999944572,
-          "observed": 0.036417071300792234
+          "n": 8300,
+          "predicted": 0.038326175754153785,
+          "observed": 0.04
         },
         {
           "low": 0.1,
-          "n": 4122,
-          "predicted": 0.1384402216354092,
-          "observed": 0.1346433770014556
+          "n": 3952,
+          "predicted": 0.1462107131302088,
+          "observed": 0.14220647773279352
         },
         {
           "low": 0.2,
-          "n": 4664,
-          "predicted": 0.2433527134340585,
-          "observed": 0.24421097770154374
+          "n": 4632,
+          "predicted": 0.24925206578694054,
+          "observed": 0.2556131260794473
         },
         {
           "low": 0.3,
-          "n": 3634,
-          "predicted": 0.3543838920641291,
-          "observed": 0.344799119427628
+          "n": 3508,
+          "predicted": 0.3619038546609606,
+          "observed": 0.34578107183580387
         },
         {
           "low": 0.4,
-          "n": 4064,
-          "predicted": 0.4554629996971453,
-          "observed": 0.45767716535433073
+          "n": 4038,
+          "predicted": 0.4594852521000654,
+          "observed": 0.4554234769687964
         },
         {
           "low": 0.5,
-          "n": 3650,
-          "predicted": 0.543387790022038,
-          "observed": 0.5657534246575342
+          "n": 4260,
+          "predicted": 0.5562434381459926,
+          "observed": 0.5762910798122066
         },
         {
           "low": 0.6,
-          "n": 3637,
-          "predicted": 0.6470814134556042,
-          "observed": 0.6392631289524333
+          "n": 2574,
+          "predicted": 0.6539918704403745,
+          "observed": 0.6503496503496503
         },
         {
           "low": 0.7,
-          "n": 3361,
-          "predicted": 0.7482269010470997,
-          "observed": 0.7554299315679858
+          "n": 3643,
+          "predicted": 0.7450624017098045,
+          "observed": 0.7458138896513862
         },
         {
           "low": 0.8,
-          "n": 3780,
-          "predicted": 0.8513596067545788,
-          "observed": 0.8568783068783069
+          "n": 3491,
+          "predicted": 0.8492878952569316,
+          "observed": 0.8510455456889143
         },
         {
           "low": 0.9,
-          "n": 4646,
-          "predicted": 0.953191086899076,
-          "observed": 0.9485578992681877
+          "n": 4986,
+          "predicted": 0.9492867078270663,
+          "observed": 0.9466506217408744
         }
       ],
       "re": {
@@ -153,10 +153,10 @@
     },
     "final_test": {
       "pitches": 35990,
-      "swing_log_loss": 0.4462684379001142,
-      "swing_brier": 0.1470617213221687,
-      "raw_swing_log_loss": 0.44845689125452093,
-      "raw_swing_brier": 0.1472367002111001,
+      "swing_log_loss": 0.445966999405102,
+      "swing_brier": 0.14703328411637548,
+      "raw_swing_log_loss": 0.4482242761687936,
+      "raw_swing_brier": 0.14718800110723515,
       "action_value": {
         "direct": {
           "mse": 0.059215355420925916,
@@ -181,63 +181,63 @@
       "calibration_bins": [
         {
           "low": 0.0,
-          "n": 7322,
-          "predicted": 0.04152918782795896,
-          "observed": 0.03837749248839115
+          "n": 7340,
+          "predicted": 0.04112814191741574,
+          "observed": 0.03664850136239782
         },
         {
           "low": 0.1,
-          "n": 3307,
-          "predicted": 0.1572893345030661,
-          "observed": 0.1620804354399758
+          "n": 2981,
+          "predicted": 0.15034093165088955,
+          "observed": 0.1590070446159007
         },
         {
           "low": 0.2,
-          "n": 3222,
-          "predicted": 0.2525392818231195,
-          "observed": 0.2579143389199255
+          "n": 3156,
+          "predicted": 0.2399653771950554,
+          "observed": 0.2509505703422053
         },
         {
           "low": 0.3,
-          "n": 2759,
-          "predicted": 0.3460184723288387,
-          "observed": 0.3515766582094962
+          "n": 3562,
+          "predicted": 0.35117890312583117,
+          "observed": 0.34699606962380686
         },
         {
           "low": 0.4,
-          "n": 2971,
-          "predicted": 0.4421999693278174,
-          "observed": 0.4261191518007405
+          "n": 2939,
+          "predicted": 0.4523529146330655,
+          "observed": 0.44402858115005106
         },
         {
           "low": 0.5,
-          "n": 3903,
-          "predicted": 0.5459531464500268,
-          "observed": 0.5429157058672816
+          "n": 2896,
+          "predicted": 0.5478498501957494,
+          "observed": 0.5362569060773481
         },
         {
           "low": 0.6,
-          "n": 2988,
-          "predicted": 0.6609734878935146,
-          "observed": 0.6649933065595717
+          "n": 3829,
+          "predicted": 0.653502733028469,
+          "observed": 0.6586576129537738
         },
         {
           "low": 0.7,
-          "n": 2471,
-          "predicted": 0.755392418307887,
-          "observed": 0.75475515985431
+          "n": 2483,
+          "predicted": 0.7649890800180916,
+          "observed": 0.7648006443817962
         },
         {
           "low": 0.8,
-          "n": 3265,
-          "predicted": 0.8552533683987744,
-          "observed": 0.8618683001531393
+          "n": 2741,
+          "predicted": 0.8561295274458985,
+          "observed": 0.8613644655235315
         },
         {
           "low": 0.9,
-          "n": 3782,
-          "predicted": 0.9573082681885074,
-          "observed": 0.9590163934426229
+          "n": 4063,
+          "predicted": 0.9529123183465141,
+          "observed": 0.9561900073837066
         }
       ],
       "re": {
@@ -248,8 +248,8 @@
       },
       "calibration_applied": true
     },
-    "swing_log_loss": 0.4462684379001142,
-    "swing_brier": 0.1470617213221687,
+    "swing_log_loss": 0.445966999405102,
+    "swing_brier": 0.14703328411637548,
     "action_value": {
       "direct": {
         "mse": 0.059215355420925916,
@@ -271,7 +271,7 @@
       "swing_log_loss": 0.9894501036362165,
       "take_log_loss": 0.18795031041687016
     },
-    "selection_rule": "60/20/20 dates: development diagnostics, then final evaluation with frozen algorithm. Each fit selects optional calibration using only training-game OOF probabilities. Final 20% never selects settings. Direct and unpooled RVs are diagnostic baselines.",
+    "selection_rule": "60/20/20 dates: development diagnostics, then final evaluation with frozen algorithm. Each fit calibrates p_swing with isotonic regression on training-game OOF probabilities only. Final 20% never selects settings. Direct and unpooled RVs are diagnostic baselines.",
     "counterfactual_validation": "Observed-action errors and conditional intervals do not identify unobserved opposite-action outcomes."
   },
   "period_reproducibility": [
@@ -385,7 +385,7 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "35b2cfb9a95eb55050238b52b6b5748fc1bfe5421f801986392f61f39546d482",
+      "zone_decision.py": "5f59e19a82af2d2d238380cfbba018269ff52d4685d1f0866dfc6afc50af5d46",
       "plate_decision_v1.py": "94a9d4804c131a3119c959870fcb8926dc4f5177671e0d63e8cda6028465beb5",
       "swing_take.py": "cc6d1afb4e4c155f848ff5452314510affe53456a4cc28dbff33d0c8abcb704b",
       "pitch_arsenal.py": "1fef04925017ed52bda2ffe2df003200b221d83a1e34c11291b4912517355f67"
