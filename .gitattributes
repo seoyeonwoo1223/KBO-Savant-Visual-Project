@@ -13,6 +13,9 @@ data/metrics/**    -diff linguist-generated
 data/leaderboards/**  -diff linguist-generated
 data/park_adjustments/**  -diff linguist-generated
 data/tracking/**  -diff linguist-generated
+# Keep hashed tracking inputs byte-identical on Windows and Linux.
+data/tracking/player_id_crosswalk.json text eol=lf
+data/tracking/raw/season=*/trackman_history.csv text eol=lf
 seasons/**         -diff linguist-generated
 exports/**         -diff linguist-generated
 web/data/**        -diff linguist-generated
