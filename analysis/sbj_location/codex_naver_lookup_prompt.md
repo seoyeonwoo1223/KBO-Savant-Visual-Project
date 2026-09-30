@@ -37,7 +37,7 @@ Visual Baseball(VB) 원본에는 공 누락, 타석 분리, 궤적 복제, 구�
    - Q3. 문자 목록에서 두 번 나오는 공(대응표의 "복제", "선행 기록")이 같은 투구 ID를 공유하는가? 추적 기록 배열이 공당 하나인가?
 5. **누락 공 찾기**: `missing_pitch_targets.csv`의 각 행에 대해 네이버에서 해당 공을 찾는다.
    - `captured` 행(사용자 확인, 7구): 타석 라벨·투구 순번·카운트·판정·구속으로 찾는다.
-   - `half_short` 행(TrackMan 기준, 401구): 이닝·초/말·투수·타자·타석 안 순번으로 찾는다. 구속은 VB 척도가 TrackMan보다 약 1.5km/h 낮다는 점을 감안해 ±3km/h로 대조한다. **카운트는 대조값으로만 쓰고 연결 조건으로 쓰지 않는다.** 이 행들에는 VB에 이미 있는 공도 섞여 있다. VB 원본에도 있는 공인지를 별도 열로 표시한다.
+   - `half_short` 행(TrackMan 기준, 401구): 이닝·초/말·투수·타자·타석 안 순번으로 찾는다. 2019–2023의 표시 구속은 구장별 측정값이라 연결 조건으로 쓰지 않는다. 구속은 궤적 계수로 계산한 구속을 TrackMan `rel_speed`와 비교하고, 경기별 중앙 오프셋을 뺀 잔차가 ±3km/h 이내인지 본다(`correction_design.md` 9절). **카운트는 대조값으로만 쓰고 연결 조건으로 쓰지 않는다.** 이 행들에는 VB에 이미 있는 공도 섞여 있다. VB 원본에도 있는 공인지를 별도 열로 표시한다.
    - 결과 분류:
      - `found_with_location`: 네이버에 있고 위치 필드도 있음
      - `found_no_location`: 네이버에 있지만 위치 필드가 없음
@@ -47,7 +47,7 @@ Visual Baseball(VB) 원본에는 공 누락, 타석 분리, 궤적 복제, 구�
 6. **산출물**
    - `analysis/sbj_location/results/naver_pitch_lookup.csv`: 대상 공마다 한 행. 분류, 네이버 투구 ID, 위치 필드, 근거를 넣는다.
    - `analysis/sbj_location/results/naver_relay_fields.md`: Q1–Q3 답, 필드 목록, 대상 경기별 수집 성공·실패, 분류별 건수
-   - 수집·정규화·대조 스크립트: `analysis/sbj_location/naver_relay_fetch.py` 등. 기존 `NaverRelayClient`를 재사용해도 된다.
+   - 수집·정규화·대조 스크립트: `analysis/sbj_location/naver_relay_location_fetch.py` 등(처음 이름은 `naver_relay_fetch.py`). 기존 `NaverRelayClient`를 재사용해도 된다.
 
 ## 지켜야 할 규칙
 

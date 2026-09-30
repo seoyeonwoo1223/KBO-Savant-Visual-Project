@@ -1,0 +1,42 @@
+{
+ "2019": {
+  "V": 142,
+  "strike": 125,
+  "unmatched": 14,
+  "next_not_matched": 3
+ },
+ "2020": {
+  "V": 124,
+  "unmatched": 17,
+  "strike": 104,
+  "terminal": 1,
+  "next_not_matched": 2
+ },
+ "2021": {
+  "V": 130,
+  "strike": 109,
+  "unmatched": 12,
+  "next_not_matched": 7,
+  "terminal": 2
+ },
+ "2022": {
+  "V": 135,
+  "unmatched": 17,
+  "strike": 112,
+  "next_not_matched": 5,
+  "terminal": 1
+ },
+ "2023": {
+  "V": 148,
+  "strike": 123,
+  "next_not_matched": 8,
+  "unmatched": 15,
+  "terminal": 2
+ },
+ "2024": {
+  "V": 136,
+  "strike": 112,
+  "next_not_matched": 4,
+  "unmatched": 20
+ }
+}

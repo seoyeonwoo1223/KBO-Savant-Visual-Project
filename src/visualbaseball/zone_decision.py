@@ -37,6 +37,10 @@ ABS_FIRST_SEASON = 2024
 # pitch's call depends on its drop, so ABS p_zone reads these instead.
 PZONE_ABS = ('x_mid_relative', 'top_gap_cm', 'bottom_gap_cm')
 PLANE_Y_FT = {'mid': 8.5/12, 'back': 0.0}
+# ABS seasons report px on the mid plane and pz on the front plane, both computed from the trajectory. A row whose
+# reported point is more than 1 cm off its own trajectory mixes two records, so its location is unknown and it is
+# left out of SBJ (analysis/sbj_location/README.md section 1).
+FRONT_PLANE_Y_FT, REPORTED_LOCATION_TOLERANCE_CM = 17/12, 1.0
 # Only the Swing propensity reads the pitcher's hand; event and value models keep
 # old.CATEGORICAL. analysis/zone_decision/pswing_inputs.md holds the comparison.
 PSWING_CATEGORICAL = old.CATEGORICAL + ('pitcher_throws',)
@@ -141,6 +145,13 @@ def judgment_plane_location(row):
   'bottom_gap_cm':min(heights)-float(row['sz_bottom'])*CM_PER_FOOT,'plane_fallback':fallback}
 
 
+def reported_location_disagrees(row):
+ if not row.get('trajectory_valid'):return False
+ mid,front=_at_plane(row,PLANE_Y_FT['mid']),_at_plane(row,FRONT_PLANE_Y_FT)
+ if mid is None or front is None:return False
+ return abs(float(row['px'])*CM_PER_FOOT-mid[0])>REPORTED_LOCATION_TOLERANCE_CM or abs(float(row['pz'])*CM_PER_FOOT-front[1])>REPORTED_LOCATION_TOLERANCE_CM
+
+
 def pzone_fields(season):
  return PZONE_ABS if int(season)>=ABS_FIRST_SEASON else old.PZONE_NUMERIC
 
@@ -183,6 +194,9 @@ def load_rows(root, season):
  for r in rows:
   if not _eligible(r) or not r.get('batter_id') or not r.get('batter_name') or outcome(r) is None:
    excluded['invalid_state_location_action_or_identity'] += 1
+   continue
+  if pzone_fields(season)==PZONE_ABS and reported_location_disagrees(r):
+   excluded['reported_location_off_trajectory'] += 1
    continue
   r['x_relative'], r['z_relative'] = _relative_location(r)
   r['decision_type'] = 'Swing' if outcome(r) in EVENTS[:3] else 'Take'

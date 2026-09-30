@@ -3,12 +3,12 @@
   "game_id": "20220624NCSK0",
   "season": 2022,
   "first_collected_at": "2026-09-09T16:19:23+00:00",
-  "last_collected_at": "2026-09-10T02:48:20+00:00",
-  "last_checked_at": "2026-09-10T13:12:37+00:00",
+  "last_collected_at": "2026-09-28T20:09:37+00:00",
+  "last_checked_at": "2026-09-28T20:09:37+00:00",
   "raw_sha256": null,
-  "pitch_sha256": "d9421db6d347082707b6dca99cd66232aa22e446352b37a17a75a01ac2db301f",
-  "schema_sha256": "a552d7d64b006e91c5f6a56487479084ed1f59c761f48e573f31f3c28d8403b3",
-  "revision": 3,
+  "pitch_sha256": "ac8fd81ee89ef0e755589535b92fb48552fc6e5f884c957317f54b84f6225e1a",
+  "schema_sha256": "8d811da998a9141e013d4eb016de9179862852365e7a418dacb11e02887e2d29",
+  "revision": 4,
   "observed_y0": [
     50.0
   ],

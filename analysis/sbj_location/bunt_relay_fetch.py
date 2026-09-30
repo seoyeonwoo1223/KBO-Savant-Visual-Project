@@ -13,7 +13,7 @@ import time
 
 import requests
 
-from naver_relay_fetch import DEST, ROOT
+from naver_relay_location_fetch import DEST, ROOT
 
 sys.path.insert(0, str(ROOT / "src"))
 from visualbaseball.curated import load_rows

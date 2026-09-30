@@ -14,7 +14,7 @@ import re
 import statistics
 import sys
 
-from naver_relay_fetch import DEST, GAMES, ROOT
+from naver_relay_location_fetch import DEST, GAMES, ROOT
 
 RES = ROOT / "analysis/sbj_location/results"
 TM_TO_DISPLAY_OFFSET_KMH = -1.5
