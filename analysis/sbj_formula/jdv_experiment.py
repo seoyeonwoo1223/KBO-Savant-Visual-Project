@@ -49,10 +49,31 @@ def plus(s):
     return 100 + 15 * (s - s.mean()) / s.std(ddof=0)
 
 
+_PA_TYPE = {}
+
+
+def pa_type_map():
+    """pa_result → pa_type 대응표. pa_type이 있는 시즌에서 만든다(2019–2021·2025–2026에서 132종, 모호한 대응 0).
+
+    2022–2024 curated에는 pa_type이 없고 pa_result만 있다. 처음 실행은 이를 몰라 세 시즌의 결과 비율이
+    모두 0으로 들어갔다(README J절). 대응표에 없는 결과(2022–2024 합계 5타석: 유희·일삼·중IFO·중파)는 이름상
+    모두 아웃이므로 out으로 둔다.
+    """
+    if not _PA_TYPE:
+        for y in SEASONS:
+            for r in load_rows(ROOT, "pitches", y, columns=["is_pa_terminal", "pa_type", "pa_result"]):
+                if r["is_pa_terminal"] and r["pa_type"]:
+                    _PA_TYPE.setdefault(r["pa_result"], r["pa_type"])
+    return _PA_TYPE
+
+
 def outcomes(y):
     rows = load_rows(ROOT, "pitches", y, columns=["batter_id", "is_pa_terminal", "pa_type", "pa_result"])
     t = pd.DataFrame([r for r in rows if r["is_pa_terminal"]])
     t["batter_id"] = t.batter_id.astype(str)
+    mapping = pa_type_map()
+    missing = t.pa_type.isna()
+    t.loc[missing, "pa_type"] = t.loc[missing, "pa_result"].map(lambda v: mapping.get(v, "out"))
     t["hbp"] = t.pa_result.eq("사구")
     t["bb"] = t.pa_type.eq("bb") & ~t.hbp
     t["k"] = t.pa_type.eq("k"); t["hr"] = t.pa_type.eq("hr")
