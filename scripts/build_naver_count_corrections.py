@@ -67,7 +67,6 @@ def call_changes(table: dict, season: str, rows: list[dict], curated: dict[str, 
     stats["reject_conflicts_naver_row"] = len(rejects) - len(kept_rejects)
     rejected_ids = {e["pitch_id"] for e in kept_rejects}
     trackman_ids = {e["pitch_id"] for e in body.get("pitches", []) if "source" not in e} if trackman_season else set()
-    stats["rejected_trackman_rows"] = len(rejected_ids & trackman_ids)
     body = {**body, "pitches": [e for e in body.get("pitches", []) if e["pitch_id"] not in rejected_ids & trackman_ids]}
     if kept_rejects or body.get("naver_rejected"):
         body["naver_rejected"] = sorted(kept_rejects, key=lambda e: e["pitch_id"])

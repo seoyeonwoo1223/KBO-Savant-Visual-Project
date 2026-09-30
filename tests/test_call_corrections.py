@@ -107,6 +107,10 @@ def test_count_audit_call_changes_keep_other_inputs_and_never_reject_naver_rows(
     assert [(e["pitch_id"], e.get("match_status")) for e in body["pitches"]] == [("G1-G1-001-01", "naver_count_audit"), ("G2-G2-001-01", "matched_context")]
     assert [e["pitch_id"] for e in body["naver_rejected"]] == ["G1-G1-001-02"] and stats["reject_conflicts_naver_row"] == 1
     assert [x["input"] for x in body["supplements"]] == ["kia.csv", "audit.csv"]
+    # A rerun on the table it wrote reports the same stats and leaves the body unchanged.
+    import copy
+    again = copy.deepcopy(table)
+    assert cc.call_changes(again, "2019", rows, curated, "audit.csv") == stats and again == table
     # A Naver-only season (2025-2026) has no TrackMan rows to reject.
     naver_only = {"seasons": {"2025": {"source": "naver_relay", "pitches": [_entry("G2-G2-001-01")]}}}
     cc.call_changes(naver_only, "2025", [{"pa_id": "G2-001", "calls": "1B"}], curated, "audit.csv")
