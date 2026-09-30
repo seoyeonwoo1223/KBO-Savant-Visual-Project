@@ -2,7 +2,8 @@
 import numpy as np
 import pandas as pd
 
-from visualbaseball.movement_zones import ANGLE_MAX, ANGLE_MIN, _mapping, fit_model, profiles, release_angle
+from visualbaseball.movement_zones import (ANGLE_MAX, ANGLE_MIN, _mapping, expected_movement, fit_expectation,
+                                         fit_model, normalize_time, profiles, release_angle, travel_time, with_deltas)
 from visualbaseball.curated import write_game
 from visualbaseball.metric_state import metric_input_hash
 
@@ -27,23 +28,29 @@ def test_regression_profiles_respond_to_angle_and_real_outcomes():
     frame = pd.DataFrame({"angle": angle, "hb": hb, "ivb": ivb, "hand": np.where(np.arange(n) % 2, "R", "L"),
                           "pitcher_id": np.arange(n) % 31, "velocity_kmh": 145., "px": 0., "z": 0.,
                           "balls_before": 1, "strikes_before": 1, "opposite": False, "season": 2026, "tm": False,
+                          "hra": 0., "vra": 0., "flight": .4, "eligible_swing": True,
                           "whiff": rng.uniform(size=n) < probability})
-    fitted = profiles(frame, fit_model(frame))
+    expectations = {hand: fit_expectation(frame[frame.hand == hand]) for hand in ("R", "L")}
+    fitted = profiles(frame, fit_model(with_deltas(frame, expectations)), expectations)
     assert len(fitted["R"]["profiles"]) == ANGLE_MAX - ANGLE_MIN + 1
     left = fitted["L"]["profiles"]
     p45, p46 = left[45 - ANGLE_MIN], left[46 - ANGLE_MIN]
     assert left[0]["zones"] is None and left[-1]["zones"] is None
-    assert p45["zones"]["elite"]["whiff_pct"] > p45["zones"]["average"]["whiff_pct"] > p45["zones"]["dead"]["whiff_pct"]
-    assert p45["zones"]["dead"]["center"] != p46["zones"]["dead"]["center"]
-    assert p45["zones"]["elite"]["center"][1] > p45["zones"]["dead"]["center"][1]
+    assert p45["zones"]["high"]["whiff_pct"] > p45["zones"]["average"]["whiff_pct"] > p45["zones"]["low"]["whiff_pct"]
+    assert p45["expected"]["center"] != p46["expected"]["center"]
+    assert p45["zones"]["high"]["center"][1] > p45["zones"]["low"]["center"][1]
     inverted = frame.assign(whiff=~frame.whiff)
-    reversed_zones = profiles(inverted, fit_model(inverted))["L"]["profiles"][45 - ANGLE_MIN]["zones"]
-    assert reversed_zones["elite"]["center"][1] < reversed_zones["dead"]["center"][1]
+    reversed_profile = profiles(inverted, fit_model(with_deltas(inverted, expectations)), expectations)["L"]["profiles"][45 - ANGLE_MIN]
+    reversed_zones = reversed_profile["zones"]
+    assert reversed_zones["high"]["center"][1] < reversed_zones["low"]["center"][1]
+    assert reversed_profile["expected"] == p45["expected"]  # Expectations do not depend on outcomes.
     for hand in fitted.values():
         for profile in hand["profiles"]:
             if profile["zones"]:
+                cells = [set(zone["cells"]) for zone in profile["zones"].values()]
+                assert not (cells[0] & cells[1] or cells[1] & cells[2] or cells[0] & cells[2])
                 for zone in profile["zones"].values():
-                    assert np.linalg.eigvalsh(zone["covariance"]).min() > 0
+                    assert zone["cells"] and all(0 <= cell < 61*56 for cell in zone["cells"])
                     assert 0 <= zone["whiff_pct"] <= 100
 
 
@@ -53,9 +60,31 @@ def test_one_pitcher_cannot_manufacture_supported_zones():
     frame = pd.DataFrame({"angle": rng.normal(45, 1, n), "hb": rng.normal(10, 2, n), "ivb": rng.normal(15, 2, n),
                           "hand": "R", "pitcher_id": "one", "velocity_kmh": 145., "px": 0., "z": 0.,
                           "balls_before": 1, "strikes_before": 1, "opposite": False, "season": 2026, "tm": False,
+                          "hra": 0., "vra": 0., "flight": .4, "eligible_swing": True,
                           "whiff": rng.uniform(size=n) < .2})
-    result = profiles(frame, fit_model(frame))
+    expectations = {hand: fit_expectation(frame[frame.hand == hand]) for hand in ("R", "L")}
+    result = profiles(frame, fit_model(with_deltas(frame, expectations)), expectations)
     assert all(p["zones"] is None for hand in result.values() for p in hand["profiles"])
+    assert all(p["expected"] is None for hand in result.values() for p in hand["profiles"])
+
+
+def test_time_normalization_and_conditional_shape():
+    np.testing.assert_allclose(travel_time(-100, 0, -50), .5)
+    t = travel_time(-100, 20, -50)
+    np.testing.assert_allclose(-100*t + 10*t*t, -50)
+    assert np.isnan(travel_time(100, 20, -50))
+    assert np.isnan(travel_time(-10, 20, -50))
+    np.testing.assert_allclose(normalize_time([20, 20], [.4, .5]), [20, 12.8])
+    rng = np.random.default_rng(7)
+    angle = rng.uniform(20, 70, 4000)
+    frame = pd.DataFrame({"angle": angle, "hra": 0., "vra": 0., "flight": .4,
+                          "hb": 20-.2*angle+rng.normal(0, .5, len(angle)),
+                          "ivb": .3*angle+rng.normal(0, .5, len(angle))})
+    fitted = fit_expectation(frame)
+    query = frame.iloc[:2].copy(); query["angle"] = [30, 60]
+    np.testing.assert_allclose(expected_movement(query, fitted), [[14, 9], [8, 18]], atol=.05)
+    assert np.diag(fitted["covariance"]).max() < .3
+    assert np.diag(fitted["unconditional_covariance"]).min() > 5
 
 
 def test_rebuild_hash_includes_historical_pitches_and_player_hands(tmp_path):

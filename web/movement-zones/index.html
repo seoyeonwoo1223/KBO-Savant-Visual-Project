@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Arm Angle Movement Zones</title>
   <link rel="stylesheet" href="../theme.css?v=20260913-4">
-  <link rel="stylesheet" href="movement-zones.css?v=20261001-1">
+  <link rel="stylesheet" href="movement-zones.css?v=20261001-2">
   <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
   <style>html.thumbnail-mode .site-header,html.thumbnail-mode main>nav,html.thumbnail-mode main>header,html.thumbnail-mode .controls,html.thumbnail-mode .side-panel{display:none}html.thumbnail-mode main{width:600px;margin:0;padding:0}html.thumbnail-mode .workspace{display:block}html.thumbnail-mode [data-thumbnail-target]{display:flex;width:600px;height:600px;padding:12px;flex-direction:column;overflow:hidden}html.thumbnail-mode [data-thumbnail-target] .chart-heading{padding:2px 4px 5px}html.thumbnail-mode #movement-chart{flex:1;min-height:0;width:100%;height:auto}</style>
 </head>
@@ -16,7 +16,7 @@
     <header>
       <p class="eyebrow">KBO PITCH DESIGN · CATCHER'S PERSPECTIVE</p>
       <h1>Arm Angle Movement Zones</h1>
-      <p>TrackMan × Visual Baseball · 1도씩 움직이는 회귀 기반 무브먼트 프로파일</p>
+      <p>TrackMan × Visual Baseball · 릴리스 조건에 따른 기대 무브먼트와 DZ Delta</p>
     </header>
 
     <section class="controls" aria-label="차트 설정">
@@ -44,6 +44,11 @@
         <span class="control-label">구종</span>
         <div id="pitch-tabs" class="pitch-tabs" role="group" aria-label="구종 선택"></div>
       </div>
+      <div class="view-control">
+        <label for="view">표시 지표</label>
+        <select id="view" disabled><option value="expected">기대 무브먼트 · Dynamic DZ</option><option value="whiff">헛스윙률 구역</option></select>
+        <small class="control-note">기대 범위와 성능 등급은 서로 다른 지표입니다.</small>
+      </div>
     </section>
 
     <section class="workspace">
@@ -53,7 +58,7 @@
             <p class="eyebrow" id="chart-kicker">45° · RHP · 4-SEAM</p>
             <h2 id="chart-title">4-Seam Movement Map</h2>
           </div>
-          <span>단위: inches</span>
+          <span>0.40초 환산 · inches</span>
         </div>
         <svg id="movement-chart" viewBox="0 0 760 680" role="img" aria-labelledby="svg-title svg-desc">
           <title id="svg-title">팔각도별 구종 무브먼트 존</title>
@@ -62,28 +67,30 @@
       </div>
 
       <aside class="side-panel">
-        <div class="legend" aria-label="범례">
-          <div><span class="swatch elite"></span><div><strong>Elite</strong><small>추정 헛스윙률 상위 25%</small></div></div>
-          <div><span class="swatch average"></span><div><strong>Average</strong><small>추정 헛스윙률 중간 50%</small></div></div>
-          <div><span class="swatch dead"></span><div><strong>Dead Zone</strong><small>추정 헛스윙률 하위 25%</small></div></div>
-        </div>
+        <div id="legend" class="legend" aria-label="범례"></div>
         <div class="range-table-wrap">
           <table>
-            <thead><tr><th>구분</th><th>IVB</th><th>HB</th><th>Whiff%</th></tr></thead>
+            <thead id="range-heading"></thead>
             <tbody id="range-table"></tbody>
           </table>
         </div>
+        <fieldset class="comparison"><legend>비교 무브먼트 · 0.40초 환산</legend>
+          <label for="compare-hb">HB (포수 시점)</label><input id="compare-hb" type="number" min="-30" max="30" step="0.1" value="-10" disabled>
+          <label for="compare-ivb">IVB</label><input id="compare-ivb" type="number" min="-25" max="30" step="0.1" value="16" disabled>
+          <p id="delta-status" role="status" aria-live="polite"></p>
+        </fieldset>
         <p id="sample-status" class="model-status" role="status" aria-live="polite">회귀 프로파일을 불러오는 중…</p>
         <div class="reading-note">
           <strong>읽는 법</strong>
-          <p>포수 시점입니다. 우투 암사이드는 −HB, 좌투 암사이드는 +HB입니다. 각 손·구종의 실제 관측 분포에서 회귀 헛스윙률로 구분한 영역을 75% 타원으로 요약합니다. 안쪽 선은 보조선이며, 타원 전체가 같은 성능이라는 의미는 아닙니다.</p>
-          <p>Whiff%는 스윙 중 헛스윙 확률입니다. 존 중앙·1볼 1스트라이크·타자 좌우 50:50·해당 손과 구종의 중앙 구속으로 통제합니다. 타구 질·종합 구종 가치를 뜻하지 않습니다.</p>
+          <p>포수 시점입니다. 우투 암사이드는 −HB, 좌투 암사이드는 +HB입니다. 무브먼트는 <b>원측정값 × (0.40 / 체공 시간)²</b>로 환산했습니다. 비교값도 같은 기준으로 입력하세요.</p>
+          <p>Dynamic DZ의 실선·점선은 릴리스 조건에서 모형이 예상하는 50%·80% 확률 범위입니다. 중심에 가까운 공은 예상과 비슷한 모양이며, 낮은 구위를 뜻하지 않습니다. ΔHB·ΔIVB = 비교값 − 기대값입니다.</p>
+          <p>헛스윙률 화면은 관측 지지가 있는 1인치 격자의 실제 분류 경계를 그립니다. 존 중앙·1볼 1스트라이크·타자 좌우 50:50·해당 손·구종 중앙 구속과 각도별 릴리스 방향·체공 시간으로 통제합니다. 변화구의 기대 모형은 탐색적이며, 타구 질·종합 구종 가치·각도 변경의 인과 효과는 측정하지 않습니다.</p>
           <p id="angle-definition">각도 = atan2(55ft 릴리스 높이 − 기준 어깨 높이 130cm, |55ft 릴리스 좌우 위치|). 어깨 실측과 선수 신장이 없어 공통 기준점을 쓴 릴리스 각도 대용치이며, Statcast 실측 팔각도와 직접 비교할 수 없습니다.</p>
         </div>
       </aside>
     </section>
     <details class="model-details"><summary>데이터·회귀 검증</summary><div id="model-details">데이터를 불러오는 중…</div></details>
   </main>
-  <script src="movement-zones.js?v=20261001-1"></script>
+  <script src="movement-zones.js?v=20261001-2"></script>
 </body>
 </html>
