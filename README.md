@@ -117,4 +117,15 @@ Zone Awareness는 canonical pitch/event shard만 입력으로 받으며 Excel·l
 
 ## Arm Angle Movement Zones
 
-`web/movement-zones/`는 제공된 팔각도별 범위표를 바탕으로 15°·30°·45°·60°의 구종별 Elite·Average·Dead Zone을 HB×IVB 평면에 표시한다. 슬라이더 또는 자동 재생으로 팔각도에 따른 범위 변화를 비교할 수 있다. HB는 투수 시점이며 양수는 암사이드, 음수는 글러브사이드다.
+`web/movement-zones/`는 2019–2026 VB와 투구 단위로 매칭한 2019–2024 TrackMan에서 구종별 헛스윙 확률 회귀를 적합한다. −60°~85°를 1°씩 조작하면 Elite·Average·Dead Zone의 중심·폭·방향과 추정 Whiff%가 함께 바뀐다. HB는 포수 시점이며 우투 암사이드는 음수, 좌투 암사이드는 양수다. 같은 투구는 한 번만 학습하고, 매칭 투구에는 TrackMan 무브먼트(cm)를 쓴다. 나머지는 기존 구장·날짜·탄착 위치 보정 VB를 손·시즌별 강건 선형 회귀로 TrackMan 척도에 맞춘다. TM이 없는 2025–2026은 2022–2024 계수의 매칭 표본 가중 평균을 사용한다. 원자료와 다른 지표의 입력은 바꾸지 않는다.
+
+**실측 팔각도가 아닌 릴리스 위치 대용치**다. 어깨 좌표·선수 신장이 없으므로 `atan2(release_z_55_cm − 130, |release_x_55_cm|)`로 기준 어깨 높이 130cm를 가정한다. 1°는 조작 간격이지 측정 정확도가 아니다. 구속·탄착 위치·카운트·타자 상대 손·투수 손·시즌·출처를 통제한 로지스틱 이차 회귀의 헛스윙 확률로, 각 손·구종의 관측 무브먼트 질량 상위 25%를 Elite, 하위 25%를 Dead Zone, 중간 50%를 Average로 정의한다. 타원은 각 영역의 공분산을 이용한 근사 75% 분포 요약이며, 타구 질·종합 구종 가치·각도 변경의 인과 효과를 측정하지 않는다. 관측 분포는 각도 5°·무브먼트 1인치로 평활하고, 해당 각도 ±5° 안에 150스윙·5투수 미만이면 표시하지 않는다. 기존 GY/SW/Slurve를 무브먼트만으로 재분류하지 않고 원자료의 Slider·Sweeper를 쓴다. 누락된 타자 손은 기존 player bio/스위치 타자 매치업 규칙, 이어 안전하게 매칭된 TM의 타자 손으로 보강한다.
+
+최신 시즌 전체를 제외하고 이전 시즌에서 적합한 회귀를 통제변수만 쓴 모델과 비교한다(AUC·Log loss·Brier). 화면은 검증 후 전체 시즌으로 재적합한다. 계수·검증값·투구 및 제외 건수·소스 hash를 `web/data/movement_zones/profiles.json`에 저장하고, 일일 workflow의 아래 명령으로 갱신한다. 입력/코드 hash가 같으면 재적합을 건너뛴다.
+
+```powershell
+$env:PYTHONPATH = "src"
+python -m visualbaseball.cli --only movement_zones
+python -m pytest tests/test_movement_zones.py
+python scripts/check_movement_zones.py
+```
