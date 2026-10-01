@@ -8,7 +8,7 @@
     "curated_version": null,
     "sha256": {
       "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
-      "player_bio.parquet": "3202cd590219e7cf3cf646e594ac4426c6fee7b5b0a5f97f7ea4ad9d4dc1f4ab",
+      "player_bio.parquet": "fe71d0ea9e4e55338467acdba5ec89043db85c081a0218de798da98e270e1a18",
       "2024_VB_Park_Adjustment_v1.0.xlsx": "75cef52c954a9b2145dfabfcece2e4de28edfa7fadd2756ada938754a6c95fe3"
     },
     "quality": {
@@ -61,13 +61,13 @@
       "raw_swing_brier": 0.14597503227029462,
       "action_value": {
         "direct": {
-          "mse": 0.07109391078254332,
+          "mse": 0.07109391078254333,
           "swing_mse": 0.1511538495537992,
           "take_mse": 0.0033335350276868774
         },
         "staged": {
           "mse": 0.07012876563339418,
-          "swing_mse": 0.15102481864531214,
+          "swing_mse": 0.15102481864531217,
           "take_mse": 0.0016607273947688733
         },
         "unsmoothed": {
@@ -163,7 +163,7 @@
           "take_mse": 0.002702494242283428
         },
         "staged": {
-          "mse": 0.07171298863763902,
+          "mse": 0.071712988637639,
           "swing_mse": 0.15189399175643592,
           "take_mse": 0.0012475224482583218
         },
@@ -243,7 +243,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.015549752369137748
+        "weighted_adjustment_rmse": 0.015549752369137746
       },
       "calibration_applied": true
     },
@@ -256,7 +256,7 @@
         "take_mse": 0.002702494242283428
       },
       "staged": {
-        "mse": 0.07171298863763902,
+        "mse": 0.071712988637639,
         "swing_mse": 0.15189399175643592,
         "take_mse": 0.0012475224482583218
       },
@@ -280,7 +280,7 @@
         2
       ],
       "batters_150_pitches_each": 109,
-      "pearson_r": 0.5203850276972802,
+      "pearson_r": 0.52038502769728,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     },
     {
@@ -289,7 +289,7 @@
         3
       ],
       "batters_150_pitches_each": 112,
-      "pearson_r": 0.3529843131685635,
+      "pearson_r": 0.3529843131685636,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     }
   ],
@@ -342,7 +342,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.020192405373548366
+        "weighted_adjustment_rmse": 0.02019240537354837
       },
       "calibration_applied": false
     },
@@ -354,7 +354,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.01703738911520753
+        "weighted_adjustment_rmse": 0.017037389115207534
       },
       "calibration_applied": true
     }

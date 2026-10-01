@@ -8,7 +8,7 @@
     "curated_version": null,
     "sha256": {
       "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
-      "player_bio.parquet": "3202cd590219e7cf3cf646e594ac4426c6fee7b5b0a5f97f7ea4ad9d4dc1f4ab"
+      "player_bio.parquet": "fe71d0ea9e4e55338467acdba5ec89043db85c081a0218de798da98e270e1a18"
     },
     "quality": {
       "halves": 12680,
@@ -64,9 +64,9 @@
       "raw_swing_brier": 0.14839935693454237,
       "action_value": {
         "direct": {
-          "mse": 0.06717970302474177,
+          "mse": 0.06717970302474176,
           "swing_mse": 0.142574721791791,
-          "take_mse": 0.005877837515182858
+          "take_mse": 0.005877837515182827
         },
         "staged": {
           "mse": 0.06553281413549794,
@@ -149,7 +149,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.01627813901286766
+        "weighted_adjustment_rmse": 0.016278139012867655
       },
       "calibration_applied": false
     },
@@ -161,7 +161,7 @@
       "raw_swing_brier": 0.14807970170099533,
       "action_value": {
         "direct": {
-          "mse": 0.06052151424876096,
+          "mse": 0.06052151424876095,
           "swing_mse": 0.12737741764249452,
           "take_mse": 0.005795349605084493
         },
@@ -254,7 +254,7 @@
     "swing_brier": 0.147974433631311,
     "action_value": {
       "direct": {
-        "mse": 0.06052151424876096,
+        "mse": 0.06052151424876095,
         "swing_mse": 0.12737741764249452,
         "take_mse": 0.005795349605084493
       },
@@ -283,7 +283,7 @@
         2
       ],
       "batters_150_pitches_each": 115,
-      "pearson_r": 0.29017570300796103,
+      "pearson_r": 0.2901757030079611,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     },
     {
@@ -332,7 +332,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 1.1102230246251565e-16,
         "weighted_adjustment_rmse": 0.016628647411172284
       },
       "calibration_applied": false
@@ -344,7 +344,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 2.220446049250313e-16,
         "weighted_adjustment_rmse": 0.013160250624668423
       },
       "calibration_applied": true

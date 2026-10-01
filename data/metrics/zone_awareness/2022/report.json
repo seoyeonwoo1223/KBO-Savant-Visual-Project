@@ -8,7 +8,7 @@
     "curated_version": null,
     "sha256": {
       "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
-      "player_bio.parquet": "3202cd590219e7cf3cf646e594ac4426c6fee7b5b0a5f97f7ea4ad9d4dc1f4ab",
+      "player_bio.parquet": "fe71d0ea9e4e55338467acdba5ec89043db85c081a0218de798da98e270e1a18",
       "2022_VB_Park_Adjustment_v1.0.xlsx": "41302155042b1d4db6054d7abf944aa0827de0d7fe8ef8b67fa46b8b3c489157"
     },
     "quality": {
@@ -72,7 +72,7 @@
           "take_mse": 0.0033521015338256535
         },
         "unsmoothed": {
-          "mse": 0.05910501050229053,
+          "mse": 0.059105010502290514,
           "swing_mse": 0.12542123305116795,
           "take_mse": 0.0033521015338256535
         }
@@ -146,7 +146,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 5.551115123125783e-17,
         "weighted_adjustment_rmse": 0.013510975130308158
       },
       "calibration_applied": true
@@ -243,8 +243,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 1.1102230246251565e-16,
-        "weighted_adjustment_rmse": 0.011580360909602204
+        "max_constraint_violation": 0.0,
+        "weighted_adjustment_rmse": 0.011580360909602202
       },
       "calibration_applied": false
     },
@@ -281,7 +281,7 @@
         2
       ],
       "batters_150_pitches_each": 106,
-      "pearson_r": 0.37312601242175675,
+      "pearson_r": 0.3731260124217569,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     },
     {
@@ -290,7 +290,7 @@
         3
       ],
       "batters_150_pitches_each": 107,
-      "pearson_r": 0.36181334438532897,
+      "pearson_r": 0.3618133443853291,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     }
   ],
@@ -342,7 +342,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 1.1102230246251565e-16,
+        "max_constraint_violation": 0.0,
         "weighted_adjustment_rmse": 0.016371557924135534
       },
       "calibration_applied": true
@@ -354,7 +354,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 4.440892098500626e-16,
+        "max_constraint_violation": 0.0,
         "weighted_adjustment_rmse": 0.01287705549472479
       },
       "calibration_applied": true

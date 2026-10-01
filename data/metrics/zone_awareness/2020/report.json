@@ -8,7 +8,7 @@
     "curated_version": null,
     "sha256": {
       "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
-      "player_bio.parquet": "3202cd590219e7cf3cf646e594ac4426c6fee7b5b0a5f97f7ea4ad9d4dc1f4ab"
+      "player_bio.parquet": "fe71d0ea9e4e55338467acdba5ec89043db85c081a0218de798da98e270e1a18"
     },
     "quality": {
       "halves": 12828,
@@ -61,9 +61,9 @@
       "raw_swing_brier": 0.14965602622474086,
       "action_value": {
         "direct": {
-          "mse": 0.07295261884998062,
+          "mse": 0.07295261884998061,
           "swing_mse": 0.1532740195530532,
-          "take_mse": 0.005892785444163781
+          "take_mse": 0.005892785444163779
         },
         "staged": {
           "mse": 0.07147205152989058,
@@ -71,7 +71,7 @@
           "take_mse": 0.004271592184958267
         },
         "unsmoothed": {
-          "mse": 0.07125748339729901,
+          "mse": 0.071257483397299,
           "swing_mse": 0.151490319303094,
           "take_mse": 0.004271592184958267
         }
@@ -243,7 +243,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.015427384982032442
+        "weighted_adjustment_rmse": 0.01542738498203244
       },
       "calibration_applied": false
     },
@@ -280,7 +280,7 @@
         2
       ],
       "batters_150_pitches_each": 105,
-      "pearson_r": 0.5125724844544455,
+      "pearson_r": 0.5125724844544454,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     },
     {
@@ -289,7 +289,7 @@
         3
       ],
       "batters_150_pitches_each": 106,
-      "pearson_r": 0.3676508059163426,
+      "pearson_r": 0.3676508059163424,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     }
   ],
@@ -329,7 +329,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 2.220446049250313e-16,
         "weighted_adjustment_rmse": 0.01734051539809157
       },
       "calibration_applied": false
@@ -341,8 +341,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.0177326976088774
+        "max_constraint_violation": 2.7755575615628914e-17,
+        "weighted_adjustment_rmse": 0.017732697608877402
       },
       "calibration_applied": false
     },
@@ -353,8 +353,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 5.551115123125783e-17,
-        "weighted_adjustment_rmse": 0.014935843237739034
+        "max_constraint_violation": 0.0,
+        "weighted_adjustment_rmse": 0.014935843237739036
       },
       "calibration_applied": true
     }

@@ -8,7 +8,7 @@
     "curated_version": null,
     "sha256": {
       "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
-      "player_bio.parquet": "3202cd590219e7cf3cf646e594ac4426c6fee7b5b0a5f97f7ea4ad9d4dc1f4ab",
+      "player_bio.parquet": "fe71d0ea9e4e55338467acdba5ec89043db85c081a0218de798da98e270e1a18",
       "2025_VB_Park_Adjustment_v1.0.xlsx": "d04becf353febd52dbc96db11f0bd92462c99172ca11f13fbf0bbc815fb4087c"
     },
     "quality": {
@@ -69,12 +69,12 @@
         "staged": {
           "mse": 0.06114696840422295,
           "swing_mse": 0.13336944758874195,
-          "take_mse": 0.001564879343138026
+          "take_mse": 0.0015648793431380257
         },
         "unsmoothed": {
-          "mse": 0.06098290428542296,
+          "mse": 0.06098290428542295,
           "swing_mse": 0.13300651301085462,
-          "take_mse": 0.001564879343138026
+          "take_mse": 0.0015648793431380257
         }
       },
       "event_probability": {
@@ -147,7 +147,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.015147628737717684
+        "weighted_adjustment_rmse": 0.015147628737717685
       },
       "calibration_applied": true
     },
@@ -159,19 +159,19 @@
       "raw_swing_brier": 0.14662325560829828,
       "action_value": {
         "direct": {
-          "mse": 0.06449257997688196,
+          "mse": 0.06449257997688197,
           "swing_mse": 0.13819275367162184,
           "take_mse": 0.002964900097156568
         },
         "staged": {
           "mse": 0.0633211505376734,
-          "swing_mse": 0.13703832315484749,
-          "take_mse": 0.0017792793174748354
+          "swing_mse": 0.1370383231548475,
+          "take_mse": 0.0017792793174748356
         },
         "unsmoothed": {
           "mse": 0.06324346146655227,
           "swing_mse": 0.13686757518654377,
-          "take_mse": 0.0017792793174748354
+          "take_mse": 0.0017792793174748356
         }
       },
       "event_probability": {
@@ -243,7 +243,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 2.220446049250313e-16,
+        "max_constraint_violation": 0.0,
         "weighted_adjustment_rmse": 0.010835136004866991
       },
       "calibration_applied": true
@@ -252,19 +252,19 @@
     "swing_brier": 0.14652959967166923,
     "action_value": {
       "direct": {
-        "mse": 0.06449257997688196,
+        "mse": 0.06449257997688197,
         "swing_mse": 0.13819275367162184,
         "take_mse": 0.002964900097156568
       },
       "staged": {
         "mse": 0.0633211505376734,
-        "swing_mse": 0.13703832315484749,
-        "take_mse": 0.0017792793174748354
+        "swing_mse": 0.1370383231548475,
+        "take_mse": 0.0017792793174748356
       },
       "unsmoothed": {
         "mse": 0.06324346146655227,
         "swing_mse": 0.13686757518654377,
-        "take_mse": 0.0017792793174748354
+        "take_mse": 0.0017792793174748356
       }
     },
     "event_probability": {
@@ -281,7 +281,7 @@
         2
       ],
       "batters_150_pitches_each": 119,
-      "pearson_r": 0.3302017985198689,
+      "pearson_r": 0.33020179851986886,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     },
     {
@@ -290,7 +290,7 @@
         3
       ],
       "batters_150_pitches_each": 115,
-      "pearson_r": 0.4243526867047059,
+      "pearson_r": 0.4243526867047058,
       "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
     }
   ],
@@ -354,8 +354,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 4.440892098500626e-16,
-        "weighted_adjustment_rmse": 0.013719826777035753
+        "max_constraint_violation": 0.0,
+        "weighted_adjustment_rmse": 0.013719826777035754
       },
       "calibration_applied": true
     }

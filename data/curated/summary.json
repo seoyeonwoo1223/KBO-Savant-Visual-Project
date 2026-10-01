@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T20:36:59+00:00",
+  "generated_at": "2026-10-01T20:21:45+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -190,6 +190,7 @@
         "blocking",
         "excel",
         "movement_zones",
+        "pitch_arsenal",
         "plate_decision",
         "plate_discipline",
         "swing_take",
@@ -237,6 +238,7 @@
         "blocking",
         "excel",
         "movement_zones",
+        "pitch_arsenal",
         "plate_decision",
         "plate_discipline",
         "swing_take",
@@ -285,8 +287,10 @@
         "blocking",
         "excel",
         "movement_zones",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -332,30 +336,32 @@
         "blocking",
         "excel",
         "movement_zones",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
     "2026": {
       "tables": {
         "pitches": {
-          "rows": 209247,
-          "files": 7,
-          "bytes": 30721027
+          "rows": 210510,
+          "files": 8,
+          "bytes": 30985857
         },
         "events": {
-          "rows": 266350,
-          "files": 7,
-          "bytes": 1321399
+          "rows": 267937,
+          "files": 8,
+          "bytes": 1342738
         },
         "games": {
-          "rows": 680,
-          "files": 7,
-          "bytes": 88468
+          "rows": 684,
+          "files": 8,
+          "bytes": 95601
         }
       },
-      "games": 680,
+      "games": 684,
       "months": [
         "03",
         "04",
@@ -363,11 +369,12 @@
         "06",
         "07",
         "08",
-        "09"
+        "09",
+        "10"
       ],
       "date_range": [
         "2026-03-28",
-        "2026-09-30"
+        "2026-10-01"
       ],
       "metrics": [
         "arm_angle",
@@ -376,7 +383,9 @@
         "swing_take",
         "zone_awareness"
       ],
-      "stale_metrics": []
+      "stale_metrics": [
+        "movement_zones"
+      ]
     }
   },
   "published": {
