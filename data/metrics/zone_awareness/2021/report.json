@@ -1,6 +1,6 @@
 {
   "schema_version": 5,
-  "model_version": "za7.5-dv-trackman-movement",
+  "model_version": "za7.6-apr",
   "season": 2021,
   "source": {
     "source": "data/curated/pitches/season=2021",
@@ -411,16 +411,18 @@
     }
   ],
   "metric_contract": {
-    "za_raw": "100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points; the official SBJ ranking score, equal to zone_judgment_pct - expected_zone_judgment_pct",
+    "za_raw": "ZA (Zone Awareness, formerly SBJ): 100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points; equal to zone_judgment_pct - expected_zone_judgment_pct",
     "zone_judgment_pct": "100 * mean(p_zone if swing else 1 - p_zone); raw judgment accuracy, descriptive only and never ranked",
     "expected_zone_judgment_pct": "100 * mean(p_swing*p_zone + (1-p_swing)*(1-p_zone)); league-policy accuracy on the same pitches",
     "p_swing": "league Swing propensity from location, count, base/out, velocity, release height, park-adjusted HB/IVB, pitch type, batter stance, pitcher hand and stadium; isotonic-calibrated separately for in-zone and out-of-zone pitches (p_zone >= 0.5)",
     "p_zone": "take-only CalledStrike vs Ball/HBP model, five-seed average; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to front-plane px/pz when the trajectory is invalid; human-umpire seasons read front-plane px/pz, zone bounds and the ball-strike count",
     "raw_dv": "sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs; event and value models read TrackMan-validated movement (movement_calibration) in every season",
     "dv_per_100": "100 * raw_dv / eligible pitches; runs per 100 pitches",
-    "dv_plus": "100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation",
+    "jdv_per_100": "decision DV: 100 * mean(2 * (S - p_swing) * (V_swing - V_take)); runs per 100 pitches above the league Swing policy on the same pitches",
+    "apr": "APR (Approach), wRC+-style: 100 * (L + s) / L. L = league pitch-weighted dv_per_100; s = n/(n+k) * (jdv_per_100 - league jdv), re-centred so the pitch-weighted league mean is 100; k = per-pitch noise / true-talent variance among qualified hitters (pitches for reliability 0.5)",
+    "apr_percentile": "midrank percentile of APR against qualified hitters (300+ pitches); every hitter gets one, unqualified hitters are flagged by qualified_300",
     "swing_aggression": "100 * mean(S - p_swing); percentage points, tendency only",
-    "za_percentile": "midrank percentile among season hitters with at least 300 eligible pitches",
+    "za_percentile": "midrank percentile of ZA among season hitters with at least 300 eligible pitches",
     "region_contributions": "100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100"
   },
   "shrinkage": "Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.",
@@ -435,7 +437,7 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "b612710fd904041e622eae856b90ffc4fadc17dc3d7357f5f22d051a24205cfb",
+      "zone_decision.py": "9c37e37a86f2c363ab53c3f3c1ff46ef4a9748bb33d4e892d116de66e605623f",
       "plate_decision_v1.py": "94a9d4804c131a3119c959870fcb8926dc4f5177671e0d63e8cda6028465beb5",
       "swing_take.py": "cc6d1afb4e4c155f848ff5452314510affe53456a4cc28dbff33d0c8abcb704b",
       "pitch_arsenal.py": "1fef04925017ed52bda2ffe2df003200b221d83a1e34c11291b4912517355f67"
@@ -447,5 +449,10 @@
     "시즌 표시값은 날짜 블록 교차적합으로 해당 경기 결과를 제외하지만 다른 블록의 미래 경기를 사용할 수 있습니다. 순수한 사전 예측 성능은 별도 시간 분리 평가에서 확인합니다.",
     "표본 부족 구간은 상위 조건의 결과 분포로 완화합니다. 반대 선택의 정확성과 누락된 실행 능력·번트 의도의 영향까지 검증된 것은 아닙니다."
   ],
+  "apr": {
+    "league_dv_per_100": 5.149124,
+    "league_jdv_per_100": -0.107928,
+    "shrinkage_k_pitches": 295.29245
+  },
   "batters": 291
 }
