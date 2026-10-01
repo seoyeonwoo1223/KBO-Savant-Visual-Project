@@ -74,7 +74,7 @@ def main():
                              "spearman_sa": {c: float(t[c].rank().corr(t.sa.rank())) for c in CANDS},
                              "spearman_vs_Z0": {c: float(t[c].rank().corr(t.Z0.rank())) for c in CANDS},
                              "weights": {k: {"|".join(map(str, kk if isinstance(kk, tuple) else (kk,))): v for kk, v in d.items()} for k, d in cell.items()}}
-        t.sort_values("N1", ascending=False).to_csv(OUT / f"zb_neutral_za{TAG}_{y}.csv", float_format="%.4f")
+        t.sort_values(CANDS[-1], ascending=False).to_csv(OUT / f"zb_neutral_za{TAG}_{y}.csv", float_format="%.4f")
         print(y, {c: round(rel[c][y], 3) for c in CANDS}, {c: round(res["seasons"][y]["spearman_sa"][c], 2) for c in CANDS}, flush=True)
     ext_res = None
     if len(sys.argv) > 1:
