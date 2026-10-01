@@ -33,7 +33,7 @@ NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
 # p_swing keeps the park-workbook movement where a workbook exists (analysis/sbj_formula M).
 DV_MOVEMENT = ('dv_hb_cm', 'dv_ivb_cm')
 DV_NUMERIC = old.BASE_NUMERIC + DV_MOVEMENT
-MODEL_VERSION = 'za7.5-dv-trackman-movement'
+MODEL_VERSION = 'za7.6-apr'
 SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 # za7.3: p_zone averages five seeds so one early-stopping validation split no longer moves player SBJ
@@ -53,16 +53,18 @@ FRONT_PLANE_Y_FT, REPORTED_LOCATION_TOLERANCE_CM = 17/12, 1.0
 # old.CATEGORICAL. analysis/zone_decision/pswing_inputs.md holds the comparison.
 PSWING_CATEGORICAL = old.CATEGORICAL + ('pitcher_throws',)
 CONTRACT = {
- 'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points; the official SBJ ranking score, equal to zone_judgment_pct - expected_zone_judgment_pct',
+ 'za_raw': 'ZA (Zone Awareness, formerly SBJ): 100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points; equal to zone_judgment_pct - expected_zone_judgment_pct',
  'zone_judgment_pct': '100 * mean(p_zone if swing else 1 - p_zone); raw judgment accuracy, descriptive only and never ranked',
  'expected_zone_judgment_pct': '100 * mean(p_swing*p_zone + (1-p_swing)*(1-p_zone)); league-policy accuracy on the same pitches',
  'p_swing': 'league Swing propensity from location, count, base/out, velocity, release height, park-adjusted HB/IVB, pitch type, batter stance, pitcher hand and stadium; isotonic-calibrated separately for in-zone and out-of-zone pitches (p_zone >= 0.5)',
  'p_zone': 'take-only CalledStrike vs Ball/HBP model, five-seed average; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to front-plane px/pz when the trajectory is invalid; human-umpire seasons read front-plane px/pz, zone bounds and the ball-strike count',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs; event and value models read TrackMan-validated movement (movement_calibration) in every season',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
- 'dv_plus': '100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
+ 'jdv_per_100': 'decision DV: 100 * mean(2 * (S - p_swing) * (V_swing - V_take)); runs per 100 pitches above the league Swing policy on the same pitches',
+ 'apr': 'APR (Approach), wRC+-style: 100 * (L + s) / L. L = league pitch-weighted dv_per_100; s = n/(n+k) * (jdv_per_100 - league jdv), re-centred so the pitch-weighted league mean is 100; k = per-pitch noise / true-talent variance among qualified hitters (pitches for reliability 0.5)',
+ 'apr_percentile': 'midrank percentile of APR against qualified hitters (300+ pitches); every hitter gets one, unqualified hitters are flagged by qualified_300',
  'swing_aggression': '100 * mean(S - p_swing); percentage points, tendency only',
- 'za_percentile': 'midrank percentile among season hitters with at least 300 eligible pitches',
+ 'za_percentile': 'midrank percentile of ZA among season hitters with at least 300 eligible pitches',
  'region_contributions': '100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100',
 }
 LIMITATIONS = [
@@ -525,6 +527,11 @@ def profile_summary(items):
  n=len(items); first=items[0]
  total=sum(r['dv'] for r in items)
  s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
+ # Decision DV (APR input): the chosen action's value above the league Swing policy on the same pitches.
+ jdv=np.array([2*(r['swing']-r['p_swing'])*r['delta_v'] for r in items]); mean_jdv=float(jdv.mean())
+ by_game=defaultdict(float)
+ for r,v in zip(items,jdv): by_game[r['game_id']]+=v-mean_jdv
+ s['jdv_per_100']=r6(100*mean_jdv); s['jdv_se']=r6(100*np.sqrt(sum(v*v for v in by_game.values()))/n)
  s['low_opposite_support_pct']=r6(100*s['low_opposite_support_pitches']/n)
  games=defaultdict(list)
  for r in items:games[r['game_id']].append(r['dv'])
@@ -547,12 +554,29 @@ def cell_summary(items):
  return {'n':len(items),'low_opposite_support_pct':r6(100*np.mean([r['opposite_support']<30 for r in items])),'raw_dv':r6(sum(r['dv'] for r in items)),'dv100':mean(items,'dv',100),'za_raw':zone_awareness(items),'delta':mean(items,'delta_v'),'swing_pct':mean(items,'swing',100),'expected_swing_pct':mean(items,'p_swing',100),'p_zone_pct':mean(items,'p_zone',100),'zone_judgment_pct':r6(100*np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])),'expected_zone_judgment_pct':r6(100*np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])),'expected_swing_rv':mean(items,'v_swing'),'expected_take_rv':mean(items,'v_take'),**{f'p_{e}':mean(items,f'p_{e}',100) for e in EVENTS}}
 
 
-def add_dv_plus(players):
- qualified=np.array([p['dv_per_100'] for p in players if p['qualified_300']],dtype=float)
- center=float(qualified.mean()) if len(qualified) else 0
- spread=float(qualified.std()) if len(qualified) else 0
- for p in players: p['dv_plus']=r6(100+15*(p['dv_per_100']-center)/spread) if spread else (100 if p['qualified_300'] else None)
- return center,spread
+def add_apr(players, league_dv_per_100, league_jdv_per_100):
+ """APR: wRC+-style decision value. Centre decision DV on the league, shrink toward it by pitches seen
+ (n/(n+k), k estimated from qualified hitters), re-centre so the pitch-weighted league mean is exactly 100,
+ then scale by league DV/100. Percentiles rank every hitter against qualified hitters only
+ (analysis/sbj_formula W-b)."""
+ n=np.array([p['pitches_seen'] for p in players],dtype=float)
+ centred=np.array([p['jdv_per_100'] for p in players],dtype=float)-league_jdv_per_100
+ se=np.array([p['jdv_se'] for p in players],dtype=float); q=np.array([p['qualified_300'] for p in players])
+ k=np.inf
+ if q.sum()>2:
+  sigma2=float(np.median(se[q]**2*n[q])); tau2=float(np.var(centred[q],ddof=1)-np.mean(se[q]**2))
+  if tau2>0: k=sigma2/tau2
+ shrunk=n/(n+k)*centred if np.isfinite(k) else np.zeros(len(players))
+ shrunk-=float((shrunk*n).sum()/n.sum())
+ apr=100*(league_dv_per_100+shrunk)/league_dv_per_100
+ reference=np.sort(apr[q])
+ for p,value in zip(players,apr):
+  p['apr']=r6(value)
+  if len(reference):
+   lo,hi=np.searchsorted(reference,value,'left'),np.searchsorted(reference,value,'right')
+   p['apr_percentile']=r6(100*(lo+.5*(hi-lo))/len(reference))
+  else: p['apr_percentile']=None
+ return {'league_dv_per_100':r6(league_dv_per_100),'league_jdv_per_100':r6(league_jdv_per_100),'shrinkage_k_pitches':r6(k) if np.isfinite(k) else None}
 
 
 def write_web(root,season,pitches,report,output_root=None):
@@ -561,11 +585,12 @@ def write_web(root,season,pitches,report,output_root=None):
  by_batter=defaultdict(list)
  for r in pitches: by_batter[str(r['batter_id'])].append(r)
  players=[profile_summary(items) for items in by_batter.values()]
- add_dv_plus(players)
+ apr_meta=add_apr(players,100*float(np.mean([r['dv'] for r in pitches])),100*float(np.mean([2*(r['swing']-r['p_swing'])*r['delta_v'] for r in pitches])))
+ report['apr']=apr_meta
  scores=np.array([p['za_raw'] for p in players if p['qualified_300'] and p['za_raw'] is not None])
  for p in players: p['za_percentile']=r6(100*(np.sum(scores<p['za_raw'])+.5*np.sum(scores==p['za_raw']))/len(scores)) if len(scores) and p['za_raw'] is not None else None
  def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
- dump(dest/'leaderboard.json',{'schema_version':5,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'pzone_input':report['source'].get('pzone_input'),'settings':report['validation']['settings']})
+ dump(dest/'leaderboard.json',{'schema_version':6,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'apr':report['apr'],'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'pzone_input':report['source'].get('pzone_input'),'settings':report['validation']['settings']})
  dump(dest/'teams.json',{'season':season,'teams':{p['batter_id']:p['team'] for p in players}})
  shards=defaultdict(dict)
  for p in players:
