@@ -11,7 +11,7 @@
     ["leaderboards/", "Leaderboards"],
     ["zones/", "Zone Profile"],
     ["swing-take/", "Swing/Take"],
-    ["zone-awareness/", "Strike Zone Judgment"],
+    ["zone-awareness/", "Approach"],
     ["pitch-arsenal/", "Pitch Plot"],
     ["movement-zones/", "Movement Zones"],
     ["blocking/", "Blocking"],

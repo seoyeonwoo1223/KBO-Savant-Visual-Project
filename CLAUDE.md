@@ -185,7 +185,7 @@ CSS는 **두 층**입니다.
 | `dataset_summary.py` | `data/curated/summary.json` 생성 (footer만 읽음) |
 | `storage.py`, `validation.py` | 수집 manifest, 라인스코어 대조 |
 | `swing_take.py` | Swing/Take 분류와 decision pitch 테이블 (하위 metric 공통 입력) |
-| `zone_decision.py` | ZA v7 · DV / DV+ / SA. 지표 수식은 `zone_awareness()`, `decision_value()`, `profile_summary()`에만 둡니다 |
+| `zone_decision.py` | APR(wRC+형 판단 가치) · ZA(존 판단, 옛 SBJ) · DV/100 · SA. 지표 수식은 `zone_awareness()`, `decision_value()`, `profile_summary()`, `add_apr()`에만 둡니다 |
 | `zone_awareness_v2.py`, `plate_decision_v1.py` | 이전 세대 모델. 2022–2023 legacy 시즌과 팀 이력 조회에 계속 쓰입니다 |
 | `plate_discipline.py` | 구역별 Swing%/Contact%, 회귀 잔차, 클러스터 연구표 |
 | `zone_profile.py` | 0.5 ft 존 격자 프로필 |
