@@ -1,0 +1,161 @@
+{
+ "seasons": {
+  "2019": {
+   "V1": {
+    "spearman_e_vs_sa": 0.17426809359695264,
+    "split_half_reliability": 0.3803453329165996,
+    "k_swings": 629.287335028752,
+    "true_sd_runs_per_100_swings": 1.424653720342159
+   },
+   "V2": {
+    "spearman_apr_sa": -0.4191003083620533,
+    "spearman_apr_exec_sa": -0.42089969163794666,
+    "delta": -0.0017993832758933515,
+    "mean_abs_delta_apr": 1.517789355704698,
+    "max_abs_delta_apr": 12.942397999999997,
+    "spearman_apr_vs_apr_exec": 0.9533502630146926
+   },
+   "sanity_max_abs_apr_vs_published": 2.7000000002885827e-05
+  },
+  "2020": {
+   "V1": {
+    "spearman_e_vs_sa": 0.03863685553318336,
+    "split_half_reliability": 0.5557033128660098,
+    "k_swings": 457.4016239538244,
+    "true_sd_runs_per_100_swings": 1.7366517556257801
+   },
+   "V2": {
+    "spearman_apr_sa": -0.5133474562375797,
+    "spearman_apr_exec_sa": -0.4961796013668174,
+    "delta": 0.017167854870762334,
+    "mean_abs_delta_apr": 1.0188668373493972,
+    "max_abs_delta_apr": 8.653361000000004,
+    "spearman_apr_vs_apr_exec": 0.9843406287097219
+   },
+   "sanity_max_abs_apr_vs_published": 2.800000000036107e-05
+  },
+  "2021": {
+   "V1": {
+    "spearman_e_vs_sa": 0.10419948711558266,
+    "split_half_reliability": 0.4821985160220215,
+    "k_swings": 599.7082563172194,
+    "true_sd_runs_per_100_swings": 1.457240500395547
+   },
+   "V2": {
+    "spearman_apr_sa": -0.4820759357517168,
+    "spearman_apr_exec_sa": -0.4451482577014646,
+    "delta": 0.03692767805025221,
+    "mean_abs_delta_apr": 0.8579064457831328,
+    "max_abs_delta_apr": 7.780735000000007,
+    "spearman_apr_vs_apr_exec": 0.9882259577231082
+   },
+   "sanity_max_abs_apr_vs_published": 1.2000000012335477e-05
+  },
+  "2022": {
+   "V1": {
+    "spearman_e_vs_sa": 0.21819575167134514,
+    "split_half_reliability": 0.48038410456836117,
+    "k_swings": 412.57664216526507,
+    "true_sd_runs_per_100_swings": 1.6583937738464987
+   },
+   "V2": {
+    "spearman_apr_sa": -0.5841317825847033,
+    "spearman_apr_exec_sa": -0.5792881629104621,
+    "delta": 0.004843619674241184,
+    "mean_abs_delta_apr": 1.3501867962962961,
+    "max_abs_delta_apr": 8.102846999999997,
+    "spearman_apr_vs_apr_exec": 0.9858812438166932
+   },
+   "sanity_max_abs_apr_vs_published": 9.999999988963282e-06
+  },
+  "2023": {
+   "V1": {
+    "spearman_e_vs_sa": 0.17326670714918116,
+    "split_half_reliability": 0.5802566439535978,
+    "k_swings": 560.8985159968483,
+    "true_sd_runs_per_100_swings": 1.48102206803523
+   },
+   "V2": {
+    "spearman_apr_sa": -0.4854448363934715,
+    "spearman_apr_exec_sa": -0.4750360402538348,
+    "delta": 0.010408796139636745,
+    "mean_abs_delta_apr": 0.7555919421965317,
+    "max_abs_delta_apr": 4.987904,
+    "spearman_apr_vs_apr_exec": 0.9911996885009573
+   },
+   "sanity_max_abs_apr_vs_published": 3.900000000101045e-05
+  },
+  "2024": {
+   "V1": {
+    "spearman_e_vs_sa": 0.02112081466920176,
+    "split_half_reliability": 0.4606198220154577,
+    "k_swings": 493.2610162752944,
+    "true_sd_runs_per_100_swings": 1.7122080444050762
+   },
+   "V2": {
+    "spearman_apr_sa": -0.45398150236859913,
+    "spearman_apr_exec_sa": -0.4156037510876221,
+    "delta": 0.038377751280977035,
+    "mean_abs_delta_apr": 1.083798322580645,
+    "max_abs_delta_apr": 13.740876999999998,
+    "spearman_apr_vs_apr_exec": 0.983725951467887
+   },
+   "sanity_max_abs_apr_vs_published": 6.100000000230921e-05
+  },
+  "2025": {
+   "V1": {
+    "spearman_e_vs_sa": 0.09407684738522093,
+    "split_half_reliability": 0.42849033466465114,
+    "k_swings": 581.5947148532592,
+    "true_sd_runs_per_100_swings": 1.4398573555297705
+   },
+   "V2": {
+    "spearman_apr_sa": -0.5164158686730507,
+    "spearman_apr_exec_sa": -0.5077903376772985,
+    "delta": 0.00862553099575214,
+    "mean_abs_delta_apr": 0.6851232105263168,
+    "max_abs_delta_apr": 6.120705000000001,
+    "spearman_apr_vs_apr_exec": 0.9928480572155424
+   },
+   "sanity_max_abs_apr_vs_published": 8.000000008223651e-06
+  },
+  "2026": {
+   "V1": {
+    "spearman_e_vs_sa": 0.09734965993533198,
+    "split_half_reliability": 0.4795575348270666,
+    "k_swings": 495.9421267708465,
+    "true_sd_runs_per_100_swings": 1.6610756983759867
+   },
+   "V2": {
+    "spearman_apr_sa": -0.5017544319903459,
+    "spearman_apr_exec_sa": -0.4877924326593255,
+    "delta": 0.01396199933102038,
+    "mean_abs_delta_apr": 0.8741849879518061,
+    "max_abs_delta_apr": 8.938962000000004,
+    "spearman_apr_vs_apr_exec": 0.9787002118435639
+   },
+   "sanity_max_abs_apr_vs_published": 1.5000000004761205e-05
+  }
+ },
+ "V2_seasons_delta_ge_0.10": 0,
+ "V2_verdict": false,
+ "V3": {
+  "pairs": 700,
+  "batters": 215,
+  "coef_apr": 0.0012132236489936228,
+  "coef_sa": 0.0014734931587315247,
+  "coef_sa_ci95": [
+   0.00042065994864541817,
+   0.00262993373961309
+  ],
+  "coef_apr_ci95": [
+   0.0006327106881897925,
+   0.0018051660625856738
+  ],
+  "corr_next_woba": {
+   "apr": 0.16967643306820834,
+   "apr_exec": 0.18359529449336595,
+   "sa": 0.03084671939872884
+  }
+ }
+}
