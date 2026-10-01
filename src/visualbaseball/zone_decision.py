@@ -29,7 +29,7 @@ from .curated import CM_PER_FOOT, _at_plane, load_rows as load_curated_rows, sch
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
 NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
-MODEL_VERSION = 'za7.3-stable-pswing-pzone'
+MODEL_VERSION = 'za7.4-umpire-count-pzone'
 SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 # za7.3: p_zone averages five seeds so one early-stopping validation split no longer moves player SBJ
@@ -156,8 +156,14 @@ def reported_location_disagrees(row):
  return abs(float(row['px'])*CM_PER_FOOT-mid[0])>REPORTED_LOCATION_TOLERANCE_CM or abs(float(row['pz'])*CM_PER_FOOT-front[1])>REPORTED_LOCATION_TOLERANCE_CM
 
 
+# za7.4: umpires widened the zone at 0 strikes and shrank it at 2, so pre-ABS p_zone also reads the count.
+# Without it boundary takes were mis-calibrated by -11 to -13 pp at 2 strikes (analysis/sbj_formula C1).
+# ABS ignores the count; adding it there did not improve calls (C1-ABS control).
+PZONE_UMPIRE = old.PZONE_NUMERIC + ('balls_before', 'strikes_before')
+
+
 def pzone_fields(season):
- return PZONE_ABS if int(season)>=ABS_FIRST_SEASON else old.PZONE_NUMERIC
+ return PZONE_ABS if int(season)>=ABS_FIRST_SEASON else PZONE_UMPIRE
 
 
 def load_pitcher_hands(root):
@@ -571,14 +577,17 @@ def build_zone_decision(root,season=2026):
  # profile_summary(); this function only orchestrates model output.
  result,fold_meta=score_crossfit(rows,selected,SCORE_SETTINGS,pzone_fields(season))
  # One report: observed fit, period reproducibility and opposite-action support.
- periods=defaultdict(lambda:defaultdict(list))
- for r in result: periods[r['fold']][str(r['batter_id'])].append(r['dv'])
- stability=[]
- for a,b in ((0,1),(1,2)):
-  ids=[k for k,v in periods[a].items() if len(v)>=150 and len(periods[b].get(k,[]))>=150]
-  x=[np.mean(periods[a][k]) for k in ids];y=[np.mean(periods[b][k]) for k in ids]
-  corr=float(np.corrcoef(x,y)[0,1]) if len(ids)>2 and np.std(x)>0 and np.std(y)>0 else None
-  stability.append({'blocks':[a+1,b+1],'batters_150_pitches_each':len(ids),'pearson_r':corr,'interpretation':'descriptive repeatability; cross-fit training overlaps, not independent prospective validation'})
+ # Until za7.3 this correlated DV only, under a name that read as SBJ; both metrics are now reported by name.
+ stability={}
+ for metric,key in (('sbj','judgment'),('dv','dv')):
+  periods=defaultdict(lambda:defaultdict(list))
+  for r in result: periods[r['fold']][str(r['batter_id'])].append(r[key])
+  stability[metric]=[]
+  for a,b in ((0,1),(1,2),(0,2)):
+   ids=[k for k,v in periods[a].items() if len(v)>=150 and len(periods[b].get(k,[]))>=150]
+   x=[np.mean(periods[a][k]) for k in ids];y=[np.mean(periods[b][k]) for k in ids]
+   corr=float(np.corrcoef(x,y)[0,1]) if len(ids)>2 and np.std(x)>0 and np.std(y)>0 else None
+   stability[metric].append({'blocks':[a+1,b+1],'batters_150_pitches_each':len(ids),'pearson_r':corr,'interpretation':'descriptive repeatability; cross-fit training overlaps, not independent prospective validation'})
  support={reg:{'pitches':sum(r['region']==reg for r in result),'opposite_action_under_30':sum(r['region']==reg and r['opposite_support']<30 for r in result)} for reg in REGIONS}
  report={'schema_version':5,'model_version':MODEL_VERSION,'season':season,'source':source,'pitches':len(result),'validation':validation,'period_reproducibility':stability,'opposite_action_support':support,
   'support_definition':'Opposite-action counts: normalized 0.5 location cell x count x pitch type x stance x 10 km/h velocity x 10 cm HB/IVB bins. Diagnostic neighborhood, not proof of causal overlap.',

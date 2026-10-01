@@ -181,7 +181,8 @@ def test_unapproved_plate_coordinate_substitution_is_not_in_pzone():
 
 
 def test_only_abs_seasons_read_judgment_planes():
- assert pzone_fields(2023)==old.PZONE_NUMERIC
+ # za7.4: human-umpire seasons add the count to the four front-plane inputs.
+ assert pzone_fields(2023)==old.PZONE_NUMERIC+('balls_before','strikes_before')
  # Legacy human-umpire builds call predict_pzone without fields and keep the four front-plane inputs.
  assert inspect.signature(old.predict_pzone).parameters['fields'].default==old.PZONE_NUMERIC
  assert all(pzone_fields(season)==PZONE_ABS for season in (2024,2025,2026))
