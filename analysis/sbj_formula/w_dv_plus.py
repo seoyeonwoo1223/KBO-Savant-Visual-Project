@@ -1,6 +1,6 @@
 """W: wRC+형 판단 DV+ (리그 중심화 → 소표본 수축 → 리그 DV/100 대비 비율), Savant식 백분위 (gates.md W).
 
-python analysis/sbj_formula/w_dv_plus.py -> results/w_dv_plus.json, results/w_dv_plus_<Y>.csv
+python analysis/sbj_formula/w_dv_plus.py [--recenter] -> results/w_dv_plus.json (W), results/wb_dv_plus.json (W-b)
 za7.5 투구 근거와 공개 leaderboard(SBJ·현행 DV+ 비교용)만 읽는다.
 """
 import json
@@ -17,6 +17,8 @@ from visualbaseball.zone_decision import MODEL_VERSION  # noqa: E402
 
 OUT = Path(__file__).with_name("results")
 QUAL = 300
+RECENTER = "--recenter" in sys.argv  # W-b: 수축 후 리그 투구 가중 평균을 다시 0으로
+NAME = "wb_dv_plus" if RECENTER else "w_dv_plus"
 
 
 def per_batter(df):
@@ -50,7 +52,10 @@ def season(y):
     t = per_batter(df); t["jdvc"] = t.jdv - m
     k, sigma2, tau2 = shrink_k(t, QUAL)
     t["w"] = t.n / (t.n + k)
-    t["plus"] = 100 * (L + t.w * t.jdvc) / L
+    t["jdvs"] = t.w * t.jdvc
+    if RECENTER:
+        t["jdvs"] -= float((t.jdvs * t.n).sum() / t.n.sum())
+    t["plus"] = 100 * (L + t.jdvs) / L
     t["plus_raw"] = 100 * (L + t.jdvc) / L
     t["qualified"] = t.n >= QUAL
     t["pct"] = percentile(t.plus, t.plus[t.qualified])
@@ -86,7 +91,7 @@ def season(y):
     rank = lambda col: q[col].rank(ascending=False, method="min")
     small = lambda col, top: int((q.sort_values(col, ascending=not top).head(10).n < 500).sum())
     t.reset_index().rename(columns={"index": "batter_id"}).sort_values("plus", ascending=False).to_csv(
-        OUT / f"w_dv_plus_{y}.csv", index=False, float_format="%.4f")
+        OUT / f"{NAME}_{y}.csv", index=False, float_format="%.4f")
     return t, {"L": L, "league_jdv": m, "k": k, "sigma2": sigma2, "tau2": tau2, "qualified": int(t.qualified.sum()),
                "batters": len(t), "gates": gates,
                "spearman_qualified": {"vs_sbj": float(rank("plus").corr(rank("za_raw"))), "vs_dv_plus": float(rank("plus").corr(rank("dv_plus")))},
@@ -95,7 +100,7 @@ def season(y):
 
 
 def main():
-    res = {"model_version": MODEL_VERSION, "seasons": {}}
+    res = {"model_version": MODEL_VERSION, "recenter": RECENTER, "seasons": {}}
     tables = {}
     for y in range(2019, 2027):
         tables[y], res["seasons"][y] = season(y)
@@ -103,7 +108,7 @@ def main():
     res["all_pass"] = all(s["gates"]["pass"] for s in res["seasons"].values())
     res["lee_jaehyun_percentiles"] = {y: float(tables[y].loc[tables[y].batter_name == "이재현", "pct"].iloc[0])
                                       for y in (2022, 2023, 2024, 2025) if (tables[y].batter_name == "이재현").any()}
-    (OUT / "w_dv_plus.json").write_text(json.dumps(res, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    (OUT / f"{NAME}.json").write_text(json.dumps(res, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps({y: {k: v for k, v in s.items() if k != "gates"} for y, s in res["seasons"].items()}, ensure_ascii=False))
     print("all_pass", res["all_pass"], res["lee_jaehyun_percentiles"])
 

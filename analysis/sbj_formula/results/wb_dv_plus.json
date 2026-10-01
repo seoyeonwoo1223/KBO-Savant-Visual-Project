@@ -1,0 +1,397 @@
+{
+ "model_version": "za7.5-dv-trackman-movement",
+ "recenter": true,
+ "seasons": {
+  "2019": {
+   "L": 4.776943010914681,
+   "league_jdv": -0.1150039246589524,
+   "k": 377.1801163809435,
+   "sigma2": 85.77434407709985,
+   "tau2": 0.2274095063655733,
+   "qualified": 149,
+   "batters": 291,
+   "gates": {
+    "W1": {
+     "mse_raw": 0.3139338657752112,
+     "mse_shrunk": 0.27015308830434687,
+     "batters": 124,
+     "k_block1": 497.99708615203866,
+     "pass": true
+    },
+    "W2": {
+     "spearman": 0.1466382957765451,
+     "spearman_raw": -0.1928870121037885,
+     "pass": true
+    },
+    "W3": {
+     "league_mean": 100.0,
+     "pass": true
+    },
+    "W4": {
+     "nonqualified_100_299": 60,
+     "share_extreme_nonqualified": 0.0,
+     "share_extreme_qualified": 0.09395973154362416,
+     "raw_share_extreme_nonqualified": 0.2833333333333333,
+     "raw_share_extreme_qualified": 0.09395973154362416,
+     "pass": true
+    },
+    "pass": true
+   },
+   "spearman_qualified": {
+    "vs_sbj": 0.6726500997641938,
+    "vs_dv_plus": 0.7623725739161982
+   },
+   "under_500_in_top10": {
+    "shrunk": 1,
+    "raw": 2
+   },
+   "under_500_in_bottom10": {
+    "shrunk": 1,
+    "raw": 3
+   }
+  },
+  "2020": {
+   "L": 5.053442557877483,
+   "league_jdv": -0.12655933840198055,
+   "k": 296.35612357499,
+   "sigma2": 97.4164029984291,
+   "tau2": 0.32871398715599287,
+   "qualified": 166,
+   "batters": 286,
+   "gates": {
+    "W1": {
+     "mse_raw": 0.44863769255093455,
+     "mse_shrunk": 0.3150626325261103,
+     "batters": 122,
+     "k_block1": 226.51707944042877,
+     "pass": true
+    },
+    "W2": {
+     "spearman": 0.09235753204505007,
+     "spearman_raw": -0.24347656201050857,
+     "pass": true
+    },
+    "W3": {
+     "league_mean": 100.00000000000001,
+     "pass": true
+    },
+    "W4": {
+     "nonqualified_100_299": 53,
+     "share_extreme_nonqualified": 0.03773584905660377,
+     "share_extreme_qualified": 0.0963855421686747,
+     "raw_share_extreme_nonqualified": 0.22641509433962265,
+     "raw_share_extreme_qualified": 0.0963855421686747,
+     "pass": true
+    },
+    "pass": true
+   },
+   "spearman_qualified": {
+    "vs_sbj": 0.5855788969705715,
+    "vs_dv_plus": 0.7994582576358785
+   },
+   "under_500_in_top10": {
+    "shrunk": 1,
+    "raw": 3
+   },
+   "under_500_in_bottom10": {
+    "shrunk": 3,
+    "raw": 4
+   }
+  },
+  "2021": {
+   "L": 5.149124192775064,
+   "league_jdv": -0.10792810915330273,
+   "k": 295.2926894022913,
+   "sigma2": 105.24889135334348,
+   "tau2": 0.35642227231016177,
+   "qualified": 166,
+   "batters": 291,
+   "gates": {
+    "W1": {
+     "mse_raw": 0.5226197290390016,
+     "mse_shrunk": 0.42317490921152046,
+     "batters": 123,
+     "k_block1": 273.4314894162583,
+     "pass": true
+    },
+    "W2": {
+     "spearman": 0.1968033926639537,
+     "spearman_raw": -0.15205012217225042,
+     "pass": true
+    },
+    "W3": {
+     "league_mean": 100.0,
+     "pass": true
+    },
+    "W4": {
+     "nonqualified_100_299": 56,
+     "share_extreme_nonqualified": 0.017857142857142856,
+     "share_extreme_qualified": 0.0963855421686747,
+     "raw_share_extreme_nonqualified": 0.25,
+     "raw_share_extreme_qualified": 0.0963855421686747,
+     "pass": true
+    },
+    "pass": true
+   },
+   "spearman_qualified": {
+    "vs_sbj": 0.6172544287110338,
+    "vs_dv_plus": 0.8038840172885336
+   },
+   "under_500_in_top10": {
+    "shrunk": 0,
+    "raw": 0
+   },
+   "under_500_in_bottom10": {
+    "shrunk": 1,
+    "raw": 1
+   }
+  },
+  "2022": {
+   "L": 4.807901285622052,
+   "league_jdv": -0.09080974958832383,
+   "k": 301.2431898373297,
+   "sigma2": 89.80248879664697,
+   "tau2": 0.29810628696748304,
+   "qualified": 162,
+   "batters": 279,
+   "gates": {
+    "W1": {
+     "mse_raw": 0.43201922039801643,
+     "mse_shrunk": 0.3597205880357397,
+     "batters": 122,
+     "k_block1": 244.43578749254652,
+     "pass": true
+    },
+    "W2": {
+     "spearman": 0.1542479804675762,
+     "spearman_raw": -0.1860274601835877,
+     "pass": true
+    },
+    "W3": {
+     "league_mean": 100.0,
+     "pass": true
+    },
+    "W4": {
+     "nonqualified_100_299": 45,
+     "share_extreme_nonqualified": 0.022222222222222223,
+     "share_extreme_qualified": 0.09876543209876543,
+     "raw_share_extreme_nonqualified": 0.17777777777777778,
+     "raw_share_extreme_qualified": 0.09876543209876543,
+     "pass": true
+    },
+    "pass": true
+   },
+   "spearman_qualified": {
+    "vs_sbj": 0.6426532084040754,
+    "vs_dv_plus": 0.839807722976568
+   },
+   "under_500_in_top10": {
+    "shrunk": 0,
+    "raw": 0
+   },
+   "under_500_in_bottom10": {
+    "shrunk": 1,
+    "raw": 3
+   }
+  },
+  "2023": {
+   "L": 4.796856556427536,
+   "league_jdv": -0.10598081981077039,
+   "k": 458.7692581254998,
+   "sigma2": 83.74218677716193,
+   "tau2": 0.18253661354583098,
+   "qualified": 173,
+   "batters": 293,
+   "gates": {
+    "W1": {
+     "mse_raw": 0.3726502225128674,
+     "mse_shrunk": 0.23946147334338083,
+     "batters": 121,
+     "k_block1": 382.42980981611106,
+     "pass": true
+    },
+    "W2": {
+     "spearman": 0.12135406318336651,
+     "spearman_raw": -0.2640659149620701,
+     "pass": true
+    },
+    "W3": {
+     "league_mean": 100.0,
+     "pass": true
+    },
+    "W4": {
+     "nonqualified_100_299": 40,
+     "share_extreme_nonqualified": 0.05,
+     "share_extreme_qualified": 0.10404624277456648,
+     "raw_share_extreme_nonqualified": 0.4,
+     "raw_share_extreme_qualified": 0.10404624277456648,
+     "pass": true
+    },
+    "pass": true
+   },
+   "spearman_qualified": {
+    "vs_sbj": 0.5392224575976564,
+    "vs_dv_plus": 0.7790929444539728
+   },
+   "under_500_in_top10": {
+    "shrunk": 1,
+    "raw": 2
+   },
+   "under_500_in_bottom10": {
+    "shrunk": 1,
+    "raw": 4
+   }
+  },
+  "2024": {
+   "L": 6.17468498557647,
+   "league_jdv": -0.07714368766604139,
+   "k": 345.9538039134709,
+   "sigma2": 127.46786550329936,
+   "tau2": 0.3684534295081239,
+   "qualified": 155,
+   "batters": 298,
+   "gates": {
+    "W1": {
+     "mse_raw": 0.4737108913917772,
+     "mse_shrunk": 0.37555784645162144,
+     "batters": 119,
+     "k_block1": 340.0954677519195,
+     "pass": true
+    },
+    "W2": {
+     "spearman": 0.11126901560482437,
+     "spearman_raw": -0.2684709647754799,
+     "pass": true
+    },
+    "W3": {
+     "league_mean": 100.0,
+     "pass": true
+    },
+    "W4": {
+     "nonqualified_100_299": 51,
+     "share_extreme_nonqualified": 0.058823529411764705,
+     "share_extreme_qualified": 0.1032258064516129,
+     "raw_share_extreme_nonqualified": 0.3137254901960784,
+     "raw_share_extreme_qualified": 0.1032258064516129,
+     "pass": true
+    },
+    "pass": true
+   },
+   "spearman_qualified": {
+    "vs_sbj": 0.7053656021397956,
+    "vs_dv_plus": 0.8562147529889467
+   },
+   "under_500_in_top10": {
+    "shrunk": 1,
+    "raw": 2
+   },
+   "under_500_in_bottom10": {
+    "shrunk": 0,
+    "raw": 4
+   }
+  },
+  "2025": {
+   "L": 5.711456186924169,
+   "league_jdv": -0.09638189721115349,
+   "k": 281.0222207420186,
+   "sigma2": 117.31209727559222,
+   "tau2": 0.41744776255001553,
+   "qualified": 171,
+   "batters": 299,
+   "gates": {
+    "W1": {
+     "mse_raw": 0.6729923112032354,
+     "mse_shrunk": 0.5020149243450375,
+     "batters": 130,
+     "k_block1": 252.56836291044362,
+     "pass": true
+    },
+    "W2": {
+     "spearman": 0.07047560992527312,
+     "spearman_raw": -0.2228866574061437,
+     "pass": true
+    },
+    "W3": {
+     "league_mean": 100.0,
+     "pass": true
+    },
+    "W4": {
+     "nonqualified_100_299": 41,
+     "share_extreme_nonqualified": 0.04878048780487805,
+     "share_extreme_qualified": 0.10526315789473684,
+     "raw_share_extreme_nonqualified": 0.14634146341463414,
+     "raw_share_extreme_qualified": 0.10526315789473684,
+     "pass": true
+    },
+    "pass": true
+   },
+   "spearman_qualified": {
+    "vs_sbj": 0.6571747426020593,
+    "vs_dv_plus": 0.8084143326853387
+   },
+   "under_500_in_top10": {
+    "shrunk": 1,
+    "raw": 2
+   },
+   "under_500_in_bottom10": {
+    "shrunk": 1,
+    "raw": 4
+   }
+  },
+  "2026": {
+   "L": 6.2146693599533105,
+   "league_jdv": -0.085494329398815,
+   "k": 444.71707851356604,
+   "sigma2": 138.63924183787796,
+   "tau2": 0.31174706017873066,
+   "qualified": 166,
+   "batters": 290,
+   "gates": {
+    "W1": {
+     "mse_raw": 0.7843550977787291,
+     "mse_shrunk": 0.46049603223318103,
+     "batters": 132,
+     "k_block1": 342.01682179119507,
+     "pass": true
+    },
+    "W2": {
+     "spearman": 0.17176463941024997,
+     "spearman_raw": -0.20434650464538795,
+     "pass": true
+    },
+    "W3": {
+     "league_mean": 100.0,
+     "pass": true
+    },
+    "W4": {
+     "nonqualified_100_299": 47,
+     "share_extreme_nonqualified": 0.0,
+     "share_extreme_qualified": 0.0963855421686747,
+     "raw_share_extreme_nonqualified": 0.3617021276595745,
+     "raw_share_extreme_qualified": 0.0963855421686747,
+     "pass": true
+    },
+    "pass": true
+   },
+   "spearman_qualified": {
+    "vs_sbj": 0.5837949511710424,
+    "vs_dv_plus": 0.8054134884666594
+   },
+   "under_500_in_top10": {
+    "shrunk": 0,
+    "raw": 1
+   },
+   "under_500_in_bottom10": {
+    "shrunk": 4,
+    "raw": 7
+   }
+  }
+ },
+ "all_pass": true,
+ "lee_jaehyun_percentiles": {
+  "2022": 0.9259259259259259,
+  "2023": 34.971098265895954,
+  "2024": 64.83870967741936,
+  "2025": 95.6140350877193
+ }
+}
