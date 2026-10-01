@@ -1,4 +1,4 @@
-// SBJ (za7.4) is published from 2019. Before the 2024 ABS season p_zone learns the umpire's calls, not the ABS planes.
+// SBJ (za7.5) is published from 2019. Before the 2024 ABS season p_zone learns the umpire's calls, not the ABS planes.
 const SBJ_FIRST_SEASON=2019,ABS_FIRST_SEASON=2024;
 const $ = (selector) => document.querySelector(selector);
 const thumbnailMode = new URLSearchParams(location.search).get("thumb") === "1";
