@@ -139,5 +139,6 @@ PowerShell에서는 `$env:PYTHONPATH = 'src'; $env:OMP_NUM_THREADS = '2'`를 먼
 - checks.json: 실제 계산값, 환경, 입력 SHA-256, 검증 한계.
 - sources.json: 계산 근거를 구조화한 자료.
 - Z-e-draft.md: 결과 계산 전에 고정할 신규 실험 초안.
+- counter-review.md: 이 검토에 대한 반론 메모(Z-e 미등록, 운영 결론은 Z0 유지).
 
 checks.json에는 실행 환경에 따라 바뀌는 값(파이썬 패치 버전, 로컬 캐시 상태)을 기록하지 않는다. 같은 기준 커밋이면 어느 체크아웃에서 실행해도 같은 파일이 나온다. 로컬 화면용 sources.html과 실행 로그는 커밋 대상에서 제외한다.
