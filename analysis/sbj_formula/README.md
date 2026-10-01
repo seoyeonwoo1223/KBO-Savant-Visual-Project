@@ -17,6 +17,7 @@
 | `c0d_release_changes.py` → `results/c0d_release_changes*.{json,csv}` | za7.2 → za7.3 공개 SBJ 선수 변화표 |
 | `jdv_experiment.py` → `results/jdv*.{json,csv}` | 판단 DV (gates.md J) |
 | `jdv_j5_centered.py` → `results/jdv_j5_centered.json` | 보조 진단(사전 등록 아님): J5 시즌 중심화 |
+| `m_dv_movement.py` → `results/m_<Y>.json` | DV 모델 무브먼트를 TrackMan 검증 보정으로 교체 (gates.md M) |
 | `seager_variables.md` | SEAGER(Baseball Prospectus) 대비 가중 구조와 추가 입력 후보 정리 |
 | `c1_count_pzone.py` → `results/c1_<Y>.json`, `results/c1_player_changes_<Y>.csv` | C1 (구심 시즌) + C1-ABS 대조 |
 
