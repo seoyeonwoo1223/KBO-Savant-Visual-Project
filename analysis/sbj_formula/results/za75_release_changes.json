@@ -1,0 +1,165 @@
+{
+ "base": "ef0f3298",
+ "seasons": {
+  "2019": {
+   "model_version": [
+    "za7.4-umpire-count-zone-calibrated",
+    "za7.5-dv-trackman-movement"
+   ],
+   "qualified": 149,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.0,
+   "max_abs_delta_sbj": 0.0,
+   "spearman": 1.0,
+   "max_rank_shift": 0,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.0,
+   "mean_abs_delta_sa": 0.0,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    291,
+    291
+   ]
+  },
+  "2020": {
+   "model_version": [
+    "za7.4-umpire-count-zone-calibrated",
+    "za7.5-dv-trackman-movement"
+   ],
+   "qualified": 166,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.0,
+   "max_abs_delta_sbj": 0.0,
+   "spearman": 1.0,
+   "max_rank_shift": 0,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.0,
+   "mean_abs_delta_sa": 0.0,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    286,
+    286
+   ]
+  },
+  "2021": {
+   "model_version": [
+    "za7.4-umpire-count-zone-calibrated",
+    "za7.5-dv-trackman-movement"
+   ],
+   "qualified": 166,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.0,
+   "max_abs_delta_sbj": 0.0,
+   "spearman": 1.0,
+   "max_rank_shift": 0,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.0,
+   "mean_abs_delta_sa": 0.0,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    291,
+    291
+   ]
+  },
+  "2022": {
+   "model_version": [
+    "za7.4-umpire-count-zone-calibrated",
+    "za7.5-dv-trackman-movement"
+   ],
+   "qualified": 162,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.0,
+   "max_abs_delta_sbj": 0.0,
+   "spearman": 1.0,
+   "max_rank_shift": 0,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.0,
+   "mean_abs_delta_sa": 0.0,
+   "max_abs_delta_dv_per_100_all_batters": 1.537941,
+   "batters": [
+    279,
+    279
+   ]
+  },
+  "2023": {
+   "model_version": [
+    "za7.4-umpire-count-zone-calibrated",
+    "za7.5-dv-trackman-movement"
+   ],
+   "qualified": 173,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.0,
+   "max_abs_delta_sbj": 0.0,
+   "spearman": 1.0,
+   "max_rank_shift": 0,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.0,
+   "mean_abs_delta_sa": 0.0,
+   "max_abs_delta_dv_per_100_all_batters": 1.0917999999999992,
+   "batters": [
+    293,
+    293
+   ]
+  },
+  "2024": {
+   "model_version": [
+    "za7.4-umpire-count-zone-calibrated",
+    "za7.5-dv-trackman-movement"
+   ],
+   "qualified": 155,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.0,
+   "max_abs_delta_sbj": 0.0,
+   "spearman": 1.0,
+   "max_rank_shift": 0,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.0,
+   "mean_abs_delta_sa": 0.0,
+   "max_abs_delta_dv_per_100_all_batters": 1.060766,
+   "batters": [
+    298,
+    298
+   ]
+  },
+  "2025": {
+   "model_version": [
+    "za7.4-umpire-count-zone-calibrated",
+    "za7.5-dv-trackman-movement"
+   ],
+   "qualified": 171,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.0,
+   "max_abs_delta_sbj": 0.0,
+   "spearman": 1.0,
+   "max_rank_shift": 0,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.0,
+   "mean_abs_delta_sa": 0.0,
+   "max_abs_delta_dv_per_100_all_batters": 1.9412880000000001,
+   "batters": [
+    299,
+    299
+   ]
+  },
+  "2026": {
+   "model_version": [
+    "za7.4-umpire-count-zone-calibrated",
+    "za7.5-dv-trackman-movement"
+   ],
+   "qualified": 166,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.0,
+   "max_abs_delta_sbj": 0.0,
+   "spearman": 1.0,
+   "max_rank_shift": 0,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.0,
+   "mean_abs_delta_sa": 0.0,
+   "max_abs_delta_dv_per_100_all_batters": 0.7314760000000007,
+   "batters": [
+    290,
+    290
+   ]
+  }
+ }
+}

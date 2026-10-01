@@ -1,6 +1,6 @@
 {
   "schema_version": 5,
-  "model_version": "za7.4-umpire-count-zone-calibrated",
+  "model_version": "za7.5-dv-trackman-movement",
   "season": 2020,
   "source": {
     "source": "data/curated/pitches/season=2020",
@@ -23,6 +23,12 @@
       "invalid_state_location_action_or_identity": 1310
     },
     "movement": {
+      "movement_available": 219553,
+      "movement_adjusted": 219553,
+      "adjustment_coverage_pct": 100.0,
+      "formula": "no park adjustment workbook for this season: movement_calibration stadium-day and plate-location correction (TrackMan-validated 2019-2024)"
+    },
+    "dv_movement": {
       "movement_available": 219553,
       "movement_adjusted": 219553,
       "adjustment_coverage_pct": 100.0,
@@ -407,7 +413,7 @@
     "expected_zone_judgment_pct": "100 * mean(p_swing*p_zone + (1-p_swing)*(1-p_zone)); league-policy accuracy on the same pitches",
     "p_swing": "league Swing propensity from location, count, base/out, velocity, release height, park-adjusted HB/IVB, pitch type, batter stance, pitcher hand and stadium; isotonic-calibrated separately for in-zone and out-of-zone pitches (p_zone >= 0.5)",
     "p_zone": "take-only CalledStrike vs Ball/HBP model, five-seed average; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to front-plane px/pz when the trajectory is invalid; human-umpire seasons read front-plane px/pz, zone bounds and the ball-strike count",
-    "raw_dv": "sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs",
+    "raw_dv": "sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs; event and value models read TrackMan-validated movement (movement_calibration) in every season",
     "dv_per_100": "100 * raw_dv / eligible pitches; runs per 100 pitches",
     "dv_plus": "100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation",
     "swing_aggression": "100 * mean(S - p_swing); percentage points, tendency only",
@@ -426,7 +432,7 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "38753ab3e9e1d3137bb23903399ca9237f51d2fd5f5f953618b21e6ab24a5849",
+      "zone_decision.py": "b612710fd904041e622eae856b90ffc4fadc17dc3d7357f5f22d051a24205cfb",
       "plate_decision_v1.py": "94a9d4804c131a3119c959870fcb8926dc4f5177671e0d63e8cda6028465beb5",
       "swing_take.py": "cc6d1afb4e4c155f848ff5452314510affe53456a4cc28dbff33d0c8abcb704b",
       "pitch_arsenal.py": "1fef04925017ed52bda2ffe2df003200b221d83a1e34c11291b4912517355f67"
