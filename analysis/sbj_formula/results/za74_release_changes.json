@@ -1,0 +1,165 @@
+{
+ "base": "d8ce9789",
+ "seasons": {
+  "2019": {
+   "model_version": [
+    "za7.3-stable-pswing-pzone",
+    "za7.4-umpire-count-zone-calibrated"
+   ],
+   "qualified": 149,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.2330906644295302,
+   "max_abs_delta_sbj": 0.7486059999999999,
+   "spearman": 0.9947288227825141,
+   "max_rank_shift": 13,
+   "moved_5_or_more": 37,
+   "mean_abs_delta_percentile": 2.2071077583892618,
+   "mean_abs_delta_sa": 0.02662223489932889,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    291,
+    291
+   ]
+  },
+  "2020": {
+   "model_version": [
+    "za7.3-stable-pswing-pzone",
+    "za7.4-umpire-count-zone-calibrated"
+   ],
+   "qualified": 166,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.19640730120481928,
+   "max_abs_delta_sbj": 0.9063529999999997,
+   "spearman": 0.9942415278971085,
+   "max_rank_shift": 18,
+   "moved_5_or_more": 53,
+   "mean_abs_delta_percentile": 2.220931903614458,
+   "mean_abs_delta_sa": 0.024713186746987935,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    286,
+    286
+   ]
+  },
+  "2021": {
+   "model_version": [
+    "za7.3-stable-pswing-pzone",
+    "za7.4-umpire-count-zone-calibrated"
+   ],
+   "qualified": 166,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.2004253674698795,
+   "max_abs_delta_sbj": 0.724774,
+   "spearman": 0.9955243948029463,
+   "max_rank_shift": 20,
+   "moved_5_or_more": 38,
+   "mean_abs_delta_percentile": 1.9233561084337345,
+   "mean_abs_delta_sa": 0.02092898192771083,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    291,
+    291
+   ]
+  },
+  "2022": {
+   "model_version": [
+    "za7.3-stable-pswing-pzone",
+    "za7.4-umpire-count-zone-calibrated"
+   ],
+   "qualified": 162,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.23113880246913585,
+   "max_abs_delta_sbj": 1.0726849999999999,
+   "spearman": 0.9931099792396136,
+   "max_rank_shift": 24,
+   "moved_5_or_more": 45,
+   "mean_abs_delta_percentile": 2.309099222222222,
+   "mean_abs_delta_sa": 0.025415228395061707,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    279,
+    279
+   ]
+  },
+  "2023": {
+   "model_version": [
+    "za7.3-stable-pswing-pzone",
+    "za7.4-umpire-count-zone-calibrated"
+   ],
+   "qualified": 173,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.23623450867052026,
+   "max_abs_delta_sbj": 1.151257,
+   "spearman": 0.9925740853192171,
+   "max_rank_shift": 30,
+   "moved_5_or_more": 57,
+   "mean_abs_delta_percentile": 2.4725182890173407,
+   "mean_abs_delta_sa": 0.02754113872832371,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    293,
+    293
+   ]
+  },
+  "2024": {
+   "model_version": [
+    "za7.3-stable-pswing-pzone",
+    "za7.4-umpire-count-zone-calibrated"
+   ],
+   "qualified": 155,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.3136274129032258,
+   "max_abs_delta_sbj": 0.39365399999999995,
+   "spearman": 0.9997905320485966,
+   "max_rank_shift": 3,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.34131109677419363,
+   "mean_abs_delta_sa": 0.02607996774193546,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    298,
+    298
+   ]
+  },
+  "2025": {
+   "model_version": [
+    "za7.3-stable-pswing-pzone",
+    "za7.4-umpire-count-zone-calibrated"
+   ],
+   "qualified": 171,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.34830842105263154,
+   "max_abs_delta_sbj": 0.5136350000000007,
+   "spearman": 0.9996808025535796,
+   "max_rank_shift": 4,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.45826067836257306,
+   "mean_abs_delta_sa": 0.030210473684210506,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    299,
+    299
+   ]
+  },
+  "2026": {
+   "model_version": [
+    "za7.3-stable-pswing-pzone",
+    "za7.4-umpire-count-zone-calibrated"
+   ],
+   "qualified": 166,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.3658590060240964,
+   "max_abs_delta_sbj": 0.4670409999999998,
+   "spearman": 0.9997114205324292,
+   "max_rank_shift": 4,
+   "moved_5_or_more": 0,
+   "mean_abs_delta_percentile": 0.43547679518072285,
+   "mean_abs_delta_sa": 0.038835451807228916,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    290,
+    290
+   ]
+  }
+ }
+}

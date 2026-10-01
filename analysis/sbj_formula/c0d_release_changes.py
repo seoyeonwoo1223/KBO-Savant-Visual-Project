@@ -1,7 +1,7 @@
-"""za7.2 → za7.3(C0d) 공개 SBJ 선수 변화표. python analysis/sbj_formula/c0d_release_changes.py [기준 커밋]
+"""SBJ 공개 값 선수 변화표 (기준 커밋 대비). python analysis/sbj_formula/c0d_release_changes.py [기준 커밋] [결과 이름]
 
 기준 커밋(기본 master)의 web/data/zone_awareness/<Y>/leaderboard.json과 작업 트리의 값을 비교한다.
-결과: results/c0d_release_changes.json, results/c0d_release_changes_<Y>.csv
+결과: results/<결과 이름>.json, results/<결과 이름>_<Y>.csv (열 이름 base = 기준 커밋, new = 작업 트리)
 """
 import json
 import subprocess
@@ -14,6 +14,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 OUT = Path(__file__).with_name("results")
 BASE = sys.argv[1] if len(sys.argv) > 1 else "master"
+NAME = sys.argv[2] if len(sys.argv) > 2 else "c0d_release_changes"
 
 
 def board(text):
@@ -42,9 +43,9 @@ for y in range(2019, 2027):
         "max_abs_delta_dv_per_100_all_batters": float((b.loc[common, "dv_per_100"] - a.loc[common, "dv_per_100"]).abs().max()),
         "batters": [len(a), len(b)],
     }
-    pd.DataFrame({"batter_id": q, "batter_name": b.loc[q, "batter_name"].values, "sbj_za72": a.loc[q, "za_raw"].values,
-                  "sbj_za73": b.loc[q, "za_raw"].values, "delta": d.values, "rank_za72": ra.values, "rank_za73": rb.values,
-                  "percentile_za72": a.loc[q, "za_percentile"].values, "percentile_za73": b.loc[q, "za_percentile"].values}
-                 ).sort_values("rank_za73").to_csv(OUT / f"c0d_release_changes_{y}.csv", index=False, float_format="%.4f")
+    pd.DataFrame({"batter_id": q, "batter_name": b.loc[q, "batter_name"].values, "sbj_base": a.loc[q, "za_raw"].values,
+                  "sbj_new": b.loc[q, "za_raw"].values, "delta": d.values, "rank_base": ra.values, "rank_new": rb.values,
+                  "percentile_base": a.loc[q, "za_percentile"].values, "percentile_new": b.loc[q, "za_percentile"].values}
+                 ).sort_values("rank_new").to_csv(OUT / f"{NAME}_{y}.csv", index=False, float_format="%.4f")
     print(y, json.dumps(res["seasons"][y]), flush=True)
-(OUT / "c0d_release_changes.json").write_text(json.dumps(res, indent=1) + "\n")
+(OUT / f"{NAME}.json").write_text(json.dumps(res, indent=1) + "\n")
