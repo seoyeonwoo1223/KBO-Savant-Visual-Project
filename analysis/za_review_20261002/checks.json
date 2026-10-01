@@ -1,0 +1,548 @@
+{
+  "ref": "f0dc0a44367852cc1aea86d8eb24dcdb1a19d413",
+  "python": "3.12",
+  "versions": {
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "pyarrow": "19.0.1",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.18.1",
+    "openpyxl": "3.1.5"
+  },
+  "environment": {
+    "PYTHONPATH": "src",
+    "OMP_NUM_THREADS": "2"
+  },
+  "summary_generated_at": "2026-09-30T18:54:05+00:00",
+  "schema_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
+  "tests": {
+    "binary_neutral_identity": true,
+    "binary_SA_mixture": true,
+    "continuous_identity": true,
+    "soft_zone_rank_reversal": {
+      "1.0": [
+        0.25,
+        0.2
+      ],
+      "3.0": [
+        0.30000000000000004,
+        0.4
+      ]
+    },
+    "public_score_agreement": true,
+    "recenter_constant": true
+  },
+  "seasons": {
+    "2019": {
+      "qualified": 149,
+      "spearman_sa": {
+        "Z0": 0.07891529113005623,
+        "N0": 0.1555704697986577,
+        "N1": 0.1612660983130782,
+        "N2": -0.07645202249229095,
+        "N3": 0.21660076183566118,
+        "N4": -7.981135497914022e-05,
+        "N5": 0.03887538545256666
+      },
+      "spearman_apr": {
+        "Z0": 0.6726500997641938,
+        "N0": 0.6203700344639942,
+        "N1": 0.6223072737166697,
+        "N2": 0.7993651369490297,
+        "N3": 0.6047415200435334,
+        "N4": 0.7689969163794668,
+        "N5": 0.7014619989116634
+      },
+      "N0_N1_spearman": 0.9988173408307637,
+      "N0_N1_rank_changes": 104,
+      "N0_N1_max_rank_shift": 10.0,
+      "Z0_public_max_error": 4.999999999988347e-05,
+      "SA_public_max_error": 4.999999999988347e-05,
+      "recenter_shift_spread": {
+        "Z0": 0.00010000000000087717,
+        "N0": 0.00010000000000065512,
+        "N1": 0.00010000000000065512,
+        "N2": 0.00010000000000065512,
+        "N3": 0.00010000000000065512,
+        "N4": 0.00010000000000076614
+      },
+      "zbar_inferred_n": 144,
+      "zbar_inferred_quantiles": {
+        "0.1": -0.08006828476726319,
+        "0.5": -0.032327372610544365,
+        "0.9": 0.015185157901621043
+      },
+      "zbar_inferred_negative_fraction": 0.8055555555555556,
+      "correction_SA_pearson": 0.7120799823021743,
+      "correction_slopes": {
+        "total": 0.04966303133586585,
+        "common_zone_mean": 0.03335488356703072,
+        "player_composition_remainder": 0.01630814776883515
+      },
+      "N3_weights": {
+        "chase": 1.36,
+        "heart": 1.083,
+        "shadow_in": 0.436,
+        "shadow_out": 0.585,
+        "waste": 1.838
+      }
+    },
+    "2020": {
+      "qualified": 166,
+      "spearman_sa": {
+        "Z0": 0.06748046183269191,
+        "N0": 0.1825869723337764,
+        "N1": 0.19141095120450052,
+        "N2": -0.11936055953008708,
+        "N3": 0.24538190566205123,
+        "N4": -0.05826816789303343,
+        "N5": 0.0317201511895125
+      },
+      "spearman_apr": {
+        "Z0": 0.5857222591328523,
+        "N0": 0.510713512733569,
+        "N1": 0.5093571892359859,
+        "N2": 0.7298691094498946,
+        "N3": 0.490329308524244,
+        "N4": 0.720599982947577,
+        "N5": 0.6201402233867425
+      },
+      "N0_N1_spearman": 0.9987827193367921,
+      "N0_N1_rank_changes": 123,
+      "N0_N1_max_rank_shift": 8.0,
+      "Z0_public_max_error": 4.999999999988347e-05,
+      "SA_public_max_error": 5.0000000000105516e-05,
+      "recenter_shift_spread": {
+        "Z0": 0.00010000000000109921,
+        "N0": 0.00010000000000087717,
+        "N1": 0.00010000000000065512,
+        "N2": 0.00010000000000065512,
+        "N3": 0.00010000000000065512,
+        "N4": 0.00010000000000065512
+      },
+      "zbar_inferred_n": 166,
+      "zbar_inferred_quantiles": {
+        "0.1": -0.11708862533082798,
+        "0.5": -0.05189257579497342,
+        "0.9": -0.0005877431901840449
+      },
+      "zbar_inferred_negative_fraction": 0.9036144578313253,
+      "correction_SA_pearson": 0.8247006863769535,
+      "correction_slopes": {
+        "total": 0.05899617074934529,
+        "common_zone_mean": 0.055473392519460665,
+        "player_composition_remainder": 0.0035227782298846303
+      },
+      "N3_weights": {
+        "chase": 1.343,
+        "heart": 1.081,
+        "shadow_in": 0.448,
+        "shadow_out": 0.652,
+        "waste": 1.788
+      }
+    },
+    "2021": {
+      "qualified": 166,
+      "spearman_sa": {
+        "Z0": 0.13760911911117527,
+        "N0": 0.24576870355674196,
+        "N1": 0.256885740164244,
+        "N2": 0.00910205875215615,
+        "N3": 0.2829062575834093,
+        "N4": 0.028796314575443214,
+        "N5": 0.07782070032989881
+      },
+      "spearman_apr": {
+        "Z0": 0.6172544287110338,
+        "N0": 0.5398967672541009,
+        "N1": 0.5367975134928541,
+        "N2": 0.7378753992562521,
+        "N3": 0.5354946186487923,
+        "N4": 0.7410764939409704,
+        "N5": 0.6699490394894768
+      },
+      "N0_N1_spearman": 0.9988594544928426,
+      "N0_N1_rank_changes": 112,
+      "N0_N1_max_rank_shift": 8.0,
+      "Z0_public_max_error": 5.000000000077165e-05,
+      "SA_public_max_error": 4.999999999988347e-05,
+      "recenter_shift_spread": {
+        "Z0": 0.00010000000000109921,
+        "N0": 0.00010000000000076614,
+        "N1": 0.00010000000000087717,
+        "N2": 0.00010000000000065512,
+        "N3": 0.0001000000000015433,
+        "N4": 0.00010000000000115472
+      },
+      "zbar_inferred_n": 156,
+      "zbar_inferred_quantiles": {
+        "0.1": -0.11306377793377462,
+        "0.5": -0.06888459880498679,
+        "0.9": -0.019044946037993657
+      },
+      "zbar_inferred_negative_fraction": 0.9551282051282052,
+      "correction_SA_pearson": 0.8179259154368609,
+      "correction_slopes": {
+        "total": 0.06670276378514985,
+        "common_zone_mean": 0.06763359075449586,
+        "player_composition_remainder": -0.0009308269693460448
+      },
+      "N3_weights": {
+        "chase": 1.456,
+        "heart": 0.961,
+        "shadow_in": 0.32,
+        "shadow_out": 0.85,
+        "waste": 1.805
+      }
+    },
+    "2022": {
+      "qualified": 162,
+      "spearman_sa": {
+        "Z0": -0.027496574042319574,
+        "N0": 0.04135564898434997,
+        "N1": 0.05108244109008195,
+        "N2": -0.23711861081826405,
+        "N3": 0.10740783080073557,
+        "N4": -0.1821452210889394,
+        "N5": -0.1284984637878743
+      },
+      "spearman_apr": {
+        "Z0": 0.6426532084040754,
+        "N0": 0.5990606313359047,
+        "N1": 0.5943740866166048,
+        "N2": 0.8018575676617822,
+        "N3": 0.5612544297526959,
+        "N4": 0.7741845797327259,
+        "N5": 0.7313823368771355
+      },
+      "N0_N1_spearman": 0.9984962469685738,
+      "N0_N1_rank_changes": 119,
+      "N0_N1_max_rank_shift": 8.0,
+      "Z0_public_max_error": 4.900000000063187e-05,
+      "SA_public_max_error": 4.999999999999449e-05,
+      "recenter_shift_spread": {
+        "Z0": 0.00010000000000065512,
+        "N0": 0.00010000000000065512,
+        "N1": 0.0001000000000015433,
+        "N2": 0.00010000000000109921,
+        "N3": 0.00010000000000109921,
+        "N4": 0.0001000000000015433
+      },
+      "zbar_inferred_n": 157,
+      "zbar_inferred_quantiles": {
+        "0.1": -0.09557760067687061,
+        "0.5": -0.02941781526434886,
+        "0.9": 0.021544984048641934
+      },
+      "zbar_inferred_negative_fraction": 0.7898089171974523,
+      "correction_SA_pearson": 0.5525374742293011,
+      "correction_slopes": {
+        "total": 0.039658492777133104,
+        "common_zone_mean": 0.035363074245309205,
+        "player_composition_remainder": 0.0042954185318238676
+      },
+      "N3_weights": {
+        "chase": 1.415,
+        "heart": 1.019,
+        "shadow_in": 0.42,
+        "shadow_out": 0.79,
+        "waste": 1.774
+      }
+    },
+    "2023": {
+      "qualified": 173,
+      "spearman_sa": {
+        "Z0": 0.07142228052528381,
+        "N0": 0.14266378035609162,
+        "N1": 0.15256856488439832,
+        "N2": -0.1453754907732315,
+        "N3": 0.18680903532640186,
+        "N4": -0.08554635170652342,
+        "N5": -0.005109375280660152
+      },
+      "spearman_apr": {
+        "Z0": 0.5392224575976564,
+        "N0": 0.5033583490550734,
+        "N1": 0.5026447883272073,
+        "N2": 0.7679540724327983,
+        "N3": 0.48927831419684714,
+        "N4": 0.7353046154701921,
+        "N5": 0.6443363751249019
+      },
+      "N0_N1_spearman": 0.9990410505683816,
+      "N0_N1_rank_changes": 128,
+      "N0_N1_max_rank_shift": 7.0,
+      "Z0_public_max_error": 5.0000000000105516e-05,
+      "SA_public_max_error": 4.999999999988347e-05,
+      "recenter_shift_spread": {
+        "Z0": 0.00010000000000109921,
+        "N0": 0.00010000000000087717,
+        "N1": 0.00010000000000065512,
+        "N2": 0.0001000000000015433,
+        "N3": 0.00010000000000065512,
+        "N4": 0.00010000000000109921
+      },
+      "zbar_inferred_n": 170,
+      "zbar_inferred_quantiles": {
+        "0.1": -0.09936298499120032,
+        "0.5": -0.043123272697061454,
+        "0.9": 0.0155361048764585
+      },
+      "zbar_inferred_negative_fraction": 0.8470588235294118,
+      "correction_SA_pearson": 0.6207894207973785,
+      "correction_slopes": {
+        "total": 0.03920979205781917,
+        "common_zone_mean": 0.04328770203273929,
+        "player_composition_remainder": -0.0040779099749201015
+      },
+      "N3_weights": {
+        "chase": 1.419,
+        "heart": 1.038,
+        "shadow_in": 0.351,
+        "shadow_out": 0.869,
+        "waste": 1.785
+      }
+    },
+    "2024": {
+      "qualified": 155,
+      "spearman_sa": {
+        "Z0": 0.07087106441945151,
+        "N0": 0.06722476493248043,
+        "N1": 0.06604363378556928,
+        "N2": -0.33231929360961615,
+        "N3": 0.13247397763526794,
+        "N4": -0.2991589056105185,
+        "N5": -0.13560955173858402
+      },
+      "spearman_apr": {
+        "Z0": 0.7053656021397956,
+        "N0": 0.7095152504878479,
+        "N1": 0.7102639296187683,
+        "N2": 0.9151783700170797,
+        "N3": 0.6758177306564402,
+        "N4": 0.9135670780832071,
+        "N5": 0.8460507234700783
+      },
+      "N0_N1_spearman": 0.9999121845191804,
+      "N0_N1_rank_changes": 39,
+      "N0_N1_max_rank_shift": 3.0,
+      "Z0_public_max_error": 5.000000000032756e-05,
+      "SA_public_max_error": 4.900000000063187e-05,
+      "recenter_shift_spread": {
+        "Z0": 0.00010000000000021103,
+        "N0": 0.0001000000000015433,
+        "N1": 0.00010000000000065512,
+        "N2": 0.00010000000000043308,
+        "N3": 0.00010000000000065512,
+        "N4": 0.00010000000000065512
+      },
+      "zbar_inferred_n": 154,
+      "zbar_inferred_quantiles": {
+        "0.1": -0.053563875113097376,
+        "0.5": -0.0033591424170146414,
+        "0.9": 0.04557030519200315
+      },
+      "zbar_inferred_negative_fraction": 0.5194805194805194,
+      "correction_SA_pearson": 0.13207765258535326,
+      "correction_slopes": {
+        "total": 0.004920977517249171,
+        "common_zone_mean": 0.003435415249394444,
+        "player_composition_remainder": 0.001485562267854731
+      },
+      "N3_weights": {
+        "chase": 1.204,
+        "heart": 1.019,
+        "shadow_in": 0.85,
+        "shadow_out": 0.541,
+        "waste": 1.55
+      }
+    },
+    "2025": {
+      "qualified": 171,
+      "spearman_sa": {
+        "Z0": 0.016946274597571028,
+        "N0": 0.010795120116113083,
+        "N1": 0.009767927717336651,
+        "N2": -0.3208872254345896,
+        "N3": 0.0898097892934328,
+        "N4": -0.2536277231548943,
+        "N5": -0.18870940355044769
+      },
+      "spearman_apr": {
+        "Z0": 0.6571747426020593,
+        "N0": 0.6683970528235774,
+        "N1": 0.66843785249718,
+        "N2": 0.8797969616243071,
+        "N3": 0.6206258073691373,
+        "N4": 0.8557707538339694,
+        "N5": 0.8017111863105095
+      },
+      "N0_N1_spearman": 0.9998560011519908,
+      "N0_N1_rank_changes": 57,
+      "N0_N1_max_rank_shift": 4.0,
+      "Z0_public_max_error": 4.999999999988347e-05,
+      "SA_public_max_error": 4.900000000063187e-05,
+      "recenter_shift_spread": {
+        "Z0": 0.00010000000000065512,
+        "N0": 0.00010000000000021103,
+        "N1": 0.00010000000000065512,
+        "N2": 0.00010000000000065512,
+        "N3": 0.00010000000000065512,
+        "N4": 0.00010000000000198739
+      },
+      "zbar_inferred_n": 166,
+      "zbar_inferred_quantiles": {
+        "0.1": -0.06159814552538254,
+        "0.5": -0.0006774429802384198,
+        "0.9": 0.04976738243698441
+      },
+      "zbar_inferred_negative_fraction": 0.5060240963855421,
+      "correction_SA_pearson": -0.04723000421135347,
+      "correction_slopes": {
+        "total": -0.002575527735856592,
+        "common_zone_mean": 0.0028276242989843706,
+        "player_composition_remainder": -0.0054031520348409665
+      },
+      "N3_weights": {
+        "chase": 1.249,
+        "heart": 0.952,
+        "shadow_in": 0.792,
+        "shadow_out": 0.579,
+        "waste": 1.618
+      }
+    },
+    "2026": {
+      "qualified": 166,
+      "spearman_sa": {
+        "Z0": 0.1420899712076395,
+        "N0": 0.15769162660440347,
+        "N1": 0.1590558204511022,
+        "N2": -0.2468967869299736,
+        "N3": 0.22739930872100275,
+        "N4": -0.1931160679735819,
+        "N5": -0.0626440437853756
+      },
+      "spearman_apr": {
+        "Z0": 0.5837949511710424,
+        "N0": 0.5824281338746385,
+        "N1": 0.5811269028208644,
+        "N2": 0.8674449567458732,
+        "N3": 0.5385404437565177,
+        "N4": 0.8331407284008108,
+        "N5": 0.7550196430796677
+      },
+      "N0_N1_spearman": 0.9998976854614977,
+      "N0_N1_rank_changes": 47,
+      "N0_N1_max_rank_shift": 3.0,
+      "Z0_public_max_error": 4.999999999988347e-05,
+      "SA_public_max_error": 4.900000000063187e-05,
+      "recenter_shift_spread": {
+        "Z0": 0.00010000000000076614,
+        "N0": 0.00010000000000043308,
+        "N1": 0.00010000000000109921,
+        "N2": 0.00010000000000087717,
+        "N3": 0.00010000000000065512,
+        "N4": 0.00010000000000065512
+      },
+      "zbar_inferred_n": 156,
+      "zbar_inferred_quantiles": {
+        "0.1": -0.07272573652339831,
+        "0.5": -0.007870369617700997,
+        "0.9": 0.04214175485505699
+      },
+      "zbar_inferred_negative_fraction": 0.5769230769230769,
+      "correction_SA_pearson": 0.27968275778806256,
+      "correction_slopes": {
+        "total": 0.01593017190998337,
+        "common_zone_mean": 0.009550589270006269,
+        "player_composition_remainder": 0.006379582639977106
+      },
+      "N3_weights": {
+        "chase": 1.235,
+        "heart": 0.982,
+        "shadow_in": 0.802,
+        "shadow_out": 0.574,
+        "waste": 1.574
+      }
+    }
+  },
+  "mean_apr": {
+    "Z0": 0.6254797186903387,
+    "N0": 0.5917174665035883,
+    "N1": 0.5906636920407669,
+    "N2": 0.812417696767127,
+    "N3": 0.564510271618526,
+    "N4": 0.7928301435986149,
+    "N5": 0.721256440831272
+  },
+  "era_mean_apr": {
+    "umpire_2019_2023": {
+      "Z0": 0.6115004907219623,
+      "N0": 0.5546798589685283,
+      "N1": 0.5530961702778643,
+      "N2": 0.7673842571499513,
+      "N3": 0.5362196382332226,
+      "N4": 0.7480325176941864,
+      "N5": 0.6734539947579841
+    },
+    "ABS_2024_2026": {
+      "Z0": 0.6487784319709657,
+      "N0": 0.6534468123953546,
+      "N1": 0.653276228312271,
+      "N2": 0.8874734294624199,
+      "N3": 0.6116613272606983,
+      "N4": 0.867492853439329,
+      "N5": 0.8009271842867518
+    }
+  },
+  "recorded_APR_correlation_max_error": {
+    "Z0": 0.0,
+    "N4": 0.0,
+    "N5": 1.1102230246251565e-16
+  },
+  "source_sha256": {
+    "data/curated/summary.json": "512a537da82fb67b7ba5bff8dbc56530961c121e900a80faba0477c2722f2e54",
+    "data/curated/schema.json": "79abb3d5094a24a25d769d45c5cf73075e51feb8782c896b8d9673fce7eb3e07",
+    "constraints-za.txt": "edb6b83525be799afd9d61be4f545838fcbe4fac8dfac65f4b44d7e9f52e3edb",
+    "analysis/sbj_formula/results/zb_neutral_za_recenter.json": "7e62b15aabad584ca67de0a17cb234baff3328d9cb313a2605b172b05937ecbb",
+    "analysis/sbj_formula/results/zb_neutral_za_strike.json": "075c209d9b1306ac6f69b28a84f6023c3da104b77482b804671d6e15dd995773",
+    "analysis/sbj_formula/results/zb_neutral_za_2019.csv": "a4aab8ba1116dfaa15f6977005997235679f62f7d12c6b6cc41af616135e1127",
+    "analysis/sbj_formula/results/zb_neutral_za_recenter_2019.csv": "4186c0d8ca9bfc31f86c5dac416e538d48d61ea1eeb0eba6fa6afe496dda23a9",
+    "analysis/sbj_formula/results/zb_neutral_za_strike_2019.csv": "4b4891e4204d100463088f9cfa39d108d2ef0991a02dbec049f5eeca52d3b658",
+    "web/data/zone_awareness/2019/leaderboard.json": "5895b62efe77e01af22ae97b3bc81949d81bd76cb78e099d921e8fbf75766675",
+    "analysis/sbj_formula/results/zb_neutral_za_2020.csv": "fae0ab5507b40b1b46fd540140b5eeb57e94214f7e8305fddec4f9df3a180885",
+    "analysis/sbj_formula/results/zb_neutral_za_recenter_2020.csv": "b0950adbcd530ec38078fcca13af6b2ac8536581541909da77e2bac4a13e1efc",
+    "analysis/sbj_formula/results/zb_neutral_za_strike_2020.csv": "15152c958610d2682f31b1bd742e2b392b716ce6ee8b9af8c9a483462d67a9c5",
+    "web/data/zone_awareness/2020/leaderboard.json": "dec5ad1ddc2b7a4ecbb8c6face559b37e72f4916f65f5b17de55cc49e965ba0b",
+    "analysis/sbj_formula/results/zb_neutral_za_2021.csv": "de61235947a2a96499be2648f09ef09ba3fc7487065bca6d74c3942fac1bbdc2",
+    "analysis/sbj_formula/results/zb_neutral_za_recenter_2021.csv": "d0fb4c1566bc192f0823f5731b16c6e7713c5311aa87f2d7c67a9e07119a7030",
+    "analysis/sbj_formula/results/zb_neutral_za_strike_2021.csv": "9023c73ee8e4da9b97917775dc9d95eb5d8a9141a7bacdbddf891d214aec570d",
+    "web/data/zone_awareness/2021/leaderboard.json": "c2f0b7cbec447c1fd2e412c16e230720ecb697488cc0911b5131fd1e416d2219",
+    "analysis/sbj_formula/results/zb_neutral_za_2022.csv": "a6ae66a5134e6736dff037e0cce4d3018ac4db4d5cf289d426917c118663776c",
+    "analysis/sbj_formula/results/zb_neutral_za_recenter_2022.csv": "38e3e8a93694a1a6b92f14b10ab883b175cbdcf0fd3c0354f69299daf59fe9df",
+    "analysis/sbj_formula/results/zb_neutral_za_strike_2022.csv": "21e07e9f33035c2dab4aef0817a74073b7e073d40ec566565e57e0020d94e0b3",
+    "web/data/zone_awareness/2022/leaderboard.json": "5306cbae6f973df6024544677dea34982553b629a4ec799e67e1b82a74d9a04f",
+    "analysis/sbj_formula/results/zb_neutral_za_2023.csv": "ee85f93748769d8456c3f079f494b3cc3ea09f2124b83807c16371399ed470f6",
+    "analysis/sbj_formula/results/zb_neutral_za_recenter_2023.csv": "9bb2aa648baec3f830a6b44e28bd7f892528266c2c69c8e429a5a9479c5034d6",
+    "analysis/sbj_formula/results/zb_neutral_za_strike_2023.csv": "f05f0d773b2488d409883e7e17bb513a05e44b74ca395130c5027bebfd01fcf7",
+    "web/data/zone_awareness/2023/leaderboard.json": "c5e4c2cc400d55c10e3f80bc4a93f3f6240211f9f74fddb10338887b6fd16a67",
+    "analysis/sbj_formula/results/zb_neutral_za_2024.csv": "8849bafa4467561ab2d4d6479e3681ab2e7f487763c9773494d01a9080d00b26",
+    "analysis/sbj_formula/results/zb_neutral_za_recenter_2024.csv": "a08af042057fc20edbd19af1fdb8f03ea27cae89fc68f7e4ec1bae81d0540676",
+    "analysis/sbj_formula/results/zb_neutral_za_strike_2024.csv": "4032892ed21ad5654f178789374a0c02323b691c7dacc607c046cc630e60b6f2",
+    "web/data/zone_awareness/2024/leaderboard.json": "85b4c1012c665cbb8915ce6ff9a6c1e6644d1abe88d019903fd9ccefdd7c50c8",
+    "analysis/sbj_formula/results/zb_neutral_za_2025.csv": "ee21ca9a9374c860f193efcab42d099f09711deb611a6cd9b993be07cf376046",
+    "analysis/sbj_formula/results/zb_neutral_za_recenter_2025.csv": "11ce0f6234199c02ea7bfb6a9c0a0b0b660bee908d7afd84658a4da203fa8685",
+    "analysis/sbj_formula/results/zb_neutral_za_strike_2025.csv": "af2934e8d6ece8c10571338b8429c2ddbc25b72a31dcd75901ac4cfe621289b2",
+    "web/data/zone_awareness/2025/leaderboard.json": "c82c979e16d02d70d9f49f4792a9bf245c00ecb9f3c05362aa0f1cccc60bcb05",
+    "analysis/sbj_formula/results/zb_neutral_za_2026.csv": "2530d68ae78b821ea8968d420e51d1f090479447c5b47021f701c30aaf2136bd",
+    "analysis/sbj_formula/results/zb_neutral_za_recenter_2026.csv": "b87050a0aa809ee50fe61a084883d0c1960328b4b688875017b665e446fa8833",
+    "analysis/sbj_formula/results/zb_neutral_za_strike_2026.csv": "59f4f485c08984ec5d003bc4459168078c7a20c95e709930f05e1f7172fb71be",
+    "web/data/zone_awareness/2026/leaderboard.json": "9609967f638465f881a8193c7caff60ab465972f1dbd2311790929822da6cf9b"
+  },
+  "limits": [
+    "후보 CSV는 소수 넷째 자리, 공개 점수는 소수 여섯째 자리다.",
+    "za7.6-apr 투구 캐시가 없어 투구별 재현 및 반분 재계산은 하지 않았다.",
+    "외부 ZJ 원자료가 없어 ZG4를 새로 검증하지 않았다.",
+    "신규 후보의 성능은 계산하지 않았다."
+  ]
+}
