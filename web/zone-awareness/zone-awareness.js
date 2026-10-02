@@ -10,8 +10,13 @@ const signed = (value, digits=1) => value == null || !Number.isFinite(+value) ? 
 const signClass = value => +value >= 0 ? "good" : "bad";
 
 function canvasContext(canvas) {
+  // 설계 비율은 HTML width/height 속성에서 처음 한 번만 읽습니다. 그 뒤로는 픽셀 버퍼 크기라 비율이 반올림으로 틀어질 수 있습니다.
+  canvas._aspect ??= canvas.width / canvas.height;
   const rect = canvas.getBoundingClientRect();
-  const width = Math.max(320, rect.width || canvas.width), height = thumbnailMode && canvas.id === "scatter" ? (rect.height || width) : width / (canvas.width / canvas.height);
+  // 숨겨진 탭(폭 0)에서는 직전 CSS 폭을 씁니다. 장치 픽셀 폭(canvas.width)을 쓰면 resize마다 DPR배씩 커져
+  // iOS Safari(주소창이 움직일 때마다 resize 발생)에서 캔버스 한도를 넘어 지도가 깨집니다.
+  const width = Math.max(320, rect.width || canvas._cssWidth || canvas.width), height = thumbnailMode && canvas.id === "scatter" ? (rect.height || width) : width / canvas._aspect;
+  canvas._cssWidth = width;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   canvas.width = width * dpr; canvas.height = height * dpr;
   const ctx = canvas.getContext("2d"); ctx.scale(dpr, dpr);
