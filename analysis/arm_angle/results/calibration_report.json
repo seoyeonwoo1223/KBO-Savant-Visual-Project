@@ -1,0 +1,238 @@
+{
+  "estimator": "degree-2 polynomial, standardized features, Ridge alpha=10, fixed before evaluation",
+  "features": [
+    "height_m",
+    "release_height_over_height",
+    "arm_side_release_over_height",
+    "left_hand"
+  ],
+  "extension_status": "not included: matching MLB reference extension unavailable; retained as KBO diagnostic",
+  "validation": "5-fold GroupKFold by entire MLB pitcher, shuffled random_state=42",
+  "reference_rows": 1295,
+  "reference_pitchers": 602,
+  "folds": [
+    {
+      "fold": 1,
+      "train_rows": 1014,
+      "test_rows": 281,
+      "train_pitchers": 481,
+      "test_pitchers": 121,
+      "pitcher_overlap": 0
+    },
+    {
+      "fold": 2,
+      "train_rows": 1029,
+      "test_rows": 266,
+      "train_pitchers": 481,
+      "test_pitchers": 121,
+      "pitcher_overlap": 0
+    },
+    {
+      "fold": 3,
+      "train_rows": 1039,
+      "test_rows": 256,
+      "train_pitchers": 482,
+      "test_pitchers": 120,
+      "pitcher_overlap": 0
+    },
+    {
+      "fold": 4,
+      "train_rows": 1058,
+      "test_rows": 237,
+      "train_pitchers": 482,
+      "test_pitchers": 120,
+      "pitcher_overlap": 0
+    },
+    {
+      "fold": 5,
+      "train_rows": 1040,
+      "test_rows": 255,
+      "train_pitchers": 482,
+      "test_pitchers": 120,
+      "pitcher_overlap": 0
+    }
+  ],
+  "model_oof": {
+    "n": 1295,
+    "mae_deg": 4.761438895670288,
+    "rmse_deg": 6.01512187121651,
+    "bias_deg": -0.003491724280152203,
+    "abs_error_p90_deg": 9.65394853917079
+  },
+  "without_height_oof": {
+    "n": 1295,
+    "mae_deg": 5.190219986544442,
+    "rmse_deg": 6.4986920545033025,
+    "bias_deg": -0.001063262023718546,
+    "abs_error_p90_deg": 10.475870161727206
+  },
+  "height_ablation_mae_improvement_deg": {
+    "observed": 0.42878109087415295,
+    "MLB_pitcher_cluster_bootstrap_95pct": [
+      0.24052886958276304,
+      0.62604813147577
+    ],
+    "bootstrap_samples": 2000
+  },
+  "fixed_130cm_baseline": {
+    "n": 1295,
+    "mae_deg": 7.8007312374144915,
+    "rmse_deg": 10.001512117286858,
+    "bias_deg": 1.2958742404727208,
+    "abs_error_p90_deg": 16.90536585988724
+  },
+  "height_scenario_baseline": {
+    "n": 1295,
+    "mae_deg": 12.320425945085093,
+    "rmse_deg": 15.992363226525185,
+    "bias_deg": 8.538968111471275,
+    "abs_error_p90_deg": 28.006391624006294
+  },
+  "by_hand": {
+    "Left": {
+      "n": 341,
+      "mae_deg": 4.944941515470477,
+      "rmse_deg": 6.274987398683189,
+      "bias_deg": 0.025328030874793673,
+      "abs_error_p90_deg": 10.481856064551692
+    },
+    "Right": {
+      "n": 954,
+      "mae_deg": 4.695847288383218,
+      "rmse_deg": 5.9194679178404535,
+      "bias_deg": -0.013793125231762836,
+      "abs_error_p90_deg": 9.306181191840992
+    }
+  },
+  "by_reference_slot": {
+    "underhand": {
+      "n": 13,
+      "mae_deg": 6.203045608548564,
+      "rmse_deg": 7.341851706864655,
+      "bias_deg": 3.989476948243229,
+      "abs_error_p90_deg": 11.547897995864947
+    },
+    "low_slot": {
+      "n": 58,
+      "mae_deg": 7.00303586987096,
+      "rmse_deg": 8.585447214896249,
+      "bias_deg": 5.7673685101219805,
+      "abs_error_p90_deg": 13.77367680245509
+    },
+    "three_quarter": {
+      "n": 1196,
+      "mae_deg": 4.526708525446645,
+      "rmse_deg": 5.665533781390555,
+      "bias_deg": -0.11733206898511156,
+      "abs_error_p90_deg": 9.089078397876762
+    },
+    "high_slot": {
+      "n": 28,
+      "mae_deg": 9.475153574828195,
+      "rmse_deg": 11.164108333525371,
+      "bias_deg": -8.948685798244304,
+      "abs_error_p90_deg": 17.573490938685204
+    }
+  },
+  "kbo_validation_status": "unvalidated_no_KBO_measured_arm_angle_labels",
+  "population_note": "MLB qualified pitcher-season aggregates, not all pitches or all pitchers",
+  "interval_note": "OOF absolute-error quantiles describe MLB holdouts only; they are not KBO confidence intervals",
+  "fitted_model": {
+    "polynomial_feature_names": [
+      "height_m",
+      "release_height_over_height",
+      "arm_side_release_over_height",
+      "left_hand",
+      "height_m^2",
+      "height_m release_height_over_height",
+      "height_m arm_side_release_over_height",
+      "height_m left_hand",
+      "release_height_over_height^2",
+      "release_height_over_height arm_side_release_over_height",
+      "release_height_over_height left_hand",
+      "arm_side_release_over_height^2",
+      "arm_side_release_over_height left_hand",
+      "left_hand^2"
+    ],
+    "standardization_mean": [
+      1.8991158301158375,
+      0.9305821756671794,
+      0.3026656084438449,
+      0.2633204633204633,
+      3.6093553419922664,
+      1.7667847452834033,
+      0.574749811001793,
+      0.4988010810810796,
+      0.8735045555233468,
+      0.27726175249946106,
+      0.24868565266819173,
+      0.10376919448208585,
+      0.08376185059759357,
+      0.2633204633204633
+    ],
+    "standardization_scale": [
+      0.0520999596519947,
+      0.08672583152606242,
+      0.11028474031978949,
+      0.44043478168414013,
+      0.19769362624023856,
+      0.16675055458225158,
+      0.20974708782446255,
+      0.8347563766014735,
+      0.14265301858683718,
+      0.09349572691307478,
+      0.4175441543258815,
+      0.0729804834641125,
+      0.15256608848366549,
+      0.44043478168414013
+    ],
+    "ridge_coefficients": [
+      -0.2050996844485262,
+      4.990003637458911,
+      -2.786721541055701,
+      0.1205311358216168,
+      -0.5034027736075279,
+      4.1065433188192335,
+      -3.27116968509647,
+      -0.4899320055842396,
+      0.24360700820901804,
+      2.6042723755837915,
+      0.13296425641881043,
+      0.8989371715132318,
+      0.0029711582328876243,
+      0.12053113582191909
+    ],
+    "intercept": 39.28043934968701,
+    "training_feature_min": [
+      1.7018,
+      0.17441913523459066,
+      -0.024172307692307663,
+      0.0
+    ],
+    "training_feature_max": [
+      2.1082,
+      1.154753651706653,
+      0.6922516066212269,
+      1.0
+    ]
+  },
+  "excluded_reference_rows": 0,
+  "kbo_season_estimates": 1674,
+  "kbo_transfer_statuses": {
+    "MLB_transfer_unvalidated_KBO": 1361,
+    "small_sample_unvalidated_KBO": 313,
+    "outside_MLB_training_range": 4
+  },
+  "input_hashes": {
+    "reference": "7a925a1a55c81495b990b553905cd9d19085ddd5ae380048982ddcb5ef067e1e",
+    "pitches": "57fca709b0bae3ac5a2e4d53bed186c3224302b7de826b7c91910469cf7024ec",
+    "implementation": "00507b70832ba711b6dbb2c54bbfcaa1b598b2285d51df43e1d25e9a5aeff09d"
+  },
+  "height_scenario_assumptions": {
+    "shoulder_height_ratio": 0.72,
+    "shoulder_side_ratio": 0.1,
+    "shoulder_height_ratio_low": 0.65,
+    "shoulder_height_ratio_high": 0.8,
+    "shoulder_side_shift_m": 0.2
+  }
+}

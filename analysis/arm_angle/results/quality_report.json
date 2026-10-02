@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "scope": "both teams are recognized first-team KBO clubs, 2019-2024 TrackMan",
+  "target": "Savant convention: frontal throwing-shoulder-to-ball angle to horizontal; KBO shoulder position is assumed, not observed",
+  "savant_definition_status": "verified_official_leaderboard_definition",
+  "reference_sources": [
+    {
+      "url": "https://baseballsavant.mlb.com/leaderboard/pitcher-arm-angles",
+      "status": "verified_savant_definition",
+      "sha256": "ebaf38f927c5e161becb0d50a81bb8a9a6d3c859a700b0a407cd5a3a2456e68d"
+    }
+  ],
+  "assumptions": {
+    "shoulder_height_ratio": 0.72,
+    "shoulder_side_ratio": 0.1,
+    "shoulder_height_ratio_low": 0.65,
+    "shoulder_height_ratio_high": 0.8,
+    "shoulder_side_shift_m": 0.2
+  },
+  "units": {
+    "rel_height": "m",
+    "rel_side": "m",
+    "extension": "m",
+    "height_cm": "cm"
+  },
+  "coordinate_status": "TrackMan rel_side predominantly positive Right / negative Left; units inferred from export scale and existing matching code, vendor datum not independently verified",
+  "shoulder_height_status": "free scenario parameter includes unobserved posture, not an anatomical estimate established by evidence",
+  "scenario_status": "sensitivity to user-adjustable shoulder assumptions; NOT confidence intervals",
+  "extension_role": "extension / height diagnostic only; frontal angle does not use extension; 3D angle requires independent shoulder forward position",
+  "reference_validation": {
+    "status": "not_validated_no_reference_observations",
+    "n": 0
+  },
+  "height_collection": [],
+  "raw_rows": 1793078,
+  "major_pitches": 1189400,
+  "resolved_players": 604,
+  "height_players": 602,
+  "personalized_pitches": 1179515,
+  "statuses": {
+    "assumption_based_not_validated": 1179515,
+    "missing_height": 5255,
+    "invalid_release": 4630
+  },
+  "invalid_extension_rows": 4700,
+  "hand_side_conflict_rows": 3757,
+  "bio_height_nonnull": 0,
+  "sources": [
+    {
+      "season": 2019,
+      "raw_rows": 255957,
+      "major_rows": 188567,
+      "excluded_non_major": 67390,
+      "source_sha256": "cadbfb0b8545f5eb8574fa9e2608791af436dddd9a6ed1a8ee3bde99cd0e7b75",
+      "duplicate_pitch_keys": 0,
+      "unresolved_identity_rows": 29,
+      "release_missing": {
+        "rel_side": 783,
+        "rel_height": 783,
+        "extension": 783
+      }
+    },
+    {
+      "season": 2020,
+      "raw_rows": 279126,
+      "major_rows": 202370,
+      "excluded_non_major": 76756,
+      "source_sha256": "2260dd49289c960b6dfadbbee1e2cd22e9bca2082d38a5f38a87aecfae70ce1d",
+      "duplicate_pitch_keys": 0,
+      "unresolved_identity_rows": 0,
+      "release_missing": {
+        "rel_side": 821,
+        "rel_height": 821,
+        "extension": 821
+      }
+    },
+    {
+      "season": 2021,
+      "raw_rows": 301032,
+      "major_rows": 202887,
+      "excluded_non_major": 98145,
+      "source_sha256": "76edba063aec137601b820cf350a239799a021ff9fc8e079f249c96942cc60c1",
+      "duplicate_pitch_keys": 0,
+      "unresolved_identity_rows": 43,
+      "release_missing": {
+        "rel_side": 1128,
+        "rel_height": 1128,
+        "extension": 1128
+      }
+    },
+    {
+      "season": 2022,
+      "raw_rows": 307637,
+      "major_rows": 194804,
+      "excluded_non_major": 112833,
+      "source_sha256": "588bd5e49dd5d1fcf04325723a077e70c8bcf19cc8d3f11493a8789fbdd9bbfa",
+      "duplicate_pitch_keys": 0,
+      "unresolved_identity_rows": 4,
+      "release_missing": {
+        "rel_side": 732,
+        "rel_height": 731,
+        "extension": 754
+      }
+    },
+    {
+      "season": 2023,
+      "raw_rows": 315100,
+      "major_rows": 199655,
+      "excluded_non_major": 115445,
+      "source_sha256": "dd3aa7218fe3331ec17135a2e3d2328f430f34b817e7d5264ef4a05dd59848cd",
+      "duplicate_pitch_keys": 0,
+      "unresolved_identity_rows": 0,
+      "release_missing": {
+        "rel_side": 537,
+        "rel_height": 537,
+        "extension": 559
+      }
+    },
+    {
+      "season": 2024,
+      "raw_rows": 334226,
+      "major_rows": 201117,
+      "excluded_non_major": 133109,
+      "source_sha256": "3419cbbea502e8899a28c9d5317d5c91e9f57fc9f845a3a877bfc0fb1a73ccee",
+      "duplicate_pitch_keys": 0,
+      "unresolved_identity_rows": 0,
+      "release_missing": {
+        "rel_side": 629,
+        "rel_height": 629,
+        "extension": 653
+      }
+    }
+  ],
+  "input_hashes": {
+    "crosswalk": "5751292a0399e461847d3af556aac7c69ae60d21e94679eff7bba144b0485eb7",
+    "overlap": "758d7a5a3003eb6fe5f682c7e9a44e876f2b3478e7ee1870b1f1d2cb81ce5dd9",
+    "bio": "fe71d0ea9e4e55338467acdba5ec89043db85c081a0218de798da98e270e1a18",
+    "heights": "c440a76844851a0c8fa6c9248b44bf644d18c0cfc5e68c9bf9c05e052b98956d",
+    "implementation": "92f621f0bf2d77f951fde3c570af01449b6e7ffafbdfa632c85f41ee73f01498",
+    "reference_observations": null
+  },
+  "limitations": [
+    "No shoulder coordinates, body pose, arm lengths, or video truth in raw TrackMan data.",
+    "Height cannot uniquely identify arm angle; extension is not arm length.",
+    "Collected present-day height is not a season-specific historical measurement.",
+    "A player-ID match is not a pitch-to-pitch match; this study reads TrackMan directly.",
+    "No production arm-angle or movement-zones output was changed."
+  ]
+}

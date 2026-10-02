@@ -64,6 +64,16 @@ h2 { margin: 0; font-size: clamp(2.25rem, 4vw, 3.6rem); letter-spacing: -.045em;
 .card-heading > span, .table-heading > span { display: block; margin-top: 3px; color: #738195; font-size: .82rem; text-align: center; }
 .card svg { display: block; width: 100%; height: auto; margin-top: 4px; overflow: visible; }
 .movement-card svg { max-height: 560px; }
+.eaa-summary { margin: 8px 0 0; text-align: center; color: #526176; }
+.eaa-heading { display: flex; justify-content: center; align-items: baseline; flex-wrap: wrap; gap: 8px; margin: 0; }
+.eaa-heading strong { color: #243850; font-size: 1.15rem; }
+.eaa-heading span { font-size: .75rem; }
+.eaa-range { margin: 4px 0; font-size: .78rem; line-height: 1.4; }
+.eaa-details { font-size: .72rem; line-height: 1.5; }
+.eaa-details summary { width: fit-content; margin: auto; cursor: pointer; color: #647386; }
+.eaa-details p { margin: 6px 4px; }
+.eaa-export-note { margin: 0; color: #647386; font-size: .72rem; line-height: 1.5; }
+.eaa-reference-line { stroke: #718091; stroke-width: 1.6; stroke-dasharray: 7 6; opacity: .85; pointer-events: none; }
 
 .chart-grid-line { stroke: #dfe6ee; stroke-width: 1; }
 .chart-tick-line { stroke: #dfe6ee; stroke-width: 1; stroke-dasharray: 3 4; }
@@ -161,4 +171,5 @@ html.thumbnail-mode .profile { margin:0; }
 html.thumbnail-mode .chart-grid { display:block; margin:0; }
 html.thumbnail-mode [data-thumbnail-target] { width:600px; height:600px; padding:12px; overflow:hidden; border-radius:0; box-shadow:none; }
 html.thumbnail-mode .thumbnail-context { display:block; margin:0 0 4px; color:#162a43; font-size:1rem; font-weight:800; text-align:center; }
-html.thumbnail-mode [data-thumbnail-target] svg { height:510px; max-height:none; }
+html.thumbnail-mode [data-thumbnail-target] svg { height:455px; max-height:none; }
+html.thumbnail-mode .eaa-details { display: none; }

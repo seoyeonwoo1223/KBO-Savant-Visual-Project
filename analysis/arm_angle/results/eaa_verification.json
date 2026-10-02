@@ -1,0 +1,30 @@
+{
+  "python_full_suite": {
+    "passed": 182,
+    "command": "PYTHONPATH=src OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 .venv/bin/python -m pytest -q"
+  },
+  "final_research_suite": {
+    "passed": 26,
+    "command": "PYTHONPATH=src .venv/bin/python -m pytest tests/test_vb_arm_angle.py tests/test_trackman_arm_angle.py tests/test_arm_angle_calibration.py -q"
+  },
+  "existing_pitch_plot_layout": "PASS: node tests/test_pitch_arsenal_layout.cjs",
+  "offline_replay_byte_identical": [
+    "eaa_2026_source_plane_transition.csv",
+    "eaa_bridge_report.json",
+    "eaa_bridge_validation.csv",
+    "eaa_input_eligibility.csv",
+    "eaa_mlb_split_validation.csv",
+    "eaa_vb_pitcher_seasons_2019_2026.csv",
+    "eaa_vb_pitcher_seasons_2022_2026.csv",
+    "eaa_vb_pitcher_stadium_seasons.csv",
+    "eaa_vb_y2y.csv",
+    "eaa_vb_y2y_2022_2026.csv"
+  ],
+  "official_KBO_height_source_hashes_verified": 736,
+  "matched_source_hashes_verified": 6,
+  "executed_notebook_code_cells": 9,
+  "Gwangju_finite_ranges_suppressed": true,
+  "outside_domain_or_small_samples_withheld": true,
+  "scope": "Research evidence only; no production UI or canonical data changed",
+  "implementation_sha256": "9d6d6fa6a224d5e9c6f3bd3f8527edeab58fa9e0db0c6748d1c47374ada18345"
+}

@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "model_id": "eAA-v1",
+  "target": "Savant frontal shoulder-to-ball angle; pitcher-season mean",
+  "bridge": {
+    "standardization_mean": [
+      1.8451593109660194,
+      0.5473686186934754,
+      1.7196410440195298,
+      0.0434015872206343,
+      0.017574312568375154
+    ],
+    "standardization_scale": [
+      0.042523189396538215,
+      0.23547263645280037,
+      0.2589978240638284,
+      0.018678465285886087,
+      0.02347665044609718
+    ],
+    "ridge_coefficients": [
+      [
+        0.0006867177526145486,
+        -0.013187848567205524,
+        0.001611310350845426,
+        0.002957453912580438,
+        -0.005955524870552753
+      ],
+      [
+        0.0015089288948893602,
+        -0.0017211689538187886,
+        -0.02371885915012812,
+        0.0006059414107141966,
+        0.01404606787309826
+      ]
+    ],
+    "intercept": [
+      -0.001713483120837183,
+      -0.0416390493245609
+    ],
+    "features": [
+      "height_m",
+      "arm_side_x55_m",
+      "z55_m",
+      "arm_side_dx_dy55",
+      "dz_dy55"
+    ],
+    "training_feature_min": [
+      1.73,
+      -0.044897270444117045,
+      0.3028320353178913,
+      -0.01562890592989915,
+      -0.10660967104843995
+    ],
+    "training_feature_max": [
+      2.05,
+      1.336933406493151,
+      2.205449791282249,
+      0.11878355251727334,
+      0.07466616816621789
+    ],
+    "training_seasons": [
+      2019,
+      2020,
+      2021,
+      2022,
+      2023
+    ],
+    "known_stadiums": [
+      "고척",
+      "대구",
+      "문학",
+      "사직",
+      "수원",
+      "잠실",
+      "창원",
+      "한밭"
+    ]
+  },
+  "angle": {
+    "standardization_mean": [
+      1.9005214929214767,
+      0.9324859796719915,
+      0.30453669802311645,
+      0.2483912483912484,
+      3.614558304144129,
+      1.7718904626827399,
+      0.5783221123884884,
+      0.4714854568854565,
+      0.8780761629071681,
+      0.27940602706692463,
+      0.23568219823916134,
+      0.10457030325375621,
+      0.08158665466491692,
+      0.2483912483912484
+    ],
+    "standardization_scale": [
+      0.05075784754699386,
+      0.09244490587551896,
+      0.10875524268251764,
+      0.4320798955215157,
+      0.1925491634609575,
+      0.17887686880783063,
+      0.2061181883051194,
+      0.8205418909524407,
+      0.14755558358069304,
+      0.09237947010971219,
+      0.4115119315470547,
+      0.07427723937966074,
+      0.15419949047877224,
+      0.4320798955215157
+    ],
+    "ridge_coefficients": [
+      0.016900223148691374,
+      4.845729147826154,
+      -2.479642861024062,
+      0.39400706320100665,
+      -0.8790443029996691,
+      4.867029342853373,
+      -2.9397457791965724,
+      0.6002298527673041,
+      0.24335507501135473,
+      2.213669752672192,
+      -0.798594276746345,
+      0.5804623375507741,
+      -0.4050297405430986,
+      0.39400706320108436
+    ],
+    "intercept": 39.91570489131763,
+    "polynomial_powers": [
+      [
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        2,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        1
+      ],
+      [
+        0,
+        2,
+        0,
+        0
+      ],
+      [
+        0,
+        1,
+        1,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        1
+      ],
+      [
+        0,
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        1
+      ],
+      [
+        0,
+        0,
+        0,
+        2
+      ]
+    ],
+    "features": [
+      "height_m",
+      "release_height_over_height",
+      "arm_side_release_over_height",
+      "left_hand"
+    ],
+    "training_feature_min": [
+      1.7018,
+      0.17441913523459066,
+      -0.024172307692307663,
+      0.0
+    ],
+    "training_feature_max": [
+      2.1082,
+      1.154753651706653,
+      0.6922516066212269,
+      1.0
+    ]
+  },
+  "range": {
+    "kind": "reference_envelope_NOT_KBO_prediction_interval",
+    "mlb_radius_deg": 11.99713185164767,
+    "bridge_radius_deg": 2.231163595390875,
+    "total_radius_deg": 14.228295447038544,
+    "nominal_component_coverage": 0.9,
+    "joint_coverage": "unknown in KBO; if both components have 90pct coverage in the same target population, union bound gives a lower bound of 80pct, not 90pct; those conditions are not established in KBO",
+    "small_sample": "withhold seasonal eAA below 100 valid pitches",
+    "domain": "withhold seasonal mean outside either model's marginal feature bounds; bounds do not certify joint support",
+    "unseen_stadium": "point estimate flagged, finite reference envelope suppressed: park holdouts failed known-park radius; no Gwangju reference labels",
+    "future_season": "flag for 2025–2026; no contemporaneous TM truth"
+  },
+  "minimum_pitches": 100,
+  "provenance": {
+    "study": "analysis/arm_angle/eaa-definition.md",
+    "validation_report": "analysis/arm_angle/results/eaa_bridge_report.json",
+    "research_input_hashes": {
+      "canonical_selected_columns_2019": "7d5246380d7a685caf3804a644c7f54a7a2472548df046456593d061751bf766",
+      "matched_2019": "f9910fb132d7c769baec6cc23566ea4aa428ef375612e24e4ecac7fce12853c8",
+      "canonical_selected_columns_2020": "76a2492f3f095068edb90d3a7fcc86bc1d91405b8250a4bcf36bf778d8883b59",
+      "matched_2020": "4cdd819dfcf46efa8198796de811a19e5dec05419e8cd9035c0ec7479d7a622c",
+      "canonical_selected_columns_2021": "7cb2dc2a1e4326d359fe4960fbbb090a12ea696385f1bfdadf0f492ce6b8ffbb",
+      "matched_2021": "8a398ea1d3e1a62ecf7b521d078bd21a3d42c6a1a0770b96940e1024b2020ec5",
+      "canonical_selected_columns_2022": "fe4177f59fd9b64f8a0cc4a91b7fd8cac833a21127d3bc0523c2ac60b012e4e7",
+      "matched_2022": "ff4c1148e699b59bb011a719dfec161e7e6c54c1fd239e3d87ee25378b649406",
+      "canonical_selected_columns_2023": "d041380825f9f035edcabc243c9f5c9276af67041eb827158f86818c3c6574a0",
+      "matched_2023": "77cb28d5acd4aaaa9e97ab658e4bf75cb1e8e9891c3b5ab197aeed22acb9fed8",
+      "canonical_selected_columns_2024": "49c3feb9d9228bdc2006ae404b6e14393093c07981e4ef09e4aeb0319ed5da30",
+      "matched_2024": "0427482bbbe5688ee6369c00447cb30afeb6bab4f95e148c78760dda04bef411",
+      "canonical_selected_columns_2025": "e4b13a6bc56d730f0762acc583e18902ddbe51450c58702bcc42427d1f52546d",
+      "canonical_selected_columns_2026": "6a1fbd40e526d4e1a796e0ea82edc8c7c1b48863e7e6180e37d12c8cd899b77d",
+      "bio": "fe71d0ea9e4e55338467acdba5ec89043db85c081a0218de798da98e270e1a18",
+      "heights": "c440a76844851a0c8fa6c9248b44bf644d18c0cfc5e68c9bf9c05e052b98956d",
+      "reference": "7a925a1a55c81495b990b553905cd9d19085ddd5ae380048982ddcb5ef067e1e",
+      "implementation": "9d6d6fa6a224d5e9c6f3bd3f8527edeab58fa9e0db0c6748d1c47374ada18345",
+      "angle_features_implementation": "00507b70832ba711b6dbb2c54bbfcaa1b598b2285d51df43e1d25e9a5aeff09d",
+      "matching_implementation": "3403287123cb4acfcb60ae5d49f0f42995b70e7202c7e2b82060d8bae156196b",
+      "canonical_implementation": "5ce845f4df6a5f31bcfa988bfe1e796d18512def52e54c38acc2d559197f828d"
+    }
+  },
+  "limitations": [
+    "No measured KBO shoulder-ball arm-angle labels: actual eAA accuracy and interval coverage remain unknown.",
+    "Forward/park tests compare to TM-model eAA, not measured arm angle; 2024 holdout cannot verify 2025–2026 or Gwangju bias.",
+    "Present-day verified heights are reused across historical seasons, not historical measurements.",
+    "All years use the same frozen models; no forced annual league mean or pitcher continuity.",
+    "Training on matched pitches may select on pitch speed and matching quality.",
+    "Global year drift and pitcher mechanics are not identifiable without external anchors.",
+    "Reference range sum is not a KBO confidence interval; two component90% ranges do not create joint90% coverage.",
+    "Common-park Y2Y controls stadium mixture only; pitch-type, velocity, injury, sample and measurement changes remain."
+  ]
+}

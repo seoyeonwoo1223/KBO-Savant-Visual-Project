@@ -1,0 +1,40 @@
+{
+  "python_tests_passed": 187,
+  "node_layout_eaa_tests": "passed",
+  "research_estimates_matched": {
+    "matched_estimates": 1178,
+    "max_rounding_difference_deg": 4.9970013169087224e-05,
+    "by_year": {
+      "2022": 228,
+      "2023": 231,
+      "2024": 245,
+      "2025": 231,
+      "2026": 243
+    },
+    "pitch_type_eaa_absent": true
+  },
+  "existing_profile_statistics_identical": 1431,
+  "browser": {
+    "page_errors": [],
+    "single_season_angle": true,
+    "unseen_range_unknown": true,
+    "separate_reference_range": true,
+    "view_mirror": true,
+    "mode_unit_invariant": true,
+    "small_sample_withheld": true,
+    "mobile_no_document_overflow": true,
+    "image_export": true,
+    "image_export_dependency": "official CDN asset fulfilled locally in browser test"
+  },
+  "schema_version": 4,
+  "model": "data/models/estimated_arm_angle_v1.json",
+  "model_inputs": "canonical season trajectories + verified height + player identity and throws",
+  "scope": "single pitcher-season eAA only; finite bounds are model reference envelopes, KBO coverage unknown",
+  "build_states_current": [
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ]
+}

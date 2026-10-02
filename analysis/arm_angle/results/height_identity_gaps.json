@@ -1,0 +1,14 @@
+[
+  {
+    "player_id": "50205",
+    "status": "unusable_profile",
+    "error_type": "ValueError",
+    "reason": "KBO profile identity mismatch: expected '박웅', found '박강민'"
+  },
+  {
+    "player_id": "76430",
+    "status": "unusable_profile",
+    "error_type": "ValueError",
+    "reason": "KBO profile identity mismatch: expected '김상수', found '김태혁'"
+  }
+]

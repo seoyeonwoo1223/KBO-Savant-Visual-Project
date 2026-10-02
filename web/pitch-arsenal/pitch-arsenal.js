@@ -146,6 +146,7 @@ function renderProfile() {
   const adjusted = currentProfile.pitch_types.reduce((sum, pitch) => sum + pitch.movement_n, 0);
   const total = currentProfile.pitch_types.reduce((sum, pitch) => sum + pitch.movement_total_n, 0);
   document.querySelector("#coverage").textContent = `보정 무브먼트 ${adjusted.toLocaleString()} / ${total.toLocaleString()} (${total ? (adjusted / total * 100).toFixed(1) : "0.0"}%)`;
+  renderEaa();
   renderVelocity();
   renderMovement();
   renderFrequency();
@@ -207,6 +208,59 @@ function renderVelocity() {
   });
 }
 
+function eaaDisplay(eaa) {
+  const estimated = eaa?.status === "estimated_KBO_angle_unvalidated" && Number.isFinite(eaa.angle_deg);
+  const value = estimated ? `eAA ${fmt(eaa.angle_deg, 0)}°` : "eAA —";
+  const range = eaa?.range;
+  const finiteRange = estimated && range?.status?.startsWith("reference_only_") &&
+    Number.isFinite(range.low_deg) && Number.isFinite(range.high_deg) && range.low_deg <= range.high_deg;
+  let rangeText = "오차범위: 미확정";
+  if (finiteRange) rangeText = `오차범위 (모델 참고): ${fmt(range.low_deg)}°–${fmt(range.high_deg)}°`;
+  else if (!estimated) rangeText = "오차범위: 제공 불가";
+  const reasons = {
+    withheld_small_sample: "유효 투구 100구 미만으로 추정값을 제공하지 않습니다.",
+    withheld_missing_verified_height: "확인된 선수 신장이 없어 계산할 수 없습니다.",
+    withheld_height_identity_mismatch: "선수 신원과 신장 자료의 일치를 확인하지 못했습니다.",
+    withheld_missing_hand: "투구 손 정보가 없어 계산할 수 없습니다.",
+    withheld_invalid_release: "유효한 릴리즈 좌표가 부족합니다.",
+    withheld_MLB_extrapolation: "입력이 팔각도 모델의 학습 범위를 벗어났습니다.",
+    withheld_bridge_extrapolation: "입력이 릴리즈 연결 모델의 학습 범위를 벗어났습니다.",
+    withheld_invalid_prediction: "유효한 각도를 계산할 수 없습니다.",
+  };
+  const sample = Number.isInteger(eaa?.n) ? `시즌 전체 유효 투구 ${eaa.n.toLocaleString()}구. ` : "";
+  let description = estimated
+    ? `${sample}릴리즈 위치와 신장으로 추정한 시즌 평균 암슬롯입니다. KBO 실측 정확도는 미검증입니다. `
+    : `${sample}${reasons[eaa?.status] || "eAA 자료가 없습니다."}`;
+  if (estimated && range?.status === "unavailable_unseen_stadium_bias") {
+    description += "광주 등 학습에 없는 구장의 투구가 포함되어 구장 편향을 반영한 오차범위는 미확정입니다. ";
+  } else if (estimated) {
+    description += "숫자 범위는 모델 참고 범위이며 KBO 신뢰구간이 아닙니다. ";
+  }
+  if (estimated && eaa?.flags?.future_season) description += "이 시즌의 측정 편향은 직접 검증하지 못했습니다. ";
+  if (estimated) description += "회색 점선은 암슬롯 방향 참고선입니다.";
+  return {value, rangeText, description, estimated};
+}
+
+function renderEaa() {
+  const display = eaaDisplay(currentProfile.overall?.eaa);
+  document.querySelector("#eaa-angle").textContent = display.value;
+  document.querySelector("#eaa-range").textContent = display.rangeText;
+  document.querySelector("#eaa-description").textContent = display.description;
+  document.querySelector("#movement-desc").textContent = "반투명 점은 표본 투구, 타원은 중앙 75퍼센트, 큰 점은 평균입니다." +
+    (display.estimated ? ` 회색 점선은 ${display.value}의 시즌 암슬롯 방향 참고선입니다.` : "");
+}
+
+function eaaRay(angle, hand, view) {
+  if (!Number.isFinite(angle) || Math.abs(angle) > 90 || !["R", "L"].includes(hand)) return null;
+  // Stored HB is catcher view: a RHP's arm side is negative; pitcher view mirrors x.
+  const sign = (hand === "R" ? -1 : 1) * (view === "pitcher" ? -1 : 1);
+  const radians = angle * Math.PI / 180;
+  const dx = sign * Math.cos(radians), dy = Math.sin(radians);
+  const length = Math.min(Math.abs(dx) > 1e-10 ? 30 / Math.abs(dx) : Infinity,
+                          Math.abs(dy) > 1e-10 ? 30 / Math.abs(dy) : Infinity);
+  return [dx * length, dy * length];
+}
+
 function movementPoint(pair) {
   const horizontal = movementView === "pitcher" ? -pair[0] : pair[0];
   return [horizontal, pair[1]];
@@ -215,7 +269,8 @@ function movementPoint(pair) {
 function renderMovement() {
   const svg = document.querySelector("#movement-chart");
   clearSvg(svg);
-  const bounds = {left: 58, right: 592, top: 42, bottom: 558, xMin: -30, xMax: 30, yMin: -30, yMax: 30};
+  // Square plotting area keeps the reference angle faithful on equal HB/IVB scales.
+  const bounds = {left: 67, right: 583, top: 42, bottom: 558, xMin: -30, xMax: 30, yMin: -30, yMax: 30};
   const x = value => bounds.left + (value - bounds.xMin) / (bounds.xMax - bounds.xMin) * (bounds.right - bounds.left);
   const y = value => bounds.bottom - (value - bounds.yMin) / (bounds.yMax - bounds.yMin) * (bounds.bottom - bounds.top);
   for (let value = -30; value <= 30; value += 10) {
@@ -228,6 +283,11 @@ function renderMovement() {
   svgText(svg, movementView === "pitcher" ? "1B  ←  MOVES TOWARD  →  3B" : "3B  ←  MOVES TOWARD  →  1B", {x: 325, y: 21, "text-anchor": "middle", class: "chart-direction"});
   svgText(svg, "Horizontal Break", {x: 325, y: 611, "text-anchor": "middle", class: "chart-axis-title"});
   svgText(svg, "Induced Vertical Break", {x: 14, y: 300, transform: "rotate(-90 14 300)", "text-anchor": "middle", class: "chart-axis-title"});
+
+  const eaa = currentProfile.overall?.eaa;
+  const ray = eaaDisplay(eaa).estimated ? eaaRay(eaa.angle_deg, currentProfile.player.throws, movementView) : null;
+  if (ray) svg.append(svgElement("line", {x1: x(0), y1: y(0), x2: x(ray[0]), y2: y(ray[1]),
+    class: "eaa-reference-line", "aria-hidden": "true"}));
 
   const raw = modeSelect.value === "raw";
   currentProfile.pitch_types.forEach(pitch => {
@@ -418,6 +478,14 @@ async function exportProfileImage() {
       backgroundColor: "#edf2f7", scale: Math.max(2, window.devicePixelRatio || 1),
       useCORS: true, logging: false,
       ignoreElements: element => element === exportButton || element.id === "tooltip",
+      // html2canvas paints closed <details> children and misrenders its marker.
+      // Keep the exported uncertainty note visible without the interactive body.
+      onclone: clonedDocument => clonedDocument.querySelectorAll(".eaa-details").forEach(details => {
+        const note = clonedDocument.createElement("p");
+        note.className = "eaa-export-note";
+        note.textContent = "모델 추정 · KBO 실측 미검증";
+        details.replaceWith(note);
+      }),
     });
     const playerName = currentProfile.player.name.replace(/[\\/:*?"<>|]+/g, "_");
     const link = document.createElement("a");
