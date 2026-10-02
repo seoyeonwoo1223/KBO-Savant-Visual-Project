@@ -1,0 +1,165 @@
+{
+ "base": "296802a1",
+ "seasons": {
+  "2019": {
+   "model_version": [
+    "za7.2-pswing-pitcher-hand",
+    "za7.3-stable-pswing-pzone"
+   ],
+   "qualified": 149,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.0653115033557047,
+   "max_abs_delta_sbj": 0.282279,
+   "spearman": 0.9991982586613459,
+   "max_rank_shift": 6,
+   "moved_5_or_more": 3,
+   "mean_abs_delta_percentile": 0.8017656912751674,
+   "mean_abs_delta_sa": 0.07549869798657718,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    291,
+    291
+   ]
+  },
+  "2020": {
+   "model_version": [
+    "za7.2-pswing-pitcher-hand",
+    "za7.3-stable-pswing-pzone"
+   ],
+   "qualified": 166,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.487776813253012,
+   "max_abs_delta_sbj": 1.05977,
+   "spearman": 0.9969987735372629,
+   "max_rank_shift": 14,
+   "moved_5_or_more": 32,
+   "mean_abs_delta_percentile": 1.538684855421686,
+   "mean_abs_delta_sa": 0.0946789759036144,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    286,
+    286
+   ]
+  },
+  "2021": {
+   "model_version": [
+    "za7.2-pswing-pitcher-hand",
+    "za7.3-stable-pswing-pzone"
+   ],
+   "qualified": 166,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.25967053614457836,
+   "max_abs_delta_sbj": 0.7647120000000003,
+   "spearman": 0.996904329347876,
+   "max_rank_shift": 14,
+   "moved_5_or_more": 31,
+   "mean_abs_delta_percentile": 1.5459428072289154,
+   "mean_abs_delta_sa": 0.07801604819277105,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    291,
+    291
+   ]
+  },
+  "2022": {
+   "model_version": [
+    "za7.2-pswing-pitcher-hand",
+    "za7.3-stable-pswing-pzone"
+   ],
+   "qualified": 162,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.23572607407407406,
+   "max_abs_delta_sbj": 0.6749870000000001,
+   "spearman": 0.9974144780759877,
+   "max_rank_shift": 12,
+   "moved_5_or_more": 25,
+   "mean_abs_delta_percentile": 1.425087617283951,
+   "mean_abs_delta_sa": 0.07178366049382717,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    279,
+    279
+   ]
+  },
+  "2023": {
+   "model_version": [
+    "za7.2-pswing-pitcher-hand",
+    "za7.3-stable-pswing-pzone"
+   ],
+   "qualified": 173,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.06953376300578033,
+   "max_abs_delta_sbj": 0.34725399999999995,
+   "spearman": 0.9991517213566896,
+   "max_rank_shift": 8,
+   "moved_5_or_more": 7,
+   "mean_abs_delta_percentile": 0.8018978497109829,
+   "mean_abs_delta_sa": 0.07195565895953755,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    293,
+    293
+   ]
+  },
+  "2024": {
+   "model_version": [
+    "za7.2-pswing-pitcher-hand",
+    "za7.3-stable-pswing-pzone"
+   ],
+   "qualified": 155,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.5617673354838709,
+   "max_abs_delta_sbj": 1.125993,
+   "spearman": 0.9980181109213366,
+   "max_rank_shift": 12,
+   "moved_5_or_more": 15,
+   "mean_abs_delta_percentile": 1.2403746322580642,
+   "mean_abs_delta_sa": 0.08777815483870965,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    298,
+    298
+   ]
+  },
+  "2025": {
+   "model_version": [
+    "za7.2-pswing-pitcher-hand",
+    "za7.3-stable-pswing-pzone"
+   ],
+   "qualified": 171,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.09700326315789475,
+   "max_abs_delta_sbj": 0.3359000000000001,
+   "spearman": 0.9987376100991193,
+   "max_rank_shift": 10,
+   "moved_5_or_more": 16,
+   "mean_abs_delta_percentile": 0.978078748538012,
+   "mean_abs_delta_sa": 0.08477942105263156,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    299,
+    299
+   ]
+  },
+  "2026": {
+   "model_version": [
+    "za7.2-pswing-pitcher-hand",
+    "za7.3-stable-pswing-pzone"
+   ],
+   "qualified": 166,
+   "qualification_changes": 0,
+   "mean_abs_delta_sbj": 0.09943528915662653,
+   "max_abs_delta_sbj": 0.42926200000000003,
+   "spearman": 0.9990949098517097,
+   "max_rank_shift": 7,
+   "moved_5_or_more": 9,
+   "mean_abs_delta_percentile": 0.8564378313253015,
+   "mean_abs_delta_sa": 0.09008783734939751,
+   "max_abs_delta_dv_per_100_all_batters": 0.0,
+   "batters": [
+    290,
+    290
+   ]
+  }
+ }
+}

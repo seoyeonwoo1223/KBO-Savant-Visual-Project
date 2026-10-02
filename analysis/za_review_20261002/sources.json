@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "zone-algebra",
+      "title": "존 밖 가중의 대수와 운영 정의",
+      "queries": [
+        {
+          "id": "formula-source",
+          "source": {
+            "label": "요청 브랜치의 산식과 운영 소스",
+            "files": [
+              {
+                "label": "gates.md"
+              },
+              {
+                "label": "zb_neutral_za.py"
+              },
+              {
+                "label": "zd_strike_weight.py"
+              },
+              {
+                "label": "zone_decision.py"
+              }
+            ],
+            "caveats": [
+              "이진 존 근사와 연속 판정 확률은 서로 다른 대수식을 갖는다."
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "validation",
+                "title": "직접 계산 결과",
+                "detail": "이진 중립 항등식, SA 혼합식, 연속 분해식의 assert가 통과했다. 연속값 반례에서 c=1은 A>B, c=3은 A<B였다."
+              }
+            ]
+          },
+          "methods": [
+            {
+              "language": "calculation",
+              "code": "N0 = 100 E[(r-m)z]\nNc = 100 [((1+c)/2) E[(r-m)z] + ((1-c)/2) E[(r-m)|z|]] / E_league[w]"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "apr-overlap",
+      "title": "APR과의 겹침을 새로 계산한 결과",
+      "queries": [
+        {
+          "id": "candidate-public-join",
+          "source": {
+            "label": "후보 CSV와 공개 리더보드",
+            "files": [
+              {
+                "label": "zb_neutral_za_recenter_2019.csv"
+              },
+              {
+                "label": "zb_neutral_za_strike_2019.csv"
+              },
+              {
+                "label": "zb_neutral_za_strike.json"
+              },
+              {
+                "label": "leaderboard.json"
+              }
+            ],
+            "metricDefinitions": [
+              {
+                "label": "APR 순위 상관",
+                "definition": "APR 순위 상관은 시즌별 적격 타자의 후보와 공개 APR 간 Spearman 상관이다."
+              }
+            ],
+            "filters": [
+              "시즌: 2019–2026",
+              "적격: 300구 이상",
+              "커밋: f0dc0a44367852cc1aea86d8eb24dcdb1a19d413"
+            ],
+            "caveats": [
+              "후보 CSV는 소수 넷째 자리, 공개 점수는 소수 여섯째 자리다.",
+              "za7.6-apr 투구 캐시가 없어 투구별 재현 및 반분 재계산은 하지 않았다.",
+              "외부 ZJ 원자료가 없어 ZG4를 새로 검증하지 않았다."
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "validation",
+                "title": "서로 다른 산출물 대조",
+                "detail": "8개 시즌의 적격 타자 ID 집합이 같았다. 후보 원시 Z0 및 SA는 공개 점수와 CSV 반올림 허용폭 0.000051 안에서 일치했다. Z0/N4/N5의 재계산 APR 상관은 저장 JSON과 0.0001 이내에서 일치했다."
+              }
+            ]
+          },
+          "rows": [
+            {
+              "candidate": "Z0",
+              "all_seasons": 0.6254797186903387,
+              "umpire": 0.6115004907219623,
+              "abs": 0.6487784319709657
+            },
+            {
+              "candidate": "N0",
+              "all_seasons": 0.5917174665035883,
+              "umpire": 0.5546798589685283,
+              "abs": 0.6534468123953546
+            },
+            {
+              "candidate": "N1",
+              "all_seasons": 0.5906636920407669,
+              "umpire": 0.5530961702778643,
+              "abs": 0.653276228312271
+            },
+            {
+              "candidate": "N2",
+              "all_seasons": 0.812417696767127,
+              "umpire": 0.7673842571499513,
+              "abs": 0.8874734294624199
+            },
+            {
+              "candidate": "N3",
+              "all_seasons": 0.564510271618526,
+              "umpire": 0.5362196382332226,
+              "abs": 0.6116613272606983
+            },
+            {
+              "candidate": "N4",
+              "all_seasons": 0.7928301435986149,
+              "umpire": 0.7480325176941864,
+              "abs": 0.867492853439329
+            },
+            {
+              "candidate": "N5",
+              "all_seasons": 0.721256440831272,
+              "umpire": 0.6734539947579841,
+              "abs": 0.8009271842867518
+            }
+          ],
+          "columns": [
+            {
+              "field": "candidate",
+              "label": "후보"
+            },
+            {
+              "field": "all_seasons",
+              "label": "8시즌 평균"
+            },
+            {
+              "field": "umpire",
+              "label": "구심 시즌 평균"
+            },
+            {
+              "field": "abs",
+              "label": "ABS 시즌 평균"
+            }
+          ],
+          "preview": {
+            "kind": "aggregate",
+            "note": "시즌별 상관의 단순 평균이며, 타자 자료를 합친 상관은 아니다."
+          }
+        }
+      ]
+    },
+    {
+      "id": "neutrality",
+      "title": "N0의 SA 상관과 N1 순위 차이",
+      "queries": [
+        {
+          "id": "neutral-csv-decomposition",
+          "source": {
+            "label": "원시·재중심화 후보 CSV",
+            "files": [
+              {
+                "label": "zb_neutral_za_2021.csv"
+              },
+              {
+                "label": "zb_neutral_za_recenter_2021.csv"
+              }
+            ],
+            "filters": [
+              "시즌: 2019–2026",
+              "적격: 300구 이상"
+            ],
+            "caveats": [
+              "존 방향 평균은 N0=Z0-SA·평균(z)에서 역산했다. |SA|<0.2인 선수는 반올림 오차 확대를 막기 위해 역산에서 제외했다.",
+              "SA 보정항의 선형 공분산 분해는 Spearman 상관 차이의 직접 분해가 아니다."
+            ],
+            "evidenceFlow": [
+              {
+                "kind": "validation",
+                "title": "역산과 공분산 분해",
+                "detail": "N0와 N1의 Spearman은 0.998496–0.999912였다. 2021 평균 존 방향의 역산 중앙값은 -0.068885였다. 보정항의 SA 기울기는 +0.066703, 공통 평균 성분은 +0.067634, 선수별 구성 잔차는 -0.000931이었다."
+              }
+            ]
+          },
+          "rows": [
+            {
+              "season": 2019,
+              "z0_sa": 0.07891529113005623,
+              "n0_sa": 0.1555704697986577,
+              "n0_n1": 0.9988173408307637,
+              "rank_shift": 10.0
+            },
+            {
+              "season": 2020,
+              "z0_sa": 0.06748046183269191,
+              "n0_sa": 0.1825869723337764,
+              "n0_n1": 0.9987827193367921,
+              "rank_shift": 8.0
+            },
+            {
+              "season": 2021,
+              "z0_sa": 0.13760911911117527,
+              "n0_sa": 0.24576870355674196,
+              "n0_n1": 0.9988594544928426,
+              "rank_shift": 8.0
+            },
+            {
+              "season": 2022,
+              "z0_sa": -0.027496574042319574,
+              "n0_sa": 0.04135564898434997,
+              "n0_n1": 0.9984962469685738,
+              "rank_shift": 8.0
+            },
+            {
+              "season": 2023,
+              "z0_sa": 0.07142228052528381,
+              "n0_sa": 0.14266378035609162,
+              "n0_n1": 0.9990410505683816,
+              "rank_shift": 7.0
+            },
+            {
+              "season": 2024,
+              "z0_sa": 0.07087106441945151,
+              "n0_sa": 0.06722476493248043,
+              "n0_n1": 0.9999121845191804,
+              "rank_shift": 3.0
+            },
+            {
+              "season": 2025,
+              "z0_sa": 0.016946274597571028,
+              "n0_sa": 0.010795120116113083,
+              "n0_n1": 0.9998560011519908,
+              "rank_shift": 4.0
+            },
+            {
+              "season": 2026,
+              "z0_sa": 0.1420899712076395,
+              "n0_sa": 0.15769162660440347,
+              "n0_n1": 0.9998976854614977,
+              "rank_shift": 3.0
+            }
+          ],
+          "columns": [
+            {
+              "field": "season",
+              "label": "시즌"
+            },
+            {
+              "field": "z0_sa",
+              "label": "Z0–SA 상관"
+            },
+            {
+              "field": "n0_sa",
+              "label": "N0–SA 상관"
+            },
+            {
+              "field": "n0_n1",
+              "label": "N0–N1 상관"
+            },
+            {
+              "field": "rank_shift",
+              "label": "N0–N1 최대 순위 이동"
+            }
+          ],
+          "preview": {
+            "kind": "aggregate",
+            "note": "CSV 반올림을 포함한 시즌별 재계산 결과다."
+          }
+        }
+      ]
+    }
+  ]
+}

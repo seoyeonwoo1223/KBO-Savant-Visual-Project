@@ -1,7 +1,7 @@
 import inspect
 import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
-from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_dv_plus, EVENTS
+from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_apr, EVENTS
 from visualbaseball.zone_decision import cell_summary, judgment_plane_location, pzone_fields, PZONE_ABS, pitcher_throws
 from visualbaseball.zone_decision import reported_location_disagrees, PLANE_Y_FT, FRONT_PLANE_Y_FT
 from visualbaseball.curated import CM_PER_FOOT, _at_plane
@@ -25,15 +25,24 @@ def test_zone_awareness_is_outcome_independent_and_value_version_is_retained():
  assert value_based_zone_awareness(changed)!=value_based_zone_awareness(items)
 
 
-def test_sa_dv_stay_unchanged_and_dv_plus_is_standardized():
- base={'season':2026,'batter_name':'Test','team':'T','game_id':'20260601A','region':'heart','opposite_support':50,'delta_v':.2,'p_zone':.7,'judgment':.1}
+def test_sa_dv_stay_unchanged_and_apr_is_wrc_plus_style():
+ base={'season':2026,'batter_name':'Test','team':'T','game_id':'20260601A','region':'heart','opposite_support':50,'delta_v':.2,'p_zone':.7,'judgment':.1,'v_swing':.2,'v_take':0.}
  rows=[{**base,'batter_id':'1','swing':1,'p_swing':.4,'dv':.2},{**base,'batter_id':'1','swing':0,'p_swing':.4,'dv':-.1}]
  summary=profile_summary(rows)
  assert summary['swing_aggression']==10 and summary['raw_dv']==.1 and summary['dv_per_100']==5
- players=[{'qualified_300':True,'dv_per_100':v} for v in (-2,0,4,8)]
- add_dv_plus(players);values=np.array([p['dv_plus'] for p in players])
- assert abs(values.mean()-100)<1e-6 and abs(values.std()-15)<1e-6
-
+ # decision DV: 2*(S-p)*dV averaged -> (2*.6*.2 + 2*-.4*.2)/2 = .04 per pitch
+ assert abs(summary['jdv_per_100']-4)<1e-9
+ rng=np.random.default_rng(1)
+ players=[{'qualified_300':n>=300,'pitches_seen':n,'jdv_per_100':float(v),'jdv_se':float(8/np.sqrt(n))}
+          for n,v in zip([1200,900,600,400,350,320,310,305,150,120],rng.normal(0,1,10))]
+ meta=add_apr(players,5.0,-.1)
+ n=np.array([p['pitches_seen'] for p in players]);apr=np.array([p['apr'] for p in players])
+ assert abs((apr*n).sum()/n.sum()-100)<1e-4 and meta['shrinkage_k_pitches']>0
+ # the same decision DV is pulled harder toward 100 with fewer pitches
+ pair=[{'qualified_300':True,'pitches_seen':n,'jdv_per_100':2.,'jdv_se':.5} for n in (1000,100)]+players
+ add_apr(pair,5.0,0.);assert abs(pair[0]['apr']-100)>abs(pair[1]['apr']-100)
+ # every hitter gets a percentile against qualified hitters
+ assert all(p['apr_percentile'] is not None and 0<=p['apr_percentile']<=100 for p in players)
 
 def test_five_regions_and_hbp_not_future_pa_result():
  assert [region({'x_relative':d,'z_relative':0}) for d in (.4,.9,1.2,1.8,2.2)]==list(REGIONS)
@@ -181,7 +190,8 @@ def test_unapproved_plate_coordinate_substitution_is_not_in_pzone():
 
 
 def test_only_abs_seasons_read_judgment_planes():
- assert pzone_fields(2023)==old.PZONE_NUMERIC
+ # za7.4: human-umpire seasons add the count to the four front-plane inputs.
+ assert pzone_fields(2023)==old.PZONE_NUMERIC+('balls_before','strikes_before')
  # Legacy human-umpire builds call predict_pzone without fields and keep the four front-plane inputs.
  assert inspect.signature(old.predict_pzone).parameters['fields'].default==old.PZONE_NUMERIC
  assert all(pzone_fields(season)==PZONE_ABS for season in (2024,2025,2026))

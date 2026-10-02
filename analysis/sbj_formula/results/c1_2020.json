@@ -1,0 +1,146 @@
+{
+ "season": 2020,
+ "base": "b0",
+ "pzone_fields_base": [
+  "x_relative",
+  "z_relative",
+  "sz_top",
+  "sz_bottom"
+ ],
+ "pzone_fields_c1": [
+  "x_relative",
+  "z_relative",
+  "sz_top",
+  "sz_bottom",
+  "balls_before",
+  "strikes_before"
+ ],
+ "takes": 119484,
+ "boundary_takes": 30053,
+ "take_log_loss": {
+  "base": 0.18681886508528056,
+  "c1": 0.18326386259452523,
+  "delta": -0.003555002490755342,
+  "cluster_z": -12.577402011514522
+ },
+ "boundary_log_loss": {
+  "base": 0.5590853660233247,
+  "c1": 0.5477666773279753,
+  "delta": -0.011318688695349376,
+  "cluster_z": -11.92035550796136
+ },
+ "boundary_calibration": {
+  "base": {
+   "0strike": {
+    "n": 17474,
+    "observed_minus_pred": 0.038179998363029544
+   },
+   "1strike": {
+    "n": 8861,
+    "observed_minus_pred": -0.03602387054017436
+   },
+   "2strike": {
+    "n": 3718,
+    "observed_minus_pred": -0.12205329885187893
+   },
+   "3ball": {
+    "n": 2100,
+    "observed_minus_pred": 0.010455311548158375
+   }
+  },
+  "c1": {
+   "0strike": {
+    "n": 17474,
+    "observed_minus_pred": -0.0004288775360087316
+   },
+   "1strike": {
+    "n": 8861,
+    "observed_minus_pred": -0.0024480134304126766
+   },
+   "2strike": {
+    "n": 3718,
+    "observed_minus_pred": -0.017638394985216577
+   },
+   "3ball": {
+    "n": 2100,
+    "observed_minus_pred": -0.002118596969119646
+   }
+  }
+ },
+ "own_boundary_calibration_c1": {
+  "0strike": {
+   "n": 17036,
+   "observed_minus_pred": -0.00021010760634165848
+  },
+  "1strike": {
+   "n": 9037,
+   "observed_minus_pred": -0.00436024439730609
+  },
+  "2strike": {
+   "n": 3540,
+   "observed_minus_pred": -0.01895128902932658
+  },
+  "3ball": {
+   "n": 2072,
+   "observed_minus_pred": -0.0035540252183166032
+  }
+ },
+ "players": {
+  "qualified": 166,
+  "qualification_changes": 0,
+  "mean_abs_delta": 0.1941209922115683,
+  "max_abs_delta": 0.9276277442594321,
+  "spearman": 0.9944461569741133,
+  "max_rank_shift": 15,
+  "moved_5_or_more": 50
+ },
+ "block_reproducibility": {
+  "base": [
+   0.5846063252127134,
+   0.7386208620521943,
+   0.6324091384200565
+  ],
+  "c1": [
+   0.611081597106379,
+   0.7570087074805291,
+   0.6450069447371658
+  ],
+  "base_mean": 0.6518787752283214,
+  "c1_mean": 0.671032416441358
+ },
+ "seconds_c1_pzone": 6.941371202468872,
+ "gates": {
+  "C1-1": {
+   "strata": {
+    "0strike": {
+     "n": 17474,
+     "observed_minus_pred": -0.0004288775360087316
+    },
+    "1strike": {
+     "n": 8861,
+     "observed_minus_pred": -0.0024480134304126766
+    },
+    "2strike": {
+     "n": 3718,
+     "observed_minus_pred": -0.017638394985216577
+    },
+    "3ball": {
+     "n": 2100,
+     "observed_minus_pred": -0.002118596969119646
+    }
+   },
+   "pass": true
+  },
+  "C1-2": {
+   "delta": -0.003555002490755342,
+   "z": -12.577402011514522,
+   "pass": true
+  },
+  "C1-3": {
+   "base": 0.6518787752283214,
+   "c1": 0.671032416441358,
+   "pass": true
+  },
+  "pass": true
+ }
+}

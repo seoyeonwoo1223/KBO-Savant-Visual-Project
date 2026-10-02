@@ -29,9 +29,16 @@ from .curated import CM_PER_FOOT, _at_plane, load_rows as load_curated_rows, sch
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
 EVENTS = ('Whiff', 'Foul', 'InPlay', 'Ball', 'CalledStrike', 'HBP')
 NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
-MODEL_VERSION = 'za7.2-pswing-pitcher-hand'
+# za7.5: the DV event and value models read TrackMan-validated movement (movement_calibration) in every season;
+# p_swing keeps the park-workbook movement where a workbook exists (analysis/sbj_formula M).
+DV_MOVEMENT = ('dv_hb_cm', 'dv_ivb_cm')
+DV_NUMERIC = old.BASE_NUMERIC + DV_MOVEMENT
+MODEL_VERSION = 'za7.6-apr'
 SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
+# za7.3: p_zone averages five seeds so one early-stopping validation split no longer moves player SBJ
+# (analysis/sbj_formula C0d).
+PZONE_SEEDS = tuple(range(old.RANDOM_STATE, old.RANDOM_STATE+5))
 ABS_FIRST_SEASON = 2024
 # ABS calls left/right at the plate's middle plane; top and bottom must hold at
 # both the middle and back planes. px/pz sit at the front plane, where a falling
@@ -46,16 +53,18 @@ FRONT_PLANE_Y_FT, REPORTED_LOCATION_TOLERANCE_CM = 17/12, 1.0
 # old.CATEGORICAL. analysis/zone_decision/pswing_inputs.md holds the comparison.
 PSWING_CATEGORICAL = old.CATEGORICAL + ('pitcher_throws',)
 CONTRACT = {
- 'za_raw': '100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points; the official SBJ ranking score, equal to zone_judgment_pct - expected_zone_judgment_pct',
+ 'za_raw': 'ZA (Zone Awareness, formerly SBJ): 100 * mean((S - p_swing) * (2*p_zone - 1)); percentage points; equal to zone_judgment_pct - expected_zone_judgment_pct',
  'zone_judgment_pct': '100 * mean(p_zone if swing else 1 - p_zone); raw judgment accuracy, descriptive only and never ranked',
  'expected_zone_judgment_pct': '100 * mean(p_swing*p_zone + (1-p_swing)*(1-p_zone)); league-policy accuracy on the same pitches',
- 'p_swing': 'league Swing propensity from location, count, base/out, velocity, release height, park-adjusted HB/IVB, pitch type, batter stance, pitcher hand and stadium',
- 'p_zone': 'take-only CalledStrike vs Ball/HBP model; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to front-plane px/pz when the trajectory is invalid',
- 'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs',
+ 'p_swing': 'league Swing propensity from location, count, base/out, velocity, release height, park-adjusted HB/IVB, pitch type, batter stance, pitcher hand and stadium; isotonic-calibrated separately for in-zone and out-of-zone pitches (p_zone >= 0.5)',
+ 'p_zone': 'take-only CalledStrike vs Ball/HBP model, five-seed average; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to front-plane px/pz when the trajectory is invalid; human-umpire seasons read front-plane px/pz, zone bounds and the ball-strike count',
+ 'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs; event and value models read TrackMan-validated movement (movement_calibration) in every season',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
- 'dv_plus': '100 + 15 * (dv_per_100 - qualified mean) / qualified population standard deviation',
+ 'jdv_per_100': 'decision DV: 100 * mean(2 * (S - p_swing) * (V_swing - V_take)); runs per 100 pitches above the league Swing policy on the same pitches',
+ 'apr': 'APR (Approach), wRC+-style: 100 * (L + s) / L. L = league pitch-weighted dv_per_100; s = n/(n+k) * (jdv_per_100 - league jdv), re-centred so the pitch-weighted league mean is 100; k = per-pitch noise / true-talent variance among qualified hitters (pitches for reliability 0.5)',
+ 'apr_percentile': 'midrank percentile of APR against qualified hitters (300+ pitches); every hitter gets one, unqualified hitters are flagged by qualified_300',
  'swing_aggression': '100 * mean(S - p_swing); percentage points, tendency only',
- 'za_percentile': 'midrank percentile among season hitters with at least 300 eligible pitches',
+ 'za_percentile': 'midrank percentile of ZA among season hitters with at least 300 eligible pitches',
  'region_contributions': '100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100',
 }
 LIMITATIONS = [
@@ -153,8 +162,14 @@ def reported_location_disagrees(row):
  return abs(float(row['px'])*CM_PER_FOOT-mid[0])>REPORTED_LOCATION_TOLERANCE_CM or abs(float(row['pz'])*CM_PER_FOOT-front[1])>REPORTED_LOCATION_TOLERANCE_CM
 
 
+# za7.4: umpires widened the zone at 0 strikes and shrank it at 2, so pre-ABS p_zone also reads the count.
+# Without it boundary takes were mis-calibrated by -11 to -13 pp at 2 strikes (analysis/sbj_formula C1).
+# ABS ignores the count; adding it there did not improve calls (C1-ABS control).
+PZONE_UMPIRE = old.PZONE_NUMERIC + ('balls_before', 'strikes_before')
+
+
 def pzone_fields(season):
- return PZONE_ABS if int(season)>=ABS_FIRST_SEASON else old.PZONE_NUMERIC
+ return PZONE_ABS if int(season)>=ABS_FIRST_SEASON else PZONE_UMPIRE
 
 
 def load_pitcher_hands(root):
@@ -188,12 +203,12 @@ def park_workbook(root, season):
  return root/'data/park_adjustments'/f'{season}_VB_Park_Adjustment_v1.0.xlsx'
 
 
-def calibrated_movement(rows):
- """Movement features without a park workbook: movement_calibration's TrackMan-validated stadium-day correction."""
+def calibrated_movement(rows, columns=old.MOVEMENT_NUMERIC):
+ """movement_calibration's TrackMan-validated stadium-day correction, written to `columns`."""
  corrected=calibrate(rows,[_pitch_code(r) for r in rows]); available=0
  for r,(hb,ivb) in zip(rows,corrected):
   ok=hb is not None and ivb is not None; available+=ok
-  r['adjusted_hb_cm'],r['adjusted_ivb_cm']=(hb,ivb) if ok else (np.nan,np.nan)
+  r[columns[0]],r[columns[1]]=(hb,ivb) if ok else (np.nan,np.nan)
  return {'movement_available':available,'movement_adjusted':available,'adjustment_coverage_pct':100.0 if available else 0.0,
   'formula':'no park adjustment workbook for this season: movement_calibration stadium-day and plate-location correction (TrackMan-validated 2019-2024)'}
 
@@ -223,13 +238,14 @@ def load_rows(root, season):
   valid.append(r)
  # 2019-2021 have no park workbook: p_swing then reads the TrackMan-validated movement_calibration values.
  movement = old._movement_adjust(valid, root, season) if park_workbook(root,season).exists() else calibrated_movement(valid)
+ dv_movement = calibrated_movement(valid, DV_MOVEMENT)
  # Retain pre-pitch features, transitions, identity and training target only.
- keep = set(NUMERIC + old.PZONE_NUMERIC + PZONE_ABS + PSWING_CATEGORICAL + ('plane_fallback','game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
+ keep = set(NUMERIC + DV_MOVEMENT + old.PZONE_NUMERIC + PZONE_ABS + PSWING_CATEGORICAL + ('plane_fallback','game_id','game_date','season','batter_id','batter_name','batter_team','inning_half','event','region','decision_type','_runs_to_end','_re_complete','runs_on_pitch'))
  keep.update(f'{k}_{w}' for k in ('base_state_code','outs','balls','strikes') for w in ('before','after'))
  valid = [{k:v for k,v in r.items() if k in keep} for r in valid]
  for p in (root/'data/curated/players/player_bio.parquet',park_workbook(root,season)):
   if p.exists():hashes[p.name]=file_hash(p)
- return sorted(valid, key=lambda r:r['game_id']), {'source':f'data/curated/pitches/season={season}','input_mode':'curated','curated_version':None,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'pzone_input':pzone_input(valid,season), 'unknown_stance':sum(not r['batter_stance'] for r in valid),'unknown_pitcher_hand':sum(not r['pitcher_throws'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
+ return sorted(valid, key=lambda r:r['game_id']), {'source':f'data/curated/pitches/season={season}','input_mode':'curated','curated_version':None,'sha256':hashes,'quality':quality,'excluded':dict(excluded), 'movement':movement, 'dv_movement':dv_movement, 'pzone_input':pzone_input(valid,season), 'unknown_stance':sum(not r['batter_stance'] for r in valid),'unknown_pitcher_hand':sum(not r['pitcher_throws'] for r in valid),'latest_game':max(r['game_id'] for r in valid)}
 
 
 def pzone_input(rows,season):
@@ -300,10 +316,11 @@ class RunExpectancy:
   return float(runs+self.value(after)-self.value(s))
 
 
-def encode(train, test, categorical=old.CATEGORICAL):
+def encode(train, test, categorical=old.CATEGORICAL, numeric=None):
  # Unknown categories are missing, never mapped to another known category.
+ numeric = NUMERIC if numeric is None else numeric
  cols_a, cols_b = [], []
- for f in NUMERIC:
+ for f in numeric:
   cols_a.append([old._safe_float(r.get(f)) for r in train]); cols_b.append([old._safe_float(r.get(f)) for r in test])
  for f in categorical:
   mapping = {v:i for i,v in enumerate(sorted({str(r.get(f) or '') for r in train}))}
@@ -320,7 +337,7 @@ def detailed_support_key(r):
   value=old._safe_float(r.get(key))
   return int(np.floor(value/width)) if np.isfinite(value) else None
  return (*support_key(r),r.get('pitch_type'),r.get('batter_stance'),
-         band('velocity_kmh',10),band('adjusted_hb_cm',10),band('adjusted_ivb_cm',10))
+         band('velocity_kmh',10),band(DV_MOVEMENT[0],10),band(DV_MOVEMENT[1],10))
 
 
 def probability_prior(train,test,actions,events,action,indices):
@@ -339,7 +356,8 @@ def probability_prior(train,test,actions,events,action,indices):
 
 
 def pswing_classifier():
- return old._classifier(len(NUMERIC)).set_params(categorical_features=list(range(len(NUMERIC),len(NUMERIC)+len(PSWING_CATEGORICAL))))
+ # No early stopping: its random validation split made p_swing, and through it player SBJ, depend on the seed.
+ return old._classifier(len(NUMERIC)).set_params(categorical_features=list(range(len(NUMERIC),len(NUMERIC)+len(PSWING_CATEGORICAL))),early_stopping=False)
 
 
 def fit_model(model, features, target):
@@ -351,8 +369,8 @@ def fit_model(model, features, target):
  return model.fit(features,target)
 
 
-def fit_predict(train, test, candidate=True, calibration=True, support_prior=50):
- a,b = encode(train,test)
+def fit_predict(train, test, candidate=True, calibration=True, support_prior=50, pzone_features=None, test_pzone=None):
+ a,b = encode(train,test,numeric=DV_NUMERIC)
  re = RunExpectancy(train); target = re.target(train)
  actions = np.array([r['decision_type']=='Swing' for r in train],dtype=int)
  events = np.array([EVENTS.index(r['event']) for r in train])
@@ -364,18 +382,27 @@ def fit_predict(train, test, candidate=True, calibration=True, support_prior=50)
  if calibration:
   groups=np.array([r['game_id'] for r in train]);folds=min(3,len(set(groups)))
   if folds<2:raise ValueError('Calibration requires at least two training games')
-  oof=np.empty(len(train))
+  oof=np.empty(len(train));train_in=np.zeros(len(train),dtype=bool)
   for fit,held in GroupKFold(folds).split(sa,actions,groups):
    model=fit_model(pswing_classifier(),sa[fit],actions[fit])
    oof[held]=model.predict_proba(sa[held])[:,list(model.classes_).index(1)]
-  days=sorted({r['game_id'][:8] for r in train});cut=days[max(1,int(len(days)*.8))-1]
-  fit_mask=np.array([r['game_id'][:8]<=cut for r in train]);held_mask=~fit_mask
-  if held_mask.any() and len(set(actions[fit_mask]))==2:
-   calibrator=IsotonicRegression(out_of_bounds='clip',y_min=1e-6,y_max=1-1e-6).fit(oof[fit_mask],actions[fit_mask])
-   corrected=calibrator.predict(oof[held_mask]);truth=actions[held_mask]
-   calibration_applied=(log_loss(truth,corrected,labels=[0,1])<log_loss(truth,oof[held_mask],labels=[0,1]) and brier_score_loss(truth,corrected)<=brier_score_loss(truth,oof[held_mask]))
-   if calibration_applied:
-    calibrator.fit(oof,actions);p=calibrator.predict(raw_p)
+   if pzone_features is not None:
+    train_in[held]=predict_pzone([train[i] for i in fit],[train[i] for i in held],pzone_features)>=.5
+  # Always calibrate (za7.3). The former 80/20 date gate flipped between refits and moved player SBJ by
+  # about 0.3 pp whenever it did (analysis/sbj_formula C0c/C0d).
+  if len(set(actions))==2:
+   calibrator=IsotonicRegression(out_of_bounds='clip',y_min=1e-6,y_max=1-1e-6).fit(oof,actions)
+   p=calibrator.predict(raw_p);calibration_applied=True
+   # za7.4: calibrate in-zone and out-of-zone pitches separately. Raw p_swing is under-confident only across
+   # the zone edge, so one isotonic map over-corrected by zone side and left ABS-season league SBJ at -0.35
+   # (analysis/sbj_formula K-B). Zone side is p_zone >= 0.5, out of fold for training rows.
+   if pzone_features is not None:
+    test_in=(predict_pzone(train,test,pzone_features) if test_pzone is None else np.asarray(test_pzone))>=.5
+    for side in (True,False):
+     m=train_in==side
+     if len(set(actions[m]))==2:
+      t=test_in==side
+      p[t]=IsotonicRegression(out_of_bounds='clip',y_min=1e-6,y_max=1-1e-6).fit(oof[m],actions[m]).predict(raw_p[t])
  probs = np.zeros((len(test),6)); direct=np.zeros((len(test),2)); staged=direct.copy();unsmoothed=direct.copy()
  counts = Counter((support_key(r),r['decision_type']) for r in train)
  support = np.array([[counts[(support_key(r),action)] for action in ('Take','Swing')] for r in test])
@@ -383,8 +410,8 @@ def fit_predict(train, test, candidate=True, calibration=True, support_prior=50)
  detailed=np.array([[fine_counts[(detailed_support_key(r),action)] for action in ('Take','Swing')] for r in test])
  for act, indices in ((0,range(3,6)),(1,range(3))):
   mask = actions==act
-  direct[:,act] = fit_model(old._regressor(len(NUMERIC)),a[mask],target[mask]).predict(b)
-  clf = fit_model(old._classifier(len(NUMERIC)),a[mask],events[mask])
+  direct[:,act] = fit_model(old._regressor(len(DV_NUMERIC)),a[mask],target[mask]).predict(b)
+  clf = fit_model(old._classifier(len(DV_NUMERIC)),a[mask],events[mask])
   pred = clf.predict_proba(b)
   for i,label in enumerate(clf.classes_): probs[:,int(label)]=pred[:,i]
   raw_probs=probs[:,list(indices)].copy()
@@ -410,7 +437,7 @@ def fit_predict(train, test, candidate=True, calibration=True, support_prior=50)
    prior=np.array([sm.get(_state(r,'before'),cm.get(_state(r,'before')[2:],global_mean)) for r in test])
    values=prior
    if ev==2 and em.sum()>=160:
-    model=fit_model(old._regressor(len(NUMERIC)),a[em],target[em])
+    model=fit_model(old._regressor(len(DV_NUMERIC)),a[em],target[em])
     local=Counter(support_key(train[j]) for j in np.flatnonzero(em))
     n=np.array([local[support_key(r)] for r in test]); weight=n/(n+50.)
     values=weight*model.predict(b)+(1-weight)*prior
@@ -440,7 +467,7 @@ def evaluation_metrics(test,pred):
   'action_value':metrics,'event_probability':event_metrics,'calibration_bins':calibration,'re':pred['re_diagnostics'],'calibration_applied':pred['calibration_applied']}
 
 
-def temporal_evaluation(rows):
+def temporal_evaluation(rows, pzone_features=None):
  dates=sorted({r['game_id'][:8] for r in rows})
  if len(dates)<10:raise ValueError('At least ten dates are required for temporal validation')
  dev_date,test_date=dates[int(len(dates)*.6)],dates[int(len(dates)*.8)]
@@ -448,19 +475,31 @@ def temporal_evaluation(rows):
  dev=[r for r in rows if dev_date<=r['game_id'][:8]<test_date]
  test=[r for r in rows if r['game_id'][:8]>=test_date]
  print('  Development',dev_date,len(train),len(dev),flush=True)
- predicted=fit_predict(train,dev)
+ predicted=fit_predict(train,dev,pzone_features=pzone_features)
  development=evaluation_metrics(dev,predicted)
- # Same algorithm as season scoring. Optional probability calibration is gated
- # inside each training set, never with a scored/development/final-test outcome.
+ # Same algorithm as season scoring. p_swing calibration is fitted on training-game
+ # OOF probabilities only, never with a scored/development/final-test outcome.
  settings=dict(SCORE_SETTINGS)
  print('  Final untouched test',test_date,len(test),settings,flush=True)
- predicted=fit_predict(train+dev,test,**settings)
+ predicted=fit_predict(train+dev,test,pzone_features=pzone_features,**settings)
  final=evaluation_metrics(test,predicted)
  return {'selected':'staged','settings':settings,'development_start':dev_date,'split_date':test_date,
   'train_pitches':len(train)+len(dev),'test_pitches':len(test),'development':development,'final_test':final,
   **{k:final[k] for k in ('swing_log_loss','swing_brier','action_value','event_probability')},
-  'selection_rule':'60/20/20 dates: development diagnostics, then final evaluation with frozen algorithm. Each fit selects optional calibration using only training-game OOF probabilities. Final 20% never selects settings. Direct and unpooled RVs are diagnostic baselines.',
+  'selection_rule':'60/20/20 dates: development diagnostics, then final evaluation with frozen algorithm. Each fit calibrates p_swing with isotonic regression on training-game OOF probabilities only. Final 20% never selects settings. Direct and unpooled RVs are diagnostic baselines.',
   'counterfactual_validation':'Observed-action errors and conditional intervals do not identify unobserved opposite-action outcomes.'}
+
+
+def predict_pzone(train, test, fields):
+ """old.predict_pzone averaged over PZONE_SEEDS: the take-only CalledStrike vs Ball/HBP model."""
+ take=[r for r in train if r['decision_type']=='Take']
+ target=np.array([str(r.get('pitch_call_code') or '').upper()=='T' or r.get('event')=='CalledStrike' for r in take],dtype=int)
+ x,xt=old._encode_numeric(take,fields),old._encode_numeric(test,fields)
+ probability=np.zeros(len(test))
+ for seed in PZONE_SEEDS:
+  model=old._classifier().set_params(random_state=seed).fit(x,target)
+  probability+=model.predict_proba(xt)[:,list(model.classes_).index(1)]
+ return np.clip(probability/len(PZONE_SEEDS),1e-6,1-1e-6)
 
 
 def r6(x): return round(float(x),6)
@@ -473,8 +512,8 @@ def score_crossfit(rows, selected, settings=SCORE_SETTINGS, pzone_features=old.P
  for fold,block in enumerate(np.array_split(dates,CROSSFIT_FOLDS)):
   held=set(block); train=[r for r in rows if r['game_id'][:8] not in held]; test=[r for r in rows if r['game_id'][:8] in held]
   print('  Scoring block',fold+1,len(test),flush=True)
-  pred=fit_predict(train,test,**settings)
-  pzone=old.predict_pzone(train,test,pzone_features)
+  pzone=predict_pzone(train,test,pzone_features)
+  pred=fit_predict(train,test,pzone_features=pzone_features,test_pzone=pzone,**settings)
   action=np.array([r['decision_type']=='Swing' for r in test],dtype=int)
   values=pred[selected]; dv=decision_value(action,values[:,1],values[:,0])
   for i,r in enumerate(test):
@@ -488,6 +527,11 @@ def profile_summary(items):
  n=len(items); first=items[0]
  total=sum(r['dv'] for r in items)
  s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
+ # Decision DV (APR input): the chosen action's value above the league Swing policy on the same pitches.
+ jdv=np.array([2*(r['swing']-r['p_swing'])*r['delta_v'] for r in items]); mean_jdv=float(jdv.mean())
+ by_game=defaultdict(float)
+ for r,v in zip(items,jdv): by_game[r['game_id']]+=v-mean_jdv
+ s['jdv_per_100']=r6(100*mean_jdv); s['jdv_se']=r6(100*np.sqrt(sum(v*v for v in by_game.values()))/n)
  s['low_opposite_support_pct']=r6(100*s['low_opposite_support_pitches']/n)
  games=defaultdict(list)
  for r in items:games[r['game_id']].append(r['dv'])
@@ -510,12 +554,29 @@ def cell_summary(items):
  return {'n':len(items),'low_opposite_support_pct':r6(100*np.mean([r['opposite_support']<30 for r in items])),'raw_dv':r6(sum(r['dv'] for r in items)),'dv100':mean(items,'dv',100),'za_raw':zone_awareness(items),'delta':mean(items,'delta_v'),'swing_pct':mean(items,'swing',100),'expected_swing_pct':mean(items,'p_swing',100),'p_zone_pct':mean(items,'p_zone',100),'zone_judgment_pct':r6(100*np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])),'expected_zone_judgment_pct':r6(100*np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])),'expected_swing_rv':mean(items,'v_swing'),'expected_take_rv':mean(items,'v_take'),**{f'p_{e}':mean(items,f'p_{e}',100) for e in EVENTS}}
 
 
-def add_dv_plus(players):
- qualified=np.array([p['dv_per_100'] for p in players if p['qualified_300']],dtype=float)
- center=float(qualified.mean()) if len(qualified) else 0
- spread=float(qualified.std()) if len(qualified) else 0
- for p in players: p['dv_plus']=r6(100+15*(p['dv_per_100']-center)/spread) if spread else (100 if p['qualified_300'] else None)
- return center,spread
+def add_apr(players, league_dv_per_100, league_jdv_per_100):
+ """APR: wRC+-style decision value. Centre decision DV on the league, shrink toward it by pitches seen
+ (n/(n+k), k estimated from qualified hitters), re-centre so the pitch-weighted league mean is exactly 100,
+ then scale by league DV/100. Percentiles rank every hitter against qualified hitters only
+ (analysis/sbj_formula W-b)."""
+ n=np.array([p['pitches_seen'] for p in players],dtype=float)
+ centred=np.array([p['jdv_per_100'] for p in players],dtype=float)-league_jdv_per_100
+ se=np.array([p['jdv_se'] for p in players],dtype=float); q=np.array([p['qualified_300'] for p in players])
+ k=np.inf
+ if q.sum()>2:
+  sigma2=float(np.median(se[q]**2*n[q])); tau2=float(np.var(centred[q],ddof=1)-np.mean(se[q]**2))
+  if tau2>0: k=sigma2/tau2
+ shrunk=n/(n+k)*centred if np.isfinite(k) else np.zeros(len(players))
+ shrunk-=float((shrunk*n).sum()/n.sum())
+ apr=100*(league_dv_per_100+shrunk)/league_dv_per_100
+ reference=np.sort(apr[q])
+ for p,value in zip(players,apr):
+  p['apr']=r6(value)
+  if len(reference):
+   lo,hi=np.searchsorted(reference,value,'left'),np.searchsorted(reference,value,'right')
+   p['apr_percentile']=r6(100*(lo+.5*(hi-lo))/len(reference))
+  else: p['apr_percentile']=None
+ return {'league_dv_per_100':r6(league_dv_per_100),'league_jdv_per_100':r6(league_jdv_per_100),'shrinkage_k_pitches':r6(k) if np.isfinite(k) else None}
 
 
 def write_web(root,season,pitches,report,output_root=None):
@@ -524,11 +585,12 @@ def write_web(root,season,pitches,report,output_root=None):
  by_batter=defaultdict(list)
  for r in pitches: by_batter[str(r['batter_id'])].append(r)
  players=[profile_summary(items) for items in by_batter.values()]
- add_dv_plus(players)
+ apr_meta=add_apr(players,100*float(np.mean([r['dv'] for r in pitches])),100*float(np.mean([2*(r['swing']-r['p_swing'])*r['delta_v'] for r in pitches])))
+ report['apr']=apr_meta
  scores=np.array([p['za_raw'] for p in players if p['qualified_300'] and p['za_raw'] is not None])
  for p in players: p['za_percentile']=r6(100*(np.sum(scores<p['za_raw'])+.5*np.sum(scores==p['za_raw']))/len(scores)) if len(scores) and p['za_raw'] is not None else None
  def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
- dump(dest/'leaderboard.json',{'schema_version':5,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'pzone_input':report['source'].get('pzone_input'),'settings':report['validation']['settings']})
+ dump(dest/'leaderboard.json',{'schema_version':6,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'apr':report['apr'],'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'pzone_input':report['source'].get('pzone_input'),'settings':report['validation']['settings']})
  dump(dest/'teams.json',{'season':season,'teams':{p['batter_id']:p['team'] for p in players}})
  shards=defaultdict(dict)
  for p in players:
@@ -552,20 +614,23 @@ def build_zone_decision(root,season=2026):
  print('ZA season',season,flush=True)
  rows,source=load_rows(root,season)
  output_root=root
- validation=temporal_evaluation(rows)
+ validation=temporal_evaluation(rows,pzone_fields(season))
  selected=validation['selected'];print('  Selected:',selected,flush=True)
  # Metric changes stay local to zone_awareness(), decision_value(), and
  # profile_summary(); this function only orchestrates model output.
  result,fold_meta=score_crossfit(rows,selected,SCORE_SETTINGS,pzone_fields(season))
  # One report: observed fit, period reproducibility and opposite-action support.
- periods=defaultdict(lambda:defaultdict(list))
- for r in result: periods[r['fold']][str(r['batter_id'])].append(r['dv'])
- stability=[]
- for a,b in ((0,1),(1,2)):
-  ids=[k for k,v in periods[a].items() if len(v)>=150 and len(periods[b].get(k,[]))>=150]
-  x=[np.mean(periods[a][k]) for k in ids];y=[np.mean(periods[b][k]) for k in ids]
-  corr=float(np.corrcoef(x,y)[0,1]) if len(ids)>2 and np.std(x)>0 and np.std(y)>0 else None
-  stability.append({'blocks':[a+1,b+1],'batters_150_pitches_each':len(ids),'pearson_r':corr,'interpretation':'descriptive repeatability; cross-fit training overlaps, not independent prospective validation'})
+ # Until za7.3 this correlated DV only, under a name that read as SBJ; both metrics are now reported by name.
+ stability={}
+ for metric,key in (('sbj','judgment'),('dv','dv')):
+  periods=defaultdict(lambda:defaultdict(list))
+  for r in result: periods[r['fold']][str(r['batter_id'])].append(r[key])
+  stability[metric]=[]
+  for a,b in ((0,1),(1,2),(0,2)):
+   ids=[k for k,v in periods[a].items() if len(v)>=150 and len(periods[b].get(k,[]))>=150]
+   x=[np.mean(periods[a][k]) for k in ids];y=[np.mean(periods[b][k]) for k in ids]
+   corr=float(np.corrcoef(x,y)[0,1]) if len(ids)>2 and np.std(x)>0 and np.std(y)>0 else None
+   stability[metric].append({'blocks':[a+1,b+1],'batters_150_pitches_each':len(ids),'pearson_r':corr,'interpretation':'descriptive repeatability; cross-fit training overlaps, not independent prospective validation'})
  support={reg:{'pitches':sum(r['region']==reg for r in result),'opposite_action_under_30':sum(r['region']==reg and r['opposite_support']<30 for r in result)} for reg in REGIONS}
  report={'schema_version':5,'model_version':MODEL_VERSION,'season':season,'source':source,'pitches':len(result),'validation':validation,'period_reproducibility':stability,'opposite_action_support':support,
   'support_definition':'Opposite-action counts: normalized 0.5 location cell x count x pitch type x stance x 10 km/h velocity x 10 cm HB/IVB bins. Diagnostic neighborhood, not proof of causal overlap.',
@@ -580,7 +645,7 @@ def build_zone_decision(root,season=2026):
  # Compact pitch evidence is reproducible; not committed as a large binary.
  evidence_cache=root/'data/metrics/zone_awareness'/str(season)
  evidence_cache.mkdir(parents=True,exist_ok=True)
- pq.write_table(pa.Table.from_pylist([{k:v for k,v in r.items() if k not in ('adjusted_hb_cm','adjusted_ivb_cm')} for r in result]),evidence_cache/'pitches.parquet')
+ pq.write_table(pa.Table.from_pylist([{k:v for k,v in r.items() if k not in ('adjusted_hb_cm','adjusted_ivb_cm')+DV_MOVEMENT} for r in result]),evidence_cache/'pitches.parquet')
  return report
 
 if __name__=='__main__':

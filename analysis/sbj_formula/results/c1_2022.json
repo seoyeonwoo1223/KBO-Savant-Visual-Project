@@ -1,0 +1,146 @@
+{
+ "season": 2022,
+ "base": "b0",
+ "pzone_fields_base": [
+  "x_relative",
+  "z_relative",
+  "sz_top",
+  "sz_bottom"
+ ],
+ "pzone_fields_c1": [
+  "x_relative",
+  "z_relative",
+  "sz_top",
+  "sz_bottom",
+  "balls_before",
+  "strikes_before"
+ ],
+ "takes": 115317,
+ "boundary_takes": 27146,
+ "take_log_loss": {
+  "base": 0.17212987116045733,
+  "c1": 0.16825518764415165,
+  "delta": -0.0038746835163056873,
+  "cluster_z": -12.03115326300346
+ },
+ "boundary_log_loss": {
+  "base": 0.5658728456569693,
+  "c1": 0.5523980896620369,
+  "delta": -0.013474755994932508,
+  "cluster_z": -11.449821207960449
+ },
+ "boundary_calibration": {
+  "base": {
+   "0strike": {
+    "n": 15641,
+    "observed_minus_pred": 0.04868047860069935
+   },
+   "1strike": {
+    "n": 7979,
+    "observed_minus_pred": -0.04850102525365896
+   },
+   "2strike": {
+    "n": 3526,
+    "observed_minus_pred": -0.129081904425576
+   },
+   "3ball": {
+    "n": 1897,
+    "observed_minus_pred": 0.01812284964833144
+   }
+  },
+  "c1": {
+   "0strike": {
+    "n": 15641,
+    "observed_minus_pred": 0.0009839950968441036
+   },
+   "1strike": {
+    "n": 7979,
+    "observed_minus_pred": -0.0026444413103743902
+   },
+   "2strike": {
+    "n": 3526,
+    "observed_minus_pred": -0.007842008273942047
+   },
+   "3ball": {
+    "n": 1897,
+    "observed_minus_pred": 0.010318317129765608
+   }
+  }
+ },
+ "own_boundary_calibration_c1": {
+  "0strike": {
+   "n": 15099,
+   "observed_minus_pred": 0.0022791426254034075
+  },
+  "1strike": {
+   "n": 8100,
+   "observed_minus_pred": -0.0029289537149512213
+  },
+  "2strike": {
+   "n": 3412,
+   "observed_minus_pred": -0.01140087626433578
+  },
+  "3ball": {
+   "n": 1865,
+   "observed_minus_pred": 0.009512569310785923
+  }
+ },
+ "players": {
+  "qualified": 162,
+  "qualification_changes": 0,
+  "mean_abs_delta": 0.23214094564588683,
+  "max_abs_delta": 0.982149758947835,
+  "spearman": 0.9927825550658306,
+  "max_rank_shift": 25,
+  "moved_5_or_more": 44
+ },
+ "block_reproducibility": {
+  "base": [
+   0.7425477775732163,
+   0.7694127141797589,
+   0.7334312131268983
+  ],
+  "c1": [
+   0.7615114047320505,
+   0.7835929189057287,
+   0.7488142386225117
+  ],
+  "base_mean": 0.7484639016266245,
+  "c1_mean": 0.7646395207534303
+ },
+ "seconds_c1_pzone": 7.770007610321045,
+ "gates": {
+  "C1-1": {
+   "strata": {
+    "0strike": {
+     "n": 15641,
+     "observed_minus_pred": 0.0009839950968441036
+    },
+    "1strike": {
+     "n": 7979,
+     "observed_minus_pred": -0.0026444413103743902
+    },
+    "2strike": {
+     "n": 3526,
+     "observed_minus_pred": -0.007842008273942047
+    },
+    "3ball": {
+     "n": 1897,
+     "observed_minus_pred": 0.010318317129765608
+    }
+   },
+   "pass": true
+  },
+  "C1-2": {
+   "delta": -0.0038746835163056873,
+   "z": -12.03115326300346,
+   "pass": true
+  },
+  "C1-3": {
+   "base": 0.7484639016266245,
+   "c1": 0.7646395207534303,
+   "pass": true
+  },
+  "pass": true
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "season": 2026,
+ "za73": {
+  "league_sbj": -0.35857839096760646,
+  "residual_in": -0.2760151572698207,
+  "residual_out": 0.44829834203996194,
+  "pswing_log_loss": 0.4419358430419747,
+  "pswing_ece": 0.003377216501417174,
+  "block_reproducibility": [
+   0.7422406404157412,
+   0.7368993957664955,
+   0.5910236420218855
+  ]
+ },
+ "k_b": {
+  "league_sbj": 0.007696220035437787,
+  "residual_in": 0.10080923316416913,
+  "residual_out": 0.08530150230884326,
+  "pswing_log_loss": 0.44207563486210927,
+  "pswing_ece": 0.0024242465186796493,
+  "block_reproducibility": [
+   0.7444371560382287,
+   0.7368343618543015,
+   0.5907833430638749
+  ]
+ },
+ "seconds": 45.61434745788574,
+ "sides_calibrated": [
+  [
+   true,
+   false
+  ],
+  [
+   true,
+   false
+  ],
+  [
+   true,
+   false
+  ]
+ ],
+ "players": {
+  "qualified": 166,
+  "mean_abs_delta": 0.3658590400645426,
+  "max_abs_delta": 0.46704082245295053,
+  "signed_mean_delta": 0.3658590400645426,
+  "spearman": 0.9997114205324292,
+  "max_rank_shift": 4,
+  "moved_5_or_more": 0
+ },
+ "gates": {
+  "K1": {
+   "value": 0.007696220035437787,
+   "pass": true
+  },
+  "K2": {
+   "in": 0.10080923316416913,
+   "out": 0.08530150230884326,
+   "pass": true
+  },
+  "K3": {
+   "candidate": 0.44207563486210927,
+   "za73": 0.4419358430419747,
+   "pass": false
+  },
+  "K4": {
+   "candidate": 0.0024242465186796493,
+   "za73": 0.003377216501417174,
+   "pass": true
+  },
+  "pass": false
+ }
+}

@@ -1,0 +1,196 @@
+{
+ "season": 2019,
+ "dropped_games": [
+  "20190703NCHT0",
+  "20190612SKKT0",
+  "20190602WOHT0"
+ ],
+ "B0": {
+  "pswing_log_loss_seed_max": 0.44643979652010257,
+  "seed_mean_abs": 0.08171075917710455,
+  "perturbation_mean_abs": 0.13717486689266453,
+  "seconds": 32.40423536300659,
+  "pswing_ece": 0.003035269140561528,
+  "block_reproducibility": [
+   0.6279289878639052,
+   0.567808264540541,
+   0.4631614802097769
+  ]
+ },
+ "variants": {
+  "A": {
+   "calibration": "always",
+   "runs": {
+    "20260903": {
+     "pswing_log_loss": 0.44616665348394424,
+     "pzone_take_log_loss": 0.18844218307349847,
+     "seconds": 32.98297452926636,
+     "calibration_applied": [
+      true,
+      true,
+      true
+     ]
+    },
+    "1": {
+     "pswing_log_loss": 0.44616665348394424,
+     "pzone_take_log_loss": 0.18872546479340865,
+     "seconds": 34.4961884021759,
+     "calibration_applied": [
+      true,
+      true,
+      true
+     ]
+    }
+   },
+   "seed_abs_delta": {
+    "mean": 0.04250788791996439,
+    "max": 0.21375685148717505,
+    "players": 149
+   },
+   "perturbation": [
+    {
+     "mean": 0.045176495954654,
+     "max": 0.31996066076502316,
+     "players": 149,
+     "game": "20190703NCHT0"
+    },
+    {
+     "mean": 0.051174450797055765,
+     "max": 0.21973990480130512,
+     "players": 149,
+     "game": "20190612SKKT0"
+    },
+    {
+     "mean": 0.0564628269651774,
+     "max": 0.34898906084589476,
+     "players": 149,
+     "game": "20190602WOHT0"
+    }
+   ],
+   "pswing_ece": 0.0027249075189986513,
+   "block_reproducibility": [
+    0.623795638155514,
+    0.5670239861538613,
+    0.46931016239296475
+   ],
+   "sbj_vs_b0": {
+    "mean": 0.05312570462575238,
+    "max": 0.22226618710958784,
+    "players": 149
+   },
+   "gates": {
+    "C0c-1": {
+     "candidate": 0.44616665348394424,
+     "b0_seed_max": 0.44643979652010257,
+     "pass": true
+    },
+    "C0c-2": {
+     "candidate": 0.04250788791996439,
+     "b0": 0.08171075917710455,
+     "ratio": 0.52022387685605,
+     "pass": false
+    },
+    "C0c-3": {
+     "candidate": 0.05093792457229573,
+     "b0": 0.13717486689266453,
+     "ratio": 0.3713356952782992,
+     "pass": true
+    },
+    "C0c-4": {
+     "candidate_seconds": 32.98297452926636,
+     "b0_seconds": 32.40423536300659,
+     "ratio": 1.0178599852697179,
+     "pass": true
+    },
+    "pass": false
+   }
+  },
+  "N": {
+   "calibration": "never",
+   "runs": {
+    "20260903": {
+     "pswing_log_loss": 0.4474808519332988,
+     "pzone_take_log_loss": 0.18844218307349847,
+     "seconds": 22.080415964126587,
+     "calibration_applied": [
+      false,
+      false,
+      false
+     ]
+    },
+    "1": {
+     "pswing_log_loss": 0.4474808519332988,
+     "pzone_take_log_loss": 0.18872546479340865,
+     "seconds": 21.185720920562744,
+     "calibration_applied": [
+      false,
+      false,
+      false
+     ]
+    }
+   },
+   "seed_abs_delta": {
+    "mean": 0.04215758734521297,
+    "max": 0.215791001923602,
+    "players": 149
+   },
+   "perturbation": [
+    {
+     "mean": 0.04085192998875301,
+     "max": 0.2689548873685643,
+     "players": 149,
+     "game": "20190703NCHT0"
+    },
+    {
+     "mean": 0.04574298591050751,
+     "max": 0.20187164372308625,
+     "players": 149,
+     "game": "20190612SKKT0"
+    },
+    {
+     "mean": 0.05013226693279797,
+     "max": 0.3380036735229197,
+     "players": 149,
+     "game": "20190602WOHT0"
+    }
+   ],
+   "pswing_ece": 0.01151510326971621,
+   "block_reproducibility": [
+    0.6257383190838619,
+    0.5661933608971155,
+    0.4684176509653051
+   ],
+   "sbj_vs_b0": {
+    "mean": 0.7549639084254022,
+    "max": 1.0645955000834149,
+    "players": 149
+   },
+   "gates": {
+    "C0c-1": {
+     "candidate": 0.4474808519332988,
+     "b0_seed_max": 0.44643979652010257,
+     "pass": false
+    },
+    "C0c-2": {
+     "candidate": 0.04215758734521297,
+     "b0": 0.08171075917710455,
+     "ratio": 0.5159367966932998,
+     "pass": false
+    },
+    "C0c-3": {
+     "candidate": 0.04557572761068616,
+     "b0": 0.13717486689266453,
+     "ratio": 0.33224546626568174,
+     "pass": true
+    },
+    "C0c-4": {
+     "candidate_seconds": 22.080415964126587,
+     "b0_seconds": 32.40423536300659,
+     "ratio": 0.6814052458504881,
+     "pass": true
+    },
+    "pass": false
+   }
+  }
+ }
+}

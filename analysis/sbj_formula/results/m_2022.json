@@ -1,0 +1,79 @@
+{
+ "season": 2022,
+ "movement": {
+  "movement_available": 213888,
+  "movement_adjusted": 213888,
+  "adjustment_coverage_pct": 100.0,
+  "formula": "no park adjustment workbook for this season: movement_calibration stadium-day and plate-location correction (TrackMan-validated 2019-2024)"
+ },
+ "M1": {
+  "swing_events": {
+   "base": 0.9987785556031127,
+   "cand": 0.998353245802332,
+   "delta": -0.00042530980078074246,
+   "z": -12.644592396081078
+  },
+  "take_events": {
+   "base": 0.18829309971393657,
+   "cand": 0.18829275935283862,
+   "delta": -3.403610979098284e-07,
+   "z": -0.0021250389311765748
+  }
+ },
+ "M2": {
+  "whiff_on_swings": {
+   "base_rms": 0.02500174690608092,
+   "cand_rms": 0.024951766549062178,
+   "ratio": 0.9980009254070729,
+   "ci95": [
+    0.9975837106887062,
+    0.9989429401165267
+   ]
+  },
+  "called_strike_on_takes": {
+   "base_rms": 0.004154168766480553,
+   "cand_rms": 0.004256322140528699,
+   "ratio": 1.0245905690862653,
+   "ci95": [
+    0.9746236897996334,
+    1.0347752109944235
+   ]
+  }
+ },
+ "M3": {
+  "base": 0.6401599420722446,
+  "cand": 0.6425696868610327
+ },
+ "players": {
+  "qualified": 162,
+  "mean_abs_delta_dv100": 0.02888838314738236,
+  "max_abs_delta_dv100": 0.1561595740595383,
+  "spearman_dv_plus": 0.9984023958417131,
+  "max_rank_shift": 10,
+  "moved_5_or_more": 17,
+  "mean_abs_delta_dv_plus": 0.49208392597045336
+ },
+ "stadium_mean_delta_dv_per_100": {
+  "고척": -0.036151779401203704,
+  "광주": 0.027686030889826293,
+  "대구": 0.0294042370270479,
+  "문학": -0.006945451071215406,
+  "사직": 0.025502955022873617,
+  "수원": 0.017077946849882064,
+  "잠실": -0.00989564682405792,
+  "창원": 0.030586336753845162,
+  "한밭": 0.03415921881435387
+ },
+ "gates": {
+  "M1": {
+   "pass": true
+  },
+  "M2": {
+   "pass": true
+  },
+  "M3": {
+   "pass": true
+  },
+  "pass": true
+ }
+}
