@@ -75,11 +75,14 @@ function drawScatter(){
   const canvas=$("#scatter"), {ctx,width:w,height:h}=canvasContext(canvas), pad={l:58,r:25,t:28,b:48};
   const xs=state.players.map(p=>p.swing_aggression), ys=state.players.map(p=>p.apr);
   const xPad=Math.max(1,(Math.max(...xs)-Math.min(...xs))*.08), yPad=Math.max(2,(Math.max(...ys)-Math.min(...ys))*.08);
-  const xLo=Math.min(...xs)-xPad,xHi=Math.max(...xs)+xPad,yLo=Math.min(...ys)-yPad,yHi=Math.max(...ys)+yPad;
-  const x=v=>pad.l+(v-xLo)/(xHi-xLo)*(w-pad.l-pad.r), y=v=>h-pad.b-(v-yLo)/(yHi-yLo)*(h-pad.t-pad.b);
+  const xStep=5,yStep=10,plotW=w-pad.l-pad.r,plotH=h-pad.t-pad.b;
+  // Square grid cells: one 5-SA by 10-APR cell takes the same pixels both ways; the tighter axis sets the size and the other widens around its centre.
+  let xLo=Math.min(...xs)-xPad,xHi=Math.max(...xs)+xPad,yLo=Math.min(...ys)-yPad,yHi=Math.max(...ys)+yPad;
+  const cell=Math.min(plotW/(xHi-xLo)*xStep,plotH/(yHi-yLo)*yStep),xMid=(xLo+xHi)/2,yMid=(yLo+yHi)/2,xHalf=plotW/cell*xStep/2,yHalf=plotH/cell*yStep/2;
+  xLo=xMid-xHalf;xHi=xMid+xHalf;yLo=yMid-yHalf;yHi=yMid+yHalf;
+  const x=v=>pad.l+(v-xLo)/(xHi-xLo)*plotW, y=v=>h-pad.b-(v-yLo)/(yHi-yLo)*plotH;
   ctx.clearRect(0,0,w,h); ctx.fillStyle="#ffffff";ctx.fillRect(0,0,w,h);
   ctx.strokeStyle="#d8dddd";ctx.lineWidth=1;ctx.font="11px Arial";ctx.fillStyle="#748084";
-  const xStep=5,yStep=10;
   for(let v=Math.ceil(xLo/xStep)*xStep;v<=xHi;v+=xStep){ctx.beginPath();ctx.moveTo(x(v),pad.t);ctx.lineTo(x(v),h-pad.b);ctx.stroke();ctx.fillText(v,x(v)-7,h-pad.b+18);}
   for(let v=Math.ceil(yLo/yStep)*yStep;v<=yHi;v+=yStep){ctx.beginPath();ctx.moveTo(pad.l,y(v));ctx.lineTo(w-pad.r,y(v));ctx.stroke();ctx.fillText(v,pad.l-31,y(v)+4);}
   ctx.strokeStyle="#9aa6a9";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x(0),pad.t);ctx.lineTo(x(0),h-pad.b);ctx.moveTo(pad.l,y(100));ctx.lineTo(w-pad.r,y(100));ctx.stroke();
