@@ -6,6 +6,7 @@ body { margin: 0; }
 .home { width: min(1360px, 100%); margin: auto; padding: 34px 24px 64px; }
 
 .home section { margin-top: 34px; }
+.home section:first-child { margin-top: 0; }
 .home h2 {
   margin: 0 0 14px;
   padding-bottom: 8px;

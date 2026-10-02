@@ -22,7 +22,9 @@ nav { margin-bottom: 8px; font-size: 1rem; text-align: center; }
 h1 { margin: 0; font-size: clamp(2.3rem, 5vw, 4.15rem); line-height: 1; letter-spacing: -.055em; }
 .page-header > p:last-child { margin: 7px 0 0; color: var(--muted); font-size: 1.05rem; }
 
-.search-panel { display: flex; justify-content: center; align-items: end; gap: 11px; padding: 11px 17px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.88); box-shadow: 0 6px 20px #23405f0b; flex-wrap: wrap; }
+/* 다른 도구의 검색 영역처럼 왼쪽 정렬 */
+.search-panel { display: flex; justify-content: flex-start; align-items: end; gap: 11px; padding: 11px 17px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.88); box-shadow: 0 6px 20px #23405f0b; flex-wrap: wrap; }
+.search-panel label, .search-panel input { text-align: left; }
 label { display: grid; gap: 4px; color: #526176; font-size: .82rem; font-weight: 800; text-align: center; }
 select, input, button { height: 36px; border: 1px solid #c4d0dd; border-radius: 7px; padding: 0 11px; background: #fff; color: #17263a; font-size: .95rem; text-align: center; }
 button { border-color: var(--blue); background: var(--blue); color: #fff; font-weight: 800; cursor: pointer; }
