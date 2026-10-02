@@ -1,0 +1,51 @@
+{
+  "source": "Official Savant pitcher arm angle leaderboard; default qualified selection",
+  "definition_status": "verified_horizontal_throwing_shoulder_to_ball_at_release",
+  "grain": "pitcher-season averages; mean angle is not angle of mean coordinates",
+  "seasons": [
+    2020,
+    2021,
+    2022,
+    2023,
+    2024
+  ],
+  "sources": [
+    {
+      "season": 2020,
+      "url": "https://baseballsavant.mlb.com/leaderboard/pitcher-arm-angles?season=2020",
+      "sha256": "630dfd920abfca4a9fa03ad089fa07a24a5c6d0555524fff95b59f57b4d8d6a4",
+      "rows": 184
+    },
+    {
+      "season": 2021,
+      "url": "https://baseballsavant.mlb.com/leaderboard/pitcher-arm-angles?season=2021",
+      "sha256": "5aad5445df2f3ed492d69098db485e3f74e8fc44481d0612f1cef823925f5a21",
+      "rows": 267
+    },
+    {
+      "season": 2022,
+      "url": "https://baseballsavant.mlb.com/leaderboard/pitcher-arm-angles?season=2022",
+      "sha256": "9f25788d3071af04d33d1bc4dd2dd6d840b36a7e7cc9692546c369d20bb5ee76",
+      "rows": 278
+    },
+    {
+      "season": 2023,
+      "url": "https://baseballsavant.mlb.com/leaderboard/pitcher-arm-angles?season=2023",
+      "sha256": "a5a7d5783ac11be1f4a6acec7ad4854d29a21e6cea179bba298bcf246dbe9126",
+      "rows": 282
+    },
+    {
+      "season": 2024,
+      "url": "https://baseballsavant.mlb.com/leaderboard/pitcher-arm-angles?season=2024",
+      "sha256": "2d7bf811125d5cd194f1c4197220fc9b214de7aa165448ebc31e93034103951b",
+      "rows": 284
+    }
+  ],
+  "rows": 1295,
+  "pitchers": 602,
+  "height_players": 602,
+  "missing_height_rows": 0,
+  "height_errors": [],
+  "datum": "Savant displayed ball and shoulder coordinates in feet; converted to metres",
+  "nonlinear_aggregation_median_abs_difference_deg": 0.011581691957754714
+}

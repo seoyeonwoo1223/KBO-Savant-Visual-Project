@@ -16,6 +16,7 @@ from statistics import fmean, median
 from openpyxl import load_workbook
 
 from .curated import load_rows
+from .estimated_arm_angle import season_estimates
 from .movement_calibration import calibrate
 
 
@@ -46,7 +47,7 @@ KOREAN_TO_CODE = {name: code for code, name in PITCH_NAMES.items()}
 # median location within LOCATION_TOLERANCE_FT. Fixed tolerances, not the main type's own
 # spread: a broad main type (a slider thrown both ways) must not absorb a distinct pitch. This
 # is a display grouping only: curated pitch_type and every model input keep the original label.
-PROFILE_SCHEMA_VERSION = 3
+PROFILE_SCHEMA_VERSION = 4
 PITCH_ARSENAL_SEASONS = (2022, 2023, 2024, 2025, 2026)
 MINOR_MAX_PITCHES = 10
 MINOR_USAGE_PCT = 5.0
@@ -279,8 +280,10 @@ def _throws(release_x: list[float]) -> str:
 def build_pitch_arsenal(root: Path, season: int) -> tuple[int, int]:
     """Export searchable pitcher profiles and compact chart-ready distributions."""
     batter_hands = _load_batter_hands(root, season)
+    canonical_pitches = load_rows(root, "pitches", season)
+    eaa = season_estimates(root, season, canonical_pitches)
     rows = []
-    for row in load_rows(root, "pitches", season):
+    for row in canonical_pitches:
         if _season(row.get("season")) != season or str(row.get("parse_status") or "") != "ok":
             continue
         code = _pitch_code(row)
@@ -432,6 +435,7 @@ def build_pitch_arsenal(root: Path, season: int) -> tuple[int, int]:
                 "interval": "central 75% (12.5th to 87.5th percentile)",
                 "units": {"velocity": "km/h", "movement": "in"},
                 "release": "hRel/vRel are the normalized y=50 ft release_x_50/release_z_50 values",
+                "eaa": "frozen eAA-v1: pitcher-season mean from canonical 55ft trajectories and verified height; model reference envelope, KBO accuracy unvalidated; unseen stadium bounds withheld",
                 "zone": "abs(px) <= 10/12 ft and sz_bottom <= pz <= sz_top",
                 "rates": {
                     "zone_pct": "in-zone pitches / pitches with valid ABS location",
@@ -448,6 +452,7 @@ def build_pitch_arsenal(root: Path, season: int) -> tuple[int, int]:
             },
             "overall": {
                 "n": pitcher["pitches"],
+                "eaa": eaa.get(pitcher_id),
                 "velocity_kmh": _summary(pitcher["velocity"]),
                 "release": {
                     "v_rel_ft": _summary(pitcher["release_z"], 2),

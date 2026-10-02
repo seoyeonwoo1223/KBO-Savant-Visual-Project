@@ -8,6 +8,8 @@ on:
     paths:
       - "src/visualbaseball/**"
       - "data/park_adjustments/**"
+      - "data/models/estimated_arm_angle_v1.json"
+      - "data/tracking/player_heights.csv"
       - "requirements.txt"
       - "constraints-za.txt"
       - ".github/workflows/daily_update.yml"

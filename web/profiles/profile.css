@@ -158,6 +158,15 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
   .panel-footers { display: block; padding: 14px 0 2px; }
   .footer-pitch-total, .split-legend, .run-total { justify-content: flex-start; margin: 0 0 9px; text-align: left; }
 }
+/* 좁은 화면에서 비율이 높으면 % 라벨이 반쪽 영역 밖으로 나가 가로 스크롤이 생깁니다.
+   라벨 오른쪽(왼쪽) 끝이 반쪽 안에 머물도록 위치를 제한합니다. 막대 끝과 겹치면 막대 위에 표시됩니다. */
+@media (max-width: 830px) {
+  .split-player .swing span { right: min(calc(var(--swing-share) + 5px), calc(100% - 3.5em - 4px)); }
+  .split-player .take span { left: min(calc(var(--take-share) + 5px), calc(100% - 3.5em - 4px)); }
+  .split-league .swing span { right: min(calc(var(--league-swing) + 5px), calc(100% - 3.5em - 4px)); }
+  .split-league .take span { left: min(calc(var(--league-take) + 5px), calc(100% - 3.5em - 4px)); }
+  .split-half span { padding: 0 2px; background: rgba(255, 255, 255, .8); }
+}
 
 .zone-run-value {
   position: absolute;

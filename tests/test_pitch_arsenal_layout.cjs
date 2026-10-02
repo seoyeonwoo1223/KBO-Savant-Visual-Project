@@ -63,3 +63,28 @@ vm.runInContext('renderVelocity();', context);
 const anomalyPath = charts['#velocity-chart'].children.find(e => e.class === 'velocity-area');
 assert.ok(Number(anomalyPath.d.match(/^M ([\d.]+)/)[1]) > 61, 'zero-count bins must not drag the distribution to the axis edge');
 console.log('PASS: 1/2/4/5/6/9 pitches, split/overall usage, proportional bars, chart bounds, empty data');
+
+// eAA remains one season value; reference envelopes and unavailable bounds stay distinct.
+vm.runInContext(source.slice(source.indexOf('function eaaDisplay('),source.indexOf('function movementPoint(')),context);
+context.fmt=(value,digits=1)=>value==null?'—':Number(value).toFixed(digits);
+context.eaa={status:'estimated_KBO_angle_unvalidated',angle_deg:0,n:120,
+  range:{status:'reference_only_KBO_angle_unvalidated',low_deg:-14.23,high_deg:14.23}};
+let display=vm.runInContext('eaaDisplay(eaa)',context);
+assert.equal(display.value,'eAA 0°','horizontal slot must not disappear as a falsy zero');
+assert.ok(display.rangeText.includes('-14.2°–14.2°'));
+context.eaa.range={status:'unavailable_unseen_stadium_bias',low_deg:null,high_deg:null};
+assert.equal(vm.runInContext('eaaDisplay(eaa).rangeText',context),'오차범위: 미확정');
+context.eaa.status='withheld_small_sample';
+assert.equal(vm.runInContext('eaaDisplay(eaa).value',context),'eAA —');
+assert.equal(vm.runInContext('eaaDisplay(null).value',context),'eAA —');
+for (const angle of [-30,0,41,90]) {
+  const right=vm.runInContext(`eaaRay(${angle},'R','pitcher')`,context);
+  const left=vm.runInContext(`eaaRay(${angle},'L','pitcher')`,context);
+  const catcher=vm.runInContext(`eaaRay(${angle},'R','catcher')`,context);
+  assert.ok(right.every(Number.isFinite));
+  assert.ok(Math.abs(right[0]+left[0])<1e-8 && Math.abs(right[1]-left[1])<1e-8);
+  assert.ok(Math.abs(right[0]+catcher[0])<1e-8 && Math.abs(right[1]-catcher[1])<1e-8);
+  assert.ok(right.every(v=>Math.abs(v)<=30+1e-8));
+}
+assert.equal(vm.runInContext('eaaRay(null,"R","pitcher")',context),null);
+console.log('PASS: eAA zero/missing/withheld values, separate ranges, hand/view mirroring and underhand/vertical rays');

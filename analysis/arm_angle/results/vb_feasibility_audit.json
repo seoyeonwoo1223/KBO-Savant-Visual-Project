@@ -1,0 +1,44 @@
+{
+  "matched": {
+    "season": 2024,
+    "visualbaseball_pitches": 223216,
+    "mapped_games": 634,
+    "aligned": 196644,
+    "state_and_id_consistent": 195383,
+    "speed_gap_median_kmh": -1.5550000000000068,
+    "speed_gap_mad_kmh": 0.5759999999999934,
+    "outside_speed_tolerance": 522,
+    "matched": 194861,
+    "matched_share_of_visualbaseball": 0.873
+  },
+  "valid_comparable_pitches": 194696,
+  "x_correlation": 0.9985975756386021,
+  "z_correlation": 0.9896043083955532,
+  "median_vb_minus_tm_x_cm": 3.7565817707107456,
+  "median_vb_minus_tm_z_cm": 4.3283184054456,
+  "raw_abs_x_p90_cm": 7.8028691840753375,
+  "raw_abs_z_p90_cm": 7.76458048705377,
+  "stadiums": [
+    "고척",
+    "대구",
+    "문학",
+    "사직",
+    "수원",
+    "잠실",
+    "창원",
+    "한밭"
+  ],
+  "comparison_status": "unadjusted comparison of different reference planes; not transfer-model validation",
+  "vb_2026_origin_dates": {
+    "50.0": {
+      "min_game_date": "20260328",
+      "max_game_date": "20260709",
+      "pitches": 130150
+    },
+    "55.0": {
+      "min_game_date": "20260716",
+      "max_game_date": "20261001",
+      "pitches": 80272
+    }
+  }
+}
