@@ -173,7 +173,8 @@ function renderVelocity() {
   // Central-75% bounds retain the meaningful shape while five km/h padding keeps tails visible.
   const minValue = Math.floor(Math.min(...pitches.map(pitch => pitch.velocity_kmh.low_75 - 5)) / 10) * 10;
   const maxValue = Math.ceil(Math.max(...pitches.map(pitch => pitch.velocity_kmh.high_75 + 5)) / 10) * 10;
-  const bounds = {left: 61, right: 405, top: 22, bottom: height - 34};
+  // 구종 이름 열 없이 좌우 여백을 같게 두어 그래프가 카드를 가득 채웁니다. 구종은 색으로 구분합니다(아래 표와 같은 색).
+  const bounds = {left: 15, right: 405, top: 22, bottom: height - 34};
   const rowHeight = (bounds.bottom - bounds.top) / pitches.length;
   const amplitude = rowHeight * .68;
   const x = value => bounds.left + (value - minValue) / Math.max(1, maxValue - minValue) * (bounds.right - bounds.left);
@@ -202,7 +203,6 @@ function renderVelocity() {
     }
     const averageX = x(pitch.velocity_kmh.average);
     svg.append(svgElement("line", {x1: averageX, x2: averageX, y1: baseline - amplitude - 3, y2: baseline + 2, stroke: pitch.color, class: "velocity-average"}));
-    svgText(svg, pitch.name, {x: bounds.left / 2, y: bounds.top + (index + .5) * rowHeight + 5, "text-anchor": "middle", style: `fill:${pitch.color}`, class: "chart-row-label"});
     if (index < pitches.length - 1) svg.append(svgElement("line", {x1: bounds.left, x2: bounds.right, y1: bounds.top + (index + 1) * rowHeight, y2: bounds.top + (index + 1) * rowHeight, class: "chart-grid-line"}));
   });
 }
