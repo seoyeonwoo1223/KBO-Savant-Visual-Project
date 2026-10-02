@@ -1,0 +1,178 @@
+{
+  "season": 2025,
+  "pitches": 217623,
+  "batters": 299,
+  "qualified_batters": 171,
+  "minimum_pitches": 300,
+  "tau": {
+    "tau": 2.25,
+    "beta": 5.5887,
+    "log_likelihood": -111975.061,
+    "profile": {
+      "0.05": -119307.067,
+      "0.1": -118067.55,
+      "0.15": -117030.099,
+      "0.2": -116177.649,
+      "0.25": -115482.095,
+      "0.3": -114913.663,
+      "0.35": -114446.996,
+      "0.4": -114060.814,
+      "0.45": -113739.194,
+      "0.5": -113469.533,
+      "0.55": -113242.285,
+      "0.6": -113051.488,
+      "0.65": -112888.265,
+      "0.7": -112748.528,
+      "0.75": -112630.714,
+      "0.8": -112530.916,
+      "0.85": -112444.67,
+      "0.9": -112371.821,
+      "0.95": -112310.071,
+      "1.0": -112257.046,
+      "1.25": -112090.183,
+      "1.5": -112017.012,
+      "1.75": -111986.892,
+      "2.0": -111976.682,
+      "2.25": -111975.061,
+      "2.5": -111977.676,
+      "2.75": -111981.326,
+      "3.0": -111985.844,
+      "3.25": -111990.24,
+      "3.5": -111994.459,
+      "3.75": -111999.67,
+      "4.0": -112001.84
+    },
+    "pitches": 217623,
+    "grid_edge": false
+  },
+  "batter_beta_spread": {
+    "batters": 171,
+    "mean": 4.4907,
+    "sd": 0.8294,
+    "quantiles": {
+      "10": 3.4367,
+      "50": 4.3814,
+      "90": 5.6442
+    }
+  },
+  "missing_reasons": {
+    "no_hittable_pitches": 1,
+    "no_non_hittable_pitches": 2,
+    "under_300_pitches": 128
+  },
+  "extrapolation": {
+    "note": "Waste extrapolation is reported apart; see the *_supported_only columns",
+    "mean_share_pct": 1.9147,
+    "max_share_pct": 14.2857,
+    "dv_avg_shift_from_dropping": -0.0095
+  },
+  "thin_re288_exposure": {
+    "threshold": 30,
+    "thin_states": 23,
+    "thin_pitches": 382,
+    "thin_pitch_share_pct": 0.17553,
+    "delta_sd_thin": 0.5269,
+    "delta_sd_all": 0.1825,
+    "dv_avg_shift_if_dropped_per_100": {
+      "batters": 171,
+      "mean_absolute": 0.0108,
+      "p95_absolute": 0.0549,
+      "max_absolute": 0.1616
+    }
+  },
+  "overlap_task5": {
+    "reference_only": {
+      "sign_agreement": 0.9685,
+      "corr_z_delta": 0.59959,
+      "k": 0.453697,
+      "intercept": -0.016853,
+      "residual_sd": 0.146056,
+      "pitches": 217623
+    },
+    "statistic": "mean((2S-1) * r) per batter, r from Delta = k*Z + intercept",
+    "minimum_pitches_per_block": 166,
+    "block_pairs": [
+      {
+        "blocks": [
+          1,
+          2
+        ],
+        "batters": 126,
+        "pearson_r": 0.4084,
+        "ci95": [
+          0.2514,
+          0.5444
+        ]
+      },
+      {
+        "blocks": [
+          1,
+          3
+        ],
+        "batters": 136,
+        "pearson_r": 0.4829,
+        "ci95": [
+          0.3424,
+          0.6023
+        ]
+      },
+      {
+        "blocks": [
+          2,
+          3
+        ],
+        "batters": 130,
+        "pearson_r": 0.3665,
+        "ci95": [
+          0.2074,
+          0.5067
+        ]
+      }
+    ],
+    "median_pearson_r": 0.4084,
+    "verdict": "reproducible: SBJ carries signal Delta does not"
+  },
+  "limitations": [
+    "The ABS decision function leaves an asymmetric residual: pitches the rule calls a strike are called balls three to five times more often than the reverse. Unresolved; see ADR-002.",
+    "swing_take._re288 does not shrink, so states seen a handful of times carry an unshrunk run expectancy. See the delta_surface report's re288 block.",
+    "Delta in the Waste region is partly extrapolated and strongly take-favoured; the *_supported_only columns exclude it."
+  ],
+  "reliability_task6": {
+    "protocol": "game-level halves balanced inside each month, fixed surface, 600 pitches per batter per draw, 200 draws, median; raw values, uncorrected",
+    "per_batter_sample": 600,
+    "metrics": {
+      "dv_avg": {
+        "split_half_r": 0.4892,
+        "iqr": [
+          0.4534,
+          0.5214
+        ],
+        "draws": 200,
+        "median_batters": 131,
+        "correction": "none; do not mix with a Spearman-Brown figure"
+      },
+      "apr": {
+        "split_half_r": 0.404,
+        "iqr": [
+          0.3626,
+          0.4471
+        ],
+        "draws": 200,
+        "median_batters": 131,
+        "correction": "none; do not mix with a Spearman-Brown figure"
+      },
+      "sbj": {
+        "split_half_r": 0.4754,
+        "iqr": [
+          0.4281,
+          0.5064
+        ],
+        "draws": 200,
+        "median_batters": 131,
+        "correction": "none; do not mix with a Spearman-Brown figure"
+      }
+    },
+    "zone_awareness_same_procedure": null,
+    "note": "ZA's published 0.810 used a different split, sample size and estimator; compare against zone_awareness_same_procedure, not against 0.810"
+  }
+}
