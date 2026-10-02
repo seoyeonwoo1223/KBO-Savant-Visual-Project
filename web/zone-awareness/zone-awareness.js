@@ -65,7 +65,7 @@ function renderLeaderboard(){
     const av=a[state.sort], bv=b[state.sort];
     return typeof av==="string" ? state.direction*av.localeCompare(bv,"ko") : state.direction*((av??-Infinity)-(bv??-Infinity));
   });
-  $("#leaderboard").innerHTML=rows.map(p=>{const q=p.qualified_300;return `<tr data-id="${p.batter_id}" class="${p.batter_id===state.selected?'selected':''}${q?'':' unqualified'}"><td>${q?p.rank:'—'}</td><td><strong>${p.batter_name}</strong><br><small>${p.team}${q?'':' · 자격 미달'}</small></td><td class="pct-cell"><span style="${q?pctStyle(p.apr_percentile):''}" title="${q?`${fmt(p.apr_percentile,0)}번째 백분위`:'자격 미달'}">${fmt(p.apr,0)}</span></td><td class="pct-cell"><span style="${q?pctStyle(p.za_percentile):''}" title="${q?`${fmt(p.za_percentile,0)}번째 백분위`:'자격 미달'}">${signed(p.za_raw,2)}</span></td><td class="sa-cell">${signed(p.swing_aggression,2)}</td><td>${p.pitches_seen.toLocaleString()}</td></tr>`}).join("");
+  $("#leaderboard").innerHTML=rows.map(p=>{const q=p.qualified_300;return `<tr data-id="${p.batter_id}" class="${p.batter_id===state.selected?'selected':''}${q?'':' unqualified'}"><td>${q?p.rank:'—'}</td><td><strong>${p.batter_name}</strong><br><small>${p.team}${q?'':' · 자격 미달'}</small></td><td class="pct-cell"><span style="${q?pctStyle(p.apr_percentile):''}" title="${q?`${fmt(p.apr_percentile,0)}번째 백분위`:'자격 미달'}">${fmt(p.apr,0)}</span></td><td class="pct-cell"><span style="${q?pctStyle(p.za_percentile):''}" title="${q?`${fmt(p.za_percentile,0)}번째 백분위`:'자격 미달'}">${signed(p.za_raw,2)}</span></td><td class="sa-cell">${signed(p.swing_aggression,2)}</td></tr>`}).join("");
   $("#leaderboard").querySelectorAll("tr").forEach(row=>row.onclick=()=>selectPlayer(row.dataset.id));
 }
 

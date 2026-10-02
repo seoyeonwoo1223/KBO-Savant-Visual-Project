@@ -2,3 +2,4 @@
 
 .contribution-note,#season-method{font-size:.8rem;color:#637074;line-height:1.5}#season-method{margin-top:18px}tr.unqualified td,.muted{color:#9aa3a6}tr.unqualified td strong{color:#7d878a}.path-row{grid-template-columns:110px 1fr 50px}
 .pct-cell span{display:inline-block;min-width:52px;padding:4px 8px;border-radius:3px;font-weight:800;text-align:right}.sa-cell{color:#536064}
+@media(max-width:720px){.detail-card{overflow-x:auto}.region-table th,.region-table td{padding:8px 5px;font-size:.78rem}}
