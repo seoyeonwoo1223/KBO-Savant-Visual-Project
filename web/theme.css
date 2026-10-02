@@ -26,7 +26,11 @@
   --kbo-diverge-ink-light: #ffffff;
   --kbo-diverge-ink-dark: #083358;
 
-  --kbo-header-h: 56px;
+  /* 상단 고정되는 메뉴 줄 높이. scroll-padding 계산에 씁니다. */
+  --kbo-header-h: 48px;
+  /* 헤더·본문이 공유하는 페이지 폭과 좌우 여백 */
+  --kbo-page-w: 1440px;
+  --kbo-gutter: 24px;
 }
 
 html {
@@ -47,80 +51,115 @@ a { color: var(--kbo-navy-2); }
 a:hover { color: var(--kbo-red); }
 .eyebrow { color: var(--kbo-muted); }
 
-/* ── 공통 헤더 (site-header.js가 삽입) ─────────────────────────────── */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  border-bottom: 3px solid var(--kbo-red);
+/* ── 공통 헤더 (site-header.js가 삽입) ─────────────────────────────────
+   Baseball Savant식 2단 구성: 브랜드 줄(스크롤되면 사라짐) + 메뉴 줄(상단 고정).
+   페이지 CSS에 bare header/nav 규칙이 있어도 흔들리지 않도록 클래스로 margin·padding을 고정합니다. */
+.site-header,
+.site-nav-bar {
   margin: 0;
   padding: 0;
-  background: var(--kbo-navy);
+  background: var(--kbo-surface);
   font-family: Arial, Helvetica, sans-serif;
   text-align: left;
 }
-.site-header__inner {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  width: min(1360px, 100%);
-  min-height: var(--kbo-header-h);
-  margin: auto;
-  padding: 0 24px;
+.site-header__inner,
+.site-nav {
+  box-sizing: border-box;
+  width: min(var(--kbo-page-w), 100%);
+  margin: 0 auto;
+  padding: 0 var(--kbo-gutter);
 }
+.site-header__inner { padding-top: 18px; }
 .site-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  flex: none;
-  color: #fff;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--kbo-navy);
+  color: var(--kbo-navy);
   text-decoration: none;
 }
-.site-brand:hover { color: #fff; }
+.site-brand:hover { color: var(--kbo-navy); }
 .site-brand img {
-  width: 34px;
-  height: 34px;
-  padding: 4px;
-  border-radius: 50%;
-  background: #fff;
+  flex: none;
+  width: 58px;
+  height: 58px;
   object-fit: contain;
 }
+.site-brand__text { display: block; min-width: 0; }
 .site-brand__word {
-  font-size: 1.36rem;
+  display: block;
+  font-size: 2.6rem;
   font-weight: 700;
-  letter-spacing: -.035em;
+  letter-spacing: -.04em;
   line-height: 1;
 }
 .site-brand__word span { color: var(--kbo-red); }
+.site-brand__tag {
+  display: block;
+  margin-top: 6px;
+  color: var(--kbo-muted);
+  font-size: .95rem;
+  line-height: 1.2;
+}
+.site-nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid var(--kbo-line);
+}
 .site-nav {
   display: flex;
-  align-items: center;
-  gap: 2px;
-  min-width: 0;
-  margin: 0 0 0 auto;
+  align-items: stretch;
+  gap: 4px;
+  min-height: var(--kbo-header-h);
   overflow-x: auto;
   scrollbar-width: none;
 }
 .site-nav::-webkit-scrollbar { display: none; }
 .site-nav a {
+  display: flex;
+  align-items: center;
   flex: none;
-  padding: 8px 11px;
+  margin: 0;
+  padding: 0 12px;
   border-bottom: 3px solid transparent;
-  color: #cfdcea;
-  font-size: .84rem;
+  color: var(--kbo-navy);
+  font-size: .95rem;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
 }
-.site-nav a:hover { color: #fff; background: var(--kbo-navy-2); }
+.site-nav a:first-child { margin-left: -12px; }
+.site-nav a:hover { color: var(--kbo-red); }
 .site-nav a[aria-current="page"] {
-  color: #fff;
+  color: var(--kbo-red);
   border-bottom-color: var(--kbo-red);
 }
+html.thumbnail-mode .site-nav-bar { display: none; }
+
+/* ── 페이지 본문 폭 ── 모든 도구가 헤더와 같은 폭·좌우 여백을 씁니다.
+   html.thumbnail-mode 규칙(specificity가 더 높음)은 그대로 이깁니다. */
+main.site-main {
+  box-sizing: border-box;
+  width: min(var(--kbo-page-w), 100%);
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 28px;
+  padding-left: var(--kbo-gutter);
+  padding-right: var(--kbo-gutter);
+}
 @media (max-width: 720px) {
-  .site-header__inner { gap: 12px; padding: 0 12px; }
-  .site-brand__word { font-size: 1.15rem; }
-  .site-nav a { padding: 8px 8px; font-size: .78rem; }
+  :root { --kbo-gutter: 14px; --kbo-header-h: 42px; }
+  .site-header__inner { padding-top: 12px; }
+  .site-brand { gap: 10px; padding-bottom: 10px; }
+  .site-brand img { width: 40px; height: 40px; }
+  .site-brand__word { font-size: 1.75rem; }
+  .site-brand__tag { margin-top: 4px; font-size: .78rem; }
+  .site-nav a { padding: 0 9px; font-size: .84rem; }
+  .site-nav a:first-child { margin-left: -9px; }
+  main.site-main { padding-top: 20px; }
 }
 
 /* 공통 헤더가 뒤로가기 링크를 대신하므로 페이지별 nav는 숨깁니다. */
@@ -135,10 +174,9 @@ main > .page-header,
 main > .hero,
 main > header.index-header { text-align: left; }
 
-/* 도구 제목 블록 (.page-title) — 브랜드는 공통 헤더가 보여주므로 여기서는 크기·간격만 통일합니다.
+/* 도구 제목 블록 (.page-title) — 브랜드는 공통 헤더가 보여주므로 제목은 브랜드보다 한 단계 작게 둡니다.
    페이지 CSS의 header/.hero/.page-header 규칙보다 우선하도록 클래스 선택자로 겁니다
    (movement-zones는 theme.css를 먼저 로드하므로 순서가 아니라 specificity로 이겨야 합니다). */
-main:has(> .page-title) { padding-top: 32px; }
 .page-title {
   margin: 0 0 26px;
   padding: 0 0 22px;
@@ -157,8 +195,8 @@ main:has(> .page-title) { padding-top: 32px; }
 .page-title :is(h1, .search-title) {
   margin: 0;
   color: var(--kbo-navy);
-  font: 700 clamp(2.25rem, 4.6vw, 3.5rem)/1.04 Arial, Helvetica, sans-serif;
-  letter-spacing: -.05em;
+  font: 700 clamp(1.75rem, 3vw, 2.25rem)/1.1 Arial, Helvetica, sans-serif;
+  letter-spacing: -.035em;
 }
 .page-title p:not(.eyebrow, .search-title) {
   margin: 10px 0 0;
@@ -167,7 +205,6 @@ main:has(> .page-title) { padding-top: 32px; }
   line-height: 1.5;
 }
 @media (max-width: 720px) {
-  main:has(> .page-title) { padding-top: 22px; }
   .page-title { margin-bottom: 20px; padding-bottom: 18px; }
 }
 

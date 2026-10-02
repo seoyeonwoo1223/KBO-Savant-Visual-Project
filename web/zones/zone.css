@@ -33,7 +33,8 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.045em; }
 .summary div:last-child { border: 0; }
 .summary span { display: block; color: #777; font-size: .73rem; text-transform: uppercase; }
 .summary strong { display: block; margin-top: 4px; font-size: 1.35rem; font-weight: 400; }
-.dashboard { display: grid; grid-template-columns: minmax(420px, 590px) minmax(360px, 1fr); gap: 24px; align-items: start; }
+/* 존 카드와 구종 비교 카드를 같은 폭·높이로 맞춥니다. */
+.dashboard { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
 .chart-card, .table-card { padding: 20px; border: 1px solid #ddd; background: #fff; }
 .chart-heading { display: flex; justify-content: space-between; gap: 12px; align-items: start; margin-bottom: 14px; }
 .chart-heading strong { display: block; font-size: 1rem; }

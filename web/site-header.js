@@ -1,7 +1,7 @@
 // 전 페이지 공통 헤더. 빌드 단계가 없으므로 각 페이지가 <body> 맨 앞에서 이 스크립트를
 // 동기 로드하고, 스크립트는 자기 자리에 헤더 마크업을 삽입합니다.
 // 사이트 루트는 자신의 src로부터 계산하므로 페이지 깊이와 무관합니다.
-// 스타일은 theme.css의 .site-header / .site-brand / .site-nav 규칙에 있습니다.
+// 스타일은 theme.css의 .site-header / .site-brand / .site-nav-bar / .site-nav 규칙에 있습니다.
 (function () {
   const script = document.currentScript;
   const root = new URL(".", script.src);
@@ -31,16 +31,21 @@
     return `<a href="${href}"${active}>${label}</a>`;
   }).join("");
 
+  // 브랜드 줄(<header>)과 메뉴 줄(.site-nav-bar)을 형제로 둡니다. sticky는 부모 범위를
+  // 벗어나지 못하므로, 메뉴 줄만 상단에 고정하려면 브랜드 줄 밖에 있어야 합니다.
   script.insertAdjacentHTML(
     "beforebegin",
     `<header class="site-header">
       <div class="site-header__inner">
         <a class="site-brand" href="${root.href}">
           <img src="${new URL("assets/image-Photoroom.png?v=20260913-4", root).href}" alt="">
-          <span class="site-brand__word">KBO <span>Savant</span></span>
+          <span class="site-brand__text">
+            <span class="site-brand__word">KBO <span>Savant</span></span>
+            <span class="site-brand__tag">Visualizing data based on Naver Sports</span>
+          </span>
         </a>
-        <nav class="site-nav" aria-label="도구">${links}</nav>
       </div>
-    </header>`
+    </header>
+    <div class="site-nav-bar"><nav class="site-nav" aria-label="도구">${links}</nav></div>`
   );
 })();
