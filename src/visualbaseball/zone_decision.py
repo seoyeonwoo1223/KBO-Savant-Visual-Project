@@ -66,6 +66,8 @@ CONTRACT = {
  'swing_aggression': '100 * mean(S - p_swing); percentage points, tendency only',
  'za_percentile': 'midrank percentile of ZA among season hitters with at least 300 eligible pitches',
  'region_contributions': '100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100',
+ 'region_jdv_contributions': '<region>_jdv_per_100, <action>_jdv_per_100, <region>_<action>_jdv_per_100: 100 * sum(decision DV in region/action) / ALL eligible player pitches; additive to jdv_per_100 (APR input before centring and shrinkage)',
+ 'region_swing_pct': '<region>_swing_pct and <region>_expected_swing_pct: 100 * mean(S) and 100 * mean(p_swing) over the region; null when the hitter saw no pitch there',
 }
 LIMITATIONS = [
  '리그 평균 실행 능력을 기준으로 추정한 의사결정 가치이며 개인별 최적 판단의 정답이 아닙니다.',
@@ -540,6 +542,7 @@ def profile_summary(items):
   selected=[r for r in items if r['swing']==(action=='swing')]
   s[action+'_pitches']=len(selected)
   s[action+'_decision_value_per_100']=r6(100*sum(r['dv'] for r in selected)/n)
+  s[action+'_jdv_per_100']=r6(100*sum(v for r,v in zip(items,jdv) if r['swing']==(action=='swing'))/n)
  for reg in REGIONS:
   selected=[r for r in items if r['region']==reg]
   s[reg+'_pitches']=len(selected); s[reg+'_raw_dv']=r6(sum(r['dv'] for r in selected))
@@ -547,6 +550,13 @@ def profile_summary(items):
   for action in ('swing','take'):
    value=sum(r['dv'] for r in selected if r['swing']==(action=='swing'))
    s[f'{reg}_{action}_decision_value_per_100']=r6(100*value/n)
+  # Zone Profile view: where APR's input was earned or lost, and how often the hitter swung there vs the league policy.
+  in_reg=[(r,v) for r,v in zip(items,jdv) if r['region']==reg]
+  s[reg+'_jdv_per_100']=r6(100*sum(v for _,v in in_reg)/n)
+  for action in ('swing','take'):
+   s[f'{reg}_{action}_jdv_per_100']=r6(100*sum(v for r,v in in_reg if r['swing']==(action=='swing'))/n)
+  s[reg+'_swing_pct']=r6(100*np.mean([r['swing'] for r,_ in in_reg])) if in_reg else None
+  s[reg+'_expected_swing_pct']=r6(100*np.mean([r['p_swing'] for r,_ in in_reg])) if in_reg else None
  return s
 
 
