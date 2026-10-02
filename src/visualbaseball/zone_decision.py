@@ -67,6 +67,7 @@ CONTRACT = {
  'za_percentile': 'midrank percentile of ZA among season hitters with at least 300 eligible pitches',
  'region_contributions': '100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100',
  'region_jdv_contributions': '<region>_jdv_per_100, <action>_jdv_per_100, <region>_<action>_jdv_per_100: 100 * sum(decision DV in region/action) / ALL eligible player pitches; additive to jdv_per_100 (APR input before centring and shrinkage)',
+ 'pa': 'plate appearances: PA-ending pitches (is_pa_terminal) in the season curated pitches, as in leaderboard_vb; display only',
  'region_swing_pct': '<region>_swing_pct and <region>_expected_swing_pct: 100 * mean(S) and 100 * mean(p_swing) over the region; null when the hitter saw no pitch there',
 }
 LIMITATIONS = [
@@ -595,6 +596,9 @@ def write_web(root,season,pitches,report,output_root=None):
  by_batter=defaultdict(list)
  for r in pitches: by_batter[str(r['batter_id'])].append(r)
  players=[profile_summary(items) for items in by_batter.values()]
+ # PA counts every PA-ending pitch in the season (leaderboard_vb's definition), not only the pitches eligible for judgment.
+ plate_appearances=Counter(str(r['batter_id']) for r in load_curated_rows(root,'pitches',season,columns=['batter_id','is_pa_terminal']) if r['is_pa_terminal'])
+ for p in players: p['pa']=plate_appearances.get(p['batter_id'],0)
  apr_meta=add_apr(players,100*float(np.mean([r['dv'] for r in pitches])),100*float(np.mean([2*(r['swing']-r['p_swing'])*r['delta_v'] for r in pitches])))
  report['apr']=apr_meta
  scores=np.array([p['za_raw'] for p in players if p['qualified_300'] and p['za_raw'] is not None])
