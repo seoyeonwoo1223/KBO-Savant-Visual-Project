@@ -74,12 +74,12 @@
         "staged": {
           "mse": 0.07018654061973531,
           "swing_mse": 0.1511614460539321,
-          "take_mse": 0.001651764011773231
+          "take_mse": 0.0016517640117732313
         },
         "unsmoothed": {
           "mse": 0.06990752551036003,
-          "swing_mse": 0.15055277024943828,
-          "take_mse": 0.001651764011773231
+          "swing_mse": 0.1505527702494383,
+          "take_mse": 0.0016517640117732313
         }
       },
       "event_probability": {
@@ -169,14 +169,14 @@
           "take_mse": 0.0027397415753404385
         },
         "staged": {
-          "mse": 0.07169267531209073,
+          "mse": 0.07169267531209071,
           "swing_mse": 0.1518936296764693,
-          "take_mse": 0.001209675370745266
+          "take_mse": 0.0012096753707452656
         },
         "unsmoothed": {
-          "mse": 0.0714721189701509,
+          "mse": 0.07147211897015088,
           "swing_mse": 0.15142210744020868,
-          "take_mse": 0.001209675370745266
+          "take_mse": 0.0012096753707452656
         }
       },
       "event_probability": {
@@ -249,7 +249,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.015549752369137748
+        "weighted_adjustment_rmse": 0.015549752369137746
       },
       "calibration_applied": true
     },
@@ -262,14 +262,14 @@
         "take_mse": 0.0027397415753404385
       },
       "staged": {
-        "mse": 0.07169267531209073,
+        "mse": 0.07169267531209071,
         "swing_mse": 0.1518936296764693,
-        "take_mse": 0.001209675370745266
+        "take_mse": 0.0012096753707452656
       },
       "unsmoothed": {
-        "mse": 0.0714721189701509,
+        "mse": 0.07147211897015088,
         "swing_mse": 0.15142210744020868,
-        "take_mse": 0.001209675370745266
+        "take_mse": 0.0012096753707452656
       }
     },
     "event_probability": {
@@ -334,7 +334,7 @@
           3
         ],
         "batters_150_pitches_each": 100,
-        "pearson_r": 0.31666271451378236,
+        "pearson_r": 0.3166627145137823,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       }
     ]
@@ -388,7 +388,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.020192405373548366
+        "weighted_adjustment_rmse": 0.02019240537354837
       },
       "calibration_applied": true
     },
@@ -400,7 +400,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.01703738911520753
+        "weighted_adjustment_rmse": 0.017037389115207534
       },
       "calibration_applied": true
     }
@@ -437,7 +437,7 @@
       "zone_decision.py": "a660df2b3ab6ad5e1e517dd15eb1a7ab5167514e7ba0f066cb2376153eba42a4",
       "plate_decision_v1.py": "94a9d4804c131a3119c959870fcb8926dc4f5177671e0d63e8cda6028465beb5",
       "swing_take.py": "cc6d1afb4e4c155f848ff5452314510affe53456a4cc28dbff33d0c8abcb704b",
-      "pitch_arsenal.py": "1fef04925017ed52bda2ffe2df003200b221d83a1e34c11291b4912517355f67"
+      "pitch_arsenal.py": "7cc4407677fc8e7e05d8ec13453101b5622fa889b4fdae7c7fe6b0e3241204e0"
     }
   },
   "limitations": [

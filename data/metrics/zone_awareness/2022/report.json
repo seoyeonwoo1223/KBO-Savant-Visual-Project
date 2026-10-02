@@ -154,7 +154,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 5.551115123125783e-17,
         "weighted_adjustment_rmse": 0.013510975130308158
       },
       "calibration_applied": true
@@ -167,9 +167,9 @@
       "raw_swing_brier": 0.14860434639124445,
       "action_value": {
         "direct": {
-          "mse": 0.06166480219659085,
+          "mse": 0.06166480219659084,
           "swing_mse": 0.12799752753618285,
-          "take_mse": 0.0044321557131458715
+          "take_mse": 0.004432155713145872
         },
         "staged": {
           "mse": 0.06086861989684146,
@@ -251,8 +251,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 1.1102230246251565e-16,
-        "weighted_adjustment_rmse": 0.011580360909602204
+        "max_constraint_violation": 0.0,
+        "weighted_adjustment_rmse": 0.011580360909602202
       },
       "calibration_applied": true
     },
@@ -260,9 +260,9 @@
     "swing_brier": 0.14854405255210087,
     "action_value": {
       "direct": {
-        "mse": 0.06166480219659085,
+        "mse": 0.06166480219659084,
         "swing_mse": 0.12799752753618285,
-        "take_mse": 0.0044321557131458715
+        "take_mse": 0.004432155713145872
       },
       "staged": {
         "mse": 0.06086861989684146,
@@ -319,7 +319,7 @@
           2
         ],
         "batters_150_pitches_each": 106,
-        "pearson_r": 0.36827864424226076,
+        "pearson_r": 0.36827864424226064,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       },
       {
@@ -328,7 +328,7 @@
           3
         ],
         "batters_150_pitches_each": 107,
-        "pearson_r": 0.36963579550519926,
+        "pearson_r": 0.3696357955051992,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       },
       {
@@ -337,7 +337,7 @@
           3
         ],
         "batters_150_pitches_each": 105,
-        "pearson_r": 0.38076787498209724,
+        "pearson_r": 0.3807678749820972,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       }
     ]
@@ -390,7 +390,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 1.1102230246251565e-16,
+        "max_constraint_violation": 0.0,
         "weighted_adjustment_rmse": 0.016371557924135534
       },
       "calibration_applied": true
@@ -402,7 +402,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 4.440892098500626e-16,
+        "max_constraint_violation": 0.0,
         "weighted_adjustment_rmse": 0.01287705549472479
       },
       "calibration_applied": true
@@ -440,7 +440,7 @@
       "zone_decision.py": "a660df2b3ab6ad5e1e517dd15eb1a7ab5167514e7ba0f066cb2376153eba42a4",
       "plate_decision_v1.py": "94a9d4804c131a3119c959870fcb8926dc4f5177671e0d63e8cda6028465beb5",
       "swing_take.py": "cc6d1afb4e4c155f848ff5452314510affe53456a4cc28dbff33d0c8abcb704b",
-      "pitch_arsenal.py": "1fef04925017ed52bda2ffe2df003200b221d83a1e34c11291b4912517355f67"
+      "pitch_arsenal.py": "7cc4407677fc8e7e05d8ec13453101b5622fa889b4fdae7c7fe6b0e3241204e0"
     }
   },
   "limitations": [
