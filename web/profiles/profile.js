@@ -16,7 +16,6 @@ const params = new URLSearchParams(window.location.search);
 const playerId = params.get("player");
 const profileYearSelect = document.querySelector("#profile-year");
 const exportButton = document.querySelector("#export-profile");
-const profileExportArea = document.querySelector("#profile-export-area");
 const seasonParam = params.get("year") || "2026";
 const comparePlayerParam = params.get("comparePlayer");
 const compareYearParam = params.get("compareYear");
@@ -31,13 +30,17 @@ const share = value => Math.max(0, Math.min(100, Number(value)));
 const playerShard = id => /^\d/.test(id || "") ? id[0] : "other";
 const profileCache = new Map();
 
+// color-mix(in srgb, color 56%, white)와 같은 값을 hex로 계산합니다. html2canvas 1.4.1이
+// color-mix의 계산값(color(srgb …))을 읽지 못해 이미지 저장이 실패하므로 CSS 대신 여기서 섞습니다.
+const takeTint = hex => "#" + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * .56 + 255 * .44).toString(16).padStart(2, "0")).join("");
+
 const swingTakeSplit = (region, league) => `
   <div class="swing-take-split" aria-label="Swing ${formatNumber(region.swing_pct)}%, Take ${formatNumber(region.take_pct)}%">
     <div class="split-counts">
       <span>${region.swing.pitches.toLocaleString()}</span>
       <span>${region.take.pitches.toLocaleString()}</span>
     </div>
-    <div class="split-player" style="--swing-share:${share(region.swing_pct)}%;--take-share:${share(region.take_pct)}%;--region-color:${region.color}">
+    <div class="split-player" style="--swing-share:${share(region.swing_pct)}%;--take-share:${share(region.take_pct)}%;--region-color:${region.color};--take-color:${takeTint(region.color)}">
       <div class="split-half swing"><span>${formatNumber(region.swing_pct)}%</span><i></i></div>
       <i class="split-axis"></i>
       <div class="split-half take"><i></i><span>${formatNumber(region.take_pct)}%</span></div>
@@ -165,7 +168,80 @@ const renderMainProfile = ({ shard, payload, overall, regions }) => {
     `<p class="swing"><strong>${formatSigned(swingTotal)}</strong> Swing Runs</p><p class="take"><strong>${formatSigned(takeTotal)}</strong> Take Runs</p>`;
   const target = document.querySelector("[data-thumbnail-target]");
   if (target) target.dataset.thumbnailReady = "true";
+  profileRendered = true;
+  updateProfileImage();
 };
+
+// 좁은 화면에서는 Baseball Savant처럼 데스크톱 레이아웃의 프로필 카드를 이미지로 보여줍니다
+// (길게 눌러 저장 가능). html2canvas는 가상 요소(::before 등)를 원본 문서의 계산값으로 복사하므로
+// 모바일 스타일이 섞입니다. 그래서 같은 페이지를 화면 밖 데스크톱 폭 iframe에 띄워 그 안에서 캡처합니다.
+// 실패하면 기존 반응형 DOM을 그대로 둡니다.
+const PROFILE_DESKTOP_WIDTH = 1440;
+const compactProfileQuery = window.matchMedia("(max-width: 830px)");
+const profileImage = document.querySelector("#profile-image");
+let profileRendered = false;
+let profileImageToken = 0;
+let desktopFramePromise = null;
+
+const captureOptions = {
+  scale: Math.max(2, window.devicePixelRatio || 1),
+  useCORS: true,
+  logging: false,
+};
+
+const desktopFrame = () => desktopFramePromise ??= new Promise((resolve, reject) => {
+  const frame = document.createElement("iframe");
+  frame.setAttribute("aria-hidden", "true");
+  frame.tabIndex = -1;
+  frame.style.cssText = `position:absolute;top:0;left:-${PROFILE_DESKTOP_WIDTH + 100}px;width:${PROFILE_DESKTOP_WIDTH}px;height:2400px;border:0;pointer-events:none;`;
+  const timer = setTimeout(() => reject(new Error("desktop frame timeout")), 20000);
+  const poll = () => {
+    const doc = frame.contentDocument;
+    if (doc?.querySelector('[data-thumbnail-ready="true"]') && typeof frame.contentWindow.html2canvas === "function") {
+      clearTimeout(timer);
+      (doc.fonts?.ready || Promise.resolve()).then(() => resolve(frame));
+    } else setTimeout(poll, 150);
+  };
+  frame.addEventListener("load", poll, { once: true });
+  frame.src = window.location.href;
+  document.body.append(frame);
+});
+
+// 데스크톱 화면에서는 현재 문서를, 좁은 화면에서는 데스크톱 iframe 안의 같은 요소를 캡처합니다.
+const captureDesktop = async (selector, options) => {
+  if (!compactProfileQuery.matches) return html2canvas(document.querySelector(selector), { ...captureOptions, ...options });
+  const frame = await desktopFrame();
+  const target = frame.contentDocument.querySelector(selector);
+  const frameButton = frame.contentDocument.querySelector("#export-profile");
+  return frame.contentWindow.html2canvas(target, {
+    ...captureOptions,
+    ...options,
+    ignoreElements: element => element === frameButton || element.classList?.contains("zone-guide"),
+  });
+};
+
+async function updateProfileImage() {
+  const token = ++profileImageToken;
+  const root = document.documentElement;
+  const useImage = profileRendered && compactProfileQuery.matches
+    && !root.classList.contains("thumbnail-mode") && typeof html2canvas === "function";
+  if (!useImage) {
+    root.classList.remove("profile-imaged");
+    return;
+  }
+  try {
+    const canvas = await captureDesktop(".profile-card", { backgroundColor: "#ffffff" });
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+    if (!blob || token !== profileImageToken) return;
+    if (profileImage.src.startsWith("blob:")) URL.revokeObjectURL(profileImage.src);
+    profileImage.src = URL.createObjectURL(blob);
+    profileImage.alt = `${document.querySelector("#player-name").textContent} Swing/Take 프로필`;
+    root.classList.add("profile-imaged");
+  } catch {
+    if (token === profileImageToken) root.classList.remove("profile-imaged");
+  }
+}
+compactProfileQuery.addEventListener("change", updateProfileImage);
 
 async function exportProfileImage() {
   if (typeof html2canvas !== "function" || !playerId) {
@@ -177,11 +253,9 @@ async function exportProfileImage() {
   exportButton.textContent = "이미지 생성 중…";
   try {
     await document.fonts?.ready;
-    const canvas = await html2canvas(profileExportArea, {
+    // 좁은 화면에서도 데스크톱 레이아웃으로 저장합니다.
+    const canvas = await captureDesktop("#profile-export-area", {
       backgroundColor: "#f4f4f2",
-      scale: Math.max(2, window.devicePixelRatio || 1),
-      useCORS: true,
-      logging: false,
       ignoreElements: element => element === exportButton || element.classList?.contains("zone-guide"),
     });
     const playerName = document.querySelector("#player-name").textContent.replace(/[\\/:*?"<>|]+/g, "_");
