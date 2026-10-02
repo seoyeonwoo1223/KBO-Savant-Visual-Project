@@ -27,7 +27,7 @@
       <article class="card leaderboard-card">
         <div class="card-head"><div><p class="eyebrow">QUALIFIED</p><h2>APR 순위</h2></div><span id="qualified-count"></span></div>
         <label class="search"><span>선수 검색</span><input id="player-search" type="search" placeholder="이름 또는 팀"></label>
-        <div class="table-wrap"><table><thead><tr><th data-sort="rank">#</th><th data-sort="batter_name">선수</th><th data-sort="apr">APR</th><th data-sort="apr_percentile">APR %ile</th><th data-sort="za_raw">ZA</th><th data-sort="za_percentile">ZA %ile</th><th data-sort="swing_aggression">SA</th><th data-sort="pitches_seen">P</th></tr></thead><tbody id="leaderboard"></tbody></table></div>
+        <div class="table-wrap"><table><thead><tr><th data-sort="rank">#</th><th data-sort="batter_name">선수</th><th data-sort="apr">APR</th><th data-sort="za_raw">ZA</th><th data-sort="swing_aggression">SA</th></tr></thead><tbody id="leaderboard"></tbody></table></div>
       </article>
     </section>
 
@@ -40,11 +40,11 @@
 
       <div class="tab active" id="tab-profile">
         <div class="profile-grid">
-          <article class="card zone-card"><div class="card-head"><div><p class="eyebrow">REGION VALUE</p><h3>존별 Decision Value</h3></div><span>DV / 전체 100구</span></div><canvas id="region-map" width="600" height="600"></canvas></article>
+          <article class="card zone-card"><div class="card-head"><div><p class="eyebrow">REGION · APR</p><h3>구역별 선택 가치</h3></div><span>리그 기대 대비 · 득점/전체 100구</span></div><canvas id="region-map" width="600" height="600"></canvas></article>
           <article class="card detail-card">
-            <div><p class="eyebrow">ACTION VALUE</p><h3>Swing과 Take</h3><p class="contribution-note">모든 값은 선수의 전체 투구 100구당 DV 기여도입니다.</p></div>
+            <div><p class="eyebrow">SWING · TAKE</p><h3>Swing과 Take</h3><p class="contribution-note">같은 공에서 리그 평균 타자의 선택보다 기대득점을 얼마나 더 얻었는지를 전체 100구 기준으로 나눈 값입니다. 모두 더하면 APR의 입력값이 됩니다.</p></div>
             <div class="zero-bars" id="action-bars"></div>
-            <table class="region-table"><thead><tr><th>Region</th><th>Pitches</th><th>Total</th><th>Swing</th><th>Take</th></tr></thead><tbody id="region-table"></tbody></table>
+            <table class="region-table"><thead><tr><th>구역</th><th>투구</th><th>선택 가치</th><th>Swing%</th><th>기대</th><th>차이</th></tr></thead><tbody id="region-table"></tbody></table>
           </article>
         </div>
       </div>

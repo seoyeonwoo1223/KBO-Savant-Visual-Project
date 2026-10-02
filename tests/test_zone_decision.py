@@ -59,6 +59,12 @@ def test_additive_contributions_use_all_pitches():
  for reg in REGIONS:
   assert abs(s[reg+'_swing_decision_value_per_100']+s[reg+'_take_decision_value_per_100']-s[reg+'_decision_value_per_100'])<1e-5
  assert abs(s['swing_decision_value_per_100']+s['take_decision_value_per_100']-s['dv_per_100'])<1e-5
+ # Zone Profile splits APR's input the same way, and reports swing rate against the league policy per region.
+ assert abs(sum(s[r+'_jdv_per_100'] for r in REGIONS)-s['jdv_per_100'])<1e-5
+ assert abs(s['swing_jdv_per_100']+s['take_jdv_per_100']-s['jdv_per_100'])<1e-5
+ for i,reg in enumerate(REGIONS):
+  assert abs(s[reg+'_swing_jdv_per_100']+s[reg+'_take_jdv_per_100']-s[reg+'_jdv_per_100'])<1e-5
+  assert s[reg+'_swing_pct']==100*(i%2) and s[reg+'_expected_swing_pct']==40
 
 
 def test_target_events_are_not_model_features():
