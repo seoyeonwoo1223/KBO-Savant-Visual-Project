@@ -106,7 +106,6 @@ a:hover { color: var(--kbo-red); }
   position: sticky;
   top: 0;
   z-index: 50;
-  border-bottom: 1px solid var(--kbo-line);
 }
 .site-nav {
   display: flex;
