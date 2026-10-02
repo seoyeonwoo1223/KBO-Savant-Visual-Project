@@ -117,15 +117,40 @@ Zone Awareness는 canonical pitch/event shard만 입력으로 받으며 Excel·l
 
 ## Arm Angle Movement Zones
 
-`web/movement-zones/`는 2019–2026 VB와 투구 단위로 매칭한 2019–2024 TrackMan에서 구종별 헛스윙 확률 회귀를 적합한다. −60°~85°를 1°씩 조작하면 Elite·Average·Dead Zone의 중심·폭·방향과 추정 Whiff%가 함께 바뀐다. HB는 포수 시점이며 우투 암사이드는 음수, 좌투 암사이드는 양수다. 같은 투구는 한 번만 학습하고, 매칭 투구에는 TrackMan 무브먼트(cm)를 쓴다. 나머지는 기존 구장·날짜·탄착 위치 보정 VB를 손·시즌별 강건 선형 회귀로 TrackMan 척도에 맞춘다. TM이 없는 2025–2026은 2022–2024 계수의 매칭 표본 가중 평균을 사용한다. 원자료와 다른 지표의 입력은 바꾸지 않는다.
+`web/movement-zones/`는 2019–2026 VB와 투구 단위로 매칭한 2019–2024 TrackMan에서 **기대 무브먼트(Dynamic DZ)**와 **헛스윙률 구역**을 별도로 적합한다. −60°~85°를 1°씩 조작하면 해당 손·구종의 기대 중심과 높은/중간/낮은 Whiff 구역이 이동한다. HB는 포수 시점이며 우투 암사이드는 음수, 좌투 암사이드는 양수다. 같은 투구는 한 번만 학습하고 매칭 투구에는 TrackMan 무브먼트(cm)를 쓴다. 나머지는 기존 구장·날짜·탄착 위치 보정 VB를 손·시즌별 강건 선형 회귀로 TrackMan 척도에 맞춘다. TM이 없는 2025–2026은 2022–2024 계수의 매칭 표본 가중 평균을 사용한다. 원자료와 다른 지표의 입력은 바꾸지 않는다.
 
-**실측 팔각도가 아닌 릴리스 위치 대용치**다. 어깨 좌표·선수 신장이 없으므로 `atan2(release_z_55_cm − 130, |release_x_55_cm|)`로 기준 어깨 높이 130cm를 가정한다. 1°는 조작 간격이지 측정 정확도가 아니다. 구속·탄착 위치·카운트·타자 상대 손·투수 손·시즌·출처를 통제한 로지스틱 이차 회귀의 헛스윙 확률로, 각 손·구종의 관측 무브먼트 질량 상위 25%를 Elite, 하위 25%를 Dead Zone, 중간 50%를 Average로 정의한다. 타원은 각 영역의 공분산을 이용한 근사 75% 분포 요약이며, 타구 질·종합 구종 가치·각도 변경의 인과 효과를 측정하지 않는다. 관측 분포는 각도 5°·무브먼트 1인치로 평활하고, 해당 각도 ±5° 안에 150스윙·5투수 미만이면 표시하지 않는다. 기존 GY/SW/Slurve를 무브먼트만으로 재분류하지 않고 원자료의 Slider·Sweeper를 쓴다. 누락된 타자 손은 기존 player bio/스위치 타자 매치업 규칙, 이어 안전하게 매칭된 TM의 타자 손으로 보강한다.
+**실측 팔각도가 아닌 릴리스 위치 대용치**다. 어깨 좌표·선수 신장이 없으므로 `atan2(release_z_55_cm − 130, |release_x_55_cm|)`로 기준 어깨 높이 130cm를 가정한다. 1°는 조작 간격이지 측정 정확도가 아니다. 수평/수직 릴리스 방향 HRA/VRA도 55ft 궤적 속도에서 계산한 대용치이며 실제 공을 놓는 지점의 방향과 다르다. 기존 GY/SW/Slurve를 무브먼트만으로 재분류하지 않고 원자료의 Slider·Sweeper를 쓴다. 누락된 타자 손은 기존 player bio/스위치 타자 매치업 규칙, 이어 안전하게 매칭된 TM의 타자 손으로 보강한다.
 
-최신 시즌 전체를 제외하고 이전 시즌에서 적합한 회귀를 통제변수만 쓴 모델과 비교한다(AUC·Log loss·Brier). 화면은 검증 후 전체 시즌으로 재적합한다. 계수·검증값·투구 및 제외 건수·소스 hash를 `web/data/movement_zones/profiles.json`에 저장하고, 일일 workflow의 아래 명령으로 갱신한다. 입력/코드 hash가 같으면 재적합을 건너뛴다.
+시간 환산식은 `M₀.₄ = M × (0.40 / t)²`다. 일정 가속도 가정에서 체공 시간 차이를 줄이기 위한 근사다. VB의 `vy_55`, `ay`로 홈플레이트 앞면까지 걸리는 시간을 풀고, 매칭된 TrackMan 투구에는 익스텐션(m)을 적용해 릴리스부터의 시간을 구한다. 미매칭 투구는 익스텐션을 모르므로 55ft부터의 시간을 쓴다. UI의 HB/IVB와 비교 입력은 모두 0.40초 환산 인치다. 이 값은 VB/TrackMan 무브먼트를 환산한 것으로 원본 DDZ의 릴리스 방향 대비 무브먼트 가속도를 직접 복원한 값이 아니다.
+
+기대 분포는 스윙하지 않은 투구도 포함한 전체 유효 투구에서, 구종·투수 손별 조건부 다변량 정규 모형으로 추정한다. `r = [angle/45, HRA/5, VRA/5, t/0.4]`, `m = [HB₀.₄, IVB₀.₄]`에 대해 다음을 계산한다. `⁺`는 수치적으로 안정적인 의사역행렬이다.
+
+```text
+μ(m | r) = μₘ + Σₘᵣ Σᵣᵣ⁺ (r − μᵣ)
+S(m | r) = Σₘₘ − Σₘᵣ Σᵣᵣ⁺ Σᵣₘ
+DZ Delta = 입력 무브먼트 − μ(m | r)
+50% / 80% 범위: (m−μ)ᵀ S⁻¹(m−μ) ≤ −2 ln(1−p)
+```
+
+슬라이더 각도는 정확한 선택값을 쓰고 HRA/VRA/체공 시간은 주변 ±5° 관측 투구의 가중 평균을 쓴다. 기대 타원의 50%·80%는 **모형의 명목 확률 범위**이며 낮은 성능 등급이 아니다. 실제 최신 시즌 포함률은 검증표에 따로 기록한다. 150투구·5투수 미만이면 기대 분포를 표시하지 않는다. FF/SI/FC 외 구종은 탐색적 확장이다.
+
+헛스윙률은 유효 스윙에서 ΔHB/ΔIVB의 이차항·각도 상호작용을 넣은 로지스틱 회귀로 추정한다. 구속·탄착 위치·카운트·타자 상대 손·투수 손·시즌·출처·추정 각도·HRA/VRA·체공 시간을 통제한다. 관측 무브먼트 질량을 예측 Whiff로 정렬해 상위 25%/중간 50%/하위 25%로 나눈다. 관측 밀도는 각도 5°·무브먼트 1인치로 평활하고 최고 밀도의 5% 미만인 셀은 제외한다. **성능 구역은 실제 1인치 셀을 그리며, 이전의 Gaussian 요약 타원으로 다른 등급을 덮던 오류를 제거했다.** 150스윙·5투수 미만이면 표시하지 않는다. 위치 중앙·1-1 카운트·상대 손 비율 50%·손별 구속 중앙값·최신 시즌·VB 출처로 통제한 비교이며, 종합 구종 가치나 각도 변경의 인과 효과를 측정하지 않는다.
+
+참고한 공개 산식과 적용 범위:
+
+- [Max Bay Dynamic Dead Zone](https://dynamic-dead-zone.streamlit.app/)의 Mathematical explainer: 조건부 정규 평균·공분산을 KBO에서 다시 적합했다. 원본은 가속도, 실측 어깨 팔각도, 신장 대비 익스텐션 및 FF/SI/FC 혼합 분포를 사용한다. 이 페이지는 선택 구종의 분포를 사용하고, 확보된 KBO 대용치로 조건 변수를 구성한다. MLB 계수·혼합 확률을 가져오지 않았다.
+- [Alex Chamberlain Pitch Leaderboard v8](https://public.tableau.com/app/profile/chamb117/viz/PitchLeaderboardv8/Dashboard)의 공개 workbook `AxOE`/`AzOE`: FF/SI/FC에서 실제 `ax`/`az`와 시즌·구종·반올림한 HRA/VRA 그룹의 평균 차이를 계산한다(AxOE는 투수 손도 그룹화). 여기서는 릴리스 방향과 실제−기대 Delta 개념을 반영하고 연속 조건부 기대값을 추정한다. workbook 가속도와 동일한 수치는 아니다.
+- [Baseball Savant pitch movement](https://baseballsavant.mlb.com/pitch-movement): 구종·구속·릴리스 조건을 맞춘 비교와 중력 제외 IVB 정의를 참고했다. Savant 전체 무브먼트 비교는 중력을 포함하며, 자체 비교 조건은 ±2mph·익스텐션/릴리스 높이 ±0.5ft다. 이를 단일 공개 Dead Zone 공식으로 간주하지 않는다.
+- [야구공작소의 팔각도·무브먼트 설명](https://yagongso.com/이것-없이는-무브먼트도-의미-없다/): 각도 대비 기대 모양, 0.4초 시간 환산과 변화구 확장의 맥락을 참고했다.
+
+최신 시즌 전체를 제외하고 이전 시즌에서 기대 모형과 회귀를 적합한다. 기대 모형은 동일 손·구종의 무조건 평균과 비교하고(HB/IVB RMSE·50%/80% 실제 포함률), 헛스윙 회귀는 동일 통제변수만 쓴 모델과 비교한다(AUC·Log loss·Brier). 화면은 검증 후 전체 시즌으로 재적합한다. 계수·검증값·투구 및 제외 건수·소스 hash·참고 산식 출처를 schema v2의 `web/data/movement_zones/profiles.json`에 저장하고 일일 workflow의 아래 명령으로 갱신한다. 입력/코드 hash가 같으면 재적합을 건너뛴다.
 
 ```powershell
 $env:PYTHONPATH = "src"
 python -m visualbaseball.cli --only movement_zones
 python -m pytest tests/test_movement_zones.py
 python scripts/check_movement_zones.py
+python scripts/check_movement_zones.py --url https://seoyeonwoo1223.github.io/KBO-Savant-Visual-Project/movement-zones/
 ```
+
+브라우저 검증은 두 모드의 4,672개 손·구종·각도 조합, 기대 중심의 저장 계수 재계산, R/45의 실제 SVG 채움과 셀/조건부 확률식 일치, 1° 조작·자동재생 정지·DZ Delta 입력·모바일 폭·데이터 로드 실패를 확인한다. 공개 URL 검증은 제공 JSON과 현재 생성 artifact의 전체 일치도 요구한다. 증거와 화면은 `.cache/movement_zones/validation*.json`, `preview-*.png`에 저장한다.
