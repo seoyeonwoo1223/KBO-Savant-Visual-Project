@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="KBO 타자의 Swing·Take 판단 가치(APR)와 존 판단(ZA)">
   <title>Approach | KBO Savant</title>
-  <link rel="stylesheet" href="zone-awareness.css?v=20261003-1">
+  <link rel="stylesheet" href="zone-awareness.css?v=20261003-2">
   <link rel="stylesheet" href="../theme.css?v=20261002-2">
   <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
   <style>html.thumbnail-mode .site-header,html.thumbnail-mode main>nav,html.thumbnail-mode .hero,html.thumbnail-mode .leaderboard-card,html.thumbnail-mode .player,html.thumbnail-mode .method{display:none}html.thumbnail-mode main{width:600px;margin:0;padding:0}html.thumbnail-mode .overview{display:block}html.thumbnail-mode [data-thumbnail-target]{width:600px;height:600px;overflow:hidden}html.thumbnail-mode .scatter-card .card-head{padding:16px 18px 10px}html.thumbnail-mode .scatter-card canvas{height:510px;aspect-ratio:auto}</style>
@@ -68,6 +68,6 @@
 
     <section class="method card"><p class="eyebrow">METHOD · 2019–2026</p><h2>읽는 법</h2><div><p><strong>APR</strong>(Approach)은 Swing·Take 선택의 득점 가치를 wRC+처럼 나타냅니다. 공마다 위치·카운트·구종·구속 등이 같은 공에서 리그 평균 타자가 했을 선택을 기준으로, 실제 선택이 기대득점을 얼마나 더 얻었는지 합산합니다. 리그 평균이 100이고, 120이면 선택 가치가 평균보다 20% 많다는 뜻입니다. 공을 적게 본 타자는 표본만큼 평균 쪽으로 당겨 계산합니다. APR Percentile은 시즌 300구 이상 타자 분포에서의 위치이며, 300구 미만 타자도 같은 기준으로 표시하되 자격 미달로 구분합니다.</p><p><strong>ZA</strong>(Zone Awareness)는 스트라이크는 치고 볼은 거르는 구별 능력입니다. 같은 공에서 리그 평균 타자의 선택보다 판정에 맞는 선택을 몇 %p 더 했는지를 나타내며, 득점 가치로 가중하지 않습니다. 그래서 2스트라이크 판단도 0스트라이크 판단과 같은 무게로 셉니다(옛 이름 SBJ). <strong>SA</strong>(Swing Aggression)는 같은 공에서 기대되는 스윙률보다 실제로 얼마나 더 휘둘렀는지를 나타내는 성향 지표이며, 높고 낮음이 좋고 나쁨을 뜻하지 않습니다.</p><p><strong>세 지표의 관계</strong> · APR은 “선택이 득점으로 얼마였나”, ZA는 “볼과 스트라이크를 가려 쳤나”, SA는 “얼마나 휘둘렀나”를 봅니다. 같은 선구안에서 나온 지표라 서로 상관하지만 같은 것을 재지 않습니다. 판정은 정확하지만 2스트라이크처럼 비싼 상황에서 자주 틀리는 타자는 ZA보다 APR이 낮게 나옵니다. 공격성은 SA로 따로 보며, ZA도 공격성과 완전히 무관하지는 않습니다.</p><p><strong>알려진 한계</strong> · 스윙의 가치는 리그 평균 타자의 실행 능력으로 계산하므로, 어려운 공도 잘 쳐내는 타자의 컨택·장타 능력은 반영되지 않습니다. 또 존 밖 스윙의 손해가 존 안 테이크의 손해보다 커서, 덜 휘두르는 타자의 APR이 높게 나오는 경향이 있습니다.</p><p><strong>모형 안정성</strong> · 스윙 기대치는 존 안과 존 밖을 나눠 보정해 리그 평균 타자가 0이 되도록 맞추고, 스트라이크 확률은 모형 5개의 평균입니다. 같은 데이터로 다시 적합해도 선수 ZA가 달라지는 폭은 평균 0.05pp 이하입니다. 선택 가치(DV·APR) 계산의 무브먼트는 TrackMan으로 검증한 구장·날짜 보정값을 씁니다.</p><p><strong>데이터 정정</strong> · 볼로 기록된 번트 파울과 번트 헛스윙은 TrackMan·네이버 중계로 확인해 스윙·테이크에서 뺐고, 대타가 이어받은 카운트와 피치클락 위반은 네이버 중계 카운트로 바로잡았습니다. 보고 위치가 자기 궤적과 1cm 넘게 어긋나는 공(2025년 6구)은 기록이 섞인 것으로 보고 제외했습니다.</p></div><p id="season-method"></p></section>
   </main>
-  <script src="zone-awareness.js?v=20261003-1"></script>
+  <script src="zone-awareness.js?v=20261003-2"></script>
 </body>
 </html>
