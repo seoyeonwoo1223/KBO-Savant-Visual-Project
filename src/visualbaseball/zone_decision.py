@@ -33,7 +33,7 @@ NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
 # p_swing keeps the park-workbook movement where a workbook exists (analysis/sbj_formula M).
 DV_MOVEMENT = ('dv_hb_cm', 'dv_ivb_cm')
 DV_NUMERIC = old.BASE_NUMERIC + DV_MOVEMENT
-MODEL_VERSION = 'za7.6-apr'
+MODEL_VERSION = 'za7.7-zaplus'
 SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 # za7.3: p_zone averages five seeds so one early-stopping validation split no longer moves player SBJ
@@ -64,7 +64,9 @@ CONTRACT = {
  'apr': 'APR (Approach), wRC+-style: 100 * (L + s) / L. L = league pitch-weighted dv_per_100; s = n/(n+k) * (jdv_per_100 - league jdv), re-centred so the pitch-weighted league mean is 100; k = per-pitch noise / true-talent variance among qualified hitters (pitches for reliability 0.5)',
  'apr_percentile': 'midrank percentile of APR against qualified hitters (300+ pitches); every hitter gets one, unqualified hitters are flagged by qualified_300',
  'swing_aggression': '100 * mean(S - p_swing); percentage points, tendency only',
- 'za_percentile': 'midrank percentile of ZA among season hitters with at least 300 eligible pitches',
+ 'zj_per_100': 'ZA input: 100 * mean(2 * (S - p_swing) * (2*p_zone - 1)) = 2 * za_raw; judgment margin above the league Swing policy on the same pitches',
+ 'za_plus': 'ZA+, wRC+-style and built like APR: 100 * (M + s) / M. M = league pitch-weighted 100 * mean((2S - 1) * (2*p_zone - 1)) (judgment margin); s = n/(n+k) * (zj_per_100 - league zj), re-centred so the pitch-weighted league mean is 100; k estimated from qualified hitters as for APR',
+ 'za_percentile': 'midrank percentile of ZA+ against qualified hitters (300+ pitches); every hitter gets one, unqualified hitters are flagged by qualified_300',
  'region_contributions': '100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100',
  'region_jdv_contributions': '<region>_jdv_per_100, <action>_jdv_per_100, <region>_<action>_jdv_per_100: 100 * sum(decision DV in region/action) / ALL eligible player pitches; additive to jdv_per_100 (APR input before centring and shrinkage)',
  'pa': 'plate appearances: PA-ending pitches (is_pa_terminal) in the season curated pitches, as in leaderboard_vb; display only',
@@ -535,6 +537,11 @@ def profile_summary(items):
  by_game=defaultdict(float)
  for r,v in zip(items,jdv): by_game[r['game_id']]+=v-mean_jdv
  s['jdv_per_100']=r6(100*mean_jdv); s['jdv_se']=r6(100*np.sqrt(sum(v*v for v in by_game.values()))/n)
+ # ZA+ input: the same construction with the call margin (2*p_zone - 1) in place of the run value.
+ zj=np.array([2*r['judgment'] for r in items]); mean_zj=float(zj.mean())
+ by_game=defaultdict(float)
+ for r,v in zip(items,zj): by_game[r['game_id']]+=v-mean_zj
+ s['zj_per_100']=r6(100*mean_zj); s['zj_se']=r6(100*np.sqrt(sum(v*v for v in by_game.values()))/n)
  s['low_opposite_support_pct']=r6(100*s['low_opposite_support_pitches']/n)
  games=defaultdict(list)
  for r in items:games[r['game_id']].append(r['dv'])
@@ -565,29 +572,40 @@ def cell_summary(items):
  return {'n':len(items),'low_opposite_support_pct':r6(100*np.mean([r['opposite_support']<30 for r in items])),'raw_dv':r6(sum(r['dv'] for r in items)),'dv100':mean(items,'dv',100),'za_raw':zone_awareness(items),'delta':mean(items,'delta_v'),'swing_pct':mean(items,'swing',100),'expected_swing_pct':mean(items,'p_swing',100),'p_zone_pct':mean(items,'p_zone',100),'zone_judgment_pct':r6(100*np.mean([r['p_zone'] if r['swing'] else 1-r['p_zone'] for r in items])),'expected_zone_judgment_pct':r6(100*np.mean([r['p_swing']*r['p_zone']+(1-r['p_swing'])*(1-r['p_zone']) for r in items])),'expected_swing_rv':mean(items,'v_swing'),'expected_take_rv':mean(items,'v_take'),**{f'p_{e}':mean(items,f'p_{e}',100) for e in EVENTS}}
 
 
-def add_apr(players, league_dv_per_100, league_jdv_per_100):
- """APR: wRC+-style decision value. Centre decision DV on the league, shrink toward it by pitches seen
- (n/(n+k), k estimated from qualified hitters), re-centre so the pitch-weighted league mean is exactly 100,
- then scale by league DV/100. Percentiles rank every hitter against qualified hitters only
- (analysis/sbj_formula W-b)."""
+def _plus_index(players, value_key, se_key, level, league_mean, out_key, pct_key):
+ """wRC+-style index shared by APR and ZA+. Centre the per-100 input on the league, shrink toward it by pitches seen
+ (n/(n+k), k estimated from qualified hitters), re-centre so the pitch-weighted league mean is exactly 100, then scale
+ by the league level. Percentiles rank every hitter against qualified hitters only (analysis/sbj_formula W-b)."""
  n=np.array([p['pitches_seen'] for p in players],dtype=float)
- centred=np.array([p['jdv_per_100'] for p in players],dtype=float)-league_jdv_per_100
- se=np.array([p['jdv_se'] for p in players],dtype=float); q=np.array([p['qualified_300'] for p in players])
+ centred=np.array([p[value_key] for p in players],dtype=float)-league_mean
+ se=np.array([p[se_key] for p in players],dtype=float); q=np.array([p['qualified_300'] for p in players])
  k=np.inf
  if q.sum()>2:
   sigma2=float(np.median(se[q]**2*n[q])); tau2=float(np.var(centred[q],ddof=1)-np.mean(se[q]**2))
   if tau2>0: k=sigma2/tau2
  shrunk=n/(n+k)*centred if np.isfinite(k) else np.zeros(len(players))
  shrunk-=float((shrunk*n).sum()/n.sum())
- apr=100*(league_dv_per_100+shrunk)/league_dv_per_100
- reference=np.sort(apr[q])
- for p,value in zip(players,apr):
-  p['apr']=r6(value)
+ index=100*(level+shrunk)/level
+ reference=np.sort(index[q])
+ for p,value in zip(players,index):
+  p[out_key]=r6(value)
   if len(reference):
    lo,hi=np.searchsorted(reference,value,'left'),np.searchsorted(reference,value,'right')
-   p['apr_percentile']=r6(100*(lo+.5*(hi-lo))/len(reference))
-  else: p['apr_percentile']=None
- return {'league_dv_per_100':r6(league_dv_per_100),'league_jdv_per_100':r6(league_jdv_per_100),'shrinkage_k_pitches':r6(k) if np.isfinite(k) else None}
+   p[pct_key]=r6(100*(lo+.5*(hi-lo))/len(reference))
+  else: p[pct_key]=None
+ return r6(k) if np.isfinite(k) else None
+
+
+def add_apr(players, league_dv_per_100, league_jdv_per_100):
+ """APR: wRC+-style decision value on league DV/100."""
+ k=_plus_index(players,'jdv_per_100','jdv_se',league_dv_per_100,league_jdv_per_100,'apr','apr_percentile')
+ return {'league_dv_per_100':r6(league_dv_per_100),'league_jdv_per_100':r6(league_jdv_per_100),'shrinkage_k_pitches':k}
+
+
+def add_za_plus(players, league_margin_per_100, league_zj_per_100):
+ """ZA+: the APR construction on the judgment margin (2S - 1)(2*p_zone - 1) instead of run value."""
+ k=_plus_index(players,'zj_per_100','zj_se',league_margin_per_100,league_zj_per_100,'za_plus','za_percentile')
+ return {'league_margin_per_100':r6(league_margin_per_100),'league_zj_per_100':r6(league_zj_per_100),'shrinkage_k_pitches':k}
 
 
 def write_web(root,season,pitches,report,output_root=None):
@@ -601,10 +619,9 @@ def write_web(root,season,pitches,report,output_root=None):
  for p in players: p['pa']=plate_appearances.get(p['batter_id'],0)
  apr_meta=add_apr(players,100*float(np.mean([r['dv'] for r in pitches])),100*float(np.mean([2*(r['swing']-r['p_swing'])*r['delta_v'] for r in pitches])))
  report['apr']=apr_meta
- scores=np.array([p['za_raw'] for p in players if p['qualified_300'] and p['za_raw'] is not None])
- for p in players: p['za_percentile']=r6(100*(np.sum(scores<p['za_raw'])+.5*np.sum(scores==p['za_raw']))/len(scores)) if len(scores) and p['za_raw'] is not None else None
+ report['za_plus']=add_za_plus(players,100*float(np.mean([(2*r['swing']-1)*(2*r['p_zone']-1) for r in pitches])),100*float(np.mean([2*r['judgment'] for r in pitches])))
  def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
- dump(dest/'leaderboard.json',{'schema_version':6,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'apr':report['apr'],'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'pzone_input':report['source'].get('pzone_input'),'settings':report['validation']['settings']})
+ dump(dest/'leaderboard.json',{'schema_version':6,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'apr':report['apr'],'za_plus':report['za_plus'],'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'pzone_input':report['source'].get('pzone_input'),'settings':report['validation']['settings']})
  dump(dest/'teams.json',{'season':season,'teams':{p['batter_id']:p['team'] for p in players}})
  shards=defaultdict(dict)
  for p in players:

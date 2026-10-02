@@ -3,7 +3,7 @@ import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
 from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_apr, EVENTS
 from visualbaseball.zone_decision import cell_summary, judgment_plane_location, pzone_fields, PZONE_ABS, pitcher_throws
-from visualbaseball.zone_decision import reported_location_disagrees, PLANE_Y_FT, FRONT_PLANE_Y_FT
+from visualbaseball.zone_decision import reported_location_disagrees, PLANE_Y_FT, FRONT_PLANE_Y_FT, add_za_plus
 from visualbaseball.curated import CM_PER_FOOT, _at_plane
 from visualbaseball import plate_decision_v1 as old
 
@@ -43,6 +43,23 @@ def test_sa_dv_stay_unchanged_and_apr_is_wrc_plus_style():
  add_apr(pair,5.0,0.);assert abs(pair[0]['apr']-100)>abs(pair[1]['apr']-100)
  # every hitter gets a percentile against qualified hitters
  assert all(p['apr_percentile'] is not None and 0<=p['apr_percentile']<=100 for p in players)
+
+def test_za_plus_is_the_apr_construction_on_the_call_margin():
+ base={'season':2026,'batter_name':'Test','team':'T','game_id':'20260601A','region':'heart','opposite_support':50,'delta_v':.2,'v_swing':.2,'v_take':0.,'dv':.1}
+ rows=[{**base,'batter_id':'1','swing':1,'p_swing':.4,'p_zone':.8,'judgment':.6*.6},{**base,'batter_id':'1','swing':0,'p_swing':.3,'p_zone':.2,'judgment':.3*.6,'game_id':'20260602A'}]
+ s=profile_summary(rows)
+ assert abs(s['zj_per_100']-2*s['za_raw'])<1e-6 and s['zj_se']>=0
+ rng=np.random.default_rng(2)
+ players=[{'qualified_300':n>=300,'pitches_seen':n,'zj_per_100':float(v),'zj_se':float(9/np.sqrt(n))}
+          for n,v in zip([1200,900,600,400,350,320,310,305,150,120],rng.normal(0,4,10))]
+ meta=add_za_plus(players,36.,0.)
+ n=np.array([p['pitches_seen'] for p in players]);zp=np.array([p['za_plus'] for p in players])
+ # league mean exactly 100, shrinkage estimated, percentiles against qualified hitters, order kept among equal samples
+ assert abs((zp*n).sum()/n.sum()-100)<1e-4 and meta['shrinkage_k_pitches']>0
+ assert all(0<=p['za_percentile']<=100 for p in players)
+ pair=[{'qualified_300':True,'pitches_seen':m,'zj_per_100':8.,'zj_se':.5} for m in (1000,100)]+players
+ add_za_plus(pair,36.,0.);assert abs(pair[0]['za_plus']-100)>abs(pair[1]['za_plus']-100)
+
 
 def test_five_regions_and_hbp_not_future_pa_result():
  assert [region({'x_relative':d,'z_relative':0}) for d in (.4,.9,1.2,1.8,2.2)]==list(REGIONS)
