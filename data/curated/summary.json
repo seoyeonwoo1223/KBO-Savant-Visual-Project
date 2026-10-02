@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T19:37:15+00:00",
+  "generated_at": "2026-10-02T20:58:37+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -379,9 +379,7 @@
         "swing_take",
         "zone_awareness"
       ],
-      "stale_metrics": [
-        "movement_zones"
-      ]
+      "stale_metrics": []
     }
   },
   "published": {

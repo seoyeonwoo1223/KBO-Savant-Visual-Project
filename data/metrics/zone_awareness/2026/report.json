@@ -69,17 +69,17 @@
         "direct": {
           "mse": 0.06826266780743155,
           "swing_mse": 0.14851755953146983,
-          "take_mse": 0.0026603947477638955
+          "take_mse": 0.002660394747763895
         },
         "staged": {
           "mse": 0.06721354588091848,
           "swing_mse": 0.1479240363819817,
-          "take_mse": 0.001238855455356017
+          "take_mse": 0.0012388554553560169
         },
         "unsmoothed": {
           "mse": 0.06708866148596977,
           "swing_mse": 0.14764637399433275,
-          "take_mse": 0.001238855455356017
+          "take_mse": 0.0012388554553560169
         }
       },
       "event_probability": {
@@ -170,12 +170,12 @@
         },
         "staged": {
           "mse": 0.06352007908594484,
-          "swing_mse": 0.137877490888078,
+          "swing_mse": 0.13787749088807796,
           "take_mse": 0.0015730345847918491
         },
         "unsmoothed": {
           "mse": 0.06325823628558819,
-          "swing_mse": 0.1373013481386224,
+          "swing_mse": 0.13730134813862238,
           "take_mse": 0.0015730345847918491
         }
       },
@@ -248,8 +248,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 4.440892098500626e-16,
-        "weighted_adjustment_rmse": 0.012725652238428364
+        "max_constraint_violation": 0.0,
+        "weighted_adjustment_rmse": 0.012725652238428363
       },
       "calibration_applied": true
     },
@@ -263,12 +263,12 @@
       },
       "staged": {
         "mse": 0.06352007908594484,
-        "swing_mse": 0.137877490888078,
+        "swing_mse": 0.13787749088807796,
         "take_mse": 0.0015730345847918491
       },
       "unsmoothed": {
         "mse": 0.06325823628558819,
-        "swing_mse": 0.1373013481386224,
+        "swing_mse": 0.13730134813862238,
         "take_mse": 0.0015730345847918491
       }
     },
@@ -316,7 +316,7 @@
           2
         ],
         "batters_150_pitches_each": 113,
-        "pearson_r": 0.5773186036120838,
+        "pearson_r": 0.5773186036120841,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       },
       {
@@ -325,7 +325,7 @@
           3
         ],
         "batters_150_pitches_each": 102,
-        "pearson_r": 0.38526302153408915,
+        "pearson_r": 0.38526302153408903,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       },
       {
@@ -334,7 +334,7 @@
           3
         ],
         "batters_150_pitches_each": 99,
-        "pearson_r": 0.26934135295647327,
+        "pearson_r": 0.2693413529564732,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       }
     ]
@@ -387,7 +387,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 2.220446049250313e-16,
         "weighted_adjustment_rmse": 0.017768291502208544
       },
       "calibration_applied": true
@@ -399,7 +399,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 2.220446049250313e-16,
+        "max_constraint_violation": 0.0,
         "weighted_adjustment_rmse": 0.017499992002368077
       },
       "calibration_applied": true
@@ -427,7 +427,7 @@
   },
   "shrinkage": "Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.",
   "reproducibility": {
-    "python": "3.12.3",
+    "python": "3.12.14",
     "packages": {
       "numpy": "2.5.3",
       "pandas": "2.3.3",
@@ -440,7 +440,7 @@
       "zone_decision.py": "4be27777c763e077f64ff241ac3a2e88fcebcc08cf6b5d457096acbae0c996c8",
       "plate_decision_v1.py": "94a9d4804c131a3119c959870fcb8926dc4f5177671e0d63e8cda6028465beb5",
       "swing_take.py": "cc6d1afb4e4c155f848ff5452314510affe53456a4cc28dbff33d0c8abcb704b",
-      "pitch_arsenal.py": "1fef04925017ed52bda2ffe2df003200b221d83a1e34c11291b4912517355f67"
+      "pitch_arsenal.py": "7cc4407677fc8e7e05d8ec13453101b5622fa889b4fdae7c7fe6b0e3241204e0"
     }
   },
   "limitations": [

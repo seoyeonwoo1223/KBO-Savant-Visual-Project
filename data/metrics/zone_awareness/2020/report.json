@@ -69,9 +69,9 @@
       "raw_swing_brier": 0.14960117218556154,
       "action_value": {
         "direct": {
-          "mse": 0.07295261884998062,
+          "mse": 0.07295261884998061,
           "swing_mse": 0.1532740195530532,
-          "take_mse": 0.005892785444163781
+          "take_mse": 0.005892785444163779
         },
         "staged": {
           "mse": 0.07147205152989058,
@@ -79,7 +79,7 @@
           "take_mse": 0.004271592184958267
         },
         "unsmoothed": {
-          "mse": 0.07125748339729901,
+          "mse": 0.071257483397299,
           "swing_mse": 0.151490319303094,
           "take_mse": 0.004271592184958267
         }
@@ -251,7 +251,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.015427384982032442
+        "weighted_adjustment_rmse": 0.01542738498203244
       },
       "calibration_applied": true
     },
@@ -318,7 +318,7 @@
           2
         ],
         "batters_150_pitches_each": 105,
-        "pearson_r": 0.5125724844544455,
+        "pearson_r": 0.5125724844544454,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       },
       {
@@ -327,7 +327,7 @@
           3
         ],
         "batters_150_pitches_each": 106,
-        "pearson_r": 0.3676508059163426,
+        "pearson_r": 0.3676508059163424,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       },
       {
@@ -377,7 +377,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
+        "max_constraint_violation": 2.220446049250313e-16,
         "weighted_adjustment_rmse": 0.01734051539809157
       },
       "calibration_applied": true
@@ -389,8 +389,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.0177326976088774
+        "max_constraint_violation": 2.7755575615628914e-17,
+        "weighted_adjustment_rmse": 0.017732697608877402
       },
       "calibration_applied": true
     },
@@ -401,8 +401,8 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 5.551115123125783e-17,
-        "weighted_adjustment_rmse": 0.014935843237739034
+        "max_constraint_violation": 0.0,
+        "weighted_adjustment_rmse": 0.014935843237739036
       },
       "calibration_applied": true
     }
@@ -429,7 +429,7 @@
   },
   "shrinkage": "Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.",
   "reproducibility": {
-    "python": "3.12.3",
+    "python": "3.12.14",
     "packages": {
       "numpy": "2.5.3",
       "pandas": "2.3.3",
@@ -442,7 +442,7 @@
       "zone_decision.py": "4be27777c763e077f64ff241ac3a2e88fcebcc08cf6b5d457096acbae0c996c8",
       "plate_decision_v1.py": "94a9d4804c131a3119c959870fcb8926dc4f5177671e0d63e8cda6028465beb5",
       "swing_take.py": "cc6d1afb4e4c155f848ff5452314510affe53456a4cc28dbff33d0c8abcb704b",
-      "pitch_arsenal.py": "1fef04925017ed52bda2ffe2df003200b221d83a1e34c11291b4912517355f67"
+      "pitch_arsenal.py": "7cc4407677fc8e7e05d8ec13453101b5622fa889b4fdae7c7fe6b0e3241204e0"
     }
   },
   "limitations": [
