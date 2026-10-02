@@ -82,7 +82,7 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 .split-half i { position: absolute; top: 0; display: block; height: 100%; }
 .split-half span { position: absolute; top: 50%; z-index: 1; color: #646464; font-size: .85rem; line-height: 1; white-space: nowrap; transform: translateY(-50%); }
 .split-player .swing i { right: 0; width: var(--swing-share); background: var(--region-color); }
-.split-player .take i { left: 0; width: var(--take-share); background: color-mix(in srgb, var(--region-color) 56%, white); }
+.split-player .take i { left: 0; width: var(--take-share); background: var(--take-color); }
 .split-player .swing span { right: calc(var(--swing-share) + 5px); }
 .split-player .take span { left: calc(var(--take-share) + 5px); }
 .split-axis { height: 28px; border-left: 1px solid #8a8a8a; z-index: 1; }
@@ -222,6 +222,10 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 .zone-run-shadow b { font-size: 1.02rem; }
 
 #profile-export-area { background: #ffffff; }
+/* 좁은 화면: 데스크톱 레이아웃을 이미지로 렌더한 #profile-image가 카드를 대신합니다 (profile.js). */
+.profile-image { display: none; width: 100%; height: auto; margin-top: 22px; }
+html.profile-imaged .profile-card { display: none; }
+html.profile-imaged .profile-image { display: block; }
 .profile-options .export-button { height: 35px; margin-left: auto; padding: 0 14px; border: 1px solid #303030; background: #303030; color: #fff; font: 700 .82rem Arial, sans-serif; white-space: nowrap; cursor: pointer; }
 .swing-take-search { margin: 0 0 8px; }
 .search-header { padding: 0 0 24px; margin-bottom: 30px; border-bottom: 1px solid var(--kbo-line-strong); }
