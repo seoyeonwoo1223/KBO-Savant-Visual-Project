@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T20:21:45+00:00",
+  "generated_at": "2026-10-02T17:22:35+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -190,7 +190,6 @@
         "blocking",
         "excel",
         "movement_zones",
-        "pitch_arsenal",
         "plate_decision",
         "plate_discipline",
         "swing_take",
@@ -238,7 +237,6 @@
         "blocking",
         "excel",
         "movement_zones",
-        "pitch_arsenal",
         "plate_decision",
         "plate_discipline",
         "swing_take",
@@ -287,7 +285,6 @@
         "blocking",
         "excel",
         "movement_zones",
-        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
         "zone_decision",
@@ -336,7 +333,6 @@
         "blocking",
         "excel",
         "movement_zones",
-        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
         "zone_decision",
@@ -383,9 +379,7 @@
         "swing_take",
         "zone_awareness"
       ],
-      "stale_metrics": [
-        "movement_zones"
-      ]
+      "stale_metrics": []
     }
   },
   "published": {
