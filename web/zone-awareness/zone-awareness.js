@@ -26,6 +26,8 @@ function diverge(value, scale=1) {
   return `rgb(${rgb.join(",")})`;
 }
 function percentileColor(value){return diverge((+value-50)/25,2);}
+// Scatter only: same poles, grey midpoint so league-average hitters stay visible on the light canvas.
+function scatterColor(value){if(!Number.isFinite(+value))return "#aab3b6";const t=Math.min(1,Math.abs(+value-50)/50),rgb=mix([170,179,182],+value>=50?[217,74,86]:[70,120,184],t);return `rgb(${rgb.join(",")})`;}
 
 async function loadSeason(season) {
   state.season=+season; state.profile=null; state.cell=null;
@@ -77,11 +79,19 @@ function drawScatter(){
   const xStep=5,yStep=10;
   for(let v=Math.ceil(xLo/xStep)*xStep;v<=xHi;v+=xStep){ctx.beginPath();ctx.moveTo(x(v),pad.t);ctx.lineTo(x(v),h-pad.b);ctx.stroke();ctx.fillText(v,x(v)-7,h-pad.b+18);}
   for(let v=Math.ceil(yLo/yStep)*yStep;v<=yHi;v+=yStep){ctx.beginPath();ctx.moveTo(pad.l,y(v));ctx.lineTo(w-pad.r,y(v));ctx.stroke();ctx.fillText(v,pad.l-31,y(v)+4);}
-  ctx.strokeStyle="#56666a";ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(x(0),pad.t);ctx.lineTo(x(0),h-pad.b);ctx.moveTo(pad.l,y(100));ctx.lineTo(w-pad.r,y(100));ctx.stroke();
+  ctx.strokeStyle="#9aa6a9";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x(0),pad.t);ctx.lineTo(x(0),h-pad.b);ctx.moveTo(pad.l,y(100));ctx.lineTo(w-pad.r,y(100));ctx.stroke();
   ctx.fillStyle="#758184";ctx.font="bold 12px Arial";ctx.fillText("Swing Aggression",w-128,h-13);ctx.save();ctx.translate(15,68);ctx.rotate(-Math.PI/2);ctx.fillText("APR",0,0);ctx.restore();
   ctx.globalAlpha=.7;ctx.font="bold 11px Arial";ctx.fillText("소극적 · 높은 APR",pad.l+8,pad.t+16);ctx.fillText("적극적 · 높은 APR",w-pad.r-105,pad.t+16);ctx.globalAlpha=1;
+  // Uniform marks (pitches are already in the shrinkage); stronger APR drawn last so it sits on top.
   state.scatterPoints=[];
-  state.players.forEach(p=>{const px=x(p.swing_aggression),py=y(p.apr),r=Math.max(3,Math.min(8,Math.sqrt(p.pitches_seen)/6));ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);ctx.fillStyle=percentileColor(p.apr_percentile);ctx.fill();ctx.strokeStyle=p.batter_id===state.selected?"#17272c":"#ffffff";ctx.lineWidth=p.batter_id===state.selected?2.4:1;ctx.stroke();state.scatterPoints.push({p,x:px,y:py,r:r+4});});
+  const dot=(p,r,fill)=>{const px=x(p.swing_aggression),py=y(p.apr);ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);if(fill){ctx.fillStyle=scatterColor(p.apr_percentile);ctx.fill();ctx.strokeStyle="#ffffff";ctx.lineWidth=1.5;}else{ctx.fillStyle="#ffffff";ctx.fill();ctx.strokeStyle="#7d898c";ctx.lineWidth=1.5;}ctx.stroke();state.scatterPoints.push({p,x:px,y:py,r:r+4});return{px,py};};
+  [...state.players].filter(p=>p.batter_id!==state.selected).sort((a,b)=>Math.abs(a.apr_percentile-50)-Math.abs(b.apr_percentile-50)).forEach(p=>dot(p,5,true));
+  const sel=state.allPlayers?.find(p=>p.batter_id===state.selected);
+  if(sel&&sel.swing_aggression>=xLo&&sel.swing_aggression<=xHi&&sel.apr>=yLo&&sel.apr<=yHi){
+    const {px,py}=dot(sel,7,sel.qualified_300);ctx.beginPath();ctx.arc(px,py,7,0,Math.PI*2);ctx.strokeStyle="#17272c";ctx.lineWidth=2.4;ctx.stroke();
+    ctx.font="bold 12px Arial";const label=sel.batter_name,tw=ctx.measureText(label).width,lx=px+12+tw>w-pad.r?px-12-tw:px+12,ly=Math.max(pad.t+12,py+4);
+    ctx.lineWidth=4;ctx.strokeStyle="rgba(251,251,249,.95)";ctx.strokeText(label,lx,ly);ctx.fillStyle="#17272c";ctx.fillText(label,lx,ly);
+  }
   canvas._chart={w,h};
 }
 
