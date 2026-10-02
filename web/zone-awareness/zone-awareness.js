@@ -26,8 +26,8 @@ function diverge(value, scale=1) {
   return `rgb(${rgb.join(",")})`;
 }
 // Scatter only: same poles, grey midpoint so league-average hitters stay visible on the light canvas.
-// Savant-style table fill: white at the 50th percentile, the APR poles at 0 and 100; white ink on strong fills.
-function pctStyle(value){if(!Number.isFinite(+value))return "";const t=Math.min(1,Math.abs(+value-50)/50),rgb=mix([255,255,255],+value>=50?[217,74,86]:[70,120,184],t);return `background:rgb(${rgb.join(",")});color:${t>.55?"#fff":"#26343a"}`;}
+// Full-cell percentile fill in the Leaderboards WAR palette: white at the 50th percentile, red toward 100, blue toward 0.
+function pctStyle(value){if(!Number.isFinite(+value))return "";const t=Math.min(1,Math.abs(+value-50)/50),rgb=mix([255,255,255],+value>=50?[216,73,81]:[58,102,169],t);return `--pct-color:rgb(${rgb.join(",")})`;}
 function scatterColor(value){if(!Number.isFinite(+value))return "#aab3b6";const t=Math.min(1,Math.abs(+value-50)/50),rgb=mix([170,179,182],+value>=50?[217,74,86]:[70,120,184],t);return `rgb(${rgb.join(",")})`;}
 
 async function loadSeason(season) {
@@ -65,8 +65,10 @@ function renderLeaderboard(){
     const av=a[state.sort], bv=b[state.sort];
     return typeof av==="string" ? state.direction*av.localeCompare(bv,"ko") : state.direction*((av??-Infinity)-(bv??-Infinity));
   });
-  $("#leaderboard").innerHTML=rows.map(p=>{const q=p.qualified_300;return `<tr data-id="${p.batter_id}" class="${p.batter_id===state.selected?'selected':''}${q?'':' unqualified'}"><td>${q?p.rank:'—'}</td><td><strong>${p.batter_name}</strong><br><small>${p.team}${q?'':' · 자격 미달'}</small></td><td class="pct-cell"><span style="${q?pctStyle(p.apr_percentile):''}" title="${q?`${fmt(p.apr_percentile,0)}번째 백분위`:'자격 미달'}">${fmt(p.apr,0)}</span></td><td class="pct-cell"><span style="${q?pctStyle(p.za_percentile):''}" title="${q?`${fmt(p.za_percentile,0)}번째 백분위`:'자격 미달'}">${signed(p.za_raw,2)}</span></td><td class="sa-cell">${signed(p.swing_aggression,2)}</td></tr>`}).join("");
+  $("#leaderboard").innerHTML=rows.map(p=>{const q=p.qualified_300;return `<tr data-id="${p.batter_id}" class="${p.batter_id===state.selected?'selected':''}${q?'':' unqualified'}"><td>${q?p.rank:'—'}</td><td><strong>${p.batter_name}</strong><br><small>${p.team}${q?'':' · 자격 미달'}</small></td><td class="pct-cell" style="${q?pctStyle(p.apr_percentile):''}" title="${q?`${fmt(p.apr_percentile,0)}번째 백분위`:'자격 미달'}">${fmt(p.apr,0)}</td><td class="pct-cell" style="${q?pctStyle(p.za_percentile):''}" title="${q?`${fmt(p.za_percentile,0)}번째 백분위`:'자격 미달'}">${signed(p.za_raw,2)}</td><td class="sa-cell">${signed(p.swing_aggression,2)}</td></tr>`}).join("");
   $("#leaderboard").querySelectorAll("tr").forEach(row=>row.onclick=()=>selectPlayer(row.dataset.id));
+  // The default APR-percentile order is the APR column's order.
+  const active=state.sort==="apr_percentile"?"apr":state.sort;document.querySelectorAll(".leaderboard-card th[data-sort]").forEach(th=>{if(th.dataset.sort===active)th.setAttribute("aria-sort",state.direction>0?"ascending":"descending");else th.removeAttribute("aria-sort");});
 }
 
 function drawScatter(){
@@ -82,7 +84,7 @@ function drawScatter(){
   for(let v=Math.ceil(yLo/yStep)*yStep;v<=yHi;v+=yStep){ctx.beginPath();ctx.moveTo(pad.l,y(v));ctx.lineTo(w-pad.r,y(v));ctx.stroke();ctx.fillText(v,pad.l-31,y(v)+4);}
   ctx.strokeStyle="#9aa6a9";ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x(0),pad.t);ctx.lineTo(x(0),h-pad.b);ctx.moveTo(pad.l,y(100));ctx.lineTo(w-pad.r,y(100));ctx.stroke();
   ctx.fillStyle="#758184";ctx.font="bold 12px Arial";ctx.fillText("Swing Aggression",w-128,h-13);ctx.save();ctx.translate(15,68);ctx.rotate(-Math.PI/2);ctx.fillText("APR",0,0);ctx.restore();
-  ctx.globalAlpha=.7;ctx.font="bold 11px Arial";ctx.fillText("소극적 · 높은 APR",pad.l+8,pad.t+16);ctx.fillText("적극적 · 높은 APR",w-pad.r-105,pad.t+16);ctx.globalAlpha=1;
+  ctx.font="bold 11px Arial";ctx.lineWidth=4;ctx.strokeStyle="#ffffff";ctx.lineJoin="round";[["소극적 · 높은 APR",pad.l+8,"left"],["적극적 · 높은 APR",w-pad.r-8,"right"]].forEach(([t,lx,al])=>{ctx.textAlign=al;ctx.strokeText(t,lx,pad.t-9);ctx.fillStyle="#8b9699";ctx.fillText(t,lx,pad.t-9);});ctx.textAlign="start";
   // Uniform marks (pitches are already in the shrinkage); stronger APR drawn last so it sits on top.
   state.scatterPoints=[];
   const dot=(p,r,fill)=>{const px=x(p.swing_aggression),py=y(p.apr);ctx.beginPath();ctx.arc(px,py,r,0,Math.PI*2);if(fill){ctx.fillStyle=scatterColor(p.apr_percentile);ctx.fill();ctx.strokeStyle="#ffffff";ctx.lineWidth=1.5;}else{ctx.fillStyle="#ffffff";ctx.fill();ctx.strokeStyle="#7d898c";ctx.lineWidth=1.5;}ctx.stroke();state.scatterPoints.push({p,x:px,y:py,r:r+4});return{px,py};};
