@@ -1,6 +1,6 @@
 {
   "schema_version": 5,
-  "model_version": "za7.6-apr",
+  "model_version": "za7.7-zaplus",
   "season": 2024,
   "source": {
     "source": "data/curated/pitches/season=2024",
@@ -74,12 +74,12 @@
         "staged": {
           "mse": 0.07018654061973531,
           "swing_mse": 0.1511614460539321,
-          "take_mse": 0.0016517640117732313
+          "take_mse": 0.001651764011773231
         },
         "unsmoothed": {
           "mse": 0.06990752551036003,
-          "swing_mse": 0.1505527702494383,
-          "take_mse": 0.0016517640117732313
+          "swing_mse": 0.15055277024943828,
+          "take_mse": 0.001651764011773231
         }
       },
       "event_probability": {
@@ -169,14 +169,14 @@
           "take_mse": 0.0027397415753404385
         },
         "staged": {
-          "mse": 0.07169267531209071,
+          "mse": 0.07169267531209073,
           "swing_mse": 0.1518936296764693,
-          "take_mse": 0.0012096753707452656
+          "take_mse": 0.001209675370745266
         },
         "unsmoothed": {
-          "mse": 0.07147211897015088,
+          "mse": 0.0714721189701509,
           "swing_mse": 0.15142210744020868,
-          "take_mse": 0.0012096753707452656
+          "take_mse": 0.001209675370745266
         }
       },
       "event_probability": {
@@ -249,7 +249,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.015549752369137746
+        "weighted_adjustment_rmse": 0.015549752369137748
       },
       "calibration_applied": true
     },
@@ -262,14 +262,14 @@
         "take_mse": 0.0027397415753404385
       },
       "staged": {
-        "mse": 0.07169267531209071,
+        "mse": 0.07169267531209073,
         "swing_mse": 0.1518936296764693,
-        "take_mse": 0.0012096753707452656
+        "take_mse": 0.001209675370745266
       },
       "unsmoothed": {
-        "mse": 0.07147211897015088,
+        "mse": 0.0714721189701509,
         "swing_mse": 0.15142210744020868,
-        "take_mse": 0.0012096753707452656
+        "take_mse": 0.001209675370745266
       }
     },
     "event_probability": {
@@ -334,7 +334,7 @@
           3
         ],
         "batters_150_pitches_each": 100,
-        "pearson_r": 0.3166627145137823,
+        "pearson_r": 0.31666271451378236,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       }
     ]
@@ -388,7 +388,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.02019240537354837
+        "weighted_adjustment_rmse": 0.020192405373548366
       },
       "calibration_applied": true
     },
@@ -400,7 +400,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.017037389115207534
+        "weighted_adjustment_rmse": 0.01703738911520753
       },
       "calibration_applied": true
     }
@@ -417,14 +417,17 @@
     "apr": "APR (Approach), wRC+-style: 100 * (L + s) / L. L = league pitch-weighted dv_per_100; s = n/(n+k) * (jdv_per_100 - league jdv), re-centred so the pitch-weighted league mean is 100; k = per-pitch noise / true-talent variance among qualified hitters (pitches for reliability 0.5)",
     "apr_percentile": "midrank percentile of APR against qualified hitters (300+ pitches); every hitter gets one, unqualified hitters are flagged by qualified_300",
     "swing_aggression": "100 * mean(S - p_swing); percentage points, tendency only",
-    "za_percentile": "midrank percentile of ZA among season hitters with at least 300 eligible pitches",
+    "zj_per_100": "ZA input: 100 * mean(2 * (S - p_swing) * (2*p_zone - 1)) = 2 * za_raw; judgment margin above the league Swing policy on the same pitches",
+    "za_plus": "ZA+, wRC+-style and built like APR: 100 * (M + s) / M. M = league pitch-weighted 100 * mean((2S - 1) * (2*p_zone - 1)) (judgment margin); s = n/(n+k) * (zj_per_100 - league zj), re-centred so the pitch-weighted league mean is 100; k estimated from qualified hitters as for APR",
+    "za_percentile": "midrank percentile of ZA+ against qualified hitters (300+ pitches); every hitter gets one, unqualified hitters are flagged by qualified_300",
     "region_contributions": "100 * sum(DV in region/action) / ALL eligible player pitches; additive to dv_per_100",
     "region_jdv_contributions": "<region>_jdv_per_100, <action>_jdv_per_100, <region>_<action>_jdv_per_100: 100 * sum(decision DV in region/action) / ALL eligible player pitches; additive to jdv_per_100 (APR input before centring and shrinkage)",
+    "pa": "plate appearances: PA-ending pitches (is_pa_terminal) in the season curated pitches, as in leaderboard_vb; display only",
     "region_swing_pct": "<region>_swing_pct and <region>_expected_swing_pct: 100 * mean(S) and 100 * mean(p_swing) over the region; null when the hitter saw no pitch there"
   },
   "shrinkage": "Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.",
   "reproducibility": {
-    "python": "3.12.14",
+    "python": "3.12.3",
     "packages": {
       "numpy": "2.5.3",
       "pandas": "2.3.3",
@@ -434,10 +437,10 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "a660df2b3ab6ad5e1e517dd15eb1a7ab5167514e7ba0f066cb2376153eba42a4",
+      "zone_decision.py": "4be27777c763e077f64ff241ac3a2e88fcebcc08cf6b5d457096acbae0c996c8",
       "plate_decision_v1.py": "94a9d4804c131a3119c959870fcb8926dc4f5177671e0d63e8cda6028465beb5",
       "swing_take.py": "cc6d1afb4e4c155f848ff5452314510affe53456a4cc28dbff33d0c8abcb704b",
-      "pitch_arsenal.py": "7cc4407677fc8e7e05d8ec13453101b5622fa889b4fdae7c7fe6b0e3241204e0"
+      "pitch_arsenal.py": "1fef04925017ed52bda2ffe2df003200b221d83a1e34c11291b4912517355f67"
     }
   },
   "limitations": [
@@ -450,6 +453,11 @@
     "league_dv_per_100": 6.174685,
     "league_jdv_per_100": -0.077144,
     "shrinkage_k_pitches": 345.953005
+  },
+  "za_plus": {
+    "league_margin_per_100": 37.769801,
+    "league_zj_per_100": -0.071824,
+    "shrinkage_k_pitches": 179.041215
   },
   "batters": 298
 }
