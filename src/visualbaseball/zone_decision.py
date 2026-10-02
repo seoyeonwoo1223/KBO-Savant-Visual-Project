@@ -621,7 +621,7 @@ def write_web(root,season,pitches,report,output_root=None):
  report['apr']=apr_meta
  report['za_plus']=add_za_plus(players,100*float(np.mean([(2*r['swing']-1)*(2*r['p_zone']-1) for r in pitches])),100*float(np.mean([2*r['judgment'] for r in pitches])))
  def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
- dump(dest/'leaderboard.json',{'schema_version':6,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':len(scores),'players':players,'apr':report['apr'],'za_plus':report['za_plus'],'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'pzone_input':report['source'].get('pzone_input'),'settings':report['validation']['settings']})
+ dump(dest/'leaderboard.json',{'schema_version':6,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':sum(p['qualified_300'] for p in players),'players':players,'apr':report['apr'],'za_plus':report['za_plus'],'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'pzone_input':report['source'].get('pzone_input'),'settings':report['validation']['settings']})
  dump(dest/'teams.json',{'season':season,'teams':{p['batter_id']:p['team'] for p in players}})
  shards=defaultdict(dict)
  for p in players:
