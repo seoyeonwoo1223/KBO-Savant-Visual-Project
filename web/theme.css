@@ -53,8 +53,11 @@ a:hover { color: var(--kbo-red); }
   top: 0;
   z-index: 50;
   border-bottom: 3px solid var(--kbo-red);
+  margin: 0;
+  padding: 0;
   background: var(--kbo-navy);
   font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
 }
 .site-header__inner {
   display: flex;
@@ -94,7 +97,7 @@ a:hover { color: var(--kbo-red); }
   align-items: center;
   gap: 2px;
   min-width: 0;
-  margin-left: auto;
+  margin: 0 0 0 auto;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -131,6 +134,42 @@ main > header,
 main > .page-header,
 main > .hero,
 main > header.index-header { text-align: left; }
+
+/* 도구 제목 블록 (.page-title) — 브랜드는 공통 헤더가 보여주므로 여기서는 크기·간격만 통일합니다.
+   페이지 CSS의 header/.hero/.page-header 규칙보다 우선하도록 클래스 선택자로 겁니다
+   (movement-zones는 theme.css를 먼저 로드하므로 순서가 아니라 specificity로 이겨야 합니다). */
+main:has(> .page-title) { padding-top: 32px; }
+.page-title {
+  margin: 0 0 26px;
+  padding: 0 0 22px;
+  border-bottom: 1px solid var(--kbo-line-strong);
+  font-family: Arial, Helvetica, sans-serif;
+}
+.page-title .eyebrow {
+  margin: 0 0 8px;
+  color: var(--kbo-muted);
+  font-size: .74rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.page-title :is(h1, .search-title) {
+  margin: 0;
+  color: var(--kbo-navy);
+  font: 700 clamp(2.25rem, 4.6vw, 3.5rem)/1.04 Arial, Helvetica, sans-serif;
+  letter-spacing: -.05em;
+}
+.page-title p:not(.eyebrow, .search-title) {
+  margin: 10px 0 0;
+  color: var(--kbo-muted);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+@media (max-width: 720px) {
+  main:has(> .page-title) { padding-top: 22px; }
+  .page-title { margin-bottom: 20px; padding-bottom: 18px; }
+}
 
 input,
 select,
