@@ -68,10 +68,10 @@ ZA와 SA를 함께 설명한 뒤 군집별 DV 잔차 평균은 전 시즌에서 
 
 ## 산출물
 
-- `exports/plate_decision_v1_2022_2025.xlsx`: 통합 요약, 최종 지표, Movement 비교, 회귀, 군집·이상치, 시즌별 전체 테이블, 방법론
-- `exports/plate_decision_v1_players_YYYY.csv`: 선수별 SA·ZA·Raw DV·DV/100과 검토용 Base Stats
-- `exports/plate_decision_v1_movement_comparison_YYYY.csv`: 선수별 Expected Swing X/O와 순위 변화
-- `exports/plate_decision_v1_outliers_YYYY.csv`: residual 및 군집 거리 이상치
+- `results/plate_decision_v1_2022_2025.xlsx`: 통합 요약, 최종 지표, Movement 비교, 회귀, 군집·이상치, 시즌별 전체 테이블, 방법론
+- `results/plate_decision_v1_players_YYYY.csv`: 선수별 SA·ZA·Raw DV·DV/100과 검토용 Base Stats
+- `results/plate_decision_v1_movement_comparison_YYYY.csv`: 선수별 Expected Swing X/O와 순위 변화
+- `results/plate_decision_v1_outliers_YYYY.csv`: residual 및 군집 거리 이상치
 - `data/processed/plate_decision_v1_report_YYYY.json`: 시즌별 모델·회귀·군집 메타데이터
 
 투구별 OOF 중간 Parquet은 재현 시 로컬에서 생성되며 용량 때문에 원격 저장소에는 포함하지 않는다.
