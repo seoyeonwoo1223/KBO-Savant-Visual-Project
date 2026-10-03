@@ -37,7 +37,9 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # 지표 코드가 바뀐 날은 SBJ 8개 시즌을 포함해 전부 다시 만들어 약 50분 이상 걸립니다.
+    # 결과는 마지막 단계에서야 커밋되므로, 시간 초과는 매일 처음부터 다시 실패하는 루프가 됩니다.
+    timeout-minutes: 180
     env:
       OMP_NUM_THREADS: 2
       OPENBLAS_NUM_THREADS: 2
@@ -104,7 +106,7 @@ jobs:
           gh release upload visualbaseball-data-latest exports/visualbaseball_savant_2026_latest.xlsx --clobber
       - run: |
           git add exports/zone_decision_players_20*.csv
-          git add data web/data exports/plate_discipline_research_2026.csv exports/plate_decision_v1_players_2026.csv exports/plate_decision_v1_movement_comparison_2026.csv exports/plate_decision_v1_outliers_2026.csv
+          git add data web/data exports/plate_discipline_research_2026.csv
           if [ -f .github/refresh-completed-request ]; then
             git rm .github/refresh-completed-request
           fi

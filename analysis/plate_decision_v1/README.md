@@ -1,6 +1,6 @@
 # Plate Decision v1 — 2026 KBO 1차 브리핑
 
-> 동일 사양의 2022–2025 역사 시즌 결과는 [`HISTORICAL_2022_2025.md`](HISTORICAL_2022_2025.md)와 `exports/plate_decision_v1_2022_2025.xlsx`에 정리했다.
+> 동일 사양의 2022–2025 역사 시즌 결과는 [`HISTORICAL_2022_2025.md`](HISTORICAL_2022_2025.md)와 `results/plate_decision_v1_2022_2025.xlsx`에 정리했다.
 
 ## 범위
 
@@ -79,10 +79,10 @@
 
 ## 산출물
 
-- `exports/plate_decision_v1_2026.xlsx`: 요약, 최종 지표, Movement 비교, 회귀, 잔차·클러스터, 산점도
-- `exports/plate_decision_v1_players_2026.csv`: 선수별 SA·ZA·Raw DV·DV/100과 검토용 Base Stats
-- `exports/plate_decision_v1_movement_comparison_2026.csv`: 선수별 X/O 예측·순위 변화
-- `exports/plate_decision_v1_outliers_2026.csv`: residual/거리 이상치
+- `results/plate_decision_v1_2026.xlsx`: 요약, 최종 지표, Movement 비교, 회귀, 잔차·클러스터, 산점도
+- `results/plate_decision_v1_players_2026.csv`: 선수별 SA·ZA·Raw DV·DV/100과 검토용 Base Stats
+- `results/plate_decision_v1_movement_comparison_2026.csv`: 선수별 X/O 예측·순위 변화
+- `results/plate_decision_v1_outliers_2026.csv`: residual/거리 이상치
 - `data/processed/plate_decision_v1_report_2026.json`: 모델·회귀·클러스터 메타데이터
 - `web/data/zone_awareness/2026/`: 새 Plate Decision v1 웹 리더보드와 선수별 위치 데이터
 

@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
 
-import pyarrow as pa
 import pyarrow.parquet as pq
 
 from visualbaseball.blocking import build_blocking

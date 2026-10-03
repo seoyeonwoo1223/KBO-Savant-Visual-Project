@@ -9,13 +9,14 @@ from __future__ import annotations
 
 from collections import defaultdict
 import csv
-import json
-import math
 from pathlib import Path
 
 import numpy as np
 import pyarrow as pa
 import pyarrow.parquet as pq
+
+from .publish import write_json
+
 
 MIN_PITCHES = 300
 OUTLIER_Z = 1.5
@@ -39,10 +40,6 @@ CLUSTER_ADJUSTMENT_WEIGHT = 0.5
 
 def _pct(numerator: int | float, denominator: int | float) -> float | None:
     return round(100 * numerator / denominator, 4) if denominator else None
-
-
-def _mean(values: list[float]) -> float | None:
-    return round(float(np.mean(values)), 6) if values else None
 
 
 def _zone(row: dict) -> str:
@@ -258,26 +255,31 @@ def _mark_outliers(rows: list[dict], fields: tuple[str, ...]) -> None:
             row[f"{field}_outlier"] = bool(abs(z) >= OUTLIER_Z)
 
 
-def _assign_zscore(players: list[dict], qualified: list[dict], source: str, target: str) -> None:
+def _center_spread(qualified: list[dict], source: str) -> tuple[float, float]:
     values = np.array([row[source] for row in qualified if row.get(source) is not None], dtype=float)
     center = float(values.mean()) if len(values) else 0.0
     spread = float(values.std()) if len(values) and not np.isclose(values.std(), 0) else 1.0
+    return center, spread
+
+
+def _assign_zscore(players: list[dict], qualified: list[dict], source: str, target: str) -> None:
+    center, spread = _center_spread(qualified, source)
     for row in players:
         value = row.get(source)
         row[target] = round((float(value) - center) / spread, 6) if value is not None else None
 
 
 def _assign_plus(players: list[dict], qualified: list[dict], source: str, target: str) -> None:
-    values = np.array([row[source] for row in qualified if row.get(source) is not None], dtype=float)
-    center = float(values.mean()) if len(values) else 0.0
-    spread = float(values.std()) if len(values) and not np.isclose(values.std(), 0) else 1.0
+    center, spread = _center_spread(qualified, source)
     for row in players:
         value = row.get(source)
         row[target] = round(100 + 15 * (float(value) - center) / spread, 3) if value is not None else None
 
 
-def build_pure_zone_awareness(raw_rows: list[dict], season: int) -> tuple[list[dict], dict]:
-    """Return outcome-free, regression- and approach-cluster-adjusted hitter scores."""
+PURE_SIGNALS = ("pure_hc_residual_z", "pure_zo_residual_z", "pure_z_attack_z", "pure_o_restraint_z")
+
+
+def _pure_players(raw_rows: list[dict], season: int) -> list[dict]:
     compact = [
         _compact_pitch(row) for row in raw_rows
         if row.get("season") == season
@@ -289,9 +291,11 @@ def build_pure_zone_awareness(raw_rows: list[dict], season: int) -> tuple[list[d
     by_batter = defaultdict(list)
     for row in compact:
         by_batter[(row["batter_id"], row["batter_name"])].append(row)
-    players = [_player_row(items) for _, items in sorted(by_batter.items(), key=lambda item: item[0][1])]
-    qualified = [row for row in players if row["qualified_300"]]
+    return [_player_row(items) for _, items in sorted(by_batter.items(), key=lambda item: item[0][1])]
 
+
+def _add_swing_signals(players: list[dict], qualified: list[dict]) -> list[dict]:
+    """Regression residuals and z-scores of the swing-rate signals; returns the regressions."""
     regressions = [
         _ols(qualified, "heart swing vs chase swing", "chase_swing_pct", "heart_swing_pct"),
         _ols(qualified, "zone swing vs out-of-zone swing", "o_swing_pct", "z_swing_pct"),
@@ -308,53 +312,61 @@ def build_pure_zone_awareness(raw_rows: list[dict], season: int) -> tuple[list[d
     for row in players:
         row["out_zone_take_pct"] = round(100 - row["o_swing_pct"], 4) if row.get("o_swing_pct") is not None else None
     _assign_zscore(players, qualified, "out_zone_take_pct", "pure_o_restraint_z")
+    return regressions
 
+
+def _assign_pure_clusters(players: list[dict], qualified: list[dict]) -> dict:
+    """Four approach clusters on the standardized pure features; returns the cluster metadata."""
     usable = [row for row in qualified if all(row.get(field) is not None for field in PURE_CLUSTER_FEATURES)]
-    if len(usable) >= 8:
-        raw = np.array([[row[field] for field in PURE_CLUSTER_FEATURES] for row in usable], dtype=float)
-        means, stds = raw.mean(axis=0), raw.std(axis=0)
-        stds[stds == 0] = 1
-        standardized = (raw - means) / stds
-        labels, centroids = _kmeans(standardized, 4)
-        for row in players:
-            if not all(row.get(field) is not None for field in PURE_CLUSTER_FEATURES):
-                row["pure_cluster_id"], row["pure_cluster_distance"] = None, None
-                continue
-            vector = (np.array([row[field] for field in PURE_CLUSTER_FEATURES], dtype=float) - means) / stds
-            distances = np.linalg.norm(vector - centroids, axis=1)
-            label = int(distances.argmin())
-            row["pure_cluster_id"] = label + 1
-            row["pure_cluster_distance"] = round(float(distances[label]), 6)
-        cluster_metadata = {
-            "available": True,
-            "k": 4,
-            "features": list(PURE_CLUSTER_FEATURES),
-            "sizes": {str(i + 1): sum(row.get("pure_cluster_id") == i + 1 for row in qualified) for i in range(4)},
-            "centroids_z": [
-                {field: round(float(value), 6) for field, value in zip(PURE_CLUSTER_FEATURES, centroid)}
-                for centroid in centroids
-            ],
-        }
-    else:
+    if len(usable) < 8:
         for row in players:
             row["pure_cluster_id"], row["pure_cluster_distance"] = 1, 0.0
-        cluster_metadata = {"available": False, "k": 1, "features": list(PURE_CLUSTER_FEATURES)}
+        return {"available": False, "k": 1, "features": list(PURE_CLUSTER_FEATURES)}
+    raw = np.array([[row[field] for field in PURE_CLUSTER_FEATURES] for row in usable], dtype=float)
+    means, stds = raw.mean(axis=0), raw.std(axis=0)
+    stds[stds == 0] = 1
+    standardized = (raw - means) / stds
+    labels, centroids = _kmeans(standardized, 4)
+    for row in players:
+        if not all(row.get(field) is not None for field in PURE_CLUSTER_FEATURES):
+            row["pure_cluster_id"], row["pure_cluster_distance"] = None, None
+            continue
+        vector = (np.array([row[field] for field in PURE_CLUSTER_FEATURES], dtype=float) - means) / stds
+        distances = np.linalg.norm(vector - centroids, axis=1)
+        label = int(distances.argmin())
+        row["pure_cluster_id"] = label + 1
+        row["pure_cluster_distance"] = round(float(distances[label]), 6)
+    return {
+        "available": True,
+        "k": 4,
+        "features": list(PURE_CLUSTER_FEATURES),
+        "sizes": {str(i + 1): sum(row.get("pure_cluster_id") == i + 1 for row in qualified) for i in range(4)},
+        "centroids_z": [
+            {field: round(float(value), 6) for field, value in zip(PURE_CLUSTER_FEATURES, centroid)}
+            for centroid in centroids
+        ],
+    }
 
-    signals = ("pure_hc_residual_z", "pure_zo_residual_z", "pure_z_attack_z", "pure_o_restraint_z")
+
+def _cluster_adjust(players: list[dict], qualified: list[dict]) -> None:
+    """Subtract the weighted cluster center from each signal."""
     cluster_centers = {}
     for cluster_id in sorted({row.get("pure_cluster_id") for row in qualified if row.get("pure_cluster_id") is not None}):
         members = [row for row in qualified if row.get("pure_cluster_id") == cluster_id]
         cluster_centers[cluster_id] = {
             signal: float(np.mean([row[signal] for row in members if row.get(signal) is not None]))
-            for signal in signals
+            for signal in PURE_SIGNALS
         }
     for row in players:
-        center = cluster_centers.get(row.get("pure_cluster_id"), {signal: 0.0 for signal in signals})
-        for signal in signals:
+        center = cluster_centers.get(row.get("pure_cluster_id"), {signal: 0.0 for signal in PURE_SIGNALS})
+        for signal in PURE_SIGNALS:
             value = row.get(signal)
             row[f"{signal}_adjusted"] = round(
                 float(value - CLUSTER_ADJUSTMENT_WEIGHT * center.get(signal, 0.0)), 6
             ) if value is not None else None
+
+
+def _assign_zone_awareness(players: list[dict], qualified: list[dict]) -> None:
     _assign_zscore(players, qualified, "pure_z_attack_z_adjusted", "pure_z_attack_z_final")
     _assign_zscore(players, qualified, "pure_o_restraint_z_adjusted", "pure_o_restraint_z_final")
     for row in players:
@@ -368,6 +380,10 @@ def build_pure_zone_awareness(raw_rows: list[dict], season: int) -> tuple[list[d
     _assign_plus(players, qualified, "zone_awareness_raw", "zone_awareness_plus")
     _assign_plus(players, qualified, "z_zone_awareness_raw", "z_zone_awareness_plus")
     _assign_plus(players, qualified, "o_zone_awareness_raw", "o_zone_awareness_plus")
+
+
+def _outcome_diagnostics(players: list[dict], qualified: list[dict]) -> list[dict]:
+    """BB%/K% against the score; diagnostics only, never part of the score."""
     for row in players:
         for field in (
             "bb_vs_oza_residual", "bb_vs_oza_residual_z", "bb_vs_oza_residual_outlier",
@@ -381,6 +397,18 @@ def build_pure_zone_awareness(raw_rows: list[dict], season: int) -> tuple[list[d
         _ols(qualified, "K% vs ZA+", "zone_awareness_plus", "k_pct"),
     ]
     _mark_outliers(qualified, ("bb_vs_oza_residual", "k_vs_zza_residual"))
+    return outcome_regressions
+
+
+def build_pure_zone_awareness(raw_rows: list[dict], season: int) -> tuple[list[dict], dict]:
+    """Return outcome-free, regression- and approach-cluster-adjusted hitter scores."""
+    players = _pure_players(raw_rows, season)
+    qualified = [row for row in players if row["qualified_300"]]
+    regressions = _add_swing_signals(players, qualified)
+    cluster_metadata = _assign_pure_clusters(players, qualified)
+    _cluster_adjust(players, qualified)
+    _assign_zone_awareness(players, qualified)
+    outcome_regressions = _outcome_diagnostics(players, qualified)
     metadata = {
         "metric": "Outcome-free Zone Awareness beta",
         "contact_or_in_play_used": False,
@@ -498,9 +526,7 @@ def build_plate_discipline(root: Path, season: int = 2026, source: Path | None =
         "clustering": clusters,
         "pure_zone_awareness_beta": pure_metadata,
     }
-    (processed / "plate_discipline_research.json").write_text(
-        json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
+    write_json(processed / "plate_discipline_research.json", metadata, compact=False)
     return len(compact), len(players)
 
 

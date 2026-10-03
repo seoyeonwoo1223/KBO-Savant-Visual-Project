@@ -3,9 +3,7 @@ import json
 
 from visualbaseball.curated import write_game
 from visualbaseball.movement_calibration import LOCATION_COEFFICIENTS, calibrate
-from visualbaseball.pitch_arsenal import (
-    MIN_PERCENTILE_PITCHES, _load_park_factors, _minor_merges, _pitch_code, _resolved_batter_stance, build_pitch_arsenal,
-)
+from visualbaseball.pitch_arsenal import MIN_PERCENTILE_PITCHES, _minor_merges, build_pitch_arsenal
 
 
 def _write_curated_pitches(root: Path) -> None:
@@ -66,29 +64,6 @@ def test_pitch_arsenal_builds_adjusted_profiles(tmp_path: Path):
     # Both types have at most 10 pitches, so there is no main type to merge into.
     assert four_seam["merged_from"] == [] and sweeper["minor"] is False
     assert sweeper["rates"] == {"zone_pct": 0.0, "chase_pct": 100.0, "swstr_pct": 100.0}
-
-
-def test_legacy_duplicate_headers_use_fixed_pitch_order():
-    root = Path(__file__).parents[1]
-    factors = _load_park_factors(root, 2022)
-    assert factors[("고척", "FF")] == (-0.226, -8.394)
-    assert factors[("고척", "SL")] == (-4.434, -9.319)
-
-
-def test_video_review_pitch_type_override():
-    row = {
-        "pitch_id": "20260708SKOB0-20260708SKOB0-037-01",
-        "pitch_type_code": "FS",
-        "pitch_type_kr": "포크",
-    }
-    assert _pitch_code(row) == "FC"
-
-
-def test_batter_stance_uses_canonical_hand_and_release_matchup():
-    assert _resolved_batter_stance({"batter_id": "1"}, {"1": "L"}) == "L"
-    assert _resolved_batter_stance({"batter_id": "2", "release_x_50": -55}, {"2": "S"}) == "L"
-    assert _resolved_batter_stance({"batter_id": "2", "release_x_50": 55}, {"2": "S"}) == "R"
-    assert _resolved_batter_stance({"batter_id": "2", "batter_stance": "R", "release_x_50": -55}, {"2": "S"}) == "R"
 
 
 def _pitch(pitcher, stadium, day, hb, ivb, px=0.0, pz=2.5):

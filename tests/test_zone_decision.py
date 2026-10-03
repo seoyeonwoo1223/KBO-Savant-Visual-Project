@@ -1,7 +1,7 @@
 import inspect
 import numpy as np
 from visualbaseball.zone_decision import decision_value, region, outcome, RunExpectancy, profile_summary, REGIONS, encode
-from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, value_based_zone_awareness, add_apr, EVENTS
+from visualbaseball.zone_decision import reliable_halves, walk_state, fit_predict, zone_awareness, add_apr, EVENTS
 from visualbaseball.zone_decision import cell_summary, judgment_plane_location, pzone_fields, PZONE_ABS, pitcher_throws
 from visualbaseball.zone_decision import reported_location_disagrees, PLANE_Y_FT, FRONT_PLANE_Y_FT, add_za_plus
 from visualbaseball.curated import CM_PER_FOOT, _at_plane
@@ -16,13 +16,12 @@ def test_decision_value_credits_the_actual_choice():
  assert take[0]>0 and swing[0]<0
 
 
-def test_zone_awareness_is_outcome_independent_and_value_version_is_retained():
+def test_zone_awareness_is_outcome_independent():
  items=[{'swing':1,'p_swing':.4,'p_zone':.8,'judgment':.36,'delta_v':.4,'raw_run_value':2},
         {'swing':0,'p_swing':.3,'p_zone':.2,'judgment':.18,'delta_v':-.2,'raw_run_value':-1}]
  assert zone_awareness(items)==27
  changed=[{**r,'delta_v':-99*r['delta_v'],'raw_run_value':999} for r in items]
  assert zone_awareness(changed)==zone_awareness(items)
- assert value_based_zone_awareness(changed)!=value_based_zone_awareness(items)
 
 
 def test_sa_dv_stay_unchanged_and_apr_is_wrc_plus_style():

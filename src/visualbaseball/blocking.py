@@ -3,7 +3,6 @@ from __future__ import annotations
 
 from collections import defaultdict
 from hashlib import sha1
-import json
 import math
 from pathlib import Path
 from typing import Any
@@ -13,6 +12,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 from .curated import load_rows
+from .publish import write_json
 
 
 PITCH_TYPES = ("FF", "FT", "SI", "FC", "SL", "ST", "CU", "CH", "FS", "UN")
@@ -137,20 +137,7 @@ def _auc(probabilities: np.ndarray, target: np.ndarray) -> float:
     return float((ranks[target == 1].sum() - positives * (positives + 1) / 2) / (positives * negatives))
 
 
-def build_blocking(root: Path, season: int = 2026) -> Path:
-    """Build cross-fitted BAA results and browser-friendly JSON."""
-    pitches = load_rows(root, "pitches", season)
-    games = load_rows(root, "games", season)
-    game_lookup = {str(game.get("game_id")): game for game in games}
-    opportunities = [row for row in pitches if int(row.get("season") or season) == season and _opportunity(row)]
-    output = root / "web" / "data" / "blocking" / str(season)
-    output.mkdir(parents=True, exist_ok=True)
-    if not opportunities:
-        payload = {"schema_version": 1, "season": season, "status": "unavailable", "players": [], "details": {}}
-        (output / "leaderboard.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        return output / "leaderboard.json"
-
-    probabilities, actual = _cross_fitted_probabilities(opportunities)
+def _detail_rows(season: int, opportunities: list[dict], probabilities, actual, game_lookup: dict) -> list[dict[str, Any]]:
     detail_rows: list[dict[str, Any]] = []
     for row, probability, outcome in zip(opportunities, probabilities, actual):
         game = game_lookup.get(str(row.get("game_id")), {})
@@ -164,6 +151,57 @@ def build_blocking(root: Path, season: int = 2026) -> Path:
             "expected_pbwp": float(probability), "actual_pbwp": int(outcome), "block_value": contribution,
             "difficulty": _difficulty(float(probability)),
         })
+    return detail_rows
+
+
+def _catcher_summary(catcher_id: str, rows: list[dict[str, Any]]) -> dict:
+    opportunities_count = len(rows)
+    expected = sum(row["expected_pbwp"] for row in rows)
+    actual_count = sum(row["actual_pbwp"] for row in rows)
+    baa = expected - actual_count
+    difficulty_counts = {name: sum(row["difficulty"] == name for row in rows) for name in ("easy", "medium", "tough")}
+    difficulty_values = {name: sum(row["block_value"] for row in rows if row["difficulty"] == name) for name in difficulty_counts}
+    teams = sorted({str(row.get("team") or "") for row in rows if row.get("team")})
+    return {
+        "catcher_id": catcher_id, "catcher_name": rows[0].get("catcher_name") or catcher_id,
+        "team": "/".join(teams), "opportunities": opportunities_count,
+        "blocking_runs": _round(baa * .25, 1), "baa": _round(baa, 1),
+        "actual_pbwp": int(actual_count), "estimated_pbwp": _round(expected, 1),
+        "baa_per_game": _round(baa / opportunities_count * 40, 2),
+        "qualified": opportunities_count >= QUALIFIED_OPPORTUNITIES,
+        "difficulty_pct": {name: _round(count / opportunities_count * 100, 1) for name, count in difficulty_counts.items()},
+        "difficulty_baa": {name: _round(value, 1) for name, value in difficulty_values.items()},
+    }
+
+
+def _catcher_detail(rows: list[dict[str, Any]]) -> dict:
+    """Location x difficulty x pitch type cells for the catcher detail chart."""
+    cells: dict[tuple[int, int, str, str], list[dict[str, Any]]] = defaultdict(list)
+    for row in rows:
+        x_bin = max(-3, min(2, math.floor(row["px"] / .5)))
+        z_bin = max(0, min(5, math.floor(row["pz"] / .75)))
+        cells[(x_bin, z_bin, row["difficulty"], str(row.get("pitch_type_code") or "UN"))].append(row)
+    return {
+        "cells": [{"x": key[0], "z": key[1], "difficulty": key[2], "pitch_type": key[3], "opportunities": len(values), "baa": _round(sum(v["block_value"] for v in values), 2), "risk": _round(sum(v["expected_pbwp"] for v in values) / len(values), 4)} for key, values in sorted(cells.items())],
+        "pitch_types": sorted({str(row.get("pitch_type_code") or "UN") for row in rows}),
+    }
+
+
+def build_blocking(root: Path, season: int = 2026) -> Path:
+    """Build cross-fitted BAA results and browser-friendly JSON."""
+    pitches = load_rows(root, "pitches", season)
+    games = load_rows(root, "games", season)
+    game_lookup = {str(game.get("game_id")): game for game in games}
+    opportunities = [row for row in pitches if int(row.get("season") or season) == season and _opportunity(row)]
+    output = root / "web" / "data" / "blocking" / str(season)
+    output.mkdir(parents=True, exist_ok=True)
+    if not opportunities:
+        payload = {"schema_version": 1, "season": season, "status": "unavailable", "players": [], "details": {}}
+        write_json(output / "leaderboard.json", payload, compact=False)
+        return output / "leaderboard.json"
+
+    probabilities, actual = _cross_fitted_probabilities(opportunities)
+    detail_rows = _detail_rows(season, opportunities, probabilities, actual, game_lookup)
 
     processed = root / "data" / "metrics" / "blocking" / str(season) / "pitches.parquet"
     processed.parent.mkdir(parents=True, exist_ok=True)
@@ -173,35 +211,8 @@ def build_blocking(root: Path, season: int = 2026) -> Path:
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in detail_rows:
         grouped[row["catcher_id"]].append(row)
-    players, details = [], {}
-    for catcher_id, rows in grouped.items():
-        opportunities_count = len(rows)
-        expected = sum(row["expected_pbwp"] for row in rows)
-        actual_count = sum(row["actual_pbwp"] for row in rows)
-        baa = expected - actual_count
-        difficulty_counts = {name: sum(row["difficulty"] == name for row in rows) for name in ("easy", "medium", "tough")}
-        difficulty_values = {name: sum(row["block_value"] for row in rows if row["difficulty"] == name) for name in difficulty_counts}
-        teams = sorted({str(row.get("team") or "") for row in rows if row.get("team")})
-        player = {
-            "catcher_id": catcher_id, "catcher_name": rows[0].get("catcher_name") or catcher_id,
-            "team": "/".join(teams), "opportunities": opportunities_count,
-            "blocking_runs": _round(baa * .25, 1), "baa": _round(baa, 1),
-            "actual_pbwp": int(actual_count), "estimated_pbwp": _round(expected, 1),
-            "baa_per_game": _round(baa / opportunities_count * 40, 2),
-            "qualified": opportunities_count >= QUALIFIED_OPPORTUNITIES,
-            "difficulty_pct": {name: _round(count / opportunities_count * 100, 1) for name, count in difficulty_counts.items()},
-            "difficulty_baa": {name: _round(value, 1) for name, value in difficulty_values.items()},
-        }
-        players.append(player)
-        cells: dict[tuple[int, int, str, str], list[dict[str, Any]]] = defaultdict(list)
-        for row in rows:
-            x_bin = max(-3, min(2, math.floor(row["px"] / .5)))
-            z_bin = max(0, min(5, math.floor(row["pz"] / .75)))
-            cells[(x_bin, z_bin, row["difficulty"], str(row.get("pitch_type_code") or "UN"))].append(row)
-        details[catcher_id] = {
-            "cells": [{"x": key[0], "z": key[1], "difficulty": key[2], "pitch_type": key[3], "opportunities": len(values), "baa": _round(sum(v["block_value"] for v in values), 2), "risk": _round(sum(v["expected_pbwp"] for v in values) / len(values), 4)} for key, values in sorted(cells.items())],
-            "pitch_types": sorted({str(row.get("pitch_type_code") or "UN") for row in rows}),
-        }
+    players = [_catcher_summary(catcher_id, rows) for catcher_id, rows in grouped.items()]
+    details = {catcher_id: _catcher_detail(rows) for catcher_id, rows in grouped.items()}
     players.sort(key=lambda row: (-row["baa"], -row["opportunities"], row["catcher_name"]))
     for rank, player in enumerate(players, 1):
         player["rank"] = rank
@@ -225,5 +236,5 @@ def build_blocking(root: Path, season: int = 2026) -> Path:
             "brier": _round(float(np.mean((probabilities - actual) ** 2)), 5),
         },
     }
-    (output / "leaderboard.json").write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    write_json(output / "leaderboard.json", payload)
     return output / "leaderboard.json"

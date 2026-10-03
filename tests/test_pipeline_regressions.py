@@ -161,12 +161,8 @@ def test_web_metric_state_rebuilds_when_a_player_shard_is_missing(tmp_path, name
     assert needs_build(tmp_path, SEASON, name)
 
 
-@pytest.mark.parametrize(
-    ("name", "report"),
-    (("zone_decision", "data/metrics/zone_awareness/2026/report.json"),
-     ("plate_decision", "data/metrics/plate_decision/2026/plate_decision_v1_report_2026.json")),
-)
-def test_zone_web_metric_state_rebuilds_when_a_player_shard_is_missing(tmp_path, name, report):
+def test_zone_web_metric_state_rebuilds_when_a_player_shard_is_missing(tmp_path):
+    name, report = "zone_decision", "data/metrics/zone_awareness/2026/report.json"
     _game(tmp_path, "20260328HTSK0", "2026-03-28")
     _touch(tmp_path / report)
     output = tmp_path / "web/data/zone_awareness/2026"

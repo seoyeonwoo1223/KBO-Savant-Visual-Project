@@ -38,7 +38,7 @@ from visualbaseball import plate_decision_v1 as old
 from visualbaseball import zone_decision as zd
 from visualbaseball.curated import CM_PER_FOOT, load_rows
 from visualbaseball.movement_calibration import calibrate
-from visualbaseball.pitch_arsenal import _pitch_code
+from visualbaseball.pitch_types import pitch_code
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "analysis" / "zone_decision"))
@@ -131,7 +131,7 @@ def _robust_z(values: pd.Series, groups: pd.Series, floor: float, minimum: int =
 def pitch_frame(season: int) -> pd.DataFrame:
     rows = load_rows(ROOT, "pitches", season, columns=COLUMNS)
     d = pd.DataFrame(rows)
-    d["code"] = [_pitch_code(r) for r in rows]
+    d["code"] = [pitch_code(r) for r in rows]
     for c in COLUMNS[7:-1]:
         if c != "trajectory_status":
             d[c] = pd.to_numeric(d[c], errors="coerce")

@@ -1,40 +1,26 @@
-"""Cross-fitted KBO swing-decision research metrics.
+"""Shared plate-decision model components used by zone_decision.
 
-The public outputs are Swing Aggression, neutral Zone Awareness (raw and
-percentile), cumulative Decision Value, and Decision Value per 100 pitches.
-Supporting rates, regressions, residuals, and clusters are diagnostics only.
+The p_swing / p_zone classifier and RV regressor settings, feature encoders and the
+park-adjusted movement path (``_movement_adjust``, read only when the season's
+park-adjustment workbook exists). The cross-fitted v1 research pipeline that used to
+live here was superseded by zone_decision for every published season and removed.
 """
 from __future__ import annotations
 
-from collections import defaultdict
 import csv
-import json
 from pathlib import Path
 
 import numpy as np
-import pyarrow as pa
-import pyarrow.parquet as pq
-from sklearn.cluster import KMeans
+from openpyxl import load_workbook
 from sklearn.ensemble import HistGradientBoostingClassifier, HistGradientBoostingRegressor
-from sklearn.metrics import (
-    adjusted_rand_score,
-    brier_score_loss,
-    log_loss,
-    roc_auc_score,
-    silhouette_score,
-)
-from sklearn.model_selection import GroupKFold
 
-from .pitch_arsenal import PARK_FACTOR_CODE, _load_park_factors, _pitch_code, _stadium
-from .zone_awareness_v2 import _team_history
+from .curated import _number
+from .pitch_types import pitch_code
 
 
-MIN_PITCHES = 300
-N_SPLITS = 5
 RANDOM_STATE = 20260903
-OUTLIER_Z = 2.0
-REGIONS = ("heart", "shadow", "chase", "waste")
-GRID_STEP = 0.5
+PARK_FACTOR_CODES = ("FF", "SI", "FC", "SL", "CH", "CU", "FS")
+PARK_FACTOR_CODE = {"FT": "SI", "ST": "SL"}
 
 BASE_NUMERIC = (
     "x_relative", "z_relative", "balls_before", "strikes_before", "outs_before",
@@ -70,21 +56,57 @@ def _safe_float(value) -> float:
         return np.nan
 
 
-def _encode(rows: list[dict], numeric: tuple[str, ...]) -> tuple[np.ndarray, dict]:
-    columns = [np.array([_safe_float(row.get(field)) for row in rows]) for field in numeric]
-    mappings = {}
-    for field in CATEGORICAL:
-        values = sorted({str(row.get(field) or "") for row in rows})
-        mapping = {value: index for index, value in enumerate(values)}
-        mappings[field] = mapping
-        columns.append(np.array([mapping[str(row.get(field) or "")] for row in rows], dtype=float))
-    return np.column_stack(columns), mappings
-
-
 def _encode_numeric(rows: list[dict], fields: tuple[str, ...]) -> np.ndarray:
     return np.column_stack([
         np.array([_safe_float(row.get(field)) for row in rows], dtype=float) for field in fields
     ])
+
+
+def _stadium(value) -> str:
+    name = str(value or "").replace(" ", "")
+    aliases = (
+        ("고척", "고척"), ("광주", "광주"), ("대구", "대구"),
+        ("대전", "대전"), ("한밭", "대전"), ("문학", "문학"), ("인천", "문학"),
+        ("사직", "사직"), ("수원", "수원"), ("잠실", "잠실"), ("창원", "창원"),
+    )
+    return next((canonical for token, canonical in aliases if token in name), name)
+
+
+def _load_park_factors(root: Path, season: int) -> dict[tuple[str, str], tuple[float, float]]:
+    """Return {(stadium, pitch code): (HB offset cm, IVB offset cm)}.
+
+    The 2022-25 workbooks use a fixed seven-column pitch order.  Some supplied
+    header cells contain duplicate labels, so positions are used deliberately;
+    the intact 2023 and 2025 files establish the shared order.
+    """
+    source = root / "data" / "park_adjustments" / f"{season}_VB_Park_Adjustment_v1.0.xlsx"
+    if not source.exists():
+        raise FileNotFoundError(f"Park adjustment workbook is missing: {source}")
+    workbook = load_workbook(source, read_only=True, data_only=True)
+    factors: dict[tuple[str, str], list[float | None]] = {}
+    try:
+        if season >= 2026:
+            sheet = workbook.active
+            iterator = sheet.iter_rows(values_only=True)
+            headers = [str(value or "") for value in next(iterator)]
+            for values in iterator:
+                row = dict(zip(headers, values))
+                code = str(row.get("Pitch") or "").strip()
+                hb, ivb = _number(row.get("HB_Offset")), _number(row.get("IVB_Offset"))
+                if code in PARK_FACTOR_CODES and hb is not None and ivb is not None:
+                    factors[(_stadium(row.get("Stadium")), code)] = [hb, ivb]
+        else:
+            for metric, index in (("IVB", 1), ("HB", 0)):
+                sheet = next(sheet for sheet in workbook.worksheets if metric in sheet.title.upper())
+                for values in sheet.iter_rows(min_row=2, values_only=True):
+                    stadium = _stadium(values[0])
+                    for column, code in enumerate(PARK_FACTOR_CODES, 1):
+                        value = _number(values[column] if column < len(values) else None)
+                        if value is not None:
+                            factors.setdefault((stadium, code), [None, None])[index] = value
+    finally:
+        workbook.close()
+    return {key: (float(value[0]), float(value[1])) for key, value in factors.items() if None not in value}
 
 
 def _movement_adjust(rows: list[dict], root: Path, season: int) -> dict:
@@ -97,7 +119,7 @@ def _movement_adjust(rows: list[dict], root: Path, season: int) -> dict:
         if np.isnan(hb) or np.isnan(ivb):
             continue
         available += 1
-        code = PARK_FACTOR_CODE.get(_pitch_code(row), _pitch_code(row))
+        code = PARK_FACTOR_CODE.get(pitch_code(row), pitch_code(row))
         offset = factors.get((_stadium(row.get("stadium")), code))
         if offset is None:
             continue
@@ -112,42 +134,6 @@ def _movement_adjust(rows: list[dict], root: Path, season: int) -> dict:
     }
 
 
-def _valid_rows(source: Path, season: int) -> tuple[list[dict], dict]:
-    rows, excluded = [], defaultdict(int)
-    for row in pq.read_table(source).to_pylist():
-        if int(row.get("season") or season) != season:
-            excluded["other_season"] += 1
-            continue
-        if row.get("decision_type") not in {"Swing", "Take"}:
-            excluded["unsupported_action"] += 1
-            continue
-        required = ("x_relative", "z_relative", "raw_run_value", "game_id", "batter_id", "batter_name")
-        if any(row.get(field) is None or row.get(field) == "" for field in required):
-            excluded["missing_required"] += 1
-            continue
-        rows.append(row)
-    return rows, dict(excluded)
-
-
-def _crossfit_probability(
-    matrix: np.ndarray, target: np.ndarray, groups: np.ndarray, categorical_start: int,
-) -> np.ndarray:
-    result = np.full(len(target), np.nan)
-    for train, test in GroupKFold(N_SPLITS).split(matrix, target, groups):
-        model = _classifier(categorical_start).fit(matrix[train], target[train])
-        result[test] = model.predict_proba(matrix[test])[:, list(model.classes_).index(1)]
-    return np.clip(result, 1e-6, 1 - 1e-6)
-
-
-def _crossfit_pzone(rows: list[dict], groups: np.ndarray) -> np.ndarray:
-    matrix = _encode_numeric(rows, PZONE_NUMERIC)
-    result = np.full(len(rows), np.nan)
-    splitter = GroupKFold(N_SPLITS)
-    for train, test in splitter.split(matrix, np.zeros(len(rows)), groups):
-        result[test] = predict_pzone([rows[index] for index in train], [rows[index] for index in test])
-    return np.clip(result, 1e-6, 1 - 1e-6)
-
-
 def predict_pzone(train: list[dict], test: list[dict], fields: tuple[str, ...] = PZONE_NUMERIC) -> np.ndarray:
     """Fit the take-only CalledStrike vs Ball/HBP model and score held-out pitches."""
     take = [row for row in train if row["decision_type"] == "Take"]
@@ -155,290 +141,6 @@ def predict_pzone(train: list[dict], test: list[dict], fields: tuple[str, ...] =
     model = _classifier().fit(_encode_numeric(take, fields), target)
     probability = model.predict_proba(_encode_numeric(test, fields))[:, list(model.classes_).index(1)]
     return np.clip(probability, 1e-6, 1 - 1e-6)
-
-
-def _crossfit_action_values(
-    matrix: np.ndarray, actions: np.ndarray, target: np.ndarray, groups: np.ndarray,
-    categorical_start: int,
-) -> tuple[np.ndarray, np.ndarray]:
-    swing_value, take_value = np.full(len(actions), np.nan), np.full(len(actions), np.nan)
-    for train, test in GroupKFold(N_SPLITS).split(matrix, actions, groups):
-        swing_train, take_train = train[actions[train] == 1], train[actions[train] == 0]
-        swing_model = _regressor(categorical_start).fit(matrix[swing_train], target[swing_train])
-        take_model = _regressor(categorical_start).fit(matrix[take_train], target[take_train])
-        swing_value[test] = swing_model.predict(matrix[test])
-        take_value[test] = take_model.predict(matrix[test])
-    return swing_value, take_value
-
-
-def _bootstrap_logloss_improvement(
-    y: np.ndarray, p_x: np.ndarray, p_o: np.ndarray, groups: np.ndarray, iterations: int = 1000,
-) -> tuple[float, float]:
-    losses_x = -(y * np.log(p_x) + (1 - y) * np.log(1 - p_x))
-    losses_o = -(y * np.log(p_o) + (1 - y) * np.log(1 - p_o))
-    deltas = losses_x - losses_o
-    unique = np.unique(groups)
-    group_sums = np.array([deltas[groups == group].sum() for group in unique])
-    group_counts = np.array([(groups == group).sum() for group in unique])
-    rng = np.random.default_rng(RANDOM_STATE)
-    selected = rng.integers(0, len(unique), size=(iterations, len(unique)))
-    samples = group_sums[selected].sum(axis=1) / group_counts[selected].sum(axis=1)
-    low, high = np.quantile(samples, [0.025, 0.975])
-    return float(low), float(high)
-
-
-def _model_metrics(y: np.ndarray, probability: np.ndarray) -> dict:
-    return {
-        "log_loss": round(float(log_loss(y, probability)), 8),
-        "brier": round(float(brier_score_loss(y, probability)), 8),
-        "roc_auc": round(float(roc_auc_score(y, probability)), 8),
-        "mean_expected_swing_pct": round(float(100 * probability.mean()), 6),
-        "sd_expected_swing_pct": round(float(100 * probability.std()), 6),
-    }
-
-
-def _region(row: dict) -> str:
-    distance = max(abs(float(row["x_relative"])), abs(float(row["z_relative"])))
-    if distance <= 2 / 3:
-        return "heart"
-    if distance <= 4 / 3:
-        return "shadow"
-    if distance <= 2:
-        return "chase"
-    return "waste"
-
-
-def _pct(items: list[dict], predicate) -> float | None:
-    return round(100 * sum(predicate(item) for item in items) / len(items), 6) if items else None
-
-
-def _decision_value(items: list[dict]) -> tuple[float, float]:
-    """Return cumulative DV first and playing-time-neutral DV/100 second."""
-    raw = float(np.sum([item["dv"] for item in items]))
-    return round(raw, 6), round(100 * raw / len(items), 6)
-
-
-def _ols(rows: list[dict], x_field: str, y_field: str, residual_field: str | None = None) -> dict:
-    usable = [row for row in rows if row.get(x_field) is not None and row.get(y_field) is not None]
-    x = np.array([row[x_field] for row in usable], dtype=float)
-    y = np.array([row[y_field] for row in usable], dtype=float)
-    if len(usable) < 3 or np.isclose(x.var(), 0):
-        return {"x": x_field, "y": y_field, "n": len(usable), "available": False}
-    slope, intercept = np.polyfit(x, y, 1)
-    fitted = intercept + slope * x
-    residual = y - fitted
-    r2 = 0.0 if np.isclose(y.var(), 0) else 1 - float((residual ** 2).sum() / ((y - y.mean()) ** 2).sum())
-    if residual_field:
-        for row, value in zip(usable, residual):
-            row[residual_field] = round(float(value), 6)
-    return {
-        "x": x_field, "y": y_field, "n": len(usable), "available": True,
-        "pearson_r": round(float(np.corrcoef(x, y)[0, 1]), 8),
-        "r_squared": round(r2, 8), "slope": round(float(slope), 8),
-        "intercept": round(float(intercept), 8),
-    }
-
-
-def _rank(values: list[float]) -> list[int]:
-    order = np.argsort(-np.asarray(values), kind="stable")
-    ranks = np.empty(len(values), dtype=int)
-    ranks[order] = np.arange(1, len(values) + 1)
-    return ranks.tolist()
-
-
-def _player_tables(rows: list[dict]) -> tuple[list[dict], list[dict]]:
-    grouped = defaultdict(list)
-    for row in rows:
-        grouped[(str(row["batter_id"]), str(row["batter_name"]))].append(row)
-    players, movement = [], []
-    for (_, _), items in sorted(grouped.items(), key=lambda pair: pair[0][1]):
-        first, n = items[0], len(items)
-        in_zone = [item for item in items if abs(float(item["x_relative"])) <= 1 and abs(float(item["z_relative"])) <= 1]
-        out_zone = [item for item in items if not (abs(float(item["x_relative"])) <= 1 and abs(float(item["z_relative"])) <= 1)]
-        by_region = {region: [item for item in items if item["region"] == region] for region in REGIONS}
-        meatball = [item for item in items if max(abs(float(item["x_relative"])), abs(float(item["z_relative"]))) <= 1 / 3]
-        heart_only = [
-            item for item in items
-            if 1 / 3 < max(abs(float(item["x_relative"])), abs(float(item["z_relative"]))) <= 2 / 3
-        ]
-        swing_pct = _pct(items, lambda item: item["swing"] == 1)
-        z_swing = _pct(in_zone, lambda item: item["swing"] == 1)
-        o_swing = _pct(out_zone, lambda item: item["swing"] == 1)
-        raw_dv, dv_per_100 = _decision_value(items)
-        player = {
-            "season": int(first["season"]), "batter_id": str(first["batter_id"]),
-            "batter_name": str(first["batter_name"]), "team": _team_history(items),
-            "batter_stance": first.get("batter_stance"), "pitches_seen": n,
-            "qualified_300": n >= MIN_PITCHES,
-            "swing_aggression": round(100 * float(np.mean([item["swing"] - item["p_swing"] for item in items])), 6),
-            "za_raw": round(100 * float(np.mean([item["za"] for item in items])), 6),
-            "za_percentile": None,
-            "raw_dv": raw_dv, "dv_per_100": dv_per_100,
-            "swing_pct": swing_pct, "z_swing_pct": z_swing, "o_swing_pct": o_swing,
-            "z_minus_o_swing": round(z_swing - o_swing, 6) if z_swing is not None and o_swing is not None else None,
-            "heart_swing_pct": _pct(by_region["heart"], lambda item: item["swing"] == 1),
-            "meatball_swing_pct": _pct(meatball, lambda item: item["swing"] == 1),
-            "heart_only_swing_pct": _pct(heart_only, lambda item: item["swing"] == 1),
-            "heart_only_pitches": len(heart_only), "meatball_pitches": len(meatball),
-            "shadow_swing_pct": _pct(by_region["shadow"], lambda item: item["swing"] == 1),
-            "chase_swing_pct": _pct(by_region["chase"], lambda item: item["swing"] == 1),
-            "waste_swing_pct": _pct(by_region["waste"], lambda item: item["swing"] == 1),
-        }
-        players.append(player)
-        movement.append({
-            "season": int(first["season"]), "batter_id": str(first["batter_id"]),
-            "batter_name": str(first["batter_name"]), "team": player["team"], "pitches_seen": n,
-            "qualified_300": n >= MIN_PITCHES,
-            "actual_swing_pct": swing_pct,
-            "expected_swing_x_pct": round(100 * float(np.mean([item["p_swing_x"] for item in items])), 6),
-            "expected_swing_o_pct": round(100 * float(np.mean([item["p_swing_o"] for item in items])), 6),
-        })
-    qualified = [row for row in players if row["qualified_300"]]
-    za_values = np.array([row["za_raw"] for row in qualified])
-    for row in players:
-        row["za_percentile"] = round(100 * (np.sum(za_values < row["za_raw"]) + 0.5 * np.sum(za_values == row["za_raw"])) / len(za_values), 3) if len(za_values) else None
-    qualified_movement = [row for row in movement if row["qualified_300"]]
-    ranks_x = _rank([row["expected_swing_x_pct"] for row in qualified_movement])
-    ranks_o = _rank([row["expected_swing_o_pct"] for row in qualified_movement])
-    for row, rank_x, rank_o in zip(qualified_movement, ranks_x, ranks_o):
-        row["rank_x"], row["rank_o"], row["rank_change_o_minus_x"] = rank_x, rank_o, rank_o - rank_x
-    return players, movement
-
-
-def _cluster_residuals(qualified: list[dict], residual_fields: list[str]) -> dict:
-    matrix = np.array([[row[field] for field in residual_fields] for row in qualified], dtype=float)
-    means, stds = matrix.mean(axis=0), matrix.std(axis=0)
-    stds[stds == 0] = 1
-    standardized = (matrix - means) / stds
-    candidates = {}
-    for k in range(2, min(6, len(qualified) - 1) + 1):
-        labels = KMeans(n_clusters=k, random_state=RANDOM_STATE, n_init=20).fit_predict(standardized)
-        candidates[k] = float(silhouette_score(standardized, labels))
-    best_k = max(candidates, key=candidates.get)
-    model = KMeans(n_clusters=best_k, random_state=RANDOM_STATE, n_init=50).fit(standardized)
-    distances = np.linalg.norm(standardized - model.cluster_centers_[model.labels_], axis=1)
-    cutoffs = {
-        cluster: float(np.quantile(distances[model.labels_ == cluster], 0.95))
-        for cluster in range(best_k)
-    }
-    distance_outliers = np.array([
-        distance >= cutoffs[int(label)] for label, distance in zip(model.labels_, distances)
-    ])
-    residual_outliers = np.any(np.abs(standardized) >= OUTLIER_Z, axis=1)
-    return {
-        "best_k": best_k, "candidates": candidates, "model": model,
-        "standardized": standardized, "distances": distances, "cutoffs": cutoffs,
-        "distance_outliers": distance_outliers, "residual_outliers": residual_outliers,
-        "any_outliers": distance_outliers | residual_outliers,
-    }
-
-
-def _diagnostics(players: list[dict]) -> tuple[list[dict], dict, list[dict]]:
-    qualified = [row for row in players if row["qualified_300"]]
-    residual_specs = (
-        ("z_swing_pct", "z_swing_residual"), ("o_swing_pct", "o_swing_residual"),
-        ("heart_swing_pct", "heart_swing_residual"), ("meatball_swing_pct", "meatball_swing_residual"),
-        ("waste_swing_pct", "waste_swing_residual"), ("shadow_swing_pct", "shadow_swing_residual"),
-    )
-    regressions = [_ols(qualified, "za_raw", y, residual) for y, residual in residual_specs]
-    heart_only_regression = _ols(
-        qualified, "za_raw", "heart_only_swing_pct", "heart_only_swing_residual"
-    )
-    heart_only_regression["diagnostic_spec"] = "separated Heart-only sensitivity"
-    regressions.append(heart_only_regression)
-    regressions += [
-        _ols(qualified, "swing_aggression", "swing_pct"),
-        _ols(qualified, "za_raw", "dv_per_100"),
-        _ols(qualified, "swing_aggression", "dv_per_100"),
-    ]
-    residual_fields = [residual for _, residual in residual_specs]
-    official = _cluster_residuals(qualified, residual_fields)
-    separated_fields = [
-        "heart_only_swing_residual" if field == "heart_swing_residual" else field
-        for field in residual_fields
-    ]
-    separated = _cluster_residuals(qualified, separated_fields)
-    best_k, candidates, model = official["best_k"], official["candidates"], official["model"]
-    standardized, distances = official["standardized"], official["distances"]
-    outliers = []
-    for index, (row, label, distance, vector) in enumerate(
-        zip(qualified, model.labels_, distances, standardized)
-    ):
-        row["cluster_id"] = int(label) + 1
-        row["cluster_distance"] = round(float(distance), 6)
-        row["cluster_distance_outlier"] = bool(official["distance_outliers"][index])
-        row["sensitivity_cluster_id"] = int(separated["model"].labels_[index]) + 1
-        row["sensitivity_cluster_distance"] = round(float(separated["distances"][index]), 6)
-        row["sensitivity_cluster_distance_outlier"] = bool(separated["distance_outliers"][index])
-        row["sensitivity_residual_outlier"] = bool(separated["residual_outliers"][index])
-        for field, z in zip(residual_fields, vector):
-            row[f"{field}_z"] = round(float(z), 6)
-        row["heart_only_swing_residual_z"] = round(float(
-            separated["standardized"][index, separated_fields.index("heart_only_swing_residual")]
-        ), 6)
-        if official["any_outliers"][index]:
-            outliers.append(row.copy())
-    cluster_rows = []
-    for cluster in range(best_k):
-        members = [row for row in qualified if row.get("cluster_id") == cluster + 1]
-        entry = {"cluster_id": cluster + 1, "players": len(members)}
-        for field in residual_fields:
-            entry[f"mean_{field}"] = round(float(np.mean([row[field] for row in members])), 6)
-        entry["mean_za_raw"] = round(float(np.mean([row["za_raw"] for row in members])), 6)
-        entry["mean_swing_aggression"] = round(float(np.mean([row["swing_aggression"] for row in members])), 6)
-        entry["mean_swing_pct"] = round(float(np.mean([row["swing_pct"] for row in members])), 6)
-        entry["mean_dv_per_100"] = round(float(np.mean([row["dv_per_100"] for row in members])), 6)
-        cluster_rows.append(entry)
-    joint_x = np.column_stack((
-        np.ones(len(qualified)),
-        np.array([row["za_raw"] for row in qualified]),
-        np.array([row["swing_aggression"] for row in qualified]),
-    ))
-    joint_y = np.array([row["dv_per_100"] for row in qualified])
-    coefficients = np.linalg.lstsq(joint_x, joint_y, rcond=None)[0]
-    joint_residual = joint_y - joint_x @ coefficients
-    total_ss = float(((joint_y - joint_y.mean()) ** 2).sum())
-    joint_r2 = 1 - float((joint_residual ** 2).sum()) / total_ss if total_ss else 0.0
-    cluster_residual_means = {}
-    for cluster in range(1, best_k + 1):
-        mask = np.array([row.get("cluster_id") == cluster for row in qualified])
-        cluster_residual_means[str(cluster)] = round(float(joint_residual[mask].mean()), 6)
-    metadata = {
-        "features": residual_fields, "standardization": "qualified-batter z-scores",
-        "selected_k": best_k, "selection": "maximum silhouette among k=2..6",
-        "silhouette_by_k": {str(k): round(value, 6) for k, value in candidates.items()},
-        "distance_outlier_threshold": "95th percentile of Euclidean distance within each assigned cluster",
-        "distance_outlier_cutoff_by_cluster": {
-            str(cluster + 1): round(cutoff, 6) for cluster, cutoff in official["cutoffs"].items()
-        },
-        "residual_outlier_threshold": f"absolute residual z >= {OUTLIER_Z}",
-        "clusters": cluster_rows,
-        "heart_meatball_sensitivity": {
-            "official_features": residual_fields,
-            "separated_features": separated_fields,
-            "heart_only_definition": "1/3 < max(abs(x_relative), abs(z_relative)) <= 2/3",
-            "selected_k": separated["best_k"],
-            "silhouette_by_k": {
-                str(k): round(value, 6) for k, value in separated["candidates"].items()
-            },
-            "adjusted_rand_index_vs_official": round(float(adjusted_rand_score(
-                model.labels_, separated["model"].labels_
-            )), 6),
-            "distance_outliers": int(separated["distance_outliers"].sum()),
-            "any_outliers": int(separated["any_outliers"].sum()),
-            "purpose": "diagnostic sensitivity only; does not replace the official inclusive-Heart clustering",
-        },
-        "dv_joint_diagnostic": {
-            "formula": "DV/100 ~ intercept + ZA Raw + Swing Aggression",
-            "intercept": round(float(coefficients[0]), 8),
-            "za_coefficient": round(float(coefficients[1]), 8),
-            "sa_coefficient": round(float(coefficients[2]), 8),
-            "r_squared": round(joint_r2, 8),
-            "mean_residual_by_cluster": cluster_residual_means,
-            "interpretation": "Near-zero residual cluster means indicate the residual clusters add no material DV bias after ZA and SA.",
-        },
-    }
-    return regressions, metadata, outliers
 
 
 def _write_csv(path: Path, rows: list[dict]) -> None:
@@ -454,221 +156,3 @@ def _write_csv(path: Path, rows: list[dict]) -> None:
         )
         writer.writeheader()
         writer.writerows(rows)
-
-
-def _web_mean(items: list[dict], field: str, scale: float = 1.0) -> float | None:
-    return round(scale * float(np.mean([item[field] for item in items])), 4) if items else None
-
-
-def _web_dv100(items: list[dict]) -> float | None:
-    return _web_mean(items, "dv", 100)
-
-
-def _web_summary(player: dict, items: list[dict]) -> dict:
-    summary = dict(player)
-    swings = [item for item in items if item["swing"] == 1]
-    takes = [item for item in items if item["swing"] == 0]
-    summary.update({
-        "swing_pitches": len(swings), "take_pitches": len(takes),
-        "swing_decision_value_per_100": _web_dv100(swings),
-        "take_decision_value_per_100": _web_dv100(takes),
-    })
-    for region in REGIONS:
-        selected = [item for item in items if item["region"] == region]
-        region_swings = [item for item in selected if item["swing"] == 1]
-        region_takes = [item for item in selected if item["swing"] == 0]
-        summary.update({
-            f"{region}_pitches": len(selected),
-            f"{region}_raw_dv": round(float(sum(item["dv"] for item in selected)), 6),
-            f"{region}_decision_value_per_100": _web_dv100(selected),
-            f"{region}_swing_decision_value_per_100": _web_dv100(region_swings),
-            f"{region}_take_decision_value_per_100": _web_dv100(region_takes),
-        })
-    return summary
-
-
-def _web_grid(items: list[dict]) -> list[dict]:
-    cells = defaultdict(list)
-    for item in items:
-        x, z = float(item["x_relative"]), float(item["z_relative"])
-        if abs(x) <= 2.5 and abs(z) <= 2.5:
-            cells[(round(x / GRID_STEP), round(z / GRID_STEP))].append(item)
-    result = []
-    for (cx, cz), selected in sorted(cells.items()):
-        result.append({
-            "x": round(cx * GRID_STEP, 3), "z": round(cz * GRID_STEP, 3),
-            "n": len(selected), "raw_dv": round(float(sum(item["dv"] for item in selected)), 6),
-            "dv100": _web_dv100(selected), "delta": _web_mean(selected, "delta_v"),
-            "swing_pct": _web_mean(selected, "swing", 100),
-            "expected_swing_pct": _web_mean(selected, "p_swing", 100),
-            "p_zone_pct": _web_mean(selected, "p_zone", 100),
-            "zone_judgment_pct": _web_mean(selected, "zone_judgment", 100),
-            "expected_zone_judgment_pct": _web_mean(selected, "expected_zone_judgment", 100),
-            "za_raw": _web_mean(selected, "za", 100),
-            "expected_swing_rv": _web_mean(selected, "v_swing"),
-            "expected_take_rv": _web_mean(selected, "v_take"),
-        })
-    return result
-
-
-def _write_web_data(
-    web_root: Path, season: int, players: list[dict], pitches: list[dict], metadata: dict
-) -> None:
-    season_root = web_root / "data" / "zone_awareness" / str(season)
-    season_root.mkdir(parents=True, exist_ok=True)
-    leaderboard = {
-        "schema_version": 3, "season": season, "minimum_pitches": MIN_PITCHES,
-        "qualified_batters": sum(player["qualified_300"] for player in players),
-        "players": players, "selected_swing_model": metadata["movement"]["selected"],
-        "metric_contract": metadata["metrics"],
-    }
-    (season_root / "leaderboard.json").write_text(
-        json.dumps(leaderboard, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8"
-    )
-    (season_root / "teams.json").write_text(
-        json.dumps(
-            {"season": season, "teams": {player["batter_id"]: player["team"] for player in players}},
-            ensure_ascii=False, separators=(",", ":"),
-        ) + "\n", encoding="utf-8",
-    )
-    summaries = {player["batter_id"]: player for player in players}
-    by_batter = defaultdict(list)
-    for pitch in pitches:
-        by_batter[str(pitch["batter_id"])].append(pitch)
-    shards = defaultdict(dict)
-    for batter_id, items in by_batter.items():
-        shard = batter_id[:2] if batter_id and batter_id[0].isdigit() else "other"
-        shards[shard][batter_id] = {
-            "summary": _web_summary(summaries[batter_id], items), "grid": _web_grid(items)
-        }
-    players_root = season_root / "players"
-    players_root.mkdir(exist_ok=True)
-    for path in players_root.glob("*.json"):
-        path.unlink()
-    for shard, payload in shards.items():
-        (players_root / f"{shard}.json").write_text(
-            json.dumps(
-                {"schema_version": 3, "season": season, "players": payload},
-                ensure_ascii=False, separators=(",", ":"),
-            ) + "\n", encoding="utf-8",
-        )
-    catalog_path = web_root / "data" / "zone_awareness" / "index.json"
-    catalog = {"schema_version": 3, "seasons": []}
-    if catalog_path.exists():
-        catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
-    catalog["schema_version"] = 3
-    catalog["seasons"] = sorted(set(catalog.get("seasons", [])) | {season}, reverse=True)
-    catalog["default_season"] = max(catalog["seasons"])
-    catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-
-
-def build_plate_decision_v1(
-    root: Path, season: int = 2026, source: Path | None = None, web_root: Path | None = None
-) -> dict:
-    source = source or root / "data" / "metrics" / "swing_take" / str(season) / (
-        "decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet"
-    )
-    rows, excluded = _valid_rows(source, season)
-    movement_meta = _movement_adjust(rows, root, season)
-    actions = np.array([row["decision_type"] == "Swing" for row in rows], dtype=int)
-    groups = np.array([str(row["game_id"]) for row in rows])
-    rv = np.array([float(row["raw_run_value"]) for row in rows])
-    matrix_x, _ = _encode(rows, BASE_NUMERIC)
-    matrix_o, _ = _encode(rows, BASE_NUMERIC + MOVEMENT_NUMERIC)
-    p_x = _crossfit_probability(matrix_x, actions, groups, len(BASE_NUMERIC))
-    p_o = _crossfit_probability(matrix_o, actions, groups, len(BASE_NUMERIC + MOVEMENT_NUMERIC))
-    metric_x, metric_o = _model_metrics(actions, p_x), _model_metrics(actions, p_o)
-    ci_low, ci_high = _bootstrap_logloss_improvement(actions, p_x, p_o, groups)
-    improvement = metric_x["log_loss"] - metric_o["log_loss"]
-    selected = "Movement O" if improvement > 0 and ci_low > 0 else "Movement X"
-    selected_matrix, selected_probability = (matrix_o, p_o) if selected == "Movement O" else (matrix_x, p_x)
-    p_zone = _crossfit_pzone(rows, groups)
-    selected_categorical_start = len(BASE_NUMERIC + MOVEMENT_NUMERIC) if selected == "Movement O" else len(BASE_NUMERIC)
-    v_swing, v_take = _crossfit_action_values(selected_matrix, actions, rv, groups, selected_categorical_start)
-    delta = v_swing - v_take
-    za_judgment = np.where(actions == 1, p_zone, 1 - p_zone)
-    za_expected = selected_probability * p_zone + (1 - selected_probability) * (1 - p_zone)
-    za = za_judgment - za_expected
-    dv = np.where(actions == 1, delta, -delta)
-    pitch_output = []
-    for index, source_row in enumerate(rows):
-        row = dict(source_row)
-        row.update({
-            "region": _region(row), "swing": int(actions[index]),
-            "adjusted_hb_cm": None if np.isnan(row["adjusted_hb_cm"]) else float(row["adjusted_hb_cm"]),
-            "adjusted_ivb_cm": None if np.isnan(row["adjusted_ivb_cm"]) else float(row["adjusted_ivb_cm"]),
-            "p_swing_x": float(p_x[index]), "p_swing_o": float(p_o[index]),
-            "p_swing": float(selected_probability[index]), "p_zone": float(p_zone[index]),
-            "zone_judgment": float(za_judgment[index]), "expected_zone_judgment": float(za_expected[index]),
-            "za": float(za[index]), "v_swing": float(v_swing[index]), "v_take": float(v_take[index]),
-            "delta_v": float(delta[index]), "dv": float(dv[index]),
-        })
-        pitch_output.append(row)
-    players, movement_players = _player_tables(pitch_output)
-    regressions, clustering, outliers = _diagnostics(players)
-    processed, exports = root / "data" / "metrics" / "plate_decision" / str(season), root / "exports"
-    processed.mkdir(parents=True, exist_ok=True)
-    exports.mkdir(parents=True, exist_ok=True)
-    pq.write_table(pa.Table.from_pylist(pitch_output), processed / f"plate_decision_v1_pitches_{season}.parquet")
-    pq.write_table(pa.Table.from_pylist(players), processed / f"plate_decision_v1_batters_{season}.parquet")
-    _write_csv(exports / f"plate_decision_v1_players_{season}.csv", players)
-    _write_csv(exports / f"plate_decision_v1_movement_comparison_{season}.csv", movement_players)
-    _write_csv(exports / f"plate_decision_v1_outliers_{season}.csv", outliers)
-    metadata = {
-        "schema_version": 1, "season": season, "source": str(source.relative_to(root)),
-        "pitches": len(rows), "batters": len(players),
-        "qualified_batters": sum(row["qualified_300"] for row in players), "minimum_pitches": MIN_PITCHES,
-        "cross_validation": f"{N_SPLITS}-fold GroupKFold by game_id; all displayed model predictions are out-of-fold",
-        "movement": {
-            **movement_meta, "x_features": list(BASE_NUMERIC) + list(CATEGORICAL),
-            "o_features": list(BASE_NUMERIC + MOVEMENT_NUMERIC) + list(CATEGORICAL),
-            "movement_x": metric_x, "movement_o": metric_o,
-            "log_loss_improvement_x_minus_o": round(improvement, 8),
-            "game_cluster_bootstrap_95pct_ci": [round(ci_low, 8), round(ci_high, 8)],
-            "selection_rule": "Choose Movement O only when O lowers OOF log loss and the game-cluster bootstrap 95% CI excludes zero",
-            "selected": selected,
-        },
-        "metrics": {
-            "swing_aggression": "100 * mean(actual swing indicator - selected OOF expected swing probability); percentage points",
-            "za_raw": "100 * mean(actual zone-aligned judgment - league expected judgment); percentage points",
-            "za_percentile": "empirical percentile of ZA Raw among hitters with at least 300 pitches",
-            "raw_dv": "sum of per-pitch Decision Value across all eligible pitches; cumulative runs and primary DV display",
-            "dv_per_100": "100 * mean((V_Swing - V_Take) for swings; sign reversed for takes); runs per 100 pitches",
-        },
-        "p_zone": {
-            "target": "called strike vs ball/HBP among taken pitches",
-            "features": list(PZONE_NUMERIC),
-            "purpose": "smooth zone-aligned probability only; no run value or batted-ball outcome",
-        },
-        "base_stats": {
-            "meatball": "max(abs(x_relative), abs(z_relative)) <= 1/3",
-            "heart": "<= 2/3", "shadow": "> 2/3 and <= 4/3",
-            "heart_only": "> 1/3 and <= 2/3; sensitivity diagnostic only",
-            "chase": "> 4/3 and <= 2", "waste": "> 2",
-        },
-        "regressions": regressions, "clustering": clustering, "excluded": excluded,
-        "limitations": [
-            "Counterfactual action values are observational conditional expectations; unmeasured pitch traits can leave selection bias.",
-            "Visual Baseball lacks exit velocity and launch angle, so V_Swing estimates do not condition on contact quality measurements.",
-            "Cluster labels diagnose model behavior and are not player grades or adjustment factors.",
-        ],
-    }
-    (processed / f"plate_decision_v1_report_{season}.json").write_text(
-        json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    if web_root is not None:
-        _write_web_data(web_root, season, players, pitch_output, metadata)
-    return metadata
-
-
-if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root", default=".")
-    parser.add_argument("--season", type=int, default=2026)
-    parser.add_argument("--source")
-    args = parser.parse_args()
-    root = Path(args.root).resolve()
-    source = Path(args.source).resolve() if args.source else None
-    print(json.dumps(build_plate_decision_v1(root, args.season, source), ensure_ascii=False, indent=2))
