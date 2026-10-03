@@ -21,9 +21,11 @@ from sklearn.model_selection import GroupKFold
 from scipy.optimize import minimize, LinearConstraint
 from . import plate_decision_v1 as old
 from .movement_calibration import calibrate
-from .pitch_arsenal import _load_batter_hands, _pitch_code, _resolved_batter_stance
+from .batter_stance import load_batter_hands, resolved_batter_stance
+from .pitch_types import pitch_code
 from .swing_take import PLATE_HALF_WIDTH_FT, _eligible, _relative_location, _state
-from .zone_awareness_v2 import _team_history
+from .publish import write_json
+from .teams import team_history
 from .curated import CM_PER_FOOT, _at_plane, load_rows as load_curated_rows, schema_sha256
 
 REGIONS = ('heart', 'shadow_in', 'shadow_out', 'chase', 'waste')
@@ -135,12 +137,6 @@ def decision_value(swing, swing_value, take_value):
  return np.where(np.asarray(swing),delta,-delta)
 
 
-def value_based_zone_awareness(items):
- hittable=[r['swing'] for r in items if r['delta_v']>0]
- avoidable=[r['swing'] for r in items if r['delta_v']<0]
- return r6(100*((np.mean(hittable) if hittable else 0)-(np.mean(avoidable) if avoidable else 0))) if hittable or avoidable else None
-
-
 def zone_awareness(items):
  return mean(items,'judgment',100)
 
@@ -210,7 +206,7 @@ def park_workbook(root, season):
 
 def calibrated_movement(rows, columns=old.MOVEMENT_NUMERIC):
  """movement_calibration's TrackMan-validated stadium-day correction, written to `columns`."""
- corrected=calibrate(rows,[_pitch_code(r) for r in rows]); available=0
+ corrected=calibrate(rows,[pitch_code(r) for r in rows]); available=0
  for r,(hb,ivb) in zip(rows,corrected):
   ok=hb is not None and ivb is not None; available+=ok
   r[columns[0]],r[columns[1]]=(hb,ivb) if ok else (np.nan,np.nan)
@@ -223,7 +219,7 @@ def load_rows(root, season):
  events=load_curated_rows(root,'events',season)
  hashes={'schema_sha256':schema_sha256()}
  rows,quality=reliable_halves(rows,events)
- hands = _load_batter_hands(root, season)
+ hands = load_batter_hands(root)
  pitcher_hands = load_pitcher_hands(root)
  valid, excluded = [], Counter()
  for r in rows:
@@ -235,7 +231,7 @@ def load_rows(root, season):
    continue
   r['x_relative'], r['z_relative'] = _relative_location(r)
   r['decision_type'] = 'Swing' if outcome(r) in EVENTS[:3] else 'Take'
-  r['batter_stance'] = _resolved_batter_stance(r, hands)
+  r['batter_stance'] = resolved_batter_stance(r, hands)
   r['pitcher_throws'] = pitcher_throws(r, pitcher_hands)
   r['event'] = outcome(r)
   r['region'] = region(r)
@@ -531,7 +527,7 @@ def score_crossfit(rows, selected, settings=SCORE_SETTINGS, pzone_features=old.P
 def profile_summary(items):
  n=len(items); first=items[0]
  total=sum(r['dv'] for r in items)
- s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
+ s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
  # Decision DV (APR input): the chosen action's value above the league Swing policy on the same pitches.
  jdv=np.array([2*(r['swing']-r['p_swing'])*r['delta_v'] for r in items]); mean_jdv=float(jdv.mean())
  by_game=defaultdict(float)
@@ -620,7 +616,7 @@ def write_web(root,season,pitches,report,output_root=None):
  apr_meta=add_apr(players,100*float(np.mean([r['dv'] for r in pitches])),100*float(np.mean([2*(r['swing']-r['p_swing'])*r['delta_v'] for r in pitches])))
  report['apr']=apr_meta
  report['za_plus']=add_za_plus(players,100*float(np.mean([(2*r['swing']-1)*(2*r['p_zone']-1) for r in pitches])),100*float(np.mean([2*r['judgment'] for r in pitches])))
- def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
+ def dump(path,payload): write_json(path,payload,allow_nan=False)
  dump(dest/'leaderboard.json',{'schema_version':6,'model_version':MODEL_VERSION,'season':season,'minimum_pitches':300,'qualified_batters':sum(p['qualified_300'] for p in players),'players':players,'apr':report['apr'],'za_plus':report['za_plus'],'metric_contract':CONTRACT,'selected_value_model':report['validation']['selected'],'data_quality':report['source']['quality'],'pzone_input':report['source'].get('pzone_input'),'settings':report['validation']['settings']})
  dump(dest/'teams.json',{'season':season,'teams':{p['batter_id']:p['team'] for p in players}})
  shards=defaultdict(dict)
@@ -667,12 +663,12 @@ def build_zone_decision(root,season=2026):
   'support_definition':'Opposite-action counts: normalized 0.5 location cell x count x pitch type x stance x 10 km/h velocity x 10 cm HB/IVB bins. Diagnostic neighborhood, not proof of causal overlap.',
   'score_settings':{**SCORE_SETTINGS,'policy':'Fixed before outcome inspection; game-block exclusions apply to calibration, RE, models and priors.'},
   'crossfit_blocks':fold_meta,'metric_contract':CONTRACT,'shrinkage':'Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.',
-  'reproducibility':{'python':platform.python_version(),'packages':{p:version(p) for p in ('numpy','pandas','pyarrow','scikit-learn','scipy','openpyxl')},'source_sha256':{p.name:file_hash(p) for p in (Path(__file__),Path(old.__file__),Path(__file__).with_name('swing_take.py'),Path(__file__).with_name('pitch_arsenal.py'))}},
+  'reproducibility':{'python':platform.python_version(),'packages':{p:version(p) for p in ('numpy','pandas','pyarrow','scikit-learn','scipy','openpyxl')},'source_sha256':{p.name:file_hash(p) for p in (Path(__file__),Path(old.__file__),Path(__file__).with_name('swing_take.py'),Path(__file__).with_name('pitch_types.py'),Path(__file__).with_name('batter_stance.py'))}},
   'limitations':LIMITATIONS}
  players=write_web(root,season,result,report,output_root)
  report['batters']=len(players)
  path=root/'data/metrics/zone_awareness'/str(season)/'report.json';path.parent.mkdir(parents=True,exist_ok=True)
- path.write_text(json.dumps(report,ensure_ascii=False,indent=2,allow_nan=False)+'\n',encoding='utf-8')
+ write_json(path,report,compact=False,allow_nan=False)
  # Compact pitch evidence is reproducible; not committed as a large binary.
  evidence_cache=root/'data/metrics/zone_awareness'/str(season)
  evidence_cache.mkdir(parents=True,exist_ok=True)

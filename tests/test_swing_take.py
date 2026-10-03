@@ -1,9 +1,7 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
-import pyarrow as pa
 import pyarrow.parquet as pq
 
 from visualbaseball.swing_take import build_swing_take

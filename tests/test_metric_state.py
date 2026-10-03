@@ -1,7 +1,11 @@
 from __future__ import annotations
 
+from pathlib import Path
+import re
+
 from visualbaseball.curated import source_sha256, write_game
-from visualbaseball.metric_state import mark_built, needs_build
+from visualbaseball import metric_state
+from visualbaseball.metric_state import CODE, mark_built, needs_build
 
 
 def test_source_hash_ignores_platform_line_endings(tmp_path):
@@ -37,3 +41,21 @@ def test_metric_state_rebuilds_when_an_output_disappears(tmp_path):
     mark_built(tmp_path, 2026, "swing_take")
     (tmp_path / "web/data/swing_take/2026/index.json").unlink()
     assert needs_build(tmp_path, 2026, "swing_take")
+
+
+def test_code_hash_covers_every_imported_package_module():
+    # A helper edited in a shared module must invalidate every metric that imports it.
+    package = Path(metric_state.__file__).parent
+
+    def imports(module: str, seen: set[str]) -> set[str]:
+        if module not in seen:
+            seen.add(module)
+            text = (package / f"{module}.py").read_text(encoding="utf-8")
+            for name in re.findall(r"^\s*from \.(\w+) import|^\s*from \. import (\w+)", text, re.M):
+                imports(name[0] or name[1], seen)
+        return seen
+
+    for metric, files in CODE.items():
+        entry = files[0].removesuffix(".py")
+        missing = {f"{name}.py" for name in imports(entry, set())} - set(files)
+        assert not missing, f"{metric} CODE is missing {sorted(missing)}"

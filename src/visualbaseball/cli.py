@@ -17,7 +17,6 @@ from .zone_profile import build_zone_profiles
 from .blocking import build_blocking
 from .pitch_arsenal import PITCH_ARSENAL_SEASONS, build_pitch_arsenal
 from .plate_discipline import build_plate_discipline
-from .plate_decision_v1 import build_plate_decision_v1
 from .zone_decision import build_zone_decision
 from .arm_angle import build_arm_angle_input
 from .movement_zones import build_movement_zones
@@ -83,18 +82,15 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
     )
     if decision_source.exists():
         build("plate_discipline", lambda: build_plate_discipline(root, season, decision_source))
-        if pq.read_metadata(decision_source).num_rows >= 1_000:
-            if season in SBJ_SEASONS:
-                build("zone_decision", lambda: build_zone_decision(root, season))
-            else:
-                build("plate_decision", lambda: build_plate_decision_v1(root, season, decision_source, web_root=root / "web"))
+        if pq.read_metadata(decision_source).num_rows >= 1_000 and season in SBJ_SEASONS:
+            build("zone_decision", lambda: build_zone_decision(root, season))
     build("zone_profiles", lambda: build_zone_profiles(root, season))
     build("pitch_arsenal", lambda: build_pitch_arsenal(root, season))
     build("blocking", lambda: build_blocking(root, season))
     build_summary(root)
 
 
-def main() -> None:
+def _arguments() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=".")
     parser.add_argument("--storage-root")
@@ -121,123 +117,120 @@ def main() -> None:
         help="Fetch and cache Naver relay flags while rebuilding raw games",
     )
     parser.add_argument("--naver-workers", type=int, default=1)
-    args = parser.parse_args()
-    root = Path(args.root).resolve()
-    storage_root = Path(args.storage_root).resolve() if args.storage_root else root
+    return parser
+
+
+def _build_only(parser: argparse.ArgumentParser, args, root: Path) -> None:
+    """--only: rebuild one metric from curated data when its inputs or code changed."""
     if args.only == "movement_zones":
         _build_metric(root, args.season, "movement_zones", lambda: build_movement_zones(root))
-        return
-    if args.only == "zone_decision":
+    elif args.only == "zone_decision":
         # Completed seasons have no Swing/Take decision table, so this skips the
         # _exports() gate; build_zone_decision reads curated data directly.
         if args.season not in SBJ_SEASONS:
             parser.error("--only zone_decision covers the SBJ seasons 2019-2026")
         _build_metric(root, args.season, "zone_decision", lambda: build_zone_decision(root, args.season))
-        return
-    if args.only == "pitch_arsenal":
+    elif args.only == "pitch_arsenal":
         # Completed seasons shown on the Pitch Plot page; rebuilt from curated data only.
         if args.season not in PITCH_ARSENAL_SEASONS:
             parser.error("--only pitch_arsenal covers the Pitch Plot seasons 2022-2026")
         _build_metric(root, args.season, "pitch_arsenal", lambda: build_pitch_arsenal(root, args.season))
-        return
+
+
+def _run_offline(args, root: Path, storage_root: Path) -> bool:
+    """Paths that never touch the network. Returns False when the network collection should run."""
     if args.exports_only:
         # 파이프라인 코드가 바뀌었을 때 쓰는 경로입니다. 새 경기를 가져오지 않고
         # 이미 있는 curated 데이터에서 산출물만 다시 만듭니다. 수집은 스케줄·수동 실행의 몫입니다.
         _exports(root, args.season, storage_root)
         print(f"rebuilt exports for {args.season} from curated data")
-        return
-    if args.rebuild_from_raw:
+    elif args.rebuild_from_raw:
         games, pitches = rebuild_from_raw(
             storage_root, args.season, args.refresh_naver, args.game_id,
             max(1, args.naver_workers), root
         )
         _exports(root, args.season, storage_root)
         print(f"rebuilt {games} games and {pitches} pitches")
-        return
-    if args.fixture:
+    elif args.fixture:
         payload = json.loads(Path(args.fixture).read_text(encoding="utf-8-sig"))
         ok, message, pitches = process_payload(storage_root, payload, season=args.season, curated_root=root)
         if not ok:
             raise SystemExit(message)
         _exports(root, args.season, storage_root)
         print(f"processed {pitches} pitches")
-        return
+    else:
+        return False
+    return True
 
-    client = VisualBaseballClient()
-    store = Store(storage_root, root)
-    schedule = client.get_json(f"/api/schedule/season?y={args.season}")["schedule"]
-    mode = "reconcile" if args.refresh_completed else args.collection_mode
-    target_games = select_target_games(schedule, store, args.season, mode, args.game_id)
 
+def _game_fetcher(store: Store, season: int, refresh_naver: bool):
     def fetch_game(game: dict, request_client: VisualBaseballClient) -> tuple[object, dict]:
         game_id = game["gameId"]
         payload = request_client.get_json(f"/api/game/pbp?id={game_id}", f"/game/{game_id}/pbp")
         innings = max((int(half.get("inning") or 0) for half in payload.get("pbpData", [])), default=9)
-        naver_enrichment = _load_naver(store, args.season, game_id, innings, None, args.refresh_naver)
+        naver_enrichment = _load_naver(store, season, game_id, innings, None, refresh_naver)
         if naver_enrichment is None:
             from .naver import NaverSportsClient
             naver_enrichment = _load_naver(
-                store, args.season, game_id, innings, NaverSportsClient(), args.refresh_naver
+                store, season, game_id, innings, NaverSportsClient(), refresh_naver
             )
         # The retained payload is the canonical parse input; schedule data only selects targets.
-        return prepare_game(payload, None, args.season, naver_enrichment), payload
+        return prepare_game(payload, None, season, naver_enrichment), payload
+    return fetch_game
 
-    workers = max(1, args.refresh_workers)
-    fetched: list[tuple[object, dict] | None] = [None] * len(target_games)
+
+def _fetch_all(games: list[dict], fetch_game, client: VisualBaseballClient, workers: int) -> list[tuple[object, dict]]:
+    """Fetch in schedule order; with several workers each thread keeps its own client."""
+    fetched: list[tuple[object, dict] | None] = [None] * len(games)
     if workers == 1:
-        for index, game in enumerate(target_games, 1):
+        for index, game in enumerate(games, 1):
             fetched[index - 1] = fetch_game(game, client)
-            if index % 25 == 0 or index == len(target_games):
-                print(f"Visual Baseball fetch: {index}/{len(target_games)} games", flush=True)
-    else:
-        worker_state = local()
+            if index % 25 == 0 or index == len(games):
+                print(f"Visual Baseball fetch: {index}/{len(games)} games", flush=True)
+        return fetched
+    worker_state = local()
 
-        def threaded_fetch(game: dict) -> tuple[object, dict]:
-            request_client = getattr(worker_state, "client", None)
-            if request_client is None:
-                request_client = VisualBaseballClient()
-                worker_state.client = request_client
-            return fetch_game(game, request_client)
+    def threaded_fetch(game: dict) -> tuple[object, dict]:
+        request_client = getattr(worker_state, "client", None)
+        if request_client is None:
+            request_client = VisualBaseballClient()
+            worker_state.client = request_client
+        return fetch_game(game, request_client)
 
-        with ThreadPoolExecutor(max_workers=workers) as executor:
-            futures = {
-                executor.submit(threaded_fetch, game): index
-                for index, game in enumerate(target_games)
-            }
-            for completed, future in enumerate(as_completed(futures), 1):
-                fetched[futures[future]] = future.result()
-                if completed % 25 == 0 or completed == len(futures):
-                    print(f"Visual Baseball fetch: {completed}/{len(futures)} games", flush=True)
+    with ThreadPoolExecutor(max_workers=workers) as executor:
+        futures = {
+            executor.submit(threaded_fetch, game): index
+            for index, game in enumerate(games)
+        }
+        for completed, future in enumerate(as_completed(futures), 1):
+            fetched[futures[future]] = future.result()
+            if completed % 25 == 0 or completed == len(futures):
+                print(f"Visual Baseball fetch: {completed}/{len(futures)} games", flush=True)
+    return fetched
 
-    if mode == "sample" and fetched:
-        changed_pitches = 0
-        schema_or_y0_change = False
-        for prepared, payload in fetched:
-            manifest_path = source_manifest_path(root, args.season, prepared.game["game_id"])
-            previous = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
-            current_hash = pitch_sha256(
-                prepared.game, prepared.events,
-                [normalize_trajectory(row) for row in prepared.pitches],
-            )
-            changed_pitches += int(bool(previous) and previous.get("pitch_sha256") != current_hash)
-            observed_y0 = sorted({float(row["y0"]) for row in prepared.pitches if row.get("y0") is not None})
-            schema_or_y0_change |= bool(previous) and (
-                previous.get("schema_sha256") != schema_sha256()
-                or previous.get("observed_y0") != observed_y0
-            )
-        if schema_or_y0_change or changed_pitches >= 2:
-            if args.auto_reconcile:
-                sampled_ids = {game["gameId"] for game in target_games}
-                remaining = [game for game in select_target_games(schedule, store, args.season, "reconcile", args.game_id)
-                             if game["gameId"] not in sampled_ids]
-                print(f"sample triggered automatic reconcile of {len(remaining)} games", flush=True)
-                for index, game in enumerate(remaining, 1):
-                    fetched.append(fetch_game(game, client))
-                    if index % 25 == 0 or index == len(remaining):
-                        print(f"Reconcile fetch: {index}/{len(remaining)} games", flush=True)
-            else:
-                print("WARNING: sample detected schema/y0 or multiple pitch-input changes; rerun with --auto-reconcile", flush=True)
 
+def _sample_detects_change(root: Path, season: int, fetched: list[tuple[object, dict]]) -> bool:
+    """True when sampled games show a schema/y0 change or at least two changed pitch inputs."""
+    changed_pitches = 0
+    schema_or_y0_change = False
+    for prepared, _ in fetched:
+        manifest_path = source_manifest_path(root, season, prepared.game["game_id"])
+        previous = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
+        current_hash = pitch_sha256(
+            prepared.game, prepared.events,
+            [normalize_trajectory(row) for row in prepared.pitches],
+        )
+        changed_pitches += int(bool(previous) and previous.get("pitch_sha256") != current_hash)
+        observed_y0 = sorted({float(row["y0"]) for row in prepared.pitches if row.get("y0") is not None})
+        schema_or_y0_change |= bool(previous) and (
+            previous.get("schema_sha256") != schema_sha256()
+            or previous.get("observed_y0") != observed_y0
+        )
+    return schema_or_y0_change or changed_pitches >= 2
+
+
+def _store_fetched(store: Store, season: int, fetched: list[tuple[object, dict]]) -> int:
+    """Cache raw payloads and replace curated shards in batches of 25; returns changed shards."""
     pending_games, pending_events, pending_pitches, pending_completions = [], [], [], []
     changed_games = 0
 
@@ -248,9 +241,8 @@ def main() -> None:
             store.mark(prepared.game["game_id"], "completed", raw_path, prepared.message)
         pending_games, pending_events, pending_pitches, pending_completions = [], [], [], []
 
-    for result in fetched:
-        prepared, payload = result
-        raw_path = cache_payload(store, args.season, payload, prepared)
+    for prepared, payload in fetched:
+        raw_path = cache_payload(store, season, payload, prepared)
         if raw_path:
             pending_games.append(prepared.game)
             pending_events.extend(prepared.events)
@@ -259,6 +251,42 @@ def main() -> None:
             if len(pending_games) >= 25:
                 flush()
     flush()
+    return changed_games
+
+
+def main() -> None:
+    parser = _arguments()
+    args = parser.parse_args()
+    root = Path(args.root).resolve()
+    storage_root = Path(args.storage_root).resolve() if args.storage_root else root
+    if args.only:
+        _build_only(parser, args, root)
+        return
+    if _run_offline(args, root, storage_root):
+        return
+
+    client = VisualBaseballClient()
+    store = Store(storage_root, root)
+    schedule = client.get_json(f"/api/schedule/season?y={args.season}")["schedule"]
+    mode = "reconcile" if args.refresh_completed else args.collection_mode
+    target_games = select_target_games(schedule, store, args.season, mode, args.game_id)
+    fetch_game = _game_fetcher(store, args.season, args.refresh_naver)
+    fetched = _fetch_all(target_games, fetch_game, client, max(1, args.refresh_workers))
+
+    if mode == "sample" and fetched and _sample_detects_change(root, args.season, fetched):
+        if args.auto_reconcile:
+            sampled_ids = {game["gameId"] for game in target_games}
+            remaining = [game for game in select_target_games(schedule, store, args.season, "reconcile", args.game_id)
+                         if game["gameId"] not in sampled_ids]
+            print(f"sample triggered automatic reconcile of {len(remaining)} games", flush=True)
+            for index, game in enumerate(remaining, 1):
+                fetched.append(fetch_game(game, client))
+                if index % 25 == 0 or index == len(remaining):
+                    print(f"Reconcile fetch: {index}/{len(remaining)} games", flush=True)
+        else:
+            print("WARNING: sample detected schema/y0 or multiple pitch-input changes; rerun with --auto-reconcile", flush=True)
+
+    changed_games = _store_fetched(store, args.season, fetched)
     # Always plan exports: per-metric state handles data, code, and dependency no-ops.
     _exports(root, args.season, storage_root)
     print(f"reconciled {len(target_games)} games; {changed_games} curated shards changed")

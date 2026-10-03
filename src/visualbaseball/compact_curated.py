@@ -91,7 +91,7 @@ def compact(root: Path, season: int) -> dict:
     entries, groups = {}, {kind: defaultdict(list) for kind in SCHEMAS}
     for game_id, manifest in games.items():
         game_rows = {}
-        for kind, schema in SCHEMAS.items():
+        for kind in SCHEMAS:
             path = root / "data" / "curated" / kind / f"season={season}" / f"{game_id}.parquet"
             if not path.exists():
                 raise FileNotFoundError(path)

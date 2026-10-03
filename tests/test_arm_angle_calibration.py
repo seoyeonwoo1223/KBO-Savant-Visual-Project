@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from visualbaseball.arm_angle_calibration import features, fit_reference, metrics, prepare_reference, transfer
+from visualbaseball.arm_angle_calibration import features, fit_reference, prepare_reference, transfer
 
 
 def reference_data():

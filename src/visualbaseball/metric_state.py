@@ -11,7 +11,6 @@ SPECS = {
  "swing_take": (("pitches",), (), ("web/data/swing_take/{season}/index.json",)),
  "plate_discipline": (("pitches",), (), ("data/metrics/plate_discipline/{season}/plate_discipline_pitches.parquet",)),
  "zone_decision": (("pitches", "events"), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet", "data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx"), ("data/metrics/zone_awareness/{season}/report.json", "web/data/zone_awareness/{season}/leaderboard.json", "web/data/zone_awareness/{season}/teams.json", "web/data/zone_awareness/index.json")),
- "plate_decision": (("pitches",), ("data/park_adjustments/{season}_VB_Park_Adjustment_v1.0.xlsx",), ("data/metrics/plate_decision/{season}/plate_decision_v1_report_{season}.json", "web/data/zone_awareness/{season}/leaderboard.json", "web/data/zone_awareness/{season}/teams.json", "web/data/zone_awareness/index.json")),
  "zone_profiles": (("pitches",), (), ("web/data/zones/index.json",)),
  "pitch_arsenal": (("pitches",), ("data/batter_handedness.json", "data/curated/players/player_bio.parquet", "data/tracking/player_heights.csv", "data/models/estimated_arm_angle_v1.json"), ("web/data/pitch_arsenal/{season}/index.json",)),
  "blocking": (("games", "pitches"), (), ("data/metrics/blocking/{season}/pitches.parquet", "web/data/blocking/{season}/leaderboard.json")),
@@ -19,11 +18,12 @@ SPECS = {
 }
 CODE = {
  "excel": ("export_excel.py", "curated.py"), "arm_angle": ("arm_angle.py", "curated.py"),
- "swing_take": ("swing_take.py", "curated.py"), "plate_discipline": ("plate_discipline.py", "swing_take.py", "curated.py"),
- "zone_decision": ("zone_decision.py", "plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "movement_calibration.py", "swing_take.py", "curated.py"),
- "plate_decision": ("plate_decision_v1.py", "zone_awareness_v2.py", "pitch_arsenal.py", "swing_take.py", "curated.py"),
- "zone_profiles": ("zone_profile.py", "curated.py"), "pitch_arsenal": ("pitch_arsenal.py", "movement_calibration.py", "estimated_arm_angle.py", "curated.py"), "blocking": ("blocking.py", "curated.py"),
- "movement_zones": ("movement_zones.py", "movement_calibration.py", "pitch_arsenal.py", "curated.py", "../../analysis/movement_calibration/match_trackman.py", "../../scripts/build_trackman_id_crosswalk.py"),
+ "swing_take": ("swing_take.py", "publish.py", "curated.py"), "plate_discipline": ("plate_discipline.py", "swing_take.py", "publish.py", "curated.py"),
+ "zone_decision": ("zone_decision.py", "plate_decision_v1.py", "teams.py", "pitch_types.py", "batter_stance.py", "movement_calibration.py", "swing_take.py", "publish.py", "curated.py"),
+ "zone_profiles": ("zone_profile.py", "publish.py", "curated.py"),
+ "pitch_arsenal": ("pitch_arsenal.py", "pitch_types.py", "batter_stance.py", "movement_calibration.py", "estimated_arm_angle.py", "publish.py", "curated.py"),
+ "blocking": ("blocking.py", "publish.py", "curated.py"),
+ "movement_zones": ("movement_zones.py", "movement_calibration.py", "pitch_types.py", "batter_stance.py", "curated.py", "../../analysis/movement_calibration/match_trackman.py", "../../scripts/build_trackman_id_crosswalk.py"),
 }
 
 def _index(root: Path) -> dict:
@@ -50,20 +50,27 @@ def needs_build(root: Path, season: int, name: str) -> bool:
  _, _, outputs = SPECS[name]
  if any(not (root / output.format(season=season)).is_file() for output in outputs): return True
  if name == "swing_take" and not (root / "data/metrics/swing_take" / str(season) / ("decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet")).is_file(): return True
- if name in {"swing_take", "pitch_arsenal", "zone_profiles", "zone_decision", "plate_decision"} and not _web_shards_exist(root, season, name): return True
+ if name in {"swing_take", "pitch_arsenal", "zone_profiles", "zone_decision"} and not _web_shards_exist(root, season, name): return True
  try: return json.loads(_path(root, season, name).read_text(encoding="utf-8")).get("input_sha256") != metric_input_hash(root, season, name)
  except (OSError, json.JSONDecodeError): return True
 
+def _shard(player_id: str, digits: int) -> str: return player_id[:digits] if player_id[0].isdigit() else "other"
+
+def _expected_shards(root: Path, season: int, name: str):
+ """Every player shard the metric's published index points at."""
+ if name == "zone_profiles":
+  data = json.loads((root / "web/data/zones/index.json").read_text(encoding="utf-8")); base = root / "web/data/zones" / str(season)
+  yield from (base / role / player["file"] for role, players in data["players"][str(season)].items() for player in players)
+  return
+ base = root / "web/data" / ("zone_awareness" if name == "zone_decision" else name) / str(season)
+ players = json.loads((base / ("leaderboard.json" if name == "zone_decision" else "index.json")).read_text(encoding="utf-8")).get("players", [])
+ for player in players:
+  if name == "swing_take": yield base / "players" / f"{_shard(str(player['id']), 1)}.json"
+  elif name == "zone_decision": yield base / "players" / f"{_shard(str(player.get('batter_id') or player.get('id')), 2)}.json"
+  else: yield base / player["file"]
+
 def _web_shards_exist(root: Path, season: int, name: str) -> bool:
- try:
-  if name == "zone_profiles":
-   data = json.loads((root / "web/data/zones/index.json").read_text(encoding="utf-8")); groups = data["players"][str(season)].items(); base = root / "web/data/zones" / str(season)
-   return all((base / role / player["file"]).is_file() for role, players in groups for player in players)
-  base = root / "web/data" / ("zone_awareness" if name in {"zone_decision", "plate_decision"} else name) / str(season)
-  data = json.loads((base / ("leaderboard.json" if name in {"zone_decision", "plate_decision"} else "index.json")).read_text(encoding="utf-8"))
-  if name == "swing_take": return all((base / "players" / f"{str(player['id'])[0] if str(player['id'])[0].isdigit() else 'other'}.json").is_file() for player in data.get("players", []))
-  if name in {"zone_decision", "plate_decision"}: return all((base / "players" / f"{str(player.get('batter_id') or player.get('id'))[:2] if str(player.get('batter_id') or player.get('id'))[0].isdigit() else 'other'}.json").is_file() for player in data.get("players", []))
-  return all((base / player["file"]).is_file() for player in data.get("players", []))
+ try: return all(path.is_file() for path in _expected_shards(root, season, name))
  except (KeyError, OSError, json.JSONDecodeError): return False
 
 def mark_built(root: Path, season: int, name: str) -> None:
