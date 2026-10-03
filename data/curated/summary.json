@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-03T11:33:34+00:00",
+  "generated_at": "2026-10-03T18:41:49+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -52,6 +52,7 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -97,6 +98,7 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -143,6 +145,7 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -190,6 +193,7 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -237,6 +241,7 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -285,6 +290,7 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -333,28 +339,29 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
     "2026": {
       "tables": {
         "pitches": {
-          "rows": 210510,
+          "rows": 211960,
           "files": 8,
-          "bytes": 30985857
+          "bytes": 31230838
         },
         "events": {
-          "rows": 267937,
+          "rows": 269797,
           "files": 8,
-          "bytes": 1342738
+          "bytes": 1353433
         },
         "games": {
-          "rows": 684,
+          "rows": 689,
           "files": 8,
-          "bytes": 95601
+          "bytes": 96157
         }
       },
-      "games": 684,
+      "games": 689,
       "months": [
         "03",
         "04",
@@ -367,7 +374,7 @@
       ],
       "date_range": [
         "2026-03-28",
-        "2026-10-01"
+        "2026-10-03"
       ],
       "metrics": [
         "arm_angle",
