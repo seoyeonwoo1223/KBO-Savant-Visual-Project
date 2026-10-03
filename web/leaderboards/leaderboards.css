@@ -2,7 +2,6 @@
 * { box-sizing:border-box; }
 body { margin:0; color:var(--ink); font-family:Inter, Pretendard, "Noto Sans KR", system-ui, sans-serif; }
 .leaderboard-page { width:min(1500px, calc(100% - 32px)); margin:0 auto; padding:28px 0 48px; }
-nav a { color:var(--accent); font-weight:750; text-decoration:none; }
 header { margin:42px 0 24px; }
 .eyebrow { margin:0 0 6px; color:var(--accent); font-size:.78rem; font-weight:850; letter-spacing:.14em; }
 h1 { margin:0; font-size:clamp(2rem, 5vw, 3.5rem); letter-spacing:-.05em; }
