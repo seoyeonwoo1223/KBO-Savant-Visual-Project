@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T20:58:37+00:00",
+  "generated_at": "2026-10-03T11:33:34+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -50,7 +50,6 @@
         "excel",
         "movement_zones",
         "pitch_arsenal",
-        "plate_decision",
         "plate_discipline",
         "swing_take",
         "zone_profiles"
@@ -96,7 +95,6 @@
         "excel",
         "movement_zones",
         "pitch_arsenal",
-        "plate_decision",
         "plate_discipline",
         "swing_take",
         "zone_profiles"
@@ -143,7 +141,6 @@
         "excel",
         "movement_zones",
         "pitch_arsenal",
-        "plate_decision",
         "plate_discipline",
         "swing_take",
         "zone_profiles"
@@ -190,7 +187,7 @@
         "blocking",
         "excel",
         "movement_zones",
-        "plate_decision",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
         "zone_profiles"
@@ -237,7 +234,7 @@
         "blocking",
         "excel",
         "movement_zones",
-        "plate_decision",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
         "zone_profiles"
@@ -285,9 +282,9 @@
         "blocking",
         "excel",
         "movement_zones",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -333,9 +330,9 @@
         "blocking",
         "excel",
         "movement_zones",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -379,11 +376,13 @@
         "swing_take",
         "zone_awareness"
       ],
-      "stale_metrics": []
+      "stale_metrics": [
+        "movement_zones"
+      ]
     }
   },
   "published": {
     "web_json": 279,
-    "exports": 33
+    "exports": 10
   }
 }
