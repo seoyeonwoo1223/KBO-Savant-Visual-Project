@@ -33,7 +33,7 @@ NUMERIC = old.BASE_NUMERIC + old.MOVEMENT_NUMERIC
 # p_swing keeps the park-workbook movement where a workbook exists (analysis/sbj_formula M).
 DV_MOVEMENT = ('dv_hb_cm', 'dv_ivb_cm')
 DV_NUMERIC = old.BASE_NUMERIC + DV_MOVEMENT
-MODEL_VERSION = 'za7.7-zaplus'
+MODEL_VERSION = 'za7.8-neutral-apr'
 SCORE_SETTINGS = {'calibration': True, 'support_prior': 50}
 CROSSFIT_FOLDS = 3
 # za7.3: p_zone averages five seeds so one early-stopping validation split no longer moves player SBJ
@@ -60,7 +60,7 @@ CONTRACT = {
  'p_zone': 'take-only CalledStrike vs Ball/HBP model, five-seed average; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to front-plane px/pz when the trajectory is invalid; human-umpire seasons read front-plane px/pz, zone bounds and the ball-strike count',
  'raw_dv': 'sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs; event and value models read TrackMan-validated movement (movement_calibration) in every season',
  'dv_per_100': '100 * raw_dv / eligible pitches; runs per 100 pitches',
- 'jdv_per_100': 'decision DV: 100 * mean(2 * (S - p_swing) * (V_swing - V_take)); runs per 100 pitches above the league Swing policy on the same pitches',
+ 'jdv_per_100': 'decision DV (aggression-neutral, analysis/sbj_formula X-B): 100 * mean(2 * (S - p_swing - m) * (V_swing - V_take)), m = the hitter\'s mean(S - p_swing) = swing_aggression / 100; runs per 100 pitches above the league Swing policy shifted by the hitter\'s own aggression, so swinging uniformly more or less scores zero',
  'apr': 'APR (Approach), wRC+-style: 100 * (L + s) / L. L = league pitch-weighted dv_per_100; s = n/(n+k) * (jdv_per_100 - league jdv), re-centred so the pitch-weighted league mean is 100; k = per-pitch noise / true-talent variance among qualified hitters (pitches for reliability 0.5)',
  'apr_percentile': 'midrank percentile of APR against qualified hitters (300+ pitches); every hitter gets one, unqualified hitters are flagged by qualified_300',
  'swing_aggression': '100 * mean(S - p_swing); percentage points, tendency only',
@@ -532,8 +532,10 @@ def profile_summary(items):
  n=len(items); first=items[0]
  total=sum(r['dv'] for r in items)
  s={'season':first['season'],'batter_id':str(first['batter_id']),'batter_name':first['batter_name'],'team':_team_history(items),'pitches_seen':n,'qualified_300':n>=300,'za_raw':zone_awareness(items),'dv_per_100':r6(100*total/n),'raw_dv':r6(total),'swing_aggression':r6(100*np.mean([r['swing']-r['p_swing'] for r in items])),'za_percentile':None,'low_opposite_support_pitches':sum(r['opposite_support']<30 for r in items)}
- # Decision DV (APR input): the chosen action's value above the league Swing policy on the same pitches.
- jdv=np.array([2*(r['swing']-r['p_swing'])*r['delta_v'] for r in items]); mean_jdv=float(jdv.mean())
+ # Decision DV (APR input): the chosen action's value above the league Swing policy on the same pitches, with the
+ # policy shifted by the hitter's own aggression so APR scores where the hitter swung, not how often (gates.md X, B).
+ excess=np.array([r['swing']-r['p_swing'] for r in items])
+ jdv=2*(excess-excess.mean())*np.array([r['delta_v'] for r in items]); mean_jdv=float(jdv.mean())
  by_game=defaultdict(float)
  for r,v in zip(items,jdv): by_game[r['game_id']]+=v-mean_jdv
  s['jdv_per_100']=r6(100*mean_jdv); s['jdv_se']=r6(100*np.sqrt(sum(v*v for v in by_game.values()))/n)
@@ -617,7 +619,8 @@ def write_web(root,season,pitches,report,output_root=None):
  # PA counts every PA-ending pitch in the season (leaderboard_vb's definition), not only the pitches eligible for judgment.
  plate_appearances=Counter(str(r['batter_id']) for r in load_curated_rows(root,'pitches',season,columns=['batter_id','is_pa_terminal']) if r['is_pa_terminal'])
  for p in players: p['pa']=plate_appearances.get(p['batter_id'],0)
- apr_meta=add_apr(players,100*float(np.mean([r['dv'] for r in pitches])),100*float(np.mean([2*(r['swing']-r['p_swing'])*r['delta_v'] for r in pitches])))
+ # League decision DV: the pitch-weighted mean of each hitter's input, so the formula stays in profile_summary().
+ apr_meta=add_apr(players,100*float(np.mean([r['dv'] for r in pitches])),sum(p['jdv_per_100']*p['pitches_seen'] for p in players)/len(pitches))
  report['apr']=apr_meta
  report['za_plus']=add_za_plus(players,100*float(np.mean([(2*r['swing']-1)*(2*r['p_zone']-1) for r in pitches])),100*float(np.mean([2*r['judgment'] for r in pitches])))
  def dump(path,payload): path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n',encoding='utf-8')
