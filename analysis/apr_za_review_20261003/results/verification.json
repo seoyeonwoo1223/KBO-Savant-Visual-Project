@@ -1,0 +1,44 @@
+{
+  "상태": "확인함(실제 반복 재현 및 정적 검사)",
+  "V7_반복결과_바이트동일": true,
+  "재현스크립트_종료코드": {
+    "reproduce.py": 0,
+    "check_height.py": 0
+  },
+  "Python_AST_구문검사": true,
+  "사전감사기준판정": {
+    "V1": {
+      "요청버전과일치": false,
+      "운영과후보분리": true,
+      "공개와소스일치": true
+    },
+    "V2": {
+      "통과": true,
+      "최대점수오차": 5.609952154372877e-06,
+      "최대k상대오차": 2.6656934092215323e-09
+    },
+    "V3": {
+      "통과": true,
+      "공개집계최대오차": 4.997773604964451e-07,
+      "X스냅샷과일치": false
+    },
+    "V4": {
+      "상관문턱통과": true,
+      "최대상관오차": 0.00017129898924561626,
+      "과거B_k": "원자료 부족으로 미확인"
+    },
+    "V5": "확인함: 저장 기록 대조만 수행. 신뢰도·회귀 CI·외부 47점의 원자료 독립 재현은 미실행.",
+    "V6": "확인함: 2026 기존 점수 요약만. 존 높이 결과는 height_audit.json에 있으며 원인 판정은 미확인.",
+    "V7": "반복 실행의 바이트 동일성은 별도 verification.json에 기록한다."
+  },
+  "결과_SHA256": {
+    "analysis/apr_za_review_20261003/results/height_audit.json": "23b1d08a51390d4d7ec104855854b54e04d737c234fd0bacb3a6189a703ed24f",
+    "analysis/apr_za_review_20261003/results/height_audit_2026.csv": "00de3fca4ef2d7d26d2a7f146d9033de2203950330e896b6fcaff4b9bc794345",
+    "analysis/apr_za_review_20261003/results/pitches_2026_player_summary.csv": "0c008249c58c7c1453f36890fad840d0eeefcd0c4487b774a098ef9e42d6677e",
+    "analysis/apr_za_review_20261003/results/public_seasons.csv": "c7c94a9901a31b5264c7c6c8daa63fd6d29cb95a6d1bc5ba5fb58f329e5ab062",
+    "analysis/apr_za_review_20261003/results/reproduction.json": "ac47b7d48d6ab9b3b638d3eec463fdd67afed68fca065680f5d07459db2a3120",
+    "analysis/apr_za_review_20261003/results/x_seasons.csv": "148c5d78fa3d5eef7f52ebbec5334e5f6d7083bf01ae7aaa6e791a81acafd5f9",
+    "analysis/apr_za_review_20261003/results/za_policy_decomposition_from_csv.csv": "39c420deaf76baf44b71d3f99ac4f671bc9e52acf0a38bb526f3d9c0bf380c79"
+  },
+  "한계": "신규 제안 실험은 실행하지 않았다. 스냅샷·버전 불일치 및 원자료 미확인은 오류 없이 숨기지 않고 보고했다."
+}

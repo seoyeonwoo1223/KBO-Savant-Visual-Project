@@ -1,0 +1,1633 @@
+{
+  "기준커밋": "d7bb6fa1",
+  "코드모델버전": "za7.7-zaplus",
+  "요청모델버전": "za7.8-neutral-apr",
+  "버전판정": "확인함: 체크아웃 코드는 A 산식의 za7.7-zaplus이고 공개 8시즌 버전도 같다. B는 기존 X 후보값으로 분리했다.",
+  "실행환경": {
+    "python_major_minor": "3.12",
+    "OMP_NUM_THREADS": "2",
+    "OPENBLAS_NUM_THREADS": "2",
+    "패키지": {
+      "numpy": "2.5.3",
+      "pandas": "2.3.3",
+      "pyarrow": "19.0.1",
+      "scipy": "1.18.1",
+      "scikit-learn": "1.9.0",
+      "openpyxl": "3.1.5"
+    }
+  },
+  "사전감사기준판정": {
+    "V1": {
+      "요청버전과일치": false,
+      "운영과후보분리": true,
+      "공개와소스일치": true
+    },
+    "V2": {
+      "통과": true,
+      "최대점수오차": 5.609952154372877e-06,
+      "최대k상대오차": 2.6656934092215323e-09
+    },
+    "V3": {
+      "통과": true,
+      "공개집계최대오차": 4.997773604964451e-07,
+      "X스냅샷과일치": false
+    },
+    "V4": {
+      "상관문턱통과": true,
+      "최대상관오차": 0.00017129898924561626,
+      "과거B_k": "원자료 부족으로 미확인"
+    },
+    "V5": "확인함: 저장 기록 대조만 수행. 신뢰도·회귀 CI·외부 47점의 원자료 독립 재현은 미실행.",
+    "V6": "확인함: 2026 기존 점수 요약만. 존 높이 결과는 height_audit.json에 있으며 원인 판정은 미확인.",
+    "V7": "반복 실행의 바이트 동일성은 별도 verification.json에 기록한다."
+  },
+  "공개집계_산식감사": {
+    "판정": "확인함(저장 리더보드 산식 독립 재계산)",
+    "수축제거_300_600구_통합평균_절대점수변화": 4.102691066884329,
+    "수축제거_300_600구_통합타자시즌수": 301,
+    "수축제거_규정타자_시즌합동rho": 0.9971486893837423,
+    "수축제거_시즌별rho_평균": 0.996714975018005,
+    "주의": "수축 제거는 저장된 기존 ZA+ 구성의 표시 감사다. 새 산식 채택 실험이 아니다. 순위 모집단별 rho와 300≤n≤600의 평균 절대차를 따로 보고한다.",
+    "시즌": [
+      {
+        "season": 2019,
+        "model_version": "za7.7-zaplus",
+        "players": 291,
+        "pitches": 204021,
+        "qualified": 149,
+        "qualified_flag_matches_n": true,
+        "L": 4.776943,
+        "M": 35.407275,
+        "apr_k_stored": 377.179142,
+        "apr_k_recomputed": 377.17914218902837,
+        "apr_sigma2": 85.77413872788101,
+        "apr_tau2": 0.22740954929287727,
+        "apr_max_score_error": 1.5681690541669013e-06,
+        "apr_max_percentile_error": 4.966442954668082e-07,
+        "apr_pitch_weighted_mean": 100.0,
+        "za_k_stored": 217.163889,
+        "za_k_recomputed": 217.16388925680045,
+        "za_sigma2": 4164.337937126016,
+        "za_tau2": 19.17601472039215,
+        "za_max_score_error": 1.1028688504666206e-06,
+        "za_max_percentile_error": 4.966442954668082e-07,
+        "za_pitch_weighted_mean": 100.00000000000001,
+        "apr_sa_spearman": -0.4191003083620533,
+        "za_plus_sa_spearman": 0.0846689642662797,
+        "za_raw_sa_spearman": 0.07891529113005623,
+        "za_raw_vs_shrunk_rho_qualified": 0.9961690549610014,
+        "za_raw_vs_shrunk_rho_all": 0.8713692299451179,
+        "small_300_600_players": 30,
+        "small_za_mean_absolute_point_change": 4.543701644739017,
+        "apr_std_qualified_ddof1": 8.410365193446763
+      },
+      {
+        "season": 2020,
+        "model_version": "za7.7-zaplus",
+        "players": 286,
+        "pitches": 219553,
+        "qualified": 166,
+        "qualified_flag_matches_n": true,
+        "L": 5.053443,
+        "M": 35.234547,
+        "apr_k_stored": 296.35558,
+        "apr_k_recomputed": 296.35557971194504,
+        "apr_sigma2": 97.416220433853,
+        "apr_tau2": 0.3287139743700479,
+        "apr_max_score_error": 5.609952154372877e-06,
+        "apr_max_percentile_error": 4.939759037370095e-07,
+        "apr_pitch_weighted_mean": 100.0,
+        "za_k_stored": 194.353202,
+        "za_k_recomputed": 194.35320217325443,
+        "za_sigma2": 4119.465038046226,
+        "za_tau2": 21.19576622346549,
+        "za_max_score_error": 1.2816683323535472e-06,
+        "za_max_percentile_error": 4.939759037370095e-07,
+        "za_pitch_weighted_mean": 100.0,
+        "apr_sa_spearman": -0.5133474562375797,
+        "za_plus_sa_spearman": 0.07000544365813828,
+        "za_raw_sa_spearman": 0.06751578988791311,
+        "za_raw_vs_shrunk_rho_qualified": 0.9963796394068383,
+        "za_raw_vs_shrunk_rho_all": 0.8973555327855712,
+        "small_300_600_players": 44,
+        "small_za_mean_absolute_point_change": 4.19837627054672,
+        "apr_std_qualified_ddof1": 9.587076425763778
+      },
+      {
+        "season": 2021,
+        "model_version": "za7.7-zaplus",
+        "players": 291,
+        "pitches": 219196,
+        "qualified": 166,
+        "qualified_flag_matches_n": true,
+        "L": 5.149124,
+        "M": 34.591007,
+        "apr_k_stored": 295.29245,
+        "apr_k_recomputed": 295.29245011635436,
+        "apr_sigma2": 105.2488002905805,
+        "apr_tau2": 0.3564222527501439,
+        "apr_max_score_error": 2.096540754337184e-06,
+        "apr_max_percentile_error": 4.939759037370095e-07,
+        "apr_pitch_weighted_mean": 100.0,
+        "za_k_stored": 165.429013,
+        "za_k_recomputed": 165.42901255901697,
+        "za_sigma2": 4326.363276869057,
+        "za_tau2": 26.152385303790787,
+        "za_max_score_error": 6.665633520697156e-07,
+        "za_max_percentile_error": 4.939759037370095e-07,
+        "za_pitch_weighted_mean": 100.00000000000001,
+        "apr_sa_spearman": -0.4820759357517168,
+        "za_plus_sa_spearman": 0.1411114244676037,
+        "za_raw_sa_spearman": 0.13760911911117527,
+        "za_raw_vs_shrunk_rho_qualified": 0.9978487712417444,
+        "za_raw_vs_shrunk_rho_all": 0.898265879064422,
+        "small_300_600_players": 37,
+        "small_za_mean_absolute_point_change": 3.294818236980402,
+        "apr_std_qualified_ddof1": 10.290004010742553
+      },
+      {
+        "season": 2022,
+        "model_version": "za7.7-zaplus",
+        "players": 279,
+        "pitches": 213888,
+        "qualified": 162,
+        "qualified_flag_matches_n": true,
+        "L": 4.807901,
+        "M": 35.075579,
+        "apr_k_stored": 301.243265,
+        "apr_k_recomputed": 301.243265343841,
+        "apr_sigma2": 89.80249392119802,
+        "apr_tau2": 0.2981062292585923,
+        "apr_max_score_error": 4.616916243094238e-06,
+        "apr_max_percentile_error": 4.938271622734192e-07,
+        "apr_pitch_weighted_mean": 100.0,
+        "za_k_stored": 160.769643,
+        "za_k_recomputed": 160.76964273128692,
+        "za_sigma2": 4278.568546015056,
+        "za_tau2": 26.613037594207555,
+        "za_max_score_error": 1.1186156569920058e-06,
+        "za_max_percentile_error": 4.938271622734192e-07,
+        "za_pitch_weighted_mean": 100.0,
+        "apr_sa_spearman": -0.5841317825847033,
+        "za_plus_sa_spearman": -0.017882722870719667,
+        "za_raw_sa_spearman": -0.027496574042319574,
+        "za_raw_vs_shrunk_rho_qualified": 0.9978096451822779,
+        "za_raw_vs_shrunk_rho_all": 0.9064665318436496,
+        "small_300_600_players": 39,
+        "small_za_mean_absolute_point_change": 3.431103752071781,
+        "apr_std_qualified_ddof1": 10.03047950817684
+      },
+      {
+        "season": 2023,
+        "model_version": "za7.7-zaplus",
+        "players": 293,
+        "pitches": 214504,
+        "qualified": 173,
+        "qualified_flag_matches_n": true,
+        "L": 4.796857,
+        "M": 34.367915,
+        "apr_k_stored": 458.770924,
+        "apr_k_recomputed": 458.7709235603813,
+        "apr_sigma2": 83.74248050147001,
+        "apr_tau2": 0.18253659114132637,
+        "apr_max_score_error": 3.3074510241704047e-06,
+        "apr_max_percentile_error": 4.971098377382077e-07,
+        "apr_pitch_weighted_mean": 100.0,
+        "za_k_stored": 183.164816,
+        "za_k_recomputed": 183.1648163776896,
+        "za_sigma2": 4207.098962909568,
+        "za_tau2": 22.968925179574033,
+        "za_max_score_error": 7.946423750126996e-07,
+        "za_max_percentile_error": 4.971098261918883e-07,
+        "za_pitch_weighted_mean": 100.0,
+        "apr_sa_spearman": -0.4854448363934715,
+        "za_plus_sa_spearman": 0.07743671516842736,
+        "za_raw_sa_spearman": 0.07142228052528381,
+        "za_raw_vs_shrunk_rho_qualified": 0.9966578748534055,
+        "za_raw_vs_shrunk_rho_all": 0.9127727298315652,
+        "small_300_600_players": 41,
+        "small_za_mean_absolute_point_change": 3.3775166276896127,
+        "apr_std_qualified_ddof1": 7.57304535628404
+      },
+      {
+        "season": 2024,
+        "model_version": "za7.7-zaplus",
+        "players": 298,
+        "pitches": 221551,
+        "qualified": 155,
+        "qualified_flag_matches_n": true,
+        "L": 6.174685,
+        "M": 37.769801,
+        "apr_k_stored": 345.953005,
+        "apr_k_recomputed": 345.95300490887035,
+        "apr_sigma2": 127.46753975700798,
+        "apr_tau2": 0.36845333888799436,
+        "apr_max_score_error": 4.32709549613719e-06,
+        "apr_max_percentile_error": 4.838709699583887e-07,
+        "apr_pitch_weighted_mean": 100.0,
+        "za_k_stored": 179.041215,
+        "za_k_recomputed": 179.04121456563809,
+        "za_sigma2": 5403.5363630533275,
+        "za_tau2": 30.180404976376785,
+        "za_max_score_error": 8.149910399879445e-07,
+        "za_max_percentile_error": 4.838709699583887e-07,
+        "za_pitch_weighted_mean": 100.0,
+        "apr_sa_spearman": -0.45398150236859913,
+        "za_plus_sa_spearman": 0.06704263478457027,
+        "za_raw_sa_spearman": 0.07087106441945151,
+        "za_raw_vs_shrunk_rho_qualified": 0.9977635267957848,
+        "za_raw_vs_shrunk_rho_all": 0.8657142228779228,
+        "small_300_600_players": 29,
+        "small_za_mean_absolute_point_change": 3.6315025273512958,
+        "apr_std_qualified_ddof1": 8.46282874413331
+      },
+      {
+        "season": 2025,
+        "model_version": "za7.7-zaplus",
+        "players": 299,
+        "pitches": 216858,
+        "qualified": 171,
+        "qualified_flag_matches_n": true,
+        "L": 5.711456,
+        "M": 36.4639,
+        "apr_k_stored": 281.022254,
+        "apr_k_recomputed": 281.02225366926814,
+        "apr_sigma2": 117.31211430470398,
+        "apr_tau2": 0.41744777423487345,
+        "apr_max_score_error": 1.98956109898063e-06,
+        "apr_max_percentile_error": 4.970760230094129e-07,
+        "apr_pitch_weighted_mean": 100.0,
+        "za_k_stored": 235.925612,
+        "za_k_recomputed": 235.92561182906667,
+        "za_sigma2": 5632.774484483345,
+        "za_tau2": 23.875214059270576,
+        "za_max_score_error": 1.406672652137786e-06,
+        "za_max_percentile_error": 4.970760230094129e-07,
+        "za_pitch_weighted_mean": 100.0,
+        "apr_sa_spearman": -0.5164158686730507,
+        "za_plus_sa_spearman": 0.02008543931648547,
+        "za_raw_sa_spearman": 0.016881464948280415,
+        "za_raw_vs_shrunk_rho_qualified": 0.9949792401660787,
+        "za_raw_vs_shrunk_rho_all": 0.8724872617898588,
+        "small_300_600_players": 40,
+        "small_za_mean_absolute_point_change": 5.201913060172115,
+        "apr_std_qualified_ddof1": 9.857843691976807
+      },
+      {
+        "season": 2026,
+        "model_version": "za7.7-zaplus",
+        "players": 290,
+        "pitches": 209692,
+        "qualified": 166,
+        "qualified_flag_matches_n": true,
+        "L": 6.219719,
+        "M": 36.806947,
+        "apr_k_stored": 447.407007,
+        "apr_k_recomputed": 447.40700697998363,
+        "apr_sigma2": 138.05807826602597,
+        "apr_tau2": 0.30857379547522934,
+        "apr_max_score_error": 2.0851315412073745e-06,
+        "apr_max_percentile_error": 4.939759037370095e-07,
+        "apr_pitch_weighted_mean": 100.0,
+        "za_k_stored": 215.368375,
+        "za_k_recomputed": 215.36837479100402,
+        "za_sigma2": 5663.414495707262,
+        "za_tau2": 26.296407265937283,
+        "za_max_score_error": 9.47463661304937e-07,
+        "za_max_percentile_error": 4.939759037370095e-07,
+        "za_pitch_weighted_mean": 100.0,
+        "apr_sa_spearman": -0.5030582864938251,
+        "za_plus_sa_spearman": 0.1477959743164274,
+        "za_raw_sa_spearman": 0.14802946134018932,
+        "za_raw_vs_shrunk_rho_qualified": 0.9961120475369087,
+        "za_raw_vs_shrunk_rho_all": 0.8714761051322517,
+        "small_300_600_players": 41,
+        "small_za_mean_absolute_point_change": 5.031239203696013,
+        "apr_std_qualified_ddof1": 7.40352233663161
+      }
+    ]
+  },
+  "기존기록감사": {
+    "판정": "확인함(CSV 상관·표준편차 재계산과 JSON 기록 열람을 구분)",
+    "CSV_정밀도": "X/Z CSV는 소수 4자리. 과거 zbar는 (Z0-N0)/SA 역산이며 표본·오차한계를 명시했다.",
+    "X_저장결과": {
+      "pairs": 700,
+      "batters": 215,
+      "candidates": {
+        "A_apr": {
+          "X1_reliability_by_season": {
+            "2019": 0.684680234732748,
+            "2020": 0.7661309312922856,
+            "2021": 0.8167872884183722,
+            "2022": 0.7792863894823503,
+            "2023": 0.7159953687258127,
+            "2024": 0.7753134743871835,
+            "2025": 0.8132286286288138,
+            "2026": 0.7022725495445551
+          },
+          "X1_mean": 0.7567118581515152,
+          "X1_pass": true,
+          "X2_spearman_sa_by_season": {
+            "2019": -0.4191003083620533,
+            "2020": -0.5133474562375797,
+            "2021": -0.4820759357517168,
+            "2022": -0.5841317825847033,
+            "2023": -0.4854448363934715,
+            "2024": -0.45398150236859913,
+            "2025": -0.5164158686730507,
+            "2026": -0.5017544319903459
+          },
+          "X2_max_abs": 0.5841317825847033,
+          "X2_pass": false,
+          "X3_next_season": {
+            "bb_pct": 0.4731401019584683,
+            "obp": 0.29135826075078125,
+            "woba": 0.16967643306820823
+          },
+          "X4_std_coef_given_iso": 0.15479282772462594,
+          "X4_ci95": [
+            0.07502403441758947,
+            0.23692086525694095
+          ],
+          "X4_pass": true,
+          "X5_year_to_year": 0.6274686643749041,
+          "all_required_pass": false
+        },
+        "B_apr_neutral": {
+          "X1_reliability_by_season": {
+            "2019": 0.5951879791095277,
+            "2020": 0.728090391352436,
+            "2021": 0.7850636883587115,
+            "2022": 0.7063970769288986,
+            "2023": 0.6444411206421018,
+            "2024": 0.7421794212383214,
+            "2025": 0.7750618039578707,
+            "2026": 0.6449152505895434
+          },
+          "X1_mean": 0.7026670915221763,
+          "X1_pass": true,
+          "X2_spearman_sa_by_season": {
+            "2019": -0.05937602031561763,
+            "2020": -0.09859842199500234,
+            "2021": -0.05439591791225873,
+            "2022": -0.2522563336113616,
+            "2023": -0.11946590893288403,
+            "2024": -0.2734330185943089,
+            "2025": -0.24987160102719178,
+            "2026": -0.2162706350715874
+          },
+          "X2_max_abs": 0.2734330185943089,
+          "X2_pass": true,
+          "X3_next_season": {
+            "bb_pct": 0.3614031386552632,
+            "obp": 0.2620015795553325,
+            "woba": 0.22900168594778106
+          },
+          "X4_std_coef_given_iso": 0.1470688430151105,
+          "X4_ci95": [
+            0.060083545654508456,
+            0.22765693487939517
+          ],
+          "X4_pass": true,
+          "X5_year_to_year": 0.5959136474460527,
+          "all_required_pass": true
+        },
+        "C_seager": {
+          "X1_reliability_by_season": {
+            "2019": 0.5120814557635447,
+            "2020": 0.6367671422793855,
+            "2021": 0.5681738209938083,
+            "2022": 0.5601702887111594,
+            "2023": 0.6573784252587322,
+            "2024": 0.5151869094732248,
+            "2025": 0.5016421908694347,
+            "2026": 0.6113130590468919
+          },
+          "X1_mean": 0.5703391615495227,
+          "X1_pass": false,
+          "X2_spearman_sa_by_season": {
+            "2019": -0.10478505350988573,
+            "2020": -0.010508227794137905,
+            "2021": -0.0796308806264798,
+            "2022": -0.007944270147524348,
+            "2023": 0.020546421237559738,
+            "2024": -0.11330282620605202,
+            "2025": -0.2147622819017448,
+            "2026": -0.20387483521456543
+          },
+          "X2_max_abs": 0.2147622819017448,
+          "X2_pass": true,
+          "X3_next_season": {
+            "bb_pct": 0.3365200817321713,
+            "obp": 0.30751321298747775,
+            "woba": 0.33650629268260146
+          },
+          "X4_std_coef_given_iso": 0.18943387280282306,
+          "X4_ci95": [
+            0.11308549151963439,
+            0.2638412330666023
+          ],
+          "X4_pass": true,
+          "X5_year_to_year": 0.47828063310123364,
+          "all_required_pass": false
+        },
+        "D_za": {
+          "X1_reliability_by_season": {
+            "2019": 0.7720035305970411,
+            "2020": 0.7990646149452194,
+            "2021": 0.8305451251570465,
+            "2022": 0.8402355810071916,
+            "2023": 0.7877724939874011,
+            "2024": 0.8541041797900797,
+            "2025": 0.8284441242203558,
+            "2026": 0.8203462300271197
+          },
+          "X1_mean": 0.8165644849664319,
+          "X1_pass": true,
+          "X2_spearman_sa_by_season": {
+            "2019": 0.07891529113005623,
+            "2020": 0.06751578988791311,
+            "2021": 0.13760911911117527,
+            "2022": -0.027496574042319574,
+            "2023": 0.07142228052528381,
+            "2024": 0.07087106441945151,
+            "2025": 0.016881464948280415,
+            "2026": 0.1420899712076395
+          },
+          "X2_max_abs": 0.1420899712076395,
+          "X2_pass": true,
+          "X3_next_season": {
+            "bb_pct": 0.2757682400936971,
+            "obp": 0.14957900398534738,
+            "woba": 0.21032615107874755
+          },
+          "X4_std_coef_given_iso": 0.07583326757164731,
+          "X4_ci95": [
+            -0.013106007907889787,
+            0.16045460946953086
+          ],
+          "X4_pass": false,
+          "X5_year_to_year": 0.7310877687401824,
+          "all_required_pass": false
+        },
+        "E_apr_za": {
+          "X1_reliability_by_season": {
+            "2019": 0.7479228673118056,
+            "2020": 0.7871044143290441,
+            "2021": 0.8355759752911722,
+            "2022": 0.797339635661486,
+            "2023": 0.7535788365650155,
+            "2024": 0.8341386581658453,
+            "2025": 0.8235961210327005,
+            "2026": 0.7629136493588524
+          },
+          "X1_mean": 0.7927712697144902,
+          "X1_pass": true,
+          "X2_spearman_sa_by_season": {
+            "2019": -0.1862831261183493,
+            "2020": -0.24132661371125846,
+            "2021": -0.18873743263957876,
+            "2022": -0.3313456976683676,
+            "2023": -0.2261172184829962,
+            "2024": -0.20358649454267022,
+            "2025": -0.2701130356716688,
+            "2026": -0.19444495464749295
+          },
+          "X2_max_abs": 0.3313456976683676,
+          "X2_pass": false,
+          "X3_next_season": {
+            "bb_pct": 0.4045780372643926,
+            "obp": 0.23508133768468817,
+            "woba": 0.20268342195851607
+          },
+          "X4_std_coef_given_iso": 0.11699462198153161,
+          "X4_ci95": [
+            0.034828251823049994,
+            0.19726390457934076
+          ],
+          "X4_pass": true,
+          "X5_year_to_year": 0.6979000128135586,
+          "all_required_pass": false
+        }
+      },
+      "passing": [
+        "B_apr_neutral"
+      ],
+      "recommended": "B_apr_neutral"
+    },
+    "X_원자료독립재현불가": "반분 신뢰도·다음 시즌 회귀/CI는 과거 투구·외부 PA 원자료를 재빌드하지 않으므로 저장 JSON 대조에 한정. 과거 B k는 CSV에 SE와 B 원입력이 없어 식별 불가.",
+    "X_CSV_재계산": [
+      {
+        "season": 2019,
+        "qualified": 149,
+        "minimum_n": 303,
+        "A_sa_spearman": -0.4191003083620533,
+        "B_sa_spearman": -0.05937602031561763,
+        "D_za_sa_spearman": 0.07891529113005623,
+        "A_std_ddof1": 8.4103580866436,
+        "B_std_ddof1": 6.480087603397949,
+        "current_public_n_mismatched_players": 0,
+        "current_public_n_max_difference": 0,
+        "current_public_A_max_score_difference": 6.199999999978445e-05,
+        "current_public_D_max_raw_difference": 4.999999999988347e-05,
+        "A_sa_spearman_stored": -0.4191003083620533,
+        "A_sa_spearman_error": 0.0,
+        "B_sa_spearman_stored": -0.05937602031561763,
+        "B_sa_spearman_error": 0.0,
+        "D_za_sa_spearman_stored": 0.07891529113005623,
+        "D_za_sa_spearman_error": 0.0
+      },
+      {
+        "season": 2020,
+        "qualified": 166,
+        "minimum_n": 305,
+        "A_sa_spearman": -0.5133215584089609,
+        "B_sa_spearman": -0.09856307006781775,
+        "D_za_sa_spearman": 0.0675853556318105,
+        "A_std_ddof1": 9.587074135633255,
+        "B_std_ddof1": 7.179957747514803,
+        "current_public_n_mismatched_players": 0,
+        "current_public_n_max_difference": 0,
+        "current_public_A_max_score_difference": 6.100000000230921e-05,
+        "current_public_D_max_raw_difference": 4.999999999988347e-05,
+        "A_sa_spearman_stored": -0.5133474562375797,
+        "A_sa_spearman_error": 2.589782861883716e-05,
+        "B_sa_spearman_stored": -0.09859842199500234,
+        "B_sa_spearman_error": 3.535192718458202e-05,
+        "D_za_sa_spearman_stored": 0.06751578988791311,
+        "D_za_sa_spearman_error": 6.956574389739567e-05
+      },
+      {
+        "season": 2021,
+        "qualified": 166,
+        "minimum_n": 308,
+        "A_sa_spearman": -0.4820759357517168,
+        "B_sa_spearman": -0.05439591791225873,
+        "D_za_sa_spearman": 0.13760911911117527,
+        "A_std_ddof1": 10.29000536182261,
+        "B_std_ddof1": 7.772515195414661,
+        "current_public_n_mismatched_players": 0,
+        "current_public_n_max_difference": 0,
+        "current_public_A_max_score_difference": 5.5000000003246896e-05,
+        "current_public_D_max_raw_difference": 5.000000000077165e-05,
+        "A_sa_spearman_stored": -0.4820759357517168,
+        "A_sa_spearman_error": 0.0,
+        "B_sa_spearman_stored": -0.05439591791225873,
+        "B_sa_spearman_error": 0.0,
+        "D_za_sa_spearman_stored": 0.13760911911117527,
+        "D_za_sa_spearman_error": 0.0
+      },
+      {
+        "season": 2022,
+        "qualified": 162,
+        "minimum_n": 302,
+        "A_sa_spearman": -0.5841317825847033,
+        "B_sa_spearman": -0.2522563336113616,
+        "D_za_sa_spearman": -0.027496574042319574,
+        "A_std_ddof1": 10.030482453508975,
+        "B_std_ddof1": 7.027393479764785,
+        "current_public_n_mismatched_players": 0,
+        "current_public_n_max_difference": 0,
+        "current_public_A_max_score_difference": 5.600000000072214e-05,
+        "current_public_D_max_raw_difference": 4.900000000063187e-05,
+        "A_sa_spearman_stored": -0.5841317825847033,
+        "A_sa_spearman_error": 0.0,
+        "B_sa_spearman_stored": -0.2522563336113616,
+        "B_sa_spearman_error": 0.0,
+        "D_za_sa_spearman_stored": -0.027496574042319574,
+        "D_za_sa_spearman_error": 0.0
+      },
+      {
+        "season": 2023,
+        "qualified": 173,
+        "minimum_n": 304,
+        "A_sa_spearman": -0.4854448363934715,
+        "B_sa_spearman": -0.11946590893288403,
+        "D_za_sa_spearman": 0.07142228052528381,
+        "A_std_ddof1": 7.573057654150299,
+        "B_std_ddof1": 5.758828668611114,
+        "current_public_n_mismatched_players": 0,
+        "current_public_n_max_difference": 0,
+        "current_public_A_max_score_difference": 6.700000000137152e-05,
+        "current_public_D_max_raw_difference": 5.0000000000105516e-05,
+        "A_sa_spearman_stored": -0.4854448363934715,
+        "A_sa_spearman_error": 0.0,
+        "B_sa_spearman_stored": -0.11946590893288403,
+        "B_sa_spearman_error": 0.0,
+        "D_za_sa_spearman_stored": 0.07142228052528381,
+        "D_za_sa_spearman_error": 0.0
+      },
+      {
+        "season": 2024,
+        "qualified": 155,
+        "minimum_n": 304,
+        "A_sa_spearman": -0.45398150236859913,
+        "B_sa_spearman": -0.2734330185943089,
+        "D_za_sa_spearman": 0.07087106441945151,
+        "A_std_ddof1": 8.462826001577792,
+        "B_std_ddof1": 7.106937803378121,
+        "current_public_n_mismatched_players": 0,
+        "current_public_n_max_difference": 0,
+        "current_public_A_max_score_difference": 5.5000000003246896e-05,
+        "current_public_D_max_raw_difference": 5.000000000032756e-05,
+        "A_sa_spearman_stored": -0.45398150236859913,
+        "A_sa_spearman_error": 0.0,
+        "B_sa_spearman_stored": -0.2734330185943089,
+        "B_sa_spearman_error": 0.0,
+        "D_za_sa_spearman_stored": 0.07087106441945151,
+        "D_za_sa_spearman_error": 0.0
+      },
+      {
+        "season": 2025,
+        "qualified": 171,
+        "minimum_n": 316,
+        "A_sa_spearman": -0.5163237792041269,
+        "B_sa_spearman": -0.24970030203794616,
+        "D_za_sa_spearman": 0.016946274597571028,
+        "A_std_ddof1": 9.857844552335935,
+        "B_std_ddof1": 7.678374604391409,
+        "current_public_n_mismatched_players": 0,
+        "current_public_n_max_difference": 0,
+        "current_public_A_max_score_difference": 5.5000000003246896e-05,
+        "current_public_D_max_raw_difference": 4.999999999988347e-05,
+        "A_sa_spearman_stored": -0.5164158686730507,
+        "A_sa_spearman_error": 9.20894689238061e-05,
+        "B_sa_spearman_stored": -0.24987160102719178,
+        "B_sa_spearman_error": 0.00017129898924561626,
+        "D_za_sa_spearman_stored": 0.016881464948280415,
+        "D_za_sa_spearman_error": 6.480964929061334e-05
+      },
+      {
+        "season": 2026,
+        "qualified": 166,
+        "minimum_n": 314,
+        "A_sa_spearman": -0.5017544319903459,
+        "B_sa_spearman": -0.2162706350715874,
+        "D_za_sa_spearman": 0.1420899712076395,
+        "A_std_ddof1": 7.418359626460815,
+        "B_std_ddof1": 5.531104738783459,
+        "current_public_n_mismatched_players": 111,
+        "current_public_n_max_difference": 52,
+        "current_public_A_max_score_difference": 2.904723000000004,
+        "current_public_D_max_raw_difference": 1.3200360000000004,
+        "A_sa_spearman_stored": -0.5017544319903459,
+        "A_sa_spearman_error": 0.0,
+        "B_sa_spearman_stored": -0.2162706350715874,
+        "B_sa_spearman_error": 0.0,
+        "D_za_sa_spearman_stored": 0.1420899712076395,
+        "D_za_sa_spearman_error": 0.0
+      }
+    ],
+    "Z_저장결과": {
+      "z_weighted_za": {
+        "candidates": {
+          "Z0": {
+            "ZG1_reliability": 0.8165644849664317,
+            "ZG1_by_season": {
+              "2019": 0.7720035305970411,
+              "2020": 0.7990646149452194,
+              "2021": 0.8305451251570465,
+              "2022": 0.8402355810071916,
+              "2023": 0.787772493987401,
+              "2024": 0.8541041797900794,
+              "2025": 0.8284441242203558,
+              "2026": 0.8203462300271197
+            },
+            "ZG2_max_abs_sa": 0.1420899712076395,
+            "ZG3_max_abs_league_mean": 0.04145914244072445,
+            "ZG5_next_bb_pct": 0.2757682400936971,
+            "next_woba": 0.21032615107874755,
+            "ZG6_x4": 0.07583326757164728,
+            "ZG6_x4_ci95": [
+              -0.013106007907889732,
+              0.1604546094695309
+            ],
+            "ZG6_year_to_year": 0.7310877687401826
+          },
+          "Z1": {
+            "ZG1_reliability": 0.8242150932607719,
+            "ZG1_by_season": {
+              "2019": 0.7803664792871094,
+              "2020": 0.8032550761939108,
+              "2021": 0.8387828193298443,
+              "2022": 0.8607940050014518,
+              "2023": 0.7932626774349065,
+              "2024": 0.8561391617776599,
+              "2025": 0.8399851938895478,
+              "2026": 0.8211353331717443
+            },
+            "ZG2_max_abs_sa": 0.3940027746376106,
+            "ZG3_max_abs_league_mean": 0.04166086282948717,
+            "ZG5_next_bb_pct": 0.4246592901174678,
+            "next_woba": 0.18544933198880997,
+            "ZG6_x4": 0.10280038957151676,
+            "ZG6_x4_ci95": [
+              0.020040137789138754,
+              0.18394005773454103
+            ],
+            "ZG6_year_to_year": 0.7336840375797066,
+            "pass": {
+              "ZG1": true,
+              "ZG2": false,
+              "ZG3": true,
+              "ZG4": true,
+              "ZG5": true
+            },
+            "all_pass": false
+          },
+          "Z2": {
+            "ZG1_reliability": 0.8251206750097296,
+            "ZG1_by_season": {
+              "2019": 0.7751112151815559,
+              "2020": 0.8019116553396499,
+              "2021": 0.8323603257734596,
+              "2022": 0.8581487649587467,
+              "2023": 0.7922063584012686,
+              "2024": 0.8650874056525615,
+              "2025": 0.8477223597678101,
+              "2026": 0.8284173150027851
+            },
+            "ZG2_max_abs_sa": 0.382921736626107,
+            "ZG3_max_abs_league_mean": 0.04138986703716338,
+            "ZG5_next_bb_pct": 0.4336407768095922,
+            "next_woba": 0.19158291181301762,
+            "ZG6_x4": 0.10840203895217028,
+            "ZG6_x4_ci95": [
+              0.023943862169313736,
+              0.1879657384963192
+            ],
+            "ZG6_year_to_year": 0.738353677919058,
+            "pass": {
+              "ZG1": true,
+              "ZG2": false,
+              "ZG3": true,
+              "ZG4": true,
+              "ZG5": true
+            },
+            "all_pass": false
+          },
+          "Z3": {
+            "ZG1_reliability": 0.8241362023361269,
+            "ZG1_by_season": {
+              "2019": 0.7870975707434977,
+              "2020": 0.7959400461310028,
+              "2021": 0.8394110664283483,
+              "2022": 0.8578471576012473,
+              "2023": 0.7949252592694387,
+              "2024": 0.8556789333735441,
+              "2025": 0.8404810121204398,
+              "2026": 0.8217085730214969
+            },
+            "ZG2_max_abs_sa": 0.33949229494708294,
+            "ZG3_max_abs_league_mean": 0.0523149483792428,
+            "ZG5_next_bb_pct": 0.41280241840955423,
+            "next_woba": 0.18692412656283117,
+            "ZG6_x4": 0.0992663213467777,
+            "ZG6_x4_ci95": [
+              0.01727672335993861,
+              0.17990731759715423
+            ],
+            "ZG6_year_to_year": 0.7353324891594272,
+            "pass": {
+              "ZG1": true,
+              "ZG2": false,
+              "ZG3": true,
+              "ZG4": true,
+              "ZG5": true
+            },
+            "all_pass": false
+          },
+          "R3": {
+            "ZG1_reliability": 0.856575101578317,
+            "ZG1_by_season": {
+              "2019": 0.8054287780623448,
+              "2020": 0.8400032148684365,
+              "2021": 0.8532842810682604,
+              "2022": 0.8865075353663641,
+              "2023": 0.8246412237530719,
+              "2024": 0.8935561424418764,
+              "2025": 0.8848766418682634,
+              "2026": 0.8643029951979182
+            },
+            "ZG2_max_abs_sa": 0.6494348045215639,
+            "ZG3_max_abs_league_mean": 0.04737734349915769,
+            "ZG5_next_bb_pct": 0.5133034747176615,
+            "next_woba": 0.1545891519762387,
+            "ZG6_x4": 0.12262065149371024,
+            "ZG6_x4_ci95": [
+              0.043195218009003854,
+              0.20303656573944998
+            ],
+            "ZG6_year_to_year": 0.7526971494232739
+          }
+        },
+        "recommended": null,
+        "external": {
+          "points": 47,
+          "spearman": {
+            "Z0": 0.6901519272412479,
+            "Z1": 0.7839769566591763,
+            "Z2": 0.8001736325143057,
+            "Z3": 0.7862494593597181,
+            "R3": 0.8518497894861884
+          },
+          "mae_percentile": {
+            "Z0": 18.251273932744475,
+            "Z1": 14.719168030384507,
+            "Z2": 13.733384850637943,
+            "Z3": 14.723393954522226,
+            "R3": 12.071132685952666
+          }
+        }
+      },
+      "zb_neutral_za": {
+        "candidates": {
+          "Z0": {
+            "ZG1_reliability": 0.8165644849664317,
+            "ZG1_by_season": {
+              "2019": 0.7720035305970411,
+              "2020": 0.7990646149452194,
+              "2021": 0.8305451251570465,
+              "2022": 0.8402355810071918,
+              "2023": 0.7877724939874011,
+              "2024": 0.8541041797900794,
+              "2025": 0.8284441242203558,
+              "2026": 0.8203462300271197
+            },
+            "ZG2_max_abs_sa": 0.1420899712076395,
+            "ZG3_max_abs_league_mean": 0.04145914244072456,
+            "ZG5_next_bb_pct": 0.2757682400936971,
+            "next_woba": 0.21032615107874755,
+            "ZG6_x4": 0.07583326757164717,
+            "ZG6_x4_ci95": [
+              -0.01310600790788959,
+              0.16045460946953097
+            ],
+            "ZG6_year_to_year": 0.7310877687401824
+          },
+          "N0": {
+            "ZG1_reliability": 0.8213468374470205,
+            "ZG1_by_season": {
+              "2019": 0.7810494963419395,
+              "2020": 0.8189648655271011,
+              "2021": 0.8443542897287268,
+              "2022": 0.8413543015851327,
+              "2023": 0.7869653689725908,
+              "2024": 0.8575718596840343,
+              "2025": 0.8252956225623641,
+              "2026": 0.8152188951742749
+            },
+            "ZG2_max_abs_sa": 0.24576870355674196,
+            "ZG3_max_abs_league_mean": 0.10838207791309543,
+            "ZG5_next_bb_pct": 0.25242850500299585,
+            "next_woba": 0.21976076285795296,
+            "ZG6_x4": 0.0766095032085267,
+            "ZG6_x4_ci95": [
+              -0.016314895459449082,
+              0.16281371264852756
+            ],
+            "ZG6_year_to_year": 0.7325686712226317,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": false,
+              "ZG4": true,
+              "ZG5": false
+            },
+            "all_pass": false
+          },
+          "N1": {
+            "ZG1_reliability": 0.8199967450101597,
+            "ZG1_by_season": {
+              "2019": 0.7789295405258996,
+              "2020": 0.8219288468918304,
+              "2021": 0.8423620921781566,
+              "2022": 0.8365106612293323,
+              "2023": 0.7809574324208384,
+              "2024": 0.8582525774246464,
+              "2025": 0.824819792853953,
+              "2026": 0.8162130165566213
+            },
+            "ZG2_max_abs_sa": 0.25702330279200636,
+            "ZG3_max_abs_league_mean": 0.11852321578358628,
+            "ZG5_next_bb_pct": 0.25024883932813463,
+            "next_woba": 0.2216971175921328,
+            "ZG6_x4": 0.07710777358565306,
+            "ZG6_x4_ci95": [
+              -0.01491800908728065,
+              0.1622711216981098
+            ],
+            "ZG6_year_to_year": 0.7298768341775226,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": false,
+              "ZG4": true,
+              "ZG5": false
+            },
+            "all_pass": false
+          },
+          "N2": {
+            "ZG1_reliability": 0.7768814575985223,
+            "ZG1_by_season": {
+              "2019": 0.7365559523615764,
+              "2020": 0.80295168775539,
+              "2021": 0.7957027046715471,
+              "2022": 0.8122855732164235,
+              "2023": 0.714120470427021,
+              "2024": 0.8082739390114831,
+              "2025": 0.8094927393799445,
+              "2026": 0.7356685939647927
+            },
+            "ZG2_max_abs_sa": 0.33231929360961615,
+            "ZG3_max_abs_league_mean": 0.2279551538472196,
+            "ZG5_next_bb_pct": 0.40762181125788594,
+            "next_woba": 0.23007497461942664,
+            "ZG6_x4": 0.1347832277712232,
+            "ZG6_x4_ci95": [
+              0.05153136371396897,
+              0.2109125228126555
+            ],
+            "ZG6_year_to_year": 0.6734622420204275,
+            "pass": {
+              "ZG1": true,
+              "ZG2": false,
+              "ZG3": false,
+              "ZG4": true,
+              "ZG5": true
+            },
+            "all_pass": false
+          },
+          "N3": {
+            "ZG1_reliability": 0.8289751229196348,
+            "ZG1_by_season": {
+              "2019": 0.7921423826945388,
+              "2020": 0.8291070816893213,
+              "2021": 0.8431444933416107,
+              "2022": 0.8465266521179411,
+              "2023": 0.7751725099556304,
+              "2024": 0.8794652906997947,
+              "2025": 0.8314090170879568,
+              "2026": 0.834833555770285
+            },
+            "ZG2_max_abs_sa": 0.2829062575834093,
+            "ZG3_max_abs_league_mean": 0.13022448334364947,
+            "ZG5_next_bb_pct": 0.22360086210099042,
+            "next_woba": 0.22632213044636873,
+            "ZG6_x4": 0.07701541490171764,
+            "ZG6_x4_ci95": [
+              -0.015360031795045253,
+              0.1618370329285442
+            ],
+            "ZG6_year_to_year": 0.739946995257444,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": false,
+              "ZG4": false,
+              "ZG5": false
+            },
+            "all_pass": false
+          },
+          "N4": {
+            "ZG1_reliability": 0.7824661452982019,
+            "ZG1_by_season": {
+              "2019": 0.7541991732132909,
+              "2020": 0.7843913895724479,
+              "2021": 0.8148361893215986,
+              "2022": 0.8126992640576355,
+              "2023": 0.7185332542838225,
+              "2024": 0.816130491806516,
+              "2025": 0.8019326230466219,
+              "2026": 0.7570067770836821
+            },
+            "ZG2_max_abs_sa": 0.2991589056105185,
+            "ZG3_max_abs_league_mean": 0.2874566300681786,
+            "ZG5_next_bb_pct": 0.38394942700234796,
+            "next_woba": 0.2399616319277613,
+            "ZG6_x4": 0.13538988097294719,
+            "ZG6_x4_ci95": [
+              0.05238442135816006,
+              0.21205283889607743
+            ],
+            "ZG6_year_to_year": 0.685044700596266,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": false,
+              "ZG4": true,
+              "ZG5": true
+            },
+            "all_pass": false
+          }
+        },
+        "recommended": null,
+        "passing": [],
+        "external": {
+          "points": 47,
+          "spearman": {
+            "Z0": 0.6901519272412479,
+            "N0": 0.6941833875816957,
+            "N1": 0.6917158961235148,
+            "N2": 0.7632767026389273,
+            "N3": 0.6249566635295082,
+            "N4": 0.7378164304720574
+          },
+          "mae_percentile": {
+            "Z0": 18.251273932744475,
+            "N0": 18.311905822033726,
+            "N1": 18.296111192751585,
+            "N2": 15.100229229361528,
+            "N3": 19.497360448538434,
+            "N4": 15.626619821128658
+          }
+        }
+      },
+      "zb_neutral_za_recenter": {
+        "candidates": {
+          "Z0": {
+            "ZG1_reliability": 0.8165644849664317,
+            "ZG1_by_season": {
+              "2019": 0.7720035305970409,
+              "2020": 0.7990646149452193,
+              "2021": 0.8305451251570465,
+              "2022": 0.8402355810071916,
+              "2023": 0.787772493987401,
+              "2024": 0.8541041797900794,
+              "2025": 0.8284441242203558,
+              "2026": 0.8203462300271198
+            },
+            "ZG2_max_abs_sa": 0.1420899712076395,
+            "ZG3_max_abs_league_mean": 4.746015142318289e-16,
+            "ZG5_next_bb_pct": 0.2757682400936971,
+            "next_woba": 0.21032615107874755,
+            "ZG6_x4": 0.07583326757164738,
+            "ZG6_x4_ci95": [
+              -0.013106007907889673,
+              0.16045460946953088
+            ],
+            "ZG6_year_to_year": 0.7312938971246776
+          },
+          "N0": {
+            "ZG1_reliability": 0.8213468374470205,
+            "ZG1_by_season": {
+              "2019": 0.7810494963419393,
+              "2020": 0.8189648655271011,
+              "2021": 0.8443542897287271,
+              "2022": 0.8413543015851327,
+              "2023": 0.7869653689725908,
+              "2024": 0.8575718596840343,
+              "2025": 0.8252956225623641,
+              "2026": 0.8152188951742751
+            },
+            "ZG2_max_abs_sa": 0.24576870355674196,
+            "ZG3_max_abs_league_mean": 4.677420762035369e-16,
+            "ZG5_next_bb_pct": 0.25242850500299585,
+            "next_woba": 0.21976076285795296,
+            "ZG6_x4": 0.07660950320852707,
+            "ZG6_x4_ci95": [
+              -0.016314895459449037,
+              0.16281371264852765
+            ],
+            "ZG6_year_to_year": 0.7326233211805275,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": true,
+              "ZG4": true,
+              "ZG5": false
+            },
+            "all_pass": false
+          },
+          "N1": {
+            "ZG1_reliability": 0.8199967450101597,
+            "ZG1_by_season": {
+              "2019": 0.7789295405258995,
+              "2020": 0.8219288468918304,
+              "2021": 0.8423620921781568,
+              "2022": 0.8365106612293323,
+              "2023": 0.7809574324208384,
+              "2024": 0.8582525774246464,
+              "2025": 0.8248197928539531,
+              "2026": 0.8162130165566213
+            },
+            "ZG2_max_abs_sa": 0.25702330279200636,
+            "ZG3_max_abs_league_mean": 9.66780862324096e-16,
+            "ZG5_next_bb_pct": 0.2502488393281347,
+            "next_woba": 0.2216971175921328,
+            "ZG6_x4": 0.07710777358565296,
+            "ZG6_x4_ci95": [
+              -0.014918009087280908,
+              0.16227112169810956
+            ],
+            "ZG6_year_to_year": 0.729923288958736,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": true,
+              "ZG4": true,
+              "ZG5": false
+            },
+            "all_pass": false
+          },
+          "N2": {
+            "ZG1_reliability": 0.7768814575985223,
+            "ZG1_by_season": {
+              "2019": 0.7365559523615764,
+              "2020": 0.80295168775539,
+              "2021": 0.7957027046715471,
+              "2022": 0.8122855732164236,
+              "2023": 0.714120470427021,
+              "2024": 0.8082739390114831,
+              "2025": 0.8094927393799446,
+              "2026": 0.7356685939647928
+            },
+            "ZG2_max_abs_sa": 0.33231929360961615,
+            "ZG3_max_abs_league_mean": 4.3247892617778075e-16,
+            "ZG5_next_bb_pct": 0.4076218112578859,
+            "next_woba": 0.23007497461942664,
+            "ZG6_x4": 0.134783227771223,
+            "ZG6_x4_ci95": [
+              0.05153136371396895,
+              0.21091252281265588
+            ],
+            "ZG6_year_to_year": 0.6734805788534062,
+            "pass": {
+              "ZG1": true,
+              "ZG2": false,
+              "ZG3": true,
+              "ZG4": true,
+              "ZG5": true
+            },
+            "all_pass": false
+          },
+          "N3": {
+            "ZG1_reliability": 0.8289751229196348,
+            "ZG1_by_season": {
+              "2019": 0.7921423826945388,
+              "2020": 0.8291070816893213,
+              "2021": 0.8431444933416107,
+              "2022": 0.8465266521179411,
+              "2023": 0.7751725099556304,
+              "2024": 0.8794652906997947,
+              "2025": 0.8314090170879568,
+              "2026": 0.834833555770285
+            },
+            "ZG2_max_abs_sa": 0.2829062575834093,
+            "ZG3_max_abs_league_mean": 6.878101388501242e-16,
+            "ZG5_next_bb_pct": 0.2236008621009904,
+            "next_woba": 0.22632213044636873,
+            "ZG6_x4": 0.07701541490171762,
+            "ZG6_x4_ci95": [
+              -0.015360031795045227,
+              0.16183703292854434
+            ],
+            "ZG6_year_to_year": 0.7400289171507337,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": true,
+              "ZG4": false,
+              "ZG5": false
+            },
+            "all_pass": false
+          },
+          "N4": {
+            "ZG1_reliability": 0.782466145298202,
+            "ZG1_by_season": {
+              "2019": 0.7541991732132909,
+              "2020": 0.784391389572448,
+              "2021": 0.8148361893215984,
+              "2022": 0.8126992640576358,
+              "2023": 0.7185332542838226,
+              "2024": 0.816130491806516,
+              "2025": 0.8019326230466219,
+              "2026": 0.7570067770836821
+            },
+            "ZG2_max_abs_sa": 0.2991589056105185,
+            "ZG3_max_abs_league_mean": 3.6946131211126803e-16,
+            "ZG5_next_bb_pct": 0.38394942700234796,
+            "next_woba": 0.23996163192776132,
+            "ZG6_x4": 0.1353898809729469,
+            "ZG6_x4_ci95": [
+              0.05238442135815998,
+              0.21205283889607718
+            ],
+            "ZG6_year_to_year": 0.6852607275494907,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": true,
+              "ZG4": true,
+              "ZG5": true
+            },
+            "all_pass": true
+          }
+        },
+        "recommended": "N4",
+        "passing": [
+          "N4"
+        ],
+        "external": {
+          "points": 47,
+          "spearman": {
+            "Z0": 0.6901519272412479,
+            "N0": 0.6941833875816957,
+            "N1": 0.6917158961235148,
+            "N2": 0.7632767026389273,
+            "N3": 0.6249566635295082,
+            "N4": 0.7378164304720574
+          },
+          "mae_percentile": {
+            "Z0": 18.251273932744475,
+            "N0": 18.311905822033726,
+            "N1": 18.296111192751585,
+            "N2": 15.100229229361528,
+            "N3": 19.497360448538434,
+            "N4": 15.626619821128658
+          }
+        }
+      },
+      "zb_neutral_za_strike": {
+        "candidates": {
+          "Z0": {
+            "ZG1_reliability": 0.8165644849664317,
+            "ZG1_by_season": {
+              "2019": 0.7720035305970409,
+              "2020": 0.7990646149452193,
+              "2021": 0.8305451251570465,
+              "2022": 0.8402355810071916,
+              "2023": 0.787772493987401,
+              "2024": 0.8541041797900794,
+              "2025": 0.8284441242203558,
+              "2026": 0.8203462300271198
+            },
+            "ZG2_max_abs_sa": 0.1420899712076395,
+            "ZG3_max_abs_league_mean": 4.746015142318289e-16,
+            "ZG5_next_bb_pct": 0.2757682400936971,
+            "next_woba": 0.21032615107874755,
+            "ZG6_x4": 0.07583326757164738,
+            "ZG6_x4_ci95": [
+              -0.013106007907889673,
+              0.16045460946953088
+            ],
+            "ZG6_year_to_year": 0.7312938971246776
+          },
+          "N4": {
+            "ZG1_reliability": 0.782466145298202,
+            "ZG1_by_season": {
+              "2019": 0.7541991732132909,
+              "2020": 0.784391389572448,
+              "2021": 0.8148361893215984,
+              "2022": 0.8126992640576358,
+              "2023": 0.7185332542838225,
+              "2024": 0.816130491806516,
+              "2025": 0.8019326230466219,
+              "2026": 0.7570067770836821
+            },
+            "ZG2_max_abs_sa": 0.2991589056105185,
+            "ZG3_max_abs_league_mean": 3.5304080935076724e-16,
+            "ZG5_next_bb_pct": 0.3839494270023479,
+            "next_woba": 0.23996163192776132,
+            "ZG6_x4": 0.13538988097294685,
+            "ZG6_x4_ci95": [
+              0.052384421358159974,
+              0.21205283889607748
+            ],
+            "ZG6_year_to_year": 0.6852607275494906,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": true,
+              "ZG4": true,
+              "ZG5": true
+            },
+            "all_pass": true
+          },
+          "N5": {
+            "ZG1_reliability": 0.8095096575695397,
+            "ZG1_by_season": {
+              "2019": 0.7807886090775078,
+              "2020": 0.8442173726274974,
+              "2021": 0.8367142220536696,
+              "2022": 0.8284886158002026,
+              "2023": 0.7494746366752567,
+              "2024": 0.8338890127644006,
+              "2025": 0.8299484677169459,
+              "2026": 0.7725563238408375
+            },
+            "ZG2_max_abs_sa": 0.1887560899512804,
+            "ZG3_max_abs_league_mean": 5.1366796636731495e-16,
+            "ZG5_next_bb_pct": 0.34470949375272436,
+            "next_woba": 0.2183520158815133,
+            "ZG6_x4": 0.09884691616333696,
+            "ZG6_x4_ci95": [
+              0.011373937870407818,
+              0.1780086832095484
+            ],
+            "ZG6_year_to_year": 0.7032696199663074,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": true,
+              "ZG4": true,
+              "ZG5": true,
+              "ZG7": true,
+              "ZG8": true
+            },
+            "all_pass": true
+          },
+          "N6": {
+            "ZG1_reliability": 0.7829882808726099,
+            "ZG1_by_season": {
+              "2019": 0.7585191074756604,
+              "2020": 0.8237563724514608,
+              "2021": 0.8280550368591107,
+              "2022": 0.8040371395948532,
+              "2023": 0.7119905016243603,
+              "2024": 0.7975416712939282,
+              "2025": 0.8106931969194859,
+              "2026": 0.7293132207620193
+            },
+            "ZG2_max_abs_sa": 0.19298965608275137,
+            "ZG3_max_abs_league_mean": 5.624906835340195e-16,
+            "ZG5_next_bb_pct": 0.34623829437028225,
+            "next_woba": 0.21932611068177313,
+            "ZG6_x4": 0.10087211684836549,
+            "ZG6_x4_ci95": [
+              0.013465400841547574,
+              0.1805467228668753
+            ],
+            "ZG6_year_to_year": 0.6856059781839998,
+            "pass": {
+              "ZG1": true,
+              "ZG2": true,
+              "ZG3": true,
+              "ZG4": true,
+              "ZG5": true,
+              "ZG7": true,
+              "ZG8": true
+            },
+            "all_pass": true
+          }
+        },
+        "recommended": "N5",
+        "recommended_zd": "N5",
+        "passing": [
+          "N4",
+          "N5",
+          "N6"
+        ],
+        "external": {
+          "points": 47,
+          "spearman": {
+            "Z0": 0.6901519272412479,
+            "N4": 0.7378164304720574,
+            "N5": 0.7004975586679291,
+            "N6": 0.7193637890513921
+          },
+          "mae_percentile": {
+            "Z0": 18.251273932744475,
+            "N4": 15.626619821128658,
+            "N5": 18.490449956902594,
+            "N6": 17.06410815295089
+          }
+        },
+        "ZG7_mean": {
+          "Z0": 0.6254797186903387,
+          "N4": 0.7928301435986149,
+          "N5": 0.721256440831272,
+          "N6": 0.749971581246643
+        }
+      }
+    },
+    "ZA_공격성항": [
+      {
+        "season": 2019,
+        "source_players": 149,
+        "included_abs_sa_ge_0_2": 144,
+        "zbar_median_inferred": -0.032327372610544365,
+        "zbar_median_abs_error_bound": 3.0204480150849538e-05,
+        "zbar_max_abs_error_bound": 0.0002657798165753436,
+        "za_policy_term_std": 0.3114556015484341,
+        "za_policy_term_variance_ratio": 0.016129462272929294,
+        "za_policy_term_covariance_share": 0.011102233743014795,
+        "za_raw_std": 2.4523711679776055,
+        "za_raw_vs_N0_spearman": 0.9902485035370943
+      },
+      {
+        "season": 2020,
+        "source_players": 166,
+        "included_abs_sa_ge_0_2": 166,
+        "zbar_median_inferred": -0.05189257579497342,
+        "zbar_median_abs_error_bound": 2.9108421877659082e-05,
+        "zbar_max_abs_error_bound": 0.0004984065641955159,
+        "za_policy_term_std": 0.3954832221749815,
+        "za_policy_term_variance_ratio": 0.02376719812983658,
+        "za_policy_term_covariance_share": 0.0069540381922665005,
+        "za_raw_std": 2.5653053718923036,
+        "za_raw_vs_N0_spearman": 0.9870165474090156
+      },
+      {
+        "season": 2021,
+        "source_players": 166,
+        "included_abs_sa_ge_0_2": 156,
+        "zbar_median_inferred": -0.06888459880498679,
+        "zbar_median_abs_error_bound": 2.9923836017918238e-05,
+        "zbar_max_abs_error_bound": 0.0005207631181674331,
+        "za_policy_term_std": 0.41968370629825275,
+        "za_policy_term_variance_ratio": 0.022547430334138495,
+        "za_policy_term_covariance_share": -0.022580665590852957,
+        "za_raw_std": 2.7949470312607874,
+        "za_raw_vs_N0_spearman": 0.9871450964445699
+      },
+      {
+        "season": 2022,
+        "source_players": 162,
+        "included_abs_sa_ge_0_2": 157,
+        "zbar_median_inferred": -0.02941781526434886,
+        "zbar_median_abs_error_bound": 2.6043282135569567e-05,
+        "zbar_max_abs_error_bound": 0.00041069860202347917,
+        "za_policy_term_std": 0.400382006205744,
+        "za_policy_term_variance_ratio": 0.020155460710477722,
+        "za_policy_term_covariance_share": 0.015181572511212254,
+        "za_raw_std": 2.82018881971549,
+        "za_raw_vs_N0_spearman": 0.9891096102593561
+      },
+      {
+        "season": 2023,
+        "source_players": 173,
+        "included_abs_sa_ge_0_2": 170,
+        "zbar_median_inferred": -0.043123272697061454,
+        "zbar_median_abs_error_bound": 3.0591155273928385e-05,
+        "zbar_max_abs_error_bound": 0.0004281282914003998,
+        "za_policy_term_std": 0.3161002214275677,
+        "za_policy_term_variance_ratio": 0.014153282266209634,
+        "za_policy_term_covariance_share": 0.005607286746170482,
+        "za_raw_std": 2.6570285196413286,
+        "za_raw_vs_N0_spearman": 0.9938974927108299
+      },
+      {
+        "season": 2024,
+        "source_players": 155,
+        "included_abs_sa_ge_0_2": 154,
+        "zbar_median_inferred": -0.0033591424170146414,
+        "zbar_median_abs_error_bound": 2.6196557662858703e-05,
+        "zbar_max_abs_error_bound": 0.0004109090002154712,
+        "za_policy_term_std": 0.20201250324865855,
+        "za_policy_term_variance_ratio": 0.004516776663171735,
+        "za_policy_term_covariance_share": 0.0026399376948560605,
+        "za_raw_std": 3.0058267271871553,
+        "za_raw_vs_N0_spearman": 0.9974066235434126
+      },
+      {
+        "season": 2025,
+        "source_players": 171,
+        "included_abs_sa_ge_0_2": 166,
+        "zbar_median_inferred": -0.0006774429802384198,
+        "zbar_median_abs_error_bound": 2.87805231002094e-05,
+        "zbar_max_abs_error_bound": 0.00029641168293143537,
+        "za_policy_term_std": 0.3013252817243531,
+        "za_policy_term_variance_ratio": 0.011780817897828994,
+        "za_policy_term_covariance_share": 0.013549854334162567,
+        "za_raw_std": 2.776181461546873,
+        "za_raw_vs_N0_spearman": 0.9927208582331343
+      },
+      {
+        "season": 2026,
+        "source_players": 166,
+        "included_abs_sa_ge_0_2": 156,
+        "zbar_median_inferred": -0.007870369617700997,
+        "zbar_median_abs_error_bound": 2.9387281350402918e-05,
+        "zbar_max_abs_error_bound": 0.0005003386453398857,
+        "za_policy_term_std": 0.3022400789441894,
+        "za_policy_term_variance_ratio": 0.010751237436032004,
+        "za_policy_term_covariance_share": 0.01829007442889891,
+        "za_raw_std": 2.9148944104620873,
+        "za_raw_vs_N0_spearman": 0.9966288671288311
+      }
+    ]
+  },
+  "2026투구별감사": {
+    "판정": "확인함(2026 필요한 열만 투구별 독립 재계산)",
+    "투구읽기열": [
+      "game_id",
+      "batter_id",
+      "swing",
+      "p_swing",
+      "p_zone",
+      "judgment",
+      "delta_v",
+      "dv",
+      "region",
+      "strikes_before"
+    ],
+    "투구수": 209692,
+    "타자수": 290,
+    "규정타자수": 166,
+    "공개와X_최대오차": {
+      "n": 0,
+      "SA": 4.971423797073271e-07,
+      "za_raw": 4.973438336719482e-07,
+      "A_input_per_100": 4.997773604964451e-07,
+      "A_se": 4.992957274296828e-07,
+      "ZA_input_per_100": 4.993329483227171e-07,
+      "ZA_se": 4.997560647534982e-07,
+      "public_APR_score": 4.958732091608908e-07,
+      "public_ZA_plus_score": 4.992502198319926e-07,
+      "X_A_score": 2.9047241817000042,
+      "X_B_score": 2.3647997103111322,
+      "X_D_za": 1.320036387113165
+    },
+    "APR_A_X_수축": {
+      "k": 447.40675424114755,
+      "sigma2": 138.05798551254583,
+      "tau2": 0.3085737624741669,
+      "qualified": 166,
+      "pitch_weighted_index": 100.0
+    },
+    "APR_B_X_수축": {
+      "k": 720.026546264356,
+      "sigma2": 135.6468015293662,
+      "tau2": 0.188391389502414,
+      "qualified": 166,
+      "pitch_weighted_index": 100.0
+    },
+    "ZA_수축": {
+      "k": 215.36832785312487,
+      "sigma2": 5663.413319061221,
+      "tau2": 26.296407533625416,
+      "qualified": 166,
+      "pitch_weighted_index": 100.0
+    },
+    "APR_B_k_주의": "기존 X 정의의 동일 표본 m 및 기존 naive cluster SE로 재현했다. 올바른 영향함수 SE와의 비교 실험은 실행하지 않았다.",
+    "APR_B_X_규정표준편차_ddof1": 5.536947850910509,
+    "APR_A_X_규정표준편차_ddof1": 7.403523299857746,
+    "현재2026_APR_A_SA_spearman": -0.5030582864938251,
+    "현재2026_APR_B_SA_spearman": -0.22230456939352403,
+    "APR_A_B_분해최대오차": 2.4424906541753444e-15,
+    "규정타자_중앙값_100delta": -2.058988299144665,
+    "규정타자_중앙값_zbar": -0.008981598296911275,
+    "APR_공격성항_SA_spearman": -0.9737392684510499,
+    "APR_공격성항_SA_pearson": -0.9323116338164057,
+    "APR_공격성항_variance_ratio": 0.13001768798725385,
+    "APR_공격성항_covariance_share": 0.18958866429476234,
+    "분산정의": "variance_ratio=Var(항)/Var(전체)는 가법적이지 않다. covariance_share=Cov(항,전체)/Var(전체)는 분해 항의 합이 1이며 인과 설명률이 아니다.",
+    "ZA_구역별_covariance_share": {
+      "chase": 0.2677094088201385,
+      "heart": 0.3790605184284425,
+      "shadow_in": 0.17824873014944023,
+      "shadow_out": 0.07580545591980387,
+      "waste": 0.09917588668217474,
+      "shadow_total": 0.2540541860692441
+    },
+    "ZA_구역합_최대오차": 3.552713678800501e-15,
+    "APR_구역합_최대오차": 1.7763568394002505e-15,
+    "APR_행동합_최대오차": 1.7763568394002505e-15,
+    "ZA_plus_2스트라이크비중_spearman": 0.0023650430115163706,
+    "ZA_raw_2스트라이크비중_spearman": -0.011088024723431992,
+    "ZA_plus_2스트라이크비중_pearson": -0.035625988794934935
+  },
+  "입력_SHA256": {
+    "analysis/apr_za_review_20261003/reproduce.py": "3b4bd92f4e3350d06fe3ffc25e480e5243d29f54dc9ae67e97c166b22694b0d1",
+    "analysis/apr_za_review_20261003/verification_plan.md": "b9213014a696db3b358c855664d501ecd71e2491c269a22ade875ce37e6b8b53",
+    "analysis/sbj_formula/gates.md": "24b27ded873a432b98fd8d419d96fe168959e7fda8f59c63758e91b06efc4858",
+    "analysis/sbj_formula/results/x_compare.json": "f7462841462ae03de0f2c46bc14915eca296eefaf8fae87c4b4c56f52e93111c",
+    "analysis/sbj_formula/results/x_compare_2019.csv": "99f70517626957858250459bdbeb5b98b7e319f482f691863d66743993d4471d",
+    "analysis/sbj_formula/results/x_compare_2020.csv": "81fa96b1f058d28a0ea9b50a072e600bf80e94a266fa025ef94b20304adc1f3f",
+    "analysis/sbj_formula/results/x_compare_2021.csv": "21b860c76d50373af0e12c1ee42de519a12bed4d56fd04f4f1f2b5a9a99d97ed",
+    "analysis/sbj_formula/results/x_compare_2022.csv": "1e85192eaaf1c28c32cfdbd82bc08a342d8b5b9a1d71b452474d7bc0802ad49a",
+    "analysis/sbj_formula/results/x_compare_2023.csv": "999ac43d468345daa1201b0c7d6f74f30ba380afc3d63f9f713012e20ce840eb",
+    "analysis/sbj_formula/results/x_compare_2024.csv": "a6e293a5de331b92988e2234732ee502295596a1a551c022b09d2587b7d17756",
+    "analysis/sbj_formula/results/x_compare_2025.csv": "4967803be4b75f8ef7c3e92b8b9648dcf029c0c03edee8f48b1f6455e96bb650",
+    "analysis/sbj_formula/results/x_compare_2026.csv": "2b652780fec703c0d0f654bec301ba6c137662742d9aa6dc409acaeeca83ec64",
+    "analysis/sbj_formula/results/z_weighted_za.json": "8d731523c599047c09356554441af6c2b4ed8ec3ad101b91fa75c8af10e8876e",
+    "analysis/sbj_formula/results/zb_neutral_za.json": "1a3d787f4b2661c4e26867dd2d41e680556708dc30a2abf528c81ba19db689e6",
+    "analysis/sbj_formula/results/zb_neutral_za_2019.csv": "a4aab8ba1116dfaa15f6977005997235679f62f7d12c6b6cc41af616135e1127",
+    "analysis/sbj_formula/results/zb_neutral_za_2020.csv": "fae0ab5507b40b1b46fd540140b5eeb57e94214f7e8305fddec4f9df3a180885",
+    "analysis/sbj_formula/results/zb_neutral_za_2021.csv": "de61235947a2a96499be2648f09ef09ba3fc7487065bca6d74c3942fac1bbdc2",
+    "analysis/sbj_formula/results/zb_neutral_za_2022.csv": "a6ae66a5134e6736dff037e0cce4d3018ac4db4d5cf289d426917c118663776c",
+    "analysis/sbj_formula/results/zb_neutral_za_2023.csv": "ee85f93748769d8456c3f079f494b3cc3ea09f2124b83807c16371399ed470f6",
+    "analysis/sbj_formula/results/zb_neutral_za_2024.csv": "8849bafa4467561ab2d4d6479e3681ab2e7f487763c9773494d01a9080d00b26",
+    "analysis/sbj_formula/results/zb_neutral_za_2025.csv": "ee21ca9a9374c860f193efcab42d099f09711deb611a6cd9b993be07cf376046",
+    "analysis/sbj_formula/results/zb_neutral_za_2026.csv": "2530d68ae78b821ea8968d420e51d1f090479447c5b47021f701c30aaf2136bd",
+    "analysis/sbj_formula/results/zb_neutral_za_recenter.json": "7e62b15aabad584ca67de0a17cb234baff3328d9cb313a2605b172b05937ecbb",
+    "analysis/sbj_formula/results/zb_neutral_za_strike.json": "075c209d9b1306ac6f69b28a84f6023c3da104b77482b804671d6e15dd995773",
+    "analysis/sbj_formula/x_compare.py": "d1692e76d51993bb9ff8e7adc844f1d10e21a5f1c7cfca940887430baf03d1b2",
+    "analysis/sbj_formula/zb_neutral_za.py": "9162cc2b63816c4b87738be8aa8648b0c4aa6d0bdc96d83d558768afe1408f7e",
+    "constraints-za.txt": "edb6b83525be799afd9d61be4f545838fcbe4fac8dfac65f4b44d7e9f52e3edb",
+    "data/curated/schema.json": "79abb3d5094a24a25d769d45c5cf73075e51feb8782c896b8d9673fce7eb3e07",
+    "data/curated/summary.json": "bab4d82df78da79e149b684ae0d308ab4b32486f6bc313ec3f006403e6ad675b",
+    "data/metrics/zone_awareness/2026/pitches.parquet": "d3df7a71a181cebd3060705784e0197a26087474dc3f363c036ee6e4a821ab08",
+    "requirements.txt": "e55404757c67f1055c6d1010fa7a2dc6f2e6ddcb3d0460ccd1d55f264d3047c1",
+    "src/visualbaseball/zone_decision.py": "0391d3c717efdcf86abe3a1248adab865023d7630534ad9a1c7843330f1f61ee",
+    "web/data/zone_awareness/2019/leaderboard.json": "5f805be7b2d80e950e7ab463479767a2b232c274bd2517406b03a1cd339f018c",
+    "web/data/zone_awareness/2020/leaderboard.json": "c7531c1c651f70787ca902f1a0e37d5e432600954c678f995bf3ed161f0f0e24",
+    "web/data/zone_awareness/2021/leaderboard.json": "b2b80d0bd857c5c2ecabd6cb95b08a41c66a6cafc8fb5552587886ccff3b6a3f",
+    "web/data/zone_awareness/2022/leaderboard.json": "82c206774667a3ec07f64030738d552f0b371fca7b2ea1db1091d2512007512c",
+    "web/data/zone_awareness/2023/leaderboard.json": "a923d36d17714b8c4e744af8c15cbb3ed436c6aaf8c2a7d3a78d073c40379fbf",
+    "web/data/zone_awareness/2024/leaderboard.json": "284fffe047acd469bf3641ca7832d1ac22bf3ee6488c2f9b23f122a6b05c8b32",
+    "web/data/zone_awareness/2025/leaderboard.json": "6a9d9e38378d87ccabb0d718e45f35564900ecc091c56f882fdf25a2053df5f1",
+    "web/data/zone_awareness/2026/leaderboard.json": "d0349ca88d6054b659ef39331e37b775758bb39fb203a61cb71f356dc43fcd42"
+  }
+}
