@@ -1,6 +1,6 @@
 {
   "schema_version": 5,
-  "model_version": "za7.7-zaplus",
+  "model_version": "za7.8-neutral-apr",
   "season": 2021,
   "source": {
     "source": "data/curated/pitches/season=2021",
@@ -72,9 +72,9 @@
       "raw_swing_brier": 0.14855174847641042,
       "action_value": {
         "direct": {
-          "mse": 0.06717970302474176,
+          "mse": 0.06717970302474177,
           "swing_mse": 0.142574721791791,
-          "take_mse": 0.005877837515182827
+          "take_mse": 0.005877837515182858
         },
         "staged": {
           "mse": 0.06553281413549794,
@@ -157,7 +157,7 @@
         "states": 288,
         "constraints": 888,
         "max_constraint_violation": 0.0,
-        "weighted_adjustment_rmse": 0.016278139012867655
+        "weighted_adjustment_rmse": 0.01627813901286766
       },
       "calibration_applied": true
     },
@@ -169,7 +169,7 @@
       "raw_swing_brier": 0.1480596697626495,
       "action_value": {
         "direct": {
-          "mse": 0.06052151424876095,
+          "mse": 0.06052151424876096,
           "swing_mse": 0.12737741764249452,
           "take_mse": 0.005795349605084493
         },
@@ -262,7 +262,7 @@
     "swing_brier": 0.14796630447937129,
     "action_value": {
       "direct": {
-        "mse": 0.06052151424876095,
+        "mse": 0.06052151424876096,
         "swing_mse": 0.12737741764249452,
         "take_mse": 0.005795349605084493
       },
@@ -321,7 +321,7 @@
           2
         ],
         "batters_150_pitches_each": 115,
-        "pearson_r": 0.2901757030079611,
+        "pearson_r": 0.29017570300796103,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       },
       {
@@ -339,7 +339,7 @@
           3
         ],
         "batters_150_pitches_each": 98,
-        "pearson_r": 0.37056378565048376,
+        "pearson_r": 0.37056378565048353,
         "interpretation": "descriptive repeatability; cross-fit training overlaps, not independent prospective validation"
       }
     ]
@@ -380,7 +380,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 1.1102230246251565e-16,
+        "max_constraint_violation": 0.0,
         "weighted_adjustment_rmse": 0.016628647411172284
       },
       "calibration_applied": true
@@ -392,7 +392,7 @@
       "re": {
         "states": 288,
         "constraints": 888,
-        "max_constraint_violation": 2.220446049250313e-16,
+        "max_constraint_violation": 0.0,
         "weighted_adjustment_rmse": 0.013160250624668423
       },
       "calibration_applied": true
@@ -418,7 +418,7 @@
     "p_zone": "take-only CalledStrike vs Ball/HBP model, five-seed average; ABS seasons read x at the middle plane and top/bottom at both the middle and back planes, falling back to front-plane px/pz when the trajectory is invalid; human-umpire seasons read front-plane px/pz, zone bounds and the ball-strike count",
     "raw_dv": "sum(V_swing - V_take for swings; sign reversed for takes); cumulative runs; event and value models read TrackMan-validated movement (movement_calibration) in every season",
     "dv_per_100": "100 * raw_dv / eligible pitches; runs per 100 pitches",
-    "jdv_per_100": "decision DV: 100 * mean(2 * (S - p_swing) * (V_swing - V_take)); runs per 100 pitches above the league Swing policy on the same pitches",
+    "jdv_per_100": "decision DV (aggression-neutral, analysis/sbj_formula X-B): 100 * mean(2 * (S - p_swing - m) * (V_swing - V_take)), m = the hitter's mean(S - p_swing) = swing_aggression / 100; runs per 100 pitches above the league Swing policy shifted by the hitter's own aggression, so swinging uniformly more or less scores zero",
     "apr": "APR (Approach), wRC+-style: 100 * (L + s) / L. L = league pitch-weighted dv_per_100; s = n/(n+k) * (jdv_per_100 - league jdv), re-centred so the pitch-weighted league mean is 100; k = per-pitch noise / true-talent variance among qualified hitters (pitches for reliability 0.5)",
     "apr_percentile": "midrank percentile of APR against qualified hitters (300+ pitches); every hitter gets one, unqualified hitters are flagged by qualified_300",
     "swing_aggression": "100 * mean(S - p_swing); percentage points, tendency only",
@@ -432,7 +432,7 @@
   },
   "shrinkage": "Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.",
   "reproducibility": {
-    "python": "3.12.14",
+    "python": "3.12.3",
     "packages": {
       "numpy": "2.5.3",
       "pandas": "2.3.3",
@@ -442,7 +442,7 @@
       "openpyxl": "3.1.5"
     },
     "source_sha256": {
-      "zone_decision.py": "4be27777c763e077f64ff241ac3a2e88fcebcc08cf6b5d457096acbae0c996c8",
+      "zone_decision.py": "d0bfc52dc33767068a34239c65ee16c2f694f8c5397fd8c42573254008127442",
       "plate_decision_v1.py": "94a9d4804c131a3119c959870fcb8926dc4f5177671e0d63e8cda6028465beb5",
       "swing_take.py": "cc6d1afb4e4c155f848ff5452314510affe53456a4cc28dbff33d0c8abcb704b",
       "pitch_arsenal.py": "7cc4407677fc8e7e05d8ec13453101b5622fa889b4fdae7c7fe6b0e3241204e0"
@@ -456,8 +456,8 @@
   ],
   "apr": {
     "league_dv_per_100": 5.149124,
-    "league_jdv_per_100": -0.107928,
-    "shrinkage_k_pitches": 295.29245
+    "league_jdv_per_100": -0.092161,
+    "shrinkage_k_pitches": 460.421665
   },
   "za_plus": {
     "league_margin_per_100": 34.591007,
