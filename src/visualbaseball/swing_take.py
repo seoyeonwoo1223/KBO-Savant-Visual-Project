@@ -8,14 +8,13 @@ calculation rather than filling their game state by inference.
 from __future__ import annotations
 
 from collections import Counter, defaultdict
-import json
-import math
 from pathlib import Path
 from statistics import mean
 
 import pyarrow as pa
 import pyarrow.parquet as pq
-from .curated import load_rows, schema_sha256
+from .curated import _number, load_rows, schema_sha256
+from .publish import add_catalog_season, write_json, write_shards
 
 SEASON = 2026
 PLAYER_METADATA = {
@@ -28,15 +27,6 @@ MIN_LOCATION_CELL_PITCHES = 25
 MIN_PROFILE_PITCHES = 300
 REGION_ORDER = ("Heart", "Shadow", "Chase", "Waste")
 ACTIONS = ("Swing", "Take")
-
-
-def _number(value):
-    try:
-        number = float(value)
-        return number if math.isfinite(number) else None
-    except (TypeError, ValueError):
-        return None
-
 
 
 def _source_metadata(rows: list[dict]) -> dict:
@@ -202,10 +192,10 @@ def build_decision_pitches(
     processed = root / "data" / "metrics" / "swing_take" / str(season)
     if season == SEASON:
         processed.mkdir(parents=True, exist_ok=True)
-        (processed / "re288.json").write_text(json.dumps({
+        write_json(processed / "re288.json", {
             "season": season,
             "states": [{"base_state_code": state[0], "outs": state[1], "balls": state[2], "strikes": state[3], "run_expectancy": round(value, 6), "pitches": counts[state]} for state, value in sorted(re288.items())],
-        }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        }, compact=False)
     valued = []
     for row in valid:
         before, after = _state(row, "before"), _state(row, "after")
@@ -234,10 +224,6 @@ def build_swing_take(root: Path, season: int = SEASON) -> tuple[int, int]:
         root, season
     )
     output = root / "web" / "data" / "swing_take" / str(season)
-    output.mkdir(parents=True, exist_ok=True)
-    pitch_output = output / "players"; pitch_output.mkdir(parents=True, exist_ok=True)
-    for stale_player in pitch_output.glob("*.json"):
-        stale_player.unlink()
     index_players = []
     pitch_shards = defaultdict(dict)
     by_batter = defaultdict(list)
@@ -266,16 +252,10 @@ def build_swing_take(root: Path, season: int = SEASON) -> tuple[int, int]:
         shard = batter_id[0] if batter_id[0].isdigit() else "other"
         pitch_shards[shard][batter_id] = pitch_payload
         index_players.append({key: player[key] for key in ("id", "name", "romanized_name", "team", "bats")} | {"pitches": profile_data["overall"]["pitches"], "meets_minimum": profile_data["sample"]["meets_minimum"]})
-    for shard, players in pitch_shards.items():
-        (pitch_output / f"{shard}.json").write_text(
-            json.dumps({"season": season, "source": source_metadata, "league": league, "players": players}, ensure_ascii=False, separators=(",", ":")) + "\n",
-            encoding="utf-8",
-        )
-    (output / "index.json").write_text(json.dumps({"season": season, "players": index_players}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    catalog_path = root / "web" / "data" / "swing_take" / "index.json"
-    catalog = {"seasons": []}
-    if catalog_path.exists():
-        catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
-    catalog["seasons"] = sorted(set(catalog.get("seasons", [])) | {season}, reverse=True)
-    catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_shards(output / "players", {
+        shard: {"season": season, "source": source_metadata, "league": league, "players": players}
+        for shard, players in pitch_shards.items()
+    })
+    write_json(output / "index.json", {"season": season, "players": index_players}, compact=False)
+    add_catalog_season(root / "web" / "data" / "swing_take" / "index.json", season)
     return len(output_rows), len(valued)

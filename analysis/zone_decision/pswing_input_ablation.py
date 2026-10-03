@@ -30,7 +30,8 @@ from sklearn.model_selection import GroupKFold
 from visualbaseball import plate_decision_v1 as old
 from visualbaseball import zone_decision as zd
 from visualbaseball.curated import _at_plane
-from visualbaseball.pitch_arsenal import PARK_FACTOR_CODE, _pitch_code, _stadium
+from visualbaseball.pitch_types import pitch_code as _pitch_code
+from visualbaseball.plate_decision_v1 import PARK_FACTOR_CODE, _stadium
 
 BASE = old.BASE_NUMERIC
 CURRENT_MOVE = ("adjusted_hb_cm", "adjusted_ivb_cm")

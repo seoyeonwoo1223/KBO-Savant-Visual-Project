@@ -12,6 +12,7 @@ import pandas as pd
 from openpyxl import load_workbook
 
 from .curated import load_rows, load_table
+from .publish import write_json
 
 
 TEAM_CODES = {
@@ -88,6 +89,36 @@ def _pitch_rates(pitches: pd.DataFrame, player_column: str):
     return rates
 
 
+def _count_result(stats: Counter, bases: int, pa_type: str, result: str) -> None:
+    """Hit, strikeout and walk counts shared by the batter and the pitcher of a PA."""
+    if bases:
+        stats["H"] += 1
+        if bases == 2: stats["2B"] += 1
+        if bases == 3: stats["3B"] += 1
+        if bases == 4: stats["HR"] += 1
+    if pa_type == "k": stats["SO"] += 1
+    if result == "볼넷": stats["BB"] += 1
+    if result == "사구": stats["HBP"] += 1
+    if result == "고의사": stats["IB"] += 1
+
+
+def _credit_runs(row, batter_id: str, pitcher_id: str, batting, pitching, runner_pitcher: dict) -> None:
+    """Credit scored runners and charge each run to the pitcher who put that runner on base."""
+    inning = (row.game_id, row.inning, row.inning_half)
+    before = [str(value) for value in (row.runner_3b_id_before, row.runner_2b_id_before, row.runner_1b_id_before) if str(value or "").strip()]
+    after = {str(value) for value in (row.runner_1b_id_after, row.runner_2b_id_after, row.runner_3b_id_after) if str(value or "").strip()}
+    for runner in before:
+        runner_pitcher.setdefault((*inning, runner), pitcher_id)
+    candidates = [runner for runner in before if runner not in after]
+    if str(row.pa_type or "") == "hr":
+        candidates.append(batter_id)
+    for runner in candidates[: int(row.runs_on_pitch or 0)]:
+        batting[runner]["R"] += 1
+        pitching[runner_pitcher.get((*inning, runner), pitcher_id)]["RA"] += 1
+    for runner in after:
+        runner_pitcher.setdefault((*inning, runner), pitcher_id)
+
+
 def _aggregate(root: Path, season: int):
     pitches = load_table(root, "pitches", season).to_pandas()
     pitches = pitches[pitches["game_date"].notna()].copy()
@@ -104,59 +135,32 @@ def _aggregate(root: Path, season: int):
         pa = metadata.get(row.pa_id, {})
         batter_id, pitcher_id = str(row.batter_id), str(row.pitcher_id)
         result, pa_type = str(row.pa_result or ""), str(row.pa_type or "")
-        batting[batter_id].update({"PA": 1, "RBI": pa.get("rbi", 0)})
-        batting[batter_id]["name"], batting[batter_id]["team"] = row.batter_name, pa.get("team", "")
+        bases = _hit_bases(pa_type, result)
+
+        batter = batting[batter_id]
+        batter.update({"PA": 1, "RBI": pa.get("rbi", 0)})
+        batter["name"], batter["team"] = row.batter_name, pa.get("team", "")
         batter_games[batter_id].add(row.game_id)
         if pa.get("position"):
             batter_positions[batter_id][pa["position"]] += 1
-
-        bases = _hit_bases(pa_type, result)
-        if bases:
-            batting[batter_id]["H"] += 1
-            if bases == 2: batting[batter_id]["2B"] += 1
-            if bases == 3: batting[batter_id]["3B"] += 1
-            if bases == 4: batting[batter_id]["HR"] += 1
-        if pa_type == "k": batting[batter_id]["SO"] += 1
-        if result == "볼넷": batting[batter_id]["BB"] += 1
-        if result == "사구": batting[batter_id]["HBP"] += 1
-        if result == "고의사": batting[batter_id]["IB"] += 1
-        if result.endswith("병"): batting[batter_id]["GDP"] += 1
-        if result.endswith("SF"): batting[batter_id]["SF"] += 1
+        _count_result(batter, bases, pa_type, result)
+        if result.endswith("병"): batter["GDP"] += 1
+        if result.endswith("SF"): batter["SF"] += 1
         if pa_type in {"hit", "hr", "k"} or (pa_type == "out" and not _is_sacrifice(result) and result not in {"", "WP"}):
-            batting[batter_id]["AB"] += 1
+            batter["AB"] += 1
 
-        defense_team = game_teams[row.game_id]["bottom" if row.inning_half == "top" else "top"]
-        pitching[pitcher_id]["name"], pitching[pitcher_id]["team"] = row.pitcher_name, defense_team
-        pitching[pitcher_id]["TBF"] += 1
+        pitcher = pitching[pitcher_id]
+        pitcher["name"], pitcher["team"] = row.pitcher_name, game_teams[row.game_id]["bottom" if row.inning_half == "top" else "top"]
+        pitcher["TBF"] += 1
         pitcher_games[pitcher_id].add(row.game_id)
         if (row.game_id, str(row.pitcher_name)) in starters:
             pitcher_starts[pitcher_id].add(row.game_id)
-        if bases:
-            pitching[pitcher_id]["H"] += 1
-            if bases == 2: pitching[pitcher_id]["2B"] += 1
-            if bases == 3: pitching[pitcher_id]["3B"] += 1
-            if bases == 4: pitching[pitcher_id]["HR"] += 1
-        if pa_type == "k": pitching[pitcher_id]["SO"] += 1
-        if result == "볼넷": pitching[pitcher_id]["BB"] += 1
-        if result == "사구": pitching[pitcher_id]["HBP"] += 1
-        if result == "고의사": pitching[pitcher_id]["IB"] += 1
+        _count_result(pitcher, bases, pa_type, result)
         if pa_type not in {"bb", "k", "hr"} and result not in {"", "WP"}:
-            pitching[pitcher_id]["BIP"] += 1
-        pitching[pitcher_id]["outs"] += max(0, int(row.outs_after or 0) - int(row.outs_before or 0))
+            pitcher["BIP"] += 1
+        pitcher["outs"] += max(0, int(row.outs_after or 0) - int(row.outs_before or 0))
 
-        before = [str(value) for value in (row.runner_3b_id_before, row.runner_2b_id_before, row.runner_1b_id_before) if str(value or "").strip()]
-        after = {str(value) for value in (row.runner_1b_id_after, row.runner_2b_id_after, row.runner_3b_id_after) if str(value or "").strip()}
-        for runner in before:
-            runner_pitcher.setdefault((row.game_id, row.inning, row.inning_half, runner), pitcher_id)
-        candidates = [runner for runner in before if runner not in after]
-        if pa_type == "hr":
-            candidates.append(batter_id)
-        for runner in candidates[: int(row.runs_on_pitch or 0)]:
-            batting[runner]["R"] += 1
-            responsible = runner_pitcher.get((row.game_id, row.inning, row.inning_half, runner), pitcher_id)
-            pitching[responsible]["RA"] += 1
-        for runner in after:
-            runner_pitcher.setdefault((row.game_id, row.inning, row.inning_half, runner), pitcher_id)
+        _credit_runs(row, batter_id, pitcher_id, batting, pitching, runner_pitcher)
 
     return pitches, batting, pitching, batter_games, pitcher_games, pitcher_starts, batter_positions
 
@@ -282,11 +286,11 @@ def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = N
         ],
     }
     output = output or root / "web" / "data" / "leaderboards" / f"{season}.json"
-    output.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    write_json(output, payload)
     catalog_path = output.parent / "index.json"
     catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
     catalog["availability"][str(season)] = [dataset["id"] for dataset in payload["datasets"]]
-    catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_json(catalog_path, catalog, compact=False)
     return output
 
 

@@ -59,7 +59,7 @@ python -m visualbaseball.dataset_summary                 # summary.json 갱신
 
 수집 모드: `recent`는 신규·미완료·실패 게임과 최근 7일 확정 경기, `sample`은 30일 이상 지난 경기 8개를 균등 추출해 schema/y0/pitch hash 변화를 감시, `reconcile`은 전 경기 재수집입니다.
 
-개별 metric만 다시 만들 때는 해당 모듈을 직접 실행합니다. `__main__`이 있는 모듈: `build_curated`, `cli`, `leaderboard_vb`, `pitch_arsenal`, `plate_decision_v1`, `plate_discipline`, `zone_awareness_v2`, `zone_decision`, `zone_profile`.
+개별 metric만 다시 만들 때는 해당 모듈을 직접 실행합니다. `__main__`이 있는 모듈: `build_curated`, `cli`, `leaderboard_vb`, `movement_zones`, `pitch_arsenal`, `plate_discipline`, `zone_decision`, `zone_profile`.
 
 ```bash
 python -m visualbaseball.zone_decision --seasons 2024 2025 2026
@@ -88,7 +88,7 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 
 **핵심 계약**: `web/`과 `exports/`는 출력물일 뿐이며 어떤 코드도 이것을 입력으로 읽지 않습니다. metric은 `curated.load_rows()`로 curated partition만 읽습니다 (Zone Awareness는 Excel/legacy cache fallback이 금지되어 있습니다). 유일한 외부 workbook 입력은 `data/park_adjustments/<season>_VB_Park_Adjustment_v1.0.xlsx` 구장 보정표이며, 지금은 ZA/SBJ의 p_swing 경로(`plate_decision_v1._movement_adjust`)만 읽습니다. Pitch Arsenal은 이 표 대신 `movement_calibration.py`(TrackMan으로 검증한 구장×날짜·탄착 위치 보정, `analysis/movement_calibration/`)를 씁니다. 세부 계약은 `docs/curated-data.md`에 있습니다.
 
-**재생성 순서**는 `cli._exports()`가 단일 소스입니다. Excel → arm_angle 입력 → swing_take → (plate_discipline, zone_decision 또는 plate_decision_v1) → zone_profile → pitch_arsenal → blocking. `swing_take`가 만드는 `data/metrics/swing_take/<season>/decision_pitches.parquet`가 그 뒤 판단 지표 전체의 입력이므로, Swing/Take를 건드리면 하위 metric이 전부 함께 재생성되어야 합니다.
+**재생성 순서**는 `cli._exports()`가 단일 소스입니다. Excel → arm_angle 입력 → swing_take → (plate_discipline, zone_decision) → zone_profile → pitch_arsenal → blocking. `swing_take`가 만드는 `data/metrics/swing_take/<season>/decision_pitches.parquet`가 그 뒤 판단 지표 전체의 입력이므로, Swing/Take를 건드리면 하위 metric이 전부 함께 재생성되어야 합니다.
 
 **증분성**: partition은 원자적으로 교체되고, `pitch_sha256`가 같으면 다시 쓰지 않습니다. provider가 파싱과 무관한 필드를 바꾸면 `raw_sha256`만 바뀌고 partition은 그대로입니다. metric은 `metric_state.needs_build()`가 입력·코드·의존 파일 hash로 개별 판정하므로, 하나가 바뀌어도 나머지는 건너뜁니다. 중단 후 재실행은 안전합니다.
 
@@ -186,17 +186,35 @@ CSS는 **두 층**입니다.
 | `storage.py`, `validation.py` | 수집 manifest, 라인스코어 대조 |
 | `swing_take.py` | Swing/Take 분류와 decision pitch 테이블 (하위 metric 공통 입력) |
 | `zone_decision.py` | APR(wRC+형 판단 가치) · ZA(존 판단, 옛 SBJ) · DV/100 · SA. 지표 수식은 `zone_awareness()`, `decision_value()`, `profile_summary()`, `add_apr()`에만 둡니다 |
-| `zone_awareness_v2.py`, `plate_decision_v1.py` | 이전 세대 모델. 2022–2023 legacy 시즌과 팀 이력 조회에 계속 쓰입니다 |
+| `plate_decision_v1.py` | zone_decision이 쓰는 모델 부품: p_swing/p_zone 분류기·RV 회귀기 설정, 특징 인코더, 구장 보정표 경로(`_movement_adjust`). 옛 v1 파이프라인 자체는 제거됨 |
 | `plate_discipline.py` | 구역별 Swing%/Contact%, 회귀 잔차, 클러스터 연구표 |
 | `zone_profile.py` | 0.5 ft 존 격자 프로필 |
+| `pitch_types.py`, `batter_stance.py`, `teams.py` | 투구 단위 metric이 공유하는 구종 코드, 타석 방향, 타자 소속 팀 이력 |
+| `publish.py` | web/data·report JSON 쓰기, 선수 shard 교체, 시즌 catalog 갱신. 바이트 형식(구분자·들여쓰기·끝 줄바꿈)이 웹 계약입니다 |
 | `pitch_arsenal.py` | 구종 사용률·구속·HB/IVB. 10구 이하·구사율 5% 미만 구종은 구속·무브먼트·탄착이 같으면 주력 구종에 묶어 표시(원 라벨은 `merged_from`) |
 | `movement_calibration.py` | Pitch Arsenal HB/IVB 보정: 투수×구종 + 구장×날짜 고정효과, 탄착 위치항, 이상치 재적합·수축 |
 | `blocking.py` | Catcher Blocks Above Average (5-fold 경기 단위 CV 로지스틱) |
 | `arm_angle.py` | 55 ft 기준 팔각도 입력 준비 |
-| `leaderboard_vb.py`, `leaderboard_park_factor.py` | 2026 라이브 리더보드, 구장 PF |
+| `leaderboard_vb.py` | 2026 라이브 리더보드 (CI 밖에서 수동 실행) |
 | `export_excel.py` | Excel publication |
 
 모델 설계 근거와 한계는 `analysis/zone_decision/README.md`, `analysis/plate_decision_v1/`에 있습니다. 지표 수식을 바꾸기 전에 읽습니다.
+
+### 모듈 코딩 원칙
+
+리팩터링·기능 추가 모두 이 원칙을 따릅니다. 목적은 산출물을 바꾸지 않으면서 읽고 고치기 쉬운 코드를 유지하는 것입니다.
+
+- **한 모듈, 한 책임.** metric 모듈은 "읽기 → 집계 → 산출물 쓰기"만 합니다. 다른 metric이 가져다 쓰는 helper가 생기면 그 metric 모듈에 두지 말고 작은 공용 모듈(`pitch_types`, `batter_stance`, `teams`, `publish`처럼)로 옮깁니다. 다른 모듈이 `pitch_arsenal`에서 구종 코드를 import하던 식의 의존이 다시 생기면 안 됩니다.
+- **함수는 한 단계만.** 빌더 함수는 단계 함수를 순서대로 부르는 얇은 조립부로 둡니다(`build_pitch_arsenal`, `build_zone_profiles`, `cli.main` 참고). 한 함수가 로딩·누적·지표 계산·파일 쓰기를 모두 하면 단계별로 나눕니다. radon 복잡도 D(21) 이상이 신호입니다.
+- **같은 기능은 한 곳에만.** 값 정규화는 `curated._number`, JSON 쓰기·shard 교체·시즌 catalog는 `publish.py`를 씁니다. 새로 복사본을 만들지 말고 import합니다. 이름은 같은데 동작이 다른 helper(예: `blocking._number`는 NaN 반환)는 합치지 않습니다.
+- **안 쓰는 코드는 지웁니다.** 프로덕션 경로(`cli._exports()`, `--only`, 워크플로)에서 닿지 않고 테스트만 부르는 함수·모듈은 테스트와 함께 제거합니다. 커밋된 산출물(`exports/`, `web/data/`)은 코드가 사라져도 지우지 않습니다 — 데이터 삭제는 별도 결정입니다.
+- **의존 hash를 같이 고칩니다.** metric 모듈이 새 패키지 모듈을 import하면 `metric_state.CODE`에 그 파일을 추가합니다. `tests/test_metric_state.py`가 import 폐포가 `CODE`에 포함되는지 검사합니다.
+- **얼린 파일은 리팩터링하지 않습니다.** 다음 파일은 내용 변경 자체가 부작용을 냅니다.
+  - `parser.py`, `state_machine.py`, `validation.py`, `collector.py`, `storage.py`, `curated.py`, `naver.py`: push하면 `daily_update`가 2026 원본 전체를 `--rebuild-from-raw --refresh-naver`로 네트워크 재처리합니다.
+  - `curated.py`, `vb_arm_angle.py`, `arm_angle_calibration.py`, `trackman_arm_angle.py`: sha256이 `data/models/estimated_arm_angle_v1.json`과 `analysis/arm_angle/results/*.json`에 고정되어 있습니다.
+  - 이 파일들의 private helper가 필요하면 고치지 말고 import합니다(`curated._number`처럼).
+- **리팩터링은 산출물 바이트 동일성으로 검증합니다.** 테스트 통과만으로는 부족합니다. 기준 커밋과 변경 커밋에서 같은 빌더를 강제로 실행해 `web/data`, `data/metrics`, `exports` 파일 hash를 비교합니다. 코드 hash를 기록하는 필드(`report.json`의 `reproducibility.source_sha256`, movement_zones의 `code_sha256`)만 달라야 정상입니다. 같은 기준 커밋을 두 번 돌려 결정성부터 확인합니다.
+- **테스트 없는 경로는 먼저 테스트를 씁니다.** 네트워크 수집처럼 테스트가 없는 코드를 나눌 때는 가짜 client로 현재 동작을 고정하는 테스트(`tests/test_cli_collection.py`)를 먼저 통과시킨 뒤 나눕니다.
 
 ## 작업 시 지켜야 할 규칙
 

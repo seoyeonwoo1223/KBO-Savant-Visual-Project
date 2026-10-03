@@ -8,7 +8,6 @@ from __future__ import annotations
 from collections import defaultdict
 import csv
 import json
-import math
 from pathlib import Path
 import re
 import unicodedata
@@ -16,20 +15,14 @@ import unicodedata
 import numpy as np
 import pyarrow.parquet as pq
 
+from .curated import _number
+
 MODEL_PATH = "data/models/estimated_arm_angle_v1.json"
 HEIGHT_PATH = "data/tracking/player_heights.csv"
 
 
 def _name(value):
     return re.sub(r"\s+", "", unicodedata.normalize("NFC", str(value or "")))
-
-
-def _number(value):
-    try:
-        number = float(value)
-        return number if math.isfinite(number) else None
-    except (TypeError, ValueError):
-        return None
 
 
 def _heights(root):
