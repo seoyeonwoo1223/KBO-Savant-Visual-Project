@@ -168,7 +168,21 @@ CSS는 **두 층**입니다.
 - `theme.css` — 전 페이지 공통. `--kbo-*` 색 토큰, 흰 배경, 링크·입력·테이블 테두리 색을 정의합니다. **반드시 페이지 전용 CSS 뒤에 로드**해서 마지막에 덮어쓰게 합니다 (`movement-zones`만 순서가 반대이니 그 페이지 색을 손볼 땐 주의).
 - `<tool>.css` — 해당 도구 레이아웃. `styles.css`는 홈과 `swing-take`만 쓰는 구버전 공통 시트이고, `home.css`는 홈 전용입니다. 새 도구는 `styles.css`를 끌어오지 말고 전용 CSS + `theme.css` 조합을 따릅니다.
 
-모든 `<link>`에 `?v=YYYYMMDD-N` 캐시 버스터가 붙어 있습니다. **CSS를 고치면 해당 쿼리 값을 올려야** Pages 캐시가 갱신됩니다. `theme.css` 버전은 8개 페이지에 전부 들어 있으므로 한꺼번에 바꿔야 합니다.
+모든 `<link>`·`<script>`에 `?v=YYYYMMDD-N` 캐시 버스터가 붙어 있습니다. **CSS/JS를 고치면 해당 쿼리 값을 올려야** Pages 캐시가 갱신됩니다. `theme.css`·`site-header.js` 버전은 홈 포함 전 페이지에 들어 있으므로 한꺼번에 바꿔야 합니다.
+
+**페이지 공통 규격** (theme.css·site-header.js가 정의, 각 페이지는 마크업만 맞춤):
+
+- `<body>` 맨 앞에서 `../site-header.js`를 로드 → 브랜드 줄(KBO Savant) + 상단 고정 메뉴 줄. 메뉴 목록은 `site-header.js`의 `TOOLS`
+- `<main class="site-main">` → 헤더와 같은 1440px 폭·좌우 여백. 페이지 CSS에서 `main`·`header`·`nav`·`h1` 같은 bare 태그 선택자로 폭·여백을 꾸미지 않습니다
+- 제목은 `<header class="page-title">` 안에 `.eyebrow`(영문 대문자 분류) + `<h1>`(영문, 메뉴 이름과 맞춤) + 한국어 부제 한 줄
+- 숨겨진 탭의 canvas는 폭이 0이므로 직전 CSS 폭을 씁니다 (`zone-awareness.js`의 `canvasContext`). 장치 픽셀 폭을 쓰면 iOS Safari에서 resize마다 캔버스가 커져 깨집니다
+
+**새 도구는 생성 스크립트로 만듭니다.** 위 규격이 들어간 골격을 만들고 메뉴 등록·`site-header.js` 버전 올림까지 합니다. 홈 카드(`web/index.html`)와 썸네일만 직접 추가합니다.
+
+```bash
+python scripts/new_web_tool.py strike-zone --title "Strike Zone" --eyebrow "Pitching" --subtitle "투수별 스트라이크존 판정"
+python scripts/web_contract.py     # 규격 검사 (pytest tests/test_web_contract.py, CI web_contract.yml도 같은 검사)
+```
 
 데이터는 페이지 기준 `../data/<metric>/<season>/…`을 fetch합니다. 선수 단위 상세는 `players/<shard>.json`으로 샤딩되어 있고 시즌 목록은 각 metric 디렉터리의 `index.json`에 있습니다.
 
@@ -235,6 +249,7 @@ CSS는 **두 층**입니다.
 | `refresh_completed.yml` | 매주 월 03:37 UTC | 전 경기 reconcile |
 | `rebuild_swing_take.yml` | 수동 | Swing/Take 프로필 강제 재빌드 |
 | `deploy-pages.yml` | `web/**` push, daily_update 성공 후 | `web/`을 Pages로 배포 |
+| `web_contract.yml` | `web/**` push·PR | 페이지 공통 규격 검사(`scripts/web_contract.py`) + `.cjs` 레이아웃 테스트. 배포는 막지 않음 |
 
 **새 경기 수집은 명시적으로 의도한 실행에서만 합니다.** 스케줄, 수동 실행(`workflow_dispatch`), `.github/refresh-completed-request` 커밋 세 가지입니다. 일반 파이프라인 코드 push는 네트워크를 타지 않고 `--exports-only`로 이미 있는 curated 데이터에서 산출물만 다시 만듭니다. 단, parser·상태 전이·canonical 변환·Naver 보강 코드가 바뀌면 `daily_update`가 2026의 보존된 원시 PBP를 `--rebuild-from-raw --refresh-naver`로 다시 처리한다. 2022~2025 전체 원본 재수집은 `refresh_completed` 수동 실행에서 시즌을 선택해 수행한다. `web/**`는 출력물이라 어떤 코드도 입력으로 읽지 않으므로 트리거에 없습니다 — 뷰만 고치면 이 워크플로가 돌지 않습니다.
 

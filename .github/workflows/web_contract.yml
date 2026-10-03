@@ -1,0 +1,32 @@
+name: Web contract
+
+# web/ 페이지가 공통 규격(공통 헤더·site-main 폭·.page-title·캐시 버스터·메뉴 등록)을 지키는지 검사합니다.
+# 배포(deploy-pages)를 막지는 않고, 규격이 깨지면 이 체크만 빨간색이 됩니다.
+on:
+  push:
+    branches: [master]
+    paths:
+      - "web/**"
+      - "scripts/web_contract.py"
+      - "scripts/new_web_tool.py"
+      - ".github/workflows/web_contract.yml"
+  pull_request:
+    paths:
+      - "web/**"
+      - "scripts/web_contract.py"
+      - "scripts/new_web_tool.py"
+      - ".github/workflows/web_contract.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/web_contract.py
+      - run: node tests/test_pitch_arsenal_layout.cjs
