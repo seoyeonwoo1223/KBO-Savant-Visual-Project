@@ -29,8 +29,9 @@ def test_sa_dv_stay_unchanged_and_apr_is_wrc_plus_style():
  rows=[{**base,'batter_id':'1','swing':1,'p_swing':.4,'dv':.2},{**base,'batter_id':'1','swing':0,'p_swing':.4,'dv':-.1}]
  summary=profile_summary(rows)
  assert summary['swing_aggression']==10 and summary['raw_dv']==.1 and summary['dv_per_100']==5
- # decision DV: 2*(S-p)*dV averaged -> (2*.6*.2 + 2*-.4*.2)/2 = .04 per pitch
- assert abs(summary['jdv_per_100']-4)<1e-9
+ # decision DV: 2*(S-p-m)*dV with m = mean(S-p) = .1 -> (2*.5*.2 + 2*-.5*.2)/2 = 0; one swing and one take of the
+ # same pitch earn nothing beyond the hitter's own aggression
+ assert abs(summary['jdv_per_100'])<1e-9
  rng=np.random.default_rng(1)
  players=[{'qualified_300':n>=300,'pitches_seen':n,'jdv_per_100':float(v),'jdv_se':float(8/np.sqrt(n))}
           for n,v in zip([1200,900,600,400,350,320,310,305,150,120],rng.normal(0,1,10))]
@@ -42,6 +43,20 @@ def test_sa_dv_stay_unchanged_and_apr_is_wrc_plus_style():
  add_apr(pair,5.0,0.);assert abs(pair[0]['apr']-100)>abs(pair[1]['apr']-100)
  # every hitter gets a percentile against qualified hitters
  assert all(p['apr_percentile'] is not None and 0<=p['apr_percentile']<=100 for p in players)
+
+def test_apr_input_ignores_a_uniform_swing_tendency():
+ base={'season':2026,'batter_id':'1','batter_name':'Test','team':'T','game_id':'20260601A','opposite_support':50,'p_zone':.5,'judgment':0.,'dv':0.}
+ rows=[{**base,'region':reg,'swing':s,'p_swing':p,'delta_v':d} for reg,s,p,d in
+       (('heart',1,.7,.08),('shadow_in',1,.5,.02),('shadow_out',0,.4,-.03),('chase',0,.3,-.06),('waste',1,.1,-.1))]
+ before=profile_summary(rows)
+ # the same choices against a league policy that swings 10%p less everywhere: SA moves, APR's input does not
+ after=profile_summary([{**r,'p_swing':r['p_swing']-.1} for r in rows])
+ assert abs(after['swing_aggression']-before['swing_aggression']-10)<1e-6
+ for key in ['jdv_per_100','swing_jdv_per_100','take_jdv_per_100']+[reg+'_jdv_per_100' for reg in REGIONS]:
+  assert abs(after[key]-before[key])<1e-6,key
+ # and it is the X-B definition: 2*(S - p - mean(S - p))*dV
+ excess=np.array([r['swing']-r['p_swing'] for r in rows])
+ assert abs(before['jdv_per_100']-100*np.mean(2*(excess-excess.mean())*np.array([r['delta_v'] for r in rows])))<1e-6
 
 def test_za_plus_is_the_apr_construction_on_the_call_margin():
  base={'season':2026,'batter_name':'Test','team':'T','game_id':'20260601A','region':'heart','opposite_support':50,'delta_v':.2,'v_swing':.2,'v_take':0.,'dv':.1}
