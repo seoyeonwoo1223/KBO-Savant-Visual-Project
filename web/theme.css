@@ -162,12 +162,6 @@ main.site-main {
   main.site-main { padding-top: 20px; }
 }
 
-/* 공통 헤더가 뒤로가기 링크를 대신하므로 페이지별 nav는 숨깁니다. */
-body > main > nav,
-main > nav.visual-back,
-main > p.back,
-.page-header .home-link { display: none; }
-
 /* 페이지 제목 블록 정렬을 전 페이지 공통으로 왼쪽 정렬로 맞춥니다. */
 main > header,
 main > .page-header,

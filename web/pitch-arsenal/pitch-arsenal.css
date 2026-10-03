@@ -15,7 +15,6 @@
 body { margin: 0; background: linear-gradient(180deg, #f7f9fc 0, #edf2f7 320px); }
 main { max-width: 1540px; margin: auto; padding: 16px 24px 30px; }
 a { color: #334b67; }
-nav { margin-bottom: 8px; font-size: 1rem; text-align: center; }
 .page-header { padding: 0 2px 13px; text-align: center; }
 .eyebrow { margin: 0 0 7px; font-size: .72rem; font-weight: 800; letter-spacing: .12em; }
 .page-header .eyebrow { color: #64809c; }
