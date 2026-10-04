@@ -77,3 +77,13 @@ def test_home_cards_must_follow_menu(tmp_path):
     home.write_text(swapped, encoding="utf-8")
     problems = " ".join(site_problems(web))
     assert "카드 순서" in problems and "Approach Map" in problems and "missing.webp" in problems
+
+
+def test_new_tool_css_cannot_restyle_shared_tags(tmp_path):
+    web = copy_pages(tmp_path)
+    target = new_web_tool.create_tool(web, "strike-zone", "Strike Zone", "pitching", "투수별 판정", "Strike Zone", "20991231")
+    css = target / "strike-zone.css"
+    css.write_text(css.read_text(encoding="utf-8") + "main { padding: 0; }\n.panel nav { margin: 0; }\n", encoding="utf-8")
+    problems = " ".join(page_problems(target / "index.html", web))
+    assert "'main' 태그 선택자" in problems
+    assert "'nav'" not in problems  # .panel nav 처럼 클래스 아래 태그는 허용

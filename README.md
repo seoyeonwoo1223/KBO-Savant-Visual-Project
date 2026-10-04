@@ -40,18 +40,6 @@
 python scripts/serve_web.py
 ```
 
-### 새 웹 도구 추가
-
-모든 페이지는 같은 규격(KBO Savant 브랜드 줄 + 상단 메뉴, 1440px 본문 폭, eyebrow·제목·부제 블록)을 씁니다. 새 도구는 생성 스크립트로 만들면 규격, 메뉴 등록, 같은 순서의 홈 카드가 자동으로 들어갑니다. 홈 카드 썸네일은 `scripts/visual_thumbnails.json`에 캡처 설정을 추가한 뒤 생성합니다.
-
-```powershell
-python scripts/new_web_tool.py strike-zone --title "Strike Zone" --eyebrow "Pitching" --subtitle "투수별 스트라이크존 판정"
-python scripts/web_contract.py   # 전 페이지 규격 검사 (GitHub Actions `web_contract.yml`도 같은 검사)
-python scripts/generate_visual_thumbnails.py   # 홈 카드 썸네일 재생성 (Playwright Chromium 필요)
-```
-
-규격 세부와 모바일 주의점은 [CLAUDE.md의 웹 페이지 구조](CLAUDE.md#웹-페이지-구조)에 있습니다.
-
 개인 저장소라면 저장소 권한이 있는 계정으로 로그인해야 Excel과 Pages 데이터를 볼 수 있습니다. 더 큰 분석이나 스프레드시트 작업에는 Excel 파일을 사용하면 됩니다.
 
 ## 데이터 갱신 방식
@@ -99,6 +87,20 @@ python -m visualbaseball.cli --rebuild-from-raw --refresh-naver --game-id 202603
 `web/blocking/`은 주자가 있거나 2스트라이크인 비접촉 투구를 블로킹 기회로 정의한다. 5-fold 경기 단위 교차검증 로지스틱 모델이 위치·구속·무브먼트·구종·릴리스 방향·타자 손잡이·주자/카운트 상태로 PB+WP 확률을 추정한다. 투구별 `예상 PB+WP - 실제 PB+WP`를 포수별로 합산한 값이 KBO BAA이며, 블로킹 런은 MLB와 같은 0.25 runs/block로 환산한다.
 
 이 결과는 Baseball Savant의 개념과 표시 방식을 KBO 공개 데이터에 적용한 **실험 지표**다. 공개 원본에 포수의 사전 위치가 없으므로 MLB Statcast 지표와 동일한 모델 또는 상호 비교 가능한 값이 아니다. `data/metrics/blocking/2026/pitches.parquet`에 투구별 예상 확률과 기여도를, `web/data/blocking/2026/leaderboard.json`에 리더보드와 시각화 집계를 저장한다.
+
+## 개발에 참여할 때
+
+사람과 에이전트가 같은 규칙으로 일하도록 하네스를 네 부분으로 나눠 두었습니다.
+
+| 무엇 | 어디 |
+|---|---|
+| 작업 지침 (에이전트가 작업 전에 읽는 지도) | [AGENTS.md](AGENTS.md) → [docs/conventions.md](docs/conventions.md) |
+| 자동으로 막는 검사 | [docs/harness/constraints.md](docs/harness/constraints.md) |
+| 결과를 확인하는 순서 (테스트·센서) | [docs/harness/feedback.md](docs/harness/feedback.md) |
+| 결정과 이유 | [docs/decisions/](docs/decisions/README.md) |
+| 시스템 구조 | [docs/architecture.md](docs/architecture.md) |
+
+새 웹 도구는 `python scripts/new_web_tool.py`로 만들고, `python scripts/web_contract.py`로 규격을 확인합니다. 자세한 내용은 [docs/harness/README.md](docs/harness/README.md)를 참고하십시오.
 
 ## 검증 원칙
 

@@ -12,6 +12,8 @@
 - 로컬 CSS/JS에는 ?v=YYYYMMDD-N 캐시 버스터, theme.css·site-header.js 버전은 전 페이지 동일
 - site-header.js의 TOOLS/ALIASES와 web/<tool>/index.html 목록이 일치
 - 홈 카드(web/index.html .visual-card)가 TOOLS와 같은 순서·같은 이름이고, 카드 썸네일 파일이 실제로 있으며 ?v= 가 붙음
+- 새 도구의 전용 CSS는 main/header/nav/h1 bare 태그 선택자를 쓰지 않음 (공통 헤더·폭·제목을 덮어쓰므로).
+  규격 도입 전부터 있던 도구는 LEGACY_BARE_SELECTOR_TOOLS로 예외 처리합니다 — 목록에 새 도구를 추가하지 마십시오.
 """
 from __future__ import annotations
 
@@ -26,6 +28,10 @@ NON_PAGE_DIRS = {"data", "assets"}
 # theme.css를 페이지 CSS보다 먼저 로드하는 기존 예외 (CLAUDE.md "웹 페이지 구조").
 THEME_FIRST_ALLOWED = {"movement-zones"}
 VERSION = re.compile(r"\?v=\d{8}-\d+$")
+# 공통 헤더·본문 폭·제목 블록은 theme.css가 정합니다. 도구 CSS가 이 태그를 직접 꾸미면 공통 규격이 깨집니다.
+BARE_SELECTOR = re.compile(r"(?:^|[{},])\s*(main|header|nav|h1)(?=[\s>.:#\[,{])[^{}]*\{")
+# 규격(.site-main/.page-title) 도입 전 CSS. theme.css가 클래스 선택자로 덮어쓰고 있어 그대로 둡니다.
+LEGACY_BARE_SELECTOR_TOOLS = {"blocking", "leaderboards", "movement-zones", "pitch-arsenal", "profiles", "zone-awareness", "zones"}
 
 
 class _PageParser(HTMLParser):
@@ -84,6 +90,15 @@ def page_problems(path: Path, web_root: Path = WEB_ROOT) -> list[str]:
     for url in stylesheets + scripts:
         if _is_local(url) and not VERSION.search(url):
             fail(f"캐시 버스터(?v=YYYYMMDD-N)가 없습니다: {url}")
+
+    if not is_home and name not in LEGACY_BARE_SELECTOR_TOOLS:
+        for url in stylesheets:
+            css_path = path.parent / url.split("?")[0]
+            if not _is_local(url) or css_path.name in {"theme.css", "styles.css"} or not css_path.is_file():
+                continue
+            css = re.sub(r"/\*.*?\*/", "", css_path.read_text(encoding="utf-8"), flags=re.S)
+            for match in BARE_SELECTOR.finditer(css):
+                fail(f"{css_path.name}: '{match.group(1)}' 태그 선택자로 꾸미지 마십시오 (공통 헤더·폭·제목은 theme.css 담당, 도구 전용 클래스를 쓰세요)")
 
     theme_at = next((i for i, url in enumerate(stylesheets) if url.split("?")[0].endswith("theme.css")), None)
     if theme_at is None:
