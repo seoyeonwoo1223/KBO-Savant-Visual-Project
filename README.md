@@ -42,11 +42,12 @@ python scripts/serve_web.py
 
 ### 새 웹 도구 추가
 
-모든 페이지는 같은 규격(KBO Savant 브랜드 줄 + 상단 메뉴, 1440px 본문 폭, eyebrow·제목·부제 블록)을 씁니다. 새 도구는 생성 스크립트로 만들면 규격과 메뉴 등록이 자동으로 들어갑니다. 홈 카드와 썸네일만 `web/index.html`에 직접 추가합니다.
+모든 페이지는 같은 규격(KBO Savant 브랜드 줄 + 상단 메뉴, 1440px 본문 폭, eyebrow·제목·부제 블록)을 씁니다. 새 도구는 생성 스크립트로 만들면 규격, 메뉴 등록, 같은 순서의 홈 카드가 자동으로 들어갑니다. 홈 카드 썸네일은 `scripts/visual_thumbnails.json`에 캡처 설정을 추가한 뒤 생성합니다.
 
 ```powershell
 python scripts/new_web_tool.py strike-zone --title "Strike Zone" --eyebrow "Pitching" --subtitle "투수별 스트라이크존 판정"
 python scripts/web_contract.py   # 전 페이지 규격 검사 (GitHub Actions `web_contract.yml`도 같은 검사)
+python scripts/generate_visual_thumbnails.py   # 홈 카드 썸네일 재생성 (Playwright Chromium 필요)
 ```
 
 규격 세부와 모바일 주의점은 [CLAUDE.md의 웹 페이지 구조](CLAUDE.md#웹-페이지-구조)에 있습니다.

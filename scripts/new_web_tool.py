@@ -10,9 +10,10 @@
 
 바꾸는 것
 - site-header.js의 TOOLS 끝에 메뉴 항목 추가 (--no-nav로 생략)
+- 홈(web/index.html) 마지막 카드 뒤에 같은 이름의 카드 추가. 그림은 빈 자리 표시이므로
+  scripts/visual_thumbnails.json에 캡처 설정을 넣고 썸네일을 만든 뒤 <img>로 바꿉니다
 - 메뉴가 바뀌므로 모든 페이지의 site-header.js ?v= 를 함께 올림
 
-홈 카드(web/index.html)와 썸네일은 시각 자료가 필요해 자동으로 만들지 않습니다.
 만든 뒤 python scripts/web_contract.py 로 규격을 확인합니다.
 """
 from __future__ import annotations
@@ -96,6 +97,22 @@ def register_nav(web_root: Path, slug: str, label: str) -> None:
     path.write_text(source, encoding="utf-8")
 
 
+HOME_CARD_TEMPLATE = """        <a class="visual-card" href="{slug}/">
+          <div class="visual-art" aria-hidden="true"></div>
+          <div class="visual-card__body"><h3>{label}</h3><p>{subtitle}</p><b>열기 →</b></div>
+        </a>
+"""
+
+
+def add_home_card(web_root: Path, slug: str, label: str, subtitle: str) -> None:
+    """메뉴 순서와 홈 카드 순서가 같아야 하므로, 메뉴 끝에 붙인 도구는 마지막 카드 뒤에 둡니다."""
+    path = web_root / "index.html"
+    source = path.read_text(encoding="utf-8")
+    end = source.rindex("</a>\n") + len("</a>\n")
+    card = HOME_CARD_TEMPLATE.format(slug=slug, label=html.escape(label), subtitle=html.escape(subtitle))
+    path.write_text(source[:end] + card + source[end:], encoding="utf-8")
+
+
 def bump_header_version(web_root: Path, today: str) -> str:
     current = shared_versions(web_root / "index.html").get("site-header.js")
     new = next_version(current, today)
@@ -118,6 +135,7 @@ def create_tool(web_root: Path, slug: str, title: str, eyebrow: str, subtitle: s
 
     if nav_label:
         register_nav(web_root, slug, nav_label)
+        add_home_card(web_root, slug, nav_label, subtitle)
         bump_header_version(web_root, today)
     shared = shared_versions(web_root / "index.html")
     escaped = {"title": html.escape(title), "eyebrow": html.escape(eyebrow.upper()), "subtitle": html.escape(subtitle)}
@@ -148,7 +166,9 @@ def main() -> int:
     print(f"생성: {target}")
     if args.no_nav:
         print("메뉴 미등록: site-header.js ALIASES에 상위 도구를 지정해야 web_contract가 통과합니다.")
-    print("다음 단계: web/index.html 홈 카드 추가 → python scripts/web_contract.py → python scripts/serve_web.py")
+    else:
+        print("홈 카드는 그림 없이 추가했습니다: scripts/visual_thumbnails.json에 캡처 설정 → 썸네일 생성 → 카드에 <img> 지정")
+    print("다음 단계: python scripts/web_contract.py → python scripts/serve_web.py로 확인")
     return 0
 
 

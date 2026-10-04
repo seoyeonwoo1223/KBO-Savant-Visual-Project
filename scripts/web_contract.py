@@ -11,6 +11,7 @@
 - theme.css는 페이지 전용 CSS 뒤에 로드 (movement-zones만 예외, CLAUDE.md 참고)
 - 로컬 CSS/JS에는 ?v=YYYYMMDD-N 캐시 버스터, theme.css·site-header.js 버전은 전 페이지 동일
 - site-header.js의 TOOLS/ALIASES와 web/<tool>/index.html 목록이 일치
+- 홈 카드(web/index.html .visual-card)가 TOOLS와 같은 순서·같은 이름이고, 카드 썸네일 파일이 실제로 있으며 ?v= 가 붙음
 """
 from __future__ import annotations
 
@@ -102,6 +103,68 @@ def shared_versions(path: Path) -> dict[str, str]:
     return found
 
 
+def nav_labels(web_root: Path = WEB_ROOT) -> list[tuple[str, str]]:
+    """site-header.js TOOLS의 (경로, 메뉴 이름) 목록. 순서 그대로."""
+    source = (web_root / "site-header.js").read_text(encoding="utf-8")
+    tools_block = re.search(r"const TOOLS = \[(.*?)\];", source, re.S).group(1)
+    return re.findall(r'\["([\w-]+)/",\s*"([^"]+)"\]', tools_block)
+
+
+class _CardParser(HTMLParser):
+    """홈의 .visual-card 링크마다 (href, h3 제목, 썸네일 img src 목록)을 모읍니다."""
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.cards: list[dict] = []
+        self._card: dict | None = None
+        self._in_title = False
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        values = {k: v or "" for k, v in attrs}
+        if tag == "a" and "visual-card" in _classes(values):
+            self._card = {"href": values.get("href", ""), "title": "", "images": []}
+            self.cards.append(self._card)
+        elif self._card is not None and tag == "h3":
+            self._in_title = True
+        elif self._card is not None and tag == "img":
+            self._card["images"].append(values.get("src", ""))
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "h3":
+            self._in_title = False
+        elif tag == "a":
+            self._card = None
+
+    def handle_data(self, data: str) -> None:
+        if self._card is not None and self._in_title:
+            self._card["title"] += data.strip()
+
+
+def home_card_problems(web_root: Path = WEB_ROOT) -> list[str]:
+    parser = _CardParser()
+    parser.feed((web_root / "index.html").read_text(encoding="utf-8"))
+    cards = parser.cards
+    expected = nav_labels(web_root)
+    problems: list[str] = []
+    actual_order = [card["href"].rstrip("/") for card in cards]
+    expected_order = [path for path, _ in expected]
+    if actual_order != expected_order:
+        problems.append(f"index.html: 홈 카드 순서가 메뉴(TOOLS)와 다릅니다. 카드={actual_order} 메뉴={expected_order}")
+    labels = dict(expected)
+    for card in cards:
+        path = card["href"].rstrip("/")
+        if path in labels and card["title"] != labels[path]:
+            problems.append(f"index.html: {path}/ 카드 제목 '{card['title']}'이 메뉴 이름 '{labels[path]}'과 다릅니다")
+        for src in card["images"]:
+            if not _is_local(src):
+                continue
+            if not (web_root / src.split("?")[0]).is_file():
+                problems.append(f"index.html: {path}/ 카드 썸네일 파일이 없습니다: {src}")
+            elif not VERSION.search(src):
+                problems.append(f"index.html: {path}/ 카드 썸네일에 캐시 버스터(?v=)가 없습니다: {src}")
+    return problems
+
+
 def nav_entries(web_root: Path = WEB_ROOT) -> tuple[list[str], list[str]]:
     """site-header.js의 TOOLS 경로와 ALIASES 키(하위 페이지) 목록."""
     source = (web_root / "site-header.js").read_text(encoding="utf-8")
@@ -137,6 +200,7 @@ def site_problems(web_root: Path = WEB_ROOT) -> list[str]:
         problems.append(f"site-header.js TOOLS의 {missing}/에 index.html이 없습니다")
     for orphan in sorted(tool_dirs - set(tools) - set(aliases)):
         problems.append(f"web/{orphan}/ 이 site-header.js TOOLS(또는 ALIASES)에 없습니다")
+    problems += home_card_problems(web_root)
     return problems
 
 
