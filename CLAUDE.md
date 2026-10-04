@@ -184,7 +184,9 @@ SBJ 원본 사건·TrackMan 연결을 고치기 전에는 `docs/sbj-data-quality
 
 #### 웹 도구 하네스
 
-새 도구는 손으로 복사하지 말고 생성 스크립트로 만듭니다. 규격이 들어간 골격을 만들고, 메뉴(`TOOLS`) 등록과 전 페이지 `site-header.js` 버전 올림까지 합니다. 홈 카드(`web/index.html`)와 썸네일만 직접 추가합니다.
+새 도구는 손으로 복사하지 말고 생성 스크립트로 만듭니다. 규격이 들어간 골격을 만들고, 메뉴(`TOOLS`) 등록, 같은 이름·순서의 홈 카드(그림은 빈 자리) 추가, 전 페이지 `site-header.js` 버전 올림까지 합니다. 썸네일만 직접 만듭니다.
+
+**메뉴·홈 카드·썸네일은 한 몸입니다.** 홈 카드(`web/index.html` `.visual-card`)는 `TOOLS`와 같은 순서, 카드 제목은 메뉴 이름과 같아야 합니다. 썸네일은 `scripts/visual_thumbnails.json`에 캡처 설정(페이지의 `?thumb=1` + `[data-thumbnail-target]`)을 두고 `python scripts/generate_visual_thumbnails.py`로 600×600(@2x) WebP를 만듭니다. 썸네일 대상 화면을 바꾸면 다시 생성하고, 카드 `<img>`의 `?v=`를 올립니다. Blocking 카드만 인라인 SVG입니다.
 
 ```bash
 python scripts/new_web_tool.py strike-zone --title "Strike Zone" --eyebrow "Pitching" --subtitle "투수별 스트라이크존 판정"
@@ -195,9 +197,10 @@ python scripts/web_contract.py     # 전 페이지 규격 검사. 위반이 있�
 
 | 구성 | 역할 |
 |---|---|
-| `scripts/new_web_tool.py` | 새 도구 골격 생성 + 메뉴 등록 + `site-header.js` 버전 올림 |
-| `scripts/web_contract.py` | 규격 검사: body 첫 요소 `site-header.js`, `main.site-main` 하나, `.page-title`(eyebrow·h1), theme.css 마지막 로드, 캐시 버스터, `theme.css`·`site-header.js` 버전 일치, `TOOLS`/`ALIASES`와 디렉터리 일치 |
-| `tests/test_web_contract.py` | 현재 페이지·생성 도구 통과, 흔한 실수 감지 (pytest가 수집) |
+| `scripts/new_web_tool.py` | 새 도구 골격 생성 + 메뉴 등록 + 홈 카드 추가 + `site-header.js` 버전 올림 |
+| `scripts/web_contract.py` | 규격 검사: body 첫 요소 `site-header.js`, `main.site-main` 하나, `.page-title`(eyebrow·h1), theme.css 마지막 로드, 캐시 버스터, `theme.css`·`site-header.js` 버전 일치, `TOOLS`/`ALIASES`와 디렉터리 일치, 홈 카드 순서·제목이 메뉴와 같고 썸네일 파일 존재·`?v=` |
+| `tests/test_web_contract.py` | 현재 페이지·생성 도구 통과, 흔한 실수·카드 불일치 감지 (pytest가 수집) |
+| `scripts/generate_visual_thumbnails.py` + `visual_thumbnails.json` | 홈 카드 썸네일 캡처 (Playwright Chromium 필요) |
 | `.github/workflows/web_contract.yml` | `web/**` push·PR에서 같은 검사 + `.cjs` 레이아웃 테스트. 배포는 막지 않음 |
 
 규격 자체를 바꿀 때는 `theme.css`·`site-header.js`를 고치고 `web_contract.py`의 검사와 생성 템플릿(`new_web_tool.py`)을 같이 맞춥니다. 화면 변경은 1440px·390px 스크린샷으로 기존 도구와 비교합니다.

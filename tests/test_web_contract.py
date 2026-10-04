@@ -12,9 +12,9 @@ from web_contract import nav_entries, page_problems, site_problems  # noqa: E402
 
 
 def copy_pages(tmp_path):
-    """데이터·이미지를 뺀 web/ 사본 (페이지·CSS·JS만)."""
+    """데이터와 큰 이미지(png)를 뺀 web/ 사본. 썸네일(webp)은 카드 검사에 필요해 남깁니다."""
     web = tmp_path / "web"
-    shutil.copytree(ROOT / "web", web, ignore=shutil.ignore_patterns("data", "assets", "*.png", "*.webp"))
+    shutil.copytree(ROOT / "web", web, ignore=shutil.ignore_patterns("data", "*.png"))
     return web
 
 
@@ -55,3 +55,25 @@ def test_unregistered_tool_directory_is_reported(tmp_path):
 def test_next_version_increments_same_day():
     assert new_web_tool.next_version("20991231-3", "20991231") == "20991231-4"
     assert new_web_tool.next_version("20991230-3", "20991231") == "20991231-1"
+
+
+def test_scaffold_adds_home_card_in_menu_order(tmp_path):
+    web = copy_pages(tmp_path)
+    new_web_tool.create_tool(web, "strike-zone", "Strike Zone", "pitching", "투수별 판정", "Strike Zone", "20991231")
+    home = (web / "index.html").read_text(encoding="utf-8")
+    assert home.rindex('href="blocking/"') < home.index('href="strike-zone/"')
+    assert "<h3>Strike Zone</h3>" in home
+
+
+def test_home_cards_must_follow_menu(tmp_path):
+    web = copy_pages(tmp_path)
+    home = web / "index.html"
+    text = home.read_text(encoding="utf-8")
+    swapped = (text.replace('href="leaderboards/"', 'href="__tmp__/"')
+                   .replace('href="zones/"', 'href="leaderboards/"')
+                   .replace('href="__tmp__/"', 'href="zones/"')
+                   .replace("<h3>Approach</h3>", "<h3>Approach Map</h3>")
+                   .replace("thumbnails/pitch-plot.webp", "thumbnails/missing.webp"))
+    home.write_text(swapped, encoding="utf-8")
+    problems = " ".join(site_problems(web))
+    assert "카드 순서" in problems and "Approach Map" in problems and "missing.webp" in problems
