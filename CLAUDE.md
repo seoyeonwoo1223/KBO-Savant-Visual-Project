@@ -25,7 +25,7 @@ python -m pytest tests/test_swing_take.py -k decision -x   # 단일 테스트
 node tests/test_pitch_arsenal_layout.cjs       # 웹 레이아웃 테스트 (pytest가 수집하지 않음)
 ```
 
-`.cjs` 테스트는 `web/pitch-arsenal/pitch-arsenal.js`의 렌더 함수를 `vm`으로 잘라서 실행합니다. 함수 이름(`renderVelocity`, `renderFrequency`, `movementPoint`, `showTooltip`)이 슬라이스 경계이므로 이름을 바꾸면 테스트가 조용히 깨집니다. pytest가 수집하지 않으므로 4개 워크플로에서 별도 스텝으로 실행합니다.
+`.cjs` 테스트는 `web/pitch-arsenal/pitch-arsenal.js`의 렌더 함수를 `vm`으로 잘라서 실행합니다. 함수 이름(`renderVelocity`, `renderFrequency`, `movementPoint`, `showTooltip`)이 슬라이스 경계이므로 이름을 바꾸면 테스트가 조용히 깨집니다. pytest가 수집하지 않으므로 5개 워크플로(`web_contract.yml` 포함)에서 별도 스텝으로 실행합니다.
 
 ### 웹 로컬 프리뷰
 
@@ -161,30 +161,46 @@ SBJ 원본 사건·TrackMan 연결을 고치기 전에는 `docs/sbj-data-quality
 
 ### 웹 페이지 구조
 
-`web/<tool>/{index.html, <tool>.css, <tool>.js}` 한 세트가 한 도구입니다. 빌드·번들러·프레임워크 없이 순수 ES + fetch입니다.
+`web/<tool>/{index.html, <tool>.css, <tool>.js}` 한 세트가 한 도구입니다. 빌드·번들러·프레임워크 없이 순수 ES + fetch입니다. 데이터는 페이지 기준 `../data/<metric>/<season>/…`을 fetch합니다. 선수 단위 상세는 `players/<shard>.json`으로 샤딩되어 있고 시즌 목록은 각 metric 디렉터리의 `index.json`에 있습니다.
 
-CSS는 **두 층**입니다.
+**공통 파일**
 
-- `theme.css` — 전 페이지 공통. `--kbo-*` 색 토큰, 흰 배경, 링크·입력·테이블 테두리 색을 정의합니다. **반드시 페이지 전용 CSS 뒤에 로드**해서 마지막에 덮어쓰게 합니다 (`movement-zones`만 순서가 반대이니 그 페이지 색을 손볼 땐 주의).
-- `<tool>.css` — 해당 도구 레이아웃. `styles.css`는 홈과 `swing-take`만 쓰는 구버전 공통 시트이고, `home.css`는 홈 전용입니다. 새 도구는 `styles.css`를 끌어오지 말고 전용 CSS + `theme.css` 조합을 따릅니다.
+| 파일 | 역할 |
+|---|---|
+| `web/theme.css` | 전 페이지 공통. `--kbo-*` 색 토큰, 2단 헤더, `main.site-main` 폭(1440px)·여백, `.page-title` 제목 블록. **페이지 전용 CSS 뒤에 로드**합니다(`movement-zones`만 예외) |
+| `web/site-header.js` | `<body>` 맨 앞에서 로드. 브랜드 줄(KBO Savant, 스크롤 시 사라짐) + 상단 고정 메뉴 줄을 삽입. 메뉴 목록은 `TOOLS`(홈 카드 순서와 같게), 하위 페이지는 `ALIASES` |
+| `web/<tool>/<tool>.css` | 도구 레이아웃만. `main`·`header`·`nav`·`h1` 같은 bare 태그 선택자로 폭·여백을 꾸미지 않습니다(공통 헤더까지 바뀝니다) |
+| `web/styles.css`, `web/home.css` | `styles.css`는 `swing-take`만 쓰는 구버전 시트, `home.css`는 홈 전용. 새 도구는 쓰지 않습니다 |
 
-모든 `<link>`·`<script>`에 `?v=YYYYMMDD-N` 캐시 버스터가 붙어 있습니다. **CSS/JS를 고치면 해당 쿼리 값을 올려야** Pages 캐시가 갱신됩니다. `theme.css`·`site-header.js` 버전은 홈 포함 전 페이지에 들어 있으므로 한꺼번에 바꿔야 합니다.
+**페이지 마크업 규격**: `<main class="site-main">` 하나, 그 안 첫 블록은 `<header class="page-title">`에 `.eyebrow`(영문 분류) + `<h1>`(영문, 메뉴 이름과 맞춤) + 한국어 부제 한 줄. 홈만 제목 블록이 없습니다.
 
-**페이지 공통 규격** (theme.css·site-header.js가 정의, 각 페이지는 마크업만 맞춤):
+**캐시 버스터**: 모든 로컬 `<link>`·`<script>`에 `?v=YYYYMMDD-N`. CSS/JS를 고치면 그 값을 올려야 Pages 캐시가 갱신됩니다. `theme.css`·`site-header.js`는 홈 포함 전 페이지에 들어 있으므로 버전을 한꺼번에 바꿉니다.
 
-- `<body>` 맨 앞에서 `../site-header.js`를 로드 → 브랜드 줄(KBO Savant) + 상단 고정 메뉴 줄. 메뉴 목록은 `site-header.js`의 `TOOLS`
-- `<main class="site-main">` → 헤더와 같은 1440px 폭·좌우 여백. 페이지 CSS에서 `main`·`header`·`nav`·`h1` 같은 bare 태그 선택자로 폭·여백을 꾸미지 않습니다
-- 제목은 `<header class="page-title">` 안에 `.eyebrow`(영문 대문자 분류) + `<h1>`(영문, 메뉴 이름과 맞춤) + 한국어 부제 한 줄
-- 숨겨진 탭의 canvas는 폭이 0이므로 직전 CSS 폭을 씁니다 (`zone-awareness.js`의 `canvasContext`). 장치 픽셀 폭을 쓰면 iOS Safari에서 resize마다 캔버스가 커져 깨집니다
+**모바일 주의점**
 
-**새 도구는 생성 스크립트로 만듭니다.** 위 규격이 들어간 골격을 만들고 메뉴 등록·`site-header.js` 버전 올림까지 합니다. 홈 카드(`web/index.html`)와 썸네일만 직접 추가합니다.
+- 숨겨진 탭의 canvas는 폭이 0이므로 직전 CSS 폭을 씁니다(`zone-awareness.js`의 `canvasContext`). 장치 픽셀 폭을 쓰면 iOS Safari에서 주소창이 움직일 때마다(resize) 캔버스가 커져 깨집니다.
+- 넓은 시각화는 반쪽 영역 밖으로 라벨이 나가 가로 스크롤을 만들기 쉽습니다. 390px에서 `document.documentElement.scrollWidth`가 화면 폭과 같은지 확인합니다.
+- Swing/Take 프로필은 830px 이하에서 데스크톱 레이아웃을 이미지로 보여줍니다(`profile.js`, 화면 밖 1440px iframe에서 html2canvas 캡처). html2canvas 1.4.1은 `color-mix()` 등 최신 CSS 색 함수를 읽지 못하므로 캡처 대상에는 쓰지 않습니다.
+
+#### 웹 도구 하네스
+
+새 도구는 손으로 복사하지 말고 생성 스크립트로 만듭니다. 규격이 들어간 골격을 만들고, 메뉴(`TOOLS`) 등록과 전 페이지 `site-header.js` 버전 올림까지 합니다. 홈 카드(`web/index.html`)와 썸네일만 직접 추가합니다.
 
 ```bash
 python scripts/new_web_tool.py strike-zone --title "Strike Zone" --eyebrow "Pitching" --subtitle "투수별 스트라이크존 판정"
-python scripts/web_contract.py     # 규격 검사 (pytest tests/test_web_contract.py, CI web_contract.yml도 같은 검사)
+#   --nav-label "메뉴 이름"   메뉴 이름을 제목과 다르게
+#   --no-nav                 메뉴에 넣지 않는 하위 페이지 (site-header.js ALIASES에 상위 도구를 직접 지정)
+python scripts/web_contract.py     # 전 페이지 규격 검사. 위반이 있으면 목록 출력 후 exit 1
 ```
 
-데이터는 페이지 기준 `../data/<metric>/<season>/…`을 fetch합니다. 선수 단위 상세는 `players/<shard>.json`으로 샤딩되어 있고 시즌 목록은 각 metric 디렉터리의 `index.json`에 있습니다.
+| 구성 | 역할 |
+|---|---|
+| `scripts/new_web_tool.py` | 새 도구 골격 생성 + 메뉴 등록 + `site-header.js` 버전 올림 |
+| `scripts/web_contract.py` | 규격 검사: body 첫 요소 `site-header.js`, `main.site-main` 하나, `.page-title`(eyebrow·h1), theme.css 마지막 로드, 캐시 버스터, `theme.css`·`site-header.js` 버전 일치, `TOOLS`/`ALIASES`와 디렉터리 일치 |
+| `tests/test_web_contract.py` | 현재 페이지·생성 도구 통과, 흔한 실수 감지 (pytest가 수집) |
+| `.github/workflows/web_contract.yml` | `web/**` push·PR에서 같은 검사 + `.cjs` 레이아웃 테스트. 배포는 막지 않음 |
+
+규격 자체를 바꿀 때는 `theme.css`·`site-header.js`를 고치고 `web_contract.py`의 검사와 생성 템플릿(`new_web_tool.py`)을 같이 맞춥니다. 화면 변경은 1440px·390px 스크린샷으로 기존 도구와 비교합니다.
 
 ### Python 모듈 지도
 
