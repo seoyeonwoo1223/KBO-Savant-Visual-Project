@@ -16,7 +16,7 @@ ZIP SHA-256: `aa5a482059a238b56b4cf6000ff2b49f738c87dab8b99ba5673d4e44d14dbcee`
 ```bash
 git fetch origin codex/eaa-claude-review-20261005
 review_delivery_dir=$(mktemp -d /tmp/eaa-review-delivery.XXXXXX)
-git archive origin/codex/eaa-claude-review-20261005 \
+git archive FETCH_HEAD \
   analysis/arm_angle/claude-cross-check-prompt.md \
   analysis/arm_angle/review-context | tar -x -C "$review_delivery_dir"
 python3 "$review_delivery_dir/analysis/arm_angle/review-context/prepare_review_context.py"
