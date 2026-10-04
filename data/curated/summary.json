@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-03T18:41:49+00:00",
+  "generated_at": "2026-10-04T18:41:36+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -346,22 +346,22 @@
     "2026": {
       "tables": {
         "pitches": {
-          "rows": 211960,
+          "rows": 213628,
           "files": 8,
-          "bytes": 31230838
+          "bytes": 31496119
         },
         "events": {
-          "rows": 269797,
+          "rows": 271920,
           "files": 8,
-          "bytes": 1353433
+          "bytes": 1362257
         },
         "games": {
-          "rows": 689,
+          "rows": 694,
           "files": 8,
-          "bytes": 96157
+          "bytes": 96486
         }
       },
-      "games": 689,
+      "games": 694,
       "months": [
         "03",
         "04",
@@ -374,7 +374,7 @@
       ],
       "date_range": [
         "2026-03-28",
-        "2026-10-03"
+        "2026-10-04"
       ],
       "metrics": [
         "arm_angle",
