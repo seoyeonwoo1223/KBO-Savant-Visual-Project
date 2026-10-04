@@ -1,0 +1,113 @@
+{
+  "기준_커밋": "6495992497af77df9abef861d235443a3302f130",
+  "작업_브랜치": "review/apr-za-cloud-20261005",
+  "원격_사전확인": {
+    "master": "6495992497af77df9abef861d235443a3302f130",
+    "review/za-crosscheck": "da2614816c975f2063033f121b9295a7da1bcec9",
+    "review/apr-za-20261003": "ca8de0fd5ceefec514a3ee1394d0ac01db0da008",
+    "새_브랜치_기존_존재": false
+  },
+  "실행": [
+    {
+      "명령": "git ls-remote https://github.com/seoyeonwoo1223/KBO-Savant-Visual-Project.git HEAD refs/heads/master refs/heads/review/za-crosscheck refs/heads/review/apr-za-20261003",
+      "종료": 0
+    },
+    {
+      "명령": "git fetch origin master review/za-crosscheck review/apr-za-20261003",
+      "종료": 0
+    },
+    {
+      "명령": "git switch -c review/apr-za-cloud-20261005 6495992497af77df9abef861d235443a3302f130",
+      "종료": 0
+    },
+    {
+      "명령": "python -m venv /tmp/apr-za-review-venv",
+      "종료": 0
+    },
+    {
+      "명령": "/tmp/apr-za-review-venv/bin/python -m pip install -r constraints-za.txt",
+      "종료": 0
+    },
+    {
+      "명령": "PYTHONPATH=src OMP_NUM_THREADS=2 PYTHONDONTWRITEBYTECODE=1 /tmp/apr-za-review-venv/bin/python analysis/apr_za_cloud_review_20261005/reproduce.py",
+      "최종_실행_종료": 0,
+      "반복_실행_종료": 0
+    },
+    {
+      "명령": "스키마 점검용 일회 명령(첫 시도, PYTHONPATH 누락)",
+      "종료": 1,
+      "이유": "visualbaseball import 실패. 운영 파일/결과 변경 없음"
+    },
+    {
+      "명령": "PYTHONPATH=src OMP_NUM_THREADS=2 PYTHONDONTWRITEBYTECODE=1 스키마 점검 재실행",
+      "종료": 0
+    },
+    {
+      "명령": "git diff --check",
+      "종료": 0
+    }
+  ],
+  "최종_반복_일치": {
+    "판정": true,
+    "산출물_SHA256": {
+      "checks.json": "4b9cc4f853bdba65b55d85c0fa89bf04efd4b1d1918f109f2e48eee3940eaff7",
+      "player-checks-2026.csv": "bfe62dba5b254c8d18f70bd28eb316d164f8aaf9474670723ee3c03e130f9394"
+    }
+  },
+  "환경": {
+    "python": "3.12.14",
+    "packages": {
+      "numpy": "2.5.3",
+      "pandas": "2.3.3",
+      "pyarrow": "19.0.1",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.18.1",
+      "openpyxl": "3.1.5"
+    },
+    "PYTHONPATH": "src",
+    "OMP_NUM_THREADS": "2"
+  },
+  "venv_전체_패키지": {
+    "cloudpickle": "3.1.2",
+    "et_xmlfile": "2.0.0",
+    "joblib": "1.6.0",
+    "narwhals": "2.26.0",
+    "numpy": "2.5.3",
+    "openpyxl": "3.1.5",
+    "pandas": "2.3.3",
+    "pip": "25.0.1",
+    "pyarrow": "19.0.1",
+    "python-dateutil": "2.9.0.post0",
+    "pytz": "2026.5",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.18.1",
+    "six": "1.17.0",
+    "threadpoolctl": "3.7.0",
+    "tzdata": "2026.5"
+  },
+  "추가_분석_패키지": [],
+  "설치_설명": "고정 여섯 패키지와 pip가 해결한 의존성만 설치. Python 3.12.14는 고정 패키지와 운영 report의 Python에 일치.",
+  "계산_검증": {
+    "공개_2026_입력_SE_최대차": {
+      "jdv_per_100": 0.0,
+      "jdv_se": 0.0,
+      "swing_aggression": 0.0,
+      "za_raw": 0.0,
+      "zj_per_100": 0.0,
+      "zj_se": 0.0,
+      "pitches_seen": 0.0,
+      "games_seen": 0.0
+    },
+    "8시즌_plus_허용오차_통과": true,
+    "표본_경계": "300≤n≤600",
+    "원자료_대량_재생성": false,
+    "새_후보_실행": false
+  },
+  "커밋전_범위": {
+    "기존_추적_파일_변경": false,
+    "허용_폴더": "analysis/apr_za_cloud_review_20261005",
+    "분석자_모델명_서명_기여자_표기": false,
+    "비공개_외부_수치_대조점_기록": false
+  },
+  "원격_최종확인": "push 종료 상태와 최종 원격 SHA는 최종 답변에 기록. 이 파일에는 미래 작업을 완료했다고 적지 않음."
+}

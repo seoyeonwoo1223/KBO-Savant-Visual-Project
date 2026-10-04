@@ -1,0 +1,1478 @@
+{
+  "base_commit": "6495992497af77df9abef861d235443a3302f130",
+  "model_version": "za7.8-neutral-apr",
+  "environment": {
+    "python": "3.12.14",
+    "packages": {
+      "numpy": "2.5.3",
+      "pandas": "2.3.3",
+      "pyarrow": "19.0.1",
+      "scikit-learn": "1.9.0",
+      "scipy": "1.18.1",
+      "openpyxl": "3.1.5"
+    },
+    "PYTHONPATH": "src",
+    "OMP_NUM_THREADS": "2"
+  },
+  "curated": {
+    "generated_at": "2026-10-03T18:41:49+00:00",
+    "season_2026": {
+      "tables": {
+        "pitches": {
+          "rows": 211960,
+          "files": 8,
+          "bytes": 31230838
+        },
+        "events": {
+          "rows": 269797,
+          "files": 8,
+          "bytes": 1353433
+        },
+        "games": {
+          "rows": 689,
+          "files": 8,
+          "bytes": 96157
+        }
+      },
+      "games": 689,
+      "months": [
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10"
+      ],
+      "date_range": [
+        "2026-03-28",
+        "2026-10-03"
+      ],
+      "metrics": [
+        "arm_angle",
+        "blocking",
+        "plate_discipline",
+        "swing_take",
+        "zone_awareness"
+      ],
+      "stale_metrics": [
+        "movement_zones"
+      ]
+    },
+    "summary_schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
+    "schema_declared_sha256": "e98c67434b35f8dd8c0da51d841c7f5d311484d87448062a682e5ea7c2816a27",
+    "schema_file_sha256": "79abb3d5094a24a25d769d45c5cf73075e51feb8782c896b8d9673fce7eb3e07",
+    "runtime_schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
+    "summary_runtime_schema_match": true,
+    "schema_document_runtime_match": false
+  },
+  "versions": {
+    "기준": {
+      "commit": "6495992497af77df9abef861d235443a3302f130",
+      "model": "za7.8-neutral-apr",
+      "profile_B": true
+    },
+    "초기_ZA": {
+      "commit": "da2614816c975f2063033f121b9295a7da1bcec9",
+      "model": "za7.6-apr",
+      "profile_B": false
+    },
+    "APR_ZA": {
+      "commit": "ca8de0fd5ceefec514a3ee1394d0ac01db0da008",
+      "model": "za7.7-zaplus",
+      "profile_B": false
+    },
+    "초기_기준": {
+      "commit": "f0dc0a44367852cc1aea86d8eb24dcdb1a19d413",
+      "model": "za7.6-apr",
+      "profile_B": false
+    },
+    "APR_문서_기준": {
+      "commit": "d7bb6fa1c727876bd02835671bb16e90a88d79f9",
+      "model": "za7.7-zaplus",
+      "profile_B": false
+    }
+  },
+  "algebra": {
+    "binary_neutral_sum_error": 0.0,
+    "binary_sa_mixture_error": 0.0,
+    "continuous_remainder_error": 0.0,
+    "rank_reversal": {
+      "1": [
+        0.25,
+        0.2
+      ],
+      "3": [
+        0.30000000000000004,
+        0.4
+      ]
+    },
+    "constant_delta_B": 0.0,
+    "constant_delta_IF_SE": 0.0,
+    "constant_delta_naive_SE": 6.363961030678928,
+    "IF_finite_difference_max_error": 3.150271447438513e-05
+  },
+  "operational_report_2026": {
+    "model_version": "za7.8-neutral-apr",
+    "pitches": 211140,
+    "latest_game": "20261003WOHH0",
+    "excluded": {
+      "invalid_state_location_action_or_identity": 820
+    },
+    "reproducibility": {
+      "python": "3.12.14",
+      "packages": {
+        "numpy": "2.5.3",
+        "pandas": "2.3.3",
+        "pyarrow": "19.0.1",
+        "scikit-learn": "1.9.0",
+        "scipy": "1.18.1",
+        "openpyxl": "3.1.5"
+      },
+      "source_sha256": {
+        "zone_decision.py": "2e65a4c9449625441fe35a001be09f7593bf24256444edd839c28eabc13d1ae0",
+        "plate_decision_v1.py": "dd603fdc5c068421929a4ff4ffba57238c43672186524842c59b2a336ebf50b4",
+        "swing_take.py": "b39cfe218480aa614d3df84d4021cd8c8d0dd2feca93f93855078313954f156d",
+        "pitch_types.py": "0c9d63f708fb7cafb657eb1f77a6bb1fa5d2423bdb9c14d2066f501a7a497b7a",
+        "batter_stance.py": "fa181c492a671d9e0e1dc53027ce970926bacdc85e83299a6e1acc699d14e5a0"
+      }
+    },
+    "date_blocks": [
+      {
+        "start": "20260328",
+        "end": "20260526",
+        "pitches": 73801
+      },
+      {
+        "start": "20260527",
+        "end": "20260729",
+        "pitches": 73566
+      },
+      {
+        "start": "20260730",
+        "end": "20261003",
+        "pitches": 63773
+      }
+    ],
+    "source_hash_matches_base": {
+      "zone_decision.py": true,
+      "plate_decision_v1.py": true,
+      "swing_take.py": true,
+      "pitch_types.py": true,
+      "batter_stance.py": true
+    }
+  },
+  "seasons": {
+    "2019": {
+      "parquet_tracked": false,
+      "model_version": "za7.8-neutral-apr",
+      "players": 291,
+      "qualified": 149,
+      "pitches": 204021,
+      "plus_reproduction": {
+        "apr": {
+          "k": 553.0301929875949,
+          "sigma2": 84.122090333456,
+          "tau2": 0.15211120730860883,
+          "published_k": 553.030193,
+          "max_index_error": 6.203368940305154e-06,
+          "pitch_weighted_mean": 99.99999999077053,
+          "max_percentile_error": 4.966442954668082e-07
+        },
+        "za_plus": {
+          "k": 217.16388925680045,
+          "sigma2": 4164.337937126016,
+          "tau2": 19.17601472039215,
+          "published_k": 217.163889,
+          "max_index_error": 1.1028688504666206e-06,
+          "pitch_weighted_mean": 100.00000002353188,
+          "max_percentile_error": 4.966442954668082e-07
+        }
+      },
+      "ZA_no_shrinkage": {
+        "n_300_600_inclusive": 30,
+        "mean_absolute": 4.543701577074059,
+        "rms": 5.1699692790834,
+        "qualified_spearman": 0.9961690549610014
+      },
+      "B_input_SA": {
+        "pearson": -0.08718121470323416,
+        "spearman": -0.042017050607654635
+      },
+      "APR_SA": {
+        "pearson": -0.09465351521690975,
+        "spearman": -0.05937602031561763
+      },
+      "APR_ZA_plus": {
+        "pearson": 0.8129878988345141,
+        "spearman": 0.8073208779249048
+      },
+      "ZA_raw_SA": {
+        "pearson": 0.06164973598212649,
+        "spearman": 0.07891529113005623
+      }
+    },
+    "2020": {
+      "parquet_tracked": false,
+      "model_version": "za7.8-neutral-apr",
+      "players": 286,
+      "qualified": 166,
+      "pitches": 219553,
+      "plus_reproduction": {
+        "apr": {
+          "k": 453.8939145359913,
+          "sigma2": 97.75580792106899,
+          "tau2": 0.21537148833776112,
+          "published_k": 453.893915,
+          "max_index_error": 4.956594608529485e-06,
+          "pitch_weighted_mean": 100.00000000227736,
+          "max_percentile_error": 4.939759037370095e-07
+        },
+        "za_plus": {
+          "k": 194.35320217325443,
+          "sigma2": 4119.465038046226,
+          "tau2": 21.19576622346549,
+          "published_k": 194.353202,
+          "max_index_error": 1.2816683323535472e-06,
+          "pitch_weighted_mean": 100.00000000981083,
+          "max_percentile_error": 4.939759037370095e-07
+        }
+      },
+      "ZA_no_shrinkage": {
+        "n_300_600_inclusive": 44,
+        "mean_absolute": 4.198376171676472,
+        "rms": 5.6758076093115735,
+        "qualified_spearman": 0.9963796394068383
+      },
+      "B_input_SA": {
+        "pearson": -0.1643483786491193,
+        "spearman": -0.09878468692407083
+      },
+      "APR_SA": {
+        "pearson": -0.1594103662049946,
+        "spearman": -0.09859842199500234
+      },
+      "APR_ZA_plus": {
+        "pearson": 0.7544635444149946,
+        "spearman": 0.7544818358901039
+      },
+      "ZA_raw_SA": {
+        "pearson": 0.008817055927307782,
+        "spearman": 0.06751578988791311
+      }
+    },
+    "2021": {
+      "parquet_tracked": false,
+      "model_version": "za7.8-neutral-apr",
+      "players": 291,
+      "qualified": 166,
+      "pitches": 219196,
+      "plus_reproduction": {
+        "apr": {
+          "k": 460.42166518157785,
+          "sigma2": 103.87903331012649,
+          "tau2": 0.22561717044561622,
+          "published_k": 460.421665,
+          "max_index_error": 6.2396234170591924e-06,
+          "pitch_weighted_mean": 100.00000000059762,
+          "max_percentile_error": 4.939759037370095e-07
+        },
+        "za_plus": {
+          "k": 165.42901255901697,
+          "sigma2": 4326.363276869057,
+          "tau2": 26.152385303790787,
+          "published_k": 165.429013,
+          "max_index_error": 6.665633520697156e-07,
+          "pitch_weighted_mean": 99.99999997081152,
+          "max_percentile_error": 4.939759037370095e-07
+        }
+      },
+      "ZA_no_shrinkage": {
+        "n_300_600_inclusive": 37,
+        "mean_absolute": 3.294818206890766,
+        "rms": 4.077888709961637,
+        "qualified_spearman": 0.9978487712417444
+      },
+      "B_input_SA": {
+        "pearson": -0.09456633515017142,
+        "spearman": -0.062308242223111286
+      },
+      "APR_SA": {
+        "pearson": -0.07919305907729104,
+        "spearman": -0.05439591791225873
+      },
+      "APR_ZA_plus": {
+        "pearson": 0.8114775401647282,
+        "spearman": 0.8123393956883606
+      },
+      "ZA_raw_SA": {
+        "pearson": 0.10230223930105002,
+        "spearman": 0.13760911911117527
+      }
+    },
+    "2022": {
+      "parquet_tracked": false,
+      "model_version": "za7.8-neutral-apr",
+      "players": 279,
+      "qualified": 162,
+      "pitches": 213888,
+      "plus_reproduction": {
+        "apr": {
+          "k": 524.6333574956714,
+          "sigma2": 88.49219725195401,
+          "tau2": 0.16867436274805334,
+          "published_k": 524.633357,
+          "max_index_error": 3.4182706798446816e-06,
+          "pitch_weighted_mean": 100.00000003404116,
+          "max_percentile_error": 4.938271622734192e-07
+        },
+        "za_plus": {
+          "k": 160.76964273128692,
+          "sigma2": 4278.568546015056,
+          "tau2": 26.613037594207555,
+          "published_k": 160.769643,
+          "max_index_error": 1.1186156569920058e-06,
+          "pitch_weighted_mean": 100.00000001033717,
+          "max_percentile_error": 4.938271622734192e-07
+        }
+      },
+      "ZA_no_shrinkage": {
+        "n_300_600_inclusive": 39,
+        "mean_absolute": 3.431103728910509,
+        "rms": 4.566991313750774,
+        "qualified_spearman": 0.9978096451822779
+      },
+      "B_input_SA": {
+        "pearson": -0.2818419056403512,
+        "spearman": -0.25954434410022564
+      },
+      "APR_SA": {
+        "pearson": -0.27806141993405914,
+        "spearman": -0.2522563336113616
+      },
+      "APR_ZA_plus": {
+        "pearson": 0.80382073707756,
+        "spearman": 0.7978240405554357
+      },
+      "ZA_raw_SA": {
+        "pearson": -0.05084659625970105,
+        "spearman": -0.027496574042319574
+      }
+    },
+    "2023": {
+      "parquet_tracked": false,
+      "model_version": "za7.8-neutral-apr",
+      "players": 293,
+      "qualified": 173,
+      "pitches": 214504,
+      "plus_reproduction": {
+        "apr": {
+          "k": 700.3269338177454,
+          "sigma2": 84.69460717443901,
+          "tau2": 0.12093581309623046,
+          "published_k": 700.326934,
+          "max_index_error": 1.9869107319436807e-06,
+          "pitch_weighted_mean": 100.00000000127737,
+          "max_percentile_error": 4.97109823527353e-07
+        },
+        "za_plus": {
+          "k": 183.16481637768956,
+          "sigma2": 4207.098962909568,
+          "tau2": 22.968925179574036,
+          "published_k": 183.164816,
+          "max_index_error": 7.946423892235543e-07,
+          "pitch_weighted_mean": 99.99999997161825,
+          "max_percentile_error": 4.971098261918883e-07
+        }
+      },
+      "ZA_no_shrinkage": {
+        "n_300_600_inclusive": 41,
+        "mean_absolute": 3.3775165986031728,
+        "rms": 4.333030551715557,
+        "qualified_spearman": 0.9966578748534055
+      },
+      "B_input_SA": {
+        "pearson": -0.15285652775388822,
+        "spearman": -0.1234940736380029
+      },
+      "APR_SA": {
+        "pearson": -0.14893024301807478,
+        "spearman": -0.11946590893288403
+      },
+      "APR_ZA_plus": {
+        "pearson": 0.6967596806228606,
+        "spearman": 0.6984717078213146
+      },
+      "ZA_raw_SA": {
+        "pearson": 0.08854597776231596,
+        "spearman": 0.07142228052528381
+      }
+    },
+    "2024": {
+      "parquet_tracked": false,
+      "model_version": "za7.8-neutral-apr",
+      "players": 298,
+      "qualified": 155,
+      "pitches": 221551,
+      "plus_reproduction": {
+        "apr": {
+          "k": 456.62432594543486,
+          "sigma2": 127.83880702240002,
+          "tau2": 0.2799649509642558,
+          "published_k": 456.624326,
+          "max_index_error": 2.435614277374043e-06,
+          "pitch_weighted_mean": 99.99999997581145,
+          "max_percentile_error": 4.838709699583887e-07
+        },
+        "za_plus": {
+          "k": 179.04121456563809,
+          "sigma2": 5403.5363630533275,
+          "tau2": 30.180404976376785,
+          "published_k": 179.041215,
+          "max_index_error": 8.149910399879445e-07,
+          "pitch_weighted_mean": 100.00000001398324,
+          "max_percentile_error": 4.838709699583887e-07
+        }
+      },
+      "ZA_no_shrinkage": {
+        "n_300_600_inclusive": 29,
+        "mean_absolute": 3.6315025098518228,
+        "rms": 4.720446816916762,
+        "qualified_spearman": 0.9977635267957848
+      },
+      "B_input_SA": {
+        "pearson": -0.30626068274400536,
+        "spearman": -0.2731945473880958
+      },
+      "APR_SA": {
+        "pearson": -0.293674251945603,
+        "spearman": -0.2734330185943089
+      },
+      "APR_ZA_plus": {
+        "pearson": 0.7944606472103365,
+        "spearman": 0.7864039186619832
+      },
+      "ZA_raw_SA": {
+        "pearson": 0.04382487300813322,
+        "spearman": 0.07087106441945151
+      }
+    },
+    "2025": {
+      "parquet_tracked": false,
+      "model_version": "za7.8-neutral-apr",
+      "players": 299,
+      "qualified": 171,
+      "pitches": 216858,
+      "plus_reproduction": {
+        "apr": {
+          "k": 409.04917662285425,
+          "sigma2": 118.268682549984,
+          "tau2": 0.28913071901628207,
+          "published_k": 409.049177,
+          "max_index_error": 2.465066387458137e-06,
+          "pitch_weighted_mean": 99.99999996993422,
+          "max_percentile_error": 4.970760230094129e-07
+        },
+        "za_plus": {
+          "k": 235.92561182906667,
+          "sigma2": 5632.774484483345,
+          "tau2": 23.875214059270576,
+          "published_k": 235.925612,
+          "max_index_error": 1.406672652137786e-06,
+          "pitch_weighted_mean": 100.00000000079315,
+          "max_percentile_error": 4.970760230094129e-07
+        }
+      },
+      "ZA_no_shrinkage": {
+        "n_300_600_inclusive": 40,
+        "mean_absolute": 5.201912889072278,
+        "rms": 6.33659652360399,
+        "qualified_spearman": 0.9949792401660787
+      },
+      "B_input_SA": {
+        "pearson": -0.2799487070368709,
+        "spearman": -0.24512203902368782
+      },
+      "APR_SA": {
+        "pearson": -0.3051073605149822,
+        "spearman": -0.24987160102719178
+      },
+      "APR_ZA_plus": {
+        "pearson": 0.7375238639998836,
+        "spearman": 0.7569035447716419
+      },
+      "ZA_raw_SA": {
+        "pearson": 0.03863014439258075,
+        "spearman": 0.016881464948280415
+      }
+    },
+    "2026": {
+      "parquet_tracked": true,
+      "model_version": "za7.8-neutral-apr",
+      "players": 290,
+      "qualified": 166,
+      "pitches": 211140,
+      "plus_reproduction": {
+        "apr": {
+          "k": 723.5404317946915,
+          "sigma2": 137.26858551272002,
+          "tau2": 0.18971791966377732,
+          "published_k": 723.540432,
+          "max_index_error": 4.532725625949752e-06,
+          "pitch_weighted_mean": 99.99999998273184,
+          "max_percentile_error": 4.939759037370095e-07
+        },
+        "za_plus": {
+          "k": 217.3348789771349,
+          "sigma2": 5707.823448057321,
+          "tau2": 26.262804548080947,
+          "published_k": 217.334879,
+          "max_index_error": 7.145532094909868e-07,
+          "pitch_weighted_mean": 99.99999994502227,
+          "max_percentile_error": 4.939759037370095e-07
+        }
+      },
+      "ZA_no_shrinkage": {
+        "n_300_600_inclusive": 40,
+        "mean_absolute": 5.117412071505331,
+        "rms": 6.187681319398083,
+        "qualified_spearman": 0.9963009359156825
+      },
+      "B_input_SA": {
+        "pearson": -0.26636318884803994,
+        "spearman": -0.2121911707800172
+      },
+      "APR_SA": {
+        "pearson": -0.2510585136398915,
+        "spearman": -0.209769726702127
+      },
+      "APR_ZA_plus": {
+        "pearson": 0.7457084579514167,
+        "spearman": 0.7245220402568358
+      },
+      "ZA_raw_SA": {
+        "pearson": 0.08289632795056903,
+        "spearman": 0.15283299775039189
+      }
+    }
+  },
+  "APR_ZA_plus_mean_season_spearman": {
+    "all_2019_2026": 0.7672834201963226,
+    "human_2019_2023": 0.7740875715760238,
+    "ABS_2024_2026": 0.7559431678968203
+  },
+  "ZA_shrinkage_removal": {
+    "player_seasons": 300,
+    "season_mean_absolute_simple_average": 4.099542969198051,
+    "pooled_mean_absolute": 4.11108556566664,
+    "pooled_rms": 5.228638533861516
+  },
+  "ZA_historical_snapshots_separate": {
+    "d7bb6fa1": {
+      "generated_at": "2026-10-02T20:58:37+00:00",
+      "curated_date_range_2026": [
+        "2026-03-28",
+        "2026-10-01"
+      ],
+      "player_seasons": 301,
+      "pooled_mean_absolute": 4.102691003757074,
+      "pooled_rms": 5.216024377965328,
+      "season_mean_absolute_simple_average": 4.088771354440069,
+      "seasons": {
+        "2019": {
+          "model": "za7.7-zaplus",
+          "rows": 204021,
+          "small_count": 30,
+          "mean_absolute": 4.543701577074062
+        },
+        "2020": {
+          "model": "za7.7-zaplus",
+          "rows": 219553,
+          "small_count": 44,
+          "mean_absolute": 4.198376171676475
+        },
+        "2021": {
+          "model": "za7.7-zaplus",
+          "rows": 219196,
+          "small_count": 37,
+          "mean_absolute": 3.294818206890766
+        },
+        "2022": {
+          "model": "za7.7-zaplus",
+          "rows": 213888,
+          "small_count": 39,
+          "mean_absolute": 3.4311037289105104
+        },
+        "2023": {
+          "model": "za7.7-zaplus",
+          "rows": 214504,
+          "small_count": 41,
+          "mean_absolute": 3.37751659860317
+        },
+        "2024": {
+          "model": "za7.7-zaplus",
+          "rows": 221551,
+          "small_count": 29,
+          "mean_absolute": 3.631502509851821
+        },
+        "2025": {
+          "model": "za7.7-zaplus",
+          "rows": 216858,
+          "small_count": 40,
+          "mean_absolute": 5.201912889072277
+        },
+        "2026": {
+          "model": "za7.7-zaplus",
+          "rows": 209692,
+          "small_count": 41,
+          "mean_absolute": 5.031239153441471
+        }
+      }
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008": {
+      "generated_at": "2026-10-02T20:58:37+00:00",
+      "curated_date_range_2026": [
+        "2026-03-28",
+        "2026-10-01"
+      ],
+      "player_seasons": 301,
+      "pooled_mean_absolute": 4.102691003757074,
+      "pooled_rms": 5.216024377965328,
+      "season_mean_absolute_simple_average": 4.088771354440069,
+      "seasons": {
+        "2019": {
+          "model": "za7.7-zaplus",
+          "rows": 204021,
+          "small_count": 30,
+          "mean_absolute": 4.543701577074062
+        },
+        "2020": {
+          "model": "za7.7-zaplus",
+          "rows": 219553,
+          "small_count": 44,
+          "mean_absolute": 4.198376171676475
+        },
+        "2021": {
+          "model": "za7.7-zaplus",
+          "rows": 219196,
+          "small_count": 37,
+          "mean_absolute": 3.294818206890766
+        },
+        "2022": {
+          "model": "za7.7-zaplus",
+          "rows": 213888,
+          "small_count": 39,
+          "mean_absolute": 3.4311037289105104
+        },
+        "2023": {
+          "model": "za7.7-zaplus",
+          "rows": 214504,
+          "small_count": 41,
+          "mean_absolute": 3.37751659860317
+        },
+        "2024": {
+          "model": "za7.7-zaplus",
+          "rows": 221551,
+          "small_count": 29,
+          "mean_absolute": 3.631502509851821
+        },
+        "2025": {
+          "model": "za7.7-zaplus",
+          "rows": 216858,
+          "small_count": 40,
+          "mean_absolute": 5.201912889072277
+        },
+        "2026": {
+          "model": "za7.7-zaplus",
+          "rows": 209692,
+          "small_count": 41,
+          "mean_absolute": 5.031239153441471
+        }
+      }
+    }
+  },
+  "pitch_2026": {
+    "rows": 211140,
+    "players": 290,
+    "qualified": 166,
+    "game_date_min": "2026-03-28",
+    "game_date_max": "2026-10-03",
+    "games": 689,
+    "columns": [
+      "game_id",
+      "game_date",
+      "batter_id",
+      "swing",
+      "p_swing",
+      "p_zone",
+      "delta_v",
+      "dv",
+      "judgment",
+      "region"
+    ],
+    "null_counts": {
+      "game_id": 0,
+      "game_date": 0,
+      "batter_id": 0,
+      "swing": 0,
+      "p_swing": 0,
+      "p_zone": 0,
+      "delta_v": 0,
+      "dv": 0,
+      "judgment": 0,
+      "region": 0
+    },
+    "nonfinite_numeric": 0,
+    "public_max_abs_errors": {
+      "jdv_per_100": 0.0,
+      "jdv_se": 0.0,
+      "swing_aggression": 0.0,
+      "za_raw": 0.0,
+      "zj_per_100": 0.0,
+      "zj_se": 0.0,
+      "pitches_seen": 0.0,
+      "games_seen": 0.0
+    },
+    "region_additivity_max_error": 3.552713678800501e-15,
+    "probability_shift_outside_0_1_fraction": 0.0819693094629156,
+    "judgment_identity_max_error": 0.0,
+    "dv_identity_max_error": 0.0,
+    "L": 6.206272971343613,
+    "league_B_from_rounded_players": -0.07484640712323577,
+    "current_APR_public_max_error": 4.935068318445701e-07,
+    "current_IF_SE_median_ratio_qualified": 1.0196691116013752,
+    "current_SE_below_IF_count_qualified": 30,
+    "SE_variants": {
+      "B_current": {
+        "k": 723.5404317946914,
+        "sigma2": 137.26858551272002,
+        "tau2": 0.18971791966377735,
+        "qualified_APR_SD_ddof1": 5.544588376179211,
+        "qualified_APR_SA": {
+          "pearson": -0.2510585145374214,
+          "spearman": -0.209769726702127
+        }
+      },
+      "B_IF": {
+        "k": 662.9096447072213,
+        "sigma2": 130.58490027096002,
+        "tau2": 0.1969874798376689,
+        "qualified_APR_SD_ddof1": 5.725303575022919,
+        "qualified_APR_SA": {
+          "pearson": -0.25206527883780866,
+          "spearman": -0.21019472555436775
+        }
+      },
+      "B_IF_G": {
+        "k": 681.8878433232696,
+        "sigma2": 132.23226219583398,
+        "tau2": 0.19392083828827736,
+        "qualified_APR_SD_ddof1": 5.667245658782369,
+        "qualified_APR_SA": {
+          "pearson": -0.251744070922917,
+          "spearman": -0.21110768605177382
+        }
+      },
+      "A": {
+        "k": 451.03763886764966,
+        "sigma2": 138.57667511407203,
+        "tau2": 0.3072397138783695,
+        "qualified_APR_SD_ddof1": 7.391131002694248,
+        "qualified_APR_SA": {
+          "pearson": -0.5610708983029371,
+          "spearman": -0.5008231073450033
+        }
+      },
+      "A_unrounded": {
+        "k": 451.03812346965157,
+        "sigma2": 138.57683374427154,
+        "tau2": 0.30723973547569927,
+        "qualified_APR_SD_ddof1": 7.39112885095623,
+        "qualified_APR_SA": {
+          "pearson": -0.5610709359293139,
+          "spearman": -0.5008231073450033
+        }
+      }
+    },
+    "B_IF_rank_spearman_qualified": 0.9998347226685732,
+    "B_IF_max_APR_change_qualified": 0.5596793497298478,
+    "B_SA_raw": {
+      "pearson": -0.26636318884804006,
+      "spearman": -0.2121911707800172
+    },
+    "ZA_N0_SA": {
+      "Z0": {
+        "pearson": 0.08289632795056905,
+        "spearman": 0.15283299775039189
+      },
+      "N0": {
+        "pearson": 0.11230194890441689,
+        "spearman": 0.16787848180965562
+      }
+    },
+    "N0_identity_max_error": 6.80830325450188e-07
+  },
+  "historical_CSV_separate_sample": {
+    "2019": {
+      "n": 149,
+      "N0_N1_spearman": 0.9988173408307637,
+      "N0_N1_max_rank_shift": 10.0,
+      "Z0_SA_spearman": 0.07891529113005623,
+      "N0_SA_spearman": 0.1555704697986577
+    },
+    "2020": {
+      "n": 166,
+      "N0_N1_spearman": 0.9987827193367921,
+      "N0_N1_max_rank_shift": 8.0,
+      "Z0_SA_spearman": 0.0675853556318105,
+      "N0_SA_spearman": 0.1825869723337764
+    },
+    "2021": {
+      "n": 166,
+      "N0_N1_spearman": 0.9988594544928426,
+      "N0_N1_max_rank_shift": 8.0,
+      "Z0_SA_spearman": 0.13760911911117527,
+      "N0_SA_spearman": 0.24576870355674196
+    },
+    "2022": {
+      "n": 162,
+      "N0_N1_spearman": 0.998492717624478,
+      "N0_N1_max_rank_shift": 8.0,
+      "Z0_SA_spearman": -0.027496574042319574,
+      "N0_SA_spearman": 0.04134156504632603
+    },
+    "2023": {
+      "n": 173,
+      "N0_N1_spearman": 0.9990410505683816,
+      "N0_N1_max_rank_shift": 7.0,
+      "Z0_SA_spearman": 0.07142228052528381,
+      "N0_SA_spearman": 0.14266378035609162
+    },
+    "2024": {
+      "n": 155,
+      "N0_N1_spearman": 0.9999121845191804,
+      "N0_N1_max_rank_shift": 3.0,
+      "Z0_SA_spearman": 0.07087106441945151,
+      "N0_SA_spearman": 0.06722476493248043
+    },
+    "2025": {
+      "n": 171,
+      "N0_N1_spearman": 0.9998560011519908,
+      "N0_N1_max_rank_shift": 4.0,
+      "Z0_SA_spearman": 0.016946274597571028,
+      "N0_SA_spearman": 0.010795120116113083
+    },
+    "2026": {
+      "n": 166,
+      "N0_N1_spearman": 0.9998976854614977,
+      "N0_N1_max_rank_shift": 3.0,
+      "Z0_SA_spearman": 0.1420899712076395,
+      "N0_SA_spearman": 0.15769162660440347
+    }
+  },
+  "historical_recorded_results": {
+    "zb_neutral_za": {
+      "recommended": null,
+      "interpretation": "저장 기록 열람. 원자료 없는 과거 성능의 독립 재현이 아님",
+      "non_external_fields": {
+        "Z0": {
+          "ZG1_reliability": 0.8165644849664317,
+          "ZG2_max_abs_sa": 0.1420899712076395,
+          "ZG3_max_abs_league_mean": 0.04145914244072456,
+          "ZG5_next_bb_pct": 0.2757682400936971,
+          "ZG6_x4": 0.07583326757164717,
+          "ZG6_x4_ci95": [
+            -0.01310600790788959,
+            0.16045460946953097
+          ],
+          "ZG6_year_to_year": 0.7310877687401824
+        },
+        "N0": {
+          "ZG1_reliability": 0.8213468374470205,
+          "ZG2_max_abs_sa": 0.24576870355674196,
+          "ZG3_max_abs_league_mean": 0.10838207791309543,
+          "ZG5_next_bb_pct": 0.25242850500299585,
+          "ZG6_x4": 0.0766095032085267,
+          "ZG6_x4_ci95": [
+            -0.016314895459449082,
+            0.16281371264852756
+          ],
+          "ZG6_year_to_year": 0.7325686712226317
+        },
+        "N1": {
+          "ZG1_reliability": 0.8199967450101597,
+          "ZG2_max_abs_sa": 0.25702330279200636,
+          "ZG3_max_abs_league_mean": 0.11852321578358628,
+          "ZG5_next_bb_pct": 0.25024883932813463,
+          "ZG6_x4": 0.07710777358565306,
+          "ZG6_x4_ci95": [
+            -0.01491800908728065,
+            0.1622711216981098
+          ],
+          "ZG6_year_to_year": 0.7298768341775226
+        },
+        "N2": {
+          "ZG1_reliability": 0.7768814575985223,
+          "ZG2_max_abs_sa": 0.33231929360961615,
+          "ZG3_max_abs_league_mean": 0.2279551538472196,
+          "ZG5_next_bb_pct": 0.40762181125788594,
+          "ZG6_x4": 0.1347832277712232,
+          "ZG6_x4_ci95": [
+            0.05153136371396897,
+            0.2109125228126555
+          ],
+          "ZG6_year_to_year": 0.6734622420204275
+        },
+        "N3": {
+          "ZG1_reliability": 0.8289751229196348,
+          "ZG2_max_abs_sa": 0.2829062575834093,
+          "ZG3_max_abs_league_mean": 0.13022448334364947,
+          "ZG5_next_bb_pct": 0.22360086210099042,
+          "ZG6_x4": 0.07701541490171764,
+          "ZG6_x4_ci95": [
+            -0.015360031795045253,
+            0.1618370329285442
+          ],
+          "ZG6_year_to_year": 0.739946995257444
+        },
+        "N4": {
+          "ZG1_reliability": 0.7824661452982019,
+          "ZG2_max_abs_sa": 0.2991589056105185,
+          "ZG3_max_abs_league_mean": 0.2874566300681786,
+          "ZG5_next_bb_pct": 0.38394942700234796,
+          "ZG6_x4": 0.13538988097294719,
+          "ZG6_x4_ci95": [
+            0.05238442135816006,
+            0.21205283889607743
+          ],
+          "ZG6_year_to_year": 0.685044700596266
+        }
+      }
+    },
+    "zb_neutral_za_recenter": {
+      "recommended": "N4",
+      "interpretation": "저장 기록 열람. 원자료 없는 과거 성능의 독립 재현이 아님",
+      "non_external_fields": {
+        "Z0": {
+          "ZG1_reliability": 0.8165644849664317,
+          "ZG2_max_abs_sa": 0.1420899712076395,
+          "ZG3_max_abs_league_mean": 4.746015142318289e-16,
+          "ZG5_next_bb_pct": 0.2757682400936971,
+          "ZG6_x4": 0.07583326757164738,
+          "ZG6_x4_ci95": [
+            -0.013106007907889673,
+            0.16045460946953088
+          ],
+          "ZG6_year_to_year": 0.7312938971246776
+        },
+        "N0": {
+          "ZG1_reliability": 0.8213468374470205,
+          "ZG2_max_abs_sa": 0.24576870355674196,
+          "ZG3_max_abs_league_mean": 4.677420762035369e-16,
+          "ZG5_next_bb_pct": 0.25242850500299585,
+          "ZG6_x4": 0.07660950320852707,
+          "ZG6_x4_ci95": [
+            -0.016314895459449037,
+            0.16281371264852765
+          ],
+          "ZG6_year_to_year": 0.7326233211805275
+        },
+        "N1": {
+          "ZG1_reliability": 0.8199967450101597,
+          "ZG2_max_abs_sa": 0.25702330279200636,
+          "ZG3_max_abs_league_mean": 9.66780862324096e-16,
+          "ZG5_next_bb_pct": 0.2502488393281347,
+          "ZG6_x4": 0.07710777358565296,
+          "ZG6_x4_ci95": [
+            -0.014918009087280908,
+            0.16227112169810956
+          ],
+          "ZG6_year_to_year": 0.729923288958736
+        },
+        "N2": {
+          "ZG1_reliability": 0.7768814575985223,
+          "ZG2_max_abs_sa": 0.33231929360961615,
+          "ZG3_max_abs_league_mean": 4.3247892617778075e-16,
+          "ZG5_next_bb_pct": 0.4076218112578859,
+          "ZG6_x4": 0.134783227771223,
+          "ZG6_x4_ci95": [
+            0.05153136371396895,
+            0.21091252281265588
+          ],
+          "ZG6_year_to_year": 0.6734805788534062
+        },
+        "N3": {
+          "ZG1_reliability": 0.8289751229196348,
+          "ZG2_max_abs_sa": 0.2829062575834093,
+          "ZG3_max_abs_league_mean": 6.878101388501242e-16,
+          "ZG5_next_bb_pct": 0.2236008621009904,
+          "ZG6_x4": 0.07701541490171762,
+          "ZG6_x4_ci95": [
+            -0.015360031795045227,
+            0.16183703292854434
+          ],
+          "ZG6_year_to_year": 0.7400289171507337
+        },
+        "N4": {
+          "ZG1_reliability": 0.782466145298202,
+          "ZG2_max_abs_sa": 0.2991589056105185,
+          "ZG3_max_abs_league_mean": 3.6946131211126803e-16,
+          "ZG5_next_bb_pct": 0.38394942700234796,
+          "ZG6_x4": 0.1353898809729469,
+          "ZG6_x4_ci95": [
+            0.05238442135815998,
+            0.21205283889607718
+          ],
+          "ZG6_year_to_year": 0.6852607275494907
+        }
+      }
+    },
+    "zb_neutral_za_strike": {
+      "recommended": "N5",
+      "interpretation": "저장 기록 열람. 원자료 없는 과거 성능의 독립 재현이 아님",
+      "non_external_fields": {
+        "Z0": {
+          "ZG1_reliability": 0.8165644849664317,
+          "ZG2_max_abs_sa": 0.1420899712076395,
+          "ZG3_max_abs_league_mean": 4.746015142318289e-16,
+          "ZG5_next_bb_pct": 0.2757682400936971,
+          "ZG6_x4": 0.07583326757164738,
+          "ZG6_x4_ci95": [
+            -0.013106007907889673,
+            0.16045460946953088
+          ],
+          "ZG6_year_to_year": 0.7312938971246776
+        },
+        "N4": {
+          "ZG1_reliability": 0.782466145298202,
+          "ZG2_max_abs_sa": 0.2991589056105185,
+          "ZG3_max_abs_league_mean": 3.5304080935076724e-16,
+          "ZG5_next_bb_pct": 0.3839494270023479,
+          "ZG6_x4": 0.13538988097294685,
+          "ZG6_x4_ci95": [
+            0.052384421358159974,
+            0.21205283889607748
+          ],
+          "ZG6_year_to_year": 0.6852607275494906
+        },
+        "N5": {
+          "ZG1_reliability": 0.8095096575695397,
+          "ZG2_max_abs_sa": 0.1887560899512804,
+          "ZG3_max_abs_league_mean": 5.1366796636731495e-16,
+          "ZG5_next_bb_pct": 0.34470949375272436,
+          "ZG6_x4": 0.09884691616333696,
+          "ZG6_x4_ci95": [
+            0.011373937870407818,
+            0.1780086832095484
+          ],
+          "ZG6_year_to_year": 0.7032696199663074
+        },
+        "N6": {
+          "ZG1_reliability": 0.7829882808726099,
+          "ZG2_max_abs_sa": 0.19298965608275137,
+          "ZG3_max_abs_league_mean": 5.624906835340195e-16,
+          "ZG5_next_bb_pct": 0.34623829437028225,
+          "ZG6_x4": 0.10087211684836549,
+          "ZG6_x4_ci95": [
+            0.013465400841547574,
+            0.1805467228668753
+          ],
+          "ZG6_year_to_year": 0.6856059781839998
+        }
+      }
+    },
+    "x_compare": {
+      "recommended": "B_apr_neutral",
+      "interpretation": "저장 기록 열람. 원자료 없는 과거 성능의 독립 재현이 아님",
+      "non_external_fields": {
+        "A_apr": {
+          "X1_mean": 0.7567118581515152,
+          "X2_max_abs": 0.5841317825847033,
+          "X3_next_season": {
+            "bb_pct": 0.4731401019584683,
+            "obp": 0.29135826075078125,
+            "woba": 0.16967643306820823
+          },
+          "X4_std_coef_given_iso": 0.15479282772462594,
+          "X4_ci95": [
+            0.07502403441758947,
+            0.23692086525694095
+          ],
+          "X5_year_to_year": 0.6274686643749041
+        },
+        "B_apr_neutral": {
+          "X1_mean": 0.7026670915221763,
+          "X2_max_abs": 0.2734330185943089,
+          "X3_next_season": {
+            "bb_pct": 0.3614031386552632,
+            "obp": 0.2620015795553325,
+            "woba": 0.22900168594778106
+          },
+          "X4_std_coef_given_iso": 0.1470688430151105,
+          "X4_ci95": [
+            0.060083545654508456,
+            0.22765693487939517
+          ],
+          "X5_year_to_year": 0.5959136474460527
+        },
+        "C_seager": {
+          "X1_mean": 0.5703391615495227,
+          "X2_max_abs": 0.2147622819017448,
+          "X3_next_season": {
+            "bb_pct": 0.3365200817321713,
+            "obp": 0.30751321298747775,
+            "woba": 0.33650629268260146
+          },
+          "X4_std_coef_given_iso": 0.18943387280282306,
+          "X4_ci95": [
+            0.11308549151963439,
+            0.2638412330666023
+          ],
+          "X5_year_to_year": 0.47828063310123364
+        },
+        "D_za": {
+          "X1_mean": 0.8165644849664319,
+          "X2_max_abs": 0.1420899712076395,
+          "X3_next_season": {
+            "bb_pct": 0.2757682400936971,
+            "obp": 0.14957900398534738,
+            "woba": 0.21032615107874755
+          },
+          "X4_std_coef_given_iso": 0.07583326757164731,
+          "X4_ci95": [
+            -0.013106007907889787,
+            0.16045460946953086
+          ],
+          "X5_year_to_year": 0.7310877687401824
+        },
+        "E_apr_za": {
+          "X1_mean": 0.7927712697144902,
+          "X2_max_abs": 0.3313456976683676,
+          "X3_next_season": {
+            "bb_pct": 0.4045780372643926,
+            "obp": 0.23508133768468817,
+            "woba": 0.20268342195851607
+          },
+          "X4_std_coef_given_iso": 0.11699462198153161,
+          "X4_ci95": [
+            0.034828251823049994,
+            0.19726390457934076
+          ],
+          "X5_year_to_year": 0.6979000128135586
+        }
+      }
+    },
+    "p_count_free": {
+      "recommended": null,
+      "interpretation": "저장 기록 열람. 원자료 없는 과거 성능의 독립 재현이 아님",
+      "non_external_fields": {
+        "A": {},
+        "A_nc": {},
+        "B": {},
+        "B_nc": {}
+      }
+    }
+  },
+  "limitations": [
+    "2019–2025 판단 투구 parquet이 Git에 없어 경기 교차항·SE·반분·재적합 미재현",
+    "외부 비공개 원자료 미사용·수치 미출력, 외부 게이트 독립 검증 불가",
+    "신규 후보 적합·성능 실험·부트스트랩 포함률 실험 미실행",
+    "SE 변경은 예측 고정·리그 기준 및 수축 모수 불확실성 미포함",
+    "parquet에는 별도 모형 버전 메타데이터 없음; 원점수·SE·건수 일치로 현재 집계와 정합 확인"
+  ],
+  "inputs": {
+    "6495992497af77df9abef861d235443a3302f130:constraints-za.txt": {
+      "sha256": "edb6b83525be799afd9d61be4f545838fcbe4fac8dfac65f4b44d7e9f52e3edb",
+      "bytes": 173
+    },
+    "6495992497af77df9abef861d235443a3302f130:data/curated/summary.json": {
+      "sha256": "a5f187da37a485f820acec0402e963a660b02862ac1d2a218077365f5858b1d6",
+      "bytes": 7548
+    },
+    "6495992497af77df9abef861d235443a3302f130:data/curated/schema.json": {
+      "sha256": "79abb3d5094a24a25d769d45c5cf73075e51feb8782c896b8d9673fce7eb3e07",
+      "bytes": 14975
+    },
+    "6495992497af77df9abef861d235443a3302f130:src/visualbaseball/zone_decision.py": {
+      "sha256": "2e65a4c9449625441fe35a001be09f7593bf24256444edd839c28eabc13d1ae0",
+      "bytes": 44515
+    },
+    "6495992497af77df9abef861d235443a3302f130:data/metrics/zone_awareness/2026/report.json": {
+      "sha256": "5b034ca38ae9c1e8a33fc63488967859122b7c841a79b3182171e9ab995cb23c",
+      "bytes": 17377
+    },
+    "6495992497af77df9abef861d235443a3302f130:src/visualbaseball/curated.py": {
+      "sha256": "5ce845f4df6a5f31bcfa988bfe1e796d18512def52e54c38acc2d559197f828d",
+      "bytes": 27996
+    },
+    "6495992497af77df9abef861d235443a3302f130:src/visualbaseball/parser.py": {
+      "sha256": "ad2345d569753505b15cc5cc4bd72229117182e7eeeb6c2d702339ce735541af",
+      "bytes": 17567
+    },
+    "6495992497af77df9abef861d235443a3302f130:src/visualbaseball/plate_decision_v1.py": {
+      "sha256": "dd603fdc5c068421929a4ff4ffba57238c43672186524842c59b2a336ebf50b4",
+      "bytes": 7059
+    },
+    "6495992497af77df9abef861d235443a3302f130:src/visualbaseball/swing_take.py": {
+      "sha256": "b39cfe218480aa614d3df84d4021cd8c8d0dd2feca93f93855078313954f156d",
+      "bytes": 12788
+    },
+    "6495992497af77df9abef861d235443a3302f130:src/visualbaseball/pitch_types.py": {
+      "sha256": "0c9d63f708fb7cafb657eb1f77a6bb1fa5d2423bdb9c14d2066f501a7a497b7a",
+      "bytes": 936
+    },
+    "6495992497af77df9abef861d235443a3302f130:src/visualbaseball/batter_stance.py": {
+      "sha256": "fa181c492a671d9e0e1dc53027ce970926bacdc85e83299a6e1acc699d14e5a0",
+      "bytes": 1067
+    },
+    "da2614816c975f2063033f121b9295a7da1bcec9:src/visualbaseball/zone_decision.py": {
+      "sha256": "9c37e37a86f2c363ab53c3f3c1ff46ef4a9748bb33d4e892d116de66e605623f",
+      "bytes": 41351
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:src/visualbaseball/zone_decision.py": {
+      "sha256": "0391d3c717efdcf86abe3a1248adab865023d7630534ad9a1c7843330f1f61ee",
+      "bytes": 44042
+    },
+    "f0dc0a44367852cc1aea86d8eb24dcdb1a19d413:src/visualbaseball/zone_decision.py": {
+      "sha256": "9c37e37a86f2c363ab53c3f3c1ff46ef4a9748bb33d4e892d116de66e605623f",
+      "bytes": 41351
+    },
+    "d7bb6fa1:src/visualbaseball/zone_decision.py": {
+      "sha256": "0391d3c717efdcf86abe3a1248adab865023d7630534ad9a1c7843330f1f61ee",
+      "bytes": 44042
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/gates.md": {
+      "sha256": "acb5a3f1f3301d365a168e231b9c17bedc1d87872502124e735493447a294d32",
+      "bytes": 61878
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/zb_neutral_za.py": {
+      "sha256": "9162cc2b63816c4b87738be8aa8648b0c4aa6d0bdc96d83d558768afe1408f7e",
+      "bytes": 9086
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/zd_strike_weight.py": {
+      "sha256": "4a58aa672f5b32fd573e529d85f68cedc1489a0a437be99d865fb082752c11b1",
+      "bytes": 2784
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/x_compare.py": {
+      "sha256": "d1692e76d51993bb9ff8e7adc844f1d10e21a5f1c7cfca940887430baf03d1b2",
+      "bytes": 8313
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/v_execution.py": {
+      "sha256": "80d0740de17919002327fe467f3240fee1be62da4071f0760ef63dbf46b5f338",
+      "bytes": 8479
+    },
+    "6495992497af77df9abef861d235443a3302f130:web/zone-awareness/index.html": {
+      "sha256": "ca4fb95c60766b0445a67f82ddad2667670e39e75044c9b70aab43996ca86fa8",
+      "bytes": 10076
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/zone_decision/README.md": {
+      "sha256": "89ee7cc9e0940e4b77199b6173fa62df6064003706e16196cfdb8d7a63574e04",
+      "bytes": 10651
+    },
+    "da2614816c975f2063033f121b9295a7da1bcec9:analysis/za_review_20261002/README.md": {
+      "sha256": "bf4af0044e77162c1d00469d4419e49e421663f11fd8abdbf064576457051e4d",
+      "bytes": 11565
+    },
+    "da2614816c975f2063033f121b9295a7da1bcec9:analysis/za_review_20261002/Z-e-draft.md": {
+      "sha256": "6747e0297963b99d4f717441cad0c60f103baec5c3c8d20719461e7ffad11da3",
+      "bytes": 5187
+    },
+    "da2614816c975f2063033f121b9295a7da1bcec9:analysis/za_review_20261002/checks.json": {
+      "sha256": "09c648b724106a3b258f33d27dcc992fc5b124c5c408827373db436be2c84d30",
+      "bytes": 20787
+    },
+    "da2614816c975f2063033f121b9295a7da1bcec9:analysis/za_review_20261002/check_za.py": {
+      "sha256": "65d2e06d1b09c69d5d863f9f0012c7171b75230382306ac862413f34c7ac4804",
+      "bytes": 12540
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:analysis/apr_za_review_20261003/README.md": {
+      "sha256": "323937bbcb84d63d2fb6abd1625db19cf4ffcce18de66c788614e4300ed7fe93",
+      "bytes": 35559
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:analysis/apr_za_review_20261003/gates.md": {
+      "sha256": "dc15b6ef023a0b3dd501fe0ceb37d351d346a37a2a6e95c17b1357945d7ff258",
+      "bytes": 35027
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:analysis/apr_za_review_20261003/formula_notes.md": {
+      "sha256": "f56498f4580879e54f47b6ff2ebb6ed543ab74b67487ac06c2f04a0e4dc6f052",
+      "bytes": 21142
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:analysis/apr_za_review_20261003/history_notes.md": {
+      "sha256": "dd5851316e91a6daa3ffb0c38b4a7c7fa68ec99826cb2a90febad9735ff6c161",
+      "bytes": 17739
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:analysis/apr_za_review_20261003/verification_plan.md": {
+      "sha256": "b9213014a696db3b358c855664d501ecd71e2491c269a22ade875ce37e6b8b53",
+      "bytes": 3435
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:analysis/apr_za_review_20261003/results/reproduction.json": {
+      "sha256": "ac47b7d48d6ab9b3b638d3eec463fdd67afed68fca065680f5d07459db2a3120",
+      "bytes": 64077
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:analysis/apr_za_review_20261003/results/height_audit.json": {
+      "sha256": "23b1d08a51390d4d7ec104855854b54e04d737c234fd0bacb3a6189a703ed24f",
+      "bytes": 4177
+    },
+    "6495992497af77df9abef861d235443a3302f130:web/data/zone_awareness/2019/leaderboard.json": {
+      "sha256": "27a8f53fdcdd24e4b493743e0c76dd08e5457f234516ea6406b06c9784e8ef25",
+      "bytes": 704831
+    },
+    "6495992497af77df9abef861d235443a3302f130:web/data/zone_awareness/2020/leaderboard.json": {
+      "sha256": "5448ad9f211419487fb972c163023059b658d9fb2c8aabc2f7f84aa192cb9dfc",
+      "bytes": 693800
+    },
+    "6495992497af77df9abef861d235443a3302f130:web/data/zone_awareness/2021/leaderboard.json": {
+      "sha256": "f3d87002db09b5af75c8d52c0f506048a91ff425eca763ed525c9fd066b86267",
+      "bytes": 705557
+    },
+    "6495992497af77df9abef861d235443a3302f130:web/data/zone_awareness/2022/leaderboard.json": {
+      "sha256": "626a73aa0bd8b0ee0c5d5f465c0a6f12480b0d97a00dedd2b7ae260c8dd5d4c9",
+      "bytes": 677242
+    },
+    "6495992497af77df9abef861d235443a3302f130:web/data/zone_awareness/2023/leaderboard.json": {
+      "sha256": "cb3cad208224afb892ef61476ac658e618cc28ed445654f3ec22ab5168829187",
+      "bytes": 711001
+    },
+    "6495992497af77df9abef861d235443a3302f130:web/data/zone_awareness/2024/leaderboard.json": {
+      "sha256": "91b4c83fbc7ec3f427faa5b9cd59e4104ef78a73d8291f6986d6861d329c7c62",
+      "bytes": 722097
+    },
+    "6495992497af77df9abef861d235443a3302f130:web/data/zone_awareness/2025/leaderboard.json": {
+      "sha256": "4c7dc34cd3b76fdfd0c3e88da6e98cb61527e5e2dab03f0605e70a734ea45d95",
+      "bytes": 724771
+    },
+    "6495992497af77df9abef861d235443a3302f130:web/data/zone_awareness/2026/leaderboard.json": {
+      "sha256": "4a7fbf93207bc9bc5b72dee3f1165a55ddd74343a6e8fa7e90edcd3a193351b4",
+      "bytes": 703066
+    },
+    "d7bb6fa1:data/curated/summary.json": {
+      "sha256": "bab4d82df78da79e149b684ae0d308ab4b32486f6bc313ec3f006403e6ad675b",
+      "bytes": 7421
+    },
+    "d7bb6fa1:web/data/zone_awareness/2019/leaderboard.json": {
+      "sha256": "5f805be7b2d80e950e7ab463479767a2b232c274bd2517406b03a1cd339f018c",
+      "bytes": 704534
+    },
+    "d7bb6fa1:web/data/zone_awareness/2020/leaderboard.json": {
+      "sha256": "c7531c1c651f70787ca902f1a0e37d5e432600954c678f995bf3ed161f0f0e24",
+      "bytes": 693581
+    },
+    "d7bb6fa1:web/data/zone_awareness/2021/leaderboard.json": {
+      "sha256": "b2b80d0bd857c5c2ecabd6cb95b08a41c66a6cafc8fb5552587886ccff3b6a3f",
+      "bytes": 705302
+    },
+    "d7bb6fa1:web/data/zone_awareness/2022/leaderboard.json": {
+      "sha256": "82c206774667a3ec07f64030738d552f0b371fca7b2ea1db1091d2512007512c",
+      "bytes": 676901
+    },
+    "d7bb6fa1:web/data/zone_awareness/2023/leaderboard.json": {
+      "sha256": "a923d36d17714b8c4e744af8c15cbb3ed436c6aaf8c2a7d3a78d073c40379fbf",
+      "bytes": 710735
+    },
+    "d7bb6fa1:web/data/zone_awareness/2024/leaderboard.json": {
+      "sha256": "284fffe047acd469bf3641ca7832d1ac22bf3ee6488c2f9b23f122a6b05c8b32",
+      "bytes": 721893
+    },
+    "d7bb6fa1:web/data/zone_awareness/2025/leaderboard.json": {
+      "sha256": "6a9d9e38378d87ccabb0d718e45f35564900ecc091c56f882fdf25a2053df5f1",
+      "bytes": 724544
+    },
+    "d7bb6fa1:web/data/zone_awareness/2026/leaderboard.json": {
+      "sha256": "d0349ca88d6054b659ef39331e37b775758bb39fb203a61cb71f356dc43fcd42",
+      "bytes": 702859
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:data/curated/summary.json": {
+      "sha256": "bab4d82df78da79e149b684ae0d308ab4b32486f6bc313ec3f006403e6ad675b",
+      "bytes": 7421
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:web/data/zone_awareness/2019/leaderboard.json": {
+      "sha256": "5f805be7b2d80e950e7ab463479767a2b232c274bd2517406b03a1cd339f018c",
+      "bytes": 704534
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:web/data/zone_awareness/2020/leaderboard.json": {
+      "sha256": "c7531c1c651f70787ca902f1a0e37d5e432600954c678f995bf3ed161f0f0e24",
+      "bytes": 693581
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:web/data/zone_awareness/2021/leaderboard.json": {
+      "sha256": "b2b80d0bd857c5c2ecabd6cb95b08a41c66a6cafc8fb5552587886ccff3b6a3f",
+      "bytes": 705302
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:web/data/zone_awareness/2022/leaderboard.json": {
+      "sha256": "82c206774667a3ec07f64030738d552f0b371fca7b2ea1db1091d2512007512c",
+      "bytes": 676901
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:web/data/zone_awareness/2023/leaderboard.json": {
+      "sha256": "a923d36d17714b8c4e744af8c15cbb3ed436c6aaf8c2a7d3a78d073c40379fbf",
+      "bytes": 710735
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:web/data/zone_awareness/2024/leaderboard.json": {
+      "sha256": "284fffe047acd469bf3641ca7832d1ac22bf3ee6488c2f9b23f122a6b05c8b32",
+      "bytes": 721893
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:web/data/zone_awareness/2025/leaderboard.json": {
+      "sha256": "6a9d9e38378d87ccabb0d718e45f35564900ecc091c56f882fdf25a2053df5f1",
+      "bytes": 724544
+    },
+    "ca8de0fd5ceefec514a3ee1394d0ac01db0da008:web/data/zone_awareness/2026/leaderboard.json": {
+      "sha256": "d0349ca88d6054b659ef39331e37b775758bb39fb203a61cb71f356dc43fcd42",
+      "bytes": 702859
+    },
+    "6495992497af77df9abef861d235443a3302f130:data/metrics/zone_awareness/2026/pitches.parquet": {
+      "sha256": "f754f18cc972775315be87eabd4fc88b3c873c420f8e439c0fea5ad13acdfe5f",
+      "bytes": 30640215
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za_2019.csv": {
+      "sha256": "a4aab8ba1116dfaa15f6977005997235679f62f7d12c6b6cc41af616135e1127",
+      "bytes": 10270
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za_2020.csv": {
+      "sha256": "fae0ab5507b40b1b46fd540140b5eeb57e94214f7e8305fddec4f9df3a180885",
+      "bytes": 11416
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za_2021.csv": {
+      "sha256": "de61235947a2a96499be2648f09ef09ba3fc7487065bca6d74c3942fac1bbdc2",
+      "bytes": 11381
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za_2022.csv": {
+      "sha256": "a6ae66a5134e6736dff037e0cce4d3018ac4db4d5cf289d426917c118663776c",
+      "bytes": 11144
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za_2023.csv": {
+      "sha256": "ee85f93748769d8456c3f079f494b3cc3ea09f2124b83807c16371399ed470f6",
+      "bytes": 11886
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za_2024.csv": {
+      "sha256": "8849bafa4467561ab2d4d6479e3681ab2e7f487763c9773494d01a9080d00b26",
+      "bytes": 10682
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za_2025.csv": {
+      "sha256": "ee21ca9a9374c860f193efcab42d099f09711deb611a6cd9b993be07cf376046",
+      "bytes": 11823
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za_2026.csv": {
+      "sha256": "2530d68ae78b821ea8968d420e51d1f090479447c5b47021f701c30aaf2136bd",
+      "bytes": 11469
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za.json": {
+      "sha256": "1a3d787f4b2661c4e26867dd2d41e680556708dc30a2abf528c81ba19db689e6",
+      "bytes": 15638
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za_recenter.json": {
+      "sha256": "7e62b15aabad584ca67de0a17cb234baff3328d9cb313a2605b172b05937ecbb",
+      "bytes": 15765
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/zb_neutral_za_strike.json": {
+      "sha256": "075c209d9b1306ac6f69b28a84f6023c3da104b77482b804671d6e15dd995773",
+      "bytes": 16992
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/x_compare.json": {
+      "sha256": "f7462841462ae03de0f2c46bc14915eca296eefaf8fae87c4b4c56f52e93111c",
+      "bytes": 6929
+    },
+    "6495992497af77df9abef861d235443a3302f130:analysis/sbj_formula/results/p_count_free.json": {
+      "sha256": "832580a1c3b37a01610ce2f46cc9b814e1733af5bee275ace2a2bd4e3f3f3bae",
+      "bytes": 19810
+    }
+  }
+}
