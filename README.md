@@ -12,10 +12,21 @@
 | `data/metrics/` | Swing/Take, ZA, Blocking, Arm Angle 등 지표별 파생 결과 |
 | `data/leaderboards/source/` | 2026 리더보드 계산 원본, 리그 상수, PF 산출 입력 |
 | GitHub Release `visualbaseball-data-latest` | 바로 내려받아 열 수 있는 최신 Excel 파일 |
-| `web/` | GitHub Pages에서 리더보드와 피치 트래킹 시각화를 제공하는 정적 뷰어 |
-| `web/blocking/` | 실험적 KBO Catcher Blocks Above Average 리더보드·위치 맵 |
 | `exports/plate_discipline_research_2026.csv` | 타자별 선구안 베이스 스탯·회귀 잔차·프로필 클러스터 연구표 |
-| `web/zone-awareness/` | 2022~2026 Swing/Take Decision Value 기반 Zone Awareness 탐색기 |
+| `web/` | GitHub Pages 정적 뷰어 (아래 표) |
+| `scripts/` | 로컬 프리뷰(`serve_web.py`), 웹 도구 생성·규격 검사, 데이터 감사·보정 스크립트 |
+
+웹 도구 (상단 메뉴 순서):
+
+| 메뉴 | 경로 | 내용 |
+|---|---|---|
+| Leaderboards | `web/leaderboards/` | 시즌별 타격·투구·수비 지표 검색과 정렬 |
+| Zone Profile | `web/zones/` | 타자·투수별 0.5 ft 존 Swing·Whiff·Contact·In-play |
+| Swing/Take | `web/swing-take/`, `web/profiles/` | 타자별 Swing/Take Run Value 프로필 (모바일은 이미지로 표시·저장) |
+| Approach | `web/zone-awareness/` | APR·ZA·SA 판단 지표와 위치별 Decision Map |
+| Pitch Plot | `web/pitch-arsenal/` | 구종 사용률·구속 분포·구장 보정 무브먼트 |
+| Movement Zones | `web/movement-zones/` | 팔각도별 기대 무브먼트와 헛스윙률 구역 |
+| Blocking | `web/blocking/` | 실험적 Catcher Blocks Above Average |
 
 ## GitHub에서 열람·다운로드
 
@@ -28,6 +39,17 @@
 ```powershell
 python scripts/serve_web.py
 ```
+
+### 새 웹 도구 추가
+
+모든 페이지는 같은 규격(KBO Savant 브랜드 줄 + 상단 메뉴, 1440px 본문 폭, eyebrow·제목·부제 블록)을 씁니다. 새 도구는 생성 스크립트로 만들면 규격과 메뉴 등록이 자동으로 들어갑니다. 홈 카드와 썸네일만 `web/index.html`에 직접 추가합니다.
+
+```powershell
+python scripts/new_web_tool.py strike-zone --title "Strike Zone" --eyebrow "Pitching" --subtitle "투수별 스트라이크존 판정"
+python scripts/web_contract.py   # 전 페이지 규격 검사 (GitHub Actions `web_contract.yml`도 같은 검사)
+```
+
+규격 세부와 모바일 주의점은 [CLAUDE.md의 웹 페이지 구조](CLAUDE.md#웹-페이지-구조)에 있습니다.
 
 개인 저장소라면 저장소 권한이 있는 계정으로 로그인해야 Excel과 Pages 데이터를 볼 수 있습니다. 더 큰 분석이나 스프레드시트 작업에는 Excel 파일을 사용하면 됩니다.
 
