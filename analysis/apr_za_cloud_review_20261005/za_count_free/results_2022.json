@@ -1,0 +1,340 @@
+{
+  "base_commit": "6495992497af77df9abef861d235443a3302f130",
+  "preregistration_commit": "2036e4da",
+  "model_version": "za7.8-neutral-apr",
+  "summary_generated_at": "2026-10-03T18:41:49+00:00",
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "pyarrow": "19.0.1",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.18.1",
+    "openpyxl": "3.1.5"
+  },
+  "OMP_NUM_THREADS": "2",
+  "result": {
+    "season": 2022,
+    "metadata": {
+      "raw_rows": 217025,
+      "eligible_rows": 213888,
+      "quality": {
+        "halves": 12884,
+        "excluded_halves": 0,
+        "excluded_pitches": 0,
+        "re_complete_halves": 12736,
+        "reason_counts": {},
+        "included_timed_nonpitch_runs": 0.0,
+        "policy": "Unresolved scoring halves are excluded; incomplete innings do not train RE. No invented scoring timestamps."
+      },
+      "movement": {
+        "movement_available": 213888,
+        "movement_adjusted": 213875,
+        "adjustment_coverage_pct": 99.9939,
+        "formula": "adjusted movement = Visual Baseball measurement + stadium/pitch offset"
+      },
+      "pitch_columns": [
+        "game_id",
+        "game_date",
+        "event_seq",
+        "season",
+        "inning",
+        "inning_half",
+        "runs_on_pitch",
+        "away_score_before",
+        "away_score_after",
+        "home_score_before",
+        "home_score_after",
+        "parse_status",
+        "pitch_call_code",
+        "is_pa_terminal",
+        "pa_type",
+        "pa_result",
+        "px",
+        "pz",
+        "sz_top",
+        "sz_bottom",
+        "batter_id",
+        "batter_name",
+        "batter_team",
+        "batter_stance",
+        "pitcher_id",
+        "release_x_50",
+        "balls_before",
+        "strikes_before",
+        "outs_before",
+        "base_state_code_before",
+        "balls_after",
+        "strikes_after",
+        "outs_after",
+        "base_state_code_after",
+        "horizontal_movement_cm",
+        "vertical_movement_cm",
+        "pitch_type",
+        "pitch_type_code",
+        "pitch_type_kr",
+        "stadium",
+        "velocity_kmh",
+        "release_height_cm"
+      ],
+      "event_columns": [
+        "game_id",
+        "inning",
+        "inning_half",
+        "event_seq",
+        "event_code",
+        "event_type",
+        "parse_status",
+        "runs_on_event",
+        "away_score_before",
+        "away_score_after",
+        "home_score_before",
+        "home_score_after"
+      ],
+      "q_fields": [
+        "x_relative",
+        "z_relative",
+        "sz_top",
+        "sz_bottom"
+      ],
+      "blocks": [
+        {
+          "fold": 0,
+          "start": "20220402",
+          "end": "20220602",
+          "test_n": 77762
+        },
+        {
+          "fold": 1,
+          "start": "20220603",
+          "end": "20220811",
+          "test_n": 70641
+        },
+        {
+          "fold": 2,
+          "start": "20220812",
+          "end": "20221011",
+          "test_n": 65485
+        }
+      ],
+      "q_count_control_max_error": 0.0,
+      "cache_used": false
+    },
+    "baseline_reproduction": {
+      "same_player_set": true,
+      "pitches": 213888,
+      "public_pitches": 213888,
+      "max_player_n_error": 0.0,
+      "SA_max_error": 4.982408050580034e-07,
+      "ZA_raw_max_error": 4.960522890229413e-07,
+      "ZJ_SE_max_error": 4.999324794141558e-07,
+      "pass": true,
+      "prediction_refit_verified_pitchwise": false
+    },
+    "p_swing_sha256": "d5955d7e10b8f67054515b9e78c354dea5d811a8d12c766de075f856538f0b25",
+    "p_swing_candidate_max_change": 0.0,
+    "calibration": {
+      "q_call": {
+        "take_n": 115317,
+        "log_loss": 0.16762046950321607,
+        "brier": 0.05216844873700248,
+        "boundary_calibration": {
+          "0_strike": {
+            "n": 15203,
+            "observed_minus_pred": 0.0016102165556357768
+          },
+          "1_strike": {
+            "n": 8119,
+            "observed_minus_pred": -0.0015477544123808844
+          },
+          "2_strike": {
+            "n": 3443,
+            "observed_minus_pred": -0.009472061407904433
+          },
+          "3_ball": {
+            "n": 1883,
+            "observed_minus_pred": 0.011384238324924188
+          }
+        }
+      },
+      "q_za": {
+        "take_n": 115317,
+        "log_loss": 0.17149306764687805,
+        "brier": 0.05352647568398051,
+        "boundary_calibration": {
+          "0_strike": {
+            "n": 15203,
+            "observed_minus_pred": 0.04991466052066581
+          },
+          "1_strike": {
+            "n": 8119,
+            "observed_minus_pred": -0.047172291882758774
+          },
+          "2_strike": {
+            "n": 3443,
+            "observed_minus_pred": -0.1333872097673895
+          },
+          "3_ball": {
+            "n": 1883,
+            "observed_minus_pred": 0.016910699938121648
+          }
+        }
+      }
+    },
+    "scores": {
+      "n": 213888,
+      "n_games": 714,
+      "eligible": true,
+      "se_available": true,
+      "rbar": 0.0003296648326376873,
+      "qbar": 0.4958550730560833,
+      "variance_q": 0.19043446218190113,
+      "q_degenerate": false,
+      "n_in": 108351,
+      "n_out": 105537,
+      "games_in": 714,
+      "games_out": 714,
+      "ess_in": 108351.0,
+      "ess_out": 105537.0,
+      "q_weight_in": 106057.44986581954,
+      "q_weight_out": 107830.55013418046,
+      "n_q_in_positive": 213888,
+      "n_q_out_positive": 213888,
+      "games_q_in_positive": 714,
+      "games_q_out_positive": 714,
+      "ess_q_in": 120532.46641442418,
+      "ess_q_out": 122273.15400865566,
+      "D_bin_support": true,
+      "D_q_support": true,
+      "Z0_call": -0.04145914244072445,
+      "Z0_call_se": 0.07723317861020458,
+      "Z0_call_eligible": true,
+      "Z0_free": -0.025782365918706963,
+      "Z0_free_se": 0.07671087318594462,
+      "Z0_free_eligible": true,
+      "N0_free": -0.02550907858925447,
+      "N0_free_se": 0.07671866160555982,
+      "N0_free_eligible": true,
+      "D_bin": 0.06036004416005924,
+      "D_bin_se": 0.1783027011079037,
+      "D_bin_eligible": true,
+      "D_q": -0.05102166347281071,
+      "D_q_se": 0.15344808466864265,
+      "D_q_eligible": true,
+      "P0_free": 37.64128321102984,
+      "P0_free_se": 0.191123371394928,
+      "P0_free_eligible": true
+    },
+    "q_change": {
+      "mean_absolute": 0.027608589718659145,
+      "max_absolute": 0.5048699820879917,
+      "side_flip_fraction": 0.024746596349491324
+    }
+  },
+  "inputs": {
+    "constraints-za.txt": {
+      "sha256": "edb6b83525be799afd9d61be4f545838fcbe4fac8dfac65f4b44d7e9f52e3edb",
+      "bytes": 173
+    },
+    "src/visualbaseball/zone_decision.py": {
+      "sha256": "2e65a4c9449625441fe35a001be09f7593bf24256444edd839c28eabc13d1ae0",
+      "bytes": 44515
+    },
+    "src/visualbaseball/plate_decision_v1.py": {
+      "sha256": "dd603fdc5c068421929a4ff4ffba57238c43672186524842c59b2a336ebf50b4",
+      "bytes": 7059
+    },
+    "src/visualbaseball/swing_take.py": {
+      "sha256": "b39cfe218480aa614d3df84d4021cd8c8d0dd2feca93f93855078313954f156d",
+      "bytes": 12788
+    },
+    "src/visualbaseball/batter_stance.py": {
+      "sha256": "fa181c492a671d9e0e1dc53027ce970926bacdc85e83299a6e1acc699d14e5a0",
+      "bytes": 1067
+    },
+    "src/visualbaseball/curated.py": {
+      "sha256": "5ce845f4df6a5f31bcfa988bfe1e796d18512def52e54c38acc2d559197f828d",
+      "bytes": 27996
+    },
+    "src/visualbaseball/pitch_types.py": {
+      "sha256": "0c9d63f708fb7cafb657eb1f77a6bb1fa5d2423bdb9c14d2066f501a7a497b7a",
+      "bytes": 936
+    },
+    "data/curated/summary.json": {
+      "sha256": "a5f187da37a485f820acec0402e963a660b02862ac1d2a218077365f5858b1d6",
+      "bytes": 7548
+    },
+    "data/curated/schema.json": {
+      "sha256": "79abb3d5094a24a25d769d45c5cf73075e51feb8782c896b8d9673fce7eb3e07",
+      "bytes": 14975
+    },
+    "data/curated/pitches/season=2022/month=04.parquet": {
+      "sha256": "903422f26d5a09eb5ba173dfa0bef35c92956625565443eeff8adfa06938aab4",
+      "bytes": 5026212
+    },
+    "data/curated/pitches/season=2022/month=05.parquet": {
+      "sha256": "3918cf5749403cfb3e4854297840fcd82fa4ae7d8ea14a94e8cd9f0a8d6e1525",
+      "bytes": 5387228
+    },
+    "data/curated/pitches/season=2022/month=06.parquet": {
+      "sha256": "369211ed0aa057c64c4c421530984ea2cc4426016f179470dac81583356945aa",
+      "bytes": 4938274
+    },
+    "data/curated/pitches/season=2022/month=07.parquet": {
+      "sha256": "dc233c545576b1eae1c9123312aa4b377b71f7c4a1880a542cd65e9698445917",
+      "bytes": 3981717
+    },
+    "data/curated/pitches/season=2022/month=08.parquet": {
+      "sha256": "a69f5573bb3ab8267074cdfb092ce1ffc58a711093c72926aa2ccd5b98050286",
+      "bytes": 4709696
+    },
+    "data/curated/pitches/season=2022/month=09.parquet": {
+      "sha256": "d7ef24a144c95dc52de7af4ac4e871c9177fa2ac4fa7f4d356a046cd3c68db71",
+      "bytes": 4916045
+    },
+    "data/curated/pitches/season=2022/month=10.parquet": {
+      "sha256": "c9975b3934d5bd8b5cc1197ad948def9d325905a71951e7426815cbc667e95cb",
+      "bytes": 1257591
+    },
+    "data/curated/events/season=2022/month=04.parquet": {
+      "sha256": "18f65e0a89db3046b8226ecff3d041cdd358efbb1e800e1d0dbe6a5c076191c0",
+      "bytes": 219731
+    },
+    "data/curated/events/season=2022/month=05.parquet": {
+      "sha256": "cee4b3866815ad854cf06dc909a12b82a785ef9b8b99edb69d279ac87d2fb105",
+      "bytes": 235421
+    },
+    "data/curated/events/season=2022/month=06.parquet": {
+      "sha256": "02a6c0bf8f929093a165ae201943e7ba8e993ef2652dfbe9d9aba5c526b0f69d",
+      "bytes": 217149
+    },
+    "data/curated/events/season=2022/month=07.parquet": {
+      "sha256": "2b38d755a0cb9834967d330c3cc9231613f9c1b1ab189cea729dcd22bfdaa35b",
+      "bytes": 175855
+    },
+    "data/curated/events/season=2022/month=08.parquet": {
+      "sha256": "796a552a750700c401fa193d667a27377bcd04f90e9334350388eab065464d29",
+      "bytes": 203778
+    },
+    "data/curated/events/season=2022/month=09.parquet": {
+      "sha256": "b331441ef8d78bb47d6013cc32d8a3dabd6edcb6d0d3038830d68978290be2d4",
+      "bytes": 219054
+    },
+    "data/curated/events/season=2022/month=10.parquet": {
+      "sha256": "e2f6b247f76eecf7e4416332c248380069f2ebe364de478f99d13a3288508c0d",
+      "bytes": 60048
+    },
+    "data/curated/players/player_bio.parquet": {
+      "sha256": "07e4f58cb62194f0ca4c1191846ce22e789d10d8fdbedc49ed82fbc4774577ba",
+      "bytes": 19017
+    },
+    "data/park_adjustments/2022_VB_Park_Adjustment_v1.0.xlsx": {
+      "sha256": "41302155042b1d4db6054d7abf944aa0827de0d7fe8ef8b67fa46b8b3c489157",
+      "bytes": 9287
+    },
+    "web/data/zone_awareness/2022/leaderboard.json": {
+      "sha256": "626a73aa0bd8b0ee0c5d5f465c0a6f12480b0d97a00dedd2b7ae260c8dd5d4c9",
+      "bytes": 677242
+    }
+  }
+}

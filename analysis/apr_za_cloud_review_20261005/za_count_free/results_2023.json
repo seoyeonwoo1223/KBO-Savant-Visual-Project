@@ -1,0 +1,340 @@
+{
+  "base_commit": "6495992497af77df9abef861d235443a3302f130",
+  "preregistration_commit": "2036e4da",
+  "model_version": "za7.8-neutral-apr",
+  "summary_generated_at": "2026-10-03T18:41:49+00:00",
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "pyarrow": "19.0.1",
+    "scikit-learn": "1.9.0",
+    "scipy": "1.18.1",
+    "openpyxl": "3.1.5"
+  },
+  "OMP_NUM_THREADS": "2",
+  "result": {
+    "season": 2023,
+    "metadata": {
+      "raw_rows": 219839,
+      "eligible_rows": 214504,
+      "quality": {
+        "halves": 12860,
+        "excluded_halves": 0,
+        "excluded_pitches": 0,
+        "re_complete_halves": 12721,
+        "reason_counts": {},
+        "included_timed_nonpitch_runs": 0.0,
+        "policy": "Unresolved scoring halves are excluded; incomplete innings do not train RE. No invented scoring timestamps."
+      },
+      "movement": {
+        "movement_available": 214504,
+        "movement_adjusted": 214497,
+        "adjustment_coverage_pct": 99.9967,
+        "formula": "adjusted movement = Visual Baseball measurement + stadium/pitch offset"
+      },
+      "pitch_columns": [
+        "game_id",
+        "game_date",
+        "event_seq",
+        "season",
+        "inning",
+        "inning_half",
+        "runs_on_pitch",
+        "away_score_before",
+        "away_score_after",
+        "home_score_before",
+        "home_score_after",
+        "parse_status",
+        "pitch_call_code",
+        "is_pa_terminal",
+        "pa_type",
+        "pa_result",
+        "px",
+        "pz",
+        "sz_top",
+        "sz_bottom",
+        "batter_id",
+        "batter_name",
+        "batter_team",
+        "batter_stance",
+        "pitcher_id",
+        "release_x_50",
+        "balls_before",
+        "strikes_before",
+        "outs_before",
+        "base_state_code_before",
+        "balls_after",
+        "strikes_after",
+        "outs_after",
+        "base_state_code_after",
+        "horizontal_movement_cm",
+        "vertical_movement_cm",
+        "pitch_type",
+        "pitch_type_code",
+        "pitch_type_kr",
+        "stadium",
+        "velocity_kmh",
+        "release_height_cm"
+      ],
+      "event_columns": [
+        "game_id",
+        "inning",
+        "inning_half",
+        "event_seq",
+        "event_code",
+        "event_type",
+        "parse_status",
+        "runs_on_event",
+        "away_score_before",
+        "away_score_after",
+        "home_score_before",
+        "home_score_after"
+      ],
+      "q_fields": [
+        "x_relative",
+        "z_relative",
+        "sz_top",
+        "sz_bottom"
+      ],
+      "blocks": [
+        {
+          "fold": 0,
+          "start": "20230401",
+          "end": "20230604",
+          "test_n": 75871
+        },
+        {
+          "fold": 1,
+          "start": "20230606",
+          "end": "20230817",
+          "test_n": 75949
+        },
+        {
+          "fold": 2,
+          "start": "20230818",
+          "end": "20231017",
+          "test_n": 62684
+        }
+      ],
+      "q_count_control_max_error": 0.0,
+      "cache_used": false
+    },
+    "baseline_reproduction": {
+      "same_player_set": true,
+      "pitches": 214504,
+      "public_pitches": 214504,
+      "max_player_n_error": 0.0,
+      "SA_max_error": 4.958020873857549e-07,
+      "ZA_raw_max_error": 4.982897943150988e-07,
+      "ZJ_SE_max_error": 4.964187092504346e-07,
+      "pass": true,
+      "prediction_refit_verified_pitchwise": false
+    },
+    "p_swing_sha256": "7d2756e6738e2e757d8c8017fb6335480b9ca6d7ffd4ea5f7969379a8c74aed6",
+    "p_swing_candidate_max_change": 0.0,
+    "calibration": {
+      "q_call": {
+        "take_n": 117685,
+        "log_loss": 0.16465875621576312,
+        "brier": 0.05083733282906289,
+        "boundary_calibration": {
+          "0_strike": {
+            "n": 15348,
+            "observed_minus_pred": -0.0005159252777057968
+          },
+          "1_strike": {
+            "n": 8000,
+            "observed_minus_pred": -0.004066816000290651
+          },
+          "2_strike": {
+            "n": 3192,
+            "observed_minus_pred": -0.010020276462461116
+          },
+          "3_ball": {
+            "n": 1954,
+            "observed_minus_pred": 0.006550289095675738
+          }
+        }
+      },
+      "q_za": {
+        "take_n": 117685,
+        "log_loss": 0.1688896365623565,
+        "brier": 0.052310587693616226,
+        "boundary_calibration": {
+          "0_strike": {
+            "n": 15348,
+            "observed_minus_pred": 0.0469949690230579
+          },
+          "1_strike": {
+            "n": 8000,
+            "observed_minus_pred": -0.048870851193606527
+          },
+          "2_strike": {
+            "n": 3192,
+            "observed_minus_pred": -0.1365675192714242
+          },
+          "3_ball": {
+            "n": 1954,
+            "observed_minus_pred": 0.025485583504097152
+          }
+        }
+      }
+    },
+    "scores": {
+      "n": 214504,
+      "n_games": 708,
+      "eligible": true,
+      "se_available": true,
+      "rbar": 0.0003635669177871998,
+      "qbar": 0.4903190267949587,
+      "variance_q": 0.1915044840040019,
+      "q_degenerate": false,
+      "n_in": 106940,
+      "n_out": 107564,
+      "games_in": 708,
+      "games_out": 708,
+      "ess_in": 106940.0,
+      "ess_out": 107564.0,
+      "q_weight_in": 105175.39252362582,
+      "q_weight_out": 109328.60747637418,
+      "n_q_in_positive": 214504,
+      "n_q_out_positive": 214504,
+      "games_q_in_positive": 708,
+      "games_q_out_positive": 708,
+      "ess_q_in": 119396.7090899673,
+      "ess_q_out": 123477.24805063462,
+      "D_bin_support": true,
+      "D_q_support": true,
+      "Z0_call": -0.01330044265349248,
+      "Z0_call_se": 0.07877057665165227,
+      "Z0_call_eligible": true,
+      "Z0_free": 0.010240139962889739,
+      "Z0_free_se": 0.07882087329611989,
+      "Z0_free_eligible": true,
+      "N0_free": 0.010944076280757182,
+      "N0_free_se": 0.07897443546159819,
+      "N0_free_eligible": true,
+      "D_bin": 0.042275885247437014,
+      "D_bin_se": 0.18480510598483618,
+      "D_bin_eligible": true,
+      "D_q": 0.021896361178191454,
+      "D_q_se": 0.15800788169024957,
+      "D_q_eligible": true,
+      "P0_free": 36.98067524766571,
+      "P0_free_se": 0.18867076422886486,
+      "P0_free_eligible": true
+    },
+    "q_change": {
+      "mean_absolute": 0.02757215464000698,
+      "max_absolute": 0.49752847390779714,
+      "side_flip_fraction": 0.026092753515085967
+    }
+  },
+  "inputs": {
+    "constraints-za.txt": {
+      "sha256": "edb6b83525be799afd9d61be4f545838fcbe4fac8dfac65f4b44d7e9f52e3edb",
+      "bytes": 173
+    },
+    "src/visualbaseball/zone_decision.py": {
+      "sha256": "2e65a4c9449625441fe35a001be09f7593bf24256444edd839c28eabc13d1ae0",
+      "bytes": 44515
+    },
+    "src/visualbaseball/plate_decision_v1.py": {
+      "sha256": "dd603fdc5c068421929a4ff4ffba57238c43672186524842c59b2a336ebf50b4",
+      "bytes": 7059
+    },
+    "src/visualbaseball/swing_take.py": {
+      "sha256": "b39cfe218480aa614d3df84d4021cd8c8d0dd2feca93f93855078313954f156d",
+      "bytes": 12788
+    },
+    "src/visualbaseball/batter_stance.py": {
+      "sha256": "fa181c492a671d9e0e1dc53027ce970926bacdc85e83299a6e1acc699d14e5a0",
+      "bytes": 1067
+    },
+    "src/visualbaseball/curated.py": {
+      "sha256": "5ce845f4df6a5f31bcfa988bfe1e796d18512def52e54c38acc2d559197f828d",
+      "bytes": 27996
+    },
+    "src/visualbaseball/pitch_types.py": {
+      "sha256": "0c9d63f708fb7cafb657eb1f77a6bb1fa5d2423bdb9c14d2066f501a7a497b7a",
+      "bytes": 936
+    },
+    "data/curated/summary.json": {
+      "sha256": "a5f187da37a485f820acec0402e963a660b02862ac1d2a218077365f5858b1d6",
+      "bytes": 7548
+    },
+    "data/curated/schema.json": {
+      "sha256": "79abb3d5094a24a25d769d45c5cf73075e51feb8782c896b8d9673fce7eb3e07",
+      "bytes": 14975
+    },
+    "data/curated/pitches/season=2023/month=04.parquet": {
+      "sha256": "2fb7f8c448e80d10b9a07596d0a72ec4016c5a21cf865d48e5011d6ef61d79a7",
+      "bytes": 5113991
+    },
+    "data/curated/pitches/season=2023/month=05.parquet": {
+      "sha256": "0cb9815c10df2fda56bbf22b5721bd20eeb16225a694e0065479e0ef9a47fd9e",
+      "bytes": 4757710
+    },
+    "data/curated/pitches/season=2023/month=06.parquet": {
+      "sha256": "1f3a0278c29e159e02d4e41754b43877aafb3ab4b0fdc3c7525c539c854bf008",
+      "bytes": 5217255
+    },
+    "data/curated/pitches/season=2023/month=07.parquet": {
+      "sha256": "683a49ff868d182a5368d76914f07c3cdf89f889ee5c41daebcf5bf4a1011fef",
+      "bytes": 3465383
+    },
+    "data/curated/pitches/season=2023/month=08.parquet": {
+      "sha256": "f8e53d970412509162101067d29d6aaadde96442b862388620e0ffd54ede7e86",
+      "bytes": 4697601
+    },
+    "data/curated/pitches/season=2023/month=09.parquet": {
+      "sha256": "31f7db6c14eba7ee831ee6b307234829d0efe3e2a14edfdab24f4a75aa94e377",
+      "bytes": 4530855
+    },
+    "data/curated/pitches/season=2023/month=10.parquet": {
+      "sha256": "67278878b6f00b3f07fc0ed3111aa08a368da295029edcf96aea219ef1fbc4bb",
+      "bytes": 2590609
+    },
+    "data/curated/events/season=2023/month=04.parquet": {
+      "sha256": "3cab4d0c9984c27c660c2d5ad6b165871024f9888e5aa76fbdc2e3af7e67d959",
+      "bytes": 219811
+    },
+    "data/curated/events/season=2023/month=05.parquet": {
+      "sha256": "96fc675fb79b20ed22f60ff62ab9c7a8a901ebe9a0e9edf3559e04ae33082dcb",
+      "bytes": 208001
+    },
+    "data/curated/events/season=2023/month=06.parquet": {
+      "sha256": "b78fad717448f8aef551266e94b904a2a2540ca7be27b68c51d96506bcb01289",
+      "bytes": 227357
+    },
+    "data/curated/events/season=2023/month=07.parquet": {
+      "sha256": "926f11218662de598f4864af6d52042fce040837b20e6227e64aeca7df2c08db",
+      "bytes": 157808
+    },
+    "data/curated/events/season=2023/month=08.parquet": {
+      "sha256": "4bf0c4566ec7cb719bdee9de4f5827623a5abe708bc01816dbbf95dd8bf3b735",
+      "bytes": 210699
+    },
+    "data/curated/events/season=2023/month=09.parquet": {
+      "sha256": "966f82e1bc053d6b2269e0d0e0cd5a6847c92417d7b85ea78ec368faf4807560",
+      "bytes": 206362
+    },
+    "data/curated/events/season=2023/month=10.parquet": {
+      "sha256": "6143574d5c79152ce10a1440adfcdd72350528ae1f69780f3b9768d8ab97b17d",
+      "bytes": 116384
+    },
+    "data/curated/players/player_bio.parquet": {
+      "sha256": "07e4f58cb62194f0ca4c1191846ce22e789d10d8fdbedc49ed82fbc4774577ba",
+      "bytes": 19017
+    },
+    "data/park_adjustments/2023_VB_Park_Adjustment_v1.0.xlsx": {
+      "sha256": "e13b34048404be435a6cf5871fbf293f20283b8fbf385c9a931a9f561e77bda0",
+      "bytes": 9262
+    },
+    "web/data/zone_awareness/2023/leaderboard.json": {
+      "sha256": "cb3cad208224afb892ef61476ac658e618cc28ed445654f3ec22ab5168829187",
+      "bytes": 711001
+    }
+  }
+}

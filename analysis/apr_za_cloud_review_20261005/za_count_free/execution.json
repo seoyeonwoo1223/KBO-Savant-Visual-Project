@@ -1,0 +1,163 @@
+{
+  "date_utc": "2026-10-05",
+  "branch": "experiment/za-count-free-20261005",
+  "base_commit": "6495992497af77df9abef861d235443a3302f130",
+  "prior_review_commit": "de8f7b531be55545b0801d922d1aace28bbe3c93",
+  "preregistration_commit": "2036e4dad9fa60ff638873bfd81e796425c66146",
+  "authorized_scope": "실험 브랜치 구현·검증. 운영 코드·공개 산출물·APR 변경 없음. PR 없음.",
+  "final_commands": [
+    {
+      "command": "PYTHONPATH=src OMP_NUM_THREADS=2 PYTHONDONTWRITEBYTECODE=1 /tmp/za-count-free-venv/bin/python analysis/apr_za_cloud_review_20261005/za_count_free/run_experiment.py --seasons 2023 2026",
+      "exit_code": 0,
+      "baseline_seasons": [
+        2023,
+        2026
+      ]
+    },
+    {
+      "command": "PYTHONPATH=src OMP_NUM_THREADS=2 PYTHONDONTWRITEBYTECODE=1 /tmp/za-count-free-venv/bin/python analysis/apr_za_cloud_review_20261005/za_count_free/run_experiment.py --seasons 2022",
+      "exit_code": 0,
+      "baseline_seasons": [
+        2022
+      ]
+    },
+    {
+      "command": "PYTHONPATH=src OMP_NUM_THREADS=2 PYTHONDONTWRITEBYTECODE=1 /tmp/za-count-free-venv/bin/python analysis/apr_za_cloud_review_20261005/za_count_free/summarize.py",
+      "exit_code": 0,
+      "refits": 0
+    },
+    {
+      "command": "PYTHONPATH=src OMP_NUM_THREADS=2 PYTHONDONTWRITEBYTECODE=1 /tmp/za-count-free-venv/bin/python -m unittest discover -s analysis/apr_za_cloud_review_20261005/za_count_free -p 'test_*.py' -v",
+      "exit_code": 0,
+      "tests": 14,
+      "failures": 0
+    }
+  ],
+  "checks": {
+    "strict_JSON_nonfinite_rejected": "pass",
+    "implementation_SHA256_matches": "pass",
+    "all_input_SHA256_and_byte_counts": "pass",
+    "human_cache_key_rows_p_swing_SHA256": "pass",
+    "public_n_SA_ZA_raw_SE_reproduction": "pass: 최대 절대오차 < 5e-7",
+    "public_ZA_plus_input_SE_percentile_reproduction": "pass: 6자리 값 완전 일치",
+    "q_count_counterfactual": "pass: 구심 동일 위치의 0-0/3-2 차이 0",
+    "p_swing_candidate_change": "pass: 0",
+    "ABS_q_Z0_ZA_plus_change": "pass: 0",
+    "all_qualified_common_support": [
+      162,
+      173,
+      166
+    ],
+    "all_half_qualified_common_support": [
+      155,
+      165,
+      161
+    ],
+    "IF_complex_step_absolute_tolerance": 1e-10,
+    "IF_central_finite_difference_decimal_places": 6,
+    "source_and_public_files_changed": 0,
+    "untracked_or_modified_outside_experiment_folder": 0
+  },
+  "independent_review": {
+    "status": "완료: 계산/캐시/입력해시/지원집합/표 숫자/해석 검토, 차단 오류 없음",
+    "repairs": "pooled 중심화·저장 예측 재사용·IF 수치 허용오차 구분과 원점수/M/k 공동 변화 설명을 명시"
+  },
+  "development_corrections": [
+    "propensity AST 추출의 actions/PSWING_CATEGORICAL 의존성을 포함하고 합성 보정 경로 테스트로 확인했다.",
+    "운영 loader와 같이 pitch_call_code를 모델 입력행에서 제거해 event 기준 target을 일치시켰다.",
+    "events에 season 열이 없어 game_id의 연도와 summary 행수로 검산했다. 실패한 시도는 최종 결과로 쓰지 않았다."
+  ],
+  "limitations": [
+    "2022·2023 재적합의 공개 집계만 재현; 과거 운영 pitchwise 동일성은 별도 증명하지 않음",
+    "2026은 저장 예측 재사용이며 ABS 모형을 재적합하지 않음",
+    "고정 예측 경기 IF/반분은 모형 적합 불확실성·학습 표본 겹침을 해소하지 않음",
+    "paired Call cost interval은 적합 뒤 추가한 기술통계이며 채택 gate가 아님",
+    "8시즌/독립 물리·인지 라벨/공간 단조성 검증은 미실행"
+  ],
+  "artifacts": {
+    ".gitignore": {
+      "sha256": "fba3161fc0773b7851ddc424b0e52a8a9bdd249cf70e6c274c84ea365c19f396",
+      "bytes": 20
+    },
+    "preregistration.md": {
+      "sha256": "cf16f070b031330b69caa49a7226801416129975ec9f1b75452062d3c78ebd0a",
+      "bytes": 6094
+    },
+    "README.md": {
+      "sha256": "e05b6984dfecad687566b1d2355dae0cdfd865a7e4e1df4811faef71eea3dc9c",
+      "bytes": 13686
+    },
+    "run_experiment.py": {
+      "sha256": "4540019fdde1caf6d9831f304e59991e9a9644715e9cc2d25d8f0118f08f0513",
+      "bytes": 15896
+    },
+    "metrics.py": {
+      "sha256": "918db605b5d35b05d5ae0b6b8efdb1c108c99bfaa06804a657e86a6a8f8455fb",
+      "bytes": 9787
+    },
+    "compare.py": {
+      "sha256": "0c05111fae395208407ddddb3b37521739bf62049b0b9a85a6e87d13dcb996c1",
+      "bytes": 9780
+    },
+    "plus_sensitivity.py": {
+      "sha256": "44297c0a24567716b2b9297e630d3f8195fc7ac3359022d8db74ca2df603f1fc",
+      "bytes": 8963
+    },
+    "summarize.py": {
+      "sha256": "ac36aa5b2d6d88fd4c0344e8ac73c5ca0c16a85d213f941bfc5352d8d98c8bd8",
+      "bytes": 8136
+    },
+    "test_metrics.py": {
+      "sha256": "4f19077da8402bea4a7da151a60ba7e215d2269f8735df42ed8d639471a1cae1",
+      "bytes": 13871
+    },
+    "test_pipeline.py": {
+      "sha256": "98bb573a1eb533096fc18e072937b2abbdf4e74a95cbbda6956f160180cd19dc",
+      "bytes": 2641
+    },
+    "comparison.json": {
+      "sha256": "b08e54c5b8d9a28ca985100f62a2709068ca25677fcc80c408fbb622b0b7e08d",
+      "bytes": 537414
+    },
+    "candidate_comparison.csv": {
+      "sha256": "fb452b7f4985ddf6bbb9a597d4f48a6f566cc1f084c2e1b225fa33749db18223",
+      "bytes": 2600
+    },
+    "results_2022.json": {
+      "sha256": "6637627ec0b08695c1ae50b66608a6b3dffbe60bb7ad8fe3ba5eb6be31b0ab64",
+      "bytes": 10732
+    },
+    "players_2022.csv": {
+      "sha256": "c32e2740c760b03f707e7b7ed0fdbabec992fdb28bbfe966e31bee042307d2ed",
+      "bytes": 108430
+    },
+    "player_comparison_2022.csv": {
+      "sha256": "99e909c0e244e091df829da277dd4ab3e736704d5d407aacc0ba45b53d0b63e7",
+      "bytes": 122267
+    },
+    "results_2023.json": {
+      "sha256": "5991d3077f5ddf27bff90704458dc6e3d92a91f6ce42e4fc3506de465c0bca12",
+      "bytes": 10733
+    },
+    "players_2023.csv": {
+      "sha256": "f06e37a7091643b8ed559462a63059a0c726a9926b7d5e3d0bce2b92c0104e4b",
+      "bytes": 113165
+    },
+    "player_comparison_2023.csv": {
+      "sha256": "5c1ce95f64b7cf792f819b3068b5c2745437e153ff123e2e377bb99715addd17",
+      "bytes": 127805
+    },
+    "results_2026.json": {
+      "sha256": "756acbfaeedf8829c072e29cfecd18ad0db06238d875a03394343a55311580c0",
+      "bytes": 8642
+    },
+    "players_2026.csv": {
+      "sha256": "bdc8cae43a54b0e93be511f82c233d806eed4e99463105b8546692ac5ebb73ad",
+      "bytes": 111967
+    },
+    "player_comparison_2026.csv": {
+      "sha256": "c6cc5fd20976141f1bccd78595cd52546a784a9f748d715a515c55099c2e9462",
+      "bytes": 126013
+    }
+  }
+}
