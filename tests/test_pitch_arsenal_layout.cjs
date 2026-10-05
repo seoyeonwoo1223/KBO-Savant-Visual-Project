@@ -87,4 +87,20 @@ for (const angle of [-30,0,41,90]) {
   assert.ok(right.every(v=>Math.abs(v)<=30+1e-8));
 }
 assert.equal(vm.runInContext('eaaRay(null,"R","pitcher")',context),null);
+context.eaa={model_id:'eAA-v2',status:'estimated_KBO_angle_unvalidated',angle_deg:70.9,n:916,
+  range:{status:'reference_only_extrapolation_sensitivity_KBO_unvalidated',low_deg:62.7,high_deg:79.6},
+  flags:{source_transition_span:true,outside_MLB_training_features:['ff_movement_size_m']}};
+display=vm.runInContext('eaaDisplay(eaa)',context);
+assert.ok(display.rangeText.startsWith('추정 범위 (모델 참고):'));
+assert.ok(display.description.includes('측정 방식 변경 전후'));
+assert.ok(display.description.includes('외삽 오차의 상한을 보장하지 않습니다'));
+context.eaa.model_id='eAA-v3';
+context.eaa.range.shape='global_asymmetric_reference';
+context.eaa.flags.high_angle_calibration_sparse=true;
+display=vm.runInContext('eaaDisplay(eaa)',context);
+assert.ok(display.rangeText.startsWith('추정 범위 (모델 참고):'));
+assert.ok(display.description.includes('비대칭 모델 참고 범위'));
+assert.ok(display.description.includes('높은 eAA 구간의 참고 표본이 적습니다'));
+context.eaa={model_id:'eAA-v2',status:'withheld_numeric_quality',angle_deg:null,n:0};
+assert.equal(vm.runInContext('eaaDisplay(eaa).value',context),'eAA —');
 console.log('PASS: eAA zero/missing/withheld values, separate ranges, hand/view mirroring and underhand/vertical rays');
