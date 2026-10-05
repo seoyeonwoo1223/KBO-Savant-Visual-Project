@@ -1,7 +1,8 @@
 """Frozen eAA inference on canonical season pitches, without retraining or web inputs.
 
-The finite bounds are model reference envelopes, not measured KBO confidence
-intervals. Unseen stadiums retain a flagged point estimate and no finite bounds.
+The public entry point prefers the latest frozen numerical model and retains v1 for
+insufficient fastball samples. Bounds are model references, not measured KBO
+confidence intervals; v1 withholds bounds for unseen stadiums.
 """
 from __future__ import annotations
 
@@ -63,7 +64,7 @@ def _empty(status, count=0, total=0):
                       "low_deg": None, "high_deg": None}, "flags": {}}
 
 
-def season_estimates(root: Path, season: int, rows: list[dict]) -> dict[str, dict]:
+def _season_estimates_v1(root: Path, season: int, rows: list[dict]) -> dict[str, dict]:
     """Use every valid canonical release, independently of pitch display grouping.
 
     Averaging each pitch's velocity ratio preserves the linear release bridge.
@@ -150,3 +151,12 @@ def season_estimates(root: Path, season: int, rows: list[dict]) -> dict[str, dic
                 payload["status"] = "withheld_invalid_prediction"
         output[player_id] = payload
     return output
+
+
+def season_estimates(root: Path, season: int, rows: list[dict]) -> dict[str, dict]:
+    """One season estimate, preferring the frozen numeric model when available."""
+    fallback = _season_estimates_v1(root, season, rows)
+    from .estimated_arm_angle_numeric import MODEL_PATH as NUMERIC_MODEL_PATH, ROBUST_MODEL_PATH, season_estimates_numeric
+    if (root/NUMERIC_MODEL_PATH).exists() or (root/ROBUST_MODEL_PATH).exists():
+        return season_estimates_numeric(root,season,rows,fallback)
+    return fallback

@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "model_id": "eAA-v2",
+  "target": "Savant frontal shoulder-to-ball pitcher-season mean; numerical estimate",
+  "features": [
+    "height_m",
+    "left_hand",
+    "z55_over_height",
+    "side55_over_height",
+    "ff_speed55",
+    "ff_armside_vx_over_minus_vy",
+    "ff_vz_over_minus_vy",
+    "ff_flight55_to_plate",
+    "ff_movement_axis_arm_sin",
+    "ff_movement_axis_up_cos",
+    "ff_movement_size_m"
+  ],
+  "minimum_pitches": 100,
+  "minimum_FF_pitches": 100,
+  "angle": {
+    "standardization_mean": [
+      1.8987833789954183,
+      0.27945205479452057,
+      0.9404268774750388,
+      0.30572604805843906,
+      41.980378352093666,
+      0.047271090881131635,
+      -0.03383059422861922,
+      0.4081670424449434,
+      0.441462709969103,
+      0.8649389778447741,
+      0.4276001469014001
+    ],
+    "standardization_scale": [
+      0.05226578140993031,
+      0.4487299899334136,
+      0.08121334529711127,
+      0.11570088300385724,
+      0.9794684064949304,
+      0.0163867921359996,
+      0.01359452046654787,
+      0.009593986112964172,
+      0.1789165614527586,
+      0.1102414066936,
+      0.0463711111467162
+    ],
+    "ridge_coefficients": [
+      0.049824370521303785,
+      0.2658091906522454,
+      5.773828211644793,
+      -0.9822782979613787,
+      -1.6548402738909862,
+      -0.7820898823226541,
+      -0.18886154309167433,
+      -1.5431335265753385,
+      -3.044355838922708,
+      1.452085968512266,
+      2.1783609117436376
+    ],
+    "intercept": 40.82871306576432
+  },
+  "training_feature_min": [
+    1.7018,
+    0.0,
+    0.3099940356025875,
+    -0.0242666973989108,
+    38.15222079385538,
+    -0.0010129078775366,
+    -0.0672910087920446,
+    0.3755712273103755,
+    -0.1884354157453179,
+    0.1124865265683845,
+    0.2366440483277946
+  ],
+  "training_feature_max": [
+    2.0574,
+    1.0,
+    1.1524303240448242,
+    0.7169143719126715,
+    45.57111535924744,
+    0.1113845399066771,
+    0.071402262892113,
+    0.4505657095613745,
+    0.990018315320752,
+    0.9957524738938688,
+    0.5292097436896575
+  ],
+  "paired_TM_stadiums": [
+    "고척",
+    "대구",
+    "문학",
+    "사직",
+    "수원",
+    "잠실",
+    "창원",
+    "한밭"
+  ],
+  "range": {
+    "kind": "model_reference_KBO_coverage_unknown",
+    "MLB_single_period_radius_deg": 7.607130957701006,
+    "nominal_MLB_coverage": 0.9,
+    "KBO_coverage_validated": false,
+    "numeric_sensitivity": "raw/relative/source-period adjustments, observed raw source periods, training-bounds projection; reference only, extrapolation error unbounded"
+  },
+  "provenance": {
+    "training_years": [
+      2020,
+      2021,
+      2022,
+      2023
+    ],
+    "training_players": 518,
+    "selection": "train-only whole-player MAE; no KBO reference values",
+    "calibration_players": 152,
+    "calibration_rank": 138,
+    "independent2024_players": 196,
+    "independent2024_MAE_deg": 3.8099953572460343,
+    "source_has_already_been_explored": true,
+    "MLB_input_sha256": "a18dba7bc03f7b1667a19f7b5f339f1c6c4ce2483ee1db430423ba7b617b4088",
+    "MLB_report_sha256": "8a8ee13e3ca71f7e7e1f84d87f61129b19357aff7703b4218af8312a998597a6"
+  }
+}

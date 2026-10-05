@@ -58,7 +58,7 @@ METHOD = {
     "interval": "central 75% (12.5th to 87.5th percentile)",
     "units": {"velocity": "km/h", "movement": "in"},
     "release": "hRel/vRel are the normalized y=50 ft release_x_50/release_z_50 values",
-    "eaa": "frozen eAA-v1: pitcher-season mean from canonical 55ft trajectories and verified height; model reference envelope, KBO accuracy unvalidated; unseen stadium bounds withheld",
+    "eaa": "latest frozen numerical eAA: matched MLB/KBO aggregation of common 55ft geometry/kinematics and source-period-adjusted 50ft movement, verified height; eAA-v3 uses train-selected robust inputs/tail weighting and asymmetric MLB references; eAA-v2 retained, eAA-v1 fallback for insufficient valid FF; KBO coverage unknown",
     "zone": "abs(px) <= 10/12 ft and sz_bottom <= pz <= sz_top",
     "rates": {
         "zone_pct": "in-zone pitches / pitches with valid ABS location",

@@ -212,10 +212,11 @@ function eaaDisplay(eaa) {
   const estimated = eaa?.status === "estimated_KBO_angle_unvalidated" && Number.isFinite(eaa.angle_deg);
   const value = estimated ? `eAA ${fmt(eaa.angle_deg, 0)}°` : "eAA —";
   const range = eaa?.range;
+  const numeric = ["eAA-v2", "eAA-v3"].includes(eaa?.model_id);
   const finiteRange = estimated && range?.status?.startsWith("reference_only_") &&
     Number.isFinite(range.low_deg) && Number.isFinite(range.high_deg) && range.low_deg <= range.high_deg;
   let rangeText = "오차범위: 미확정";
-  if (finiteRange) rangeText = `오차범위 (모델 참고): ${fmt(range.low_deg)}°–${fmt(range.high_deg)}°`;
+  if (finiteRange) rangeText = `${numeric ? "추정 범위" : "오차범위"} (모델 참고): ${fmt(range.low_deg)}°–${fmt(range.high_deg)}°`;
   else if (!estimated) rangeText = "오차범위: 제공 불가";
   const reasons = {
     withheld_small_sample: "유효 투구 100구 미만으로 추정값을 제공하지 않습니다.",
@@ -226,10 +227,11 @@ function eaaDisplay(eaa) {
     withheld_MLB_extrapolation: "입력이 팔각도 모델의 학습 범위를 벗어났습니다.",
     withheld_bridge_extrapolation: "입력이 릴리즈 연결 모델의 학습 범위를 벗어났습니다.",
     withheld_invalid_prediction: "유효한 각도를 계산할 수 없습니다.",
+    withheld_numeric_quality: "품질 조건을 통과한 수치 자료가 100구 미만이라 추정값을 제공하지 않습니다.",
   };
   const sample = Number.isInteger(eaa?.n) ? `시즌 전체 유효 투구 ${eaa.n.toLocaleString()}구. ` : "";
   let description = estimated
-    ? `${sample}릴리즈 위치와 신장으로 추정한 시즌 평균 암슬롯입니다. KBO 실측 정확도는 미검증입니다. `
+    ? `${sample}${numeric ? "릴리즈 위치·투구 궤적·무브먼트·신장으로 추정한 시즌 대표 암슬롯입니다." : "릴리즈 위치와 신장으로 추정한 시즌 평균 암슬롯입니다."} KBO 실측 정확도는 미검증입니다. `
     : `${sample}${reasons[eaa?.status] || "eAA 자료가 없습니다."}`;
   if (estimated && range?.status === "unavailable_unseen_stadium_bias") {
     description += "광주 등 학습에 없는 구장의 투구가 포함되어 구장 편향을 반영한 오차범위는 미확정입니다. ";
@@ -237,6 +239,13 @@ function eaaDisplay(eaa) {
     description += "숫자 범위는 모델 참고 범위이며 KBO 신뢰구간이 아닙니다. ";
   }
   if (estimated && eaa?.flags?.future_season) description += "이 시즌의 측정 편향은 직접 검증하지 못했습니다. ";
+  if (numeric && eaa?.flags?.source_transition_span) description += "측정 방식 변경 전후의 수치 차이를 참고 범위에 반영했습니다. ";
+  if (numeric && eaa?.flags?.outside_MLB_training_features?.length) description += "학습 범위 밖 입력의 수치 민감도도 포함한 참고 범위이며, 외삽 오차의 상한을 보장하지 않습니다. ";
+  if (numeric && eaa?.flags?.unpaired_TM_stadiums?.length) description += "장비 대조 자료가 없는 구장의 투구도 포함됩니다. ";
+  if (estimated && eaa?.range?.shape?.endsWith("asymmetric_reference")) description += "상하 오차를 따로 평가한 비대칭 모델 참고 범위입니다. ";
+  if (estimated && eaa?.flags?.high_angle_calibration_sparse) description += "높은 eAA 구간의 참고 표본이 적습니다. ";
+  if (estimated && eaa?.flags?.outside_interval_training_predictions) description += "일부 참고 시나리오는 오차 모델을 학습한 예측 구간 밖에 있습니다. ";
+  if (estimated && eaa?.numeric_fallback_reason) description += "포심 표본이 부족해 릴리즈·신장 기반 추정값을 표시합니다. ";
   if (estimated) description += "회색 점선은 암슬롯 방향 참고선입니다.";
   return {value, rangeText, description, estimated};
 }
