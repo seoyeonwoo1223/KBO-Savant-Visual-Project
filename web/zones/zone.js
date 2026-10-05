@@ -135,12 +135,13 @@ function search(event) {
   const year = $("#year").value, role = $("#role").value, query = normalize($("#query").value);
   const players = state.catalog.players[year]?.[role] || [];
   const matches = players.filter(player => normalize(player.name).includes(query));
-  if (!query) { $("#message").textContent = "투수 이름을 입력해 주세요."; return; }
+  const roleLabel = role === "batter" ? "타자" : "투수";
+  if (!query) { $("#message").textContent = `${roleLabel} 이름을 입력해 주세요.`; return; }
   const exact = matches.find(player => normalize(player.name) === query);
   if (exact || matches.length === 1) return openPlayer(exact || matches[0], year, role);
   $("#matches").innerHTML = matches.slice(0, 12).map(player => `<button type="button" data-id="${player.id}">${player.name}</button>`).join("");
   $("#matches").querySelectorAll("button").forEach(button => button.addEventListener("click", () => openPlayer(players.find(player => String(player.id) === button.dataset.id), year, role)));
-  $("#message").textContent = matches.length ? `${matches.length}명 중 선택해 주세요.` : `${year} 원데이터에서 해당 투수를 찾지 못했습니다.`;
+  $("#message").textContent = matches.length ? `${matches.length}명 중 선택해 주세요.` : `${year} 원데이터에서 해당 ${roleLabel}를 찾지 못했습니다.`;
 }
 
 fetch("../data/zones/index.json").then(response => response.json()).then(async catalog => {
@@ -153,7 +154,7 @@ fetch("../data/zones/index.json").then(response => response.json()).then(async c
     const player = (catalog.players[$("#year").value]?.[$("#role").value] || []).find(item => String(item.id) === playerId);
     if (player) await openPlayer(player, $("#year").value, $("#role").value, false);
   }
-}).catch(() => { $("#message").textContent = "투수 프로필 목록을 불러오지 못했습니다."; });
+}).catch(() => { $("#message").textContent = "선수 프로필 목록을 불러오지 못했습니다."; });
 
 $("#search-form").addEventListener("submit", search);
 $("#year").addEventListener("change", () => { $("#profile").hidden = true; $("#matches").innerHTML = ""; $("#message").textContent = ""; });
