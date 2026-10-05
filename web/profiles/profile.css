@@ -124,7 +124,6 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 .run-total .swing { color: #6f8e71; }
 .run-total .take { color: #967537; }
 .run-total strong { font-weight: 700; font-size: 1.15em; }
-.method-note { margin: 16px 0 0; color: #6b6b6b; font-size: .82rem; line-height: 1.55; }
 @media (max-width: 830px) {
   .profile-dashboard { grid-template-columns: 1fr; gap: 30px; }
   .region-columns, .region-row { grid-template-columns: 100px minmax(100px, 1fr) minmax(175px, 1.35fr); }
@@ -248,7 +247,7 @@ html.profile-imaged .profile-image { display: block; }
 html.thumbnail-mode .site-header,
 html.thumbnail-mode .swing-take-search,
 html.thumbnail-mode .comparison-card,
-html.thumbnail-mode .method-note { display:none; }
+html.thumbnail-mode .method-card { display:none; }
 html.thumbnail-mode body { background:#f4f4f2; }
 html.thumbnail-mode main { width:600px; max-width:none; padding:0; }
 html.thumbnail-mode [data-thumbnail-target] { width:600px; height:600px; padding:20px; overflow:hidden; }

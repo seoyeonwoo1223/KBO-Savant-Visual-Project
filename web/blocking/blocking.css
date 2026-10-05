@@ -36,8 +36,7 @@ td.baa { min-width: 82px; font-size: 1rem; font-weight: 800; background: var(--b
 .legend { position: absolute; bottom: 16px; right: 16px; display: flex; align-items: center; gap: 5px; padding: 10px 12px; border-radius: 6px; background: rgba(28,31,29,.92); color: #fff; font-size: .75rem; }
 .legend i { width: 24px; height: 18px; border: 1px solid #fff; }.l1{background:#174f83}.l2{background:#74b5d2}.l3{background:#e7e5dd}.l4{background:#e78268}.l5{background:#8a001d}
 .map-controls { justify-content: flex-end; padding: 12px; border: 1px solid #d3d6d8; background: #fff; }
-.method-card { margin-top: 28px; padding: 22px; border-left: 5px solid #328b93; background: #fff; }
-.method-card h2 { margin: 0 0 9px; font-size: 1.1rem; }.method-card p { max-width: 980px; margin: 7px 0; color: #515960; line-height: 1.55; }.status { color: #9b2d38; }
+.status { color: #9b2d38; }
 @media (max-width: 800px) {
   main { padding: 24px 12px 48px; }.page-header { align-items: flex-start; flex-direction: column; }
   .field-card { min-height: 820px; } #blocking-map { width: 100%; height: 610px; margin-top: 200px; }

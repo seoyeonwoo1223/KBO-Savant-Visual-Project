@@ -250,3 +250,9 @@ table td { border-color: var(--kbo-line); }
 @media (max-width: 580px) {
   .player-search { grid-template-columns: 1fr; gap: 7px; }
 }
+
+/* 안내문구 카드 (Blocking 형식, "What is this?"). Blocking · Zone Profile · Swing/Take 공통.
+   도구 CSS의 h2 태그 규칙이 새어 들지 않도록 글꼴·색을 모두 적습니다. */
+.method-card { margin-top: 28px; padding: 22px; border-left: 5px solid var(--kbo-line); background: #fff; color: #17263a; font: 400 1rem Arial, sans-serif; text-align: left; }
+.method-card h2 { margin: 0 0 9px; color: #17263a; font: 700 1.1rem Arial, sans-serif; letter-spacing: normal; text-transform: none; }
+.method-card p { max-width: 980px; margin: 7px 0; color: #515960; font-size: 1rem; line-height: 1.55; }

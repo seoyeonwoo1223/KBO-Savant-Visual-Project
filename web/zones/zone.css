@@ -51,7 +51,6 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.045em; }
 table { width: 100%; border-collapse: collapse; font-size: .78rem; }
 th, td { padding: 9px 7px; border-bottom: 1px solid #e4e4e4; text-align: right; white-space: nowrap; }
 th:first-child, td:first-child { text-align: left; }
-.method { margin: 15px 0 0; color: #6a6a6a; font-size: .78rem; line-height: 1.5; }
 @media (max-width: 850px) { .dashboard { grid-template-columns: 1fr; } .summary { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 560px) {
   main { padding: 22px 12px 42px; }
@@ -76,7 +75,7 @@ html.thumbnail-mode .profile-title,
 html.thumbnail-mode .filters,
 html.thumbnail-mode .summary,
 html.thumbnail-mode .table-card,
-html.thumbnail-mode .method { display:none; }
+html.thumbnail-mode .method-card { display:none; }
 html.thumbnail-mode body { background:#f4f4f2; }
 html.thumbnail-mode main { width:600px; max-width:none; padding:0; }
 html.thumbnail-mode .profile { margin:0; }
@@ -84,5 +83,6 @@ html.thumbnail-mode .dashboard { display:block; }
 html.thumbnail-mode [data-thumbnail-target] { display:flex; width:600px; height:600px; padding:12px 20px; flex-direction:column; overflow:hidden; }
 html.thumbnail-mode .thumbnail-context { display:block; margin:0 0 5px; color:#0f4471; font-size:1rem; font-weight:700; }
 html.thumbnail-mode .chart-heading { margin-bottom:7px; }
-html.thumbnail-mode .savant-plot { flex:1; grid-template-columns:14px minmax(0, 385px); gap:18px; align-items:center; }
+/* 오른쪽에 왼쪽 세로 라벨과 같은 폭의 빈 열을 두어 격자를 카드 가운데에 놓습니다(좌우 대칭). */
+html.thumbnail-mode .savant-plot { flex:1; grid-template-columns:14px minmax(0, 385px) 14px; gap:18px; align-items:center; }
 html.thumbnail-mode .plot-column { width:385px; }
