@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04T18:41:36+00:00",
+  "generated_at": "2026-10-05T19:14:33+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -52,7 +52,6 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -98,7 +97,6 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -145,7 +143,6 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -190,10 +187,8 @@
         "blocking",
         "excel",
         "movement_zones",
-        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -238,10 +233,8 @@
         "blocking",
         "excel",
         "movement_zones",
-        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -287,10 +280,8 @@
         "blocking",
         "excel",
         "movement_zones",
-        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -336,10 +327,8 @@
         "blocking",
         "excel",
         "movement_zones",
-        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
-        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -383,9 +372,7 @@
         "swing_take",
         "zone_awareness"
       ],
-      "stale_metrics": [
-        "movement_zones"
-      ]
+      "stale_metrics": []
     }
   },
   "published": {
