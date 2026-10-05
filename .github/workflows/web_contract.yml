@@ -1,6 +1,6 @@
-name: Web contract
+name: Harness checks
 
-# web/ 페이지가 공통 규격(공통 헤더·site-main 폭·.page-title·캐시 버스터·메뉴 등록)을 지키는지 검사합니다.
+# 하네스 센서 (docs/harness/feedback.md): 웹 페이지 공통 규격, 웹 렌더 함수 테스트(.cjs), 문서 링크.
 # 배포(deploy-pages)를 막지는 않고, 규격이 깨지면 이 체크만 빨간색이 됩니다.
 on:
   push:
@@ -9,12 +9,24 @@ on:
       - "web/**"
       - "scripts/web_contract.py"
       - "scripts/new_web_tool.py"
+      - "tests/test_web_contract.py"
+      - "tests/*.cjs"
+      - "AGENTS.md"
+      - "CLAUDE.md"
+      - "README.md"
+      - "docs/**"
       - ".github/workflows/web_contract.yml"
   pull_request:
     paths:
       - "web/**"
       - "scripts/web_contract.py"
       - "scripts/new_web_tool.py"
+      - "tests/test_web_contract.py"
+      - "tests/*.cjs"
+      - "AGENTS.md"
+      - "CLAUDE.md"
+      - "README.md"
+      - "docs/**"
       - ".github/workflows/web_contract.yml"
 
 permissions:
@@ -29,4 +41,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: python scripts/web_contract.py
-      - run: node tests/test_pitch_arsenal_layout.cjs
+      - run: python -m pip install pytest
+      - run: python -m pytest tests/test_web_contract.py tests/test_docs_links.py
+      # 웹 렌더 함수 센서 (.cjs는 pytest가 수집하지 않음). 새 .cjs를 추가하면 자동으로 포함됩니다.
+      - run: for test in tests/*.cjs; do node "$test" || exit 1; done

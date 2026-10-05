@@ -13,7 +13,9 @@ viewInput.value=params.get('view')==='whiff'?'whiff':'expected';
 if(selectedHand==='L') compareHb.value='10';
 const fmt=n=>`${n>0?'+':''}${n.toFixed(1)}`.replace('-', '−');
 const rangeText=range=>`${fmt(range[0])} ~ ${fmt(range[1])}`;
-const sx=x=>92+(x+30)*(616/60), sy=y=>574-(y+25)*(520/55);
+// 플롯 영역(92..708 × 54..574)의 네 테두리는 모두 10인치 눈금과 맞아야 합니다(tests/test_movement_zones_layout.cjs).
+const AXIS={xMin:-30,xMax:30,yMin:-30,yMax:30,step:10}, PX_X=616/(AXIS.xMax-AXIS.xMin), PX_Y=520/(AXIS.yMax-AXIS.yMin);
+const sx=x=>92+(x-AXIS.xMin)*PX_X, sy=y=>574-(y-AXIS.yMin)*PX_Y;
 const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const handFactor=()=>selectedHand==='R'?-1:1;
 
@@ -36,10 +38,8 @@ function defs(){
 
 function grid(){
   let out='';
-  for(let x=-30;x<=30;x+=10) out+=`<line x1="${sx(x)}" y1="54" x2="${sx(x)}" y2="574" class="grid ${x===0?'zero':''}"/><text x="${sx(x)}" y="600" text-anchor="middle" class="axis-text">${x}</text>`;
-  // Keep the -25 plot floor as a frame edge without a label; labeled lines stay on 10-inch steps.
-  out+=`<line x1="92" y1="${sy(-25)}" x2="708" y2="${sy(-25)}" class="grid"/>`;
-  for(let y=-20;y<=30;y+=10) out+=`<line x1="92" y1="${sy(y)}" x2="708" y2="${sy(y)}" class="grid ${y===0?'zero':''}"/><text x="78" y="${sy(y)+5}" text-anchor="end" class="axis-text">${y}</text>`;
+  for(let x=AXIS.xMin;x<=AXIS.xMax;x+=AXIS.step) out+=`<line x1="${sx(x)}" y1="54" x2="${sx(x)}" y2="574" class="grid ${x===0?'zero':''}"/><text x="${sx(x)}" y="600" text-anchor="middle" class="axis-text">${x}</text>`;
+  for(let y=AXIS.yMin;y<=AXIS.yMax;y+=AXIS.step) out+=`<line x1="92" y1="${sy(y)}" x2="708" y2="${sy(y)}" class="grid ${y===0?'zero':''}"/><text x="78" y="${sy(y)+5}" text-anchor="end" class="axis-text">${y}</text>`;
   return `${out}<text x="400" y="34" text-anchor="middle" class="direction-label">3B &lt; MOVES TOWARD &gt; 1B</text><text x="400" y="646" text-anchor="middle" class="axis-title">Horizontal Break (inches) · 포수 시점</text><text x="22" y="314" text-anchor="middle" class="axis-title" transform="rotate(-90 22 314)">Induced Vertical Break (inches)</text>`;
 }
 
@@ -50,8 +50,8 @@ function armLine(angle){
 
 function expectedSvg(zone,level){
   const cx=sx(zone.center[0]*handFactor()), cy=sy(zone.center[1]);
-  const xx=zone.covariance[0][0]*(616/60)**2, yy=zone.covariance[1][1]*(520/55)**2;
-  const xy=-handFactor()*zone.covariance[0][1]*(616/60)*(520/55);
+  const xx=zone.covariance[0][0]*PX_X**2, yy=zone.covariance[1][1]*PX_Y**2;
+  const xy=-handFactor()*zone.covariance[0][1]*PX_X*PX_Y;
   const discriminant=Math.hypot(xx-yy,2*xy), radius=Math.sqrt(-2*Math.log(1-level));
   const rx=radius*Math.sqrt(Math.max(0,(xx+yy+discriminant)/2)), ry=radius*Math.sqrt(Math.max(0,(xx+yy-discriminant)/2));
   const rotation=Math.atan2(2*xy,xx-yy)*90/Math.PI;
