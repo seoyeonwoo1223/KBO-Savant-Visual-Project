@@ -25,6 +25,7 @@
 | [0010](0010-frozen-files.md) | 얼린 파일과 그 이유 | 하네스 |
 | [0011](0011-harness-structure.md) | 하네스를 4개 구성요소로 나누고 AGENTS.md는 지도로 유지 | 하네스 |
 | [0012](0012-shared-player-search.md) | 선수 검색은 Swing/Take 형태, 안내문구는 Blocking 카드로 통일 (`theme.css` 공통 클래스) | 웹 |
+| [0013](0013-estimated-arm-angle-v3.md) | 고슬롯 가중 eAA-v3와 별도 비대칭 모델 참고 범위 | 지표·웹 |
 
 ### 다른 곳에 있는 결정·근거
 

@@ -9,6 +9,8 @@ on:
       - "src/visualbaseball/**"
       - "data/park_adjustments/**"
       - "data/models/estimated_arm_angle_v1.json"
+      - "data/models/estimated_arm_angle_v2.json"
+      - "data/models/estimated_arm_angle_v3.json"
       - "data/tracking/player_heights.csv"
       - "requirements.txt"
       - "constraints-za.txt"
