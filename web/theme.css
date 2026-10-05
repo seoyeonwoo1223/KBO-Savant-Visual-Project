@@ -232,3 +232,27 @@ table td { border-color: var(--kbo-line); }
 
 /* Swing/Take 프로필 시즌은 다른 곳에서 반복되므로 옛 브랜드 키커는 숨깁니다. */
 .profile-header #profile-season { display: none; }
+
+/* 선수 검색 (Swing/Take · Zone Profile · Pitch Plot 공통).
+   빨간 밑줄 제목 줄(오른쪽에 연도 등 선택칸) + 그 아래 "라벨 | 입력 | 버튼" 한 줄.
+   도구 CSS의 label·select·input·button 태그 규칙이 새어 들지 않도록 값을 모두 적습니다. */
+.search-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0 14px; margin-bottom: 14px; border-bottom: 3px solid var(--kbo-red); }
+.search-heading h2 { margin: 0 0 10px; color: var(--kbo-navy); font: 700 .92rem Arial, sans-serif; letter-spacing: .14em; text-transform: uppercase; }
+.search-pickers { display: flex; flex-wrap: wrap; gap: 0 14px; }
+.search-picker { display: flex; align-items: center; gap: 7px; margin: 0 0 8px; color: var(--kbo-muted); font-size: .82rem; font-weight: 700; text-align: left; }
+.search-picker select { width: auto; min-width: 92px; height: auto; margin: 0; padding: 8px; border: 1px solid var(--kbo-line-strong); border-radius: 0; background: #fff; color: #222; font: .88rem Arial, sans-serif; text-align: left; }
+.player-search { display: grid; grid-template-columns: auto minmax(220px, 440px) auto; gap: 10px; align-items: center; }
+.player-search label { display: block; color: inherit; font-size: .94rem; font-weight: 700; text-align: left; }
+.player-search input { width: 100%; height: auto; margin: 0; padding: 12px 13px; border: 1px solid var(--kbo-line-strong); border-radius: 0; background: #fff; font: .9rem Arial, sans-serif; text-align: left; }
+.player-search button { height: auto; margin: 0; padding: 12px 16px; border: 0; border-radius: 0; background: var(--kbo-navy-2); color: #fff; font: 700 .9rem Arial, sans-serif; cursor: pointer; }
+.player-search button:hover { background: var(--kbo-navy); filter: none; }
+.search-message { min-height: 1.1em; margin: 7px 0 18px; color: var(--kbo-red); font-size: .84rem; }
+@media (max-width: 580px) {
+  .player-search { grid-template-columns: 1fr; gap: 7px; }
+}
+
+/* 안내문구 카드 (Blocking 형식, "What is this?"). Blocking · Zone Profile · Swing/Take 공통.
+   도구 CSS의 h2 태그 규칙이 새어 들지 않도록 글꼴·색을 모두 적습니다. */
+.method-card { margin-top: 28px; padding: 22px; border-left: 5px solid var(--kbo-line); background: #fff; color: #17263a; font: 400 1rem Arial, sans-serif; text-align: left; }
+.method-card h2 { margin: 0 0 9px; color: #17263a; font: 700 1.1rem Arial, sans-serif; letter-spacing: normal; text-transform: none; }
+.method-card p { max-width: 980px; margin: 7px 0; color: #515960; font-size: 1rem; line-height: 1.55; }
