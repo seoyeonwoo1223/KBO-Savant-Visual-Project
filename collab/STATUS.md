@@ -4,7 +4,7 @@
 
 ## 현행 기준
 
-- 운영 master: `41f2c7ed509a1bc328ad612cf18325cd35179a4c` (2026-10-05 확인). MODEL_VERSION `za7.8-neutral-apr`
+- 운영 master: `41f2c7ed509a1bc328ad612cf18325cd35179a4c` (2026-10-06 확인). MODEL_VERSION `za7.8-neutral-apr`
   - master는 매일 데이터 커밋으로 움직입니다. 기준이 바뀌었는지는 MODEL_VERSION과 `src/visualbaseball/zone_decision.py`로 판단합니다.
 - APR: 공격성 중립 B안. 투구별 2(S − p − m_i)ΔV (gates.md "공격성 중립 APR 운영 반영")
 - ZA: ZA+ (Z0 = 100·mean[(S − p)(2q − 1)])
@@ -27,27 +27,28 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 | ID | 내용 | 상태 | 등록 | 담당 | 결과 |
 |---|---|---|---|---|---|
 | ZC | ZA 존 축 q에서 카운트 입력 제거 | 실행 완료 (서술 실험, 채택 규칙 없음) | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | gpt | `c89d1088`, 교차검증 `52f39035` |
-| ZQ | 구심 ZA 존 축 정의 비교 (ZQ1 ABS 다리 검증, ZQ2 q_std) | 등록, 미실행 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
-| ZL | 로짓 절편 공격성 중립 ZA (L0) | 등록, 미실행 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
-| B1 | APR B 공동 추정 SE 검증 | 초안, 미등록 (`analysis/apr_za_cloud_review_20261005/preregistration-draft.md`) | - | gpt | - |
-| B2 | APR 로짓 성향 중립화 (ZL과 같은 성향 모형) | 초안, 미등록 (같은 파일) | - | gpt | - |
-| H | 존 높이·체격 상관 원인 진단 | 초안, 미등록 (같은 파일) | - | gpt | - |
-| Z-e | 가치 비사용 존 밖 거리 가중 ZA | 초안, 미등록, 후순위 (같은 파일, `analysis/za_review_20261002/Z-e-draft.md`) | - | gpt | - |
+| ZQ | 구심 ZA 존 축 정의 비교 (ZQ1 ABS 다리 검증, ZQ2 q_std) | 등록, 미실행; 0002 실행 전 보완 제안·사용자 승인 대기 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
+| ZL | 로짓 절편 공격성 중립 ZA (L0) | 등록, 미실행; 0002 항등식·이미 본 결과·평가창 보완 제안 대기 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
+| B1 | APR B 공동 추정 SE 검증 | 초안, 미등록; 0002 등록 1순위 제안 (`analysis/apr_za_cloud_review_20261005/preregistration-draft.md`) | - | gpt | - |
+| B2 | APR 로짓 성향 중립화 (ZL과 같은 성향 모형) | 초안, 미등록; 0002 B2/ZL 공동 하네스·별도 판정 제안 (같은 파일) | - | gpt | - |
+| H | 존 높이·체격 상관 원인 진단 | 초안, 미등록; 0002 B1 다음 선행 진단 제안 (같은 파일) | - | gpt | - |
+| Z-e | 가치 비사용 존 밖 거리 가중 ZA | 초안, 미등록, 후순위; 0002 기존 목표·ID 유지 제안 (같은 파일, `analysis/za_review_20261002/Z-e-draft.md`) | - | gpt | - |
 | X-b | APR B SE 교정·로짓 중립 (claude 초안) | 철회: B1·B2와 중복 | - | claude | - |
 
 ## 열린 스레드
 
 | 메시지 | 주제 | 기다리는 쪽 |
 |---|---|---|
-| 0001 | 창구 개설, ZC 교차검증 응답(0001-C1–C8), ZQ·ZL 등록 검토 요청 | gpt |
+| 0001 → 0002 | ZC 주장별 판정 회신, C8 처리 계획, ZQ·ZL 실행 전 보완과 초안 등록 순서 | claude |
 
 ## 사용자 결정 대기
 
-1. ZQ·ZL을 실행할지, 누가 어떤 순서로 할지
-2. gpt 초안 B1·B2·H를 gates.md에 등록할지
+1. ZQ·ZL을 실행할지, 누가 어떤 순서로 할지. 0002의 ZQ 입력·표적·선택 계약과 ZL 항등식·이미 본 결과·평가창 보완을 추가 등록한 뒤 승인할지
+2. B1 → H → B2/ZL 공동 하네스(지표별 별도 판정) 순서로 gates.md 추가 등록안을 준비할지. Z-e는 목표가 계속 필요할 때만 후순위
 3. ZQ 결과가 나온 뒤: 구심 ZA를 "실제 카운트별 심판 존 일치"(현행 C1)에서 카운트 불변 정의로 바꿀지
 4. gates.md "ZA+ 운영 반영"절의 "5.7점"을 재현값(시즌 평균 4.10, 시즌별 3.30–5.20)으로 정정하는 문장을 덧붙일지
 5. 이 창구의 위치를 `AGENTS.md`에서 한 줄로 안내할지 (master 변경이라 PR 필요)
+6. ZQ의 카운트 구성 상관을 필수 선택 기준으로 유지할지, 진단 보고로 둘지와 고정 존의 목표 정의. 출력물 입력 예외가 필요한 경우 허용 범위도 함께 결정
 
 ## 결정 기록
 
@@ -57,4 +58,4 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 
 ## 다음 차례
 
-- gpt: 메시지 0001에 답장(0002)
+- claude: 메시지 0002의 판정·실행 전 보완·공동 등록 제안에 답장. 그 뒤 사용자 결정 대기. 승인 전 실험 실행 없음
