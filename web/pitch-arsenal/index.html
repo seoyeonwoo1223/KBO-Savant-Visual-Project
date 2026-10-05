@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Pitch Plot</title>
-  <link rel="stylesheet" href="pitch-arsenal.css?v=20261003-3">
-  <link rel="stylesheet" href="../theme.css?v=20261003-3">
+  <link rel="stylesheet" href="pitch-arsenal.css?v=20261005-1">
+  <link rel="stylesheet" href="../theme.css?v=20261005-1">
   <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
 </head>
 <body>
@@ -17,16 +17,21 @@
       <p>구종 사용률·구속·무브먼트</p>
     </header>
 
-    <section class="search-panel" aria-label="투수 검색">
-      <label>연도<select id="year"></select></label>
-      <label>투구 손<select id="throws"><option value="">전체</option><option value="R">우투</option><option value="L">좌투</option></select></label>
-      <form id="search-form" aria-busy="true">
+    <section class="search-panel" aria-labelledby="pitcher-search-title">
+      <div class="search-heading">
+        <h2 id="pitcher-search-title">Pitcher Search</h2>
+        <div class="search-pickers">
+          <label class="search-picker">연도<select id="year"></select></label>
+          <label class="search-picker">투구 손<select id="throws"><option value="">전체</option><option value="R">우투</option><option value="L">좌투</option></select></label>
+        </div>
+      </div>
+      <form id="search-form" class="player-search" role="search" aria-busy="true">
         <label for="query">투수 이름</label>
         <input id="query" type="search" autocomplete="off" placeholder="예: 안우진">
         <button type="submit" disabled>검색</button>
       </form>
       <div id="matches" class="matches"></div>
-      <p id="message" class="message" aria-live="polite">선수 목록을 불러오는 중입니다.</p>
+      <p id="message" class="search-message" aria-live="polite">선수 목록을 불러오는 중입니다.</p>
     </section>
 
     <section id="profile" class="profile" hidden>

@@ -10,17 +10,6 @@ main { max-width: 1180px; padding: 34px 24px 64px; margin: auto; }
 .index-header h1 { margin: 0; color: var(--kbo-navy); font-size: clamp(2.4rem, 6vw, 4.2rem); line-height: 1; letter-spacing: -.055em; }
 .index-header > p:last-child { margin: 13px 0 0; color: var(--kbo-muted); }
 
-.index-heading { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; border-bottom: 3px solid var(--kbo-red); }
-.index-heading h2 { margin: 0 0 10px; color: var(--kbo-navy); font-size: .92rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
-.season-picker { display: flex; align-items: center; gap: 7px; color: var(--kbo-muted); font-size: .82rem; font-weight: 700; }
-.season-picker select { margin: 0; min-width: 92px; }
-
-.player-search { display: grid; grid-template-columns: auto minmax(220px, 440px) auto; gap: 10px; align-items: center; margin: 0 0 6px; }
-.player-search label { font-size: .94rem; font-weight: 700; }
-.player-search input { width: 100%; margin: 0; border-radius: 0; padding: 12px 13px; }
-.player-search button { border-radius: 0; padding: 12px 16px; }
-.search-message { min-height: 1.1em; margin: 7px 0 18px; color: var(--kbo-red); font-size: .84rem; }
-
 input, select { margin: 8px; padding: 8px; border: 1px solid var(--kbo-line-strong); border-radius: 0; }
 button { display: inline-block; border: 0; background: var(--kbo-navy-2); color: #fff; padding: 10px 14px; font-weight: 700; cursor: pointer; }
 button:hover { background: var(--kbo-navy); }
@@ -49,6 +38,5 @@ button:hover { background: var(--kbo-navy); }
 @media (max-width: 780px) { .player-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 580px) {
   main { padding: 28px 16px 48px; }
-  .player-search { grid-template-columns: 1fr; gap: 7px; }
   .player-list { grid-template-columns: 1fr; }
 }

@@ -21,18 +21,13 @@ a { color: #334b67; }
 h1 { margin: 0; font-size: clamp(2.3rem, 5vw, 4.15rem); line-height: 1; letter-spacing: -.055em; }
 .page-header > p:last-child { margin: 7px 0 0; color: var(--muted); font-size: 1.05rem; }
 
-/* 다른 도구의 검색 영역처럼 왼쪽 정렬 */
-.search-panel { display: flex; justify-content: flex-start; align-items: end; gap: 11px; padding: 11px 17px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.88); box-shadow: 0 6px 20px #23405f0b; flex-wrap: wrap; }
-.search-panel label, .search-panel input { text-align: left; }
 label { display: grid; gap: 4px; color: #526176; font-size: .82rem; font-weight: 800; text-align: center; }
 select, input, button { height: 36px; border: 1px solid #c4d0dd; border-radius: 7px; padding: 0 11px; background: #fff; color: #17263a; font-size: .95rem; text-align: center; }
 button { border-color: var(--blue); background: var(--blue); color: #fff; font-weight: 800; cursor: pointer; }
 button:hover { filter: brightness(.96); }
-#search-form { display: flex; align-items: end; gap: 8px; }
-#query { width: min(360px, 62vw); }
 .matches { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.matches:not(:empty) { margin-top: 10px; }
 .matches button { height: 34px; background: #f8fbff; color: var(--blue); font-size: .8rem; }
-.message { flex-basis: 100%; min-height: 1em; margin: 0; color: #a04a3a; font-size: .8rem; }
 
 .profile { margin-top: 14px; }
 .profile-banner { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; min-height: 118px; padding: 17px 31px 17px 18px; border-radius: 14px; background: linear-gradient(115deg, #102944, #173c67 66%, #1c507b); color: #fff; box-shadow: 0 12px 28px #17355320; }
@@ -125,24 +120,6 @@ th:first-child, td:first-child { min-width: 108px; text-align: center; }
 }
 @media (max-width: 760px) {
   main { padding: 20px 11px 42px; }
-  /* 검색 패널을 2열 격자로 맞춰 좌우 대칭을 유지합니다. 기본 flex 배치에서는 form의
-     자식 셋(라벨·입력·버튼)이 2열에 흘러 버튼만 다음 줄로 밀리고, 라벨이 입력 왼쪽에
-     붙어 다른 컨트롤(라벨이 위에 오는)과 어긋나 보였습니다. */
-  .search-panel { display: grid; grid-template-columns: 1fr 1fr; align-items: end; }
-  .search-panel > label select { width: 100%; }
-  #search-form {
-    grid-column: 1 / -1;
-    width: 100%;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas: "name name" "query submit";
-    gap: 4px 8px;
-  }
-  #search-form > label { grid-area: name; }
-  #query { grid-area: query; width: 100%; }
-  #search-form button[type="submit"] { grid-area: submit; padding: 0 20px; }
-  .matches, .message { grid-column: 1 / -1; }
-  .matches:empty { display: none; }
   .profile-banner { display: block; padding: 23px 20px; }
   .toolbar { display: grid; grid-template-columns: 1fr 1fr; width: 100%; margin-top: 22px; align-items: end; }
   .toolbar > label:first-child, .segmented-control { min-width: 0; }
