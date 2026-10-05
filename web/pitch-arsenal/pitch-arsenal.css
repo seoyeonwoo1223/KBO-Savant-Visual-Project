@@ -141,7 +141,8 @@ html.thumbnail-mode .search-panel,
 html.thumbnail-mode .profile-banner,
 html.thumbnail-mode .velocity-card,
 html.thumbnail-mode .frequency-card,
-html.thumbnail-mode .table-card { display:none; }
+html.thumbnail-mode .table-card,
+html.thumbnail-mode .method-card { display:none; }
 html.thumbnail-mode main { width:600px; max-width:none; padding:0; }
 html.thumbnail-mode .profile { margin:0; }
 html.thumbnail-mode .chart-grid { display:block; margin:0; }

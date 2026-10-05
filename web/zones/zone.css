@@ -83,6 +83,7 @@ html.thumbnail-mode .dashboard { display:block; }
 html.thumbnail-mode [data-thumbnail-target] { display:flex; width:600px; height:600px; padding:12px 20px; flex-direction:column; overflow:hidden; }
 html.thumbnail-mode .thumbnail-context { display:block; margin:0 0 5px; color:#0f4471; font-size:1rem; font-weight:700; }
 html.thumbnail-mode .chart-heading { margin-bottom:7px; }
-/* 오른쪽에 왼쪽 세로 라벨과 같은 폭의 빈 열을 두어 격자를 카드 가운데에 놓습니다(좌우 대칭). */
-html.thumbnail-mode .savant-plot { flex:1; grid-template-columns:14px minmax(0, 385px) 14px; gap:18px; align-items:center; }
-html.thumbnail-mode .plot-column { width:385px; }
+/* 오른쪽에 왼쪽 세로 라벨과 같은 폭의 빈 열을 두어 격자를 카드 가운데에 놓습니다(좌우 대칭).
+   격자 폭 344px(8칸 × 43px)는 아래 홈플레이트·축 이름까지 600px 카드 안에 들어오는 크기입니다. */
+html.thumbnail-mode .savant-plot { flex:1; grid-template-columns:14px minmax(0, 344px) 14px; gap:26px; align-items:center; }
+html.thumbnail-mode .plot-column { width:344px; }

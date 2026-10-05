@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Pitch Plot</title>
-  <link rel="stylesheet" href="pitch-arsenal.css?v=20261005-1">
+  <link rel="stylesheet" href="pitch-arsenal.css?v=20261005-2">
   <link rel="stylesheet" href="../theme.css?v=20261005-2">
   <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
 </head>
@@ -98,6 +98,11 @@
         </div>
       </section>
 
+    </section>
+    <section class="method-card">
+      <h2>What is this?</h2>
+      <p>투수의 구종별 구속 분포, 무브먼트(HB·IVB), 좌·우타자 상대 구사율을 보여 줍니다. 무브먼트 기본값은 구장 보정값으로, 측정값에서 탄착 위치 성분과 구장·날짜별 편향을 뺀 값입니다. 보정 방식은 TrackMan 측정과 대조해 골랐고, 무브먼트 선택에서 원측정값으로 바꿀 수 있습니다. 타원과 범위는 중앙 75%(12.5–87.5 백분위)입니다.</p>
+      <p>표의 구속·Zone%·Chase%·SwStr% 색은 같은 시즌에 같은 구종(전체 행은 전체 투구)을 50구 이상 던진 투수들 사이의 백분위입니다. 빨강은 높고 파랑은 낮습니다. 50구 미만은 구속에만 색을 칠합니다. Zone% = ABS 존 안 투구 / 위치가 있는 투구 · Chase% = 존 밖 스윙 / 존 밖 투구 · SwStr% = 헛스윙 / 전체 투구.</p>
     </section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
