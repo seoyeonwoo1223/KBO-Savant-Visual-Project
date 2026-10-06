@@ -63,6 +63,7 @@ def _expected_shards(root: Path, season: int, name: str):
  if name == "zone_profiles":
   data = json.loads((root / "web/data/zones/index.json").read_text(encoding="utf-8")); base = root / "web/data/zones" / str(season)
   yield from (base / role / player["file"] for role, players in data["players"][str(season)].items() for player in players)
+  yield from (base / "league" / f"{role}.json" for role in data["players"][str(season)])
   return
  base = root / "web/data" / ("zone_awareness" if name == "zone_decision" else name) / str(season)
  players = json.loads((base / ("leaderboard.json" if name == "zone_decision" else "index.json")).read_text(encoding="utf-8")).get("players", [])

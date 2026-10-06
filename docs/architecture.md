@@ -65,7 +65,7 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 | 메뉴 | 경로 | 데이터 |
 |---|---|---|
 | Leaderboards | `web/leaderboards/` | `web/data/leaderboards/` |
-| Zone Profile | `web/zones/` | `web/data/zones/` |
+| Zone Profile | `web/zones/` | `web/data/zones/` (리그 칸 집계 `<season>/league/<role>.json`) |
 | Swing/Take | `web/swing-take/`, `web/profiles/` | `web/data/swing_take/` |
 | Approach | `web/zone-awareness/` | `web/data/zone_awareness/` |
 | Pitch Plot | `web/pitch-arsenal/` | `web/data/pitch_arsenal/` |

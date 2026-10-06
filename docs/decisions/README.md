@@ -24,11 +24,12 @@
 | [0009](0009-web-contract-non-blocking.md) | 웹 규격 검사는 배포를 막지 않는 별도 체크 | 하네스 |
 | [0010](0010-frozen-files.md) | 얼린 파일과 그 이유 | 하네스 |
 | [0011](0011-harness-structure.md) | 하네스를 4개 구성요소로 나누고 AGENTS.md는 지도로 유지 | 하네스 |
-| [0012](0012-zone-profile-color-scale.md) | Zone Profile 색: 비율은 한 방향 색, AVG는 .250 중심, 기본 최소 표본 5구 | 웹 |
+| [0012](0012-zone-profile-color-scale.md) | ~~Zone Profile 색: 비율은 한 방향 색, AVG는 .250 중심, 기본 최소 표본 5구~~ (대체됨 → 0015) | 웹 |
 | [0012](0012-shared-player-search.md) | 선수 검색은 Swing/Take 형태, 안내문구는 Blocking 카드로 통일 (`theme.css` 공통 클래스) | 웹 |
 | [0013](0013-estimated-arm-angle-v3.md) | 고슬롯 가중 eAA-v3와 별도 비대칭 모델 참고 범위 | 지표·웹 |
 
 | [0014](0014-current-leaderboard-refresh.md) | 현재 시즌 리더보드 자동 갱신·공식 주루 연결·OAA 조건부 서식 | 지표·웹 |
+| [0015](0015-zone-profile-league-relative.md) | Zone Profile 색은 칸별 리그 평균 대비 차이 (리그 = 흰색) | 지표·웹 |
 
 ### 다른 곳에 있는 결정·근거
 
