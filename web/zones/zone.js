@@ -16,11 +16,26 @@ const metricValue = (config, numerator, denominator) => denominator ? (config.pe
 const metricLabel = (config, value) => value == null ? "—" : config.percent ? `${value.toFixed(1)}%` : value.toFixed(3).replace(/^0/, "");
 
 const savantBands = [[65,108,176],[101,134,190],[145,169,208],[184,200,224],[217,225,237],[245,245,245],[246,214,216],[240,182,187],[234,144,153],[223,36,51]];
-const color = (value, maximum) => {
-  if (value == null) return "#e3e3e3";
-  const ratio = Math.max(0, Math.min(1, value / maximum));
-  return `rgb(${savantBands[Math.min(9, Math.floor(ratio * 10))].join(",")})`;
+// 비율 지표(Swing·Whiff·Contact·In-play %)는 낮음→높음 한 방향 색, AVG는 리그 수준(.250)을 가운데로 둔 양방향 색.
+// 비율 지표의 상한은 보이는 칸의 최댓값을 10%p 단위로 올림해서, 존 밖 0% 칸이 화면을 덮지 않게 합니다.
+const sequentialStops = [[245,245,245],[246,214,216],[240,182,187],[234,144,153],[223,36,51]];
+const AVG_CENTER = 0.25, AVG_SPAN = 0.25;
+const interpolate = (stops, ratio) => {
+  const position = Math.max(0, Math.min(1, ratio)) * (stops.length - 1), index = Math.min(stops.length - 2, Math.floor(position)), t = position - index;
+  return stops[index].map((channel, i) => Math.round(channel + (stops[index + 1][i] - channel) * t));
 };
+const colorScale = (config, values) => {
+  if (!config.percent) {
+    return { rgb: value => savantBands[Math.min(9, Math.max(0, Math.floor((value - (AVG_CENTER - AVG_SPAN)) / (2 * AVG_SPAN) * 10)))],
+      ticks: [AVG_CENTER - AVG_SPAN, AVG_CENTER, AVG_CENTER + AVG_SPAN], stops: savantBands };
+  }
+  const top = Math.max(10, Math.ceil(Math.max(0, ...values) / 10) * 10);
+  return { rgb: value => interpolate(sequentialStops, value / top), ticks: [0, top / 2, top], stops: sequentialStops };
+};
+const rgbText = rgb => `rgb(${rgb.join(",")})`;
+// 배경이 진하면 흰 글자 (상대 휘도 기준).
+const inkFor = rgb => (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]) < 140 ? "#fff" : "#111";
+const tickLabel = (config, value) => config.percent ? `${Math.round(value)}%` : value.toFixed(3).replace(/^0/, "");
 
 const columns = () => state.payload?.schema_version >= 2
   ? { pitcherThrows: 2, pitchType: 3, xBin: 4, zBin: 5, values: 6 }
@@ -60,23 +75,29 @@ function render() {
   ].map(([label, value]) => `<div><span>${label}</span><strong>${value}</strong></div>`).join("");
   $("#chart-title").textContent = config.label;
   $("#chart-subtitle").textContent = `${$("#pitch-type").value || "전체 구종"} · ${totals.total.toLocaleString()}구`;
-  $("#legend").innerHTML = Array.from({length: 10}, (_, index) => `<i style="background:${color(index * config.maximum / 10, config.maximum)}"></i>`).join("");
-
   const minimum = Number($("#minimum").value), cells = new Map(), layout = columns();
   rows.forEach(row => {
     const key = `${row[layout.xBin]}-${row[layout.zBin]}`;
     const current = cells.get(key) || [];
     current.push(row); cells.set(key, current);
   });
-  const html = [];
+  const grid = [];
   for (let z = 8; z >= 0; z--) for (let x = 0; x < 8; x++) {
-    const cellRows = cells.get(`${x}-${z}`) || [], cell = aggregate(cellRows);
+    const cell = aggregate(cells.get(`${x}-${z}`) || []);
     const denominator = cell[config.denominator], numerator = cell[config.numerator];
-    const value = denominator >= minimum ? metricValue(config, numerator, denominator) : null;
-    const title = `${config.label}: ${metricLabel(config, value)} (${numerator}/${denominator})`;
-    html.push(`<div class="cell ${value == null ? "empty" : ""}" style="background:${color(value, config.maximum)}" title="${title}">${value == null ? "" : config.percent ? `${Math.round(value)}%` : value.toFixed(3).replace(/^0/, "")}</div>`);
+    // 최소 표본 미만(0구 포함)은 값 없이 회색 칸으로 둡니다. 0구 칸을 0%로 칠하지 않습니다.
+    const value = denominator > 0 && denominator >= minimum ? metricValue(config, numerator, denominator) : null;
+    grid.push({ value, numerator, denominator, pitches: cell.total });
   }
-  $("#zone-grid").innerHTML = html.join("");
+  const scale = colorScale(config, grid.filter(cell => cell.value != null).map(cell => cell.value));
+  $("#legend").innerHTML = `<span class="legend-bar" style="background:linear-gradient(90deg,${scale.stops.map(rgbText).join(",")})"></span>`
+    + `<span class="legend-ticks">${scale.ticks.map(tick => `<em>${tickLabel(config, tick)}</em>`).join("")}</span>`;
+  $("#zone-grid").innerHTML = grid.map(({ value, numerator, denominator, pitches }) => {
+    const title = `${config.label}: ${metricLabel(config, value)} (${numerator}/${denominator}) · 표본 ${pitches}구`;
+    if (value == null) return `<div class="cell empty" title="${title}"></div>`;
+    const rgb = scale.rgb(value);
+    return `<div class="cell" style="background:${rgbText(rgb)};color:${inkFor(rgb)}" title="${title}">${tickLabel(config, value)}</div>`;
+  }).join("");
   const coordinates = state.payload.coordinates;
   const zone = state.payload.strike_zone || { left: -1.0, right: 1.0, bottom: 1.5, top: 3.5 };
   const left = 100 * (zone.left - coordinates.x_min) / (coordinates.x_max - coordinates.x_min);

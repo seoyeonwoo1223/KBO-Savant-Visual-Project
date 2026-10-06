@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Zone Profile</title>
-  <link rel="stylesheet" href="zone.css?v=20261005-3">
+  <link rel="stylesheet" href="zone.css?v=20261006-1">
   <link rel="stylesheet" href="../theme.css?v=20261005-2">
   <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
 </head>
@@ -44,7 +44,7 @@
         <label>볼<select id="balls" disabled><option value="">전체</option><option>0</option><option>1</option><option>2</option><option>3</option></select></label>
         <label>스트라이크<select id="strikes" disabled><option value="">전체</option><option>0</option><option>1</option><option>2</option></select></label>
         <label>지표<select id="metric"><option value="swing">Swing %</option><option value="whiff">Whiff %</option><option value="avg">AVG (Hot/Cold)</option><option value="contact">Contact %</option><option value="inplay">In-play %</option></select></label>
-        <label>최소 표본<select id="minimum"><option value="0">0</option><option value="3">3</option><option value="5">5</option><option value="10">10</option></select></label>
+        <label>최소 표본<select id="minimum"><option value="0">0</option><option value="3">3</option><option value="5" selected>5</option><option value="10">10</option></select></label>
       </div>
       <div id="summary" class="summary"></div>
       <div class="dashboard">
@@ -73,6 +73,6 @@
     </section>
     <section class="method-card"><h2>What is this?</h2><p>Swing% = swings / (swings + takes) · Whiff% = whiffs / swings · 0.5 ft × 0.5 ft 셀</p><p>색은 선택 지표의 비율을 나타냅니다. 파란색은 낮고 빨간색은 높습니다. 빈 셀은 선택한 최소 표본에 미달합니다.</p></section>
   </main>
-  <script src="zone.js?v=20261005-1"></script>
+  <script src="zone.js?v=20261006-1"></script>
 </body>
 </html>
