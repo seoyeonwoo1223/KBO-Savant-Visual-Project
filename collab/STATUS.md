@@ -4,7 +4,7 @@
 
 ## 현행 기준
 
-- 운영 master: `f705f9683a0bf4735d62f0cac7d455dd9bfea73f` (2026-10-06 확인). MODEL_VERSION `za7.8-neutral-apr`
+- 운영 master: `f705f9683a0bf4735d62f0cac7d455dd9bfea73f` (2026-10-07 확인). MODEL_VERSION `za7.8-neutral-apr`
   - master는 매일 데이터 커밋으로 움직입니다. 기준이 바뀌었는지는 MODEL_VERSION과 `src/visualbaseball/zone_decision.py`로 판단합니다.
 - APR: 공격성 중립 B안. 투구별 2(S − p − m_i)ΔV (gates.md "공격성 중립 APR 운영 반영")
 - ZA: ZA+ (Z0 = 100·mean[(S − p)(2q − 1)])
@@ -27,11 +27,11 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 | ID | 내용 | 상태 | 등록 | 담당 | 결과 |
 |---|---|---|---|---|---|
 | ZC | ZA 존 축 q에서 카운트 입력 제거 | 실행 완료 (서술 실험, 채택 규칙 없음) | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | gpt | `c89d1088`, 교차검증 `52f39035` |
-| ZQ | 구심 ZA 존 축 정의 비교 (ZQ1 ABS 다리 검증, ZQ2 q_std) | 등록, 미실행; 0003 추가 등록 초안 ZQ-a, 사용자 승인 대기 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
-| ZL | 로짓 절편 공격성 중립 ZA (L0) | 등록, 미실행; 0003 추가 등록 초안 ZL-a, 사용자 승인 대기 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
-| B1 | APR B 공동 추정 SE 검증 | 초안, 미등록; 0002 등록 1순위 제안 (`analysis/apr_za_cloud_review_20261005/preregistration-draft.md`) | - | gpt | - |
+| ZQ | 구심 ZA 존 축 정의 비교 (ZQ1 ABS 다리 검증, ZQ2 q_std) | 등록, 미실행; 0003 ZQ-a 초안·0004 보완 검토 대기, 추가 등록/실행 승인 별도 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
+| ZL | 로짓 절편 공격성 중립 ZA (L0) | 등록, 미실행; 0003 ZL-a 초안·0004 보완 검토 대기, 추가 등록/실행 승인 별도 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
+| B1 | APR B 공동 추정 SE 검증 | 초안, 미등록; 0004 gates 절 문안·생성 설계 미정, 등록 1순위 제안 (`analysis/apr_za_cloud_review_20261005/preregistration-draft.md`) | - | gpt | - |
 | B2 | APR 로짓 성향 중립화 (ZL과 같은 성향 모형) | 초안, 미등록; 0002 B2/ZL 공동 하네스·별도 판정 제안 (같은 파일) | - | gpt | - |
-| H | 존 높이·체격 상관 원인 진단 | 초안, 미등록; 0002 B1 다음 선행 진단 제안 (같은 파일) | - | gpt | - |
+| H | 존 높이·체격 상관 원인 진단 | 초안, 미등록; 0004 gates 절 문안·지원/재표집 설계 미정, B1 다음 진단 제안 (같은 파일) | - | gpt | - |
 | Z-e | 가치 비사용 존 밖 거리 가중 ZA | 초안, 미등록, 후순위; 0002 기존 목표·ID 유지 제안 (같은 파일, `analysis/za_review_20261002/Z-e-draft.md`) | - | gpt | - |
 | X-b | APR B SE 교정·로짓 중립 (claude 초안) | 철회: B1·B2와 중복 | - | claude | - |
 
@@ -39,26 +39,28 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 
 | 메시지 | 주제 | 기다리는 쪽 |
 |---|---|---|
-| 0001 → 0002 → 0003 | ZC 판정 합의, 정정 4건, ZQ-a·ZL-a 추가 등록 초안, 등록 순서 B1 → H → B2/ZL → Z-e | user(결정), gpt(0004: 이의, B1·H 문안) |
+| 0001 → 0002 → 0003 → 0004 | 정정 수용, ZQ-a·ZL-a 보완, B1·H 미등록 절 문안, APR/ZA 계승 목표와 KBO 변경 구분 | claude(보완·초안 회신), user(결정) |
 
 ## 사용자 결정 대기
 
-1. ZQ-a·ZL-a 추가 등록(0003)을 승인할지. 승인하면 claude가 gates.md에 커밋한다. 실행 승인과는 별개다
+1. ZQ-a·ZL-a 추가 등록(0003·0004 보완)을 승인할지. 승인하면 claude가 gates.md에 커밋한다. 실행 승인과는 별개다
 2. ZQ·ZL을 실행할지, 누가 어떤 순서로 할지
 3. ZQ2-1(카운트 구성 상관)을 보고 항목으로 내리고 q_std를 기본 정의로 둘지 (0002·0003 모두 강등 쪽)
 4. 출력물 감사 예외: ZQ1 표적과 ZC 기준선 대조에서 `web/data` 공개 leaderboard를 일치 감사로만 읽는 것을 허용할지
-5. B1 → H → B2/ZL 공동 하네스(지표별 별도 판정) → 필요 시 Z-e 순서로 등록 문안을 준비할지
+5. B1 → H → B2/ZL 공동 하네스(지표별 별도 판정) → 필요 시 Z-e 순서와 문안 분담을 승인할지(0004 B1·H 초안은 준비됨; 최종 생성/지원 설계 미정)
 6. ZQ 결과가 나온 뒤: 구심 ZA 존 축을 "실제 카운트별 심판 존 일치"(현행 C1)에서 카운트 불변 정의로 바꿀지
 7. gates.md "ZA+ 운영 반영"절의 "5.7점"을 재현값(시즌 평균 4.10, 시즌별 3.30–5.20)으로 정정하는 문장을 덧붙일지
 8. 이 창구의 위치를 `AGENTS.md`에서 한 줄로 안내할지 (master 변경이라 PR 필요)
+9. 원 지표에서 계승할 목표와 KBO 변경의 대응표: SEAGER 원문과 PL 공개 설명은 0004에서 확인. Strikezone Judgement+의 세부 산식 및 외부 Zone Judgement 공개 출처/방법론은 미확인. 카운트·성향 중립화·가중 변경은 별도 결정이며 비공개 수치를 추측하지 않음
 
 ## 결정 기록
 
 | 날짜 | 결정 | 기록한 쪽 |
 |---|---|---|
+| 2026-10-07 | 사용자 방향: APR은 Baseball Prospectus SEAGER, ZA는 Pitcher List Strikezone Judgement+와 외부 Zone Judgement를 계승. 목표 기록이며 산식·카운트 처리·성향 중립화·실험 실행·운영 변경 승인이 아님. 원 방법론과 KBO 변경을 구분하고 외부 공개 출처 미확인 상태를 유지(0004) | gpt |
 | 2026-10-05 | 협업 창구 `collab/claude-gpt` 개설, ZC 교차검증 응답 커밋, ZQ·ZL gates.md 등록 | claude |
 
 ## 다음 차례
 
-- user: 결정 대기 1–5 확인
-- gpt: 0003에 답장(0004). ZQ-a·ZL-a 이의, B1·H 등록 문안. 승인 전 실험 실행 없음
+- claude: 0004 보완·B1/H 초안·B2/ZL 문안 분담·원 지표 대응표 검토 후 다음 빈 번호로 답장
+- user: 추가 등록 보완안·실행 담당/순서·감사 예외·q_std/존 목표와 공개 방법론 확인에 관한 결정 대기. 승인 전 실험 실행 없음
