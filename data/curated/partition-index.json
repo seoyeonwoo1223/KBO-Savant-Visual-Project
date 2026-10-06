@@ -6993,6 +6993,56 @@
             "events": "3ce02b31f02d7d16b0a5261a6c298359f0f0039eb996876d133b8538366f23f7",
             "pitches": "51c59541885b68df1aadb39ef7463536e3c106cd35224cc832f5963a22cfbf64"
           }
+        },
+        "20261006KTWO0": {
+          "game_date": "2026-10-06",
+          "month": "10",
+          "revision": 1,
+          "tables": {
+            "games": "5a7757a2b95866e0fec2d910f4af71cbf686e145f2962a9fc868f3857b17b011",
+            "events": "815fc0e97b30d6c036cf3d73f306c04d5157e6c9cdc542586803e167ee580e9c",
+            "pitches": "1ec6ebf3d3d6a432d43cbd56dd2367f88a34488877bae31c52cd5f4dd0b00b25"
+          }
+        },
+        "20261006NCLG0": {
+          "game_date": "2026-10-06",
+          "month": "10",
+          "revision": 1,
+          "tables": {
+            "games": "ab8819d110a608d856cd865cc6d4493e48f7a7eeb22fc575a33cbc46a59aeba2",
+            "events": "f4be56c27abb79c30a25102cb171d097c98a40feb723525b6fcb13e13e827d5f",
+            "pitches": "42ce8d22e4641e83b2a55ffa8df47e31fe3ee97e0ff430ae2b9d7e93dae15b01"
+          }
+        },
+        "20261006OBLT0": {
+          "game_date": "2026-10-06",
+          "month": "10",
+          "revision": 1,
+          "tables": {
+            "games": "90e8a770afcb5f5c5e2a8f49a1bcd5f70e07b9917c07f246169206efcff8a0ac",
+            "events": "9abcd4dea82bae6c5448e11ab365a2134ea00bd7318e2d7fbbbbf8608d8280b5",
+            "pitches": "9a5be4246e9360fead50cdf827173ddcd14c202a8f8cf4f2991b50681147de2c"
+          }
+        },
+        "20261006SKHH0": {
+          "game_date": "2026-10-06",
+          "month": "10",
+          "revision": 1,
+          "tables": {
+            "games": "b72f32b19b3381b40e76c16a3bda1bde5b6fa8456fb936dc785bd08d7c8e36ac",
+            "events": "c4f358927a5073b3b546ba87d0373e5eaf140ea53844da70ef2cfdb92f1c960f",
+            "pitches": "e75b78c099faf88bbf411b632234692066ea478fbf85e01dce738dd9d0b81f18"
+          }
+        },
+        "20261006SSHT0": {
+          "game_date": "2026-10-06",
+          "month": "10",
+          "revision": 1,
+          "tables": {
+            "games": "fa410d33b758990e789e100b700c5e3908649d5cacc3913ed26490ce0c40181c",
+            "events": "346968f6adaca83d352ad0d7f0397d3a69ad29d7299eeb581c0b39d64386ce62",
+            "pitches": "350ebffcda4195fec59369ee99099afbc83a391e7ad591f2a99762a5f1259d27"
+          }
         }
       }
     },
