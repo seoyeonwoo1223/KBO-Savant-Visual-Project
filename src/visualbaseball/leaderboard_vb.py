@@ -261,10 +261,10 @@ def _pitching_rows(stats_by_player, games, starts, rates, constants, season):
     return basic, advanced
 
 
-BAT_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("SB", "SB"), ("CS", "CS"), ("SB_Runs", "도루 득점*"), ("wRC+", "wRC+"), ("G", "G"), ("PA", "PA"), ("Sample", "표본"), ("AB", "AB"), ("R", "R"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("RBI", "RBI"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("GDP", "GDP"), ("SF", "SF"), ("BA", "BA"), ("OBP", "OBP"), ("SLG", "SLG"), ("OPS", "OPS"), ("wOBA", "wOBA"), ("PF", "PF"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
-BAT_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("SB", "SB"), ("CS", "CS"), ("SB_Runs", "도루 득점*"), ("PA", "PA"), ("Sample", "표본"), ("XBH", "XBH"), ("wOBA", "wOBA"), ("wRC", "wRC"), ("wRC+", "wRC+"), ("OPS+", "OPS+"), ("K%", "K%"), ("BB%", "BB%"), ("BB/K", "BB/K"), ("HR%", "HR%"), ("BABIP", "BABIP"), ("IsoD", "IsoD"), ("IsoP", "IsoP"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
-PITCH_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("G", "G"), ("GS", "GS"), ("IP", "IP"), ("Sample", "표본"), ("RA", "RA†"), ("TBF", "TBF"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("RA9", "RA9†"), ("FIP", "FIP"), ("WHIP", "WHIP"), ("FIP+", "FIP+"), ("PF", "PF"), ("BIP", "BIP"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
-PITCH_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("G", "G"), ("IP", "IP"), ("Sample", "표본"), ("FIP", "FIP"), ("FIP+", "FIP+"), ("BIP", "BIP"), ("K%", "K%"), ("BB%", "BB%"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
+BAT_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("SB", "SB"), ("CS", "CS"), ("SB_Runs", "도루 득점*"), ("wRC+", "wRC+"), ("G", "G"), ("PA", "PA"), ("AB", "AB"), ("R", "R"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("RBI", "RBI"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("GDP", "GDP"), ("SF", "SF"), ("BA", "BA"), ("OBP", "OBP"), ("SLG", "SLG"), ("OPS", "OPS"), ("wOBA", "wOBA"), ("PF", "PF"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
+BAT_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("SB", "SB"), ("CS", "CS"), ("SB_Runs", "도루 득점*"), ("PA", "PA"), ("XBH", "XBH"), ("wOBA", "wOBA"), ("wRC", "wRC"), ("wRC+", "wRC+"), ("OPS+", "OPS+"), ("K%", "K%"), ("BB%", "BB%"), ("BB/K", "BB/K"), ("HR%", "HR%"), ("BABIP", "BABIP"), ("IsoD", "IsoD"), ("IsoP", "IsoP"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
+PITCH_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("G", "G"), ("GS", "GS"), ("IP", "IP"), ("RA", "RA†"), ("TBF", "TBF"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("RA9", "RA9†"), ("FIP", "FIP"), ("WHIP", "WHIP"), ("FIP+", "FIP+"), ("PF", "PF"), ("BIP", "BIP"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
+PITCH_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("G", "G"), ("IP", "IP"), ("FIP", "FIP"), ("FIP+", "FIP+"), ("BIP", "BIP"), ("K%", "K%"), ("BB%", "BB%"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
 
 
 def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = None) -> Path:
@@ -286,7 +286,7 @@ def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = N
                    "running": {"url": running_payload["source_url"], "period": running_payload["period"],
                                "matched_batters": sum(row["SB"] is not None for row in bat_rows)}},
         "notes": [
-            "전체 선수는 타격·투구 기록이 있는 선수 모두를 포함합니다. 타자 200 PA·투수 50 IP 미만은 표본 미달로 표시하며, 표본 필터로 기준 충족 선수만 볼 수 있습니다.",
+            "전체 선수는 타격·투구 기록이 있는 선수 모두를 포함합니다. 표본 필터의 기준 충족 선수는 타자 200 PA 이상·투수 50 IP 이상입니다.",
             f"{season} 타자·투수 누적값은 Visual Baseball PBP를 직접 재집계했으며 공식 KBO 합계와 일부 차이가 날 수 있습니다.",
             "oWAR*는 수비를 제외하고 포지션 보정과 공식 도루·도실의 추정 득점(0.2×SB−0.4×CS)을 반영합니다. 추가 진루 가치는 포함하지 않습니다. 투수 WAR*는 FIP 기반 추정치입니다.",
             "타격·투구 추정치의 리그·구장·가중치 상수는 기존 입력 상수표를 사용합니다.",
@@ -299,7 +299,7 @@ def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = N
             {"id": "batting-advanced", "title": "확장", "columns": _columns(BAT_ADV_COLUMNS), "rows": bat_advanced},
             {"id": "pitching", "title": "기본", "columns": _columns(PITCH_COLUMNS), "rows": pitch_rows},
             {"id": "pitching-advanced", "title": "확장", "columns": _columns(PITCH_ADV_COLUMNS), "rows": pitch_advanced},
-            {"id": "pitch-value", "title": "투구 지표", "columns": _columns([("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("G", "G"), ("Sample", "표본"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]), "rows": pitch_metric_rows},
+            {"id": "pitch-value", "title": "투구 지표", "columns": _columns([("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("G", "G"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]), "rows": pitch_metric_rows},
         ],
     }
     output = output or root / "web" / "data" / "leaderboards" / f"{season}.json"
