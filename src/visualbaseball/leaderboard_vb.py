@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import argparse
-from collections import Counter, defaultdict
 import json
+from collections import Counter, defaultdict
 import math
 from pathlib import Path
 
@@ -169,7 +169,8 @@ def _columns(items):
     return [{"key": key, "label": label} for key, label in items]
 
 
-def _batting_rows(stats_by_player, games, positions, rates, constants, season):
+def _batting_rows(stats_by_player, games, positions, rates, constants, season, running=None):
+    running = running or {}
     basic, advanced = [], []
     for player_id, stats in stats_by_player.items():
         pa, ab, hits = stats["PA"], stats["AB"], stats["H"]
@@ -186,20 +187,26 @@ def _batting_rows(stats_by_player, games, positions, rates, constants, season):
         obp = _ratio(hits + stats["BB"] + stats["HBP"], ab + stats["BB"] + stats["HBP"] + stats["SF"])
         slg = _ratio(singles + 2 * stats["2B"] + 3 * stats["3B"] + 4 * stats["HR"], ab)
         wraa = ((woba - constants["league_woba"]) / constants["scale"]) * pa / pf
-        war = (wraa + POSITION_RUNS.get(position, 0) * pa / 600 + 20 * pa / 600) / constants["runs_per_win"]
+        official = running.get(player_id)
+        if official and official["name"] != stats["name"]:
+            official = None
+        sb, cs = (official["SB"], official["CS"]) if official else (None, None)
+        # 원본 워크북의 성공·실패 계수만 사용한 단순 추정입니다. 추가 진루 가산은 제외합니다.
+        running_runs = 0.2 * sb - 0.4 * cs if official else None
+        war = (wraa + (running_runs or 0) + POSITION_RUNS.get(position, 0) * pa / 600 + 20 * pa / 600) / constants["runs_per_win"]
         wrc = ((woba - constants["league_woba"]) / constants["scale"] + constants["league_runs_per_pa"]) * pa
         wrc_plus = 100 * ((((woba - constants["league_woba"]) / constants["scale"] + constants["league_runs_per_pa"]) + constants["league_runs_per_pa"] * (1 - pf)) / constants["league_runs_per_pa"])
         player_rates = rates.get(player_id, {})
         row = {
             "Player": stats["name"], "Pos": position, "Team": team, "Year": season,
-            "WAR": _round(war, 2), "wRC+": _round(wrc_plus, 1), "G": len(games[player_id]),
+            "oWAR": _round(war, 2), "SB": sb, "CS": cs, "SB_Runs": _round(running_runs, 2), "wRC+": _round(wrc_plus, 1), "G": len(games[player_id]),
             **{key: stats[key] for key in ("PA", "AB", "R", "H", "2B", "3B", "HR", "RBI", "BB", "HBP", "IB", "SO", "GDP", "SF")},
             "BA": _round(ba), "OBP": _round(obp), "SLG": _round(slg), "OPS": _round((obp or 0) + (slg or 0)),
             "wOBA": _round(woba), "PF": pf, "whiff%": _round(player_rates.get("whiff%"), 1), "chase%": _round(player_rates.get("chase%"), 1),
         }
         basic.append(row)
         advanced.append({
-            "Player": stats["name"], "Pos": position, "Team": team, "Year": season, "oWAR": row["WAR"], "PA": pa,
+            "Player": stats["name"], "Pos": position, "Team": team, "Year": season, "oWAR": row["oWAR"], "SB": sb, "CS": cs, "SB_Runs": row["SB_Runs"], "PA": pa,
             "XBH": stats["2B"] + stats["3B"] + stats["HR"], "wOBA": row["wOBA"], "wRC": _round(wrc, 1), "wRC+": row["wRC+"],
             "OPS+": _round(100 * ((obp or 0) / constants["league_obp"] + (slg or 0) / constants["league_slg"] - 1) / pf, 1),
             "K%": _round(_ratio(stats["SO"], pa, 100), 1), "BB%": _round(_ratio(stats["BB"], pa, 100), 1),
@@ -208,7 +215,7 @@ def _batting_rows(stats_by_player, games, positions, rates, constants, season):
             "IsoD": _round((obp or 0) - (ba or 0)), "IsoP": _round((slg or 0) - (ba or 0)),
             "whiff%": row["whiff%"], "chase%": row["chase%"],
         })
-    basic.sort(key=lambda row: (-float(row["WAR"] or 0), row["Player"]))
+    basic.sort(key=lambda row: (-float(row["oWAR"] or 0), row["Player"]))
     advanced_by_name = {row["Player"]: row for row in advanced}
     advanced = []
     for rank, row in enumerate(basic, 1):
@@ -254,27 +261,37 @@ def _pitching_rows(stats_by_player, games, starts, rates, constants, season):
     return basic, advanced
 
 
-BAT_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("wRC+", "wRC+"), ("G", "G"), ("PA", "PA"), ("AB", "AB"), ("R", "R"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("RBI", "RBI"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("GDP", "GDP"), ("SF", "SF"), ("BA", "BA"), ("OBP", "OBP"), ("SLG", "SLG"), ("OPS", "OPS"), ("wOBA", "wOBA"), ("PF", "PF"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
-BAT_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("PA", "PA"), ("XBH", "XBH"), ("wOBA", "wOBA"), ("wRC", "wRC"), ("wRC+", "wRC+"), ("OPS+", "OPS+"), ("K%", "K%"), ("BB%", "BB%"), ("BB/K", "BB/K"), ("HR%", "HR%"), ("BABIP", "BABIP"), ("IsoD", "IsoD"), ("IsoP", "IsoP"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
+BAT_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("SB", "SB"), ("CS", "CS"), ("SB_Runs", "도루 득점*"), ("wRC+", "wRC+"), ("G", "G"), ("PA", "PA"), ("AB", "AB"), ("R", "R"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("RBI", "RBI"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("GDP", "GDP"), ("SF", "SF"), ("BA", "BA"), ("OBP", "OBP"), ("SLG", "SLG"), ("OPS", "OPS"), ("wOBA", "wOBA"), ("PF", "PF"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
+BAT_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("SB", "SB"), ("CS", "CS"), ("SB_Runs", "도루 득점*"), ("PA", "PA"), ("XBH", "XBH"), ("wOBA", "wOBA"), ("wRC", "wRC"), ("wRC+", "wRC+"), ("OPS+", "OPS+"), ("K%", "K%"), ("BB%", "BB%"), ("BB/K", "BB/K"), ("HR%", "HR%"), ("BABIP", "BABIP"), ("IsoD", "IsoD"), ("IsoP", "IsoP"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
 PITCH_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("G", "G"), ("GS", "GS"), ("IP", "IP"), ("RA", "RA†"), ("TBF", "TBF"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("RA9", "RA9†"), ("FIP", "FIP"), ("WHIP", "WHIP"), ("FIP+", "FIP+"), ("PF", "PF"), ("BIP", "BIP"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
 PITCH_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("G", "G"), ("IP", "IP"), ("FIP", "FIP"), ("FIP+", "FIP+"), ("BIP", "BIP"), ("K%", "K%"), ("BB%", "BB%"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
 
 
 def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = None) -> Path:
+    if season != 2026:
+        raise ValueError("PBP 리더보드 재생성은 현재 2026 시즌만 지원합니다.")
     pitches, batting, pitching, batter_games, pitcher_games, pitcher_starts, positions = _aggregate(root, season)
     constants = _constants(root / "data" / "leaderboards" / "source" / "constants.xlsx")
-    bat_rows, bat_advanced = _batting_rows(batting, batter_games, positions, _pitch_rates(pitches, "batter_id"), constants, season)
+    running_payload = json.loads((root / "data/leaderboards/source" / f"{season}_running.json").read_text(encoding="utf-8"))
+    if running_payload["season"] != season or running_payload["series"] != "regular":
+        raise ValueError("공식 주루 입력의 시즌·정규시즌이 일치하지 않습니다.")
+    running = {row["player_id"]: row for row in running_payload["players"]}
+    bat_rows, bat_advanced = _batting_rows(batting, batter_games, positions, _pitch_rates(pitches, "batter_id"), constants, season, running)
     pitch_rows, pitch_advanced = _pitching_rows(pitching, pitcher_games, pitcher_starts, _pitch_rates(pitches, "pitcher_id"), constants, season)
     as_of = str(pitches["game_date"].max())
     pitch_metric_rows = [{key: row[key] for key in ("RK", "Player", "Pos", "Team", "G", "CWS%", "whiff%", "chase%")} for row in pitch_rows]
     payload = {
         "schema_version": 2, "season": season, "as_of": as_of,
-        "source": {"name": "Visual Baseball PBP", "games": int(pitches["game_id"].nunique()), "pitches": len(pitches)},
+        "source": {"name": "Visual Baseball PBP", "games": int(pitches["game_id"].nunique()), "pitches": len(pitches),
+                   "running": {"url": running_payload["source_url"], "period": running_payload["period"],
+                               "matched_batters": sum(row["SB"] is not None for row in bat_rows)}},
         "notes": [
-            "2026 타자·투수 누적값은 Visual Baseball PBP를 직접 재집계했으며 공식 KBO 합계와 일부 차이가 날 수 있습니다.",
-            "WAR*는 타자는 수비·주루를 제외하고 포지션 보정만 적용한 추정치, 투수는 FIP 기반 추정치입니다.",
+            "표본 기준은 타자 200 PA 이상, 투수 50 IP 이상입니다.",
+            f"{season} 타자·투수 누적값은 Visual Baseball PBP를 직접 재집계했으며 공식 KBO 합계와 일부 차이가 날 수 있습니다.",
+            "oWAR*는 수비를 제외하고 포지션 보정과 공식 도루·도실의 추정 득점(0.2×SB−0.4×CS)을 반영합니다. 추가 진루 가치는 포함하지 않습니다. 투수 WAR*는 FIP 기반 추정치입니다.",
+            "타격·투구 추정치의 리그·구장·가중치 상수는 기존 입력 상수표를 사용합니다.",
             "† 투수 실점은 승계주자 책임을 PBP 주자 ID로 추적한 값이며 공식 자책점과 다릅니다.",
-            "도루·도실·자책점·승패·세이브·홀드와 신뢰 가능한 타구 유형은 원자료 한계로 제외했습니다.",
+            "도루·도실은 KBO 공식 정규시즌 현재 누적 기록을 선수 ID와 이름으로 연결했습니다. 공식 주루 기준은 PBP 기준일과 다를 수 있습니다. 미연결은 —이며 주루 보정이 빠집니다.",
             "기준일을 검증할 수 없는 2026 OAA 수비 자료는 제외했습니다.",
         ],
         "datasets": [
@@ -288,7 +305,10 @@ def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = N
     output = output or root / "web" / "data" / "leaderboards" / f"{season}.json"
     write_json(output, payload)
     catalog_path = output.parent / "index.json"
-    catalog = json.loads(catalog_path.read_text(encoding="utf-8"))
+    # 완료 시즌의 게시 계약은 입력 코드에서 정의합니다. 출력 JSON을 입력으로 읽지 않습니다.
+    catalog = {"schema_version": 1, "seasons": list(range(2026, 2019, -1)),
+               "availability": {str(year): ["fielding"] for year in range(2020, 2025)}}
+    catalog["availability"]["2025"] = ["batting", "batting-advanced", "fielding", "pitching", "pitching-advanced", "pitch-value"]
     catalog["availability"][str(season)] = [dataset["id"] for dataset in payload["datasets"]]
     write_json(catalog_path, catalog, compact=False)
     return output

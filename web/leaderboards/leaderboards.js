@@ -2,9 +2,10 @@ const $ = selector => document.querySelector(selector);
 const thumbnailParams = new URLSearchParams(location.search);
 const state = { catalog:null, payload:null, dataset:null, sortKey:null, direction:-1 };
 const labels = { batting:"타격 · 기본", "batting-advanced":"타격 · 확장", fielding:"수비", pitching:"투수 · 기본", "pitching-advanced":"투수 · 확장", "pitch-value":"투구 지표" };
-const warDatasets = new Set(["batting", "pitching"]);
+const coloredMetrics = new Set(["WAR", "oWAR", "OAA"]);
+const isColoredColumn = column => coloredMetrics.has(column.key) || /(?:^|\s)OAA$/.test(column.label);
 const hiddenColumns = {
-  batting: new Set(["whiff%", "chase%", "WPA", "RE24", "REW", "RC27", "OAA"]),
+  batting: new Set(["whiff%", "chase%", "WPA", "RE24", "REW", "RC27"]),
   "batting-advanced": new Set(["WPA", "RE24", "RC27", "REW", "whiff%", "chase%"]),
 };
 const normalize = value => String(value ?? "").replace(/\s+/g, "").toLowerCase();
@@ -35,9 +36,9 @@ function cellMarkup(row, column, maximumWar) {
   const value = row[column.key];
   const classes = [value == null ? "null" : ""];
   let style = "";
-  if (column.key === "WAR" && maximumWar && isNumber(value)) {
+  if (isColoredColumn(column) && maximumWar[column.key] && isNumber(value)) {
     classes.push("war-cell");
-    style = ` style="--war-color:${warColor(value, maximumWar)}"`;
+    style = ` style="--war-color:${warColor(value, maximumWar[column.key])}"`;
   }
   return `<td class="${classes.join(" ").trim()}"${style}>${formatValue(value, column.key)}</td>`;
 }
@@ -60,9 +61,9 @@ function render() {
   const columns = state.dataset.columns.filter(column => column.key !== "Year" && !hiddenColumns[state.dataset.id]?.has(column.key));
   const limit = Number(thumbnailParams.get("limit"));
   const rows = Number.isInteger(limit) && limit > 0 ? filteredRows().slice(0, limit) : filteredRows();
-  const maximumWar = warDatasets.has(state.dataset.id)
-    ? Math.max(1, ...state.dataset.rows.map(row => Math.abs(Number(row.WAR) || 0)))
-    : 0;
+  const maximumWar = Object.fromEntries(columns.filter(isColoredColumn).map(column => [
+    column.key, Math.max(1, ...state.dataset.rows.filter(row => isNumber(row[column.key])).map(row => Math.abs(row[column.key])))
+  ]));
   $("#table-title").textContent = `${state.payload.season} ${labels[state.dataset.id] || state.dataset.title}`;
   $("#row-count").textContent = `${rows.length.toLocaleString("ko-KR")}명`;
   $("#leaderboard-head").innerHTML = `<tr>${columns.map(column => `<th data-key="${column.key}" aria-sort="${state.sortKey===column.key ? (state.direction===1?"ascending":"descending") : "none"}"><button type="button">${column.label}</button></th>`).join("")}</tr>`;
@@ -81,7 +82,7 @@ function render() {
 function selectDataset(id) {
   state.dataset = state.payload.datasets.find(item => item.id===id) || state.payload.datasets[0];
   const requestedSort = thumbnailParams.get("sort");
-  state.sortKey = state.dataset.columns.find(column => column.key === requestedSort)?.key || state.dataset.columns.find(column => ["WAR","OAA","RK","rk"].includes(column.key))?.key || state.dataset.columns[0].key;
+  state.sortKey = state.dataset.columns.find(column => column.key === requestedSort)?.key || ["WAR","oWAR","OAA","RK","rk"].find(key => state.dataset.columns.some(column => column.key === key)) || state.dataset.columns[0].key;
   state.direction = thumbnailParams.get("direction") === "asc" ? 1 : state.sortKey.toLowerCase()==="rk" ? 1 : -1;
   const teams=[...new Set(state.dataset.rows.map(row => row.Team).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"ko"));
   $("#team-select").innerHTML=`<option value="">전체</option>${teams.map(team=>`<option>${team}</option>`).join("")}`;
@@ -90,19 +91,20 @@ function selectDataset(id) {
 
 async function loadSeason(season) {
   $("#status").textContent="데이터를 불러오는 중입니다.";
-  const response=await fetch(`../data/leaderboards/${season}.json`);
+  const response=await fetch(`../data/leaderboards/${season}.json`, { cache:"no-store" });
   if(!response.ok) throw new Error("leaderboard data unavailable");
   state.payload=await response.json();
   const notes=Array.isArray(state.payload.notes) ? state.payload.notes : [];
   $("#source-note").textContent=notes.length
     ? `${state.payload.as_of || season} 기준 · ${notes.join(" ")}`
     : "제공된 시즌별 KBO 통계 자료를 기준으로 표시합니다. 빈 값은 —로 표기합니다.";
+  $("#source-note").textContent += " WAR/oWAR/OAA는 0을 흰색, 양수를 빨강, 음수를 파랑으로 표시합니다.";
   $("#dataset-select").innerHTML=state.payload.datasets.map(item=>`<option value="${item.id}">${labels[item.id]||item.title}</option>`).join("");
   if (state.payload.datasets.some(item => item.id === thumbnailParams.get("dataset"))) $("#dataset-select").value = thumbnailParams.get("dataset");
   selectDataset($("#dataset-select").value);
 }
 
-fetch("../data/leaderboards/index.json").then(response=>response.json()).then(catalog=>{
+fetch("../data/leaderboards/index.json", { cache:"no-store" }).then(response=>response.json()).then(catalog=>{
   state.catalog=catalog;
   $("#season-select").innerHTML=catalog.seasons.map(season=>`<option>${season}</option>`).join("");
   if (catalog.seasons.includes(Number(thumbnailParams.get("season")))) $("#season-select").value = thumbnailParams.get("season");

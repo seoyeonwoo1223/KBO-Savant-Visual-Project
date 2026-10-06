@@ -27,6 +27,8 @@
 | [0012](0012-shared-player-search.md) | 선수 검색은 Swing/Take 형태, 안내문구는 Blocking 카드로 통일 (`theme.css` 공통 클래스) | 웹 |
 | [0013](0013-estimated-arm-angle-v3.md) | 고슬롯 가중 eAA-v3와 별도 비대칭 모델 참고 범위 | 지표·웹 |
 
+| [0014](0014-current-leaderboard-refresh.md) | 현재 시즌 리더보드 자동 갱신·공식 주루 연결·OAA 조건부 서식 | 지표·웹 |
+
 ### 다른 곳에 있는 결정·근거
 
 | 주제 | 문서 |

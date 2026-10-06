@@ -6,6 +6,7 @@ from .curated import file_sha256, schema_sha256, source_sha256, value_sha256
 
 # Each metric records its transitive builder/helper dependency set.
 SPECS = {
+ "leaderboards": (("games", "pitches"), ("data/leaderboards/source/constants.xlsx", "data/leaderboards/source/{season}_running.json"), ("web/data/leaderboards/{season}.json", "web/data/leaderboards/index.json")),
  "excel": (("games", "events", "pitches"), (), ("exports/visualbaseball_savant_{season}_latest.xlsx",)),
  "arm_angle": (("pitches",), ("data/batter_handedness.json",), ("data/metrics/arm_angle/{season}/input.parquet",)),
  "swing_take": (("pitches",), (), ("web/data/swing_take/{season}/index.json",)),
@@ -17,6 +18,7 @@ SPECS = {
  "movement_zones": (("pitches",), ("data/curated/players/player_bio.parquet", "data/tracking/player_id_crosswalk.json", *(f"data/tracking/raw/season={year}/trackman_history.csv" for year in range(2019, 2025))), ("web/data/movement_zones/profiles.json",)),
 }
 CODE = {
+ "leaderboards": ("leaderboard_vb.py", "publish.py", "curated.py"),
  "excel": ("export_excel.py", "curated.py"), "arm_angle": ("arm_angle.py", "curated.py"),
  "swing_take": ("swing_take.py", "publish.py", "curated.py"), "plate_discipline": ("plate_discipline.py", "swing_take.py", "publish.py", "curated.py"),
  "zone_decision": ("zone_decision.py", "plate_decision_v1.py", "teams.py", "pitch_types.py", "batter_stance.py", "movement_calibration.py", "swing_take.py", "publish.py", "curated.py"),

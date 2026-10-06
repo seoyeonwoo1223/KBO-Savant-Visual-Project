@@ -14,6 +14,7 @@ from .http_client import VisualBaseballClient
 from .storage import Store
 from .swing_take import build_swing_take
 from .zone_profile import build_zone_profiles
+from .leaderboard_vb import build_vb_leaderboard
 from .blocking import build_blocking
 from .pitch_arsenal import PITCH_ARSENAL_SEASONS, build_pitch_arsenal
 from .plate_discipline import build_plate_discipline
@@ -74,6 +75,8 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
     def build(name, action):
         _build_metric(root, season, name, action)
 
+    if season == 2026:
+        build("leaderboards", lambda: build_vb_leaderboard(root, season))
     build("excel", lambda: export_latest(root, season))
     build("arm_angle", lambda: build_arm_angle_input(root, season))
     build("swing_take", lambda: build_swing_take(root, season))
