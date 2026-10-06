@@ -46,7 +46,8 @@ function cellMarkup(row, column, maximumWar) {
 function filteredRows() {
   const query = normalize($("#player-search").value);
   const team = $("#team-select").value;
-  const rows = state.dataset.rows.filter(row => (!query || normalize(row.Player).includes(query)) && (!team || row.Team === team));
+  const qualifiedOnly = $("#sample-select").value === "qualified";
+  const rows = state.dataset.rows.filter(row => (!qualifiedOnly || row.qualified !== false) && (!query || normalize(row.Player).includes(query)) && (!team || row.Team === team));
   const key = state.sortKey;
   if (!key) return rows;
   return [...rows].sort((a,b) => {
@@ -101,6 +102,8 @@ async function loadSeason(season) {
   $("#source-note").textContent += " WAR/oWAR/OAA는 0을 흰색, 양수를 빨강, 음수를 파랑으로 표시합니다.";
   $("#dataset-select").innerHTML=state.payload.datasets.map(item=>`<option value="${item.id}">${labels[item.id]||item.title}</option>`).join("");
   if (state.payload.datasets.some(item => item.id === thumbnailParams.get("dataset"))) $("#dataset-select").value = thumbnailParams.get("dataset");
+  $("#sample-select").disabled = !state.payload.datasets.some(item => item.rows.some(row => typeof row.qualified === "boolean"));
+  if ($("#sample-select").disabled) $("#sample-select").value = "all";
   selectDataset($("#dataset-select").value);
 }
 
@@ -115,3 +118,5 @@ $("#season-select").addEventListener("change", event=>loadSeason(event.target.va
 $("#dataset-select").addEventListener("change", event=>selectDataset(event.target.value));
 $("#player-search").addEventListener("input", render);
 $("#team-select").addEventListener("change", render);
+
+$("#sample-select").addEventListener("change", render);

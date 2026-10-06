@@ -174,7 +174,7 @@ def _batting_rows(stats_by_player, games, positions, rates, constants, season, r
     basic, advanced = [], []
     for player_id, stats in stats_by_player.items():
         pa, ab, hits = stats["PA"], stats["AB"], stats["H"]
-        if pa < 200 or not stats["team"]:
+        if pa < 1 or not stats["team"]:
             continue
         position = positions[player_id].most_common(1)[0][0] if positions[player_id] else "—"
         team = stats["team"]
@@ -186,41 +186,41 @@ def _batting_rows(stats_by_player, games, positions, rates, constants, season, r
         ba = _ratio(hits, ab)
         obp = _ratio(hits + stats["BB"] + stats["HBP"], ab + stats["BB"] + stats["HBP"] + stats["SF"])
         slg = _ratio(singles + 2 * stats["2B"] + 3 * stats["3B"] + 4 * stats["HR"], ab)
-        wraa = ((woba - constants["league_woba"]) / constants["scale"]) * pa / pf
+        wraa = ((woba - constants["league_woba"]) / constants["scale"]) * pa / pf if woba is not None else None
         official = running.get(player_id)
         if official and official["name"] != stats["name"]:
             official = None
         sb, cs = (official["SB"], official["CS"]) if official else (None, None)
         # 원본 워크북의 성공·실패 계수만 사용한 단순 추정입니다. 추가 진루 가산은 제외합니다.
         running_runs = 0.2 * sb - 0.4 * cs if official else None
-        war = (wraa + (running_runs or 0) + POSITION_RUNS.get(position, 0) * pa / 600 + 20 * pa / 600) / constants["runs_per_win"]
-        wrc = ((woba - constants["league_woba"]) / constants["scale"] + constants["league_runs_per_pa"]) * pa
-        wrc_plus = 100 * ((((woba - constants["league_woba"]) / constants["scale"] + constants["league_runs_per_pa"]) + constants["league_runs_per_pa"] * (1 - pf)) / constants["league_runs_per_pa"])
+        war = (wraa + (running_runs or 0) + POSITION_RUNS.get(position, 0) * pa / 600 + 20 * pa / 600) / constants["runs_per_win"] if wraa is not None else None
+        wrc = ((woba - constants["league_woba"]) / constants["scale"] + constants["league_runs_per_pa"]) * pa if woba is not None else None
+        wrc_plus = 100 * ((((woba - constants["league_woba"]) / constants["scale"] + constants["league_runs_per_pa"]) + constants["league_runs_per_pa"] * (1 - pf)) / constants["league_runs_per_pa"]) if woba is not None else None
         player_rates = rates.get(player_id, {})
         row = {
-            "Player": stats["name"], "Pos": position, "Team": team, "Year": season,
+            "Player": stats["name"], "player_id": player_id, "qualified": pa >= 200, "Sample": "기준 충족" if pa >= 200 else "표본 미달", "Pos": position, "Team": team, "Year": season,
             "oWAR": _round(war, 2), "SB": sb, "CS": cs, "SB_Runs": _round(running_runs, 2), "wRC+": _round(wrc_plus, 1), "G": len(games[player_id]),
             **{key: stats[key] for key in ("PA", "AB", "R", "H", "2B", "3B", "HR", "RBI", "BB", "HBP", "IB", "SO", "GDP", "SF")},
-            "BA": _round(ba), "OBP": _round(obp), "SLG": _round(slg), "OPS": _round((obp or 0) + (slg or 0)),
+            "BA": _round(ba), "OBP": _round(obp), "SLG": _round(slg), "OPS": _round(obp + slg) if obp is not None and slg is not None else None,
             "wOBA": _round(woba), "PF": pf, "whiff%": _round(player_rates.get("whiff%"), 1), "chase%": _round(player_rates.get("chase%"), 1),
         }
         basic.append(row)
         advanced.append({
-            "Player": stats["name"], "Pos": position, "Team": team, "Year": season, "oWAR": row["oWAR"], "SB": sb, "CS": cs, "SB_Runs": row["SB_Runs"], "PA": pa,
+            "Player": stats["name"], "player_id": player_id, "qualified": pa >= 200, "Sample": "기준 충족" if pa >= 200 else "표본 미달", "Pos": position, "Team": team, "Year": season, "oWAR": row["oWAR"], "SB": sb, "CS": cs, "SB_Runs": row["SB_Runs"], "PA": pa,
             "XBH": stats["2B"] + stats["3B"] + stats["HR"], "wOBA": row["wOBA"], "wRC": _round(wrc, 1), "wRC+": row["wRC+"],
-            "OPS+": _round(100 * ((obp or 0) / constants["league_obp"] + (slg or 0) / constants["league_slg"] - 1) / pf, 1),
+            "OPS+": _round(100 * (obp / constants["league_obp"] + slg / constants["league_slg"] - 1) / pf, 1) if obp is not None and slg is not None else None,
             "K%": _round(_ratio(stats["SO"], pa, 100), 1), "BB%": _round(_ratio(stats["BB"], pa, 100), 1),
             "BB/K": _round(_ratio(stats["BB"], stats["SO"]), 2), "HR%": _round(_ratio(stats["HR"], pa, 100), 1),
             "BABIP": _round(_ratio(hits - stats["HR"], ab - stats["SO"] - stats["HR"] + stats["SF"])),
-            "IsoD": _round((obp or 0) - (ba or 0)), "IsoP": _round((slg or 0) - (ba or 0)),
+            "IsoD": _round(obp - ba) if obp is not None and ba is not None else None, "IsoP": _round(slg - ba) if slg is not None and ba is not None else None,
             "whiff%": row["whiff%"], "chase%": row["chase%"],
         })
     basic.sort(key=lambda row: (-float(row["oWAR"] or 0), row["Player"]))
-    advanced_by_name = {row["Player"]: row for row in advanced}
+    advanced_by_id = {row["player_id"]: row for row in advanced}
     advanced = []
     for rank, row in enumerate(basic, 1):
         row["RK"] = rank
-        detail = advanced_by_name[row["Player"]]
+        detail = advanced_by_id[row["player_id"]]
         detail["RK"] = rank
         advanced.append(detail)
     return basic, advanced
@@ -230,17 +230,17 @@ def _pitching_rows(stats_by_player, games, starts, rates, constants, season):
     basic, advanced = [], []
     for player_id, stats in stats_by_player.items():
         innings = stats["outs"] / 3
-        if innings < 50 or not stats["team"]:
+        if not stats["TBF"] or not stats["team"]:
             continue
         team = stats["team"]
         pf = constants["park"][TEAM_PARKS[team]] * 0.77 + 0.23
-        fip = (constants["fip_hr"] * stats["HR"] + constants["fip_bb"] * (stats["BB"] + stats["HBP"]) + constants["fip_k"] * stats["SO"]) / innings + constants["fip_constant"]
-        fip_plus = 100 * (2 - (fip / constants["league_fip"]) * (1 / pf))
-        war = ((constants["league_fip"] - fip / pf) * innings / 9 + 20 * innings / 180) / constants["runs_per_win"]
+        fip = (constants["fip_hr"] * stats["HR"] + constants["fip_bb"] * (stats["BB"] + stats["HBP"]) + constants["fip_k"] * stats["SO"]) / innings + constants["fip_constant"] if innings else None
+        fip_plus = 100 * (2 - (fip / constants["league_fip"]) * (1 / pf)) if fip is not None else None
+        war = ((constants["league_fip"] - fip / pf) * innings / 9 + 20 * innings / 180) / constants["runs_per_win"] if fip is not None else None
         player_rates = rates.get(player_id, {})
         start_count = len(starts[player_id])
         row = {
-            "Player": stats["name"], "Pos": "SP" if start_count >= len(games[player_id]) / 2 else "RP", "Team": team, "Year": season,
+            "Player": stats["name"], "player_id": player_id, "qualified": innings >= 50, "Sample": "기준 충족" if innings >= 50 else "표본 미달", "Pos": "SP" if start_count >= len(games[player_id]) / 2 else "RP", "Team": team, "Year": season,
             "WAR": _round(war, 2), "G": len(games[player_id]), "GS": start_count, "IP": _round(innings, 1),
             **{key: stats[key] for key in ("RA", "TBF", "H", "2B", "3B", "HR", "BB", "HBP", "IB", "SO")},
             "RA9": _round(_ratio(stats["RA"], innings, 9), 2), "FIP": _round(fip, 2),
@@ -248,23 +248,23 @@ def _pitching_rows(stats_by_player, games, starts, rates, constants, season):
             "BIP": stats["BIP"], "CWS%": _round(player_rates.get("CWS%"), 1), "whiff%": _round(player_rates.get("whiff%"), 1), "chase%": _round(player_rates.get("chase%"), 1),
         }
         basic.append(row)
-        advanced.append({key: row[key] for key in ("Player", "Pos", "Team", "Year", "WAR", "G", "IP", "FIP", "FIP+", "BIP", "CWS%", "whiff%", "chase%")})
+        advanced.append({key: row[key] for key in ("Player", "player_id", "qualified", "Sample", "Pos", "Team", "Year", "WAR", "G", "IP", "FIP", "FIP+", "BIP", "CWS%", "whiff%", "chase%")})
         advanced[-1].update({"K%": _round(_ratio(stats["SO"], stats["TBF"], 100), 1), "BB%": _round(_ratio(stats["BB"], stats["TBF"], 100), 1)})
     basic.sort(key=lambda row: (-float(row["WAR"] or 0), row["Player"]))
-    advanced_by_name = {row["Player"]: row for row in advanced}
+    advanced_by_id = {row["player_id"]: row for row in advanced}
     advanced = []
     for rank, row in enumerate(basic, 1):
         row["RK"] = rank
-        detail = advanced_by_name[row["Player"]]
+        detail = advanced_by_id[row["player_id"]]
         detail["RK"] = rank
         advanced.append(detail)
     return basic, advanced
 
 
-BAT_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("SB", "SB"), ("CS", "CS"), ("SB_Runs", "도루 득점*"), ("wRC+", "wRC+"), ("G", "G"), ("PA", "PA"), ("AB", "AB"), ("R", "R"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("RBI", "RBI"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("GDP", "GDP"), ("SF", "SF"), ("BA", "BA"), ("OBP", "OBP"), ("SLG", "SLG"), ("OPS", "OPS"), ("wOBA", "wOBA"), ("PF", "PF"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
-BAT_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("SB", "SB"), ("CS", "CS"), ("SB_Runs", "도루 득점*"), ("PA", "PA"), ("XBH", "XBH"), ("wOBA", "wOBA"), ("wRC", "wRC"), ("wRC+", "wRC+"), ("OPS+", "OPS+"), ("K%", "K%"), ("BB%", "BB%"), ("BB/K", "BB/K"), ("HR%", "HR%"), ("BABIP", "BABIP"), ("IsoD", "IsoD"), ("IsoP", "IsoP"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
-PITCH_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("G", "G"), ("GS", "GS"), ("IP", "IP"), ("RA", "RA†"), ("TBF", "TBF"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("RA9", "RA9†"), ("FIP", "FIP"), ("WHIP", "WHIP"), ("FIP+", "FIP+"), ("PF", "PF"), ("BIP", "BIP"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
-PITCH_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("G", "G"), ("IP", "IP"), ("FIP", "FIP"), ("FIP+", "FIP+"), ("BIP", "BIP"), ("K%", "K%"), ("BB%", "BB%"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
+BAT_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("SB", "SB"), ("CS", "CS"), ("SB_Runs", "도루 득점*"), ("wRC+", "wRC+"), ("G", "G"), ("PA", "PA"), ("Sample", "표본"), ("AB", "AB"), ("R", "R"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("RBI", "RBI"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("GDP", "GDP"), ("SF", "SF"), ("BA", "BA"), ("OBP", "OBP"), ("SLG", "SLG"), ("OPS", "OPS"), ("wOBA", "wOBA"), ("PF", "PF"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
+BAT_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "포지션"), ("Team", "팀"), ("Year", "연도"), ("oWAR", "oWAR*"), ("SB", "SB"), ("CS", "CS"), ("SB_Runs", "도루 득점*"), ("PA", "PA"), ("Sample", "표본"), ("XBH", "XBH"), ("wOBA", "wOBA"), ("wRC", "wRC"), ("wRC+", "wRC+"), ("OPS+", "OPS+"), ("K%", "K%"), ("BB%", "BB%"), ("BB/K", "BB/K"), ("HR%", "HR%"), ("BABIP", "BABIP"), ("IsoD", "IsoD"), ("IsoP", "IsoP"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
+PITCH_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("G", "G"), ("GS", "GS"), ("IP", "IP"), ("Sample", "표본"), ("RA", "RA†"), ("TBF", "TBF"), ("H", "H"), ("2B", "2B"), ("3B", "3B"), ("HR", "HR"), ("BB", "BB"), ("HBP", "HBP"), ("IB", "IB"), ("SO", "SO"), ("RA9", "RA9†"), ("FIP", "FIP"), ("WHIP", "WHIP"), ("FIP+", "FIP+"), ("PF", "PF"), ("BIP", "BIP"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
+PITCH_ADV_COLUMNS = [("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("Year", "연도"), ("WAR", "WAR*"), ("G", "G"), ("IP", "IP"), ("Sample", "표본"), ("FIP", "FIP"), ("FIP+", "FIP+"), ("BIP", "BIP"), ("K%", "K%"), ("BB%", "BB%"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]
 
 
 def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = None) -> Path:
@@ -279,14 +279,14 @@ def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = N
     bat_rows, bat_advanced = _batting_rows(batting, batter_games, positions, _pitch_rates(pitches, "batter_id"), constants, season, running)
     pitch_rows, pitch_advanced = _pitching_rows(pitching, pitcher_games, pitcher_starts, _pitch_rates(pitches, "pitcher_id"), constants, season)
     as_of = str(pitches["game_date"].max())
-    pitch_metric_rows = [{key: row[key] for key in ("RK", "Player", "Pos", "Team", "G", "CWS%", "whiff%", "chase%")} for row in pitch_rows]
+    pitch_metric_rows = [{key: row[key] for key in ("RK", "Player", "player_id", "qualified", "Sample", "Pos", "Team", "G", "CWS%", "whiff%", "chase%")} for row in pitch_rows]
     payload = {
         "schema_version": 2, "season": season, "as_of": as_of,
         "source": {"name": "Visual Baseball PBP", "games": int(pitches["game_id"].nunique()), "pitches": len(pitches),
                    "running": {"url": running_payload["source_url"], "period": running_payload["period"],
                                "matched_batters": sum(row["SB"] is not None for row in bat_rows)}},
         "notes": [
-            "표본 기준은 타자 200 PA 이상, 투수 50 IP 이상입니다.",
+            "전체 선수는 타격·투구 기록이 있는 선수 모두를 포함합니다. 타자 200 PA·투수 50 IP 미만은 표본 미달로 표시하며, 표본 필터로 기준 충족 선수만 볼 수 있습니다.",
             f"{season} 타자·투수 누적값은 Visual Baseball PBP를 직접 재집계했으며 공식 KBO 합계와 일부 차이가 날 수 있습니다.",
             "oWAR*는 수비를 제외하고 포지션 보정과 공식 도루·도실의 추정 득점(0.2×SB−0.4×CS)을 반영합니다. 추가 진루 가치는 포함하지 않습니다. 투수 WAR*는 FIP 기반 추정치입니다.",
             "타격·투구 추정치의 리그·구장·가중치 상수는 기존 입력 상수표를 사용합니다.",
@@ -299,7 +299,7 @@ def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = N
             {"id": "batting-advanced", "title": "확장", "columns": _columns(BAT_ADV_COLUMNS), "rows": bat_advanced},
             {"id": "pitching", "title": "기본", "columns": _columns(PITCH_COLUMNS), "rows": pitch_rows},
             {"id": "pitching-advanced", "title": "확장", "columns": _columns(PITCH_ADV_COLUMNS), "rows": pitch_advanced},
-            {"id": "pitch-value", "title": "투구 지표", "columns": _columns([("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("G", "G"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]), "rows": pitch_metric_rows},
+            {"id": "pitch-value", "title": "투구 지표", "columns": _columns([("RK", "순위"), ("Player", "선수"), ("Pos", "보직"), ("Team", "팀"), ("G", "G"), ("Sample", "표본"), ("CWS%", "CWS%"), ("whiff%", "Whiff%"), ("chase%", "Chase%")]), "rows": pitch_metric_rows},
         ],
     }
     output = output or root / "web" / "data" / "leaderboards" / f"{season}.json"

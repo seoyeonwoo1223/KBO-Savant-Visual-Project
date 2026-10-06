@@ -6,7 +6,7 @@ body { margin:0; color:var(--ink); font-family:Inter, Pretendard, "Noto Sans KR"
 .eyebrow { margin:0 0 6px; color:var(--accent); font-size:.78rem; font-weight:850; letter-spacing:.14em; }
 .page-title h1 { margin:0; font-size:clamp(2rem, 5vw, 3.5rem); letter-spacing:-.05em; }
 .page-title > p:last-child { margin:10px 0 0; color:var(--muted); }
-.controls { display:grid; grid-template-columns:140px 190px minmax(220px,1fr) 150px; gap:12px; margin-bottom:16px; padding:16px; border:1px solid var(--line); border-radius:14px; background:var(--paper); }
+.controls { display:grid; grid-template-columns:110px 150px minmax(180px,1fr) 160px 120px; gap:12px; margin-bottom:16px; padding:16px; border:1px solid var(--line); border-radius:14px; background:var(--paper); }
 label { display:grid; gap:6px; color:var(--muted); font-size:.76rem; font-weight:750; }
 select, input { width:100%; min-height:42px; padding:0 12px; border:1px solid #c6cccf; border-radius:8px; background:#fff; color:var(--ink); font:inherit; font-size:.95rem; }
 select:focus, input:focus { outline:3px solid #c3cedb; border-color:var(--accent); }
