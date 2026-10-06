@@ -67,7 +67,7 @@ async function loadSeason(year) {
   searchForm.setAttribute("aria-busy", "true");
   message.textContent = `${year} 선수 목록을 불러오는 중입니다.`;
   try {
-    const response = await fetch(`../data/pitch_arsenal/${year}/index.json`);
+    const response = await fetch(`../data/pitch_arsenal/${year}/index.json`, { cache: "no-store" });
     if (!response.ok) throw new Error("season index unavailable");
     seasonIndex = await response.json();
     matches.innerHTML = "";
@@ -91,7 +91,7 @@ function beginSeasonLoad(year) {
 async function openPlayer(playerId, updateUrl = true) {
   const player = seasonIndex.players.find(item => String(item.id) === String(playerId));
   if (!player) return;
-  const response = await fetch(`../data/pitch_arsenal/${yearSelect.value}/${player.file}`);
+  const response = await fetch(`../data/pitch_arsenal/${yearSelect.value}/${player.file}`, { cache: "no-store" });
   if (!response.ok) throw new Error("profile unavailable");
   const shard = await response.json();
   currentProfile = shard.players[String(player.id)];
@@ -509,7 +509,7 @@ async function exportProfileImage() {
   }
 }
 
-fetch("../data/pitch_arsenal/index.json").then(response => response.json()).then(catalog => {
+fetch("../data/pitch_arsenal/index.json", { cache: "no-store" }).then(response => response.json()).then(catalog => {
   yearSelect.innerHTML = catalog.seasons.map(year => `<option>${year}</option>`).join("");
   const requested = Number(new URLSearchParams(location.search).get("year"));
   if (catalog.seasons.includes(requested)) yearSelect.value = requested;

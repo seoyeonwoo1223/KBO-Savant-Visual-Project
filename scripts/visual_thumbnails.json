@@ -3,7 +3,7 @@
   "thumbnails": [
     {
       "id": "leaderboards",
-      "url": "/leaderboards/?thumb=1&season=2026&dataset=batting&sort=WAR&direction=desc&limit=8",
+      "url": "/leaderboards/?thumb=1&season=2026&dataset=batting&sort=oWAR&direction=desc&limit=8",
       "selector": "[data-thumbnail-target]",
       "output": "web/assets/thumbnails/leaderboards.webp"
     },
