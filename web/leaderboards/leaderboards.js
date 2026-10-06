@@ -59,7 +59,7 @@ function filteredRows() {
 }
 
 function render() {
-  const columns = state.dataset.columns.filter(column => column.key !== "Year" && !hiddenColumns[state.dataset.id]?.has(column.key));
+  const columns = state.dataset.columns.filter(column => !["Year", "Sample"].includes(column.key) && !hiddenColumns[state.dataset.id]?.has(column.key));
   const limit = Number(thumbnailParams.get("limit"));
   const rows = Number.isInteger(limit) && limit > 0 ? filteredRows().slice(0, limit) : filteredRows();
   const maximumWar = Object.fromEntries(columns.filter(isColoredColumn).map(column => [
