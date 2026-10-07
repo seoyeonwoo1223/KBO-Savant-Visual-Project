@@ -93,6 +93,7 @@ python -m visualbaseball.zone_decision --seasons 2024 2025 2026      # metric �
 - **기존 시각화의 형태를 유지합니다.** 데이터·코드 변경이 차트 종류·축·배치·라벨을 바꾸지 않게 하고, 화면 변경이 의도일 때만 최소로 바꿉니다.
 - **차트 축 범위는 눈금 간격의 배수로** 잡아 플롯 네 테두리가 라벨 있는 눈금선과 맞게 합니다.
 - **모바일**: 숨겨진 탭의 canvas는 폭이 0이므로 직전 CSS 폭을 씁니다(`zone-awareness.js`의 `canvasContext`). html2canvas 캡처 대상에는 `color-mix()` 등 최신 색 함수를 쓰지 않습니다. 390px에서 `document.documentElement.scrollWidth`가 화면 폭과 같은지 확인합니다.
+- **이미지 캡처 배경**: Swing/Take의 모바일·저장 이미지에서 `repeating-linear-gradient`·`repeating-radial-gradient`는 html2canvas가 그리지 못합니다. 일반 그라디언트를 `background-size`·`background-repeat`로 반복합니다. DOM 화면뿐 아니라 모바일 `#profile-image`가 실제 생성된 상태와 다운로드 PNG에서 League Avg 막대를 확인합니다.
 - **데이터 경로**: 페이지 기준 `../data/<metric>/<season>/…`을 fetch합니다. 선수 상세는 `players/<shard>.json`, 시즌 목록은 metric 디렉터리의 `index.json`.
 - **로컬 프리뷰**: `python scripts/serve_web.py` (문서 루트가 반드시 `web/`, 응답에 `Cache-Control: no-store`).
 

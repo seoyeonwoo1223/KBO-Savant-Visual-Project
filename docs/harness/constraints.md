@@ -9,6 +9,7 @@
 | 페이지 규격 | `<body>` 첫 요소가 `site-header.js`가 아님, `main.site-main` 누락·중복, `.page-title`(eyebrow·h1) 누락, `theme.css`를 마지막에 로드하지 않음(`movement-zones`만 예외) | `scripts/web_contract.py` |
 | 공통 태그 덮어쓰기 금지 | 새 도구 CSS가 `main`·`header`·`nav`·`h1`을 태그 선택자로 꾸밈 (기존 7개 도구는 `LEGACY_BARE_SELECTOR_TOOLS`로 예외 — 목록에 추가하지 않음) | `scripts/web_contract.py` |
 | 캐시 버스터 | 로컬 CSS·JS·카드 썸네일에 `?v=YYYYMMDD-N` 없음, `theme.css`·`site-header.js` 버전이 페이지마다 다름 | `scripts/web_contract.py` |
+| Swing/Take 캡처 배경 | 반복 그라디언트 때문에 모바일·다운로드 이미지에서 League Avg 막대가 사라짐 | `scripts/web_contract.py`, `tests/test_web_contract.py` |
 | 메뉴·홈·디렉터리 일치 | `TOOLS`에 있는데 페이지가 없음, 페이지가 있는데 메뉴(`ALIASES`)에 없음, 홈 카드 순서·제목이 메뉴와 다름, 썸네일 파일 없음 | `scripts/web_contract.py` |
 | 생성기 템플릿 | 새 도구를 손으로 복사해 규격을 빠뜨림 → 골격·메뉴·홈 카드·버전 올림을 한 번에 생성 | `scripts/new_web_tool.py` |
 | 차트 축 정렬 | Movement Zones 축 범위가 눈금 간격의 배수가 아니어서 플롯 테두리가 잘림 | `tests/test_movement_zones_layout.cjs` |

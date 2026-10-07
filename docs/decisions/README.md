@@ -34,6 +34,7 @@
 | [0015](0015-position-exposure-adjustment.md) | 포지션별 공식 수비이닝과 DH 타석 분리 보정 | 지표 |
 | [0016](0016-naver-dh-verification.md) | 복합 DH 표기를 네이버 타석별 포지션으로 재검증 | 지표 |
 | [0017](0017-unused-web-code.md) | 미사용 웹 코드만 참조·화면 동일성 확인 후 제거 | 웹·하네스 |
+| [0018](0018-swing-take-capture-background.md) | Swing/Take 모바일·저장 이미지의 League Avg 점선 배경 | 웹·하네스 |
 
 ### 다른 곳에 있는 결정·근거
 

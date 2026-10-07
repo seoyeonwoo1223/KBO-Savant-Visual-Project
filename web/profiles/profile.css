@@ -84,8 +84,10 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 .split-axis { height: 28px; border-left: 1px solid #8a8a8a; z-index: 1; }
 .split-league { min-height: 10px; margin-top: 2px; opacity: .82; }
 .split-league .split-half { height: 9px; }
-.split-league .swing i { right: 0; width: var(--league-swing); background: repeating-linear-gradient(90deg, #858585 0 9px, transparent 9px 12px); }
-.split-league .take i { left: 0; width: var(--league-take); background: repeating-linear-gradient(90deg, #c2c2c2 0 9px, transparent 9px 12px); }
+/* html2canvas는 repeating-linear-gradient를 그리지 못합니다. 12px 배경 타일로 같은 점선을 만듭니다. */
+.split-league .swing i { right: 0; width: var(--league-swing); background-image: linear-gradient(90deg, #858585 0 9px, transparent 9px 12px); }
+.split-league .take i { left: 0; width: var(--league-take); background-image: linear-gradient(90deg, #c2c2c2 0 9px, transparent 9px 12px); }
+.split-league .split-half i { background-size: 12px 100%; background-repeat: repeat-x; }
 .split-league .split-half span { color: #7d7d7d; font-size: .7rem; }
 .split-league .swing span { right: calc(var(--league-swing) + 5px); }
 .split-league .take span { left: calc(var(--league-take) + 5px); }

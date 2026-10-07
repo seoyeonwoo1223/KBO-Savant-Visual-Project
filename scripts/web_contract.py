@@ -32,6 +32,8 @@ VERSION = re.compile(r"\?v=\d{8}-\d+$")
 BARE_SELECTOR = re.compile(r"(?:^|[{},])\s*(main|header|nav|h1)(?=[\s>.:#\[,{])[^{}]*\{")
 # 규격(.site-main/.page-title) 도입 전 CSS. theme.css가 클래스 선택자로 덮어쓰고 있어 그대로 둡니다.
 LEGACY_BARE_SELECTOR_TOOLS = {"blocking", "leaderboards", "movement-zones", "pitch-arsenal", "profiles", "zone-awareness", "zones"}
+# Swing/Take는 모바일 화면·저장 이미지를 html2canvas 1.4.1로 만듭니다.
+CAPTURE_UNSUPPORTED_BACKGROUND = re.compile(r"\brepeating-(?:linear|radial)-gradient\s*\(", re.I)
 
 
 class _PageParser(HTMLParser):
@@ -91,14 +93,17 @@ def page_problems(path: Path, web_root: Path = WEB_ROOT) -> list[str]:
         if _is_local(url) and not VERSION.search(url):
             fail(f"캐시 버스터(?v=YYYYMMDD-N)가 없습니다: {url}")
 
-    if not is_home and name not in LEGACY_BARE_SELECTOR_TOOLS:
+    if not is_home:
         for url in stylesheets:
             css_path = path.parent / url.split("?")[0]
             if not _is_local(url) or css_path.name in {"theme.css", "styles.css"} or not css_path.is_file():
                 continue
             css = re.sub(r"/\*.*?\*/", "", css_path.read_text(encoding="utf-8"), flags=re.S)
-            for match in BARE_SELECTOR.finditer(css):
-                fail(f"{css_path.name}: '{match.group(1)}' 태그 선택자로 꾸미지 마십시오 (공통 헤더·폭·제목은 theme.css 담당, 도구 전용 클래스를 쓰세요)")
+            if name not in LEGACY_BARE_SELECTOR_TOOLS:
+                for match in BARE_SELECTOR.finditer(css):
+                    fail(f"{css_path.name}: '{match.group(1)}' 태그 선택자로 꾸미지 마십시오 (공통 헤더·폭·제목은 theme.css 담당, 도구 전용 클래스를 쓰세요)")
+            if name == "profiles" and CAPTURE_UNSUPPORTED_BACKGROUND.search(css):
+                fail(f"{css_path.name}: html2canvas는 반복 그라디언트를 캡처하지 못합니다. 일반 그라디언트와 background-size/background-repeat를 쓰세요")
 
     theme_at = next((i for i, url in enumerate(stylesheets) if url.split("?")[0].endswith("theme.css")), None)
     if theme_at is None:
