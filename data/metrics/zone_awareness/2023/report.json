@@ -8,7 +8,7 @@
     "curated_version": null,
     "sha256": {
       "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
-      "player_bio.parquet": "b9bd56323320b7ef3fc1fad398ed211e2ff8fe87e372e5cc1dc18d786ccb28d0",
+      "player_bio.parquet": "5b72dffe58a9ea613da29a821e6be5d9edfccd89c96c79bff02ff4106cc24157",
       "2023_VB_Park_Adjustment_v1.0.xlsx": "e13b34048404be435a6cf5871fbf293f20283b8fbf385c9a931a9f561e77bda0"
     },
     "quality": {
@@ -430,7 +430,7 @@
   },
   "shrinkage": "Constrained shared RE; exact ordinary event transitions; sparse Swing probabilities blend to training-only count/region/type/stance priors with n/(n+50). InPlay RV retains state shrinkage.",
   "reproducibility": {
-    "python": "3.12.14",
+    "python": "3.12.15",
     "packages": {
       "numpy": "2.5.3",
       "pandas": "2.3.3",

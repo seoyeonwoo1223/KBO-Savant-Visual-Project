@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T19:48:28+00:00",
+  "generated_at": "2026-10-07T20:39:21+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -54,6 +54,7 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -101,6 +102,7 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -149,6 +151,7 @@
         "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -194,8 +197,10 @@
         "excel",
         "leaderboards",
         "movement_zones",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -241,8 +246,10 @@
         "excel",
         "leaderboards",
         "movement_zones",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -289,8 +296,10 @@
         "excel",
         "leaderboards",
         "movement_zones",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
@@ -337,30 +346,32 @@
         "excel",
         "leaderboards",
         "movement_zones",
+        "pitch_arsenal",
         "plate_discipline",
         "swing_take",
+        "zone_decision",
         "zone_profiles"
       ]
     },
     "2026": {
       "tables": {
         "pitches": {
-          "rows": 216577,
+          "rows": 218193,
           "files": 8,
-          "bytes": 31943772
+          "bytes": 32190524
         },
         "events": {
-          "rows": 275705,
+          "rows": 277746,
           "files": 8,
-          "bytes": 1378529
+          "bytes": 1388371
         },
         "games": {
-          "rows": 704,
+          "rows": 709,
           "files": 8,
-          "bytes": 97214
+          "bytes": 97578
         }
       },
-      "games": 704,
+      "games": 709,
       "months": [
         "03",
         "04",
@@ -373,7 +384,7 @@
       ],
       "date_range": [
         "2026-03-28",
-        "2026-10-06"
+        "2026-10-07"
       ],
       "metrics": [
         "arm_angle",
@@ -382,11 +393,13 @@
         "swing_take",
         "zone_awareness"
       ],
-      "stale_metrics": []
+      "stale_metrics": [
+        "movement_zones"
+      ]
     }
   },
   "published": {
-    "web_json": 5725,
+    "web_json": 5728,
     "exports": 10
   }
 }
