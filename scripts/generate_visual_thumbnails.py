@@ -35,7 +35,7 @@ def load_config() -> dict:
     stage = config["stage"]
     assert stage["width"] == stage["height"] == 600
     assert stage["device_scale_factor"] == 2
-    assert len(config["thumbnails"]) == 7
+    assert len(config["thumbnails"]) == 8
     return config
 
 

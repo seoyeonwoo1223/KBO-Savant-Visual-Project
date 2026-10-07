@@ -7,6 +7,7 @@ from .curated import file_sha256, schema_sha256, source_sha256, value_sha256
 # Each metric records its transitive builder/helper dependency set.
 SPECS = {
  "conditional_finder": (("games", "events", "pitches"), (), ("web/data/conditional_finder/{season}/index.json", "web/data/conditional_finder/index.json")),
+ "trendline": (("games", "pitches"), (), ("web/data/trendline/{season}/index.json", "web/data/trendline/{season}/league.json", "web/data/trendline/index.json")),
  "leaderboards": (("games", "pitches"), ("data/leaderboards/source/constants.xlsx", "data/leaderboards/source/{season}_running.json", "data/leaderboards/source/{season}_fielding.json", "data/leaderboards/source/{season}_dh.json"), ("web/data/leaderboards/{season}.json", "web/data/leaderboards/index.json")),
  "excel": (("games", "events", "pitches"), (), ("exports/visualbaseball_savant_{season}_latest.xlsx",)),
  "arm_angle": (("pitches",), ("data/batter_handedness.json",), ("data/metrics/arm_angle/{season}/input.parquet",)),
@@ -20,6 +21,7 @@ SPECS = {
 }
 CODE = {
  "conditional_finder": ("conditional_finder.py", "pitch_types.py", "publish.py", "curated.py"),
+ "trendline": ("trendline.py", "pitch_types.py", "teams.py", "publish.py", "curated.py"),
  "leaderboards": ("leaderboard_vb.py", "leaderboard_dh.py", "naver.py", "publish.py", "curated.py"),
  "excel": ("export_excel.py", "curated.py"), "arm_angle": ("arm_angle.py", "curated.py"),
  "swing_take": ("swing_take.py", "publish.py", "curated.py"), "plate_discipline": ("plate_discipline.py", "swing_take.py", "publish.py", "curated.py"),
@@ -54,7 +56,7 @@ def needs_build(root: Path, season: int, name: str) -> bool:
  _, _, outputs = SPECS[name]
  if any(not (root / output.format(season=season)).is_file() for output in outputs): return True
  if name == "swing_take" and not (root / "data/metrics/swing_take" / str(season) / ("decision_pitches.parquet" if season == 2026 else f"decision_pitches_{season}.parquet")).is_file(): return True
- if name in {"swing_take", "pitch_arsenal", "zone_profiles", "zone_decision", "conditional_finder"} and not _web_shards_exist(root, season, name): return True
+ if name in {"swing_take", "pitch_arsenal", "zone_profiles", "zone_decision", "conditional_finder", "trendline"} and not _web_shards_exist(root, season, name): return True
  try: return json.loads(_path(root, season, name).read_text(encoding="utf-8")).get("input_sha256") != metric_input_hash(root, season, name)
  except (OSError, json.JSONDecodeError): return True
 
@@ -71,6 +73,12 @@ def _expected_shards(root: Path, season: int, name: str):
   data = json.loads((root / "web/data/zones/index.json").read_text(encoding="utf-8")); base = root / "web/data/zones" / str(season)
   yield from (base / role / player["file"] for role, players in data["players"][str(season)].items() for player in players)
   yield from (base / "league" / f"{role}.json" for role in data["players"][str(season)])
+  return
+ if name == "trendline":
+  base = root / "web/data/trendline" / str(season)
+  players = json.loads((base / "index.json").read_text(encoding="utf-8"))["players"]
+  for role, entries in players.items():
+   for player in entries: yield base / role / "players" / player["file"]
   return
  base = root / "web/data" / ("zone_awareness" if name == "zone_decision" else name) / str(season)
  players = json.loads((base / ("leaderboard.json" if name == "zone_decision" else "index.json")).read_text(encoding="utf-8")).get("players", [])

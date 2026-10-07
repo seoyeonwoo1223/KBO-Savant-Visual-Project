@@ -1,0 +1,64 @@
+/* Trendline 전용 카드. 공통 제목·페이지 폭·메뉴 간격은 theme.css에 둡니다. */
+:root { font-family: Arial, Helvetica, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.trend-controls { padding: 20px; border: 1px solid var(--kbo-line); border-radius: 14px; background: var(--kbo-card); }
+.trend-controls h2 { margin: 0; font-size: 1.15rem; }
+.trend-matches { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.trend-matches button { padding: 8px 12px; text-align: left; border: 1px solid var(--kbo-line); background: #fff; color: var(--kbo-navy); border-radius: 8px; cursor: pointer; }
+.trend-matches small { display: block; margin-top: 4px; color: var(--kbo-muted); }
+.trend-period { display: flex; align-items: end; flex-wrap: wrap; gap: 14px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--kbo-line); }
+.trend-period label, .trend-options label { display: flex; flex-direction: column; gap: 7px; font-size: .78rem; color: var(--kbo-muted); }
+.trend-period input, .trend-period select { min-height: 40px; min-width: 140px; padding: 8px 10px; border: 1px solid var(--kbo-line); border-radius: 7px; background: #fff; color: var(--kbo-navy); font: inherit; font-size: .87rem; }
+.trend-presets { display: flex; gap: 6px; flex-wrap: wrap; }
+.trend-presets button, #add-widget { min-height: 40px; padding: 8px 13px; border: 1px solid var(--kbo-line); border-radius: 7px; background: #fff; color: var(--kbo-navy); font: inherit; font-size: .83rem; cursor: pointer; }
+.trend-presets button:hover, #add-widget:hover { border-color: var(--kbo-red); color: var(--kbo-red); }
+.trend-profile { margin-top: 24px; }
+.trend-player { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
+.trend-player h2 { margin: 4px 0 8px; color: var(--kbo-navy); font-size: 1.8rem; }
+.trend-player p, .trend-note { margin: 4px 0; color: var(--kbo-muted); font-size: .85rem; line-height: 1.5; }
+.trend-note { margin: 12px 0 16px; }
+.trend-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+.trend-card { min-width: 0; padding: 18px; border: 1px solid var(--kbo-line); border-radius: 13px; background: #fff; }
+.trend-card-heading { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; }
+.trend-card-heading h3 { margin: 0; color: var(--kbo-navy); font-size: 1.04rem; }
+.trend-remove { width: 30px; height: 30px; border: 0; border-radius: 50%; background: var(--kbo-winter); color: var(--kbo-muted); font-size: 1.15rem; cursor: pointer; }
+.trend-options { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.trend-options select { min-width: 0; width: 100%; min-height: 36px; padding: 7px; border: 1px solid var(--kbo-line); border-radius: 6px; color: var(--kbo-navy); background: #fff; font-size: .8rem; }
+.trend-options select:disabled { opacity: .55; }
+.trend-chart { position: relative; min-height: 280px; border-radius: 9px; overflow: hidden; background: #14191e; color: #f4f5f6; touch-action: pan-y; }
+.trend-chart svg { display: block; width: 100%; }
+.trend-chart:focus-visible { outline: 3px solid var(--kbo-red); outline-offset: 3px; }
+.trend-chart .trend-crosshair { pointer-events: none; }
+.trend-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin: 12px 0 10px; }
+.trend-legend button, .trend-league-label { display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; border: 1px solid var(--kbo-line); border-radius: 20px; background: #fff; color: var(--kbo-navy); font: inherit; font-size: .74rem; }
+.trend-legend button { cursor: pointer; }
+.trend-legend button[aria-pressed="false"] { opacity: .35; }
+.trend-swatch { display: inline-block; width: 18px; border-top: 3px solid; }
+.trend-league-label { cursor: pointer; }
+.trend-league-label .trend-swatch { border-top: 2px dashed #84919f; }
+.trend-detail { min-height: 65px; padding-top: 11px; border-top: 1px solid var(--kbo-line); color: var(--kbo-muted); font-size: .78rem; line-height: 1.65; }
+.trend-detail strong { color: var(--kbo-navy); }
+.trend-sample { margin-top: 6px; color: var(--kbo-muted); font-size: .72rem; }
+.trend-empty { padding: 32px 16px; border: 1px dashed var(--kbo-line); border-radius: 10px; color: var(--kbo-muted); }
+.trend-profile[hidden] { display: none; }
+@media (max-width: 800px) { .trend-grid { grid-template-columns: 1fr; } }
+@media (max-width: 480px) {
+  .trend-controls { padding: 14px; }
+  .trend-period { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+  .trend-period > label:first-child, .trend-presets { grid-column: 1/-1; }
+  .trend-period input, .trend-period select { min-width: 0; width: 100%; }
+  .trend-player h2 { font-size: 1.5rem; }
+  .trend-card { padding: 13px; }
+  .trend-options { gap: 7px; }
+  .trend-options select { font-size: .73rem; padding: 6px 3px; }
+}
+.thumbnail-mode .site-header, .thumbnail-mode .page-title, .thumbnail-mode .trend-controls, .thumbnail-mode .trend-player, .thumbnail-mode .trend-note, .thumbnail-mode .method-card { display: none; }
+.thumbnail-mode .trend-profile { margin: 0; }
+.thumbnail-mode .trend-grid { display: block; width: 600px; }
+.thumbnail-mode .trend-card { width: 600px; height: 600px; border-radius: 0; padding: 25px; }
+.thumbnail-mode .trend-card:not(:first-child), .thumbnail-mode .trend-options, .thumbnail-mode .trend-remove, .thumbnail-mode .trend-detail, .thumbnail-mode .trend-sample { display: none; }
+.thumbnail-mode .trend-card-heading { margin: 3px 0 20px; }
+.thumbnail-mode .trend-card-heading h3 { font-size: 1.45rem; }
+.thumbnail-mode .trend-chart { border-radius: 0; }
+.thumbnail-mode .trend-legend { margin-top: 16px; }
