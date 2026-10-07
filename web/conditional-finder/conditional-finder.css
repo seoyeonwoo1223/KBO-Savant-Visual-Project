@@ -1,0 +1,82 @@
+/* 페이지 폭·제목·헤더·선수 검색·설명 카드는 theme.css의 공통 규격을 사용합니다. */
+:root { font-family: Arial, Helvetica, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--kbo-ink); }
+[hidden] { display: none !important; }
+.finder-fields { min-width: 0; border: 0; padding: 0; margin: 0; }
+.finder-modes { display: flex; gap: 8px; margin: 0 0 18px; }
+.finder-modes button, .finder-button, .finder-primary { padding: 10px 14px; border: 1px solid var(--kbo-line-strong); background: #fff; color: var(--kbo-navy); font: 700 .88rem Arial, sans-serif; cursor: pointer; }
+.finder-modes button[aria-pressed="true"], .finder-primary { background: var(--kbo-navy); color: #fff; border-color: var(--kbo-navy); }
+.finder-button:hover, .finder-modes button:hover { border-color: var(--kbo-navy); }
+.finder-button:disabled { opacity: .45; cursor: default; }
+.finder-hint { margin: 10px 0 18px; color: var(--kbo-muted); font-size: .82rem; line-height: 1.6; }
+.finder-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 18px; margin: 18px 0; }
+.finder-field { display: flex; flex-direction: column; gap: 7px; min-width: 0; color: var(--kbo-muted); font-size: .82rem; font-weight: 700; }
+.finder-field input, .finder-field select { width: 100%; min-width: 0; min-height: 40px; padding: 9px 10px; border: 1px solid var(--kbo-line-strong); border-radius: 0; color: var(--kbo-ink); background: #fff; font: .9rem Arial, sans-serif; }
+.finder-options { min-width: 0; border: 0; border-top: 1px solid var(--kbo-line); padding: 16px 0 10px; margin: 16px 0 0; }
+.finder-options legend { padding: 0 12px 0 0; font-size: .9rem; font-weight: 700; }
+.finder-options legend span { margin-left: 8px; color: var(--kbo-muted); font-size: .75rem; font-weight: 400; }
+.finder-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.finder-chips label { display: flex; align-items: center; gap: 7px; padding: 9px 11px; border: 1px solid var(--kbo-line); background: #fff; font-size: .85rem; cursor: pointer; }
+.finder-chips label:has(input:checked) { background: #eef4fa; border-color: var(--kbo-navy); }
+.finder-chips input, .finder-toggle input { accent-color: var(--kbo-navy); margin: 0; width: 16px; height: 16px; flex-shrink: 0; }
+.finder-toggle { display: flex; align-items: center; gap: 9px; margin-top: 16px; font-size: .9rem; line-height: 1.6; }
+.finder-advanced { margin: 18px 0; border-bottom: 1px solid var(--kbo-line); padding-bottom: 16px; }
+.finder-advanced summary { cursor: pointer; font-weight: 700; font-size: .9rem; }
+.finder-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+.finder-recovery { display: flex; gap: 8px; }
+.finder-coverage { margin: 14px 0 28px; color: var(--kbo-muted); font-size: .82rem; line-height: 1.6; }
+.finder-results { border-top: 3px solid var(--kbo-navy); padding-top: 22px; }
+.finder-result-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; }
+.finder-result-heading h2 { margin: 6px 0; font-size: 1.4rem; }
+.finder-result-heading p { margin: 5px 0; font-size: .9rem; }
+.finder-result-heading .eyebrow { font-size: .74rem; letter-spacing: .14em; }
+.finder-result-tools { display: flex; align-items: flex-end; gap: 10px; }
+.finder-active-filters { color: var(--kbo-muted); font-size: .83rem; line-height: 1.7; overflow-wrap: anywhere; }
+.finder-result-list { display: grid; gap: 12px; }
+.finder-hit { border: 1px solid var(--kbo-line); border-left: 4px solid var(--kbo-navy); background: #fff; padding: 18px 20px; min-width: 0; }
+.finder-hit-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; align-items: baseline; }
+.finder-game { margin: 0; color: var(--kbo-muted); font-size: .83rem; line-height: 1.6; }
+.finder-outcome { font-size: .78rem; font-weight: 700; color: var(--kbo-navy); padding: 5px 8px; background: #eef4fa; }
+.finder-outcome--home_run { color: #b71b29; background: #fff0f0; }
+.finder-hit h3 { font-size: 1.08rem; margin: 10px 0 8px; line-height: 1.5; }
+.finder-pitch-line { margin: 8px 0; font-size: .9rem; line-height: 1.8; }
+.finder-pitch-line strong { color: var(--kbo-red); }
+.finder-situation { margin: 5px 0 12px; color: var(--kbo-muted); font-size: .8rem; line-height: 1.6; }
+.finder-hit-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+.finder-hit-actions a { font-size: .83rem; }
+.finder-pa summary { cursor: pointer; font-size: .86rem; font-weight: 700; padding: 6px 0; }
+.finder-pa-caption { font-size: .8rem; color: var(--kbo-muted); line-height: 1.6; }
+.finder-table-wrap { overflow-x: auto; width: 100%; }
+.finder-pa table { border-collapse: collapse; width: 100%; white-space: nowrap; font-size: .82rem; }
+.finder-pa th, .finder-pa td { padding: 9px 10px; border-bottom: 1px solid var(--kbo-line); text-align: left; }
+.finder-pa th { background: var(--kbo-winter); }
+.finder-pa tr[data-match="true"] td { background: #eef4fa; }
+.finder-pa tr[data-selected="true"] td { background: #fff0f0; font-weight: 700; }
+.finder-pagination { display: flex; align-items: center; justify-content: center; gap: 16px; padding: 24px 0; font-size: .85rem; }
+.finder-empty { padding: 30px 20px; text-align: center; background: var(--kbo-winter); line-height: 1.8; }
+.finder-copy-status { font-size: .86rem; color: var(--kbo-navy); }
+.finder-copy-fallback { width: 100%; min-height: 100px; border: 1px solid var(--kbo-line-strong); padding: 12px; font: .9rem Arial, sans-serif; }
+.finder-thumbnail { display: none; }
+:focus-visible { outline: 3px solid var(--kbo-red); outline-offset: 3px; }
+@media (max-width: 1000px) { .finder-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) {
+  .finder-grid { gap: 12px; }
+  .finder-hit { padding: 14px 12px; }
+  .finder-modes button { flex: 1; font-size: .8rem; padding: 10px 8px; }
+  .finder-chips { gap: 6px; }
+  .finder-chips label { padding: 9px 8px; font-size: .8rem; }
+  .finder-result-tools { width: 100%; justify-content: space-between; }
+  .finder-toggle { align-items: flex-start; }
+  .finder-toggle input { margin-top: 4px; }
+  .finder-options legend span { display: inline-block; }
+}
+.thumbnail-mode .site-header, .thumbnail-mode .site-nav-bar, .thumbnail-mode .page-title,
+.thumbnail-mode .search-panel, .thumbnail-mode .finder-results, .thumbnail-mode .method-card,
+.thumbnail-mode .finder-copy-status { display: none; }
+.thumbnail-mode .site-main { margin: 0; padding: 0; width: 600px; max-width: none; }
+.thumbnail-mode .finder-thumbnail { display: block; width: 600px; height: 600px; padding: 36px; background: #f6f6f6; overflow: hidden; }
+.finder-thumbnail h2 { margin: 10px 0 18px; font-size: 27px; }
+.finder-thumbnail .finder-hit { margin-top: 14px; padding: 18px; }
+.finder-thumbnail .finder-hit h3 { font-size: 19px; }
+.finder-thumbnail .finder-thumb-condition { color: #fff; background: #083358; padding: 14px 18px; line-height: 1.6; font-size: 15px; }

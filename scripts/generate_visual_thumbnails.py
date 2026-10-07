@@ -35,7 +35,7 @@ def load_config() -> dict:
     stage = config["stage"]
     assert stage["width"] == stage["height"] == 600
     assert stage["device_scale_factor"] == 2
-    assert len(config["thumbnails"]) == 6
+    assert len(config["thumbnails"]) == 7
     return config
 
 
@@ -86,8 +86,13 @@ def capture(config: dict, base_url: str) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--base-url", help="reuse an already-running static viewer")
+    parser.add_argument("--only", help="지정한 카드 ID의 썸네일만 생성")
     args = parser.parse_args()
     config = load_config()
+    if args.only:
+        config["thumbnails"] = [item for item in config["thumbnails"] if item["id"] == args.only]
+        if not config["thumbnails"]:
+            parser.error(f"등록되지 않은 카드 ID: {args.only}")
     server = None
     try:
         if args.base_url:

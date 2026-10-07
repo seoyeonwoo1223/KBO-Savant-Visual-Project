@@ -36,6 +36,12 @@
       "url": "/movement-zones/?thumb=1&angle=45&hand=L&pitch=FF",
       "selector": "[data-thumbnail-target]",
       "output": "web/assets/thumbnails/movement-zones.webp"
+    },
+    {
+      "id": "conditional-finder",
+      "url": "/conditional-finder/?thumb=1&season=2026&outcomes=home_run&search=1&from=2026-10-06&to=2026-10-06",
+      "selector": "[data-thumbnail-target]",
+      "output": "web/assets/thumbnails/conditional-finder.webp"
     }
   ]
 }

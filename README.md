@@ -26,6 +26,7 @@
 | Approach | `web/zone-awareness/` | APR·ZA·SA 판단 지표와 위치별 Decision Map |
 | Pitch Plot | `web/pitch-arsenal/` | 구종 사용률·구속 분포·구장 보정 무브먼트 |
 | Movement Zones | `web/movement-zones/` | 팔각도별 기대 무브먼트와 헛스윙률 구역 |
+| Conditional Finder | `web/conditional-finder/` | 구종·구속·카운트·이벤트 조건으로 경기·타석·투구 찾기 |
 | Blocking | `web/blocking/` | 실험적 Catcher Blocks Above Average |
 
 ## GitHub에서 열람·다운로드
@@ -139,6 +140,24 @@ Zone Awareness는 canonical pitch/event shard만 입력으로 받으며 Excel·l
 ## Pitch Arsenal
 
 `web/pitch-arsenal/`은 2022~2026 시즌 투수별 구종 사용률, 평균 구속, Horizontal Break와 Induced Vertical Break를 Savant형 화면으로 제공한다. 무브먼트는 `movement_calibration.py`로 보정한다. 탄착 위치에 따른 측정 치우침을 빼고, 투수×구종과 구장×날짜 효과를 함께 추정해 구장·날짜별 편향을 뺀다(TrackMan 2019–2024 투구 단위 대조로 검증, `analysis/movement_calibration/`). 타원의 폭과 높이는 각각 중앙 75%(12.5~87.5 백분위) 범위이고, 원측정값과 보정값은 화면에서 전환할 수 있다. 한 투수가 10구 이하 또는 5% 미만으로 던진 구종은 중앙 구속 5km/h, 보정 HB·IVB 각 8cm, 탄착 중심 1.5ft 안에 드는 주력 구종이 있으면 그 구종에 묶어 보여 주고(표·툴팁에 원래 분류와 개수 표시), 없으면 점선 타원과 `소수 구종` 표시로 따로 둔다. 표시상의 묶음이며 curated `pitch_type`과 ZA/SBJ 입력은 바꾸지 않는다.
+
+## Conditional Finder
+
+`web/conditional-finder/`는 2022–2026 canonical games/events/pitches로 투수·타자의 장면을 검색한다. 구종·구속·투구 전 카운트·Take/Swing·투구 판정·타석 결과·상대 선수/팀·구장·이닝 조건을 조합할 수 있다. 같은 항목의 복수 선택은 OR, 서로 다른 항목은 AND다. 타석 결과를 고르면 기본적으로 마지막 공만 찾으며, 전체 투구 포함을 켜면 그 타석의 각 공에도 나머지 조건을 적용한다.
+
+검색 결과에는 경기 ID, 이닝 내 타석 순서, 타석 내 투구 번호, 선수와 투구 전 상황을 표시한다. 타석을 펼치면 조건에 맞지 않는 공과 교체 투수의 공도 함께 보인다. 투구가 없는 타석은 순서에는 포함하지만 검색 결과에는 넣지 않는다. 날짜별 파일과 선수별 파일 목록으로 필요한 날짜만 읽고, 검색 링크와 장면 정보를 복사할 수 있다. 티빙은 홈 연결만 제공하며 경기 영상 URL이나 재생 시점을 추정하지 않는다.
+
+현재 시즌은 일일 export에서, 완료 시즌은 같은 workflow의 `--only conditional_finder`에서 입력·코드가 바뀐 경우에만 다시 생성한다. 검색 데이터만 로컬에서 만들고 검증하려면:
+
+```bash
+PYTHONPATH=src python -m visualbaseball.cli --only conditional_finder --season 2026
+PYTHONPATH=src python -m pytest tests/test_conditional_finder.py
+node tests/test_conditional_finder.cjs
+PYTHONPATH=src python scripts/check_conditional_finder.py
+python scripts/generate_visual_thumbnails.py --only conditional-finder
+```
+
+브라우저 검사는 Playwright Chromium이 필요하다. 실제 경기의 홈런·전체 타석·0-0 called strike를 canonical과 비교하고, 공유 링크·복사·페이지·시즌 전환·실패/재시도·1440px/390px 폭과 기존 앱의 제목 간격을 확인한다. 결과와 화면은 `.cache/conditional_finder/`에 저장한다.
 
 ## Arm Angle Movement Zones
 
