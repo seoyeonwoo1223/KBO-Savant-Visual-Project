@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T07:33:00+00:00",
+  "generated_at": "2026-10-07T19:28:35+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -47,6 +47,7 @@
       "stale_metrics": [
         "arm_angle",
         "blocking",
+        "conditional_finder",
         "excel",
         "leaderboards",
         "movement_zones",
@@ -93,6 +94,7 @@
       "stale_metrics": [
         "arm_angle",
         "blocking",
+        "conditional_finder",
         "excel",
         "leaderboards",
         "movement_zones",
@@ -140,6 +142,7 @@
       "stale_metrics": [
         "arm_angle",
         "blocking",
+        "conditional_finder",
         "excel",
         "leaderboards",
         "movement_zones",
@@ -383,7 +386,7 @@
     }
   },
   "published": {
-    "web_json": 289,
+    "web_json": 1101,
     "exports": 10
   }
 }
