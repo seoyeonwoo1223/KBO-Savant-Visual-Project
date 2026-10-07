@@ -230,6 +230,9 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 #profile-export-area { background: #ffffff; }
 /* 좁은 화면: 데스크톱 레이아웃을 이미지로 렌더한 #profile-image가 카드를 대신합니다 (profile.js). */
 .profile-image { display: none; width: 100%; height: auto; margin-top: 22px; }
+.profile-loading-message { display: none; min-height: 180px; margin: 22px 0; padding: 24px; border: 1px solid var(--kbo-line); color: var(--kbo-muted); font-size: .9rem; text-align: center; }
+html.profile-loading .profile-loading-message { display: grid; place-items: center; }
+html.profile-loading #profile-export-area { display: none; }
 html.profile-imaged .profile-card { display: none; }
 html.profile-imaged .profile-image { display: block; }
 .profile-options .export-button { height: 35px; margin-left: auto; padding: 0 14px; border: 1px solid #303030; background: #303030; color: #fff; font: 700 .82rem Arial, sans-serif; white-space: nowrap; cursor: pointer; }

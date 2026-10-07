@@ -223,22 +223,31 @@ const captureDesktop = async (selector, options) => {
 async function updateProfileImage() {
   const token = ++profileImageToken;
   const root = document.documentElement;
+  if (!profileRendered) {
+    if (!compactProfileQuery.matches || root.classList.contains("thumbnail-mode")) root.classList.remove("profile-loading");
+    return;
+  }
   const useImage = profileRendered && compactProfileQuery.matches
     && !root.classList.contains("thumbnail-mode") && typeof html2canvas === "function";
   if (!useImage) {
-    root.classList.remove("profile-imaged");
+    root.classList.remove("profile-loading", "profile-imaged");
     return;
   }
+  root.classList.add("profile-loading");
   try {
     const canvas = await captureDesktop(".profile-card", { backgroundColor: "#ffffff" });
     const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
-    if (!blob || token !== profileImageToken) return;
+    if (token !== profileImageToken) return;
+    if (!blob) throw new Error("profile image could not be created");
     if (profileImage.src.startsWith("blob:")) URL.revokeObjectURL(profileImage.src);
     profileImage.src = URL.createObjectURL(blob);
     profileImage.alt = `${document.querySelector("#player-name").textContent} Swing/Take 프로필`;
+    await profileImage.decode();
+    if (token !== profileImageToken) return;
     root.classList.add("profile-imaged");
+    root.classList.remove("profile-loading");
   } catch {
-    if (token === profileImageToken) root.classList.remove("profile-imaged");
+    if (token === profileImageToken) root.classList.remove("profile-loading", "profile-imaged");
   }
 }
 compactProfileQuery.addEventListener("change", updateProfileImage);
@@ -384,6 +393,7 @@ profileYearSelect.addEventListener("change", () => { const url = new URL(window.
 loadProfile(seasonParam, playerId)
   .then(renderMainProfile)
   .catch(() => {
+    document.documentElement.classList.remove("profile-loading");
     document.querySelector("#meta").textContent = "해당 선수의 ABS 프로필을 찾을 수 없습니다. 선수 검색으로 돌아가 주세요.";
   });
 initializeComparison();

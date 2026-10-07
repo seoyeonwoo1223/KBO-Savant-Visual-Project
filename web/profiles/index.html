@@ -4,9 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>KBO Swing/Take 프로필</title>
-  <link rel="stylesheet" href="profile.css?v=20261007-2">
+  <link rel="stylesheet" href="profile.css?v=20261007-3">
   <link rel="stylesheet" href="../theme.css?v=20261007-1">
-  <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
+  <script>
+    (() => {
+      const query = new URLSearchParams(location.search);
+      if (query.get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");
+      else if (query.get("player") && matchMedia("(max-width: 830px)").matches) document.documentElement.classList.add("profile-loading");
+    })();
+  </script>
 </head>
 <body>
   <script src="../site-header.js?v=20261002-1"></script>
@@ -17,6 +23,7 @@
       <form id="player-search" class="player-search" role="search"><label for="player-search-input">선수 이름</label><input id="player-search-input" type="search" list="player-search-list" autocomplete="off" placeholder="예: 홍창기"><datalist id="player-search-list"></datalist><button type="submit">프로필 보기</button></form>
       <p id="search-message" class="search-message" aria-live="polite"></p>
     </section>
+    <p class="profile-loading-message" role="status">프로필을 불러오는 중입니다.</p>
     <div id="profile-export-area" data-thumbnail-target data-thumbnail-ready="false">
     <header class="profile-header">
       <p class="eyebrow" id="profile-season">KBO</p>
@@ -78,6 +85,6 @@
     <section class="method-card"><h2>What is this?</h2><p>Run Value = Σ[Raw Run Value − 리그 평균 Run Value(볼카운트, 상대 위치)] · 양수일수록 타자에게 유리합니다.</p></section>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="profile.js?v=20261003-1"></script>
+  <script src="profile.js?v=20261007-1"></script>
 </body>
 </html>
