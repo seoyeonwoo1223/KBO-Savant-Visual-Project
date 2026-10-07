@@ -254,3 +254,11 @@ table td { border-color: var(--kbo-line); }
 .method-card { margin-top: 28px; padding: 22px; border-left: 5px solid var(--kbo-line); background: #fff; color: #17263a; font: 400 1rem Arial, sans-serif; text-align: left; }
 .method-card h2 { margin: 0 0 9px; color: #17263a; font: 700 1.1rem Arial, sans-serif; letter-spacing: normal; text-transform: none; }
 .method-card p { max-width: 980px; margin: 7px 0; color: #515960; font-size: 1rem; line-height: 1.55; }
+/* site-header.js가 제목 블록에 붙이는 "What is this?" 버튼과 접힌 설명 카드 */
+.about-toggle { display: inline-flex; align-items: center; gap: 7px; margin: 12px 0 0; padding: 6px 11px 6px 7px; border: 1px solid var(--kbo-line-strong); border-radius: 999px; background: #fff; color: var(--kbo-navy); font: 700 .8rem/1.2 Arial, Helvetica, sans-serif; cursor: pointer; }
+.about-toggle span { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--kbo-navy); color: #fff; font: italic 700 .72rem/1 Georgia, serif; }
+.about-toggle:hover, .about-toggle[aria-expanded="true"] { border-color: var(--kbo-navy); background: #eef4fa; }
+.method-card.method-card--collapsible { margin: -10px 0 26px; }
+.method-card--collapsible > h2:first-child { display: none; }
+.method-card--collapsible > h2:first-child + * { margin-top: 0; }
+.thumbnail-mode .about-toggle, .thumbnail-mode .method-card { display: none; }

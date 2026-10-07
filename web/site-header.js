@@ -50,4 +50,29 @@
     </header>
     <div class="site-nav-bar"><nav class="site-nav" aria-label="도구">${links}</nav></div>`
   );
+
+  // "What is this?" 설명(.method-card)은 기본으로 접고, 제목 블록의 버튼으로 엽니다.
+  // 카드는 제목 바로 아래로 옮기며 id는 그대로라 페이지 JS가 채우는 문단도 유지됩니다.
+  document.addEventListener("DOMContentLoaded", () => {
+    const title = document.querySelector("main .page-title");
+    const card = document.querySelector("main .method-card");
+    if (!title || !card) return;
+    card.id ||= "about-panel";
+    card.classList.add("method-card--collapsible");
+    card.hidden = true;
+    title.after(card);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "about-toggle";
+    button.setAttribute("aria-expanded", "false");
+    button.setAttribute("aria-controls", card.id);
+    button.innerHTML = '<span aria-hidden="true">i</span>What is this?';
+    button.addEventListener("click", () => {
+      const open = card.hidden;
+      card.hidden = !open;
+      button.setAttribute("aria-expanded", String(open));
+    });
+    // 제목 블록 안에 시즌 선택 등이 나란히 있는 페이지도 있으므로 h1 옆(같은 부모)에 둡니다.
+    (title.querySelector("h1")?.parentElement || title).append(button);
+  });
 })();
