@@ -5,7 +5,7 @@ const labels = { batting:"타격 · 기본", "batting-advanced":"타격 · 확�
 const coloredMetrics = new Set(["WAR", "oWAR", "OAA"]);
 const isColoredColumn = column => coloredMetrics.has(column.key) || /(?:^|\s)OAA$/.test(column.label);
 const hiddenColumns = {
-  batting: new Set(["whiff%", "chase%", "WPA", "RE24", "REW", "RC27"]),
+  batting: new Set(["whiff%", "chase%", "WPA", "RE24", "REW", "RC27", "PF", "wOBA", "SB_Runs", "CS", "HBP", "IB", "GDP", "SF"]),
   "batting-advanced": new Set(["WPA", "RE24", "RC27", "REW", "whiff%", "chase%"]),
 };
 const normalize = value => String(value ?? "").replace(/\s+/g, "").toLowerCase();
