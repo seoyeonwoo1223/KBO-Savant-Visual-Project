@@ -1,0 +1,230 @@
+{
+  "passed": true,
+  "peer_commit": "53ec40c37c85139e346e27d50226e5c8e9ae4356",
+  "rows": 2295,
+  "players": 963,
+  "monthly_rows": 253,
+  "monthly_players": 179,
+  "KBO_FF100_rows": 195,
+  "independent_normal_equation_models": 106,
+  "checked_numeric_values": 5593,
+  "maximum_absolute_difference": 4.121147867408581e-13,
+  "inner_splits": [
+    {
+      "outer": 0,
+      "inner": 0,
+      "training_players": 587,
+      "validation_players": 183,
+      "player_overlap": 0
+    },
+    {
+      "outer": 0,
+      "inner": 1,
+      "training_players": 579,
+      "validation_players": 191,
+      "player_overlap": 0
+    },
+    {
+      "outer": 0,
+      "inner": 2,
+      "training_players": 581,
+      "validation_players": 189,
+      "player_overlap": 0
+    },
+    {
+      "outer": 0,
+      "inner": 3,
+      "training_players": 563,
+      "validation_players": 207,
+      "player_overlap": 0
+    },
+    {
+      "outer": 1,
+      "inner": 0,
+      "training_players": 582,
+      "validation_players": 188,
+      "player_overlap": 0
+    },
+    {
+      "outer": 1,
+      "inner": 1,
+      "training_players": 580,
+      "validation_players": 190,
+      "player_overlap": 0
+    },
+    {
+      "outer": 1,
+      "inner": 2,
+      "training_players": 574,
+      "validation_players": 196,
+      "player_overlap": 0
+    },
+    {
+      "outer": 1,
+      "inner": 3,
+      "training_players": 574,
+      "validation_players": 196,
+      "player_overlap": 0
+    },
+    {
+      "outer": 2,
+      "inner": 0,
+      "training_players": 587,
+      "validation_players": 183,
+      "player_overlap": 0
+    },
+    {
+      "outer": 2,
+      "inner": 1,
+      "training_players": 572,
+      "validation_players": 198,
+      "player_overlap": 0
+    },
+    {
+      "outer": 2,
+      "inner": 2,
+      "training_players": 584,
+      "validation_players": 186,
+      "player_overlap": 0
+    },
+    {
+      "outer": 2,
+      "inner": 3,
+      "training_players": 567,
+      "validation_players": 203,
+      "player_overlap": 0
+    },
+    {
+      "outer": 3,
+      "inner": 0,
+      "training_players": 593,
+      "validation_players": 178,
+      "player_overlap": 0
+    },
+    {
+      "outer": 3,
+      "inner": 1,
+      "training_players": 576,
+      "validation_players": 195,
+      "player_overlap": 0
+    },
+    {
+      "outer": 3,
+      "inner": 2,
+      "training_players": 578,
+      "validation_players": 193,
+      "player_overlap": 0
+    },
+    {
+      "outer": 3,
+      "inner": 3,
+      "training_players": 566,
+      "validation_players": 205,
+      "player_overlap": 0
+    },
+    {
+      "outer": 4,
+      "inner": 0,
+      "training_players": 591,
+      "validation_players": 180,
+      "player_overlap": 0
+    },
+    {
+      "outer": 4,
+      "inner": 1,
+      "training_players": 577,
+      "validation_players": 194,
+      "player_overlap": 0
+    },
+    {
+      "outer": 4,
+      "inner": 2,
+      "training_players": 575,
+      "validation_players": 196,
+      "player_overlap": 0
+    },
+    {
+      "outer": 4,
+      "inner": 3,
+      "training_players": 570,
+      "validation_players": 201,
+      "player_overlap": 0
+    }
+  ],
+  "recalibration_params": [
+    {
+      "fold": 0,
+      "a": -0.45318499800283263,
+      "b": 1.0115070813398856
+    },
+    {
+      "fold": 1,
+      "a": -0.28528763058181994,
+      "b": 1.0087158031436187
+    },
+    {
+      "fold": 2,
+      "a": -0.14956710649407512,
+      "b": 1.0047976031330892
+    },
+    {
+      "fold": 3,
+      "a": 0.02298664296126418,
+      "b": 0.9993332281675308
+    },
+    {
+      "fold": 4,
+      "a": -0.13714334761126423,
+      "b": 1.0058296656953134
+    }
+  ],
+  "registered_mean_reversion_rule_satisfied": false,
+  "registered_compression_rule_satisfied": false,
+  "Bonferroni16_quantiles": [
+    0.0015625,
+    0.9984375
+  ],
+  "bootstrap_draws_expected_in_each_Bonferroni_tail": 3.125,
+  "baseline_provenance": {
+    "SI_month_rows": 63,
+    "SI_month_players": 47,
+    "overlap_fixed_cohort_rows": 23,
+    "overlap_fixed_cohort_players": 17,
+    "fixed_cohort_rows": 1095,
+    "fixed_cohort_players": 518,
+    "flag_meaning": "shared historical fixed cohort used by R2; no v1 training membership assertion in committed inputs",
+    "v1_training_overlap_23_rows_verified": false,
+    "v1_model_has_training_player_registry": false,
+    "v1_angle_features": [
+      "height_m",
+      "release_height_over_height",
+      "arm_side_release_over_height",
+      "left_hand"
+    ],
+    "v1_full_player_separation_verified": false,
+    "SI_month_path_metrics": {
+      "reference": {
+        "MAE": 5.098489864911427,
+        "bias": 3.8761657217284613,
+        "downside": 0.6111620715914823
+      },
+      "SI_physics": {
+        "MAE": 4.294973994444514,
+        "bias": 0.9240147491648939,
+        "downside": 1.6854796226398103
+      }
+    },
+    "both_monthly_paths_have_positive_population_bias": true
+  },
+  "registration_integrity": {
+    "CL1_gates_unchanged": true,
+    "original_registered_gates_byte_prefix_preserved": true,
+    "original_package_lock_changed": [
+      "gates.md"
+    ],
+    "original_SHA_verification_requires_pinned_661a5c02": true
+  },
+  "KBO_reference_angles_used": false,
+  "new_confirmation": false,
+  "operational_changed": false
+}

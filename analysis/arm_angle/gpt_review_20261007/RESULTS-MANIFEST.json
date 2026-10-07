@@ -1,0 +1,37 @@
+{
+  "scope": "0003 고정 진단 검산·해석 응답",
+  "peer_commit": "53ec40c37c85139e346e27d50226e5c8e9ae4356",
+  "candidate_selected": false,
+  "operational_changed": false,
+  "new_confirmation": false,
+  "files": {
+    "MLB_independent_predictions.parquet": {
+      "sha256": "ce3d70510286cef27cbc86f141a908197a40fc74c2425127564096071612c44a",
+      "bytes": 454786
+    },
+    "README.md": {
+      "sha256": "349943eaaa0fd2bda0960ee5a1fdf8047fc4850e06260847ff36906e18bf0da7",
+      "bytes": 9069
+    },
+    "monthly_independent_predictions.parquet": {
+      "sha256": "9be7e0cbe2799c7ae81bc299be1d724bc810ef8e9fb8f9dadc48ecbed8db43f8",
+      "bytes": 58421
+    },
+    "reproduction.json": {
+      "sha256": "693d2d4e7f04513a70899e38e007839cae82dacc2f66e546c8f014f5cdd7bbc8",
+      "bytes": 1117
+    },
+    "source_manifest.json": {
+      "sha256": "88c0cbca7e825999afe0cc925f9a4138e6aafc45458be725fcca34fda04889bb",
+      "bytes": 5631
+    },
+    "verification.json": {
+      "sha256": "72615bcc2f1da7c89af5b4fd81d4ba49aa962a9ca96021cb04c628a8dd2f6c61",
+      "bytes": 5228
+    },
+    "verify_cl1.py": {
+      "sha256": "0ced5841c6b09e7daa08f61ce8221bb83e99719e2ae9050333a7ff646b3c013b",
+      "bytes": 15790
+    }
+  }
+}

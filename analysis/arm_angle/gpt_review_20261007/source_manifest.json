@@ -1,0 +1,122 @@
+{
+  "peer_commit": "53ec40c37c85139e346e27d50226e5c8e9ae4356",
+  "input_scope": "확보 코드·캐시·운영 모델; 과거 전체 원문 아님",
+  "files": {
+    "analysis/arm_angle/claude_review_20261007/CL1_results.json": {
+      "sha256": "2f82bbc5d37e967844e9964f596113a62cad2d43f7482728e6b6bdcd3bb9821c",
+      "bytes": 196012
+    },
+    "analysis/arm_angle/claude_review_20261007/CL1_variable_screen.csv": {
+      "sha256": "ab5864b58fe4eaaa0b124deb70d5203e1f54c7c9a12ad7f2344a372bac7be755",
+      "bytes": 7784
+    },
+    "analysis/arm_angle/claude_review_20261007/KBO_FF_input_shift.csv": {
+      "sha256": "d0036fa6ddba6d25a46cbcf003183f915438d450c42219d887a62f53653cb027",
+      "bytes": 1483
+    },
+    "analysis/arm_angle/claude_review_20261007/KBO_clip_sensitivity.json": {
+      "sha256": "6e7e2887db1271dc6a2a809adbe9282b4449a0ae3cde8a58ff19f39f79b42b25",
+      "bytes": 1827
+    },
+    "analysis/arm_angle/claude_review_20261007/README.md": {
+      "sha256": "cdeec920e559c459504762fc3c95394d30853c56431d3f3b5d897073a25fad41",
+      "bytes": 3552
+    },
+    "analysis/arm_angle/claude_review_20261007/gates.md": {
+      "sha256": "073bf23f5a733f9199060ad2f31cab0d57790396033010d64ed35dbc821223ad",
+      "bytes": 4536
+    },
+    "analysis/arm_angle/claude_review_20261007/kbo_input_shift.py": {
+      "sha256": "306660a5c71befd14362fbded49e9a79eacc6510e9ea9f811894e19e68ab3e0c",
+      "bytes": 2551
+    },
+    "analysis/arm_angle/claude_review_20261007/run_cl1.py": {
+      "sha256": "5370bab2c5e9b55b3c65047e30c08358f16e13436e63c47f1eaf9430a743a53f",
+      "bytes": 8614
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/gates.md": {
+      "sha256": "35da360831d9268268fd1be4285c3f22e1c95f8ab87c416da0736f84c2bea428",
+      "bytes": 8396
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/July2025_reused_predictions_reference.parquet": {
+      "sha256": "ffe790bee9b09581ac530b3d52dce1430f350638b2c17d6d0a11b4a125d02b5e",
+      "bytes": 5506
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/July_inputs.parquet": {
+      "sha256": "86b7af80f1b114504c07e6acccba49544eb774d3c3562b31975f0e3f3823fa37",
+      "bytes": 162856
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/July_references.parquet": {
+      "sha256": "22f0af111b8b00efe24a43dbe74c5bff41dd2f984d4b4864b3d80740c4342376",
+      "bytes": 14511
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/July_targets.parquet": {
+      "sha256": "a524a198fb087724dd2a4577215a6c2fcc121498452a9f348e9fe04319c0c4e3",
+      "bytes": 10806
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/KBO2026_predictions_reference.parquet": {
+      "sha256": "571cc7e13212ac11e5e61e120cafc658add1acb807af894533ea4c8ba0968cc5",
+      "bytes": 7510
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/KBO_FF100_inputs.parquet": {
+      "sha256": "15ada81d3ac61dfa9d669e94b97c84c9161f10e24a2efda0c523b71aeaec140a",
+      "bytes": 76219
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/KBO_all_inputs.parquet": {
+      "sha256": "d547b852efe830a2b150590f04dc4c24a142c5765c40b193ea53d446cd0979ad",
+      "bytes": 84829
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/KBO_all_references.parquet": {
+      "sha256": "202912d0973a52a2e4a681057b8489aaa2e616edf33d7c9bf1cce6b3d033a52c",
+      "bytes": 11092
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/KBO_fallback_reference.csv": {
+      "sha256": "8374bde473bcdc763d76562122a7a5cac7f73b8a81a1522b1871d18a1b050303",
+      "bytes": 4205
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/MLB_OOF_predictions_reference.parquet": {
+      "sha256": "ca39fe305b2157af884949973049f0e3ae701c0f84e957f33e08c40d46277797",
+      "bytes": 55260
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/MLB_inputs.parquet": {
+      "sha256": "564dfdf6a4351df2ee9a7f50e12bb7c6c10914800b1967ca404bc900f75f136b",
+      "bytes": 637736
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/MLB_targets.parquet": {
+      "sha256": "9d8423920643fee328da2da9aefc979fec875a7cb41e8059e593186cb93c8a1b",
+      "bytes": 39638
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/May2025_reused_predictions_reference.parquet": {
+      "sha256": "4c1ab5f7c74b7445569aa94d811b0181c47db2dd2de49991aa10769f3da41fa0",
+      "bytes": 6397
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/May_inputs.parquet": {
+      "sha256": "02780df519cf204a962e43b93fa04e8e4aa42c080e956412d4fd0410a9ba4b25",
+      "bytes": 165755
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/May_references.parquet": {
+      "sha256": "912538dbf00f22b96f3cc07af9db74008944cec7e09412f192f3cfbdc6761386",
+      "bytes": 14802
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/May_targets.parquet": {
+      "sha256": "6ecf15056ece08eecf02593747edbabe0902ab1d30425ed0acd85cac63c6f031",
+      "bytes": 11038
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/frozen_helpers.zip": {
+      "sha256": "53c7f4fd030149e0506c64e39a92ea54b26a1688a1feaf48d2af22fdba2233f4",
+      "bytes": 212957
+    },
+    "analysis/arm_angle/sinker_anchor_20261007/inputs/source_manifest.json": {
+      "sha256": "6cc140b7657fb25da9a3ac3f5fca75d97062a922eb0ca29e424b17a1970ef02c",
+      "bytes": 16246
+    },
+    "data/models/estimated_arm_angle_v1.json": {
+      "sha256": "6695de52ba928e7bf0b15ad704cfc6f344ff7e07a8469296c23d8b1fddfd3c9b",
+      "bytes": 8172
+    },
+    "data/models/estimated_arm_angle_v3.json": {
+      "sha256": "484c6de37dc835f7551e69dbaa8550fe54bf6a086ec3483898140eee907ae84b",
+      "bytes": 20111
+    }
+  }
+}

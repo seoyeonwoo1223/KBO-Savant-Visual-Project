@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "isolated_scratch_worktree": true,
+  "peer_commit": "53ec40c37c85139e346e27d50226e5c8e9ae4356",
+  "commands": [
+    {
+      "script": "run_cl1.py",
+      "exit_code": 0,
+      "stdout": "CL1_DONE 2295 963 253 0.0"
+    },
+    {
+      "script": "kbo_input_shift.py",
+      "exit_code": 0
+    }
+  ],
+  "exact_outputs": {
+    "CL1_results.json": {
+      "byte_identical": true,
+      "sha256": "2f82bbc5d37e967844e9964f596113a62cad2d43f7482728e6b6bdcd3bb9821c",
+      "bytes": 196012
+    },
+    "CL1_variable_screen.csv": {
+      "byte_identical": true,
+      "sha256": "ab5864b58fe4eaaa0b124deb70d5203e1f54c7c9a12ad7f2344a372bac7be755",
+      "bytes": 7784
+    },
+    "KBO_FF_input_shift.csv": {
+      "byte_identical": true,
+      "sha256": "d0036fa6ddba6d25a46cbcf003183f915438d450c42219d887a62f53653cb027",
+      "bytes": 1483
+    },
+    "KBO_clip_sensitivity.json": {
+      "byte_identical": true,
+      "sha256": "6e7e2887db1271dc6a2a809adbe9282b4449a0ae3cde8a58ff19f39f79b42b25",
+      "bytes": 1827
+    }
+  },
+  "peer_files_modified_in_research_branch": false,
+  "new_confirmation": false
+}
