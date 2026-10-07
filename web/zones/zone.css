@@ -12,7 +12,8 @@ button { border-color: #0f4471; background: #0f4471; color: #fff; font-weight: 7
 .matches { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 .matches:not(:empty) { margin-top: 10px; }
 .matches button { height: 34px; background: #fff; color: #0f4471; }
-.profile { margin-top: 24px; }
+.search-panel #message:empty { display: none; }
+.profile { margin-top: 12px; }
 .profile-title { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 18px; }
 h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -.045em; }
 #profile-meta { margin: 0; color: #666; font-size: .86rem; }

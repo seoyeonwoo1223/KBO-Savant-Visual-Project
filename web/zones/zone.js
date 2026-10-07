@@ -148,7 +148,7 @@ async function openPlayer(player, year, role, replaceUrl = true) {
   $("#profile").hidden = false;
   $("#player-name").textContent = state.payload.player.name;
   $("#profile-season").textContent = `${year} KBO · ${role === "batter" ? "BATTER" : "PITCHER"}`;
-  $("#profile-meta").textContent = `${player.pitches.toLocaleString()}개 위치 표본 · ${state.payload.source}`;
+  $("#profile-meta").textContent = `${player.pitches.toLocaleString()}개 위치 표본`;
   const layout = columns();
   const types = [...new Set(state.payload.records.map(row => row[layout.pitchType]))].sort();
   $("#pitch-type").innerHTML = `<option value="">전체 구종</option>${types.map(type => `<option>${type}</option>`).join("")}`;
