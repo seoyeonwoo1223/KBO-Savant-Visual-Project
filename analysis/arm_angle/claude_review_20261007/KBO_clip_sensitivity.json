@@ -1,0 +1,68 @@
+{
+  "rows": 195,
+  "model": "FF anchor fixed on all MLB 2295 rows",
+  "KBO_reference_angles_used": false,
+  "registered": false,
+  "sensitivity": {
+    "ff_movement_size_m": {
+      "rows_changed": 75,
+      "mean_delta_all": -0.7186679879797147,
+      "mean_delta_changed": -1.8685367687472585,
+      "q10_50_90_changed": [
+        -4.506896868830557,
+        -1.3015748300836947,
+        -0.3405691479273084
+      ]
+    },
+    "ff_flight55_to_plate": {
+      "rows_changed": 18,
+      "mean_delta_all": 0.8993974938826017,
+      "mean_delta_changed": 9.743472850394852,
+      "q10_50_90_changed": [
+        1.8305729655831158,
+        9.440282370301556,
+        17.438410242977152
+      ]
+    },
+    "ff_speed55": {
+      "rows_changed": 19,
+      "mean_delta_all": -0.7615571267947832,
+      "mean_delta_changed": -7.815981038156985,
+      "q10_50_90_changed": [
+        -15.664985101326952,
+        -6.288826829524602,
+        -0.5130084050940298
+      ]
+    },
+    "height_m": {
+      "rows_changed": 13,
+      "mean_delta_all": 0.004513891713812695,
+      "mean_delta_changed": 0.06770837570719042,
+      "q10_50_90_changed": [
+        -0.0008735311010667577,
+        0.023296685541993156,
+        0.19378150117270404
+      ]
+    },
+    "ff_movement_size_m+ff_flight55_to_plate+ff_speed55+height_m": {
+      "rows_changed": 92,
+      "mean_delta_all": -0.5540697335278306,
+      "mean_delta_changed": -1.1743869351948586,
+      "q10_50_90_changed": [
+        -3.673101428760514,
+        -0.8402032888822184,
+        0.30660923889724456
+      ]
+    },
+    "all_FF11": {
+      "rows_changed": 94,
+      "mean_delta_all": -0.327626161900172,
+      "mean_delta_changed": -0.6796500167078038,
+      "q10_50_90_changed": [
+        -3.826822863456337,
+        -0.7803801325242681,
+        0.7956811232889717
+      ]
+    }
+  }
+}
