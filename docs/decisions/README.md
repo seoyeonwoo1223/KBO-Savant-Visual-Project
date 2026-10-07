@@ -38,6 +38,7 @@
 | [0019](0019-swing-take-mobile-loading.md) | 모바일 Swing/Take 로딩 표시에서 완성 이미지로 전환 | 웹·하네스 |
 
 | [0020](0020-leaderboard-pagination.md) | 리더보드 열 정렬·번호 페이지·색 대비 | 웹 |
+| [0021](0021-conditional-finder.md) | Conditional Finder 투구 단위 검색·날짜 파일·영상 연결 | 웹·데이터 |
 
 ### 다른 곳에 있는 결정·근거
 

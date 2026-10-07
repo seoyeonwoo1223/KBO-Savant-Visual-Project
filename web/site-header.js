@@ -14,6 +14,7 @@
     ["zone-awareness/", "Approach"],
     ["pitch-arsenal/", "Pitch Plot"],
     ["movement-zones/", "Movement Zones"],
+    ["conditional-finder/", "Conditional Finder"],
     ["blocking/", "Blocking"],
   ];
   // 자체 인덱스가 없는 하위 페이지를 상위 도구에 매핑합니다.

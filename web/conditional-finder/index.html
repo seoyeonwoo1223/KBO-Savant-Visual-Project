@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="KBO 투수·타자의 구종, 구속, 카운트, 이벤트 조건으로 경기와 타석을 찾습니다.">
+  <title>KBO Conditional Finder</title>
+  <link rel="stylesheet" href="conditional-finder.css?v=20261008-1">
+  <link rel="stylesheet" href="../theme.css?v=20261007-1">
+  <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
+</head>
+<body>
+  <script src="../site-header.js?v=20261008-1"></script>
+  <main class="site-main">
+    <header class="page-title">
+      <p class="eyebrow">PITCH &amp; PLATE APPEARANCE SEARCH</p>
+      <h1>Conditional Finder</h1>
+      <p>기억하는 투구·타격 조건으로 경기와 타석 찾기</p>
+    </header>
+
+    <section class="search-panel" aria-labelledby="finder-search-title">
+      <div class="search-heading">
+        <h2 id="finder-search-title">Pitcher Search</h2>
+        <div class="search-pickers">
+          <label class="search-picker">시즌<select id="season" aria-label="시즌" disabled></select></label>
+        </div>
+      </div>
+      <div class="finder-modes" role="group" aria-label="검색 기준">
+        <button type="button" data-role="pitcher" aria-pressed="true">투수의 공 찾기</button>
+        <button type="button" data-role="batter" aria-pressed="false">타자의 장면 찾기</button>
+      </div>
+      <form id="finder-form" role="search" aria-busy="true">
+        <fieldset id="finder-fields" class="finder-fields" disabled>
+          <div class="player-search">
+            <label id="player-label" for="player">투수 이름</label>
+            <input id="player" type="search" list="player-options" autocomplete="off" placeholder="이름 입력 · 비워두면 전체 선수">
+            <button type="submit" id="search-button">조건 검색</button>
+          </div>
+          <datalist id="player-options"></datalist>
+          <datalist id="opponent-options"></datalist>
+          <p class="finder-hint">선수 이름을 입력해 목록에서 고르거나, 아래 조건만으로 검색할 수 있습니다.</p>
+          <div class="finder-grid">
+            <label class="finder-field"><span id="opponent-label">상대 타자</span><input id="opponent" type="search" list="opponent-options" autocomplete="off" placeholder="전체"></label>
+            <label class="finder-field">시작일<input id="date-from" type="date"></label>
+            <label class="finder-field">종료일<input id="date-to" type="date"></label>
+            <label class="finder-field">최소 구속 (km/h)<input id="velocity-min" type="number" step="0.1" min="0" max="200" placeholder="제한 없음"></label>
+            <label class="finder-field">최대 구속 (km/h)<input id="velocity-max" type="number" step="0.1" min="0" max="200" placeholder="제한 없음"></label>
+            <label class="finder-field">투구 전 볼<select id="balls"><option value="">전체</option><option value="0">0볼</option><option value="1">1볼</option><option value="2">2볼</option><option value="3">3볼</option></select></label>
+            <label class="finder-field">투구 전 스트라이크<select id="strikes"><option value="">전체</option><option value="0">0스트라이크</option><option value="1">1스트라이크</option><option value="2">2스트라이크</option></select></label>
+            <label class="finder-field">타자 행동<select id="action"><option value="">전체</option><option value="take">Take · 지켜봄</option><option value="swing">Swing · 스윙</option></select></label>
+          </div>
+          <fieldset class="finder-options"><legend>구종 <span>복수 선택 가능</span></legend><div id="pitch-types" class="finder-chips"></div></fieldset>
+          <fieldset class="finder-options"><legend>투구 판정 <span>선택한 판정 중 하나</span></legend><div id="pitch-calls" class="finder-chips">
+            <label><input type="checkbox" name="call" value="B"><span>볼</span></label>
+            <label><input type="checkbox" name="call" value="T"><span>Called strike · 루킹</span></label>
+            <label><input type="checkbox" name="call" value="S"><span>Swing strike · 헛스윙</span></label>
+            <label><input type="checkbox" name="call" value="F"><span>파울</span></label>
+            <label><input type="checkbox" name="call" value="W"><span>번트 파울</span></label>
+            <label><input type="checkbox" name="call" value="X"><span>인플레이</span></label>
+          </div></fieldset>
+          <fieldset class="finder-options"><legend>타석 결과 <span>선택한 결과 중 하나</span></legend><div id="pa-outcomes" class="finder-chips">
+            <label><input type="checkbox" name="outcome" value="hit"><span>안타 전체</span></label>
+            <label><input type="checkbox" name="outcome" value="single"><span>단타</span></label>
+            <label><input type="checkbox" name="outcome" value="double"><span>2루타</span></label>
+            <label><input type="checkbox" name="outcome" value="triple"><span>3루타</span></label>
+            <label><input type="checkbox" name="outcome" value="home_run"><span>홈런</span></label>
+            <label><input type="checkbox" name="outcome" value="strikeout"><span>삼진</span></label>
+            <label><input type="checkbox" name="outcome" value="walk"><span>볼넷</span></label>
+            <label><input type="checkbox" name="outcome" value="intentional_walk"><span>고의사</span></label>
+            <label><input type="checkbox" name="outcome" value="hbp"><span>사구</span></label>
+            <label><input type="checkbox" name="outcome" value="out"><span>아웃</span></label>
+            <label><input type="checkbox" name="outcome" value="error"><span>실책</span></label>
+            <label><input type="checkbox" name="outcome" value="fielders_choice"><span>야수선택</span></label>
+            <label><input type="checkbox" name="outcome" value="sacrifice"><span>희생타</span></label>
+          </div></fieldset>
+          <label class="finder-toggle"><input id="all-pa-pitches" type="checkbox"> 선택한 결과로 끝난 타석의 모든 투구 포함</label>
+          <p class="finder-hint">기본값은 결과를 만든 마지막 공입니다. 전체 투구를 포함해도 구종·구속·카운트·판정 조건은 각 공에 적용됩니다.</p>
+          <details class="finder-advanced"><summary>경기·이닝 조건 더 보기</summary>
+            <div class="finder-grid">
+              <label class="finder-field">상대 팀<select id="team"><option value="">전체</option></select></label>
+              <label class="finder-field">구장<select id="stadium"><option value="">전체</option></select></label>
+              <label class="finder-field">이닝<input id="inning" type="number" min="1" max="30" step="1" placeholder="전체"></label>
+              <label class="finder-field">초·말<select id="half"><option value="">전체</option><option value="top">초</option><option value="bottom">말</option></select></label>
+            </div>
+          </details>
+          <div class="finder-actions"><button type="submit" class="finder-primary">조건 검색</button><button id="reset-filters" type="button" class="finder-button">조건 초기화</button></div>
+        </fieldset>
+      </form>
+      <p id="status" class="search-message" role="status" aria-live="polite">선수 목록을 불러오는 중입니다.</p>
+      <div class="finder-recovery"><button id="cancel" class="finder-button" type="button" hidden>검색 취소</button><button id="retry" class="finder-button" type="button" hidden>다시 불러오기</button></div>
+      <p id="coverage" class="finder-coverage"></p>
+    </section>
+
+    <section id="results" class="finder-results" aria-labelledby="results-title" hidden>
+      <div class="finder-result-heading"><div><p class="eyebrow">SEARCH RESULTS</p><h2 id="results-title">검색 결과</h2><p id="result-summary"></p></div>
+        <div class="finder-result-tools"><label class="finder-field">정렬<select id="sort"><option value="newest">날짜 최신순</option><option value="oldest">날짜 오래된순</option><option value="fastest">구속 높은순</option><option value="slowest">구속 낮은순</option></select></label><button id="share" type="button" class="finder-button">검색 링크 복사</button></div>
+      </div>
+      <p id="active-filters" class="finder-active-filters"></p>
+      <div id="result-list" class="finder-result-list"></div>
+      <nav class="finder-pagination" aria-label="검색 결과 페이지"><button id="previous" type="button" class="finder-button">이전</button><span id="page-info"></span><button id="next" type="button" class="finder-button">다음</button></nav>
+    </section>
+    <p id="copy-status" class="finder-copy-status" role="status" aria-live="polite"></p>
+    <textarea id="copy-fallback" class="finder-copy-fallback" aria-label="복사할 내용" readonly hidden></textarea>
+
+    <section class="finder-thumbnail" data-thumbnail-target data-thumbnail-ready="false" aria-label="검색 결과 미리보기"></section>
+
+    <section class="method-card">
+      <h2>What is this?</h2>
+      <p>투수·타자의 구종, 구속, 투구 전 카운트, 타자 행동, 투구 판정, 타석 결과를 조합해 장면을 찾습니다. 같은 항목 안의 복수 선택은 OR, 서로 다른 조건은 AND로 적용됩니다. 안타 전체는 단타·2루타·3루타·홈런을 포함합니다.</p>
+      <p>Take와 Swing은 원자료의 행동 분류를 따릅니다. 번트 파울은 별도 판정으로 찾을 수 있으며, 분류하지 못한 사건은 임의로 스윙이나 아웃으로 바꾸지 않습니다. 구종·구속·카운트가 누락된 공은 해당 조건을 지정했을 때 제외됩니다. 투구가 기록되지 않은 고의사 등은 검색 결과에 나오지 않습니다.</p>
+      <p>타석을 펼치면 조건에 맞지 않는 공도 함께 보여 줍니다. 이닝 내 타석 순서는 투구가 없는 타석도 포함한 원자료 순서이며, 투구 번호는 기록된 공의 순서입니다. 경기·이닝·타석 정보를 복사한 뒤 티빙에서 해당 경기를 찾아보세요. 티빙 버튼은 티빙 홈을 열며, 특정 경기 영상이나 재생 시점으로 바로 이동하지는 않습니다.</p>
+    </section>
+  </main>
+  <script src="conditional-finder.js?v=20261008-1"></script>
+</body>
+</html>

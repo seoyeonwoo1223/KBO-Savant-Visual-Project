@@ -21,6 +21,7 @@ from .plate_discipline import build_plate_discipline
 from .zone_decision import build_zone_decision
 from .arm_angle import build_arm_angle_input
 from .movement_zones import build_movement_zones
+from .conditional_finder import FINDER_SEASONS, build_conditional_finder
 from .curated import normalize_trajectory, pitch_sha256, schema_sha256, source_manifest_path
 from .metric_state import mark_built, needs_build
 from .dataset_summary import build_summary
@@ -90,6 +91,8 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
     build("zone_profiles", lambda: build_zone_profiles(root, season))
     build("pitch_arsenal", lambda: build_pitch_arsenal(root, season))
     build("blocking", lambda: build_blocking(root, season))
+    if season in FINDER_SEASONS:
+        build("conditional_finder", lambda: build_conditional_finder(root, season))
     build_summary(root)
 
 
@@ -101,7 +104,7 @@ def _arguments() -> argparse.ArgumentParser:
     parser.add_argument("--season", type=int, default=2026)
     parser.add_argument("--game-id")
     parser.add_argument("--rebuild-from-raw", action="store_true")
-    parser.add_argument("--only", choices=("zone_decision", "pitch_arsenal", "movement_zones", "leaderboards"),
+    parser.add_argument("--only", choices=("zone_decision", "pitch_arsenal", "movement_zones", "leaderboards", "conditional_finder"),
                         help="Rebuild just this metric for --season from curated data, only when its inputs or code changed.")
     parser.add_argument("--exports-only", action="store_true",
                         help="Rebuild exports from the curated data already on disk; no network fetch.")
@@ -142,6 +145,10 @@ def _build_only(parser: argparse.ArgumentParser, args, root: Path) -> None:
         if args.season not in PITCH_ARSENAL_SEASONS:
             parser.error("--only pitch_arsenal covers the Pitch Plot seasons 2022-2026")
         _build_metric(root, args.season, "pitch_arsenal", lambda: build_pitch_arsenal(root, args.season))
+    elif args.only == "conditional_finder":
+        if args.season not in FINDER_SEASONS:
+            parser.error("--only conditional_finder는 2022–2026 시즌을 지원합니다.")
+        _build_metric(root, args.season, "conditional_finder", lambda: build_conditional_finder(root, args.season))
 
 
 def _run_offline(args, root: Path, storage_root: Path) -> bool:
