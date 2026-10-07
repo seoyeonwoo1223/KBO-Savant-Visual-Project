@@ -1,0 +1,138 @@
+{
+  "common_rows": 184,
+  "reference": {
+    "all": {
+      "rows": 184,
+      "players": 108,
+      "players_under20": false,
+      "MAE": 3.538793460480141,
+      "bias": -0.9868821129206843,
+      "downside": 2.2628377867004126,
+      "upside": 1.2759556737797282,
+      "downside_tail20": 6.374521078672689
+    },
+    "FF": {
+      "rows": 0,
+      "players": 0,
+      "players_under20": true
+    },
+    "SI": {
+      "rows": 184,
+      "players": 108,
+      "players_under20": false,
+      "MAE": 3.538793460480141,
+      "bias": -0.9868821129206843,
+      "downside": 2.2628377867004126,
+      "upside": 1.2759556737797282,
+      "downside_tail20": 6.374521078672689
+    },
+    "SI_IVB_le10": {
+      "rows": 138,
+      "players": 81,
+      "players_under20": false,
+      "MAE": 3.3526972455819597,
+      "bias": -1.0991990458312315,
+      "downside": 2.2259481457065955,
+      "upside": 1.126749099875364,
+      "downside_tail20": 6.155744508462312
+    },
+    "FF100": {
+      "rows": 184,
+      "players": 108,
+      "players_under20": false,
+      "MAE": 3.538793460480141,
+      "bias": -0.9868821129206843,
+      "downside": 2.2628377867004126,
+      "upside": 1.2759556737797282,
+      "downside_tail20": 6.374521078672689
+    },
+    "FFlow": {
+      "rows": 0,
+      "players": 0,
+      "players_under20": true
+    },
+    "high60": {
+      "rows": 0,
+      "players": 0,
+      "players_under20": true
+    },
+    "low20": {
+      "rows": 9,
+      "players": 7,
+      "players_under20": true,
+      "MAE": 2.3669519693933583,
+      "bias": 0.45001407270230487,
+      "downside": 0.9584689483455268,
+      "upside": 1.4084830210478316,
+      "downside_tail20": 2.1129752411721325
+    }
+  },
+  "candidate": {
+    "all": {
+      "rows": 184,
+      "players": 108,
+      "players_under20": false,
+      "MAE": 3.5912795331987586,
+      "bias": -0.07113875313235976,
+      "downside": 1.831209143165559,
+      "upside": 1.7600703900331993,
+      "downside_tail20": 6.382185750587484
+    },
+    "FF": {
+      "rows": 0,
+      "players": 0,
+      "players_under20": true
+    },
+    "SI": {
+      "rows": 184,
+      "players": 108,
+      "players_under20": false,
+      "MAE": 3.5912795331987586,
+      "bias": -0.07113875313235976,
+      "downside": 1.831209143165559,
+      "upside": 1.7600703900331993,
+      "downside_tail20": 6.382185750587484
+    },
+    "SI_IVB_le10": {
+      "rows": 138,
+      "players": 81,
+      "players_under20": false,
+      "MAE": 3.6126137656589417,
+      "bias": -0.5293832871973708,
+      "downside": 2.0709985264281565,
+      "upside": 1.5416152392307858,
+      "downside_tail20": 6.893788739380315
+    },
+    "FF100": {
+      "rows": 184,
+      "players": 108,
+      "players_under20": false,
+      "MAE": 3.5912795331987586,
+      "bias": -0.07113875313235976,
+      "downside": 1.831209143165559,
+      "upside": 1.7600703900331993,
+      "downside_tail20": 6.382185750587484
+    },
+    "FFlow": {
+      "rows": 0,
+      "players": 0,
+      "players_under20": true
+    },
+    "high60": {
+      "rows": 0,
+      "players": 0,
+      "players_under20": true
+    },
+    "low20": {
+      "rows": 9,
+      "players": 7,
+      "players_under20": true,
+      "MAE": 4.06936545521579,
+      "bias": 3.8683680967841876,
+      "downside": 0.10049867921580154,
+      "upside": 3.9688667759999885,
+      "downside_tail20": 0.35174537725530536
+    }
+  },
+  "shared_cohort": true
+}

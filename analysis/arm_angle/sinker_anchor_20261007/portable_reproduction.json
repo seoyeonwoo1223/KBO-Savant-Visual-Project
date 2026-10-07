@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "standalone_research_worktree_reproduction": true,
+  "exact_prediction_tables": {
+    "MLB_sinker_predictions.parquet": 198,
+    "May_sinker_predictions.parquet": 30,
+    "July_sinker_predictions.parquet": 33,
+    "MLB_support_predictions.parquet": 2295,
+    "May_support_predictions.csv": 144,
+    "July_support_predictions.csv": 109,
+    "KBO_FF100_support_predictions.csv": 195,
+    "KBO2026_sinker_research.csv": 21
+  },
+  "prior_local_folders_required_for_run": false
+}

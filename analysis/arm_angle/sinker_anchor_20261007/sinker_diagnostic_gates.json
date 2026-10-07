@@ -1,0 +1,32 @@
+{
+  "SI_geometry": {
+    "conditions": {
+      "SI50_support": true,
+      "MAE_gain0p10": false,
+      "downside_gain0p10": false,
+      "abs_bias_margin0p10": true,
+      "low_IVB_support20": true,
+      "low_IVB_downside_gain0p05": true,
+      "low_IVB_abs_bias_margin0p10": true,
+      "high60_support20": false
+    },
+    "high_slot_protection": "판정 불가",
+    "production_eligible": false,
+    "new_confirmation": false
+  },
+  "SI_physics": {
+    "conditions": {
+      "SI50_support": true,
+      "MAE_gain0p10": false,
+      "downside_gain0p10": true,
+      "abs_bias_margin0p10": true,
+      "low_IVB_support20": true,
+      "low_IVB_downside_gain0p05": true,
+      "low_IVB_abs_bias_margin0p10": true,
+      "high60_support20": false
+    },
+    "high_slot_protection": "판정 불가",
+    "production_eligible": false,
+    "new_confirmation": false
+  }
+}

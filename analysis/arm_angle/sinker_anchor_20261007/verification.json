@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "locked_input_and_code_files": 23,
+  "prior_files_SHA_preserved": {
+    "continuation_20261007_research": 48,
+    "primary_pitch_diagnostics_20261007": 56,
+    "conditional_eaa_20261007": 76,
+    "variable_diagnostics_20261007": 84
+  },
+  "independent_metric_values": 2154,
+  "maximum_metric_difference_deg": 3.552713678800501e-15,
+  "independent_paired_values_and_intervals": 2420,
+  "independent_sinker_ridge_models": 12,
+  "maximum_independent_ridge_prediction_difference_deg": 4.973799150320701e-14,
+  "constant_support_drop_reproduce_max_deg": 1.1368683772161603e-12,
+  "monthly_same_player_split": true,
+  "no_target_in_prediction_inputs": true,
+  "high_slot_protection": "판정 불가",
+  "production_changed": false,
+  "new_confirmation": false,
+  "KBO_accuracy_verified": false,
+  "historical_full_raw_verified": false
+}

@@ -1,0 +1,16 @@
+{
+  "report_relative_links_checked": 20,
+  "missing_report_files": [],
+  "plot_visual_review": {
+    "sinker_tradeoffs.png": "passed",
+    "support_group_tradeoffs.png": "passed",
+    "KBO_support_response.png": "passed"
+  },
+  "methodology_tests": {
+    "command": "python -m pytest analysis/arm_angle/sinker_anchor_20261007/test_methodology.py -q",
+    "passed": 4
+  },
+  "portable_prediction_rows": 3025,
+  "locked_code_and_inputs_unchanged": 23,
+  "scope": "문서·표시·기존 검산 결과 연결 확인; 새 모델 실행/확증 아님"
+}

@@ -1,0 +1,32 @@
+{
+  "registered_commit": "542701aff957155e07899fa24c824845f11cb9e1",
+  "code_commit": "b75a1510506d4c26d572cd619a782db3f260144a",
+  "new_model_results_computed": false,
+  "files": {
+    "common.py": "3ea42e253632bc65280d0732fa40f49f93b6bfb84c55b12e227ca9a4f33b2e06",
+    "gates.md": "5f79cc97d9dd3cbedb0ab649be7656f7e4437052fafe9ee0fc59efff2f90f310",
+    "inputs/July2025_reused_predictions_reference.parquet": "ffe790bee9b09581ac530b3d52dce1430f350638b2c17d6d0a11b4a125d02b5e",
+    "inputs/July_inputs.parquet": "86b7af80f1b114504c07e6acccba49544eb774d3c3562b31975f0e3f3823fa37",
+    "inputs/July_references.parquet": "22f0af111b8b00efe24a43dbe74c5bff41dd2f984d4b4864b3d80740c4342376",
+    "inputs/July_targets.parquet": "a524a198fb087724dd2a4577215a6c2fcc121498452a9f348e9fe04319c0c4e3",
+    "inputs/KBO2026_predictions_reference.parquet": "571cc7e13212ac11e5e61e120cafc658add1acb807af894533ea4c8ba0968cc5",
+    "inputs/KBO_FF100_inputs.parquet": "15ada81d3ac61dfa9d669e94b97c84c9161f10e24a2efda0c523b71aeaec140a",
+    "inputs/KBO_all_inputs.parquet": "d547b852efe830a2b150590f04dc4c24a142c5765c40b193ea53d446cd0979ad",
+    "inputs/KBO_all_references.parquet": "202912d0973a52a2e4a681057b8489aaa2e616edf33d7c9bf1cce6b3d033a52c",
+    "inputs/KBO_fallback_reference.csv": "8374bde473bcdc763d76562122a7a5cac7f73b8a81a1522b1871d18a1b050303",
+    "inputs/MLB_OOF_predictions_reference.parquet": "ca39fe305b2157af884949973049f0e3ae701c0f84e957f33e08c40d46277797",
+    "inputs/MLB_inputs.parquet": "564dfdf6a4351df2ee9a7f50e12bb7c6c10914800b1967ca404bc900f75f136b",
+    "inputs/MLB_targets.parquet": "9d8423920643fee328da2da9aefc979fec875a7cb41e8059e593186cb93c8a1b",
+    "inputs/May2025_reused_predictions_reference.parquet": "4c1ab5f7c74b7445569aa94d811b0181c47db2dd2de49991aa10769f3da41fa0",
+    "inputs/May_inputs.parquet": "02780df519cf204a962e43b93fa04e8e4aa42c080e956412d4fd0410a9ba4b25",
+    "inputs/May_references.parquet": "912538dbf00f22b96f3cc07af9db74008944cec7e09412f192f3cfbdc6761386",
+    "inputs/May_targets.parquet": "6ecf15056ece08eecf02593747edbabe0902ab1d30425ed0acd85cac63c6f031",
+    "inputs/frozen_helpers.zip": "53c7f4fd030149e0506c64e39a92ea54b26a1688a1feaf48d2af22fdba2233f4",
+    "inputs/source_manifest.json": "6cc140b7657fb25da9a3ac3f5fca75d97062a922eb0ca29e424b17a1970ef02c",
+    "prepare_inputs.py": "1d0316d09ddfece5d3ca90e484a2dc29b89da94d821a1daba7c4ee91b3a8d124",
+    "run_sinker.py": "d81c98c01837c3c206b0f8dc15ad3793159a2ead9a26e7bee4c18831ecfeca1f",
+    "run_support.py": "f4d7b5669fe39d2fbfd40d46317b45475d2cad2d0603a34ff4234d2b654de09d"
+  },
+  "candidate_selected": false,
+  "periods_all_reused": true
+}
