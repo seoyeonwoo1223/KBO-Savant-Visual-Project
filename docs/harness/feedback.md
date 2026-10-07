@@ -20,7 +20,7 @@
 | 3 | 하네스·문서 링크 | `python -m pytest tests/test_web_contract.py tests/test_docs_links.py` | 1초 | 하네스·문서 변경 |
 | 4 | 영역 테스트 | `PYTHONPATH=src python -m pytest tests/test_<영역>.py` | 수 초 | 코드 변경 |
 | 5 | 전체 테스트 | `PYTHONPATH=src python -m pytest` | 수 분 | PR 전 |
-| 6 | 화면 확인 | `python scripts/serve_web.py` 후 1440px·390px 스크린샷, 390px에서 `scrollWidth == innerWidth` | 수 분 | 화면 변경 |
+| 6 | 화면 확인 | `python scripts/serve_web.py` 후 1440px·390px 전후 스크린샷. 메뉴 하단→제목 블록 시작 간격이 기존 앱과 같은지, `.page-title`의 computed `margin-top`이 0인지 확인. 390px에서 `scrollWidth == innerWidth` | 수 분 | 새 앱 추가·화면 변경 |
 | 7 | 산출물 동일성 | 기준·변경 커밋에서 같은 빌더 실행 후 `web/data`·`data/metrics`·`exports` hash 비교 | 수 분~ | 리팩터링 |
 | 8 | 산출물 게이트 | `PYTHONPATH=src python scripts/check_zone_decision_outputs.py` | 수 초 | 지표 산출물 변경 |
 | 9 | 브라우저 검증 | `python scripts/check_movement_zones.py` (Playwright) | 수 분 | Movement Zones 모델·화면 |

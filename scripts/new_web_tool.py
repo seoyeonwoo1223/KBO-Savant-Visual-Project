@@ -58,7 +58,9 @@ INDEX_TEMPLATE = """<!doctype html>
 
 CSS_TEMPLATE = """/* {title} 전용 레이아웃. theme.css를 뒤에 로드합니다.
    페이지 폭·좌우 여백(main.site-main), 제목 블록(.page-title), 공통 헤더는 theme.css가 정하므로
-   여기서 main이나 header/h1/nav 같은 태그 선택자를 꾸미지 마십시오. 색은 --kbo-* 토큰을 씁니다. */
+   여기서 main이나 header/h1/nav 같은 태그 선택자를 꾸미지 마십시오.
+   .도구명 > .page-title 같은 선택자로 제목 여백을 덮어쓰거나 제목 앞에 빈 공간을 넣지 마십시오.
+   메뉴 아래 간격은 공통 main padding + 제목 margin-top:0을 유지합니다. 색은 --kbo-* 토큰을 씁니다. */
 :root {{ font-family: Arial, Helvetica, sans-serif; }}
 * {{ box-sizing: border-box; }}
 body {{ margin: 0; }}

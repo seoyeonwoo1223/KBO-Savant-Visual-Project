@@ -87,6 +87,7 @@ python -m visualbaseball.zone_decision --seasons 2024 2025 2026      # metric �
 - **공통 규격은 `theme.css`·`site-header.js`가 정합니다.** 도구 CSS에서 `main`·`header`·`nav`·`h1`을 태그 선택자로 꾸미지 않고 도구 전용 클래스를 씁니다. `theme.css`는 페이지 CSS 뒤에 로드합니다(`movement-zones`만 예외).
 - **선수 검색**: `theme.css`의 `.search-heading`·`.search-picker`·`.player-search`·`.search-message`를 씁니다. 안내문구는 `.method-card`("What is this?" 카드)를 씁니다. 페이지 CSS에 같은 규칙을 따로 만들지 않습니다([0012](decisions/0012-shared-player-search.md)).
 - **제목 블록**: `<header class="page-title">` 안에 `.eyebrow`(영문 분류) + `<h1>`(영문, 메뉴 이름과 같게) + 한국어 부제 한 줄. 홈만 제목 블록이 없습니다.
+- **메뉴 아래 시작 간격**: `main.site-main`의 공통 상단 padding(데스크톱 28px·720px 이하 20px)과 `.page-title`의 상단 margin 0을 그대로 씁니다. 도구 CSS에서 `.도구명 > .page-title`처럼 더 구체적인 선택자로 제목의 margin·padding을 덮어쓰거나, 제목 앞에 빈 요소·고정 높이 공간을 넣지 않습니다. `theme.css`를 마지막에 로드해도 선택자 우선순위가 높으면 덮어쓰기가 남습니다. 새 앱 추가·레이아웃 수정 시 1440px·390px에서 기존 앱과 메뉴 하단→제목 블록 시작 간격을 비교합니다.
 - **메뉴·홈 카드·썸네일은 한 몸입니다.** 홈 카드는 `site-header.js`의 `TOOLS`와 같은 순서, 카드 제목은 메뉴 이름과 같습니다. 썸네일은 `scripts/visual_thumbnails.json`에 캡처 설정(`?thumb=1` + `[data-thumbnail-target]`)을 두고 `python scripts/generate_visual_thumbnails.py`로 만듭니다. 썸네일 대상 화면을 바꾸면 다시 만들고 카드 `<img>`의 `?v=`를 올립니다. Blocking 카드만 인라인 SVG입니다.
 - **캐시 버스터**: 모든 로컬 `<link>`·`<script>`·카드 `<img>`에 `?v=YYYYMMDD-N`. 고치면 올립니다. `theme.css`·`site-header.js`는 홈 포함 전 페이지에서 한꺼번에.
 - **기존 시각화의 형태를 유지합니다.** 데이터·코드 변경이 차트 종류·축·배치·라벨을 바꾸지 않게 하고, 화면 변경이 의도일 때만 최소로 바꿉니다.

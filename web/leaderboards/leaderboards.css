@@ -2,7 +2,6 @@
 * { box-sizing:border-box; }
 body { margin:0; color:var(--ink); font-family:Inter, Pretendard, "Noto Sans KR", system-ui, sans-serif; }
 .leaderboard-page { width:min(1500px, calc(100% - 32px)); margin:0 auto; padding:28px 0 48px; }
-.leaderboard-page > .page-title { margin:42px 0 24px; }
 .eyebrow { margin:0 0 6px; color:var(--accent); font-size:.78rem; font-weight:850; letter-spacing:.14em; }
 .page-title h1 { margin:0; font-size:clamp(2rem, 5vw, 3.5rem); letter-spacing:-.05em; }
 .page-title > p:last-child { margin:10px 0 0; color:var(--muted); }
@@ -33,7 +32,6 @@ td.war-cell, tbody tr:hover td.war-cell { background:var(--war-color); font-weig
 .status:empty { display:none; }
 @media (max-width:760px) {
   .leaderboard-page { width:min(100% - 20px, 1500px); padding-top:18px; }
-  .leaderboard-page > .page-title { margin:30px 2px 18px; }
   .controls { grid-template-columns:1fr 1fr; padding:12px; }
   .search-label { grid-column:1 / -1; grid-row:2; }
   .table-meta { align-items:start; padding:15px; }
