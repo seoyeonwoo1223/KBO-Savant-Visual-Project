@@ -24,6 +24,7 @@ TEAM_PARKS = {
     "HAN": "대전", "KIA": "광주", "SAM": "대구", "LOT": "사직", "NC": "창원",
 }
 POSITIONS = {"포": "C", "일": "1B", "이": "2B", "삼": "3B", "유": "SS", "좌": "LF", "중": "CF", "우": "RF", "지": "DH"}
+FIELDING_SEASON_INNINGS = 144 * 9
 POSITION_RUNS = {"C": 10, "1B": -8, "2B": 3, "3B": -1, "SS": 7, "LF": -5, "CF": 3, "RF": -5, "DH": -15}
 
 
@@ -141,6 +142,8 @@ def _aggregate(root: Path, season: int):
         batter.update({"PA": 1, "RBI": pa.get("rbi", 0)})
         batter["name"], batter["team"] = row.batter_name, pa.get("team", "")
         batter_games[batter_id].add(row.game_id)
+        if "지" in str(row.batter_position or "") and str(row.batter_position) != "지":
+            batter_positions[batter_id]["DH_unknown"] += 1
         if pa.get("position"):
             batter_positions[batter_id][pa["position"]] += 1
         _count_result(batter, bases, pa_type, result)
@@ -169,14 +172,30 @@ def _columns(items):
     return [{"key": key, "label": label} for key, label in items]
 
 
-def _batting_rows(stats_by_player, games, positions, rates, constants, season, running=None):
+def _position_adjustment(positions, official, name):
+    """Exact defensive innings plus DH PA; unresolved mixed-DH PA produce bounds."""
+    if official is None or official["name"] != name:
+        return None
+    defensive = sum(POSITION_RUNS.get(position, 0) * outs / (3 * FIELDING_SEASON_INNINGS)
+                    for position, outs in official["outs"].items())
+    dh_pa = positions.get("DH", 0)
+    unknown = positions.get("DH_unknown", 0)
+    upper = defensive + POSITION_RUNS["DH"] * dh_pa / 600
+    lower = defensive + POSITION_RUNS["DH"] * (dh_pa + unknown) / 600
+    return {"lower": lower, "upper": upper, "dh_pa": dh_pa, "dh_unknown_pa": unknown,
+            "fielding_outs": dict(official["outs"])}
+
+
+def _batting_rows(stats_by_player, games, positions, rates, constants, season, running=None, fielding=None):
     running = running or {}
+    fielding = fielding or {}
     basic, advanced = [], []
     for player_id, stats in stats_by_player.items():
         pa, ab, hits = stats["PA"], stats["AB"], stats["H"]
         if pa < 1 or not stats["team"]:
             continue
-        position = positions[player_id].most_common(1)[0][0] if positions[player_id] else "—"
+        known_positions = Counter({key: count for key, count in positions[player_id].items() if key in POSITION_RUNS})
+        position = known_positions.most_common(1)[0][0] if known_positions else "—"
         team = stats["team"]
         pf = constants["park"][TEAM_PARKS[team]]
         singles = hits - stats["2B"] - stats["3B"] - stats["HR"]
@@ -193,20 +212,26 @@ def _batting_rows(stats_by_player, games, positions, rates, constants, season, r
         sb, cs = (official["SB"], official["CS"]) if official else (None, None)
         # 원본 워크북의 성공·실패 계수만 사용한 단순 추정입니다. 추가 진루 가산은 제외합니다.
         running_runs = 0.2 * sb - 0.4 * cs if official else None
-        war = (wraa + (running_runs or 0) + POSITION_RUNS.get(position, 0) * pa / 600 + 20 * pa / 600) / constants["runs_per_win"] if wraa is not None else None
+        adjustment = _position_adjustment(positions[player_id], fielding.get(player_id), stats["name"])
+        war = None
+        war_range = None
+        if wraa is not None and adjustment is not None:
+            base = wraa + (running_runs or 0) + 20 * pa / 600
+            war = (base + adjustment["lower"]) / constants["runs_per_win"]
+            war_range = [_round(war, 2), _round((base + adjustment["upper"]) / constants["runs_per_win"], 2)]
         wrc = ((woba - constants["league_woba"]) / constants["scale"] + constants["league_runs_per_pa"]) * pa if woba is not None else None
         wrc_plus = 100 * ((((woba - constants["league_woba"]) / constants["scale"] + constants["league_runs_per_pa"]) + constants["league_runs_per_pa"] * (1 - pf)) / constants["league_runs_per_pa"]) if woba is not None else None
         player_rates = rates.get(player_id, {})
         row = {
             "Player": stats["name"], "player_id": player_id, "qualified": pa >= 200, "Sample": "기준 충족" if pa >= 200 else "표본 미달", "Pos": position, "Team": team, "Year": season,
-            "oWAR": _round(war, 2), "SB": sb, "CS": cs, "SB_Runs": _round(running_runs, 2), "wRC+": _round(wrc_plus, 1), "G": len(games[player_id]),
+            "oWAR": _round(war, 2), "oWAR_range": war_range, "position_adjustment": adjustment, "SB": sb, "CS": cs, "SB_Runs": _round(running_runs, 2), "wRC+": _round(wrc_plus, 1), "G": len(games[player_id]),
             **{key: stats[key] for key in ("PA", "AB", "R", "H", "2B", "3B", "HR", "RBI", "BB", "HBP", "IB", "SO", "GDP", "SF")},
             "BA": _round(ba), "OBP": _round(obp), "SLG": _round(slg), "OPS": _round(obp + slg) if obp is not None and slg is not None else None,
             "wOBA": _round(woba), "PF": pf, "whiff%": _round(player_rates.get("whiff%"), 1), "chase%": _round(player_rates.get("chase%"), 1),
         }
         basic.append(row)
         advanced.append({
-            "Player": stats["name"], "player_id": player_id, "qualified": pa >= 200, "Sample": "기준 충족" if pa >= 200 else "표본 미달", "Pos": position, "Team": team, "Year": season, "oWAR": row["oWAR"], "SB": sb, "CS": cs, "SB_Runs": row["SB_Runs"], "PA": pa,
+            "Player": stats["name"], "player_id": player_id, "qualified": pa >= 200, "Sample": "기준 충족" if pa >= 200 else "표본 미달", "Pos": position, "Team": team, "Year": season, "oWAR": row["oWAR"], "oWAR_range": row["oWAR_range"], "position_adjustment": row["position_adjustment"], "SB": sb, "CS": cs, "SB_Runs": row["SB_Runs"], "PA": pa,
             "XBH": stats["2B"] + stats["3B"] + stats["HR"], "wOBA": row["wOBA"], "wRC": _round(wrc, 1), "wRC+": row["wRC+"],
             "OPS+": _round(100 * (obp / constants["league_obp"] + slg / constants["league_slg"] - 1) / pf, 1) if obp is not None and slg is not None else None,
             "K%": _round(_ratio(stats["SO"], pa, 100), 1), "BB%": _round(_ratio(stats["BB"], pa, 100), 1),
@@ -276,7 +301,19 @@ def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = N
     if running_payload["season"] != season or running_payload["series"] != "regular":
         raise ValueError("공식 주루 입력의 시즌·정규시즌이 일치하지 않습니다.")
     running = {row["player_id"]: row for row in running_payload["players"]}
-    bat_rows, bat_advanced = _batting_rows(batting, batter_games, positions, _pitch_rates(pitches, "batter_id"), constants, season, running)
+    fielding_payload = json.loads((root / "data/leaderboards/source" / f"{season}_fielding.json").read_text(encoding="utf-8"))
+    if fielding_payload["season"] != season or fielding_payload["series"] != "regular":
+        raise ValueError("공식 수비 입력의 시즌·정규시즌이 일치하지 않습니다.")
+    fielding = {}
+    for record in fielding_payload["records"]:
+        entry = fielding.setdefault(record["player_id"], {"name": record["name"], "outs": {}})
+        if entry["name"] != record["name"] or record["position"] in entry["outs"]:
+            raise ValueError("공식 수비 입력의 선수·포지션이 중복되거나 신원이 다릅니다.")
+        entry["outs"][record["position"]] = record["outs"]
+    # 전체 공식 수비 목록에서 제외된 선수는 기록된 수비 출전이 없습니다.
+    for player_id, stats in batting.items():
+        fielding.setdefault(player_id, {"name": stats["name"], "outs": {}})
+    bat_rows, bat_advanced = _batting_rows(batting, batter_games, positions, _pitch_rates(pitches, "batter_id"), constants, season, running, fielding)
     pitch_rows, pitch_advanced = _pitching_rows(pitching, pitcher_games, pitcher_starts, _pitch_rates(pitches, "pitcher_id"), constants, season)
     as_of = str(pitches["game_date"].max())
     pitch_metric_rows = [{key: row[key] for key in ("RK", "Player", "player_id", "qualified", "Sample", "Pos", "Team", "G", "CWS%", "whiff%", "chase%")} for row in pitch_rows]
@@ -284,11 +321,14 @@ def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = N
         "schema_version": 2, "season": season, "as_of": as_of,
         "source": {"name": "Visual Baseball PBP", "games": int(pitches["game_id"].nunique()), "pitches": len(pitches),
                    "running": {"url": running_payload["source_url"], "period": running_payload["period"],
-                               "matched_batters": sum(row["SB"] is not None for row in bat_rows)}},
+                               "matched_batters": sum(row["SB"] is not None for row in bat_rows)},
+                   "position_adjustment": {"url": fielding_payload["source_url"], "period": fielding_payload["period"],
+                                           "defensive_season_innings": FIELDING_SEASON_INNINGS, "dh_season_pa": 600}},
         "notes": [
             "전체 선수는 타격·투구 기록이 있는 선수 모두를 포함합니다. 표본 필터의 기준 충족 선수는 타자 200 PA 이상·투수 50 IP 이상입니다.",
             f"{season} 타자·투수 누적값은 Visual Baseball PBP를 직접 재집계했으며 공식 KBO 합계와 일부 차이가 날 수 있습니다.",
             "oWAR*는 수비를 제외하고 포지션 보정과 공식 도루·도실의 추정 득점(0.2×SB−0.4×CS)을 반영합니다. 추가 진루 가치는 포함하지 않습니다. 투수 WAR*는 FIP 기반 추정치입니다.",
+            "포지션 보정은 공식 포지션별 수비이닝÷1296(144경기×9이닝)과 VB에서 확인된 DH 타석÷600으로 각각 계산해 합산합니다. 복합 DH 표기의 미확정 타석은 oWAR 범위로 표시하고 하한으로 정렬합니다. 공식 수비이닝 기준일은 PBP와 다를 수 있습니다.",
             "타격·투구 추정치의 리그·구장·가중치 상수는 기존 입력 상수표를 사용합니다.",
             "† 투수 실점은 승계주자 책임을 PBP 주자 ID로 추적한 값이며 공식 자책점과 다릅니다.",
             "도루·도실은 KBO 공식 정규시즌 현재 누적 기록을 선수 ID와 이름으로 연결했습니다. 공식 주루 기준은 PBP 기준일과 다를 수 있습니다. 미연결은 —이며 주루 보정이 빠집니다.",

@@ -17,19 +17,20 @@ def test_official_running_matches_id_and_name():
     constants = {"park": {"잠실": 1}, "weights": dict.fromkeys(["wBB", "wHBP", "w1B", "w2B", "w3B", "wHR"], 1),
                  "league_woba": .3, "scale": 1, "runs_per_win": 10, "league_runs_per_pa": .1, "league_obp": .3, "league_slg": .4}
     args = (stats, {"1": {"g"}}, {"1": Counter({"CF": 200})}, {}, constants, 2026)
-    baseline, _ = _batting_rows(*args)
-    rows, details = _batting_rows(*args, {"1": {"name": "타자", "SB": 20, "CS": 5}})
+    fielding = {"1": {"name": "타자", "outs": {"CF": 600}}}
+    baseline, _ = _batting_rows(*args, fielding=fielding)
+    rows, details = _batting_rows(*args, {"1": {"name": "타자", "SB": 20, "CS": 5}}, fielding=fielding)
     assert rows[0]["SB"] == 20 and rows[0]["CS"] == 5
     assert rows[0]["SB_Runs"] == 2
     assert round(rows[0]["oWAR"] - baseline[0]["oWAR"], 2) == .2
     assert details[0]["oWAR"] == rows[0]["oWAR"]
-    unmatched, _ = _batting_rows(*args, {"1": {"name": "다른 타자", "SB": 20, "CS": 5}})
+    unmatched, _ = _batting_rows(*args, {"1": {"name": "다른 타자", "SB": 20, "CS": 5}}, fielding=fielding)
     assert unmatched[0]["SB"] is None and unmatched[0]["oWAR"] == baseline[0]["oWAR"]
 
     for key in ["AB", "H", "BB"]:
         stats["1"][key] = 0
     stats["1"]["PA"] = 1
-    sparse, sparse_detail = _batting_rows(*args)
+    sparse, sparse_detail = _batting_rows(*args, fielding=fielding)
     assert len(sparse) == 1 and sparse[0]["qualified"] is False
     assert sparse[0]["oWAR"] is None and sparse[0]["OPS"] is None and sparse_detail[0]["OPS+"] is None
 
@@ -60,6 +61,10 @@ def test_official_running_change_invalidates_leaderboard(tmp_path):
     assert not needs_build(tmp_path, 2026, "leaderboards")
     source.write_text('{"players": [{"SB": 1}]}')
     assert needs_build(tmp_path, 2026, "leaderboards")
+    mark_built(tmp_path, 2026, "leaderboards")
+    fielding_source = source.with_name("2026_fielding.json")
+    fielding_source.write_text('{"records": []}')
+    assert needs_build(tmp_path, 2026, "leaderboards")
 
 
 def test_late_joining_pitchers_remain_visible_below_50_innings():
@@ -75,3 +80,23 @@ def test_late_joining_pitchers_remain_visible_below_50_innings():
     zero_outs = next(row for row in basic if row["player_id"] == "56002")
     assert zero_outs["IP"] == 0 and zero_outs["FIP"] is None and zero_outs["WAR"] is None
     assert {row["player_id"] for row in advanced} == set(stats)
+
+
+def test_position_adjustment_uses_each_defensive_position_and_dh_pa():
+    from visualbaseball.leaderboard_vb import _position_adjustment
+    exposure = {"name": "복수 포지션", "outs": {"C": 1296, "1B": 1296}}
+    result = _position_adjustment({"C": 100, "1B": 300, "DH": 100}, exposure, "복수 포지션")
+    # 각각 432이닝: +10/3 -8/3, DH 100타석: -2.5점.
+    assert round(result["lower"], 6) == round(10 / 3 - 8 / 3 - 2.5, 6)
+    assert result["lower"] == result["upper"]
+    assert _position_adjustment({"DH": 600}, {"name": "DH", "outs": {}}, "DH")["lower"] == -15
+    assert _position_adjustment({}, {"name": "C", "outs": {"C": 3888}}, "C")["lower"] == 10
+    assert _position_adjustment({}, exposure, "신원 불일치") is None
+    assert _position_adjustment({}, None, "자료 없음") is None
+
+
+def test_unresolved_dh_has_bounds_instead_of_invented_allocation():
+    from visualbaseball.leaderboard_vb import _position_adjustment
+    result = _position_adjustment({"DH": 100, "DH_unknown": 4}, {"name": "혼합", "outs": {}}, "혼합")
+    assert result["lower"] == -2.6 and result["upper"] == -2.5
+    assert result["dh_unknown_pa"] == 4

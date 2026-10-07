@@ -6,7 +6,7 @@ from .curated import file_sha256, schema_sha256, source_sha256, value_sha256
 
 # Each metric records its transitive builder/helper dependency set.
 SPECS = {
- "leaderboards": (("games", "pitches"), ("data/leaderboards/source/constants.xlsx", "data/leaderboards/source/{season}_running.json"), ("web/data/leaderboards/{season}.json", "web/data/leaderboards/index.json")),
+ "leaderboards": (("games", "pitches"), ("data/leaderboards/source/constants.xlsx", "data/leaderboards/source/{season}_running.json", "data/leaderboards/source/{season}_fielding.json"), ("web/data/leaderboards/{season}.json", "web/data/leaderboards/index.json")),
  "excel": (("games", "events", "pitches"), (), ("exports/visualbaseball_savant_{season}_latest.xlsx",)),
  "arm_angle": (("pitches",), ("data/batter_handedness.json",), ("data/metrics/arm_angle/{season}/input.parquet",)),
  "swing_take": (("pitches",), (), ("web/data/swing_take/{season}/index.json",)),

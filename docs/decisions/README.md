@@ -31,6 +31,8 @@
 | [0014](0014-current-leaderboard-refresh.md) | 현재 시즌 리더보드 자동 갱신·공식 주루 연결·OAA 조건부 서식 | 지표·웹 |
 | [0015](0015-zone-profile-league-relative.md) | Zone Profile 색은 칸별 리그 평균 대비 차이 (리그 = 흰색) | 지표·웹 |
 
+| [0015](0015-position-exposure-adjustment.md) | 포지션별 공식 수비이닝과 DH 타석 분리 보정 | 지표 |
+
 ### 다른 곳에 있는 결정·근거
 
 | 주제 | 문서 |
