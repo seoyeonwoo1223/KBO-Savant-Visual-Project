@@ -4,7 +4,7 @@
 
 ## 현행 기준
 
-- 운영 master: `bc47a56a71c5ee0012186afb3dbce2b32be2e3a6` (2026-10-08 확인). MODEL_VERSION `za7.8-neutral-apr`
+- 운영 master: `7d758747dcb7ca9fba1cb0e7e7fe568b7fefcb29` (2026-10-08 확인). MODEL_VERSION `za7.8-neutral-apr`
   - master는 매일 데이터 커밋으로 움직입니다. 기준이 바뀌었는지는 MODEL_VERSION과 `src/visualbaseball/zone_decision.py`로 판단합니다.
 - APR: 공격성 중립 B안. 투구별 2(S − p − m_i)ΔV (gates.md "공격성 중립 APR 운영 반영")
 - ZA: ZA+ (Z0 = 100·mean[(S − p)(2q − 1)])
@@ -32,7 +32,7 @@
 
 | 브랜치 | 내용 | 최신 확인 SHA |
 |---|---|---|
-| `experiment/za-count-free-20261005` | ZC 실험(gpt), 교차검증 응답(claude), gates.md ZC·ZQ·ZL 등록, B1·B2 이미 본 값 재현 스크립트 | `a047948c2f7d157999fcc3334668f39f1eec9af1` |
+| `experiment/za-count-free-20261005` | ZC 실험(gpt), 교차검증 응답(claude), gates.md ZC·ZQ·ZL 등록, B1·B2 이미 본 값 재현 스크립트, 존·신장 입력 감사(`seen_before_registration/sz_height_audit.py`) | `e48da3a26a617db67fbb51f6b1cbcb072b729eaf` |
 | `review/apr-za-20261003` | 2026-10-03 첫 검토(gpt). 기준 `d7bb6fa1`로 PR #55 이전, za7.7(APR A) 상태. 내용은 교차검증 안 됨 | `ca8de0fd5ceefec514a3ee1394d0ac01db0da008` |
 
 ## 실험 ID
@@ -48,7 +48,7 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 | ZL | 로짓 절편 공격성 중립 ZA (L0) | 기존 등록·미실행; 0008 ZA 정확성·SA 별도 결정, 필수 주후보 아님; 피드백에서 비교 범위 재검토 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | gpt (실행), claude (피드백) | - |
 | B1 | APR B 공동 추정 SE 검증 | 초안, 미등록; 0004 gates 절 문안, 0005–0007 보완(이미 본 SE·k: 비율 = 현행 ÷ 공동 추정 IF, za7.8 B, 재현 `seen_before_registration/b_se_2026.py@a047948c`), 생성 설계 미정, 0008 피드백 후 gpt 사전 등록·검증 예정 (`analysis/apr_za_cloud_review_20261005/preregistration-draft.md`) | - | gpt | - |
 | B2 | APR 로짓 성향 중립화 (ZL과 같은 성향 모형) | 초안, 미등록; 0008 평균 적극성 차감 필수 아님, 비교 범위 논의; 0002 B2/ZL 공동 하네스·별도 판정 제안, 이미 본 로짓 귀무 B 값 재현 `b_se_2026.py@a047948c` (같은 파일) | - | gpt | - |
-| H | 존 높이·체격 상관 원인 진단 | 초안, 미등록; 0004 gates 절 문안, 0005–0006 보완(프로필 신장 입력 후보·연결/시점 감사 대기, 이미 본 체격 상관 참고치), 지원/재표집 설계 미정, 0008 신장 정규화·ABS 규격 감사와 역할 재정리 (같은 파일) | - | gpt | - |
+| H | 존 높이·체격 상관 원인 진단 | 초안, 미등록; 0004 gates 절 문안, 0005–0006 보완(이미 본 체격 상관 참고치). **0009 정정: player_bio의 height_cm은 전부 비어 있음**. 0009 제안: 구심 정규화 진단(ZN-U)으로 흡수, 지원/재표집 설계 미정, 0008 신장 정규화·ABS 규격 감사와 역할 재정리 (같은 파일) | - | gpt | - |
 | Z-e | 가치 비사용 존 밖 거리 가중 ZA | 초안, 미등록, 후순위; 0002 기존 목표·ID 유지 제안 (같은 파일, `analysis/za_review_20261002/Z-e-draft.md`) | - | gpt | - |
 | X-b | APR B SE 교정·로짓 중립 (claude 초안) | 철회: B1·B2와 중복 | - | claude | - |
 
@@ -56,7 +56,7 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 
 | 메시지 | 주제 | 기다리는 쪽 |
 |---|---|---|
-| 0001 → … → 0008 | 사용자 APR·ZA 결정 확정, 새로운 정확성/존 정규화 목표와 기존 등록 관계, 피드백 후 gpt 실행 | claude(비판적 피드백) → gpt(검토·등록·실험) |
+| 0001 → … → 0009 | 사용자 결정 피드백: 신장 자료 부재 정정, ABS 존의 신장 비례 확인, 정확성 항등식과 A1·A2 후보, APR T항 증분 타당도, ID 제안(ZN-A·ZS·ZN-U·BT) | user(결정 7·8), gpt(0010: 판정, ID 예약·등록) |
 
 ## 남은 설계 논의와 사용자 결정 대기
 
@@ -66,6 +66,8 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 4. 과거 수축 수치의 문서 정정·AGENTS 창구 안내는 이번 지시로 자동 승인된 것으로 확대하지 않음.
 5. 최종 운영 산식/공개 반영·병합은 실험 검토 후 별도 사용자 결정. 현행 운영은 유지.
 6. PL+ 세부 산식과 외부 Zone Judgement 공개 방법론은 여전히 미확인. 사용자 KBO 정의 선택과 원 지표 구현 확인을 구분하며 비공개 수치·역추정 가중을 근거로 쓰지 않음.
+7. **신장 원천 (0009):** 저장소에 신장 값이 없다. ABS 시즌 존 역산이 안 되는 구심 타자(2023 투구 9%, 2019 37%)를 외부 신장 수집으로 채울지, 제외하고 포함률을 보고할지
+8. **정확성 범위 (0009):** 받은 공 구성을 표준화한 정확성(A1 구간 표준화, A2 확률 가중 Z−O 스윙)까지 "정확성 자체"로 볼지, 표준화 없는 A0만 주점수로 볼지
 
 ## 결정 기록
 
@@ -78,5 +80,5 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 
 ## 다음 차례
 
-- claude: 0008의 사용자 결정과 피드백 요청을 읽고 반례·자료/규정 공백·수정안·등록/검증 계획 회신
-- gpt: claude 회신 후 비판 검토, 합의/이견 기록, 실험별 ID 예약·gates.md 사전 등록 커밋 후 현재 환경에서 검토 범위 실험. 피드백 전 실행 없음
+- user: 결정 대기 7·8
+- gpt: 0009에 답장(0010). 정정·입력 감사 확인, 0009-C1·A1·A2 판정, 순서·ID 이의. 그 뒤 ID 예약·gates.md 사전 등록·실험(0008 계획)
