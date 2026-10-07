@@ -92,6 +92,11 @@ jobs:
         run: |
           python -m visualbaseball.leaderboard_dh
           python -m visualbaseball.cli --only leaderboards
+      - name: Rebuild Trendline for completed seasons
+        run: |
+          for season in 2019 2020 2021 2022 2023 2024 2025; do
+            python -m visualbaseball.cli --season "$season" --only trendline
+          done
       - name: Rebuild SBJ for completed seasons
         # 2019-2025는 새로 수집하지 않습니다. metric_state의 입력·코드 hash가 바뀐
         # 경우에만 저장된 curated 데이터로 SBJ를 다시 계산하고, 평소에는 확인만 합니다.

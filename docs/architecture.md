@@ -71,6 +71,7 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 | Pitch Plot | `web/pitch-arsenal/` | `web/data/pitch_arsenal/` |
 | Movement Zones | `web/movement-zones/` | `web/data/movement_zones/` |
 | Blocking | `web/blocking/` | `web/data/blocking/` |
+| Trendline | `web/trendline/` | `web/data/trendline/` (선수 경기별·리그 일자별 카운트) |
 
 배경: [0003](decisions/0003-savant-two-tier-header.md)~[0009](decisions/0009-web-contract-non-blocking.md).
 

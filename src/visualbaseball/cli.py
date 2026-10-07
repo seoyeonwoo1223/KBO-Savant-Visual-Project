@@ -15,6 +15,7 @@ from .storage import Store
 from .swing_take import build_swing_take
 from .zone_profile import build_zone_profiles
 from .leaderboard_vb import build_vb_leaderboard
+from .trendline import TRENDLINE_SEASONS, build_trendline
 from .blocking import build_blocking
 from .pitch_arsenal import PITCH_ARSENAL_SEASONS, build_pitch_arsenal
 from .plate_discipline import build_plate_discipline
@@ -78,6 +79,8 @@ def _exports(root: Path, season: int, storage_root: Path) -> None:
 
     if season == 2026:
         build("leaderboards", lambda: build_vb_leaderboard(root, season))
+    if season in TRENDLINE_SEASONS:
+        build("trendline", lambda: build_trendline(root, season))
     build("excel", lambda: export_latest(root, season))
     build("arm_angle", lambda: build_arm_angle_input(root, season))
     build("swing_take", lambda: build_swing_take(root, season))
@@ -104,7 +107,7 @@ def _arguments() -> argparse.ArgumentParser:
     parser.add_argument("--season", type=int, default=2026)
     parser.add_argument("--game-id")
     parser.add_argument("--rebuild-from-raw", action="store_true")
-    parser.add_argument("--only", choices=("zone_decision", "pitch_arsenal", "movement_zones", "leaderboards", "conditional_finder"),
+    parser.add_argument("--only", choices=("zone_decision", "pitch_arsenal", "movement_zones", "leaderboards", "conditional_finder", "trendline"),
                         help="Rebuild just this metric for --season from curated data, only when its inputs or code changed.")
     parser.add_argument("--exports-only", action="store_true",
                         help="Rebuild exports from the curated data already on disk; no network fetch.")
@@ -130,6 +133,10 @@ def _build_only(parser: argparse.ArgumentParser, args, root: Path) -> None:
     """--only: rebuild one metric from curated data when its inputs or code changed."""
     if args.only == "movement_zones":
         _build_metric(root, args.season, "movement_zones", lambda: build_movement_zones(root))
+    elif args.only == "trendline":
+        if args.season not in TRENDLINE_SEASONS:
+            parser.error("--only trendline은 2019–2026 시즌을 지원합니다.")
+        _build_metric(root, args.season, "trendline", lambda: build_trendline(root, args.season))
     elif args.only == "leaderboards":
         if args.season != 2026:
             parser.error("--only leaderboards는 현재 2026 시즌만 지원합니다.")
