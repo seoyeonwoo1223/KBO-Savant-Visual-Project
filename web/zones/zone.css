@@ -6,9 +6,6 @@ a { color: #333; }
 .eyebrow { margin: 0 0 6px; color: #6f6f6f; font-size: .8rem; font-weight: 700; letter-spacing: .05em; }
 h1 { margin: 0; font-size: clamp(2.25rem, 6vw, 4.1rem); line-height: 1; letter-spacing: -.055em; }
 header > p:last-child { margin: 12px 0 0; color: #666; }
-.zone-guide { margin-top: 8px; }
-.zone-guide summary { cursor: pointer; font-weight: 700; }
-.zone-guide img { display: block; width: min(100%, 720px); margin: 12px auto 2px; border: 1px solid #c9c9c9; background: #f5f0e9; }
 label { display: grid; gap: 5px; color: #555; font-size: .76rem; font-weight: 700; }
 select, input, button { height: 40px; border: 1px solid #bfc4c8; border-radius: 0; padding: 0 11px; background: #fff; color: #252525; font-size: .9rem; }
 button { border-color: #0f4471; background: #0f4471; color: #fff; font-weight: 700; cursor: pointer; }

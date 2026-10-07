@@ -7,7 +7,6 @@ const state = { season: null, players: [], sort: "apr_percentile", direction: -1
 const fields = ["swing_pct","expected_swing_pct","p_zone_pct","zone_judgment_pct","expected_zone_judgment_pct","za_raw","expected_swing_rv","expected_take_rv"];
 const fmt = (value, digits=1) => value == null || !Number.isFinite(+value) ? "—" : (+value).toFixed(digits);
 const signed = (value, digits=1) => value == null || !Number.isFinite(+value) ? "—" : `${+value>0?"+":""}${(+value).toFixed(digits)}`;
-const signClass = value => +value >= 0 ? "good" : "bad";
 
 function canvasContext(canvas) {
   // 설계 비율은 HTML width/height 속성에서 처음 한 번만 읽습니다. 그 뒤로는 픽셀 버퍼 크기라 비율이 반올림으로 틀어질 수 있습니다.

@@ -35,9 +35,6 @@ h2 { margin: 0; font: 400 1.32rem/1.1 Arial, sans-serif; }
 .zone-shadow { width: 59%; height: 61%; background: var(--zone-shadow-tint); }
 .zone-heart { width: 38%; height: 40%; background: var(--zone-heart-tint); }
 .strike-zone { z-index: 2; width: 51%; height: 54%; border: 5px dotted #0bb35b; background: transparent; }
-.zone-key { display: inline-flex; align-items: center; gap: 8px; margin: 14px 0 5px; font-size: 1rem; }
-.zone-key i { display: inline-block; width: 55px; border-top: 5px dotted #0bb35b; }
-.zone-note { max-width: 320px; margin: 5px auto 0; color: #777; font-size: .74rem; line-height: 1.45; }
 .zone-guide { margin: 12px auto 0; color: #666; font-size: .78rem; }
 .zone-guide summary { cursor: pointer; font-weight: 700; }
 .zone-guide img { display: block; width: min(100%, 720px); margin: 10px auto 0; border: 1px solid #d1d1d1; background: #f5f0e9; }
@@ -257,7 +254,5 @@ html.thumbnail-mode .profile-options { display:none; }
 html.thumbnail-mode .profile-card { margin-top:14px; padding:16px; }
 html.thumbnail-mode .profile-dashboard { display:block; }
 html.thumbnail-mode .regions-panel { display:none; }
-html.thumbnail-mode .zone-key,
-html.thumbnail-mode .zone-note,
 html.thumbnail-mode .zone-guide { display:none; }
 html.thumbnail-mode .zone-visual { width:290px; }
