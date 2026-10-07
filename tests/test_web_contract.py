@@ -3,6 +3,8 @@ import shutil
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 spec = importlib.util.spec_from_file_location("new_web_tool", ROOT / "scripts" / "new_web_tool.py")
@@ -87,3 +89,18 @@ def test_new_tool_css_cannot_restyle_shared_tags(tmp_path):
     problems = " ".join(page_problems(target / "index.html", web))
     assert "'main' 태그 선택자" in problems
     assert "'nav'" not in problems  # .panel nav 처럼 클래스 아래 태그는 허용
+
+
+@pytest.mark.parametrize("gradient", ["repeating-linear-gradient", "repeating-radial-gradient"])
+def test_profile_capture_rejects_unsupported_background(tmp_path, gradient):
+    web = copy_pages(tmp_path)
+    css = web / "profiles" / "profile.css"
+    css.write_text(css.read_text(encoding="utf-8") + f"\n.split-league i {{ background: {gradient}(#888, #fff); }}\n", encoding="utf-8")
+    assert any("html2canvas" in problem for problem in page_problems(web / "profiles" / "index.html", web))
+
+
+def test_repeating_background_is_allowed_without_capture(tmp_path):
+    web = copy_pages(tmp_path)
+    css = web / "zones" / "zone.css"
+    css.write_text(css.read_text(encoding="utf-8") + "\n.cell { background: repeating-linear-gradient(#888, #fff); }\n", encoding="utf-8")
+    assert page_problems(web / "zones" / "index.html", web) == []
