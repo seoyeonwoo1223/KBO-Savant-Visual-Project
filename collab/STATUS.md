@@ -22,6 +22,7 @@
 |---|---|---|---|---|---|
 | EAA-SI1 | 포심 없이 쓰는 싱커 앵커, 기하4열/물리7열 고정 대조 | 실행·검산 완료, 운영 미채택 | experiment/eaa-sinker-support-20261007@542701aff957155e07899fa24c824845f11cb9e1 | gpt | 과거 물리7열 MAE 악화·월 음의오차 증가·고슬롯 판정 불가; 0002 |
 | EAA-SUP1 | standalone 지원값 제거/고정 재적합과 고정모델 민감도 | 실행·검산 완료, 정확도 개선 불확실 | experiment/eaa-sinker-support-20261007@542701aff957155e07899fa24c824845f11cb9e1 | gpt | 상수 재적합≒제거; 관심 선수값 의존성, SI 개선 구간0 포함; 0002 |
+| EAA-CL1 | 저평가 편향 분해(보정 기울기·조건부 편향·fold 정직 재보정)와 추가 변인16개 단일 추가 진단 | 등록, 실행 전 | experiment/eaa-sinker-support-20261007@7afecdf91ecfe893e04dfda70ce3f4e6f566ccdc | claude | 0003 예정 |
 
 ## 열린 스레드
 
