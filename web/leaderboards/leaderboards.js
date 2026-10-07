@@ -80,6 +80,14 @@ function filteredRows() {
 
 function render() {
   const columns = state.dataset.columns.filter(column => !["Year", "Sample"].includes(column.key) && !hiddenColumns[state.dataset.id]?.has(column.key));
+  if (["batting", "batting-advanced"].includes(state.dataset.id)) {
+    const wrc = columns.find(column => column.key === "wRC+");
+    const war = columns.find(column => column.key === "oWAR") || columns.find(column => column.key === "WAR");
+    if (wrc && war) {
+      columns.splice(columns.indexOf(wrc), 1);
+      columns.splice(columns.indexOf(war) + 1, 0, wrc);
+    }
+  }
   const limit = Number(thumbnailParams.get("limit"));
   const allRows = filteredRows();
   const pagination = pageRows(allRows, state.page, state.pageSize);
