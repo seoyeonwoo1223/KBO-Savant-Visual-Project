@@ -7,7 +7,7 @@ vm.runInContext(source.slice(0, source.indexOf('function filteredRows()')), cont
 for (const key of ['WAR', 'oWAR', 'OAA']) {
   const positive = vm.runInContext(`cellMarkup({${key}: 5}, {key: '${key}'}, {${key}: 10})`, context);
   assert.match(positive, /war-cell/);
-  assert.match(positive, /rgb\(236 164 168\)/);
+  assert.match(positive, /rgb\(228 155 160\)/);
   const negative = vm.runInContext(`cellMarkup({${key}: -5}, {key: '${key}'}, {${key}: 10})`, context);
   assert.match(negative, /rgb\(157 179 212\)/);
   assert.doesNotMatch(vm.runInContext(`cellMarkup({${key}: null}, {key: '${key}'}, {${key}: 10})`, context), /war-cell/);
