@@ -15,3 +15,6 @@ for (const key of ['WAR', 'oWAR', 'OAA']) {
 assert.equal(vm.runInContext('isColoredColumn({key: "CF", label: "CF OAA"})', context), true);
 assert.equal(vm.runInContext('hiddenColumns.batting.has("OAA")', context), false);
 console.log('리더보드 WAR/oWAR/OAA 조건부 서식 통과');
+
+assert.match(vm.runInContext('cellMarkup({oWAR: 1.2, oWAR_range: [1.2, 1.3]}, {key: "oWAR"}, {oWAR: 10})', context), /1.2–1.3/);
+assert.doesNotMatch(vm.runInContext('cellMarkup({oWAR: 1.2, oWAR_range: [1.2, 1.2]}, {key: "oWAR"}, {oWAR: 10})', context), /1.2–1.2/);

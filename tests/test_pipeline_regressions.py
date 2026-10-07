@@ -146,6 +146,8 @@ def test_web_metric_state_rebuilds_when_a_player_shard_is_missing(tmp_path, name
         index = output / "index.json"
         (output / "2026/pitcher/1.json").parent.mkdir(parents=True, exist_ok=True)
         (output / "2026/pitcher/1.json").write_text("{}", encoding="utf-8")
+        for role in ("batter", "pitcher"):
+            _touch(output / "2026/league" / f"{role}.json")
         payload = {"seasons": [SEASON], "players": {str(SEASON): {
             "batter": [{"id": "123", "file": "1.json"}],
             "pitcher": [{"id": "123", "file": "1.json"}],

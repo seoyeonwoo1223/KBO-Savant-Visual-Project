@@ -40,7 +40,11 @@ function cellMarkup(row, column, maximumWar) {
     classes.push("war-cell");
     style = ` style="--war-color:${warColor(value, maximumWar[column.key])}"`;
   }
-  return `<td class="${classes.join(" ").trim()}"${style}>${formatValue(value, column.key)}</td>`;
+  const range = column.key === "oWAR" ? row.oWAR_range : null;
+  const display = Array.isArray(range) && range[0] !== range[1]
+    ? `${formatValue(range[0], column.key)}–${formatValue(range[1], column.key)}`
+    : formatValue(value, column.key);
+  return `<td class="${classes.join(" ").trim()}"${style}>${display}</td>`;
 }
 
 function filteredRows() {
