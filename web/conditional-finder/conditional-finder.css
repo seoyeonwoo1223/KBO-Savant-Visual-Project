@@ -9,13 +9,11 @@ body { margin: 0; color: var(--kbo-ink); }
 .finder-modes button[aria-pressed="true"], .finder-primary { background: var(--kbo-navy); color: #fff; border-color: var(--kbo-navy); }
 .finder-button:hover, .finder-modes button:hover { border-color: var(--kbo-navy); }
 .finder-button:disabled { opacity: .45; cursor: default; }
-.finder-hint { margin: 10px 0 18px; color: var(--kbo-muted); font-size: .82rem; line-height: 1.6; }
 .finder-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 18px; margin: 18px 0; }
 .finder-field { display: flex; flex-direction: column; gap: 7px; min-width: 0; color: var(--kbo-muted); font-size: .82rem; font-weight: 700; }
 .finder-field input, .finder-field select { width: 100%; min-width: 0; min-height: 40px; padding: 9px 10px; border: 1px solid var(--kbo-line-strong); border-radius: 0; color: var(--kbo-ink); background: #fff; font: .9rem Arial, sans-serif; }
 .finder-options { min-width: 0; border: 0; border-top: 1px solid var(--kbo-line); padding: 16px 0 10px; margin: 16px 0 0; }
 .finder-options legend { padding: 0 12px 0 0; font-size: .9rem; font-weight: 700; }
-.finder-options legend span { margin-left: 8px; color: var(--kbo-muted); font-size: .75rem; font-weight: 400; }
 .finder-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .finder-chips label { display: flex; align-items: center; gap: 7px; padding: 9px 11px; border: 1px solid var(--kbo-line); background: #fff; font-size: .85rem; cursor: pointer; }
 .finder-chips label:has(input:checked) { background: #eef4fa; border-color: var(--kbo-navy); }
@@ -69,7 +67,6 @@ body { margin: 0; color: var(--kbo-ink); }
   .finder-result-tools { width: 100%; justify-content: space-between; }
   .finder-toggle { align-items: flex-start; }
   .finder-toggle input { margin-top: 4px; }
-  .finder-options legend span { display: inline-block; }
 }
 .thumbnail-mode .site-header, .thumbnail-mode .site-nav-bar, .thumbnail-mode .page-title,
 .thumbnail-mode .search-panel, .thumbnail-mode .finder-results, .thumbnail-mode .method-card,
