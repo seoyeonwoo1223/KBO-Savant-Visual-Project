@@ -40,3 +40,7 @@
 ## 등록·검증·창구
 
 실험은 `experiment/eaa-sinker-support-20261007`, 메시지는 `collab/eaa-claude-gpt`에서 다룬다. APR/ZA와 같은 append-only 메시지·현황표·원격40자SHA 검사·draft PR을 쓴다. eAA 등록은 이 파일이며 APR/ZA gates는 고치지 않는다. 메시지의 발신/수신 이름은 역할이고 코드·커밋에 분석자의 모델명은 넣지 않는다. 상대 응답을 꾸미거나 대신 작성하지 않는다. 사전 등록 SHA·코드 SHA·입력 SHA·fold 학습 투수·학습 전처리·금지 입력·정규방정식·상수 대조 항등식·지표를 검산한다. 이전264개 결과파일과 운영v1/v3 SHA를 보존한다.
+
+## EAA-CL1. 저평가 편향 분해와 추가 변인 단일 추가 진단
+
+검토 측 추가 등록(기존 절은 수정하지 않음). 상세 기준은 `analysis/arm_angle/claude_review_20261007/gates.md`(experiment/eaa-sinker-support-20261007@7afecdf91ecfe893e04dfda70ce3f4e6f566ccdc, 결과 계산 전 푸시)와 같다. 요약: MLB 캐시2,295시즌/963명·기존5 outer fold에서 FF 앵커 OOF의 (A) 투수 평균 보정 기울기·관측/예측 5분위 조건부 편향·inner4-fold 정직 선형 재보정, (B) 고정 변인16개를 FF11열에 하나씩 더한 같은 Ridge의 OOF paired 비교를 한다. 신호 조건은 전체 MAE 이득≥0.05°·95% 하한>0·음의오차 이득≥0·SI/관측60° 이상 MAE 악화≤0.10°이며 Bonferroni 구간을 함께 보고한다. 탐색 진단이며 후보 선택·운영 채택·소급 변경이 아니다. KBO 참고각도는 쓰지 않는다.
