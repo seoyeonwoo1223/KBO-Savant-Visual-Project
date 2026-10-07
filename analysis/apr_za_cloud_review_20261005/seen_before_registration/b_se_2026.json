@@ -1,0 +1,44 @@
+{
+  "input": {
+    "path": "data/metrics/zone_awareness/2026/pitches.parquet",
+    "sha256": "f754f18cc972775315be87eabd4fc88b3c873c420f8e439c0fea5ad13acdfe5f",
+    "pitches": 211140,
+    "model_version": "za7.8-neutral-apr"
+  },
+  "k_report_check": {
+    "report_k": 723.540432,
+    "current_k": 723.540432,
+    "abs_diff": 0.0
+  },
+  "se_ratio_current_over_joint_if": {
+    "qualified": 166,
+    "median": 1.0196691116013752,
+    "quantiles_10_25_75_90": [
+      0.992919564134439,
+      1.0058586153640425,
+      1.0354275320113875,
+      1.0516774248158138
+    ],
+    "mean_se2_ratio": 1.042850580150028,
+    "median_with_G_correction": 1.0196694833566398
+  },
+  "shrinkage": {
+    "k_current": 723.540432,
+    "k_joint_if": 662.909645,
+    "qualified_apr_sd_current": 5.544588356456791,
+    "qualified_apr_sd_joint_if": 5.725303554406224,
+    "qualified_spearman": 0.9998347226685732,
+    "qualified_max_abs_diff": 0.5596800000000002
+  },
+  "logit_null_B": {
+    "null_vs_SA_pearson": -0.6547144524445657,
+    "null_sd_per100": 0.09183845385724033,
+    "observed_sd_per100": 0.6055051848599659,
+    "observed_vs_SA_pearson": -0.266363185163235,
+    "observed_minus_null_vs_SA_pearson": -0.17072952291999957,
+    "null_range_apr_points_unshrunk": [
+      -7.532620912669029,
+      1.999383176224373
+    ]
+  }
+}
