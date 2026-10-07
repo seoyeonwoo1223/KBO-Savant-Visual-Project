@@ -5,7 +5,7 @@
 ```text
 KBO-Savant-Visual-Project의 eAA 연구 검토를 맡아줘. APR/ZA와 같은 소통 창구지만 eAA 전용 브랜치는 collab/eaa-claude-gpt다. 실험·결과 브랜치는 experiment/eaa-sinker-support-20261007이고 운영 파일을 바꾸는 작업은 승인되지 않았다.
 
-git fetch origin master collab/eaa-claude-gpt experiment/eaa-sinker-support-20261007
+git fetch origin master:refs/remotes/origin/master collab/eaa-claude-gpt:refs/remotes/origin/collab/eaa-claude-gpt experiment/eaa-sinker-support-20261007:refs/remotes/origin/experiment/eaa-sinker-support-20261007
 git worktree add ../kbo-eaa-collab origin/collab/eaa-claude-gpt
 그 폴더에서 python collab/check.py를 통과한 뒤 RULES.md → STATUS.md → 자신 앞으로 온 최신 메시지 → 원격 인용 SHA의 근거를 읽어줘.
 

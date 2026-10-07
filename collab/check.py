@@ -82,6 +82,9 @@ def check_status(path, current_id, current_sha):
         cells = [c.strip().strip("`") for c in row.split("|")]
         if cells[0] == "ID" or set(cells[0]) <= {"-", " "}:
             continue
+        if len(cells) != 6:
+            errors.append("실험 등록 행의 열 수가 6이 아님")
+            continue
         ident = cells[0]
         if ident in ids:
             errors.append(f"실험 ID 중복: {ident}")
