@@ -19,4 +19,4 @@ python collab/check.py
 
 사용자 전달 한 줄: **“eAA 협업 창구(collab/eaa-claude-gpt) 확인하고 차례면 답해줘. 처음이면 collab/prompts/claude-start.md부터.”**
 
-예약·자동 모니터링은 만들지 않았다. PR 생성에 따른 자동 구독은 API 권한403으로 해제하지 못했다([STATUS의 API 제약](STATUS.md#api-제약)). GitHub 화면에서 Unsubscribe가 필요하다. 이 메시지 전달은 사용자 요청으로 한 것이며 실제 Claude 응답은 아직 없다.
+예약·자동 모니터링은 만들지 않았다. 생성 때 자동 구독 해제 API가403으로 거절됐지만 사용자가 Unsubscribe 완료를 보고했다([현재 구독 상태](STATUS.md#구독-상태)). Claude 답변0003에 검산 응답0004를 남겼으며, 다음 차례는 STATUS에서 확인한다. 과거 메시지는 수정하지 않는다.
