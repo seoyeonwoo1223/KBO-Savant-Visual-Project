@@ -91,8 +91,19 @@ def _pitch_counts(row: dict, season: int) -> tuple[tuple, list] | None:
     return (balls, strikes, _pitch_type(row), x_bin, z_bin), counts
 
 
-def _accumulate(rows: list[dict], season: int) -> tuple[dict[str, dict[str, dict]], int]:
+def _add(aggregate: list, counts: list) -> None:
+    for index, value in enumerate(counts):
+        aggregate[index] += value
+
+
+def _accumulate(rows: list[dict], season: int) -> tuple[dict[str, dict[str, dict]], dict[str, dict], int]:
+    """Player groups per role, plus league groups per role keyed exactly like that role's player records.
+
+    The league table holds every eligible pitch of the season (names not required), so the page can apply the
+    same filters (pitcher hand, pitch type, count) to the league and compare cell by cell.
+    """
     players_by_role: dict[str, dict[str, dict]] = {"batter": {}, "pitcher": {}}
+    league_by_role: dict[str, dict] = {role: defaultdict(lambda: [0] * 11) for role in players_by_role}
     eligible = 0
     for row in rows:
         pitch = _pitch_counts(row, season)
@@ -100,6 +111,12 @@ def _accumulate(rows: list[dict], season: int) -> tuple[dict[str, dict[str, dict
             continue
         (balls, strikes, pitch_type, x_bin, z_bin), counts = pitch
         for role in ("batter", "pitcher"):
+            group_key = (
+                (balls, strikes, _pitcher_throws(row), pitch_type, x_bin, z_bin)
+                if role == "batter"
+                else (balls, strikes, pitch_type, x_bin, z_bin)
+            )
+            _add(league_by_role[role][group_key], counts)
             name = str(row.get(f"{role}_name") or "").strip()
             if not name:
                 continue
@@ -108,16 +125,14 @@ def _accumulate(rows: list[dict], season: int) -> tuple[dict[str, dict[str, dict
                 players_by_role[role][player_id] = {"id": player_id, "name": name, "pitches": 0, "groups": defaultdict(lambda: [0] * 11)}
             player = players_by_role[role][player_id]
             player["pitches"] += 1
-            group_key = (
-                (balls, strikes, _pitcher_throws(row), pitch_type, x_bin, z_bin)
-                if role == "batter"
-                else (balls, strikes, pitch_type, x_bin, z_bin)
-            )
-            aggregate = player["groups"][group_key]
-            for index, value in enumerate(counts):
-                aggregate[index] += value
+            _add(player["groups"][group_key], counts)
         eligible += 1
-    return players_by_role, eligible
+    return players_by_role, league_by_role, eligible
+
+
+def _records(groups: dict) -> list[list]:
+    return [[*key, *[round(value, 3) if isinstance(value, float) else value for value in values]]
+            for key, values in sorted(groups.items(), key=lambda item: tuple(str(part) for part in item[0]))]
 
 
 def _player_payload(season: int, role: str, player_id: str, player: dict, filename: str) -> dict:
@@ -153,13 +168,25 @@ def _write_role(root: Path, season: int, role: str, players: dict[str, dict]) ->
     return role_index
 
 
+def _write_league(root: Path, season: int, role: str, groups: dict) -> None:
+    """League-wide cell table for one role: same columns and keys as that role's player records."""
+    directory = root / "web" / "data" / "zones" / str(season) / "league"
+    directory.mkdir(parents=True, exist_ok=True)
+    write_json(directory / f"{role}.json", {
+        "schema_version": SCHEMA_VERSIONS[role], "season": season, "role": role,
+        "source": f"data/curated/pitches/season={season}", "columns": COLUMNS[role], "records": _records(groups),
+    })
+
+
 def build_zone_profiles(root: Path, season: int) -> tuple[int, int]:
-    """Export compact batter and pitcher JSON profiles plus a shared search index."""
+    """Export compact batter and pitcher JSON profiles, league cell tables and a shared search index."""
     rows = load_rows(root, "pitches", season)
     if not rows:
         return 0, 0
-    players_by_role, eligible = _accumulate(rows, season)
+    players_by_role, league_by_role, eligible = _accumulate(rows, season)
     index_players = {role: _write_role(root, season, role, players) for role, players in players_by_role.items()}
+    for role, groups in league_by_role.items():
+        _write_league(root, season, role, groups)
 
     legacy_output = root / "web" / "data" / "zones" / str(season)
     for legacy_file in legacy_output.glob("*.json"):

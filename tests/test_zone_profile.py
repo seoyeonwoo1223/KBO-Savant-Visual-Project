@@ -40,3 +40,8 @@ def test_zone_profile_builds_search_index_and_pitcher_payload():
         assert sum(record[16] for record in payload["records"]) == 1
         assert pitcher_payload["schema_version"] == 1
         assert sum(record[5] for record in pitcher_payload["records"]) == 2
+        league = json.loads((root / "web/data/zones/2026/league/batter.json").read_text(encoding="utf-8"))
+        league_pitcher = json.loads((root / "web/data/zones/2026/league/pitcher.json").read_text(encoding="utf-8"))
+        assert league["role"] == "batter" and league["columns"][:6] == ["balls", "strikes", "pitcher_throws", "pitch_type", "x_bin", "z_bin"]
+        assert sorted(league["records"]) == sorted(payload["records"])
+        assert sorted(league_pitcher["records"]) == sorted(pitcher_payload["records"])
