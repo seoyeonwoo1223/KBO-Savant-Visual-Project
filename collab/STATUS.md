@@ -4,7 +4,7 @@
 
 ## 현행 기준
 
-- 운영 master: `f705f9683a0bf4735d62f0cac7d455dd9bfea73f` (2026-10-07 확인). MODEL_VERSION `za7.8-neutral-apr`
+- 운영 master: `aa92a83a06ac9f5d3f60ebccb5de74bf510ae0f0` (2026-10-07 확인). MODEL_VERSION `za7.8-neutral-apr`
   - master는 매일 데이터 커밋으로 움직입니다. 기준이 바뀌었는지는 MODEL_VERSION과 `src/visualbaseball/zone_decision.py`로 판단합니다.
 - APR: 공격성 중립 B안. 투구별 2(S − p − m_i)ΔV (gates.md "공격성 중립 APR 운영 반영")
 - ZA: ZA+ (Z0 = 100·mean[(S − p)(2q − 1)])
@@ -22,7 +22,7 @@
 
 | 브랜치 | 내용 | 최신 확인 SHA |
 |---|---|---|
-| `experiment/za-count-free-20261005` | ZC 실험(gpt), 교차검증 응답(claude), gates.md ZC·ZQ·ZL 등록 | `cbdf7d8e76b639492f1ff72a21292629b1232f37` |
+| `experiment/za-count-free-20261005` | ZC 실험(gpt), 교차검증 응답(claude), gates.md ZC·ZQ·ZL 등록, B1·B2 이미 본 값 재현 스크립트 | `a047948c2f7d157999fcc3334668f39f1eec9af1` |
 | `review/apr-za-20261003` | 2026-10-03 첫 검토(gpt). 기준 `d7bb6fa1`로 PR #55 이전, za7.7(APR A) 상태. 내용은 교차검증 안 됨 | `ca8de0fd5ceefec514a3ee1394d0ac01db0da008` |
 
 ## 실험 ID
@@ -34,10 +34,10 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 | ID | 내용 | 상태 | 등록 | 담당 | 결과 |
 |---|---|---|---|---|---|
 | ZC | ZA 존 축 q에서 카운트 입력 제거 | 실행 완료 (서술 실험, 채택 규칙 없음) | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | gpt | `c89d1088`, 교차검증 `52f39035` |
-| ZQ | 구심 ZA 존 축 정의 비교 (ZQ1 ABS 다리 검증, ZQ2 q_std) | 등록, 미실행; 0003 ZQ-a 초안·0004–0006 보완/가중 카운트 지지 집계 검토 대기, 추가 등록/실행 승인 별도 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
-| ZL | 로짓 절편 공격성 중립 ZA (L0) | 등록, 미실행; 0003 ZL-a 초안·0004–0006 실패/차분 기준 검토 대기, 추가 등록/실행 승인 별도 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
-| B1 | APR B 공동 추정 SE 검증 | 초안, 미등록; 0004 gates 절 문안, 0005–0006 보완(이미 본 SE·k 참고치, 비율 분모/방향·A/B 비교 기준 미확인), 생성 설계 미정, 등록 1순위 제안 (`analysis/apr_za_cloud_review_20261005/preregistration-draft.md`) | - | gpt | - |
-| B2 | APR 로짓 성향 중립화 (ZL과 같은 성향 모형) | 초안, 미등록; 0002 B2/ZL 공동 하네스·별도 판정 제안 (같은 파일) | - | gpt | - |
+| ZQ | 구심 ZA 존 축 정의 비교 (ZQ1 ABS 다리 검증, ZQ2 q_std) | 등록, 미실행; 통합 초안 `collab/drafts/zq-zl-amendment.md`(0007), 추가 등록/실행 승인 별도 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
+| ZL | 로짓 절편 공격성 중립 ZA (L0) | 등록, 미실행; 통합 초안 `collab/drafts/zq-zl-amendment.md`(0007), 추가 등록/실행 승인 별도 | `experiment/za-count-free-20261005@cbdf7d8e76b639492f1ff72a21292629b1232f37` | 미정 (사용자 지정) | - |
+| B1 | APR B 공동 추정 SE 검증 | 초안, 미등록; 0004 gates 절 문안, 0005–0007 보완(이미 본 SE·k: 비율 = 현행 ÷ 공동 추정 IF, za7.8 B, 재현 `seen_before_registration/b_se_2026.py@a047948c`), 생성 설계 미정, 등록 1순위 제안 (`analysis/apr_za_cloud_review_20261005/preregistration-draft.md`) | - | gpt | - |
+| B2 | APR 로짓 성향 중립화 (ZL과 같은 성향 모형) | 초안, 미등록; 0002 B2/ZL 공동 하네스·별도 판정 제안, 이미 본 로짓 귀무 B 값 재현 `b_se_2026.py@a047948c` (같은 파일) | - | gpt | - |
 | H | 존 높이·체격 상관 원인 진단 | 초안, 미등록; 0004 gates 절 문안, 0005–0006 보완(프로필 신장 입력 후보·연결/시점 감사 대기, 이미 본 체격 상관 참고치), 지원/재표집 설계 미정, B1 다음 진단 제안 (같은 파일) | - | gpt | - |
 | Z-e | 가치 비사용 존 밖 거리 가중 ZA | 초안, 미등록, 후순위; 0002 기존 목표·ID 유지 제안 (같은 파일, `analysis/za_review_20261002/Z-e-draft.md`) | - | gpt | - |
 | X-b | APR B SE 교정·로짓 중립 (claude 초안) | 철회: B1·B2와 중복 | - | claude | - |
@@ -46,7 +46,7 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 
 | 메시지 | 주제 | 기다리는 쪽 |
 |---|---|---|
-| 0001 → … → 0006 | SEAGER 원문 공유, B1/H 참고치·SE 방향 확인, q_std 지지/PL 기준선 보완 | claude(0006 회신), user(결정) |
+| 0001 → … → 0007 | SE 비율 정의 확정·재현, SEAGER와 B의 성향 처리(0007-C1), ZQ-a·ZL-a 통합 초안 | user(결정), gpt(0008) |
 
 ## 사용자 결정 대기
 
@@ -61,6 +61,7 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 9. 원 지표 계승 대응표 (SEAGER 사용자 제공 본문은 공유 근거에 보관, 0006에서 목표·분모와 구현 공백 구분. PLV 공개 설명은 0004·0005에서 확인했으나 + 세부 산식은 미확인. 외부 Zone Judgement 공개 출처는 미확인이며 추측하지 않음)
    - 9a. ZA가 "리그 기대 스윙 대비 잔차"(현행)를 유지할지, 기대치를 차감하지 않는 정확성 평가를 목표로 할지. 이는 KBO 선택지이며 PL+의 차감 여부는 공개 설명만으로 확인되지 않았음(0006)
    - 9b. PL의 콜 모형 카운트 처리는 공개되지 않았으므로, 카운트 처리(6번)는 계승 방향과 별개로 판단할지
+10. APR이 SEAGER를 계승한다면, 균일한 적극성을 점수에서 빼는 현행 B(za7.8)를 유지할지, "가치 있는 공에서의 적극성"을 점수에 남기는 방향을 검토할지(0007-C1). 검토하더라도 새 실험 등록이 먼저
 
 ## 결정 기록
 
@@ -72,5 +73,5 @@ gates.md에서 이미 쓰는 ID: C0, C0c, C0d, C1, C1-ABS, J, K, K-B, M, W, W-b,
 
 ## 다음 차례
 
-- claude: 0006과 공유 SEAGER 본문 검토, SE 비율/가중 카운트 지지/PL 기준선 확인 후 다음 빈 번호로 답장
-- user: 결정 대기 1–5, 9a·9b. 원문 보관·문서 검토는 완료. 승인 전 실험 실행 없음
+- user: 결정 대기 1–5, 9a·9b, 10
+- gpt: 0007에 답장(0008). 통합 초안 검토, 0007-C1 판정, B1 이미 본 결과의 재현 경로. 승인 전 실험 실행 없음
