@@ -26,7 +26,7 @@ body { margin: 0; }
 .trend-options { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
 .trend-options select { min-width: 0; width: 100%; min-height: 36px; padding: 7px; border: 1px solid var(--kbo-line); border-radius: 6px; color: var(--kbo-navy); background: #fff; font-size: .8rem; }
 .trend-options select:disabled { opacity: .55; }
-.trend-chart { position: relative; min-height: 280px; border-radius: 9px; overflow: hidden; background: #14191e; color: #f4f5f6; touch-action: pan-y; }
+.trend-chart { position: relative; min-height: 280px; border-radius: 9px; overflow: hidden; background: #fff; color: var(--kbo-navy); touch-action: pan-y; }
 .trend-chart svg { display: block; width: 100%; }
 .trend-chart:focus-visible { outline: 3px solid var(--kbo-red); outline-offset: 3px; }
 .trend-chart .trend-crosshair { pointer-events: none; }
@@ -36,7 +36,7 @@ body { margin: 0; }
 .trend-legend button[aria-pressed="false"] { opacity: .35; }
 .trend-swatch { display: inline-block; width: 18px; border-top: 3px solid; }
 .trend-league-label { cursor: pointer; }
-.trend-league-label .trend-swatch { border-top: 2px dashed #84919f; }
+.trend-league-label .trend-swatch { border-top: 2px dashed #68788b; }
 .trend-detail { min-height: 65px; padding-top: 11px; border-top: 1px solid var(--kbo-line); color: var(--kbo-muted); font-size: .78rem; line-height: 1.65; }
 .trend-detail strong { color: var(--kbo-navy); }
 .trend-sample { margin-top: 6px; color: var(--kbo-muted); font-size: .72rem; }

@@ -131,17 +131,17 @@ function drawModel(model) {
   const x=t=>bins.length<=1 || first===last?(left+width-right)/2:left+(t-first)/(last-first)*(width-left-right);
   const y=v=>height-bottom-(v-axis.min)/(axis.max-axis.min)*(height-top-bottom);
   Object.assign(model,{width,height,left,right,x,y});
-  let svg=`<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeHtml(state.selected.name)} ${spec.label} 추세선"><text x="${left}" y="20" fill="#bac3ce" font-size="12">${spec.unit}</text>`;
-  for(let tick=axis.min;tick<=axis.max+axis.step/10;tick+=axis.step) svg+=`<line x1="${left}" x2="${width-right}" y1="${y(tick)}" y2="${y(tick)}" stroke="#ffffff17"/><text x="${left-10}" y="${y(tick)+4}" text-anchor="end" fill="#aab3bf" font-size="12">${Number(tick.toFixed(2))}</text>`;
+  let svg=`<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="${escapeHtml(state.selected.name)} ${spec.label} 추세선"><text x="${left}" y="20" fill="#657589" font-size="12">${spec.unit}</text>`;
+  for(let tick=axis.min;tick<=axis.max+axis.step/10;tick+=axis.step) svg+=`<line x1="${left}" x2="${width-right}" y1="${y(tick)}" y2="${y(tick)}" stroke="#e3e9ef"/><text x="${left-10}" y="${y(tick)+4}" text-anchor="end" fill="#657589" font-size="12">${Number(tick.toFixed(2))}</text>`;
   const stride=Math.max(1,Math.ceil(bins.length/(width<400?3:5)));
-  bins.forEach((bin,i)=>{if(i%stride!==0 && i!==bins.length-1)return;const label=mode==="season"?bin.label:mode==="month"?bin.label.replace("-","."):bin.label.slice(5).replace("-",".");svg+=`<text x="${x(bin.x)}" y="${height-15}" text-anchor="${i===0?"start":i===bins.length-1?"end":"middle"}" fill="#aab3bf" font-size="12">${label}</text>`;});
+  bins.forEach((bin,i)=>{if(i%stride!==0 && i!==bins.length-1)return;const label=mode==="season"?bin.label:mode==="month"?bin.label.replace("-","."):bin.label.slice(5).replace("-",".");svg+=`<text x="${x(bin.x)}" y="${height-15}" text-anchor="${i===0?"start":i===bins.length-1?"end":"middle"}" fill="#657589" font-size="12">${label}</text>`;});
   for(const curve of active) {
-    if(w.league) svg+=`<path class="league-line" d="${pathFor(curve.points,x,y,true,mode)}" fill="none" stroke="${active.length>1?curve.color:"#b6c4d3"}" stroke-width="2" stroke-dasharray="6 5" opacity=".8"/>`;
+    if(w.league) svg+=`<path class="league-line" d="${pathFor(curve.points,x,y,true,mode)}" fill="none" stroke="${active.length>1?curve.color:"#68788b"}" stroke-width="2" stroke-dasharray="6 5" opacity=".8"/>`;
     svg+=`<path class="player-line" d="${pathFor(curve.points,x,y,false,mode)}" fill="none" stroke="${curve.color}" stroke-width="2.8" stroke-linejoin="round"/>`;
-    for(const point of curve.points) if(point.value!==null) svg+=`<circle class="trend-point" cx="${x(point.x)}" cy="${y(point.value)}" r="${bins.length>100?2.2:4}" fill="${point.low?"#14191e":curve.color}" stroke="${curve.color}" stroke-width="1.8"/>`;
+    for(const point of curve.points) if(point.value!==null) svg+=`<circle class="trend-point" cx="${x(point.x)}" cy="${y(point.value)}" r="${bins.length>100?2.2:4}" fill="${point.low?"#fff":curve.color}" stroke="${curve.color}" stroke-width="1.8"/>`;
   }
-  if(!values.some(Number.isFinite)) svg+=`<text x="${width/2}" y="${height/2}" text-anchor="middle" fill="#b6c4d3" font-size="13">이 기간에 계산할 기록이 없습니다.</text>`;
-  svg+=`<line class="trend-crosshair" x1="0" x2="0" y1="${top}" y2="${height-bottom}" stroke="#ffffff88" stroke-dasharray="3 4" visibility="hidden"/></svg>`;
+  if(!values.some(Number.isFinite)) svg+=`<text x="${width/2}" y="${height/2}" text-anchor="middle" fill="#68788b" font-size="13">이 기간에 계산할 기록이 없습니다.</text>`;
+  svg+=`<line class="trend-crosshair" x1="0" x2="0" y1="${top}" y2="${height-bottom}" stroke="#62748a80" stroke-dasharray="3 4" visibility="hidden"/></svg>`;
   chart.innerHTML=svg;
   const legend=card.querySelector(".trend-legend");
   legend.innerHTML=curves.map(c=>`<button type="button" data-series="${c.code}" aria-pressed="${!w.hidden.has(c.code)}"><i class="trend-swatch" style="border-color:${c.color}"></i>${escapeHtml(c.label)}</button>`).join("")+`<label class="trend-league-label"><input type="checkbox" class="league-toggle" ${w.league?"checked":""}><i class="trend-swatch"></i>리그 평균</label>`;
