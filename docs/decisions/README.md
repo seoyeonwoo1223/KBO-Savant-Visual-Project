@@ -37,6 +37,8 @@
 | [0018](0018-swing-take-capture-background.md) | Swing/Take 모바일·저장 이미지의 League Avg 점선 배경 | 웹·하네스 |
 | [0019](0019-swing-take-mobile-loading.md) | 모바일 Swing/Take 로딩 표시에서 완성 이미지로 전환 | 웹·하네스 |
 
+| [0020](0020-leaderboard-pagination.md) | 리더보드 열 정렬·번호 페이지·색 대비 | 웹 |
+
 ### 다른 곳에 있는 결정·근거
 
 | 주제 | 문서 |
