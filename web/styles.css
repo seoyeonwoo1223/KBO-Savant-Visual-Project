@@ -14,29 +14,6 @@ input, select { margin: 8px; padding: 8px; border: 1px solid var(--kbo-line-stro
 button { display: inline-block; border: 0; background: var(--kbo-navy-2); color: #fff; padding: 10px 14px; font-weight: 700; cursor: pointer; }
 button:hover { background: var(--kbo-navy); }
 
-.player-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-.player-card {
-  display: flex;
-  min-height: 196px;
-  width: 100%;
-  flex-direction: column;
-  border: 1px solid var(--kbo-line-strong);
-  padding: 20px;
-  color: #17263a;
-  background: #fff;
-  text-decoration: none;
-  text-align: left;
-  transition: border-color .15s, transform .15s;
-}
-.player-card:hover { border-color: var(--kbo-red); transform: translateY(-2px); }
-.player-card__team { color: var(--kbo-muted); font-size: .83rem; }
-.player-card strong { margin-top: 22px; color: var(--kbo-navy); font-size: 2rem; line-height: 1; letter-spacing: -.045em; }
-.player-card__romanized { margin-top: 5px; color: var(--kbo-muted); font-size: .91rem; }
-.player-card__detail { margin-top: 19px; color: var(--kbo-muted); font-size: .84rem; }
-.player-card__link { margin-top: auto; padding-top: 13px; color: var(--kbo-red); font-weight: 700; font-size: .9rem; }
-
-@media (max-width: 780px) { .player-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 580px) {
   main { padding: 28px 16px 48px; }
-  .player-list { grid-template-columns: 1fr; }
 }

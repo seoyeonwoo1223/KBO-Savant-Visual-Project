@@ -223,8 +223,6 @@ button,
 .method-card,
 .field-card,
 .profile-card,
-.player-card,
-.reading-note,
 .side-panel { border-color: var(--kbo-line); }
 
 table th,
