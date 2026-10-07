@@ -1,0 +1,138 @@
+{
+  "player_bio": {
+    "rows": 1379,
+    "non_null": {
+      "height_cm": 0,
+      "weight_kg": 0,
+      "birth_date": 0
+    },
+    "source_name": [
+      "Visual Baseball PBP + canonical trajectory inference"
+    ]
+  },
+  "seasons": {
+    "2019": {
+      "batters_300": 150,
+      "single_sz_top_share": 0.0,
+      "median_within_batter_sd_top_cm": 3.176561081771949,
+      "median_top_cm": 103.0224,
+      "top_over_bottom_median": 2.1366938775510205,
+      "top_over_bottom_iqr": 0.09078947247700953,
+      "top_over_bottom_p05_p95": [
+        2.0325499920752326,
+        2.268457086391869
+      ]
+    },
+    "2020": {
+      "batters_300": 166,
+      "single_sz_top_share": 0.23493975903614459,
+      "median_within_batter_sd_top_cm": 0.7106041914709151,
+      "median_top_cm": 102.13848,
+      "top_over_bottom_median": 2.1445305013204914,
+      "top_over_bottom_iqr": 0.17272321245524136,
+      "top_over_bottom_p05_p95": [
+        1.9815797487628475,
+        2.318194642432882
+      ]
+    },
+    "2021": {
+      "batters_300": 166,
+      "single_sz_top_share": 0.6867469879518072,
+      "median_within_batter_sd_top_cm": 0.0,
+      "median_top_cm": 102.87,
+      "top_over_bottom_median": 2.1710436839912917,
+      "top_over_bottom_iqr": 0.16545674531155452,
+      "top_over_bottom_p05_p95": [
+        1.9908523913124143,
+        2.2974324712643677
+      ]
+    },
+    "2022": {
+      "batters_300": 163,
+      "single_sz_top_share": 0.9815950920245399,
+      "median_within_batter_sd_top_cm": 0.0,
+      "median_top_cm": 105.918,
+      "top_over_bottom_median": 2.258573388203018,
+      "top_over_bottom_iqr": 0.1499730269029067,
+      "top_over_bottom_p05_p95": [
+        2.075265463687092,
+        2.3819515495925936
+      ]
+    },
+    "2023": {
+      "batters_300": 173,
+      "single_sz_top_share": 0.9364161849710982,
+      "median_within_batter_sd_top_cm": 0.0,
+      "median_top_cm": 106.3752,
+      "top_over_bottom_median": 2.283757338551859,
+      "top_over_bottom_iqr": 0.14148148148148154,
+      "top_over_bottom_p05_p95": [
+        2.0850734312416557,
+        2.3932412806800216
+      ]
+    },
+    "2024": {
+      "batters_300": 155,
+      "single_sz_top_share": 0.9612903225806452,
+      "median_within_batter_sd_top_cm": 0.0,
+      "median_top_cm": 102.83952000000001,
+      "top_over_bottom_median": 2.03866128101558,
+      "top_over_bottom_iqr": 0.0006342872337206096,
+      "top_over_bottom_p05_p95": [
+        2.038133828737663,
+        2.039434961742201
+      ]
+    },
+    "2025": {
+      "batters_300": 171,
+      "single_sz_top_share": 0.9707602339181286,
+      "median_within_batter_sd_top_cm": 0.0,
+      "median_top_cm": 101.58984000000001,
+      "top_over_bottom_median": 2.0617048346055977,
+      "top_over_bottom_iqr": 0.000682859119218282,
+      "top_over_bottom_p05_p95": [
+        2.061121219307563,
+        2.062459122491153
+      ]
+    },
+    "2026": {
+      "batters_300": 166,
+      "single_sz_top_share": 0.9578313253012049,
+      "median_within_batter_sd_top_cm": 0.0,
+      "median_top_cm": 101.55936,
+      "top_over_bottom_median": 2.0617133245128745,
+      "top_over_bottom_iqr": 0.0007304884944798751,
+      "top_over_bottom_p05_p95": [
+        2.0611467813814417,
+        2.0625
+      ]
+    }
+  },
+  "same_batter": {
+    "2024_to_2025": {
+      "n": 115,
+      "top_ratio_median": 0.9876170341286621,
+      "top_ratio_iqr": 0.006958435636562399,
+      "top_pearson": 0.9752988260630112
+    },
+    "2025_to_2026": {
+      "n": 122,
+      "top_ratio_median": 1.0,
+      "top_ratio_iqr": 0.0072128010008392085,
+      "top_pearson": 0.9826940731153733
+    },
+    "2023_to_2024": {
+      "n": 116,
+      "top_ratio_median": 0.9783690045828162,
+      "top_ratio_iqr": 0.04034672147806795,
+      "top_pearson": 0.6199869744800497
+    }
+  },
+  "umpire_pitch_share_with_abs_zone": {
+    "2019": 0.6325324142779036,
+    "2020": 0.6798384168482208,
+    "2021": 0.7778837810457071,
+    "2022": 0.8511484325164943,
+    "2023": 0.9062958151619189
+  }
+}
