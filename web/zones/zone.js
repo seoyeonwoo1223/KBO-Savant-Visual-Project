@@ -12,6 +12,8 @@ const metricConfig = {
   contact: { label: "Contact %", numerator: "contacts", denominator: "swings", maximum: 100, percent: true },
   inplay: { label: "In-play %", numerator: "inplay", denominator: "total", maximum: 100, percent: true },
 };
+// 최소 표본은 지표마다 따로 기억합니다. AVG는 분모가 타수라 칸마다 5타수를 넘기 어려워 기본 3 (docs/decisions/0015).
+const minimums = { swing: 5, whiff: 5, contact: 5, inplay: 5, avg: 3 };
 const metricValue = (config, numerator, denominator) => denominator ? (config.percent ? 100 * numerator / denominator : numerator / denominator) : null;
 const metricLabel = (config, value) => value == null ? "—" : config.percent ? `${value.toFixed(1)}%` : value.toFixed(3).replace(/^0/, "");
 
@@ -156,6 +158,8 @@ async function openPlayer(player, year, role, replaceUrl = true) {
     const control = $("#" + name.replace(/[A-Z]/g, letter => "-" + letter.toLowerCase()));
     if (control && thumbnailParams.has(name) && [...control.options].some(option => option.value === thumbnailParams.get(name))) control.value = thumbnailParams.get(name);
   });
+  if (thumbnailParams.has("minimum")) minimums[$("#metric").value] = Number($("#minimum").value);
+  else $("#minimum").value = String(minimums[$("#metric").value]);
   if (replaceUrl) history.replaceState(null, "", `?player=${encodeURIComponent(player.id)}&year=${year}&role=${role}`);
   $("#matches").innerHTML = ""; $("#message").textContent = "";
   render();
@@ -199,4 +203,6 @@ $("#count-view").addEventListener("change", event => {
   const enabled = event.target.value === "single";
   $("#balls").disabled = !enabled; $("#strikes").disabled = !enabled; render();
 });
-["#pitcher-throws", "#pitch-type", "#balls", "#strikes", "#metric", "#minimum"].forEach(selector => $(selector).addEventListener("change", render));
+$("#metric").addEventListener("change", event => { $("#minimum").value = String(minimums[event.target.value]); render(); });
+$("#minimum").addEventListener("change", event => { minimums[$("#metric").value] = Number(event.target.value); render(); });
+["#pitcher-throws", "#pitch-type", "#balls", "#strikes"].forEach(selector => $(selector).addEventListener("change", render));
