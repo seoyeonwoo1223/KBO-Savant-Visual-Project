@@ -101,7 +101,7 @@ def _arguments() -> argparse.ArgumentParser:
     parser.add_argument("--season", type=int, default=2026)
     parser.add_argument("--game-id")
     parser.add_argument("--rebuild-from-raw", action="store_true")
-    parser.add_argument("--only", choices=("zone_decision", "pitch_arsenal", "movement_zones"),
+    parser.add_argument("--only", choices=("zone_decision", "pitch_arsenal", "movement_zones", "leaderboards"),
                         help="Rebuild just this metric for --season from curated data, only when its inputs or code changed.")
     parser.add_argument("--exports-only", action="store_true",
                         help="Rebuild exports from the curated data already on disk; no network fetch.")
@@ -127,6 +127,10 @@ def _build_only(parser: argparse.ArgumentParser, args, root: Path) -> None:
     """--only: rebuild one metric from curated data when its inputs or code changed."""
     if args.only == "movement_zones":
         _build_metric(root, args.season, "movement_zones", lambda: build_movement_zones(root))
+    elif args.only == "leaderboards":
+        if args.season != 2026:
+            parser.error("--only leaderboards는 현재 2026 시즌만 지원합니다.")
+        _build_metric(root, args.season, "leaderboards", lambda: build_vb_leaderboard(root, args.season))
     elif args.only == "zone_decision":
         # Completed seasons have no Swing/Take decision table, so this skips the
         # _exports() gate; build_zone_decision reads curated data directly.

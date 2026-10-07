@@ -88,6 +88,10 @@ jobs:
           else
             python -m visualbaseball.cli ${{ inputs.refresh_completed == true && '--refresh-completed' || '' }}
           fi
+      - name: Verify mixed DH plate appearances and refresh leaderboard
+        run: |
+          python -m visualbaseball.leaderboard_dh
+          python -m visualbaseball.cli --only leaderboards
       - name: Rebuild SBJ for completed seasons
         # 2019-2025는 새로 수집하지 않습니다. metric_state의 입력·코드 hash가 바뀐
         # 경우에만 저장된 curated 데이터로 SBJ를 다시 계산하고, 평소에는 확인만 합니다.

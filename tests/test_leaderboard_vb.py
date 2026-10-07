@@ -65,6 +65,9 @@ def test_official_running_change_invalidates_leaderboard(tmp_path):
     fielding_source = source.with_name("2026_fielding.json")
     fielding_source.write_text('{"records": []}')
     assert needs_build(tmp_path, 2026, "leaderboards")
+    mark_built(tmp_path, 2026, "leaderboards")
+    source.with_name("2026_dh.json").write_text('{"innings": {}}')
+    assert needs_build(tmp_path, 2026, "leaderboards")
 
 
 def test_late_joining_pitchers_remain_visible_below_50_innings():

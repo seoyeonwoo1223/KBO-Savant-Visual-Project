@@ -32,6 +32,7 @@
 | [0015](0015-zone-profile-league-relative.md) | Zone Profile 색은 칸별 리그 평균 대비 차이 (리그 = 흰색) | 지표·웹 |
 
 | [0015](0015-position-exposure-adjustment.md) | 포지션별 공식 수비이닝과 DH 타석 분리 보정 | 지표 |
+| [0016](0016-naver-dh-verification.md) | 복합 DH 표기를 네이버 타석별 포지션으로 재검증 | 지표 |
 
 ### 다른 곳에 있는 결정·근거
 
