@@ -12,6 +12,8 @@ import pandas as pd
 from openpyxl import load_workbook
 
 from .curated import load_rows, load_table
+from .leaderboard_dh import COLUMNS as DH_COLUMNS
+from .leaderboard_dh import confirmed_position, load_verifications, mixed_dh
 from .publish import write_json
 
 
@@ -124,6 +126,7 @@ def _aggregate(root: Path, season: int):
     pitches = load_table(root, "pitches", season).to_pandas()
     pitches = pitches[pitches["game_date"].notna()].copy()
     terminal = pitches[pitches["is_pa_terminal"]].sort_values(["game_date", "game_id", "inning", "inning_half", "event_seq"])
+    dh_verifications = load_verifications(root, season, terminal[DH_COLUMNS].to_dict("records"))
     games = load_rows(root, "games", season)
     game_teams = {game["game_id"]: {"top": TEAM_CODES[game["away_team"]], "bottom": TEAM_CODES[game["home_team"]]} for game in games}
     starters = {(game["game_id"], str(game.get(field) or "")) for game in games for field in ("away_starter_name", "home_starter_name")}
@@ -142,8 +145,13 @@ def _aggregate(root: Path, season: int):
         batter.update({"PA": 1, "RBI": pa.get("rbi", 0)})
         batter["name"], batter["team"] = row.batter_name, pa.get("team", "")
         batter_games[batter_id].add(row.game_id)
-        if "지" in str(row.batter_position or "") and str(row.batter_position) != "지":
-            batter_positions[batter_id]["DH_unknown"] += 1
+        if mixed_dh(row.batter_position):
+            verified = confirmed_position(row, dh_verifications.get(row.pa_id))
+            if verified:
+                batter_positions[batter_id]["DH_verified"] += 1
+                batter_positions[batter_id][verified] += 1
+            else:
+                batter_positions[batter_id]["DH_unknown"] += 1
         if pa.get("position"):
             batter_positions[batter_id][pa["position"]] += 1
         _count_result(batter, bases, pa_type, result)
@@ -183,6 +191,7 @@ def _position_adjustment(positions, official, name):
     upper = defensive + POSITION_RUNS["DH"] * dh_pa / 600
     lower = defensive + POSITION_RUNS["DH"] * (dh_pa + unknown) / 600
     return {"lower": lower, "upper": upper, "dh_pa": dh_pa, "dh_unknown_pa": unknown,
+            "naver_verified_mixed_pa": positions.get("DH_verified", 0),
             "fielding_outs": dict(official["outs"])}
 
 
@@ -323,12 +332,15 @@ def build_vb_leaderboard(root: Path, season: int = 2026, output: Path | None = N
                    "running": {"url": running_payload["source_url"], "period": running_payload["period"],
                                "matched_batters": sum(row["SB"] is not None for row in bat_rows)},
                    "position_adjustment": {"url": fielding_payload["source_url"], "period": fielding_payload["period"],
-                                           "defensive_season_innings": FIELDING_SEASON_INNINGS, "dh_season_pa": 600}},
+                                           "defensive_season_innings": FIELDING_SEASON_INNINGS, "dh_season_pa": 600,
+                                           "dh_verification_source": "네이버 타석별 포지션(VB 복합 DH 표기)",
+                                           "verified_mixed_pa": sum(row["position_adjustment"]["naver_verified_mixed_pa"] for row in bat_rows if row["position_adjustment"]),
+                                           "unresolved_mixed_pa": sum(row["position_adjustment"]["dh_unknown_pa"] for row in bat_rows if row["position_adjustment"])}},
         "notes": [
             "전체 선수는 타격·투구 기록이 있는 선수 모두를 포함합니다. 표본 필터의 기준 충족 선수는 타자 200 PA 이상·투수 50 IP 이상입니다.",
             f"{season} 타자·투수 누적값은 Visual Baseball PBP를 직접 재집계했으며 공식 KBO 합계와 일부 차이가 날 수 있습니다.",
             "oWAR*는 수비를 제외하고 포지션 보정과 공식 도루·도실의 추정 득점(0.2×SB−0.4×CS)을 반영합니다. 추가 진루 가치는 포함하지 않습니다. 투수 WAR*는 FIP 기반 추정치입니다.",
-            "포지션 보정은 공식 포지션별 수비이닝÷1296(144경기×9이닝)과 VB에서 확인된 DH 타석÷600으로 각각 계산해 합산합니다. 복합 DH 표기의 미확정 타석은 oWAR 범위로 표시하고 하한으로 정렬합니다. 공식 수비이닝 기준일은 PBP와 다를 수 있습니다.",
+            "포지션 보정은 공식 포지션별 수비이닝÷1296(144경기×9이닝)과 확인된 DH 타석÷600으로 각각 계산해 합산합니다. VB 복합 DH 표기는 네이버 타석별 포지션으로 대조하며, 미확정 타석은 oWAR 범위로 표시하고 하한으로 정렬합니다. 공식 수비이닝 기준일은 PBP와 다를 수 있습니다.",
             "타격·투구 추정치의 리그·구장·가중치 상수는 기존 입력 상수표를 사용합니다.",
             "† 투수 실점은 승계주자 책임을 PBP 주자 ID로 추적한 값이며 공식 자책점과 다릅니다.",
             "도루·도실은 KBO 공식 정규시즌 현재 누적 기록을 선수 ID와 이름으로 연결했습니다. 공식 주루 기준은 PBP 기준일과 다를 수 있습니다. 미연결은 —이며 주루 보정이 빠집니다.",

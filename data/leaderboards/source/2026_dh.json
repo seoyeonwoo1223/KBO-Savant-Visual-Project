@@ -1,0 +1,2427 @@
+{
+  "schema_version": 1,
+  "season": 2026,
+  "scope": "vb_mixed_dh",
+  "innings": {
+    "20260401KTHH0:2": {
+      "input_sha256": "1a256288f51de3f69aa47e41095b0f6afad93c1327a6bfe45eefffca81820a76",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260401KTHH02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260401KTHH0-010",
+          "player_id": "78548",
+          "name": "장성우",
+          "vb_position": "지포",
+          "inning": 2,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260401KTHH0:4": {
+      "input_sha256": "818ae142ad5a7f971b631557e4f5280ef1d0e02156d495b49da8e2ac5cbc25a8",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260401KTHH02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260401KTHH0-031",
+          "player_id": "78548",
+          "name": "장성우",
+          "vb_position": "지포",
+          "inning": 4,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260401KTHH0:7": {
+      "input_sha256": "f7129879489dc73e84124f1a2e1d7a03c9fb97a988458c3b79b53b15a1992a55",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260401KTHH02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260401KTHH0-053",
+          "player_id": "78548",
+          "name": "장성우",
+          "vb_position": "지포",
+          "inning": 7,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260401KTHH0:8": {
+      "input_sha256": "23c01796c00be0316bcc04cdbfef18527b3b17e3bd35c46aedb690e938902a57",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260401KTHH02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260401KTHH0-069",
+          "player_id": "78548",
+          "name": "장성우",
+          "vb_position": "지포",
+          "inning": 8,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 2,
+          "naver_pa_count": 2
+        },
+        {
+          "pa_id": "20260401KTHH0-078",
+          "player_id": "78548",
+          "name": "장성우",
+          "vb_position": "지포",
+          "inning": 8,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 2,
+          "naver_pa_count": 2
+        }
+      ]
+    },
+    "20260410OBKT0:1": {
+      "input_sha256": "51ad10da263e14f66d80321472cf4fa096e8d5c117caaf39edafe1d764a5bf8e",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260410OBKT02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260410OBKT0-004",
+          "player_id": "76232",
+          "name": "양의지",
+          "vb_position": "지포",
+          "inning": 1,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260410OBKT0:10": {
+      "input_sha256": "3f0c1cbfef7b170d5c35e3abeadc678af5be5e6633eae9ca0a1d3e12b0603067",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260410OBKT02026/relay?inning=10",
+      "records": [
+        {
+          "pa_id": "20260410OBKT0-081",
+          "player_id": "76232",
+          "name": "양의지",
+          "vb_position": "지포",
+          "inning": 10,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260410OBKT0:3": {
+      "input_sha256": "22c870e02338ec637dd7fb61f1a6c59fb278cbd475d21593b9ba89f556c9c944",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260410OBKT02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260410OBKT0-021",
+          "player_id": "76232",
+          "name": "양의지",
+          "vb_position": "지포",
+          "inning": 3,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260410OBKT0:6": {
+      "input_sha256": "9385207868eeac8f18dc0b7dab867711d96d16d4d75e2bae15c6f101220eaba9",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260410OBKT02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260410OBKT0-042",
+          "player_id": "76232",
+          "name": "양의지",
+          "vb_position": "지포",
+          "inning": 6,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260410OBKT0:8": {
+      "input_sha256": "6f3312dbc62fcc02b074beeeddc22c8c9acabaad827b9365ec7c13f50126c440",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260410OBKT02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260410OBKT0-064",
+          "player_id": "76232",
+          "name": "양의지",
+          "vb_position": "지포",
+          "inning": 8,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260417HTOB0:1": {
+      "input_sha256": "1e348d613fd125a831ca465bdb5fc607526eb6ef3f8c7ee3397d82e7fc59ba8a",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260417HTOB02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260417HTOB0-004",
+          "player_id": "52605",
+          "name": "김도영",
+          "vb_position": "지삼",
+          "inning": 1,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260417HTOB0:3": {
+      "input_sha256": "9c89a9c2da46a097c6303f1b62e56ccaccc1efb90812f4f366a40f407e2b7c2a",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260417HTOB02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260417HTOB0-021",
+          "player_id": "52605",
+          "name": "김도영",
+          "vb_position": "지삼",
+          "inning": 3,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260417HTOB0:5": {
+      "input_sha256": "9f50b72203b6677458eddc62e2bf434e0b5eff0df6e08149bd7d0bc913763523",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260417HTOB02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260417HTOB0-038",
+          "player_id": "52605",
+          "name": "김도영",
+          "vb_position": "지삼",
+          "inning": 5,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260417HTOB0:7": {
+      "input_sha256": "7500e1901ea82fca227576a1289de76bea98ba49865741b27e6a050bf9b69c73",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260417HTOB02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260417HTOB0-057",
+          "player_id": "52605",
+          "name": "김도영",
+          "vb_position": "지삼",
+          "inning": 7,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260417HTOB0:9": {
+      "input_sha256": "19c6c2fc6f515d174a7431725ce92c362a672d9bc288bd1d531617dd8558c8e4",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260417HTOB02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260417HTOB0-077",
+          "player_id": "52605",
+          "name": "김도영",
+          "vb_position": "지삼",
+          "inning": 9,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260423HTKT0:1": {
+      "input_sha256": "80d1f115af053f5ff918a82306fb9162bf820dc9be2bf4e53956ce0bb51b49b3",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260423HTKT02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260423HTKT0-009",
+          "player_id": "76290",
+          "name": "김현수",
+          "vb_position": "지일",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260423HTKT0:2": {
+      "input_sha256": "f0f05eed4b4e3a67b76880b7321bbb5ddacbbd51dc354cc1f80d8073ebdc25c6",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260423HTKT02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260423HTKT0-024",
+          "player_id": "76290",
+          "name": "김현수",
+          "vb_position": "지일",
+          "inning": 2,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260423HTKT0:5": {
+      "input_sha256": "734b4bf8dafc48d47214b27c8174101074d67c33d0c5925a18cd2532397546ad",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260423HTKT02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260423HTKT0-044",
+          "player_id": "76290",
+          "name": "김현수",
+          "vb_position": "지일",
+          "inning": 5,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260423HTKT0:7": {
+      "input_sha256": "de06bb483f9fb897459ba987a014acd3986450dcef1373a1255a74af5bc8a457",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260423HTKT02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260423HTKT0-060",
+          "player_id": "76290",
+          "name": "김현수",
+          "vb_position": "지일",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260505OBLG0:1": {
+      "input_sha256": "9ee07d22d4264941e34991bcfac93fade1747e7cd82396c697f61158c4273a52",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260505OBLG02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260505OBLG0-007",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260505OBLG0:3": {
+      "input_sha256": "8933273ab10c44a37ad793a500a0a590f969bc559b5d53d51fbf46aca4d36c12",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260505OBLG02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260505OBLG0-024",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 3,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260505OBLG0:5": {
+      "input_sha256": "003deeeecf0260ccf988f0f8e1f5a08ed27b64f16752800c14a8c744bcac46cb",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260505OBLG02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260505OBLG0-042",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 5,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260505OBLG0:7": {
+      "input_sha256": "36fcca02e46cbc88a5d6adcdf275b945220809502e1c58979e3b817bb8103825",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260505OBLG02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260505OBLG0-058",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260505OBLG0:8": {
+      "input_sha256": "92e21b59469b562fc6fb71a5fef29e465461ae128c6f7e7e848ac1176576e608",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260505OBLG02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260505OBLG0-070",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 8,
+          "half": "bottom",
+          "status": "matched",
+          "position": "1B",
+          "naver_position": "1루수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260509KTWO0:1": {
+      "input_sha256": "6c07b118e7015b535a3977ef1c14a9304ff6158f641342883690048166843e91",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260509KTWO02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260509KTWO0-006",
+          "player_id": "79608",
+          "name": "안치홍",
+          "vb_position": "지유",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260509KTWO0:10": {
+      "input_sha256": "fdb72f9efa3829509cd10a6165314b89de70a63a7a333e0e92b4cf953a80eab3",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260509KTWO02026/relay?inning=10",
+      "records": [
+        {
+          "pa_id": "20260509KTWO0-090",
+          "player_id": "79608",
+          "name": "안치홍",
+          "vb_position": "지유",
+          "inning": 10,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260509KTWO0:3": {
+      "input_sha256": "5a26c72624ef83ed48f8033eaad693da288bc1acaa09af5678b22f0eca58e475",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260509KTWO02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260509KTWO0-027",
+          "player_id": "79608",
+          "name": "안치홍",
+          "vb_position": "지유",
+          "inning": 3,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260509KTWO0:5": {
+      "input_sha256": "6c410ba1be3a9a518d1d626a2bfc9f28fc3b5ae440ac165ab327ae06b07733e5",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260509KTWO02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260509KTWO0-047",
+          "player_id": "79608",
+          "name": "안치홍",
+          "vb_position": "지유",
+          "inning": 5,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260509KTWO0:7": {
+      "input_sha256": "876dc61c7b2018934d93cd098fb0dfd1f9a1a394caa0f569a8a989fb2342f323",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260509KTWO02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260509KTWO0-066",
+          "player_id": "79608",
+          "name": "안치홍",
+          "vb_position": "지유",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260514HHWO0:1": {
+      "input_sha256": "4f85a212a12d2ec6356918f6765fd700ced4b28f7c939e1e0c98feaff2454229",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260514HHWO02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260514HHWO0-005",
+          "player_id": "78168",
+          "name": "서건창",
+          "vb_position": "지이",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260514HHWO0:3": {
+      "input_sha256": "87f5b0d7c744c3c7f39b1a1480d1e2c7457f6ad50f37cb7a323dc572a8d3d676",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260514HHWO02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260514HHWO0-022",
+          "player_id": "78168",
+          "name": "서건창",
+          "vb_position": "지이",
+          "inning": 3,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260514HHWO0:6": {
+      "input_sha256": "508e14f7fb7a0f275bd74667bbe8185d3635c93ef7267f5aa71504c4cf044209",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260514HHWO02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260514HHWO0-045",
+          "player_id": "78168",
+          "name": "서건창",
+          "vb_position": "지이",
+          "inning": 6,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260514HHWO0:8": {
+      "input_sha256": "0c6422f5c4bbdf9b5c4019b202a0e38e0bf1cbaecaf37fa295389c6386b8c30c",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260514HHWO02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260514HHWO0-066",
+          "player_id": "78168",
+          "name": "서건창",
+          "vb_position": "지이",
+          "inning": 8,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260516HTSS0:2": {
+      "input_sha256": "c464393f76756a9bba5badcd0429d150ad4517bd3f3235bb08c4a824ae078a18",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260516HTSS02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260516HTSS0-016",
+          "player_id": "74540",
+          "name": "강민호",
+          "vb_position": "지포",
+          "inning": 2,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260516HTSS0:4": {
+      "input_sha256": "13fdc6cf01021c682804eff752a446e5523b5bccb97b0804c8219e8ba4606783",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260516HTSS02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260516HTSS0-031",
+          "player_id": "74540",
+          "name": "강민호",
+          "vb_position": "지포",
+          "inning": 4,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260516HTSS0:6": {
+      "input_sha256": "69e2b3ba86beb03769c762769192c33ad0f82beb26e95805ea41b24ace1e2288",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260516HTSS02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260516HTSS0-048",
+          "player_id": "74540",
+          "name": "강민호",
+          "vb_position": "지포",
+          "inning": 6,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260516HTSS0:8": {
+      "input_sha256": "dce28358a06f90701e7078c57263e1ea3fdacb5233d3b008b7456b74efad823a",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260516HTSS02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260516HTSS0-063",
+          "player_id": "74540",
+          "name": "강민호",
+          "vb_position": "지포",
+          "inning": 8,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260516LGSK0:1": {
+      "input_sha256": "fc3c4860bd96e5e78066187f2c522db23976f9f4cbb0d9e43b3c0d61df7c7d14",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260516LGSK02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260516LGSK0-008",
+          "player_id": "53827",
+          "name": "에레디아",
+          "vb_position": "지좌",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260516LGSK0:2": {
+      "input_sha256": "ac9a0b816d9ad9e0856d93f11a30b5b7f1b1572c4029283de7d7fc61facf4686",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260516LGSK02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260516LGSK0-014",
+          "player_id": "53827",
+          "name": "에레디아",
+          "vb_position": "지좌",
+          "inning": 2,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260516LGSK0:3": {
+      "input_sha256": "d43a9419d78f9d4606bf0a76bf2165c5bfc52e08bb9dca9cfc096778e4e06317",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260516LGSK02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260516LGSK0-026",
+          "player_id": "53827",
+          "name": "에레디아",
+          "vb_position": "지좌",
+          "inning": 3,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260516LGSK0:5": {
+      "input_sha256": "b356d27909a4ccddacf38df46c6be1ebe99ea9f7896fb47e22d2e322c0fe48ef",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260516LGSK02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260516LGSK0-042",
+          "player_id": "53827",
+          "name": "에레디아",
+          "vb_position": "지좌",
+          "inning": 5,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260516LGSK0:8": {
+      "input_sha256": "5c3512c96c692ba809d0b49636b4aa606c86b812c653f937848152a548fa3d21",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260516LGSK02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260516LGSK0-061",
+          "player_id": "53827",
+          "name": "에레디아",
+          "vb_position": "지좌",
+          "inning": 8,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260516LGSK0:9": {
+      "input_sha256": "1fa50b82bb2ce96f789b72822f976e4ee1ade9f4443c8a552e685a0d7982568c",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260516LGSK02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260516LGSK0-075",
+          "player_id": "53827",
+          "name": "에레디아",
+          "vb_position": "지좌",
+          "inning": 9,
+          "half": "bottom",
+          "status": "matched",
+          "position": "LF",
+          "naver_position": "좌익수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260517HHKT0:1": {
+      "input_sha256": "97f0ffcc8e7d909b1e66fcf18dde25494bcb93f635ff75e5fadcc062b1f6a0f7",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260517HHKT02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260517HHKT0-008",
+          "player_id": "78548",
+          "name": "장성우",
+          "vb_position": "지포",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260517HHKT0:4": {
+      "input_sha256": "0b1a6c662caa07528631024b3ba87ff1ed76183304d694c1b03b613261f0cd66",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260517HHKT02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260517HHKT0-034",
+          "player_id": "78548",
+          "name": "장성우",
+          "vb_position": "지포",
+          "inning": 4,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260517HHKT0:6": {
+      "input_sha256": "a6819038c90961957083ca63149b283cd5a15269ceff109a44bd47b3e2cafe07",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260517HHKT02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260517HHKT0-050",
+          "player_id": "78548",
+          "name": "장성우",
+          "vb_position": "지포",
+          "inning": 6,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260517HHKT0:7": {
+      "input_sha256": "f639edcd4968fc23d845f4d7435bdf99cdc28306abb9f5c74e30c45b92cd676f",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260517HHKT02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260517HHKT0-066",
+          "player_id": "78548",
+          "name": "장성우",
+          "vb_position": "지포",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260517HHKT0:9": {
+      "input_sha256": "8af7770a13b746c9c0556b3d62777bdc71c9ea5b837097afe05666bf8c6fa678",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260517HHKT02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260517HHKT0-087",
+          "player_id": "78548",
+          "name": "장성우",
+          "vb_position": "지포",
+          "inning": 9,
+          "half": "bottom",
+          "status": "matched",
+          "position": "C",
+          "naver_position": "포수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260530HTLG0:1": {
+      "input_sha256": "a82425f76a73a7a84b1a81cb3cd66483862f2ce6864b5f465181014db205e266",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260530HTLG02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260530HTLG0-007",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260530HTLG0:3": {
+      "input_sha256": "7a2569cfae4f106918395c10767d80978f7ad85c7ac2e5eee8661a5b0692b0fe",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260530HTLG02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260530HTLG0-022",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 3,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260530HTLG0:5": {
+      "input_sha256": "3775bc5c3812e9a1f0f863d214bf9686f10a255de737b0e8b7a793218c2032d5",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260530HTLG02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260530HTLG0-038",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 5,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260530HTLG0:8": {
+      "input_sha256": "c5b26907b33221660e24072f643c8b17f72c64cf34a143647f1bd9ac7ff3c0c0",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260530HTLG02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260530HTLG0-059",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 8,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260531LTNC0:2": {
+      "input_sha256": "dd3f18f7b698a58a32af20ab7f5627dca27088f3e26f0185dd750bdf85b844b9",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260531LTNC02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260531LTNC0-011",
+          "player_id": "62931",
+          "name": "노진혁",
+          "vb_position": "지삼",
+          "inning": 2,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260531LTNC0:4": {
+      "input_sha256": "e02bfe051372842908d50fdb1e9a9028cdd5b643738cadff910072b27344d2fa",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260531LTNC02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260531LTNC0-030",
+          "player_id": "62931",
+          "name": "노진혁",
+          "vb_position": "지삼",
+          "inning": 4,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260531LTNC0:6": {
+      "input_sha256": "7ff4b966426a124b5b1d8432e0c558420d227605a07fbccf9e5f3d8e86d883b1",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260531LTNC02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260531LTNC0-051",
+          "player_id": "62931",
+          "name": "노진혁",
+          "vb_position": "지삼",
+          "inning": 6,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260531LTNC0:9": {
+      "input_sha256": "f35daa47b46fb745c7097e04b494204402e4f51009a0ca4d5a324ffa2dce7c57",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260531LTNC02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260531LTNC0-075",
+          "player_id": "62931",
+          "name": "노진혁",
+          "vb_position": "지삼",
+          "inning": 9,
+          "half": "top",
+          "status": "matched",
+          "position": "3B",
+          "naver_position": "3루수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260602LGKT0:2": {
+      "input_sha256": "ac29ac734a3ba27fe27f77fad85da5124f7c3b85eaf4c91e2bc9c0a1a0dff773",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260602LGKT02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260602LGKT0-008",
+          "player_id": "50054",
+          "name": "천성호",
+          "vb_position": "지우",
+          "inning": 2,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260602LGKT0:4": {
+      "input_sha256": "ec2f546c6dc6f1325372347b85c296e45210cef4c0e5daec2b0d0c0130fdfcf5",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260602LGKT02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260602LGKT0-027",
+          "player_id": "50054",
+          "name": "천성호",
+          "vb_position": "지우",
+          "inning": 4,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260602LGKT0:5": {
+      "input_sha256": "7ab1d69ca60a4b887789f25241a5ab78f3c70bc002e5ac8ebaf43d7ac0e4467f",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260602LGKT02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260602LGKT0-040",
+          "player_id": "50054",
+          "name": "천성호",
+          "vb_position": "지우",
+          "inning": 5,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260602LGKT0:7": {
+      "input_sha256": "92bbedee58f1c125bb4e5ca4aea78b57c37c60e58741803388b990bcc0717a7e",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260602LGKT02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260602LGKT0-057",
+          "player_id": "50054",
+          "name": "천성호",
+          "vb_position": "지우",
+          "inning": 7,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260602LGKT0:9": {
+      "input_sha256": "0a08c5536b07fd277e164727456f3a5750f980365a8eb46d1e060795e7af8e08",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260602LGKT02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260602LGKT0-076",
+          "player_id": "50054",
+          "name": "천성호",
+          "vb_position": "지우",
+          "inning": 9,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260603HHOB0:11": {
+      "input_sha256": "8989ef574f9e3f55760aeb4390dbdbffcb70c40811df765b2b16469969b20eb8",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260603HHOB02026/relay?inning=11",
+      "records": [
+        {
+          "pa_id": "20260603HHOB0-087",
+          "player_id": "76232",
+          "name": "양의지",
+          "vb_position": "지포",
+          "inning": 11,
+          "half": "bottom",
+          "status": "matched",
+          "position": "C",
+          "naver_position": "포수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260603HHOB0:2": {
+      "input_sha256": "dc5b87d80e99598f364b6390782d3f876526b7079f7198dcbff5ee6046b4c153",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260603HHOB02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260603HHOB0-014",
+          "player_id": "76232",
+          "name": "양의지",
+          "vb_position": "지포",
+          "inning": 2,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260603HHOB0:4": {
+      "input_sha256": "f64ca6662e19a994d3eff82f1a2be35c7555463179c7a443acbb6e34d65225b6",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260603HHOB02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260603HHOB0-030",
+          "player_id": "76232",
+          "name": "양의지",
+          "vb_position": "지포",
+          "inning": 4,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260603HHOB0:6": {
+      "input_sha256": "fddab96c16cc0220946b2d5601eecda3817fe2c453dfbeed6319cad63914a7e5",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260603HHOB02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260603HHOB0-048",
+          "player_id": "76232",
+          "name": "양의지",
+          "vb_position": "지포",
+          "inning": 6,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260603HHOB0:9": {
+      "input_sha256": "ecb44e66beba99579df5175201ca65454ad9b2541c45c0ceda638ff014443fd1",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260603HHOB02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260603HHOB0-067",
+          "player_id": "76232",
+          "name": "양의지",
+          "vb_position": "지포",
+          "inning": 9,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260606SSHT0:2": {
+      "input_sha256": "32836a41664f6fb329b5583c221526473bc9631cc6820b7abb1937f345d13d1b",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260606SSHT02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260606SSHT0-014",
+          "player_id": "56613",
+          "name": "아데를린",
+          "vb_position": "지일",
+          "inning": 2,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260606SSHT0:4": {
+      "input_sha256": "a6b1b258ccdb11ef8bca2397faaf2b6babcedd0b7ee93fe9e9dacd5dcec8f717",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260606SSHT02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260606SSHT0-033",
+          "player_id": "56613",
+          "name": "아데를린",
+          "vb_position": "지일",
+          "inning": 4,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260606SSHT0:7": {
+      "input_sha256": "f9246e50b94ef4492f0db92f2eedb34d36f7da98f636b64429d77490f5e3e609",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260606SSHT02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260606SSHT0-054",
+          "player_id": "56613",
+          "name": "아데를린",
+          "vb_position": "지일",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260606SSHT0:8": {
+      "input_sha256": "6a14b521c144f0827241bafefdc3e6c44a067481ec633b3c01c46bab4e1f8f5d",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260606SSHT02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260606SSHT0-067",
+          "player_id": "56613",
+          "name": "아데를린",
+          "vb_position": "지일",
+          "inning": 8,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260609SKLG0:2": {
+      "input_sha256": "2de1c5bd03f9d1df393da773d311610210222918832e1f816f45204596cdbed4",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260609SKLG02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260609SKLG0-015",
+          "player_id": "69102",
+          "name": "문보경",
+          "vb_position": "지삼",
+          "inning": 2,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260609SKLG0:3": {
+      "input_sha256": "a35cb20b71a33d1cc4ad8d4f64371e3b92695f411df6145780fdae2d0556d2ea",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260609SKLG02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260609SKLG0-028",
+          "player_id": "69102",
+          "name": "문보경",
+          "vb_position": "지삼",
+          "inning": 3,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260609SKLG0:5": {
+      "input_sha256": "851f2df774869780e5af1f8d63b1c15082c4a35d37d6b56e968319c5aea8bb95",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260609SKLG02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260609SKLG0-045",
+          "player_id": "69102",
+          "name": "문보경",
+          "vb_position": "지삼",
+          "inning": 5,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260609SKLG0:7": {
+      "input_sha256": "6c35fa0db29298cf076a0d03a9c4ce15962854cfea7a795ada4f3eccf298eddb",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260609SKLG02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260609SKLG0-061",
+          "player_id": "69102",
+          "name": "문보경",
+          "vb_position": "지삼",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260611SKLG0:1": {
+      "input_sha256": "c51684f31e3cacac4286cb3ae71bddc090cbf455f3b5ed0ba94e5d57a2b517f8",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260611SKLG02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260611SKLG0-008",
+          "player_id": "69102",
+          "name": "문보경",
+          "vb_position": "지삼",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260611SKLG0:3": {
+      "input_sha256": "78ac9c8f6301a7e132f00e6a323ebdc63c6c267aacd289b4a9023f7f7fe5efce",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260611SKLG02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260611SKLG0-027",
+          "player_id": "69102",
+          "name": "문보경",
+          "vb_position": "지삼",
+          "inning": 3,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260611SKLG0:4": {
+      "input_sha256": "8e79b450cf874baf2208935c06c8af8194254d807a955f428b49ad51c283c0a9",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260611SKLG02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260611SKLG0-039",
+          "player_id": "69102",
+          "name": "문보경",
+          "vb_position": "지삼",
+          "inning": 4,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260611SKLG0:6": {
+      "input_sha256": "34df6bebe93fbd37a9e5896ce892469383d69af39311a785a7fd933498bcbc57",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260611SKLG02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260611SKLG0-057",
+          "player_id": "69102",
+          "name": "문보경",
+          "vb_position": "지삼",
+          "inning": 6,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260611SKLG0:7": {
+      "input_sha256": "bd18b08cf1078dc7cdb72e6ae1cb5bb4a27748dc910a1dc72377fb2f5d682888",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260611SKLG02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260611SKLG0-070",
+          "player_id": "69102",
+          "name": "문보경",
+          "vb_position": "지삼",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260613LTLG0:1": {
+      "input_sha256": "7a9d57d826c0fa5a0d8932ccf79a7589c734e8e14f4e2df649e75940dd4cc63c",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260613LTLG02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260613LTLG0-007",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260613LTLG0:2": {
+      "input_sha256": "e694eafafc66d117aa29e7bffb7229267b98ef8612fe4ba4bded687fb9aa1e25",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260613LTLG02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260613LTLG0-020",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 2,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260613LTLG0:4": {
+      "input_sha256": "ff0e78c2a23a96ab093d7a33a19e08c2ec3826f30f4440d2b9ef48efc8ce668a",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260613LTLG02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260613LTLG0-038",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 4,
+          "half": "bottom",
+          "status": "matched",
+          "position": "1B",
+          "naver_position": "1루수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260613LTLG0:7": {
+      "input_sha256": "6bd6cf3cd1120b10d18cd7ab9a1f185f66a307b7aa81a7f95399fa66fabe7697",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260613LTLG02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260613LTLG0-056",
+          "player_id": "53123",
+          "name": "오스틴",
+          "vb_position": "지일",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "1B",
+          "naver_position": "1루수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260613NCKT0:1": {
+      "input_sha256": "5d20163472686dd189fd38676bc851959a72995494338dc444fee24bcd245385",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260613NCKT02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260613NCKT0-005",
+          "player_id": "66606",
+          "name": "최원준",
+          "vb_position": "지우",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260613NCKT0:2": {
+      "input_sha256": "86398d12c5b9cee097842d7702c30ed2992abf7854c6dc15b1ff879d5e683f7c",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260613NCKT02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260613NCKT0-017",
+          "player_id": "66606",
+          "name": "최원준",
+          "vb_position": "지우",
+          "inning": 2,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260613NCKT0:4": {
+      "input_sha256": "73ea91aa71759014faa2acea301736d474174c686262970bfa515b35e460c9a0",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260613NCKT02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260613NCKT0-035",
+          "player_id": "66606",
+          "name": "최원준",
+          "vb_position": "지우",
+          "inning": 4,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260613NCKT0:6": {
+      "input_sha256": "32d341b438655fd3fed85966fc7326d09112e5e4777fba8032ebd75de5557469",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260613NCKT02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260613NCKT0-055",
+          "player_id": "66606",
+          "name": "최원준",
+          "vb_position": "지우",
+          "inning": 6,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260613NCKT0:8": {
+      "input_sha256": "c69dd3e3b72c35f12e8a1222868f5a6b288d14e108d07ce1f3dcc6e4845c8cee",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260613NCKT02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260613NCKT0-078",
+          "player_id": "66606",
+          "name": "최원준",
+          "vb_position": "지우",
+          "inning": 8,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260619HTKT0:1": {
+      "input_sha256": "07c3ac4165fa39e4be40cb7babc5de1a10e6a72d079e59c1eaff4df125aca634",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260619HTKT02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260619HTKT0-007",
+          "player_id": "67644",
+          "name": "이정훈",
+          "vb_position": "지일",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260619HTKT0:4": {
+      "input_sha256": "c54facd85d1982e6da91999abd2d47e1dc37fb176134cf6e52ba7f71da2953e4",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260619HTKT02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260619HTKT0-033",
+          "player_id": "67644",
+          "name": "이정훈",
+          "vb_position": "지일",
+          "inning": 4,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260619HTKT0:6": {
+      "input_sha256": "116bbd0b23abcc550f5a0b3c9ffad2033d8ea4f50b46890a391433fdc540e267",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260619HTKT02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260619HTKT0-048",
+          "player_id": "67644",
+          "name": "이정훈",
+          "vb_position": "지일",
+          "inning": 6,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260619HTKT0:8": {
+      "input_sha256": "1866898b9765f33d20018cc98c4532e10a3bf77838417afc65e47c510d43de9c",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260619HTKT02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260619HTKT0-074",
+          "player_id": "67644",
+          "name": "이정훈",
+          "vb_position": "지일",
+          "inning": 8,
+          "half": "bottom",
+          "status": "matched",
+          "position": "1B",
+          "naver_position": "1루수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260623SKKT0:1": {
+      "input_sha256": "9c3b54a951ee730af63bf03ac1e6ee6277f822c24089276a3a14e061117c56a8",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260623SKKT02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260623SKKT0-008",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지우",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260623SKKT0:2": {
+      "input_sha256": "4f0ba1062bda96b20952144e496fbe1c590667c70cceb7d07b5b87aa971513a3",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260623SKKT02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260623SKKT0-021",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지우",
+          "inning": 2,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260623SKKT0:4": {
+      "input_sha256": "c538b66c010c09da3dffdde65190142bb3f2d1188884b523cb77bfa4bd5b81f4",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260623SKKT02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260623SKKT0-037",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지우",
+          "inning": 4,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260623SKKT0:6": {
+      "input_sha256": "266b29ed3753a8688eee5c88eec4d5b938efe9c05e298c4b679a4a478dd13b80",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260623SKKT02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260623SKKT0-055",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지우",
+          "inning": 6,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260623SKKT0:7": {
+      "input_sha256": "e9b7c2158fee1f289ab47fc39c35f199acdc557069cf90625972b82e4c16a54c",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260623SKKT02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260623SKKT0-067",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지우",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260624SKKT0:1": {
+      "input_sha256": "c20636e5852874cf5d72a39c65aadadb68a6fcdf0c919c582c9707eb5896dc97",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260624SKKT02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260624SKKT0-008",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지포",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260624SKKT0:3": {
+      "input_sha256": "db85268d70de18f49ab6642c2590bf265a85c1f084a661eb2957fa3ecf4478e9",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260624SKKT02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260624SKKT0-026",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지포",
+          "inning": 3,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260624SKKT0:5": {
+      "input_sha256": "c6373bd03571c8ef885526fa4690f0aa1ff846266b350cc8780e4a0397741143",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260624SKKT02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260624SKKT0-047",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지포",
+          "inning": 5,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260624SKKT0:8": {
+      "input_sha256": "9dc4aa47ba31b03aada52925a46ae08969b56e2975a24c4f53864d2edde2d600",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260624SKKT02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260624SKKT0-068",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지포",
+          "inning": 8,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260624SKKT0:9": {
+      "input_sha256": "7e4117907c1aa7a230b48b6a8744fe47363a359bf4cd76885554f70b91551888",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260624SKKT02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260624SKKT0-081",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지포",
+          "inning": 9,
+          "half": "bottom",
+          "status": "matched",
+          "position": "C",
+          "naver_position": "포수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260811KTNC0:1": {
+      "input_sha256": "3d8b88af09f5d12bbbab53ee18a74fea78d6aef5c8345f54f18f184a3aca4da5",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260811KTNC02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260811KTNC0-003",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지포",
+          "inning": 1,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260811KTNC0:4": {
+      "input_sha256": "a41e4d6e93a93b23af96799cc4b71ef5df56e58c2e6f44111295d4bc04494ddb",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260811KTNC02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260811KTNC0-025",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지포",
+          "inning": 4,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260811KTNC0:6": {
+      "input_sha256": "200e5c9634356f630c147d021fc98f1869c5ba76a28355ab399f25b813629d51",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260811KTNC02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260811KTNC0-043",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지포",
+          "inning": 6,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260811KTNC0:9": {
+      "input_sha256": "87b9862f534ca8cd12f07ef7f126a0da3ec6f53d29813c13cb8093bfa02cd052",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260811KTNC02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260811KTNC0-063",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지포",
+          "inning": 9,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 2,
+          "naver_pa_count": 2
+        },
+        {
+          "pa_id": "20260811KTNC0-071",
+          "player_id": "52001",
+          "name": "안현민",
+          "vb_position": "지포",
+          "inning": 9,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 2,
+          "naver_pa_count": 2
+        }
+      ]
+    },
+    "20260820HTHH0:1": {
+      "input_sha256": "c4c7e868802dcc738f9319622240198d5e176b343b647ee3eb06b0fad362470c",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820HTHH02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260820HTHH0-003",
+          "player_id": "52605",
+          "name": "김도영",
+          "vb_position": "지삼",
+          "inning": 1,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260820HTHH0:4": {
+      "input_sha256": "22f407163dc217a4cd9d20217d3bc8bb006aed988d11526cb689794b3e637924",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820HTHH02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260820HTHH0-025",
+          "player_id": "52605",
+          "name": "김도영",
+          "vb_position": "지삼",
+          "inning": 4,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260820HTHH0:6": {
+      "input_sha256": "8a30001128e028ad590e6d107915fbad02eb00b0952fbda89bb42a670c3bc737",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820HTHH02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260820HTHH0-043",
+          "player_id": "52605",
+          "name": "김도영",
+          "vb_position": "지삼",
+          "inning": 6,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260820HTHH0:8": {
+      "input_sha256": "83df1b6bac3be9225cbf26d6df4e7a1a75ea5ca02d148ddc27a51390b97d8fe9",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820HTHH02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260820HTHH0-064",
+          "player_id": "52605",
+          "name": "김도영",
+          "vb_position": "지삼",
+          "inning": 8,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260820HTHH0:9": {
+      "input_sha256": "9233e7fcbe4ed2dc7877e538a41de04e69a0f1b067efa6b16210b3ef49dda510",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820HTHH02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260820HTHH0-076",
+          "player_id": "52605",
+          "name": "김도영",
+          "vb_position": "지삼",
+          "inning": 9,
+          "half": "top",
+          "status": "matched",
+          "position": "3B",
+          "naver_position": "3루수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260820KTLG0:2": {
+      "input_sha256": "4d4306ae24fe33fbe38a6877b64bcc709b4907a1bd98cd61550d1e19414d7db7",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820KTLG02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260820KTLG0-011",
+          "player_id": "67807",
+          "name": "이정범",
+          "vb_position": "지일",
+          "inning": 2,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260820KTLG0:4": {
+      "input_sha256": "8934599fc8e9a7734181e4b17aa22a576809a6859b3bc7f587d88421bc8ce181",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820KTLG02026/relay?inning=4",
+      "records": [
+        {
+          "pa_id": "20260820KTLG0-028",
+          "player_id": "67807",
+          "name": "이정범",
+          "vb_position": "지일",
+          "inning": 4,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260820KTLG0:6": {
+      "input_sha256": "7cbe5e98e0c8bf900a40822a202007a6f5e059b906353eebde98109c19549888",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820KTLG02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260820KTLG0-048",
+          "player_id": "67807",
+          "name": "이정범",
+          "vb_position": "지일",
+          "inning": 6,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260820KTLG0:7": {
+      "input_sha256": "d14aef8507a86d6506e4c30d1311d6207a90b72836b5cbbd53c694f98e14ffe2",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820KTLG02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260820KTLG0-060",
+          "player_id": "67807",
+          "name": "이정범",
+          "vb_position": "지일",
+          "inning": 7,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260820KTLG0:8": {
+      "input_sha256": "9f0597cb1da50573051b9dc54f81fccb71c5ac73037c7627d9b93f965cd5f6e8",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820KTLG02026/relay?inning=8",
+      "records": [
+        {
+          "pa_id": "20260820KTLG0-072",
+          "player_id": "67807",
+          "name": "이정범",
+          "vb_position": "지일",
+          "inning": 8,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260820KTLG0:9": {
+      "input_sha256": "a7a59feed2d9e7dae47d87fabf3eea7e5a986847bd23a2eaa1c0cac09feb3e8d",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260820KTLG02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260820KTLG0-085",
+          "player_id": "67807",
+          "name": "이정범",
+          "vb_position": "지일",
+          "inning": 9,
+          "half": "top",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260910NCHT0:11": {
+      "input_sha256": "facd4c8c410a4315578784bdafbcd6c1314ad40c6ada0c21ff855e67c891847a",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260910NCHT02026/relay?inning=11",
+      "records": [
+        {
+          "pa_id": "20260910NCHT0-080",
+          "player_id": "78603",
+          "name": "김선빈",
+          "vb_position": "지이",
+          "inning": 11,
+          "half": "bottom",
+          "status": "matched",
+          "position": "2B",
+          "naver_position": "2루수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260910NCHT0:2": {
+      "input_sha256": "b918ff311ae4f4750fcb1646d254aea8aed3fb96be8d3da86b78c3310450296f",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260910NCHT02026/relay?inning=2",
+      "records": [
+        {
+          "pa_id": "20260910NCHT0-011",
+          "player_id": "78603",
+          "name": "김선빈",
+          "vb_position": "지이",
+          "inning": 2,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260910NCHT0:5": {
+      "input_sha256": "92076124a6324e996fc39f43a5ef6625185837784c4f2f67f2d78cb90a210469",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260910NCHT02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260910NCHT0-031",
+          "player_id": "78603",
+          "name": "김선빈",
+          "vb_position": "지이",
+          "inning": 5,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260910NCHT0:7": {
+      "input_sha256": "dc790d4038b3e832d87714d7d984af490b46321dab04cd6503c2ae5e2ea52792",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260910NCHT02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260910NCHT0-046",
+          "player_id": "78603",
+          "name": "김선빈",
+          "vb_position": "지이",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260910NCHT0:9": {
+      "input_sha256": "20e059e4deb47e4c81c65b131aea911829fc40a076ab513c6345cd5c810386a5",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260910NCHT02026/relay?inning=9",
+      "records": [
+        {
+          "pa_id": "20260910NCHT0-061",
+          "player_id": "78603",
+          "name": "김선빈",
+          "vb_position": "지이",
+          "inning": 9,
+          "half": "bottom",
+          "status": "matched",
+          "position": "2B",
+          "naver_position": "2루수",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260919OBKT0:1": {
+      "input_sha256": "fa3babd6039e3995bade49f3d0f9aadc483eb4c398fd3f714f272cd689efc9a1",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260919OBKT02026/relay?inning=1",
+      "records": [
+        {
+          "pa_id": "20260919OBKT0-010",
+          "player_id": "64004",
+          "name": "김민혁",
+          "vb_position": "지좌",
+          "inning": 1,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260919OBKT0:3": {
+      "input_sha256": "eeca16585f2c392eaa32248853a365c96923c5bef691e3c85338f1fc74861c88",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260919OBKT02026/relay?inning=3",
+      "records": [
+        {
+          "pa_id": "20260919OBKT0-029",
+          "player_id": "64004",
+          "name": "김민혁",
+          "vb_position": "지좌",
+          "inning": 3,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260919OBKT0:5": {
+      "input_sha256": "4b2663e09f5398724d34c0c34fd927dde5c56efaa8bb14a9f8de99c640b3f887",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260919OBKT02026/relay?inning=5",
+      "records": [
+        {
+          "pa_id": "20260919OBKT0-044",
+          "player_id": "64004",
+          "name": "김민혁",
+          "vb_position": "지좌",
+          "inning": 5,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260919OBKT0:6": {
+      "input_sha256": "cdc2fa5c323a6a3b925882f98dbcd78dff0537da557445785fa6675d202fd558",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260919OBKT02026/relay?inning=6",
+      "records": [
+        {
+          "pa_id": "20260919OBKT0-057",
+          "player_id": "64004",
+          "name": "김민혁",
+          "vb_position": "지좌",
+          "inning": 6,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    },
+    "20260919OBKT0:7": {
+      "input_sha256": "d550205c51a9f527f43ccf51840e60e943b1f20acb527623952cd8f3ddd59ec4",
+      "source_url": "https://api-gw.sports.naver.com/schedule/games/20260919OBKT02026/relay?inning=7",
+      "records": [
+        {
+          "pa_id": "20260919OBKT0-069",
+          "player_id": "64004",
+          "name": "김민혁",
+          "vb_position": "지좌",
+          "inning": 7,
+          "half": "bottom",
+          "status": "matched",
+          "position": "DH",
+          "naver_position": "지명타자",
+          "vb_pa_count": 1,
+          "naver_pa_count": 1
+        }
+      ]
+    }
+  }
+}
