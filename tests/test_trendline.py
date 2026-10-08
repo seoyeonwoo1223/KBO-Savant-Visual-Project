@@ -45,6 +45,13 @@ def test_legacy_strikeouts_and_hit_by_pitch_are_not_misclassified():
     assert pitch_counts(row(pa_type=None, pa_result="고의사"), True)[INDEX["bb"]] == 1
     unknown = pitch_counts(row(pa_type="out", pa_result=""), True)
     assert unknown[INDEX["pa"]] == 0 and unknown[INDEX["pa_unknown"]] == 1
+    # Blank 2019 results and dropped third strikes that end on a two-strike strike call are strikeouts.
+    for result, call in [("", "S"), ("", "T"), ("WP", "S")]:
+        third = pitch_counts(row(pa_type="out", pa_result=result, strikes_before=2, pitch_call_code=call), True)
+        assert third[INDEX["pa"]] == third[INDEX["k"]] == 1 and third[INDEX["pa_unknown"]] == 0
+    for strikes, call in [(2, "B"), (1, "S"), (0, "T")]:
+        other = pitch_counts(row(pa_type="out", pa_result="", strikes_before=strikes, pitch_call_code=call), True)
+        assert other[INDEX["pa_unknown"]] == 1 and other[INDEX["k"]] == 0
 
 
 def test_build_publish_and_missing_player_output_invalidates_state(tmp_path):

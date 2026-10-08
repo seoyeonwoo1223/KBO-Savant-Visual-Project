@@ -16,6 +16,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 
 from .publish import write_json
+from .strikeouts import is_strikeout
 
 
 MIN_PITCHES = 300
@@ -76,6 +77,7 @@ def _compact_pitch(row: dict) -> dict:
         "pa_result": row.get("pa_result"),
         "balls": int(row["balls_before"]),
         "strikes": int(row["strikes_before"]),
+        "pitch_call_code": row.get("pitch_call_code"),
         "x_relative": float(row["x_relative"]),
         "z_relative": float(row["z_relative"]),
         "zone": zone,
@@ -104,7 +106,7 @@ def _player_row(items: list[dict]) -> dict:
     out_takes = len(out_zone) - len(o_swings)
     terminal = [item for item in items if item["is_pa_terminal"]]
     walks = [item for item in terminal if item["pa_result"] in {"볼넷", "고의사"}]
-    strikeouts = [item for item in terminal if item["pa_type"] == "k" or item["pa_result"] == "삼진"]
+    strikeouts = [item for item in terminal if is_strikeout(item["pa_type"], item["pa_result"], item["strikes"], item.get("pitch_call_code"))]
     hit_by_pitch = [item for item in terminal if item["pa_result"] == "사구"]
     selection_tendency = _pct(out_takes, len(z_swings) + out_takes)
     hittable_take = _pct(zone_takes, zone_takes + out_takes)

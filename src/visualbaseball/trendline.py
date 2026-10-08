@@ -11,6 +11,7 @@ from .curated import _number, load_rows
 from .movement_calibration import calibrate
 from .pitch_types import PITCH_NAMES, pitch_code
 from .publish import write_json, write_shards
+from .strikeouts import is_strikeout, third_strike
 from .teams import TEAM_CODES
 
 
@@ -28,7 +29,7 @@ PITCH_COLORS = {"FF": "#d62f4b", "FT": "#b9415e", "SI": "#f09a22", "FC": "#8d6d6
 COLUMNS = ["pitch_id", "game_id", "game_date", "inning_half", "event_seq", "batter_id", "batter_name",
            "pitcher_id", "pitcher_name", "pitch_type_code", "pitch_type_kr", "velocity_kmh", "is_swing",
            "is_contact", "px", "pz", "sz_bottom", "sz_top", "is_pa_terminal", "pa_id", "pa_type", "pa_result",
-           "stadium", "horizontal_movement_cm", "vertical_movement_cm"]
+           "stadium", "horizontal_movement_cm", "vertical_movement_cm", "strikes_before", "pitch_call_code"]
 
 
 def pitch_counts(row, terminal=False, movement=(None, None)):
@@ -51,9 +52,10 @@ def pitch_counts(row, terminal=False, movement=(None, None)):
         counts[INDEX["whiffs"]] = int(not contact)
     _location_counts(counts, row, swing)
     result, kind = str(row.get("pa_result") or "").strip(), row.get("pa_type")
-    if terminal and (result or kind in {"k", "hit", "hr"}):
+    strikes, call = row.get("strikes_before"), row.get("pitch_call_code")
+    if terminal and (result or kind in {"k", "hit", "hr"} or third_strike(strikes, call)):
         counts[INDEX["pa"]] = 1
-        counts[INDEX["k"]] = int(kind == "k" or result == "삼진")
+        counts[INDEX["k"]] = int(is_strikeout(kind, result, strikes, call))
         # VB's bb type also includes hit-by-pitch; legacy seasons lack pa_type.
         counts[INDEX["bb"]] = int(result in {"볼넷", "고의사"})
     elif terminal:

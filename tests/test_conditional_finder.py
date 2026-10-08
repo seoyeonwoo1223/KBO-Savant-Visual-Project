@@ -19,6 +19,14 @@ def test_result_classification_keeps_unknown_distinct(result, expected):
     assert outcome(result) == expected
 
 
+def test_two_strike_called_or_swinging_strike_is_a_strikeout():
+    from visualbaseball.conditional_finder import _outcome
+    for result in ('', 'WP', '포실'):
+        assert _outcome({'is_pa_terminal': True, 'pa_result': result, 'strikes_before': 2, 'pitch_call_code': 'S'}) == 'strikeout'
+    assert _outcome({'is_pa_terminal': True, 'pa_result': '', 'strikes_before': 2, 'pitch_call_code': 'B'}) == 'unknown'
+    assert _outcome({'is_pa_terminal': False, 'pa_result': '', 'strikes_before': 2, 'pitch_call_code': 'T'}) == 'unknown'
+
+
 def seed(root):
     game_id = '20260401HTLG0'
     game = {'season': 2026, 'game_id': game_id, 'game_date': '2026-04-01',
