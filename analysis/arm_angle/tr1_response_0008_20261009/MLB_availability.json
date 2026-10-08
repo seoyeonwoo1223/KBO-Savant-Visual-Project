@@ -1,0 +1,267 @@
+{
+  "source": "existing local original Parquet, SHA-linked to remote continuation ZIP",
+  "handoff_commit": "d272fbe4244c1f155dede8b209fda01c95a53b6b",
+  "source_manifest_sha256": "dff784f15ecddc63723e9d96a862ffb946f83e3e36ab0c886288d8418ea66ad2",
+  "files_verified": 10,
+  "files": [
+    {
+      "path": ".cache/arm_angle/candidates/statcast_candidates_2020.parquet",
+      "sha256": "a5ae939b1540a6113c419feb52b193fbc58f9d770eddf747b71daf239b2fa93e",
+      "matches_remote_handoff_manifest": true,
+      "bytes": 10033860,
+      "rows": 143268,
+      "finite_ax_az_rows": 143066,
+      "finite_9_available_fields_rows": 143066,
+      "available_fields": [
+        "ax",
+        "ay",
+        "az",
+        "vx0",
+        "vy0",
+        "vz0",
+        "release_pos_x",
+        "release_pos_y",
+        "release_pos_z"
+      ],
+      "literal_x0_y0_z0_present": {
+        "x0": false,
+        "y0": false,
+        "z0": false
+      }
+    },
+    {
+      "path": ".cache/arm_angle/expanded/statcast/details-2020.parquet",
+      "sha256": "f8d81b67052234b007b93ebaa1cc6d0116b744e40e6e0f335c6a611695d352f7",
+      "matches_remote_handoff_manifest": true,
+      "bytes": 4384205,
+      "rows": 60302,
+      "finite_ax_az_rows": 60068,
+      "finite_9_available_fields_rows": 60068,
+      "available_fields": [
+        "ax",
+        "ay",
+        "az",
+        "vx0",
+        "vy0",
+        "vz0",
+        "release_pos_x",
+        "release_pos_y",
+        "release_pos_z"
+      ],
+      "literal_x0_y0_z0_present": {
+        "x0": false,
+        "y0": false,
+        "z0": false
+      }
+    },
+    {
+      "path": ".cache/arm_angle/candidates/statcast_candidates_2021.parquet",
+      "sha256": "57d4f9a8b91f750a99353ed3a233758c265b6f17758745a09b2da9d3a225d1ab",
+      "matches_remote_handoff_manifest": true,
+      "bytes": 28934326,
+      "rows": 471428,
+      "finite_ax_az_rows": 469924,
+      "finite_9_available_fields_rows": 469734,
+      "available_fields": [
+        "ax",
+        "ay",
+        "az",
+        "vx0",
+        "vy0",
+        "vz0",
+        "release_pos_x",
+        "release_pos_y",
+        "release_pos_z"
+      ],
+      "literal_x0_y0_z0_present": {
+        "x0": false,
+        "y0": false,
+        "z0": false
+      }
+    },
+    {
+      "path": ".cache/arm_angle/expanded/statcast/details-2021.parquet",
+      "sha256": "de85657c0c2b40048b3f01ccaca2ef896783ed81972b1e30f8270181af9efa7e",
+      "matches_remote_handoff_manifest": true,
+      "bytes": 11894527,
+      "rows": 167037,
+      "finite_ax_az_rows": 166135,
+      "finite_9_available_fields_rows": 166135,
+      "available_fields": [
+        "ax",
+        "ay",
+        "az",
+        "vx0",
+        "vy0",
+        "vz0",
+        "release_pos_x",
+        "release_pos_y",
+        "release_pos_z"
+      ],
+      "literal_x0_y0_z0_present": {
+        "x0": false,
+        "y0": false,
+        "z0": false
+      }
+    },
+    {
+      "path": ".cache/arm_angle/candidates/statcast_candidates_2022.parquet",
+      "sha256": "e5fa98e8fe0146ced5ec83b30eb4e9721215ecdba64749ecff1cad9000888595",
+      "matches_remote_handoff_manifest": true,
+      "bytes": 30087707,
+      "rows": 488784,
+      "finite_ax_az_rows": 487765,
+      "finite_9_available_fields_rows": 487765,
+      "available_fields": [
+        "ax",
+        "ay",
+        "az",
+        "vx0",
+        "vy0",
+        "vz0",
+        "release_pos_x",
+        "release_pos_y",
+        "release_pos_z"
+      ],
+      "literal_x0_y0_z0_present": {
+        "x0": false,
+        "y0": false,
+        "z0": false
+      }
+    },
+    {
+      "path": ".cache/arm_angle/expanded/statcast/details-2022.parquet",
+      "sha256": "a2d062eb336659455a3382684901dbad840843a28918b0b0c0291298970e2db6",
+      "matches_remote_handoff_manifest": true,
+      "bytes": 10431808,
+      "rows": 142911,
+      "finite_ax_az_rows": 142249,
+      "finite_9_available_fields_rows": 142249,
+      "available_fields": [
+        "ax",
+        "ay",
+        "az",
+        "vx0",
+        "vy0",
+        "vz0",
+        "release_pos_x",
+        "release_pos_y",
+        "release_pos_z"
+      ],
+      "literal_x0_y0_z0_present": {
+        "x0": false,
+        "y0": false,
+        "z0": false
+      }
+    },
+    {
+      "path": ".cache/arm_angle/candidates/statcast_candidates_2023.parquet",
+      "sha256": "9012d16922b0e7ffc3e57ca110d554a849abc526c0c3ca08487d6394e84875ad",
+      "matches_remote_handoff_manifest": true,
+      "bytes": 30657875,
+      "rows": 499765,
+      "finite_ax_az_rows": 498280,
+      "finite_9_available_fields_rows": 498280,
+      "available_fields": [
+        "ax",
+        "ay",
+        "az",
+        "vx0",
+        "vy0",
+        "vz0",
+        "release_pos_x",
+        "release_pos_y",
+        "release_pos_z"
+      ],
+      "literal_x0_y0_z0_present": {
+        "x0": false,
+        "y0": false,
+        "z0": false
+      }
+    },
+    {
+      "path": ".cache/arm_angle/expanded/statcast/details-2023.parquet",
+      "sha256": "4f0fec8f47c3f37f79f77eca3fc0660bf3bb394b6a494cc375a34a233feddf57",
+      "matches_remote_handoff_manifest": true,
+      "bytes": 10987680,
+      "rows": 152672,
+      "finite_ax_az_rows": 151736,
+      "finite_9_available_fields_rows": 151736,
+      "available_fields": [
+        "ax",
+        "ay",
+        "az",
+        "vx0",
+        "vy0",
+        "vz0",
+        "release_pos_x",
+        "release_pos_y",
+        "release_pos_z"
+      ],
+      "literal_x0_y0_z0_present": {
+        "x0": false,
+        "y0": false,
+        "z0": false
+      }
+    },
+    {
+      "path": ".cache/arm_angle/candidates/statcast_candidates_2024.parquet",
+      "sha256": "8085c3a8e3b12d93b341cb9d842d6ecdb879f6e77492a3650e8663ca84e39478",
+      "matches_remote_handoff_manifest": true,
+      "bytes": 30726791,
+      "rows": 499872,
+      "finite_ax_az_rows": 498447,
+      "finite_9_available_fields_rows": 498447,
+      "available_fields": [
+        "ax",
+        "ay",
+        "az",
+        "vx0",
+        "vy0",
+        "vz0",
+        "release_pos_x",
+        "release_pos_y",
+        "release_pos_z"
+      ],
+      "literal_x0_y0_z0_present": {
+        "x0": false,
+        "y0": false,
+        "z0": false
+      }
+    },
+    {
+      "path": ".cache/arm_angle/expanded/statcast/details-2024.parquet",
+      "sha256": "6ead3c5381fac3e34c11e60514b9e3c2bd909ab09a5bbcde9a440363fd7900b1",
+      "matches_remote_handoff_manifest": true,
+      "bytes": 10233791,
+      "rows": 140062,
+      "finite_ax_az_rows": 139317,
+      "finite_9_available_fields_rows": 139317,
+      "available_fields": [
+        "ax",
+        "ay",
+        "az",
+        "vx0",
+        "vy0",
+        "vz0",
+        "release_pos_x",
+        "release_pos_y",
+        "release_pos_z"
+      ],
+      "literal_x0_y0_z0_present": {
+        "x0": false,
+        "y0": false,
+        "z0": false
+      }
+    }
+  ],
+  "rows": 2766101,
+  "finite_ax_az_rows": 2756987,
+  "full_original_data_published": false,
+  "sample_rows_published": 50,
+  "acceleration_available_locally": true,
+  "literal_9_coefficient_reference_plane_audited": false,
+  "release_positions_not_assumed_to_be_x0_y0_z0": true,
+  "labels_read": false,
+  "deduplication_cohort_and_selection_for_new_experiment_performed": false
+}

@@ -1,0 +1,31 @@
+{
+  "scope": "0008 주장 검산 및 원본 가용성 조사",
+  "new_angle_candidate": false,
+  "production_changed": false,
+  "files": {
+    "MLB_acceleration_samples.csv": {
+      "sha256": "69ee1b88741cab95e523b6fe04bed6310167defac56556f0e55ef8c108b6e7cf",
+      "bytes": 10125
+    },
+    "MLB_availability.json": {
+      "sha256": "5110d13be8a5e68c6bd46aebdbdb769023961405041e3fe2d498e02080be3ef9",
+      "bytes": 7200
+    },
+    "README-addendum.md": {
+      "sha256": "76be8329bee51c46f7010695e8d9159b53f6d5e94511f88595f76282c9281cb5",
+      "bytes": 8058
+    },
+    "audit.py": {
+      "sha256": "0f43b0eec7aee03092613d51c2936591073aa0863577c2b1ece7ee5920e4f94a",
+      "bytes": 9323
+    },
+    "descriptive_centered_pairs.csv": {
+      "sha256": "c1d973141c9704a69ff3a698a871079f51960fec5f3803f1fdf2e6b23bd91d19",
+      "bytes": 3112
+    },
+    "verification.json": {
+      "sha256": "63df4773303422b8275ce389b3a5604256fa6fd603563964937b91a602d53f58",
+      "bytes": 1784
+    }
+  }
+}

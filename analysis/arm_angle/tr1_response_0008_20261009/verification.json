@@ -1,0 +1,51 @@
+{
+  "source_research_commit": "1e24467c4a6016583bc91178f14abc65026ee8f4",
+  "verified_cache_sha256": "75360ff37c1ebecd91ae5e170d3a8ff20a5b2afe895e3de2d936d9220a80a173",
+  "independent_equation_prediction_max_difference_cm": 4.867217739956686e-12,
+  "with_location_player_equal_MAE_cm": {
+    "hb": 9.782051626565588,
+    "ivb": 8.34036037391273
+  },
+  "without_location_player_equal_MAE_cm": {
+    "hb": 9.827926935110188,
+    "ivb": 8.372026310765763
+  },
+  "location_MAE_reduction_cm": {
+    "hb": 0.0458753085446002,
+    "ivb": 0.03166593685303276
+  },
+  "residual_centers_type_specific_player_populations": {
+    "FF": {
+      "pitches": 85468,
+      "players": 284,
+      "hb_mean_cm": 0.18988616433151426,
+      "ivb_mean_cm": -0.8711044255804382
+    },
+    "SI": {
+      "pitches": 17748,
+      "players": 113,
+      "hb_mean_cm": -1.30846552231546,
+      "ivb_mean_cm": 2.5018980137990976
+    }
+  },
+  "FF_SI_equal_player_paired_count": 26,
+  "paired_means_cm": {
+    "hb_raw_difference_cm": -3.2224174782774346,
+    "hb_global_type_center_difference_cm": -1.4983516866469744,
+    "hb_descriptive_centered_difference_cm": -1.7240657916304605,
+    "ivb_raw_difference_cm": 5.654826799121761,
+    "ivb_global_type_center_difference_cm": 3.3730024393795355,
+    "ivb_descriptive_centered_difference_cm": 2.2818243597422256
+  },
+  "whole_cohort_exposure_weight_FF_share": 0.865278474395722,
+  "flight_normalization_identity_max_difference_mps2": {
+    "55": 1.7763568394002505e-15,
+    "50": 1.7763568394002505e-15,
+    "238": 1.7763568394002505e-15,
+    "10": 1.7763568394002505e-15
+  },
+  "centering_is_posthoc_descriptive_not_honest_predictive_transform": true,
+  "type_center_causes_not_identified": true,
+  "new_angle_candidate": false,
+  "angle_accuracy_evaluated": false
+}
