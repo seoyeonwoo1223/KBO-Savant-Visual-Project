@@ -270,19 +270,23 @@
       const game = pitch.pa.game;
       return `<article class="finder-hit">${cardBody(pitch)}
         <p class="finder-situation">${textValue(pitch.outs)}아웃 · 주자 ${escapeHTML(pitch.bases == null ? '미확인' : pitch.bases === '---' ? '없음' : pitch.bases)} · 투구 전 점수 ${escapeHTML(game.away_team)} ${textValue(pitch.away_score)} : ${textValue(pitch.home_score)} ${escapeHTML(game.home_team)}${pitch.status !== 'ok' ? ` · 원자료 상태 ${escapeHTML(pitch.status || '미확인')}` : ''}</p>
-        <div class="finder-hit-actions"><button type="button" class="finder-button" data-copy="${first + offset}">장면 정보 복사</button><a href="https://www.tving.com/" target="_blank" rel="noopener noreferrer">티빙 열기 ↗</a></div>
+        <div class="finder-hit-actions"><button type="button" class="finder-button" data-copy="${first + offset}">장면 정보 복사</button><a href="${escapeHTML(tvingURL(game.game_id))}" target="_blank" rel="noopener noreferrer">티빙 경기 영상 ↗</a></div>
         <details class="finder-pa" data-pitch="${first + offset}"><summary>타석 전체 투구 보기 (${pitch.pa.pitches.length}구)</summary><div class="finder-pa-content"></div></details></article>`;
     }).join('') || '<p class="finder-empty">조건에 맞는 공이 없습니다.<br>구속 범위를 넓히거나 판정·타석 결과 조건을 줄여보세요.</p>';
     const pages = Math.max(1, Math.ceil(total / pageSize));
     $('#page-info').textContent = `${state.page} / ${pages} 페이지`;
     $('#previous').disabled = state.page <= 1; $('#next').disabled = state.page >= pages;
-    $$('[data-copy]').forEach(button => button.addEventListener('click', () => copyText(sceneText(state.matches[Number(button.dataset.copy)]), '장면 정보를 복사했습니다. 티빙에서 해당 경기를 찾아보세요.')));
+    $$('[data-copy]').forEach(button => button.addEventListener('click', () => copyText(sceneText(state.matches[Number(button.dataset.copy)]), '장면 정보를 복사했습니다. 티빙 경기 영상에서 해당 이닝을 찾아보세요.')));
     $$('[data-pitch]').forEach(details => details.addEventListener('toggle', () => {
       if (details.open && !details.dataset.rendered) {
         details.querySelector('.finder-pa-content').innerHTML = paTable(state.matches[Number(details.dataset.pitch)], filters);
         details.dataset.rendered = 'true';
       }
     }));
+  }
+  // 티빙 경기 페이지 주소는 경기 ID 뒤에 시즌 연도를 붙인 형태입니다 (예: 20261005LTKT0 → 20261005LTKT02026).
+  function tvingURL(gameId) {
+    return /^\d{8}[A-Z]{4}\d$/.test(gameId || '') ? `https://www.tving.com/sports/game/${gameId}${gameId.slice(0, 4)}/video` : 'https://www.tving.com/';
   }
   function paTable(selected, filters) {
     const rows = [...selected.pa.pitches].sort((a, b) => (a.game_number ?? a.number ?? 0) - (b.game_number ?? b.number ?? 0));
