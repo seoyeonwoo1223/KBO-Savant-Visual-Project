@@ -3,6 +3,8 @@ const TrendlineMath = (() => {
   let fields = [], index = {};
   const METRICS = {
     velocity: {label:"평균 구속", unit:"km/h", numerator:"velocity_sum", denominator:"velocity_n", scale:1, min:50, sample:"유효 구속", roles:["pitcher"]},
+    hb: {label:"HB", unit:"in", numerator:"hb_sum", denominator:"hb_n", scale:1, min:50, sample:"무브먼트 측정 투구", roles:["pitcher"], byType:true, noLeague:true},
+    ivb: {label:"IVB", unit:"in", numerator:"ivb_sum", denominator:"ivb_n", scale:1, min:50, sample:"무브먼트 측정 투구", roles:["pitcher"], byType:true},
     usage: {label:"구종 사용률", unit:"%", numerator:"pitches", denominator:"pitches", scale:100, min:50, sample:"투구", roles:["pitcher"]},
     k: {label:"K%", unit:"%", numerator:"k", denominator:"pa", scale:100, min:30, sample:"결과 확인 타석", roles:["pitcher","batter"], overall:true},
     bb: {label:"BB%", unit:"%", numerator:"bb", denominator:"pa", scale:100, min:30, sample:"결과 확인 타석", roles:["pitcher","batter"], overall:true},
