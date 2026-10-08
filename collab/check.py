@@ -11,6 +11,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 LEGACY_GATES = "analysis/arm_angle/sinker_anchor_20261007/gates.md"
 GATES = {
+    "EAA-TR1": ("analysis/arm_angle/tracking_rebuilt_20261009/gates.md",),
     "EAA-SI1": (LEGACY_GATES,),
     "EAA-SUP1": (LEGACY_GATES,),
     "EAA-CL1": (LEGACY_GATES,),
