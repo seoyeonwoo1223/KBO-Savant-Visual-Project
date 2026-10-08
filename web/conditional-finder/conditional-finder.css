@@ -12,6 +12,9 @@ body { margin: 0; color: var(--kbo-ink); }
 .finder-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px 18px; margin: 18px 0; }
 .finder-field { display: flex; flex-direction: column; gap: 7px; min-width: 0; color: var(--kbo-muted); font-size: .82rem; font-weight: 700; }
 .finder-field input, .finder-field select { width: 100%; min-width: 0; min-height: 40px; padding: 9px 10px; border: 1px solid var(--kbo-line-strong); border-radius: 0; color: var(--kbo-ink); background: #fff; font: .9rem Arial, sans-serif; }
+/* iOS Safari는 기본 모양의 날짜 칸에 고유 폭·높이를 써서 그리드 칸을 넘칩니다. 기본 모양을 끄고 다른 입력칸과 높이를 맞춥니다. */
+.finder-field input[type="date"] { -webkit-appearance: none; appearance: none; display: block; height: 40px; line-height: 20px; }
+.finder-field input[type="date"]::-webkit-date-and-time-value { margin: 0; text-align: left; }
 .finder-options { min-width: 0; border: 0; border-top: 1px solid var(--kbo-line); padding: 16px 0 10px; margin: 16px 0 0; }
 .finder-options legend { padding: 0 12px 0 0; font-size: .9rem; font-weight: 700; }
 .finder-chips { display: flex; flex-wrap: wrap; gap: 8px; }
