@@ -1,0 +1,58 @@
+{
+  "sign_check_FF": {
+    "Right": {
+      "FF_pitches": 62803,
+      "x55_m_median": -0.45780960000000004,
+      "vx55_mps_median": 1.5931896,
+      "armside55_over_height_median": 0.2471008225253364,
+      "hb50_cm_median": -20.51216739043984,
+      "hb_arm_over_dt2_mps2_median": 1.4011656000000001,
+      "armside_vx55_over_minus_vy_median": 0.03922162380406492
+    },
+    "Left": {
+      "FF_pitches": 22665,
+      "x55_m_median": 0.5754793840522446,
+      "vx55_mps_median": -2.161929111989585,
+      "armside55_over_height_median": 0.309703604255915,
+      "hb50_cm_median": 29.121683093212685,
+      "hb_arm_over_dt2_mps2_median": 1.9206972,
+      "armside_vx55_over_minus_vy_median": 0.05412708497592566
+    }
+  },
+  "flight_normalization_identity_max_abs_mps2": {
+    "55": 1.7763568394002505e-15,
+    "50": 1.7763568394002505e-15,
+    "238": 1.7763568394002505e-15,
+    "10": 1.7763568394002505e-15
+  },
+  "residual_center_by_type": {
+    "FF": {
+      "pitches": 85468,
+      "players": 284,
+      "pitcher_equal_hb_arm_mean_cm": 0.18988616433156585,
+      "pitcher_equal_ivb_mean_cm": -0.8711044255807107
+    },
+    "SI": {
+      "pitches": 17748,
+      "players": 113,
+      "pitcher_equal_hb_arm_mean_cm": -1.3084655223153732,
+      "pitcher_equal_ivb_mean_cm": 2.5018980137987303
+    }
+  },
+  "location_contribution": {
+    "reimplementation_max_abs_diff_cm": 0.0,
+    "with_location": {
+      "hb_arm_MAE_cm": 9.782051626565591,
+      "ivb_MAE_cm": 8.340360373912722
+    },
+    "without_px_pz": {
+      "hb_arm_MAE_cm": 9.82792693511019,
+      "ivb_MAE_cm": 8.372026310765747
+    },
+    "FF_pitch_corr_px_arm_vs_hb_arm": 0.016296007752652088,
+    "FF_pitch_corr_pz_norm_vs_ivb": -0.04251915145546812
+  },
+  "registered": false,
+  "new_candidate": false,
+  "angle_computed": false
+}
