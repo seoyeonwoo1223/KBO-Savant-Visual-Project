@@ -30,6 +30,14 @@ body { margin: 0; }
 .trend-chart svg { display: block; width: 100%; }
 .trend-chart:focus-visible { outline: 3px solid var(--kbo-red); outline-offset: 3px; }
 .trend-chart .trend-crosshair { pointer-events: none; }
+.trend-tooltip { position: absolute; top: 30px; z-index: 1; display: grid; gap: 3px; max-width: 230px; padding: 8px 10px; border: 1px solid var(--kbo-line); border-radius: 8px; background: rgba(255,255,255,.96); box-shadow: 0 4px 14px rgba(8,51,88,.12); color: var(--kbo-navy); font-size: .74rem; line-height: 1.35; pointer-events: none; white-space: nowrap; }
+.trend-tooltip[hidden] { display: none; }
+.trend-tooltip span { display: flex; align-items: center; gap: 5px; overflow: hidden; text-overflow: ellipsis; }
+.trend-tooltip i { flex: 0 0 8px; height: 8px; border-radius: 50%; }
+.trend-tooltip em { color: var(--kbo-muted); font-style: normal; }
+.trend-card-latest strong { margin-left: 8px; color: var(--kbo-red); font-size: 1.12rem; }
+.trend-card-latest small { margin-left: 4px; color: var(--kbo-muted); font-size: .76rem; font-weight: 400; }
+.trend-controls .search-message.is-info { color: var(--kbo-muted); }
 .trend-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin: 12px 0 10px; }
 .trend-legend button, .trend-league-label { display: inline-flex; align-items: center; gap: 6px; padding: 6px 9px; border: 1px solid var(--kbo-line); border-radius: 20px; background: #fff; color: var(--kbo-navy); font: inherit; font-size: .74rem; }
 .trend-legend button { cursor: pointer; }
@@ -57,7 +65,7 @@ body { margin: 0; }
 .thumbnail-mode .trend-profile { margin: 0; }
 .thumbnail-mode .trend-grid { display: block; width: 600px; }
 .thumbnail-mode .trend-card { width: 600px; height: 600px; border-radius: 0; padding: 25px; }
-.thumbnail-mode .trend-card:not(:first-child), .thumbnail-mode .trend-options, .thumbnail-mode .trend-remove, .thumbnail-mode .trend-detail, .thumbnail-mode .trend-sample { display: none; }
+.thumbnail-mode .trend-card:not(:first-child), .thumbnail-mode .trend-options, .thumbnail-mode .trend-remove, .thumbnail-mode .trend-detail, .thumbnail-mode .trend-sample, .thumbnail-mode .trend-tooltip { display: none; }
 .thumbnail-mode .trend-card-heading { margin: 3px 0 20px; }
 .thumbnail-mode .trend-card-heading h3 { font-size: 1.45rem; }
 .thumbnail-mode .trend-chart { border-radius: 0; }
