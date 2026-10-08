@@ -34,6 +34,17 @@ def status(rows):
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_tracking_registration_requires_own_path(self):
+        path_name = "analysis/arm_angle/tracking_rebuilt_20261009/gates.md"
+        self.assertEqual(check.gate_paths("EAA-TR1"), (path_name,))
+        row = f"| EAA-TR1 | 궤적 | 등록 | experiment/example@{SHA} | gpt | 검토 |"
+        with tempfile.TemporaryDirectory() as name, patch.object(check, "pushed", return_value=None), \
+                patch.object(check, "git", return_value=subprocess.CompletedProcess([], 0, stdout=b"## EAA-TR1 registration\n")) as command:
+            path = Path(name) / "STATUS.md"
+            path.write_text(status([row]))
+            self.assertEqual(check.check_status(path, "eAA-v3", MODEL_SHA), [])
+            command.assert_called_once_with("show", f"{SHA}:{path_name}")
+
     def test_valid_append_and_reply(self):
         with tempfile.TemporaryDirectory() as name, patch.object(check, "pushed", return_value=None):
             folder = Path(name)
