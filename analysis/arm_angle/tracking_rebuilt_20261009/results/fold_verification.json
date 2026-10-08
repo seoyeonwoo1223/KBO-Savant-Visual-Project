@@ -1,0 +1,47 @@
+[
+  {
+    "fold": 0,
+    "train_pitches": 82573,
+    "test_pitches": 20643,
+    "train_players": 234,
+    "test_players": 58,
+    "player_overlap": 0,
+    "independent_normal_equation_max_difference_cm": 1.7692514120426495e-12
+  },
+  {
+    "fold": 1,
+    "train_pitches": 82571,
+    "test_pitches": 20645,
+    "train_players": 233,
+    "test_players": 59,
+    "player_overlap": 0,
+    "independent_normal_equation_max_difference_cm": 7.325695605686633e-12
+  },
+  {
+    "fold": 2,
+    "train_pitches": 82572,
+    "test_pitches": 20644,
+    "train_players": 233,
+    "test_players": 59,
+    "player_overlap": 0,
+    "independent_normal_equation_max_difference_cm": 3.147704319417244e-12
+  },
+  {
+    "fold": 3,
+    "train_pitches": 82574,
+    "test_pitches": 20642,
+    "train_players": 234,
+    "test_players": 58,
+    "player_overlap": 0,
+    "independent_normal_equation_max_difference_cm": 5.7625015870144125e-12
+  },
+  {
+    "fold": 4,
+    "train_pitches": 82574,
+    "test_pitches": 20642,
+    "train_players": 234,
+    "test_players": 58,
+    "player_overlap": 0,
+    "independent_normal_equation_max_difference_cm": 3.815614491031738e-12
+  }
+]

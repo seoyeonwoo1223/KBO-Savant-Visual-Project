@@ -1,0 +1,132 @@
+{
+  "repository": "seoyeonwoo1223/KBO-Savant-Visual-Project",
+  "source_branch": "experiment/eaa-sinker-support-20261007",
+  "source_commit": "35891bdbe96b7feb4f42ecff33c8895f8aee1284",
+  "acquired_date_KST": "2026-10-09",
+  "date_filter": [
+    "2026-03-28",
+    "2026-10-04"
+  ],
+  "observed_canonical_range": [
+    "2026-03-28",
+    "2026-10-05"
+  ],
+  "observed_canonical_rows": 215083,
+  "selected_rows": 213628,
+  "source_files": [
+    {
+      "path": "data/curated/summary.json",
+      "git_blob": "4f7755b46049bbf6a256114d0e27750182fb42eb",
+      "sha256": "94a03280d1300aed8bfad6a15baf0a13c1f1886de350f7b1571968a3b79b701d",
+      "bytes": 7548
+    },
+    {
+      "path": "data/curated/schema.json",
+      "git_blob": "15ed46783712e9feb5e01584ccffa5c88ffb0c42",
+      "sha256": "79abb3d5094a24a25d769d45c5cf73075e51feb8782c896b8d9673fce7eb3e07",
+      "bytes": 14975
+    },
+    {
+      "path": "data/tracking/player_heights.csv",
+      "git_blob": "df6e72b204f7e2f2db68f25d8a86e00e76987b0a",
+      "sha256": "c440a76844851a0c8fa6c9248b44bf644d18c0cfc5e68c9bf9c05e052b98956d",
+      "bytes": 150218
+    },
+    {
+      "path": "data/curated/players/player_bio.parquet",
+      "git_blob": "32a3da02b0be48f13ab19a3fbab7d88bc0376bbc",
+      "sha256": "fea8c153186ca26f8e0a5d76c0e3a9764c2dcb02063e99aafc898069c940d7ae",
+      "bytes": 19017
+    },
+    {
+      "path": "data/models/estimated_arm_angle_v3.json",
+      "git_blob": "88b8d1c2af6c62c68f390f0e1d8bcf15e30ece77",
+      "sha256": "484c6de37dc835f7551e69dbaa8550fe54bf6a086ec3483898140eee907ae84b",
+      "bytes": 20111
+    },
+    {
+      "path": "src/visualbaseball/numeric_arm_angle_features.py",
+      "git_blob": "b1792be23d2334ffaca9f7fd273fc417e5875214",
+      "sha256": "681b25bff868f42f158895b3f25be536b86f4ec0fae0f579c4fff7e94a457be3",
+      "bytes": 4091
+    },
+    {
+      "path": "data/curated/pitches/season=2026/month=03.parquet",
+      "git_blob": "68fbccfd21dd7e283a343a4f5db06122935117fb",
+      "sha256": "0f40f0af9a078aeb123d614eaf3e2decca4017e8c24aa6774dda21633e5bc072",
+      "bytes": 854397
+    },
+    {
+      "path": "data/curated/pitches/season=2026/month=04.parquet",
+      "git_blob": "a3e6cf2fb4b208e22d6387665a9d52b48ee92faf",
+      "sha256": "ba2f4ec3c2f0798338db5171a6124ccc9e0775d38806efa764d8d2c5cc92ae14",
+      "bytes": 5306613
+    },
+    {
+      "path": "data/curated/pitches/season=2026/month=05.parquet",
+      "git_blob": "63222d0e2e9f49de74519e6b78b53c4d41766bbd",
+      "sha256": "378b9d1ca1e55564cf2163cace15d37d3b7f67b79ebb0eb5017b45b1122fee7b",
+      "bytes": 5593603
+    },
+    {
+      "path": "data/curated/pitches/season=2026/month=06.parquet",
+      "git_blob": "1dfaf7717ea81de8243c57f22a6dc0c2dc92f228",
+      "sha256": "95460e2a9ffe5a9d1284b9740013f2415fc1fb8709d4c0232bc171e33046728e",
+      "bytes": 5329950
+    },
+    {
+      "path": "data/curated/pitches/season=2026/month=07.parquet",
+      "git_blob": "6e8b7e3352d230a425ef051809673504912228c0",
+      "sha256": "3410d3ced92fb100db74934d08d7395e61f0cd8d59de9a264ebef1018d9c245b",
+      "bytes": 4865006
+    },
+    {
+      "path": "data/curated/pitches/season=2026/month=08.parquet",
+      "git_blob": "6324bb5acfbc1f7329e27578414e28b3523b1f31",
+      "sha256": "1b58d0fe09df726badeb90ced233b126f487ad014e51265d5cb015096ddb131e",
+      "bytes": 3998038
+    },
+    {
+      "path": "data/curated/pitches/season=2026/month=09.parquet",
+      "git_blob": "044f8d39d7a49b86ca02932839360b560b2e854e",
+      "sha256": "f973600e77c7d2fd0802af5e5f11bce1d1c6520b941f4ee49fd263b2f51acc4b",
+      "bytes": 4773420
+    },
+    {
+      "path": "data/curated/pitches/season=2026/month=10.parquet",
+      "git_blob": "23b1dda5256d9cdc3b1c2ad7853ce8808bf90731",
+      "sha256": "37958bfc944c843b87c695765333b8fad17aebf4e199a8662dff8ff1259837bb",
+      "bytes": 1005797
+    }
+  ],
+  "selected_sha256": "97a62933e3fcc50dfb923213a4d9ac99cafeee74a6430aa13447dd4f968a65d1",
+  "continuation_branch_commit": "d272fbe4244c1f155dede8b209fda01c95a53b6b",
+  "continuation_zip_sha256": "0864ffdc15ed05de163e71d738632f0a995137d342de89a9a810099c9f30f1e4",
+  "continuation_zip_path": "analysis/arm_angle/review-context/eaa-continuation-20261007.zip",
+  "continuation_manifest_files_verified": 187,
+  "handoff_smoke": {
+    "passed": true,
+    "MLB_seasons": 2295,
+    "fixed_training_seasons": 1095,
+    "KBO_players": 195,
+    "prediction_max_difference_deg": 3.602451670303708e-12,
+    "refit_coefficient_max_difference": 1.846097927304946e-12,
+    "raw_pitch_source_verification_performed": false
+  },
+  "previous_unpublished_snapshot_available": false,
+  "new_implementation_not_identical_to_unpublished_code": true,
+  "missing_values_imputed": false,
+  "previous_prediction_reference": {
+    "zip_member": "repo/analysis/arm_angle/results/eaa_orthogonal_residual_20261006_KBO2026_predictions.csv",
+    "sha256": "665589461b73108db1cf076a7ef07e08cd7be199924a378cd8a0288c3fd31c17",
+    "verified_against_handoff_manifest": true,
+    "used_as_training_labels": false
+  },
+  "existing_sinker_package_verification": {
+    "current_source_commit_full_manifest_passed": false,
+    "mismatched_file": "gates.md",
+    "frozen_commit": "661a5c0229f6b6f274458221d6230b22bfa700b9",
+    "frozen_manifest_verified_files": 72,
+    "source_files_modified": false
+  }
+}

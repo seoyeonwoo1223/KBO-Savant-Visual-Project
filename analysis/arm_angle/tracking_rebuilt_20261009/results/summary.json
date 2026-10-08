@@ -1,0 +1,52 @@
+{
+  "source_selected_rows": 213628,
+  "players": 293,
+  "games": 694,
+  "dates": [
+    "2026-03-28",
+    "2026-10-04"
+  ],
+  "basic_valid_pitches": 213540,
+  "raw_eaa_numeric_and_quality_pitches": 213536,
+  "identity_unverified_pitches": 0,
+  "missing_height_pitches": 0,
+  "missing_hand_pitches": 0,
+  "source_y0_counts": {
+    "50.0": 130150,
+    "55.0": 83390,
+    "nan": 88
+  },
+  "families": 12,
+  "derived_columns": 109,
+  "deterministic_columns": 107,
+  "fitted_oof_columns": 2,
+  "oof_pitches": 103216,
+  "oof_players": 292,
+  "FF_SI_paired_players100": 26,
+  "oof_movement_residual_metrics_not_angle_errors": {
+    "hb": {
+      "player_equal_mean_cm": 0.019506606884533005,
+      "player_equal_MAE_cm": 9.7820516265656,
+      "player_equal_negative_amount_cm": 4.881272509840533
+    },
+    "ivb": {
+      "player_equal_mean_cm": -0.001953193414187411,
+      "player_equal_MAE_cm": 8.34036037391272,
+      "player_equal_negative_amount_cm": 4.171156783663454
+    }
+  },
+  "previous_record_difference": {
+    "rows": 0,
+    "players": 0,
+    "games": 0,
+    "basic_valid": 0,
+    "derived_columns": -100,
+    "input_byte_identity_proven": false,
+    "implementation_identity_proven": false
+  },
+  "pitch_cache_sha256": "75360ff37c1ebecd91ae5e170d3a8ff20a5b2afe895e3de2d936d9220a80a173",
+  "pitch_cache_bytes": 181960877,
+  "production_changed": false,
+  "KBO_angle_accuracy_measured": false,
+  "new_unused_period_test": false
+}

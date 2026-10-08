@@ -1,0 +1,135 @@
+{
+  "plane_position": [
+    "x55_m",
+    "y55_m",
+    "z55_m",
+    "x50_m",
+    "y50_m",
+    "z50_m",
+    "x238_m",
+    "y238_m",
+    "z238_m",
+    "x10_m",
+    "y10_m",
+    "z10_m",
+    "xfront_m",
+    "yfront_m",
+    "zfront_m"
+  ],
+  "plane_velocity": [
+    "vx55_mps",
+    "vy55_mps",
+    "vz55_mps",
+    "vx50_mps",
+    "vy50_mps",
+    "vz50_mps",
+    "vx238_mps",
+    "vy238_mps",
+    "vz238_mps",
+    "vx10_mps",
+    "vy10_mps",
+    "vz10_mps",
+    "vxfront_mps",
+    "vyfront_mps",
+    "vzfront_mps"
+  ],
+  "flight_time": [
+    "t55_s",
+    "t50_s",
+    "t238_s",
+    "t10_s",
+    "tfront_s",
+    "dt_55_50_s",
+    "dt_50_238_s",
+    "dt_238_10_s",
+    "dt_10_front_s"
+  ],
+  "plane_speed": [
+    "speed55_mps",
+    "speed50_mps",
+    "speed238_mps",
+    "speed10_mps",
+    "speedfront_mps"
+  ],
+  "approach_angles": [
+    "yaw55_deg",
+    "pitch55_deg",
+    "yaw50_deg",
+    "pitch50_deg",
+    "yaw238_deg",
+    "pitch238_deg",
+    "yaw10_deg",
+    "pitch10_deg",
+    "yawfront_deg",
+    "pitchfront_deg"
+  ],
+  "normalized_geometry": [
+    "armside55_over_height",
+    "z55_over_height",
+    "armside50_over_height",
+    "z50_over_height",
+    "armside238_over_height",
+    "z238_over_height",
+    "armside10_over_height",
+    "z10_over_height",
+    "armsidefront_over_height",
+    "zfront_over_height"
+  ],
+  "curvature": [
+    "curvature55_per_m",
+    "tangent_accel55_mps2",
+    "curvature50_per_m",
+    "tangent_accel50_mps2",
+    "curvature238_per_m",
+    "tangent_accel238_mps2",
+    "curvature10_per_m",
+    "tangent_accel10_mps2",
+    "curvaturefront_per_m",
+    "tangent_accelfront_mps2"
+  ],
+  "gravity_removed_movement": [
+    "hb55_cm",
+    "ivb55_cm",
+    "movement55_cm",
+    "movement_arm_axis55_deg",
+    "hb50_cm",
+    "ivb50_cm",
+    "movement50_cm",
+    "movement_arm_axis50_deg",
+    "hb238_cm",
+    "ivb238_cm",
+    "movement238_cm",
+    "movement_arm_axis238_deg",
+    "hb10_cm",
+    "ivb10_cm",
+    "movement10_cm",
+    "movement_arm_axis10_deg"
+  ],
+  "acceleration_decomposition": [
+    "acceleration_mps2",
+    "along_accel55_mps2",
+    "transverse_x55_mps2",
+    "gravity_removed_ax_mps2",
+    "transverse_y55_mps2",
+    "gravity_removed_ay_mps2",
+    "transverse_z55_mps2",
+    "gravity_removed_az_mps2",
+    "transverse_accel55_mps2"
+  ],
+  "report_consistency": [
+    "px_mid_error_cm",
+    "pz_front_error_cm",
+    "hb_report_error_cm",
+    "ivb_report_error_cm"
+  ],
+  "flight_normalization": [
+    "hb_arm_over_dt2_mps2",
+    "ivb_over_dt2_mps2",
+    "movement_over_dt2_mps2",
+    "armside_vx55_over_minus_vy"
+  ],
+  "location_oof": [
+    "location_oof_hb_arm_residual_cm",
+    "location_oof_ivb_residual_cm"
+  ]
+}

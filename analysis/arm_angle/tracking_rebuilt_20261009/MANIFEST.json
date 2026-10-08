@@ -1,0 +1,104 @@
+{
+  "scope": "EAA-TR1 별도 재생성판",
+  "production_changed": false,
+  "previous_implementation_identity_verified": false,
+  "external_angle_accuracy_verified": false,
+  "files": {
+    "README.md": {
+      "sha256": "ff3295fff64d0058d95df5934c107c051d0a257448684062fbd0dec1002bec02",
+      "bytes": 10546
+    },
+    "acquire.py": {
+      "sha256": "06b355e88c6b4d3e952c997fd0320f3fb602f120f3e2e38456e479c24d380cc1",
+      "bytes": 6375
+    },
+    "columns.json": {
+      "sha256": "544f8f400086f0af6533f719a3cd11ee33d463978c79c2e479a3d311aa721a6f",
+      "bytes": 2658
+    },
+    "environment.json": {
+      "sha256": "40d70925541c055232d7b3bc08bacade42f0feedcc0cbb6936c5c88808962eb9",
+      "bytes": 138
+    },
+    "features.py": {
+      "sha256": "8ca36ea739eee9d5a31a3366bc26b85e8b4168e88bfe50a96ac31c5985866f64",
+      "bytes": 7739
+    },
+    "gates.md": {
+      "sha256": "dd48a5a2315b6f635673cb5bfb423efb24883b0706ed50aa6f9e77ab11f7bc60",
+      "bytes": 6213
+    },
+    "inputs/previous_KBO2026_predictions.csv": {
+      "sha256": "665589461b73108db1cf076a7ef07e08cd7be199924a378cd8a0288c3fd31c17",
+      "bytes": 54114
+    },
+    "inputs/selected_2026.parquet": {
+      "sha256": "97a62933e3fcc50dfb923213a4d9ac99cafeee74a6430aa13447dd4f968a65d1",
+      "bytes": 19372524
+    },
+    "record_manifest.py": {
+      "sha256": "a585f01d633969c61f284e38267743304b0746e7ee87ad15e7430d681bd6a6ad",
+      "bytes": 1030
+    },
+    "reproduce.py": {
+      "sha256": "ea6b5a187a2a45d5d7c203a26360b07ec8ca439dc39fc497381a2091448a4376",
+      "bytes": 1069
+    },
+    "reproducibility.json": {
+      "sha256": "6b35ef32d915531aa43efa63987d2404103f2c44ce044ba4f4601f8070830dc9",
+      "bytes": 1767
+    },
+    "requirements-research.txt": {
+      "sha256": "f02d23900718cfa127f620a0ca217bf8172ce574bc0c84e5f1b87ec12bd50e0e",
+      "bytes": 77
+    },
+    "results/feature_coverage.csv": {
+      "sha256": "a386837a9376d832ce592045875b01a233be7268ae95781e76c698fc942c7a11",
+      "bytes": 8525
+    },
+    "results/focus_players.csv": {
+      "sha256": "e41938041cf4202cc1ef4e9b5f863b27787b99ffe366946c2f6612886753b122",
+      "bytes": 1536
+    },
+    "results/fold_verification.json": {
+      "sha256": "d299b1f7050be24f7db1be29654d6fc300c6f8cc5dd0c33781a91e961849af0d",
+      "bytes": 1150
+    },
+    "results/oof_player_folds.csv": {
+      "sha256": "554fa8f5bff6d51f2f041ab63c750e68731185b1a7a8b774bbfaa9384fbb709a",
+      "bytes": 3461
+    },
+    "results/paired_FF_SI.csv": {
+      "sha256": "590ac42952ca8cd5ce9a56d2cca09e788b63a312c62e98e2d2b4a3f063794f6b",
+      "bytes": 4124
+    },
+    "results/pitcher_type_means.csv": {
+      "sha256": "bc4d21a67fa9c64f2f6a298ba06cd1110ae339a8942b710249ef7da7ac8cd786",
+      "bytes": 2258501
+    },
+    "results/summary.json": {
+      "sha256": "4654fab9cbbbbc2833177faa0f4b5de9d569dd44e2bba5abde3a1ae62939d680",
+      "bytes": 1436
+    },
+    "results/verification.json": {
+      "sha256": "e48fd021401536c8ed28696f816efaeca7da3bbd7ecb9a08fef32cd26daf9f79",
+      "bytes": 2440
+    },
+    "run.py": {
+      "sha256": "e41247caf45e98ac43e10f4a6e9183a5e465a19a1179a6a293bb397a54f39767",
+      "bytes": 6979
+    },
+    "source.json": {
+      "sha256": "04f3557127249babf109bea97c5db1eb92c81b3ee3957fddfe13b74fdd997752",
+      "bytes": 5290
+    },
+    "test_features.py": {
+      "sha256": "a25e684215a928299536d80f03a5420fc3af7cddddba15592bd93bd10e1a5e3d",
+      "bytes": 2720
+    },
+    "verify.py": {
+      "sha256": "4157a8fc9e2978ec31c19762b0e0cbf53ac8d656ffc77e20bf596e049e809837",
+      "bytes": 3748
+    }
+  }
+}

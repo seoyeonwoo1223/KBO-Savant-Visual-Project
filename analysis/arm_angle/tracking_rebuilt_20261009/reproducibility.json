@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "same_selected_input": true,
+  "compared_artifacts": 11,
+  "byte_sha_identical": true,
+  "artifact_sha256": {
+    "analysis/arm_angle/tracking_rebuilt_20261009/results/feature_coverage.csv": "a386837a9376d832ce592045875b01a233be7268ae95781e76c698fc942c7a11",
+    "analysis/arm_angle/tracking_rebuilt_20261009/results/focus_players.csv": "e41938041cf4202cc1ef4e9b5f863b27787b99ffe366946c2f6612886753b122",
+    "analysis/arm_angle/tracking_rebuilt_20261009/results/fold_verification.json": "d299b1f7050be24f7db1be29654d6fc300c6f8cc5dd0c33781a91e961849af0d",
+    "analysis/arm_angle/tracking_rebuilt_20261009/results/oof_player_folds.csv": "554fa8f5bff6d51f2f041ab63c750e68731185b1a7a8b774bbfaa9384fbb709a",
+    "analysis/arm_angle/tracking_rebuilt_20261009/results/paired_FF_SI.csv": "590ac42952ca8cd5ce9a56d2cca09e788b63a312c62e98e2d2b4a3f063794f6b",
+    "analysis/arm_angle/tracking_rebuilt_20261009/results/pitcher_type_means.csv": "bc4d21a67fa9c64f2f6a298ba06cd1110ae339a8942b710249ef7da7ac8cd786",
+    "analysis/arm_angle/tracking_rebuilt_20261009/results/summary.json": "4654fab9cbbbbc2833177faa0f4b5de9d569dd44e2bba5abde3a1ae62939d680",
+    "analysis/arm_angle/tracking_rebuilt_20261009/results/verification.json": "e48fd021401536c8ed28696f816efaeca7da3bbd7ecb9a08fef32cd26daf9f79",
+    "analysis/arm_angle/tracking_rebuilt_20261009/columns.json": "544f8f400086f0af6533f719a3cd11ee33d463978c79c2e479a3d311aa721a6f",
+    "analysis/arm_angle/tracking_rebuilt_20261009/environment.json": "40d70925541c055232d7b3bc08bacade42f0feedcc0cbb6936c5c88808962eb9",
+    ".cache/arm_angle/tracking_rebuilt_20261009/derived_pitches.parquet": "75360ff37c1ebecd91ae5e170d3a8ff20a5b2afe895e3de2d936d9220a80a173"
+  },
+  "raw_source_reread_performed": false
+}

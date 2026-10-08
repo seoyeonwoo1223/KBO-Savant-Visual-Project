@@ -1,0 +1,85 @@
+{
+  "passed": true,
+  "independent_scalar_sample_pitches": 512,
+  "independent_scalar_crossings": 2560,
+  "position_max_difference_m": 9.636735853746359e-14,
+  "velocity_max_difference_mps": 2.842170943040401e-14,
+  "plane_equation_max_residual_m": 4.718447854656915e-15,
+  "scipy_integration_pitches": 16,
+  "integration_max_difference_m": 7.294165271787278e-14,
+  "canonical_plane_agreement": {
+    "release_x_50": {
+      "checked_pitches": 213540,
+      "max_difference_SI": 5.10702591327572e-15
+    },
+    "release_z_50": {
+      "checked_pitches": 213540,
+      "max_difference_SI": 3.552713678800501e-15
+    },
+    "vx_50": {
+      "checked_pitches": 213540,
+      "max_difference_SI": 7.105427357601002e-15
+    },
+    "vy_50": {
+      "checked_pitches": 213540,
+      "max_difference_SI": 1.4210854715202004e-14
+    },
+    "vz_50": {
+      "checked_pitches": 213540,
+      "max_difference_SI": 1.2212453270876722e-14
+    },
+    "release_x_55": {
+      "checked_pitches": 213540,
+      "max_difference_SI": 5.551115123125783e-15
+    },
+    "release_z_55": {
+      "checked_pitches": 213540,
+      "max_difference_SI": 3.9968028886505635e-15
+    },
+    "vx_55": {
+      "checked_pitches": 213540,
+      "max_difference_SI": 9.769962616701378e-15
+    },
+    "vy_55": {
+      "checked_pitches": 213540,
+      "max_difference_SI": 1.4210854715202004e-14
+    },
+    "vz_55": {
+      "checked_pitches": 213540,
+      "max_difference_SI": 3.0753177782116836e-14
+    }
+  },
+  "report_consistency_distributions": {
+    "px_mid_error_cm": {
+      "finite": 213540,
+      "mean_cm": -0.00010071494428150989,
+      "abs_p99_cm": 0.15887792873892195,
+      "max_abs_cm": 0.17338104956791944,
+      "above_1cm": 0
+    },
+    "pz_front_error_cm": {
+      "finite": 213540,
+      "mean_cm": -0.0012003819619819784,
+      "abs_p99_cm": 0.15888193961809344,
+      "max_abs_cm": 0.1763009175991431,
+      "above_1cm": 0
+    },
+    "hb_report_error_cm": {
+      "finite": 213540,
+      "mean_cm": 5.491186763974676e-05,
+      "abs_p99_cm": 0.04972347599731099,
+      "max_abs_cm": 0.052085247248562894,
+      "above_1cm": 0
+    },
+    "ivb_report_error_cm": {
+      "finite": 213540,
+      "mean_cm": -0.0003954179276906942,
+      "abs_p99_cm": 0.049752102478445644,
+      "max_abs_cm": 0.0525381099463047,
+      "above_1cm": 0
+    }
+  },
+  "oof_player_overlap": 0,
+  "production_model_sha_verified": true,
+  "external_angle_accuracy_verified": false
+}
