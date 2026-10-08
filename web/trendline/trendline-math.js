@@ -90,6 +90,19 @@ const TrendlineMath = (() => {
       return {...bin, ...value(counts,metric,overall), league:value(baseline,metric,leagueAll)};
     });
   }
+  // League baseline as one flat value per season: the season's league total inside [start,end].
+  // Seasons are never pooled, so a multi-season range gets one flat segment per season.
+  function seasonLeague(points,metric,code,league,start,end) {
+    const cache=new Map();
+    return points.map(point=>{
+      const year=point.end.slice(0,4);
+      if(!cache.has(year)) {
+        const from=start>`${year}-01-01`?start:`${year}-01-01`, to=end<`${year}-12-31`?end:`${year}-12-31`;
+        cache.set(year,value(leagueRange(league,from,to,code),metric,leagueRange(league,from,to)));
+      }
+      return {...point,league:cache.get(year)};
+    });
+  }
   function axis(values,unit) {
     const valid=values.filter(Number.isFinite); if(!valid.length) return {min:0,max:100,step:20};
     const low=Math.min(...valid), high=Math.max(...valid), spread=Math.max(high-low,unit==="%"?8:4);
@@ -100,5 +113,5 @@ const TrendlineMath = (() => {
     if(max<=min) max=min+step;
     return {min,max,step};
   }
-  return {METRICS,setup,zero,sum,value,periodBins,leagueIndex,leagueRange,series,axis};
+  return {METRICS,setup,zero,sum,value,periodBins,leagueIndex,leagueRange,series,seasonLeague,axis};
 })();

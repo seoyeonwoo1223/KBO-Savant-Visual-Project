@@ -27,4 +27,8 @@ assert.equal(M.value(counts({pitches:20}),'usage',counts({pitches:100})).value,2
 const months=M.periodBins([games[1]],'month','2026-04-01','2026-06-30');
 assert.equal(months.length,3);assert.equal(M.value(M.sum(months[1].rows),'swing').value,null,'missing month is a gap, not zero');
 const axis=M.axis([143,149,150],'km/h');assert.equal(axis.min%axis.step,0);assert.equal(axis.max%axis.step,0);
-console.log('PASS: Trendline weighted rates, league date windows, missing values, season reset, usage, tick bounds');
+const flat=M.seasonLeague(points,'swing','all',league,'2025-01-01','2026-04-02');
+assert.equal(flat[1].league.value,flat[2].league.value,'league is one flat value per season');
+assert.equal(flat[1].league.value,560/1120*100,'flat league is the season total inside the selected range');
+assert.equal(flat[0].league.value,null,'seasons are not pooled: 2025 has no league days here');
+console.log('PASS: Trendline weighted rates, league date windows, missing values, season reset, usage, flat season league, tick bounds');

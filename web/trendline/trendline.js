@@ -81,7 +81,7 @@ function cardMarkup(w) {
     <label>구종<select data-setting="pitch" aria-label="구종" ${spec.overall?"disabled":""}>${pitches.map(([code,label])=>`<option value="${code}" ${code===w.pitch?"selected":""}>${label}</option>`).join("")}</select></label>
     <label>집계<select data-setting="window" aria-label="집계" ${mode!=="game"?"disabled":""}>${mode!=="game"?`<option>${mode==="season"?"시즌 합산":"월 합산"}</option>`:`<option value="1" ${w.window===1?"selected":""}>경기별 원값</option><option value="5" ${w.window===5?"selected":""}>최근 5경기</option><option value="10" ${w.window===10?"selected":""}>최근 10경기</option>`}</select></label></div>
     <div class="trend-chart" tabindex="0" aria-label="${spec.label} 추세선. 좌우 방향키로 값을 확인합니다."></div><div class="trend-legend"></div><div class="trend-detail" aria-live="polite"></div>
-    <p class="trend-sample">빈 원: ${spec.sample} ${spec.min}${spec.sample.includes("타석")?"타석":"개"} 미만 · ${spec.noLeague?"포수 시점(우투 암사이드 −) · 좌우 투수가 섞이는 리그 평균은 표시하지 않음":"점선: 동일 기간 리그 평균"}</p></article>`;
+    <p class="trend-sample">빈 원: ${spec.sample} ${spec.min}${spec.sample.includes("타석")?"타석":"개"} 미만 · ${spec.noLeague?"포수 시점(우투 암사이드 −) · 좌우 투수가 섞이는 리그 평균은 표시하지 않음":"점선: 기간 내 시즌 리그 평균"}</p></article>`;
 }
 function renderWidgets() {
   if(!state.selected) return;
@@ -112,15 +112,25 @@ function renderWidgets() {
 function modelFor(w,card) {
   const {start,end,mode}=bounds(), bins=M.periodBins(state.games,mode,start,end,mode==="game"?w.window:1);
   const codes=w.pitch==="split"?pitchCodes():[w.pitch];
-  const curves=codes.map(code=>({code,label:code==="all"?state.selected.name:state.catalog.pitch_names[code],color:code==="all"?"#ef4654":state.catalog.pitch_colors[code],points:M.series(bins,w.metric,code,state.league)})).filter(c=>w.pitch!=="split" || c.points.some(p=>p.value!==null));
+  const curves=codes.map(code=>({code,label:code==="all"?state.selected.name:state.catalog.pitch_names[code],color:code==="all"?"#ef4654":state.catalog.pitch_colors[code],points:M.seasonLeague(M.series(bins,w.metric,code,state.league),w.metric,code,state.league,start,end)})).filter(c=>w.pitch!=="split" || c.points.some(p=>p.value!==null));
   const smoothed=mode==="game" && w.window>1;
   if(smoothed && curves.length===1) curves[0].raw=M.series(M.periodBins(state.games,mode,start,end,1),w.metric,curves[0].code,state.league);
   return {w,card,bins,curves,mode,smoothed};
 }
-function pathFor(points,x,y,league,mode) {
+// 리그 평균은 시즌마다 수평선 하나. 이웃 시즌 점과의 중간(양 끝은 플롯 경계)까지 그립니다.
+function leaguePath(points,x,y,x0,x1) {
+  const groups=[];
+  for(const point of points) { const year=point.end.slice(0,4); if(groups.at(-1)?.year!==year) groups.push({year,points:[]}); groups.at(-1).points.push(point); }
+  return groups.map((g,i)=>{
+    const v=g.points[0].league.value; if(v===null) return "";
+    const a=i?(x(groups[i-1].points.at(-1).x)+x(g.points[0].x))/2:x0, b=i<groups.length-1?(x(g.points.at(-1).x)+x(groups[i+1].points[0].x))/2:x1;
+    return `M${a.toFixed(2)},${y(v).toFixed(2)} L${b.toFixed(2)},${y(v).toFixed(2)} `;
+  }).join("");
+}
+function pathFor(points,x,y,mode) {
   let path="", previous=null;
   for(const point of points) {
-    const v=league?point.league.value:point.value;
+    const v=point.value;
     if(v===null) {previous=null;continue;}
     const disconnected=!previous || (mode!=="season" && point.end.slice(0,4)!==previous.end.slice(0,4));
     path+=`${disconnected?"M":"L"}${x(point.x).toFixed(2)},${y(v).toFixed(2)} `;previous=point;
@@ -145,8 +155,8 @@ function drawModel(model) {
   bins.forEach((bin,i)=>{if(i%stride!==0 && i!==bins.length-1)return;const label=mode==="season"?bin.label:mode==="month"?bin.label.replace("-","."):bin.label.slice(5).replace("-",".");svg+=`<text x="${x(bin.x)}" y="${height-15}" text-anchor="${i===0?"start":i===bins.length-1?"end":"middle"}" fill="#657589" font-size="12">${label}</text>`;});
   for(const curve of active) for(const point of curve.raw||[]) if(point.value!==null && point.value>=axis.min && point.value<=axis.max) svg+=`<circle class="trend-raw" cx="${x(point.x)}" cy="${y(point.value)}" r="2.2" fill="${curve.color}" opacity=".18"/>`;
   for(const curve of active) {
-    if(w.league) svg+=`<path class="league-line" d="${pathFor(curve.points,x,y,true,mode)}" fill="none" stroke="${active.length>1?curve.color:"#68788b"}" stroke-width="2" stroke-dasharray="6 5" opacity=".8"/>`;
-    svg+=`<path class="player-line" d="${pathFor(curve.points,x,y,false,mode)}" fill="none" stroke="${curve.color}" stroke-width="2.8" stroke-linejoin="round"/>`;
+    if(w.league) svg+=`<path class="league-line" d="${leaguePath(curve.points,x,y,left,width-right)}" fill="none" stroke="${active.length>1?curve.color:"#68788b"}" stroke-width="2" stroke-dasharray="6 5" opacity=".8"/>`;
+    svg+=`<path class="player-line" d="${pathFor(curve.points,x,y,mode)}" fill="none" stroke="${curve.color}" stroke-width="2.8" stroke-linejoin="round"/>`;
     for(const point of curve.points) if(point.value!==null && (!smoothed || point.low)) svg+=`<circle class="trend-point" cx="${x(point.x)}" cy="${y(point.value)}" r="${bins.length>100?2.2:4}" fill="${point.low?"#fff":curve.color}" stroke="${curve.color}" stroke-width="1.8"/>`;
   }
   if(!values.some(Number.isFinite)) svg+=`<text x="${width/2}" y="${height/2}" text-anchor="middle" fill="#68788b" font-size="13">이 기간에 계산할 기록이 없습니다.</text>`;
