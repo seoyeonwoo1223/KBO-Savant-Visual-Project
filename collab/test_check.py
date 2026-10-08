@@ -77,6 +77,29 @@ class ProtocolTests(unittest.TestCase):
             self.assertTrue(any("gates 절 없음" in e for e in errors))
             self.assertTrue(any("실험 ID 중복" in e for e in errors))
 
+    def test_followup_cl_registration_uses_separate_path(self):
+        row = f"| EAA-CL2 | 초안 | 미실행 | experiment/example@{SHA} | claude | 검토 |"
+        valid = subprocess.CompletedProcess([], 0, stdout=b"## EAA-CL2 registration\n")
+        with tempfile.TemporaryDirectory() as name, patch.object(check, "pushed", return_value=None), \
+                patch.object(check, "git", return_value=valid) as mock_git:
+            path = Path(name) / "STATUS.md"
+            path.write_text(status([row]))
+            self.assertEqual(check.check_status(path, "eAA-v3", MODEL_SHA), [])
+            mock_git.assert_called_once_with(
+                "show", f"{SHA}:analysis/arm_angle/claude_review_20261007/gates.md")
+
+    def test_historical_and_unknown_registration_paths(self):
+        self.assertEqual(check.gate_paths("EAA-CL1"), (check.LEGACY_GATES,))
+        self.assertEqual(check.gate_paths("EAA-NEW1"), ())
+        row = f"| EAA-CL2 | 초안 | 미실행 | experiment/example@{SHA} | claude | 검토 |"
+        missing = subprocess.CompletedProcess([], 128, stdout=b"## EAA-CL2 invalid\n")
+        with tempfile.TemporaryDirectory() as name, patch.object(check, "pushed", return_value=None), \
+                patch.object(check, "git", return_value=missing):
+            path = Path(name) / "STATUS.md"
+            path.write_text(status([row]))
+            self.assertTrue(any("gates 절 없음" in e for e in
+                                check.check_status(path, "eAA-v3", MODEL_SHA)))
+
     def test_malformed_registry_fails_with_readable_error(self):
         with tempfile.TemporaryDirectory() as name:
             path = Path(name) / "STATUS.md"

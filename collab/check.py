@@ -9,9 +9,19 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-GATES = "analysis/arm_angle/sinker_anchor_20261007/gates.md"
+LEGACY_GATES = "analysis/arm_angle/sinker_anchor_20261007/gates.md"
+GATES = {
+    "EAA-SI1": (LEGACY_GATES,),
+    "EAA-SUP1": (LEGACY_GATES,),
+    "EAA-CL1": (LEGACY_GATES,),
+    "EAA-CL*": ("analysis/arm_angle/claude_review_20261007/gates.md",),
+}
+
 REQUIRED = ("id", "from", "to", "date", "type", "re", "master", "model_version", "model_sha256", "work")
 
+
+def gate_paths(ident):
+    return GATES.get(ident, GATES["EAA-CL*"] if ident.startswith("EAA-CL") else ())
 
 def git(*args):
     return subprocess.run(["git", *args], cwd=HERE, capture_output=True)
@@ -94,8 +104,14 @@ def check_status(path, current_id, current_sha):
         if problem:
             errors.append(f"{ident}: 등록 {problem}")
             continue
-        gates = git("show", f"{sha}:{GATES}").stdout.decode()
-        if not re.search(rf"^## {re.escape(ident)}[.\s(]", gates, re.M):
+        registered = False
+        for path in gate_paths(ident):
+            result = git("show", f"{sha}:{path}")
+            if result.returncode == 0 and re.search(
+                    rf"^## {re.escape(ident)}[.\s(]", result.stdout.decode(), re.M):
+                registered = True
+                break
+        if not registered:
             errors.append(f"{ident}: 등록 SHA에 gates 절 없음")
     return errors
 

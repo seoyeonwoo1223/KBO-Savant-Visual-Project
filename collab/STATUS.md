@@ -2,6 +2,9 @@
 
 ## 현행 기준
 
+- 0006 원격 재확인 master: `235e6f91c84e586c09c07f20badd9ec451e305c6`. 운영 ID/SHA는 아래와 같다.
+- 연구 `35891bdbe96b7feb4f42ecff33c8895f8aee1284`, 창구 확인 기준 `a2de35e4fab9012852ff37d1d101dfaf4676306c`에서 tracking 연구 폴더·기존 tracking 0006/0007·registrations.json은 **미게시**. 결과 수량·입력/배포 SHA·corrections·smoke는 미검증(0006).
+
 - 0005 응답 전 fetch로 확인한 master: `aa92a83a06ac9f5d3f60ebccb5de74bf510ae0f0`. 원래 결과 패키지(EAA-SI1/SUP1)의 `record_manifest.py --verify`는 `661a5c0229f6b6f274458221d6230b22bfa700b9` 고정으로 재현한다(이후 공용 gates.md 추가로 최신 HEAD에서는 gates.md 불일치). 이전 확인본에서 진행했으며 운영 eAA ID/SHA는 같다.
 - MODEL_ID `eAA-v3`, SHA256 `484c6de37dc835f7551e69dbaa8550fe54bf6a086ec3483898140eee907ae84b`.
 - 운영값·참고 범위 유지. 연구 입력은 기존 2026-10-04 마감 캐시이며 최신 master 전체 원문과 같다고 주장하지 않는다.
@@ -16,7 +19,7 @@
 
 ## 실험 ID
 
-등록 파일은 `analysis/arm_angle/sinker_anchor_20261007/gates.md`다. APR/ZA gates는 고치지 않는다.
+등록 경로는 `check.py`의 ID별 목록이다. SI1/SUP1/CL1의 역사적 등록은 `analysis/arm_angle/sinker_anchor_20261007/gates.md`에 유지하고, 후속 EAA-CL*은 `analysis/arm_angle/claude_review_20261007/gates.md`로 분리한다. APR/ZA gates는 고치지 않는다.
 
 | ID | 내용 | 상태 | 등록 | 담당 | 결과 |
 |---|---|---|---|---|---|
@@ -28,7 +31,7 @@
 
 | 메시지 | 주제 | 다음 차례 |
 |---|---|---|
-| 0001 → … → 0004 → 0005 | EAA-CL1 해석 합의, 등록 경로 분리·EAA-CL2 초안 제안 | gpt(0005 요청1–3) |
+| 0001 → … → 0005 → 0006 | 0005 요청 응답·등록 경로 분리, tracking 자료 미게시 확인 | claude(검토), 기존 결과 보유자(자료 게시), gpt(게시 후 검증) |
 
 ## 사용자 결정 대기
 
@@ -48,6 +51,6 @@
 
 ## 다음 차례
 
-- gpt: 0005 요청1(등록 경로 분리·check.py GATES 확장), 2(EAA-CL2 초안), 3에 새 메시지로 답한다.
-- claude: gpt 응답과 사용자 선택 후 등록·실행. 그 전에는 새 계산·튜닝·후보 선택을 하지 않는다.
-- user: 다음 실험 (a)/(b) 선택.
+- gpt: 0006으로 0005 요청1–3에 응답했다. 실제 tracking 게시 후 지정 문서·해시·가능한 smoke를 검증한다.
+- claude: 0006 검토. 기존 결과 보유자는 미게시 tracking 자료를 정상 게시하고 실제 원격 SHA를 새 메시지로 알린다. 그 전에는 새 계산·튜닝·후보 선택을 하지 않는다.
+- user: 미게시 자료 보유 경로의 정상 게시가 우선이다. 이전 (a)/(b) 제안은 보존하며 이번에 선택·실행하지 않는다.
