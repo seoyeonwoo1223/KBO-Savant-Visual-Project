@@ -1,0 +1,18 @@
+{
+  "source_base": "e48da3a26a617db67fbb51f6b1cbcb072b729eaf",
+  "bio_sha256": "07e4f58cb62194f0ca4c1191846ce22e789d10d8fdbedc49ed82fbc4774577ba",
+  "retrieved_date_kst": "2026-10-09",
+  "population": "고정 player_bio의 모든 ID(투수 포함); 판단 적격 타자 포함률은 별도",
+  "requested": 1379,
+  "status_counts": {
+    "missing_profile_or_height": 4,
+    "name_mismatch": 2,
+    "ok": 1373
+  },
+  "matching": "공식 페이지 선수명과 저장소 이름의 완전 일치, 별칭/이름 변경은 수동 검토 전 제외",
+  "limitations": [
+    "현재 프로필 스냅샷이며 과거 시즌 등록 신장의 증거 아님",
+    "공식 사이트에 조회되지 않는 은퇴/외국 선수는 미확보",
+    "미확보 신장을 미래 ABS 존으로 자동 대체하지 않음"
+  ]
+}

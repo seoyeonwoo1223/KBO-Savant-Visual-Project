@@ -1,0 +1,62 @@
+{
+  "registration_commit": "be8b84b301ba8d0159098d756e724491f263f9a6",
+  "source_commit": "e48da3a26a617db67fbb51f6b1cbcb072b729eaf",
+  "seed": 20261005,
+  "python": "3.12.14",
+  "versions": {
+    "numpy": "2.5.3",
+    "pandas": "2.3.3",
+    "pyarrow": "19.0.1",
+    "scipy": "1.18.1"
+  },
+  "synthetic": {
+    "cells": 108,
+    "replications_per_cell": 2000,
+    "primary_cells": 72,
+    "coverage_failed_cells": [],
+    "coverage_range": [
+      0.928,
+      0.957
+    ],
+    "bias_failed_cells": [],
+    "RB1_primary_pass": true
+  },
+  "empirical": {
+    "input_sha256": "f754f18cc972775315be87eabd4fc88b3c873c420f8e439c0fea5ad13acdfe5f",
+    "pitches": 211140,
+    "players": 290,
+    "qualified_300": 166,
+    "qualified_300_G20": 166,
+    "paired_bootstrap_players": 166,
+    "IF_over_bootstrap_p05_median_p95": [
+      0.9793523473705341,
+      1.0072561757106953,
+      1.034152338290599
+    ],
+    "RB3_pass": true,
+    "current_over_uncorrected_IF_median": 1.0196694833566398,
+    "k_current": 723.5404317946914,
+    "k_IF_uncorrected": 662.9096447072213,
+    "k_IF_corrected": 681.8878433232696,
+    "APR_sd_current_IF_uncorrected": [
+      5.544588376179211,
+      5.725303575022919
+    ],
+    "APR_rank_spearman_current_IF_uncorrected": 0.9998347226685732,
+    "APR_max_abs_change_uncorrected": 0.5596793497298478,
+    "players_100_299": 48,
+    "APR_mean_100_299_current_IF": [
+      98.9477163295187,
+      98.90636695018402
+    ],
+    "limitations": "선수별 예측 고정 bootstrap. 시즌 공동 지수 bootstrap·전시즌·전체 모형 재적합 미실행."
+  },
+  "overall": "조건부 범위 검증이며 B1 전체 통과·운영 채택 판정 아님",
+  "files_sha256": {
+    "b1_design.json": "2db278dfbc5ceaf08aab004869ebeb8a8142d89d7a934fc081b9b48c08e3df3a",
+    "run_b1.py": "4dbf58eb137de16b2136a3a265ff864d709e27f38c24ce005d95302a36101477",
+    "gates.md": "54e4ec8427a47d0c4aef11c543d3007a6adf650776fefeb2708f0f3143859e82",
+    "b1_simulation.csv": "e8251ae08f250e1489889acdcee7185c5d7a067ea3496ab8b92dc60cc1531961",
+    "b1_players_2026.csv": "a1d13fee862de1f1bc6e2eb06bd3784dd3d960c3e091e614d7b1cb859d1501c4"
+  }
+}

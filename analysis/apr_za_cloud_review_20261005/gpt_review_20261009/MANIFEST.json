@@ -1,0 +1,81 @@
+{
+  "registration_commit": "be8b84b301ba8d0159098d756e724491f263f9a6",
+  "base": "e48da3a26a617db67fbb51f6b1cbcb072b729eaf",
+  "files": {
+    "verify_handoff.py": {
+      "sha256": "3d3c99adb554140bd4ad1927ffbc8520297969c3079959f9ddf9f767459b160d",
+      "bytes": 1952
+    },
+    "handoff_checks.json": {
+      "sha256": "2e1d231e0c6db7d896287c35eb88cabb2f8da2afe707cc8f38907b379416aab9",
+      "bytes": 801
+    },
+    "kbo_abs_sources.json": {
+      "sha256": "147f90d9eb8a09a7ba9aec95b573291fecfe8cbf8ecc14d17b08c079743e1b26",
+      "bytes": 22168
+    },
+    "abs_geometry_review.json": {
+      "sha256": "fdc352eb20fc8ddffa2121f3220f6b8635a78df8075bf947cffc3225a0a09968",
+      "bytes": 2100
+    },
+    "kbo_abs_2026_supplement.json": {
+      "sha256": "0f671fe3a25a706529a885ffd8d72d94c30acff6f5a5cc2c73df705fb0027ade",
+      "bytes": 1973
+    },
+    "collect_kbo_heights.py": {
+      "sha256": "8a58d7349cdd24429ddf0d50c8c467a46f20fa52618fa95f03146f4bffc9a99c",
+      "bytes": 3770
+    },
+    "kbo_heights.json": {
+      "sha256": "c331d2e657702a52110696cd97e9ea14ba12659e33b801071d1fd099a869bf11",
+      "bytes": 869061
+    },
+    "kbo_height_acquisition.json": {
+      "sha256": "e47619cfde7ddf234dbfaf2796ab3a46c7fe4f9567ef10c446f5f75022c62255",
+      "bytes": 810
+    },
+    "b1_design.json": {
+      "sha256": "2db278dfbc5ceaf08aab004869ebeb8a8142d89d7a934fc081b9b48c08e3df3a",
+      "bytes": 1014
+    },
+    "run_b1.py": {
+      "sha256": "4dbf58eb137de16b2136a3a265ff864d709e27f38c24ce005d95302a36101477",
+      "bytes": 9290
+    },
+    "test_b1.py": {
+      "sha256": "32227d50611fd3452b14cb704497e791f34fcb288445fa271efaa33c2cb012b7",
+      "bytes": 1448
+    },
+    "test_sources.py": {
+      "sha256": "26639e17dc9ca5ba6645e788b4d97434ee303e7828324dcb09ccdf24a9f71904",
+      "bytes": 957
+    },
+    "verify_b1.py": {
+      "sha256": "d7629e1db5ecef3c46a9e034022e8175a00f7ea7b9b91fce7c13498657383153",
+      "bytes": 2919
+    },
+    "b1_simulation.csv": {
+      "sha256": "e8251ae08f250e1489889acdcee7185c5d7a067ea3496ab8b92dc60cc1531961",
+      "bytes": 18977
+    },
+    "b1_players_2026.csv": {
+      "sha256": "a1d13fee862de1f1bc6e2eb06bd3784dd3d960c3e091e614d7b1cb859d1501c4",
+      "bytes": 54026
+    },
+    "b1_results.json": {
+      "sha256": "a04303ff81164c7b49ca326577be243c3127b1792925feba543cae394a1df2fb",
+      "bytes": 2150
+    },
+    "b1_validation.json": {
+      "sha256": "8eaa386cb70377c0a7ace1c1fae1a28efceaabae80c9fe2c2aacfa8c57b79adf",
+      "bytes": 677
+    },
+    "README.md": {
+      "sha256": "e750bcaf5d0d9fd7a7a302cb4b14156ab6122c3d6fc7cc12ad35e39051d40721",
+      "bytes": 6394
+    }
+  },
+  "external_snapshot": "KBO 공식 프로필 조회일2026-10-09; 과거 시즌 신장 증거 아님",
+  "validation": "조건부 검증 범위7개 테스트·수치/manifest 확인; 전체 pytest fixture부재 실패",
+  "scope": "운영 미변경, 새 독립 확증 아님"
+}

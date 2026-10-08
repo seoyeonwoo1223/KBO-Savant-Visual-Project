@@ -1,0 +1,21 @@
+{
+  "source_url": "https://www.koreabaseball.com/Kbo/League/GameManage2026.aspx",
+  "retrieved_date_kst": "2026-10-09",
+  "html_sha256": "144e06e01ef15133eee7e63748e067e967134f707304870f1bbe41feff043781",
+  "ABS_section_text": "자동 투구 판정 시스템(ABS) 자동 볼-스트라이크 판정을 통한 리그 공정성 강화 적용 시기 및 대상 KBO 리그 시범경기부터 전 경기 대상 운영 운영 방식 모든 정규 투구 대상 트래킹 시스템 활용 투구 위치값 추적 후 스트라이크 판별 시스템 통해 심판에게 해당 투구의 판정결과 자동 전달 (스트라이크 또는 볼) 스트라이크 존 상하 홈 플레이트 중간면과 끝면 모두 상하 높이 기준을 충족 시 스트라이크판정 · 상단 기준: 선수 신장의 55.75% 적용 · 하단 기준: 선수 신장의 27.04% 적용 좌우 홈 플레이트 중간면에서 판정 · 홈 플레이트 크기(43.18cm) + 좌우 2cm 확대 적용 *총 47.18cm",
+  "verified_text_values": {
+    "season": 2026,
+    "top_ratio": 0.5575,
+    "bottom_ratio": 0.2704,
+    "plate_width_cm": 43.18,
+    "each_side_extension_cm": 2.0,
+    "horizontal_plane": "중간면",
+    "vertical_both_planes": true,
+    "back_height_offset_cm": -1.5
+  },
+  "caveat": "본문·실제2026이미지 수치는 일치한다. HTML alt에는 이전56.35%/27.64%가 남아 있으므로 alt는 규정 수치로 쓰지 않는다. 공 접촉 규칙은 확인했으나 정확한 공 반지름 수치는 미확인.",
+  "supplements_message": "0010 이후 확보한2026공식근거; 기존 메시지는 수정하지 않음",
+  "image_url": "https://6ptotvmi5753.edge.naverncp.com/KBO_IMAGE/KBOHome/resources/images/sub/img_manage1_2026.png",
+  "image_sha256": "a8b76830c9a78e2bbc3fc76a160eed6cef20f7cc91ef00a58eb7ecbb7e06746f",
+  "image_visual_verification": "원본 이미지를 직접 읽음: 2026 상하55.75%/27.04%, 좌우 접촉, 끝면 기준 중간면보다1.5cm 낮음"
+}
