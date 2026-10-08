@@ -13,11 +13,12 @@ function getJSON(path) {
   if (!cache.has(path)) cache.set(path, fetch(path,{cache:"no-store"}).then(r=>{if(!r.ok) throw new Error(`기록을 불러오지 못했습니다 (${r.status}).`);return r.json();}).catch(error=>{cache.delete(path);throw error;}));
   return cache.get(path);
 }
-function defaultPitch(metric) { return ["velocity","usage"].includes(metric)?"split":"all"; }
-function widget(metric) { const pitch=defaultPitch(metric); return {id:state.nextId++,metric,pitch,window:5,league:pitch!=="split",hidden:new Set()}; }
+function defaultPitch(metric) { return ["velocity","usage"].includes(metric) || M.METRICS[metric].byType?"split":"all"; }
+function leagueDefault(metric,pitch) { return pitch!=="split" && !M.METRICS[metric].noLeague; }
+function widget(metric) { const pitch=defaultPitch(metric); return {id:state.nextId++,metric,pitch,window:5,league:leagueDefault(metric,pitch),hidden:new Set()}; }
 function setStatus(text,info=false) { $("#status").textContent=text;$("#status").classList.toggle("is-info",info); }
 function availableMetrics() { return Object.entries(M.METRICS).filter(([,spec])=>spec.roles.includes(state.role)); }
-function format(value,unit="%") { return value == null ? "—" : `${value.toFixed(1)}${unit==="%"?"%":" km/h"}`; }
+function format(value,unit="%") { return value == null ? "—" : `${value.toFixed(1)}${unit==="%"?"%":` ${unit}`}`; }
 function niceDate(date) { return date.replaceAll("-","."); }
 function delta(value,unit) { return `${value>=0?"+":"−"}${Math.abs(value).toFixed(1)}${unit==="%"?"%p":""}`; }
 function bounds() { return {start:$("#from").value,end:$("#to").value,mode:$("#view").value}; }
@@ -73,14 +74,14 @@ function pitchCodes() {
 function cardMarkup(w) {
   const spec=M.METRICS[w.metric], {mode}=bounds();
   const metrics=availableMetrics().map(([key,s])=>`<option value="${key}" ${key===w.metric?"selected":""}>${s.label}</option>`).join("");
-  const pitches=[...(!spec.overall?[ ["all","전체 구종"],["split","구종별 선"] ]:[["all","전체 타석"]]),...(!spec.overall?pitchCodes().map(code=>[code,state.catalog.pitch_names[code]]):[])];
+  const pitches=[...(spec.overall?[["all","전체 타석"]]:spec.byType?[["split","구종별 선"]]:[["all","전체 구종"],["split","구종별 선"]]),...(!spec.overall?pitchCodes().map(code=>[code,state.catalog.pitch_names[code]]):[])];
   return `<article class="trend-card" data-id="${w.id}" ${params.get("thumb")==="1" && w===state.widgets[0]?"data-thumbnail-target":""}>
     <div class="trend-card-heading"><h3>${spec.label} <span class="trend-card-period">${mode==="season"?"· 시즌별":mode==="month"?"· 월별":"· 경기별"}</span><span class="trend-card-latest"></span></h3><button type="button" class="trend-remove" aria-label="${spec.label} 위젯 삭제">×</button></div>
     <div class="trend-options"><label>지표<select data-setting="metric" aria-label="지표">${metrics}</select></label>
     <label>구종<select data-setting="pitch" aria-label="구종" ${spec.overall?"disabled":""}>${pitches.map(([code,label])=>`<option value="${code}" ${code===w.pitch?"selected":""}>${label}</option>`).join("")}</select></label>
     <label>집계<select data-setting="window" aria-label="집계" ${mode!=="game"?"disabled":""}>${mode!=="game"?`<option>${mode==="season"?"시즌 합산":"월 합산"}</option>`:`<option value="1" ${w.window===1?"selected":""}>경기별 원값</option><option value="5" ${w.window===5?"selected":""}>최근 5경기</option><option value="10" ${w.window===10?"selected":""}>최근 10경기</option>`}</select></label></div>
     <div class="trend-chart" tabindex="0" aria-label="${spec.label} 추세선. 좌우 방향키로 값을 확인합니다."></div><div class="trend-legend"></div><div class="trend-detail" aria-live="polite"></div>
-    <p class="trend-sample">빈 원: ${spec.sample} ${spec.min}${spec.sample.includes("타석")?"타석":"개"} 미만 · 점선: 동일 기간 리그 평균</p></article>`;
+    <p class="trend-sample">빈 원: ${spec.sample} ${spec.min}${spec.sample.includes("타석")?"타석":"개"} 미만 · ${spec.noLeague?"포수 시점(우투 암사이드 −) · 좌우 투수가 섞이는 리그 평균은 표시하지 않음":"점선: 동일 기간 리그 평균"}</p></article>`;
 }
 function renderWidgets() {
   if(!state.selected) return;
@@ -94,7 +95,7 @@ function renderWidgets() {
     card.querySelector(".trend-remove").addEventListener("click",()=>{state.widgets=state.widgets.filter(v=>v.id!==w.id);renderWidgets();});
     card.querySelectorAll("[data-setting]").forEach(select=>select.addEventListener("change",()=>{
       const key=select.dataset.setting;
-      if(key==="metric") { w.metric=select.value;w.pitch=defaultPitch(w.metric);w.league=w.pitch!=="split";w.hidden.clear(); }
+      if(key==="metric") { w.metric=select.value;w.pitch=defaultPitch(w.metric);w.league=leagueDefault(w.metric,w.pitch);w.hidden.clear(); }
       else if(key==="window") w.window=Number(select.value);
       else { w.pitch=select.value;w.hidden.clear(); }
       renderWidgets();
@@ -132,7 +133,8 @@ function drawModel(model) {
   const left=49,right=20,top=35,bottom=42;
   const active=curves.filter(c=>!w.hidden.has(c.code));
   const values=active.flatMap(c=>c.points.flatMap(p=>[p.value,...(w.league?[p.league.value]:[])]));
-  const axis=M.axis(values,spec.unit);
+  const raw=active.flatMap(c=>(c.raw||[]).map(p=>p.value)).filter(Number.isFinite).sort((a,b)=>a-b);
+  const axis=M.axis(raw.length?[...values,raw[Math.floor((raw.length-1)*.05)],raw[Math.ceil((raw.length-1)*.95)]]:values,spec.unit);
   const first=bins[0]?.x??0,last=bins.at(-1)?.x??1;
   const x=t=>bins.length<=1 || first===last?(left+width-right)/2:left+(t-first)/(last-first)*(width-left-right);
   const y=v=>height-bottom-(v-axis.min)/(axis.max-axis.min)*(height-top-bottom);
@@ -154,9 +156,9 @@ function drawModel(model) {
   const latest=active.length===1?active[0].points.findLast(p=>p.value!==null):null;
   card.querySelector(".trend-card-latest").innerHTML=latest?` <strong>${format(latest.value,spec.unit)}</strong>${w.league && latest.league.value!==null?` <small>리그 ${delta(latest.value-latest.league.value,spec.unit)}</small>`:""}`:"";
   const legend=card.querySelector(".trend-legend");
-  legend.innerHTML=curves.map(c=>`<button type="button" data-series="${c.code}" aria-pressed="${!w.hidden.has(c.code)}"><i class="trend-swatch" style="border-color:${c.color}"></i>${escapeHtml(c.label)}</button>`).join("")+`<label class="trend-league-label"><input type="checkbox" class="league-toggle" ${w.league?"checked":""}><i class="trend-swatch"></i>리그 평균</label>`;
+  legend.innerHTML=curves.map(c=>`<button type="button" data-series="${c.code}" aria-pressed="${!w.hidden.has(c.code)}"><i class="trend-swatch" style="border-color:${c.color}"></i>${escapeHtml(c.label)}</button>`).join("")+(spec.noLeague?"":`<label class="trend-league-label"><input type="checkbox" class="league-toggle" ${w.league?"checked":""}><i class="trend-swatch"></i>리그 평균</label>`);
   legend.querySelectorAll("[data-series]").forEach(button=>button.addEventListener("click",()=>{const code=button.dataset.series;w.hidden.has(code)?w.hidden.delete(code):w.hidden.add(code);drawCharts();}));
-  legend.querySelector("input").addEventListener("change",event=>{w.league=event.target.checked;drawCharts();});
+  legend.querySelector("input")?.addEventListener("change",event=>{w.league=event.target.checked;drawCharts();});
   if(card.hasAttribute("data-thumbnail-target")) card.dataset.thumbnailReady="true";
 }
 function drawCharts() {
@@ -190,7 +192,7 @@ function updateHover() {
     const title=`<strong>${niceDate(bin.label)}</strong> · ${niceDate(bin.start)}–${niceDate(bin.end)} · ${bin.games}경기`;
     const lines=curves.filter(c=>!w.hidden.has(c.code)).map(c=>{
       const point=c.points[i], delta=point.value!==null && point.league.value!==null?point.value-point.league.value:null;
-      return `<span style="color:${c.color}">●</span> ${escapeHtml(c.label)} <strong>${format(point.value,spec.unit)}</strong> · n=${point.n.toLocaleString("ko")} ${point.n && point.low?"(작은 표본)":""}${point.missing?` · 미확인 ${point.missing}타석 제외`:""}`+(w.league?` · 리그 ${format(point.league.value,spec.unit)}${delta!==null?` (${delta>=0?"+":""}${delta.toFixed(1)}${spec.unit==="%"?"%p":" km/h"})`:""}`:"");
+      return `<span style="color:${c.color}">●</span> ${escapeHtml(c.label)} <strong>${format(point.value,spec.unit)}</strong> · n=${point.n.toLocaleString("ko")} ${point.n && point.low?"(작은 표본)":""}${point.missing?` · 미확인 ${point.missing}타석 제외`:""}`+(w.league?` · 리그 ${format(point.league.value,spec.unit)}${delta!==null?` (${delta>=0?"+":""}${delta.toFixed(1)}${spec.unit==="%"?"%p":` ${spec.unit}`})`:""}`:"");
     });
     detail.innerHTML=title+"<br>"+lines.join("<br>");
   }

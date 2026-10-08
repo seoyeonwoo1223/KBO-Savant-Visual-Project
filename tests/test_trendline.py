@@ -72,3 +72,13 @@ def test_cli_current_exports_and_archived_only_include_trendline(tmp_path, monke
     parser = cli._arguments()
     cli._build_only(parser, parser.parse_args(["--only","trendline","--season","2019"]), tmp_path)
     assert (2019,"trendline") in calls
+
+
+def test_movement_is_stored_in_inches_and_missing_movement_is_not_zero():
+    counts = pitch_counts(row(), movement=(2.54, -5.08))
+    assert counts[INDEX["hb_n"]] == counts[INDEX["ivb_n"]] == 1
+    assert counts[INDEX["hb_sum"]] == 1 and counts[INDEX["ivb_sum"]] == -2
+    missing = pitch_counts(row(), movement=(None, float("nan")))
+    assert all(missing[INDEX[key]] == 0 for key in ["hb_n", "ivb_n", "hb_sum", "ivb_sum"])
+    _, league = aggregate([row(horizontal_movement_cm=None, vertical_movement_cm=None)], [game()])
+    assert league["2026-04-01"]["all"][INDEX["hb_n"]] == 0

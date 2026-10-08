@@ -8,6 +8,7 @@ import json
 import math
 
 from .curated import _number, load_rows
+from .movement_calibration import calibrate
 from .pitch_types import PITCH_NAMES, pitch_code
 from .publish import write_json, write_shards
 from .teams import TEAM_CODES
@@ -17,17 +18,25 @@ TRENDLINE_SEASONS = tuple(range(2019, 2027))
 TREND_TEAM_CODES = {**TEAM_CODES, "SK": "SK"}
 # Store numerators and denominators, never pre-averaged percentages.
 FIELDS = ("pitches", "velocity_sum", "velocity_n", "swing_n", "swings", "contact_n", "contacts",
-          "location_n", "in_zone", "z_n", "z_swings", "o_n", "o_swings", "swstr_n", "whiffs", "pa", "k", "bb", "pa_unknown")
+          "location_n", "in_zone", "z_n", "z_swings", "o_n", "o_swings", "swstr_n", "whiffs", "pa", "k", "bb", "pa_unknown",
+          "hb_sum", "hb_n", "ivb_sum", "ivb_n")
+SUM_FIELDS = ("velocity_sum", "hb_sum", "ivb_sum")
+CM_PER_INCH = 2.54
 INDEX = {key: i for i, key in enumerate(FIELDS)}
 PITCH_COLORS = {"FF": "#d62f4b", "FT": "#b9415e", "SI": "#f09a22", "FC": "#8d6d61", "SL": "#b5b516",
                 "ST": "#3aa8a6", "CH": "#4bb783", "CU": "#76c8c5", "FS": "#7556b8"}
 COLUMNS = ["pitch_id", "game_id", "game_date", "inning_half", "event_seq", "batter_id", "batter_name",
            "pitcher_id", "pitcher_name", "pitch_type_code", "pitch_type_kr", "velocity_kmh", "is_swing",
-           "is_contact", "px", "pz", "sz_bottom", "sz_top", "is_pa_terminal", "pa_id", "pa_type", "pa_result"]
+           "is_contact", "px", "pz", "sz_bottom", "sz_top", "is_pa_terminal", "pa_id", "pa_type", "pa_result",
+           "stadium", "horizontal_movement_cm", "vertical_movement_cm"]
 
 
-def pitch_counts(row, terminal=False):
+def pitch_counts(row, terminal=False, movement=(None, None)):
     counts = [0] * len(FIELDS)
+    # Movement is the Pitch Plot park/day + plate-location corrected value, in inches (catcher's view).
+    for key, value in zip(("hb", "ivb"), movement):
+        if value is not None and math.isfinite(value):
+            counts[INDEX[f"{key}_sum"]], counts[INDEX[f"{key}_n"]] = value / CM_PER_INCH, 1
     counts[INDEX["pitches"]] = 1
     velocity = _number(row.get("velocity_kmh"))
     if velocity is not None and math.isfinite(velocity) and velocity > 0:
@@ -76,13 +85,14 @@ def _bucket():
 
 
 def _pack(bucket):
-    counts = list(bucket["all"])
-    counts[INDEX["velocity_sum"]] = round(counts[INDEX["velocity_sum"]], 6)
-    types = {}
-    for code, values in sorted(bucket["types"].items()):
-        types[code] = list(values)
-        types[code][INDEX["velocity_sum"]] = round(values[INDEX["velocity_sum"]], 6)
-    return {"counts": counts, "types": types}
+    return {"counts": _rounded(bucket["all"]), "types": {code: _rounded(values) for code, values in sorted(bucket["types"].items())}}
+
+
+def _rounded(values):
+    values = list(values)
+    for key in SUM_FIELDS:
+        values[INDEX[key]] = round(values[INDEX[key]], 6)
+    return values
 
 
 def aggregate(rows, games):
@@ -90,15 +100,16 @@ def aggregate(rows, games):
     players = {"pitcher": {}, "batter": {}}
     league = defaultdict(_bucket)
     terminal_seen = set()
-    for row in sorted(rows, key=lambda r: (r["game_id"], int(r.get("event_seq") or 0))):
-        game = final.get(row["game_id"])
-        if not game or not row.get("game_date") or row.get("inning_half") not in {"top", "bottom"}:
-            continue
+    kept = [row for row in sorted(rows, key=lambda r: (r["game_id"], int(r.get("event_seq") or 0)))
+            if final.get(row["game_id"]) and row.get("game_date") and row.get("inning_half") in {"top", "bottom"}]
+    movement = calibrate(kept, [pitch_code(row) or "" for row in kept]) if kept else []
+    for row, moved in zip(kept, movement):
+        game = final[row["game_id"]]
         pa_key = row["game_id"], row.get("pa_id")
         terminal = bool(row.get("is_pa_terminal")) and bool(row.get("pa_id")) and pa_key not in terminal_seen
         if terminal:
             terminal_seen.add(pa_key)
-        counts, code = pitch_counts(row, terminal), pitch_code(row)
+        counts, code = pitch_counts(row, terminal, moved), pitch_code(row)
         date = row["game_date"]
         _add(league[date]["all"], counts)
         _add(league[date]["types"][code or "UN"], counts)
