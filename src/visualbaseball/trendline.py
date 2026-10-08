@@ -11,6 +11,7 @@ from .curated import _number, load_rows
 from .movement_calibration import calibrate
 from .pitch_types import PITCH_NAMES, pitch_code
 from .publish import write_json, write_shards
+from .strikeouts import is_strikeout, third_strike
 from .teams import TEAM_CODES
 
 
@@ -51,12 +52,10 @@ def pitch_counts(row, terminal=False, movement=(None, None)):
         counts[INDEX["whiffs"]] = int(not contact)
     _location_counts(counts, row, swing)
     result, kind = str(row.get("pa_result") or "").strip(), row.get("pa_type")
-    # A PA ending on a called/swinging strike with two strikes is a strikeout even when VB left the
-    # result blank (2019 Mar–May) or recorded the dropped-third-strike advance (WP/포실).
-    third_strike = row.get("strikes_before") == 2 and row.get("pitch_call_code") in {"S", "T"}
-    if terminal and (result or kind in {"k", "hit", "hr"} or third_strike):
+    strikes, call = row.get("strikes_before"), row.get("pitch_call_code")
+    if terminal and (result or kind in {"k", "hit", "hr"} or third_strike(strikes, call)):
         counts[INDEX["pa"]] = 1
-        counts[INDEX["k"]] = int(kind == "k" or result == "삼진" or third_strike)
+        counts[INDEX["k"]] = int(is_strikeout(kind, result, strikes, call))
         # VB's bb type also includes hit-by-pitch; legacy seasons lack pa_type.
         counts[INDEX["bb"]] = int(result in {"볼넷", "고의사"})
     elif terminal:

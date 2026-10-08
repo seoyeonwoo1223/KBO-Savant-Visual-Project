@@ -7,6 +7,7 @@ from pathlib import Path
 from .curated import _number, load_rows
 from .pitch_types import PITCH_NAMES, pitch_code
 from .publish import add_catalog_season, write_json, write_shards
+from .strikeouts import third_strike
 
 FINDER_SEASONS = tuple(range(2022, 2027))
 PITCH_COLUMNS = [
@@ -25,8 +26,13 @@ ROW_COLUMNS = [
 ]
 
 
-def outcome(result: str | None) -> str:
-    """위치 접두사가 붙는 VB 결과를 분류합니다. 미확인을 아웃으로 대체하지 않습니다."""
+def outcome(result: str | None, strikeout: bool = False) -> str:
+    """위치 접두사가 붙는 VB 결과를 분류합니다. 미확인을 아웃으로 대체하지 않습니다.
+
+    strikeout은 2스트라이크 S·T 판정으로 끝난 타석입니다. 결과가 비었거나 WP·포실(낫아웃)이어도 삼진입니다.
+    """
+    if strikeout:
+        return "strikeout"
     result = str(result or "").strip()
     exact = {"삼진": "strikeout", "낫아웃": "strikeout", "볼넷": "walk",
              "고의사": "intentional_walk", "고의4구": "intentional_walk", "사구": "hbp"}
@@ -93,6 +99,11 @@ def _player_index(pitches: list[dict], games: dict[str, dict]) -> dict:
             for role, entries in players.items()}
 
 
+def _outcome(row: dict) -> str:
+    terminal = bool(row.get("is_pa_terminal"))
+    return outcome(row.get("pa_result"), terminal and third_strike(row.get("strikes_before"), row.get("pitch_call_code")))
+
+
 def _date_payload(rows: list[dict], games: dict[str, dict], orders: dict) -> dict:
     pas, pa_indices, records = [], {}, []
     for row in rows:
@@ -100,9 +111,9 @@ def _date_payload(rows: list[dict], games: dict[str, dict], orders: dict) -> dic
         if key not in pa_indices:
             pa_indices[key] = len(pas)
             pas.append([row["pa_id"], row["game_id"], row.get("inning"), row.get("inning_half"),
-                        orders[key], row.get("pa_result"), outcome(row.get("pa_result"))])
+                        orders[key], row.get("pa_result"), _outcome(row)])
         elif row.get("is_pa_terminal"):
-            pas[pa_indices[key]][5:] = [row.get("pa_result"), outcome(row.get("pa_result"))]
+            pas[pa_indices[key]][5:] = [row.get("pa_result"), _outcome(row)]
         records.append(_row(row, pa_indices[key]))
     return {"schema_version": 1, "pa_columns": PA_COLUMNS, "columns": ROW_COLUMNS,
             "games": {game_id: games[game_id] for game_id in sorted({row["game_id"] for row in rows})},

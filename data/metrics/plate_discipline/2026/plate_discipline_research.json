@@ -259,9 +259,9 @@
           "y": "k_pct",
           "n": 168,
           "available": true,
-          "intercept": 7.4748923,
-          "slope": 0.12893044,
-          "r_squared": 0.09195261
+          "intercept": 7.40979267,
+          "slope": 0.13053408,
+          "r_squared": 0.09271085
         },
         {
           "name": "BB% vs ZA+",
@@ -279,9 +279,9 @@
           "y": "k_pct",
           "n": 168,
           "available": true,
-          "intercept": 16.70621557,
-          "slope": 0.03661719,
-          "r_squared": 0.00741693
+          "intercept": 16.84305479,
+          "slope": 0.03620144,
+          "r_squared": 0.00713075
         }
       ],
       "outlier_threshold": "absolute residual z >= 1.5"

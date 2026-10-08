@@ -20,11 +20,11 @@ SPECS = {
  "movement_zones": (("pitches",), ("data/curated/players/player_bio.parquet", "data/tracking/player_id_crosswalk.json", *(f"data/tracking/raw/season={year}/trackman_history.csv" for year in range(2019, 2025))), ("web/data/movement_zones/profiles.json",)),
 }
 CODE = {
- "conditional_finder": ("conditional_finder.py", "pitch_types.py", "publish.py", "curated.py"),
- "trendline": ("trendline.py", "pitch_types.py", "teams.py", "publish.py", "curated.py", "movement_calibration.py"),
+ "conditional_finder": ("conditional_finder.py", "pitch_types.py", "strikeouts.py", "publish.py", "curated.py"),
+ "trendline": ("trendline.py", "pitch_types.py", "strikeouts.py", "teams.py", "publish.py", "curated.py", "movement_calibration.py"),
  "leaderboards": ("leaderboard_vb.py", "leaderboard_dh.py", "naver.py", "publish.py", "curated.py"),
  "excel": ("export_excel.py", "curated.py"), "arm_angle": ("arm_angle.py", "curated.py"),
- "swing_take": ("swing_take.py", "publish.py", "curated.py"), "plate_discipline": ("plate_discipline.py", "swing_take.py", "publish.py", "curated.py"),
+ "swing_take": ("swing_take.py", "publish.py", "curated.py"), "plate_discipline": ("plate_discipline.py", "strikeouts.py", "swing_take.py", "publish.py", "curated.py"),
  "zone_decision": ("zone_decision.py", "plate_decision_v1.py", "teams.py", "pitch_types.py", "batter_stance.py", "movement_calibration.py", "swing_take.py", "publish.py", "curated.py"),
  "zone_profiles": ("zone_profile.py", "publish.py", "curated.py"),
  "pitch_arsenal": ("pitch_arsenal.py", "pitch_types.py", "batter_stance.py", "movement_calibration.py", "estimated_arm_angle.py", "estimated_arm_angle_numeric.py", "numeric_arm_angle_features.py", "arm_angle_aggregation.py", "arm_angle_reference.py", "eaa_movement_calibration.py", "publish.py", "curated.py"),
