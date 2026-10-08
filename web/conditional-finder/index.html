@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="KBO 투수·타자의 구종, 구속, 카운트, 이벤트 조건으로 경기와 타석을 찾습니다.">
   <title>KBO Conditional Finder</title>
-  <link rel="stylesheet" href="conditional-finder.css?v=20261008-2">
+  <link rel="stylesheet" href="conditional-finder.css?v=20261009-1">
   <link rel="stylesheet" href="../theme.css?v=20261009-1">
   <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
 </head>
@@ -39,13 +39,13 @@
           <datalist id="opponent-options"></datalist>
           <div class="finder-grid">
             <label class="finder-field"><span id="opponent-label">상대 타자</span><input id="opponent" type="search" list="opponent-options" autocomplete="off" placeholder="전체"></label>
+            <label class="finder-field">타자 행동<select id="action"><option value="">전체</option><option value="take">Take · 지켜봄</option><option value="swing">Swing · 스윙</option></select></label>
             <label class="finder-field">시작일<input id="date-from" type="date"></label>
             <label class="finder-field">종료일<input id="date-to" type="date"></label>
-            <label class="finder-field">최소 구속 (km/h)<input id="velocity-min" type="number" step="0.1" min="0" max="200" placeholder="제한 없음"></label>
-            <label class="finder-field">최대 구속 (km/h)<input id="velocity-max" type="number" step="0.1" min="0" max="200" placeholder="제한 없음"></label>
             <label class="finder-field">투구 전 볼<select id="balls"><option value="">전체</option><option value="0">0볼</option><option value="1">1볼</option><option value="2">2볼</option><option value="3">3볼</option></select></label>
             <label class="finder-field">투구 전 스트라이크<select id="strikes"><option value="">전체</option><option value="0">0스트라이크</option><option value="1">1스트라이크</option><option value="2">2스트라이크</option></select></label>
-            <label class="finder-field">타자 행동<select id="action"><option value="">전체</option><option value="take">Take · 지켜봄</option><option value="swing">Swing · 스윙</option></select></label>
+            <label class="finder-field">최소 구속 (km/h)<input id="velocity-min" type="number" step="0.1" min="0" max="200" placeholder="제한 없음"></label>
+            <label class="finder-field">최대 구속 (km/h)<input id="velocity-max" type="number" step="0.1" min="0" max="200" placeholder="제한 없음"></label>
           </div>
           <fieldset class="finder-options"><legend>구종</legend><div id="pitch-types" class="finder-chips"></div></fieldset>
           <fieldset class="finder-options"><legend>투구 판정</legend><div id="pitch-calls" class="finder-chips">

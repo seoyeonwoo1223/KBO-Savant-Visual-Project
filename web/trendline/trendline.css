@@ -9,6 +9,9 @@ body { margin: 0; }
 .trend-period label { display: flex; flex-direction: column; gap: 7px; font-size: .82rem; font-weight: 700; color: var(--kbo-muted); }
 .trend-options label { display: flex; flex-direction: column; gap: 7px; font-size: .78rem; color: var(--kbo-muted); }
 .trend-period input, .trend-period select { min-height: 40px; min-width: 140px; padding: 8px 10px; border: 1px solid var(--kbo-line-strong); border-radius: 0; background: #fff; color: #222; font: .88rem Arial, sans-serif; }
+/* iOS Safari 기본 날짜 칸은 고유 폭·높이로 칸을 넘치므로 기본 모양을 끕니다. */
+.trend-period input[type="date"] { -webkit-appearance: none; appearance: none; display: block; height: 40px; line-height: 20px; }
+.trend-period input[type="date"]::-webkit-date-and-time-value { margin: 0; text-align: left; }
 .trend-presets { display: flex; gap: 6px; flex-wrap: wrap; }
 .trend-presets button, #add-widget { min-height: 40px; padding: 8px 13px; border: 1px solid var(--kbo-line-strong); border-radius: 0; background: #fff; color: var(--kbo-navy); font: 700 .85rem Arial, sans-serif; cursor: pointer; }
 .trend-presets button:hover, #add-widget:hover { border-color: var(--kbo-navy); }
