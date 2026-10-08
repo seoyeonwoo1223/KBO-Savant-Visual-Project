@@ -14,8 +14,10 @@ function getJSON(path) {
   return cache.get(path);
 }
 function defaultPitch(metric) { return ["velocity","usage"].includes(metric) || M.METRICS[metric].byType?"split":"all"; }
+function defaultWindow(metric) { return metric==="velocity"?1:5; }
 function leagueDefault(metric,pitch) { return pitch!=="split" && !M.METRICS[metric].noLeague; }
-function widget(metric) { const pitch=defaultPitch(metric); return {id:state.nextId++,metric,pitch,window:5,league:leagueDefault(metric,pitch),hidden:new Set()}; }
+function widget(metric) { const pitch=defaultPitch(metric); return {id:state.nextId++,metric,pitch,window:defaultWindow(metric),league:leagueDefault(metric,pitch),hidden:new Set()}; }
+function aggregationLabel(w,mode) { return mode==="season"?"시즌별":mode==="month"?"월별":w.window===1?"경기별 원값":`최근 ${w.window}경기 평균`; }
 function setStatus(text,info=false) { $("#status").textContent=text;$("#status").classList.toggle("is-info",info); }
 function availableMetrics() { return Object.entries(M.METRICS).filter(([,spec])=>spec.roles.includes(state.role)); }
 function format(value,unit="%") { return value == null ? "—" : `${value.toFixed(1)}${unit==="%"?"%":` ${unit}`}`; }
@@ -76,7 +78,7 @@ function cardMarkup(w) {
   const metrics=availableMetrics().map(([key,s])=>`<option value="${key}" ${key===w.metric?"selected":""}>${s.label}</option>`).join("");
   const pitches=[...(spec.overall?[["all","전체 타석"]]:spec.byType?[["split","구종별 선"]]:[["all","전체 구종"],["split","구종별 선"]]),...(!spec.overall?pitchCodes().map(code=>[code,state.catalog.pitch_names[code]]):[])];
   return `<article class="trend-card" data-id="${w.id}" ${params.get("thumb")==="1" && w===state.widgets[0]?"data-thumbnail-target":""}>
-    <div class="trend-card-heading"><h3>${spec.label} <span class="trend-card-period">${mode==="season"?"· 시즌별":mode==="month"?"· 월별":"· 경기별"}</span><span class="trend-card-latest"></span></h3><button type="button" class="trend-remove" aria-label="${spec.label} 위젯 삭제">×</button></div>
+    <div class="trend-card-heading"><h3>${spec.label} <span class="trend-card-period">· ${aggregationLabel(w,mode)}</span><span class="trend-card-latest"></span></h3><button type="button" class="trend-remove" aria-label="${spec.label} 위젯 삭제">×</button></div>
     <div class="trend-options"><label>지표<select data-setting="metric" aria-label="지표">${metrics}</select></label>
     <label>구종<select data-setting="pitch" aria-label="구종" ${spec.overall?"disabled":""}>${pitches.map(([code,label])=>`<option value="${code}" ${code===w.pitch?"selected":""}>${label}</option>`).join("")}</select></label>
     <label>집계<select data-setting="window" aria-label="집계" ${mode!=="game"?"disabled":""}>${mode!=="game"?`<option>${mode==="season"?"시즌 합산":"월 합산"}</option>`:`<option value="1" ${w.window===1?"selected":""}>경기별 원값</option><option value="5" ${w.window===5?"selected":""}>최근 5경기</option><option value="10" ${w.window===10?"selected":""}>최근 10경기</option>`}</select></label></div>
@@ -87,7 +89,7 @@ function renderWidgets() {
   if(!state.selected) return;
   const {start,end,mode}=bounds();
   if(!start || !end || start>end) { $("#period-note").textContent="시작일이 종료일보다 늦습니다. 기간을 확인해 주세요.";$("#widgets").innerHTML="";state.models=[];return; }
-  $("#period-note").textContent=`${niceDate(start)}–${niceDate(end)} · ${mode==="season"?"시즌 합산":mode==="month"?"월 합산":"출전 경기 기준 이동평균 · 시즌 경계에서 초기화"} · 모든 위젯의 기간과 커서를 함께 표시합니다.`;
+  $("#period-note").textContent=`${niceDate(start)}–${niceDate(end)} · ${mode==="season"?"시즌 합산":mode==="month"?"월 합산":"출전 경기 기준 · 집계는 위젯에서 선택 · 시즌 경계에서 초기화"} · 모든 위젯의 기간과 커서를 함께 표시합니다.`;
   resize.disconnect();$("#widgets").innerHTML=state.widgets.map(cardMarkup).join("") || '<p class="trend-empty">위젯을 추가해 지표를 선택하세요.</p>';
   $("#add-widget").disabled=state.widgets.length>=6;
   for(const card of document.querySelectorAll(".trend-card")) {
@@ -95,7 +97,7 @@ function renderWidgets() {
     card.querySelector(".trend-remove").addEventListener("click",()=>{state.widgets=state.widgets.filter(v=>v.id!==w.id);renderWidgets();});
     card.querySelectorAll("[data-setting]").forEach(select=>select.addEventListener("change",()=>{
       const key=select.dataset.setting;
-      if(key==="metric") { w.metric=select.value;w.pitch=defaultPitch(w.metric);w.league=leagueDefault(w.metric,w.pitch);w.hidden.clear(); }
+      if(key==="metric") { w.metric=select.value;w.pitch=defaultPitch(w.metric);w.window=defaultWindow(w.metric);w.league=leagueDefault(w.metric,w.pitch);w.hidden.clear(); }
       else if(key==="window") w.window=Number(select.value);
       else { w.pitch=select.value;w.hidden.clear(); }
       renderWidgets();

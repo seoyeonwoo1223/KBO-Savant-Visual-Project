@@ -41,6 +41,7 @@
 | [0021](0021-conditional-finder.md) | Conditional Finder 투구 단위 검색·날짜 파일·영상 연결 | 웹·데이터 |
 
 | [0022](0022-trendline-league-baselines.md) | Trendline과 동일 기간·구종 리그 평균 비교 | 지표·웹 |
+| [0023](0023-trendline-velocity-default.md) | Trendline 구속은 경기별 원값을 기본으로 표시 | 웹 |
 
 ### 다른 곳에 있는 결정·근거
 
