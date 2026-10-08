@@ -45,7 +45,6 @@ INDEX_TEMPLATE = """<!doctype html>
     <header class="page-title">
       <p class="eyebrow">{eyebrow}</p>
       <h1>{title}</h1>
-      <p>{subtitle}</p>
     </header>
     <section class="tool-panel" aria-label="{title}">
       <p id="status" class="status">데이터를 불러오는 중입니다.</p>
@@ -156,7 +155,7 @@ def main() -> int:
     parser.add_argument("slug", help="web/<slug>/ 디렉터리 이름 (kebab-case)")
     parser.add_argument("--title", required=True, help="<h1> 제목 (영문, 메뉴 이름과 맞추기를 권장)")
     parser.add_argument("--eyebrow", required=True, help="제목 위 작은 분류 라벨 (대문자로 바뀜)")
-    parser.add_argument("--subtitle", required=True, help="제목 아래 한 줄 설명 (한국어)")
+    parser.add_argument("--subtitle", required=True, help="홈 카드 설명 한 줄 (한국어, 도구 페이지에는 부제를 두지 않음)")
     parser.add_argument("--nav-label", help="상단 메뉴 이름 (기본: --title)")
     parser.add_argument("--no-nav", action="store_true", help="메뉴에 등록하지 않음 (하위 페이지 등)")
     parser.add_argument("--web-root", type=Path, default=WEB_ROOT, help=argparse.SUPPRESS)

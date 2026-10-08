@@ -7,7 +7,7 @@
 
 - <body> 맨 앞에서 ../site-header.js를 동기 로드 (브랜드 줄 + 메뉴 줄)
 - <main class="site-main"> 하나 (헤더와 같은 1440px 폭·좌우 여백)
-- 도구 페이지는 .page-title 블록(eyebrow + h1 + 부제). 홈은 예외
+- 도구 페이지는 .page-title 블록(eyebrow + h1, 부제 없음). 홈은 예외
 - theme.css는 페이지 전용 CSS 뒤에 로드 (movement-zones만 예외, CLAUDE.md 참고)
 - 로컬 CSS/JS에는 ?v=YYYYMMDD-N 캐시 버스터, theme.css·site-header.js 버전은 전 페이지 동일
 - site-header.js의 TOOLS/ALIASES와 web/<tool>/index.html 목록이 일치

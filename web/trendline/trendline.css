@@ -2,17 +2,16 @@
 :root { font-family: Arial, Helvetica, sans-serif; }
 * { box-sizing: border-box; }
 body { margin: 0; }
-.trend-controls { padding: 20px; border: 1px solid var(--kbo-line); border-radius: 14px; background: var(--kbo-card); }
-.trend-controls h2 { margin: 0; font-size: 1.15rem; }
 .trend-matches { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 .trend-matches button { padding: 8px 12px; text-align: left; border: 1px solid var(--kbo-line); background: #fff; color: var(--kbo-navy); border-radius: 8px; cursor: pointer; }
 .trend-matches small { display: block; margin-top: 4px; color: var(--kbo-muted); }
-.trend-period { display: flex; align-items: end; flex-wrap: wrap; gap: 14px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--kbo-line); }
-.trend-period label, .trend-options label { display: flex; flex-direction: column; gap: 7px; font-size: .78rem; color: var(--kbo-muted); }
-.trend-period input, .trend-period select { min-height: 40px; min-width: 140px; padding: 8px 10px; border: 1px solid var(--kbo-line); border-radius: 7px; background: #fff; color: var(--kbo-navy); font: inherit; font-size: .87rem; }
+.trend-period { display: flex; align-items: end; flex-wrap: wrap; gap: 14px; }
+.trend-period label { display: flex; flex-direction: column; gap: 7px; font-size: .82rem; font-weight: 700; color: var(--kbo-muted); }
+.trend-options label { display: flex; flex-direction: column; gap: 7px; font-size: .78rem; color: var(--kbo-muted); }
+.trend-period input, .trend-period select { min-height: 40px; min-width: 140px; padding: 8px 10px; border: 1px solid var(--kbo-line-strong); border-radius: 0; background: #fff; color: #222; font: .88rem Arial, sans-serif; }
 .trend-presets { display: flex; gap: 6px; flex-wrap: wrap; }
-.trend-presets button, #add-widget { min-height: 40px; padding: 8px 13px; border: 1px solid var(--kbo-line); border-radius: 7px; background: #fff; color: var(--kbo-navy); font: inherit; font-size: .83rem; cursor: pointer; }
-.trend-presets button:hover, #add-widget:hover { border-color: var(--kbo-red); color: var(--kbo-red); }
+.trend-presets button, #add-widget { min-height: 40px; padding: 8px 13px; border: 1px solid var(--kbo-line-strong); border-radius: 0; background: #fff; color: var(--kbo-navy); font: 700 .85rem Arial, sans-serif; cursor: pointer; }
+.trend-presets button:hover, #add-widget:hover { border-color: var(--kbo-navy); }
 .trend-profile { margin-top: 24px; }
 .trend-player { display: flex; justify-content: space-between; align-items: center; gap: 14px; }
 .trend-player h2 { margin: 4px 0 8px; color: var(--kbo-navy); font-size: 1.8rem; }
@@ -52,7 +51,6 @@ body { margin: 0; }
 .trend-profile[hidden] { display: none; }
 @media (max-width: 800px) { .trend-grid { grid-template-columns: 1fr; } }
 @media (max-width: 480px) {
-  .trend-controls { padding: 14px; }
   .trend-period { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
   .trend-period > label:first-child, .trend-presets { grid-column: 1/-1; }
   .trend-period input, .trend-period select { min-width: 0; width: 100%; }
