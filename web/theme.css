@@ -192,12 +192,6 @@ main > header.index-header { text-align: left; }
   font: 700 clamp(1.75rem, 3vw, 2.25rem)/1.1 Arial, Helvetica, sans-serif;
   letter-spacing: -.035em;
 }
-.page-title p:not(.eyebrow, .search-title) {
-  margin: 10px 0 0;
-  color: var(--kbo-muted);
-  font-size: 1rem;
-  line-height: 1.5;
-}
 @media (max-width: 720px) {
   .page-title { margin-bottom: 20px; padding-bottom: 18px; }
 }
