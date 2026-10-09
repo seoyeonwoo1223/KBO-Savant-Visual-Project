@@ -72,6 +72,7 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 | Movement Zones | `web/movement-zones/` | `web/data/movement_zones/` |
 | Blocking | `web/blocking/` | `web/data/blocking/` |
 | Trendline | `web/trendline/` | `web/data/trendline/` (선수 경기별·리그 일자별 카운트) |
+| ABS Zone (실험) | `web/abs-zone/` | `web/data/abs/` (수동 빌드 `abs_explorer.py`, 연구 산출물 `data/experimental/abs/`) |
 
 배경: [0003](decisions/0003-savant-two-tier-header.md)~[0009](decisions/0009-web-contract-non-blocking.md).
 
@@ -100,6 +101,7 @@ web/data/**.json · exports/*.xlsx|csv · GitHub Release
 | `blocking.py` | Catcher Blocks Above Average (5-fold 경기 단위 CV 로지스틱) |
 | `arm_angle.py` | 55 ft 기준 팔각도 입력 준비 |
 | `leaderboard_vb.py` | 2026 라이브 리더보드 (CI 밖에서 수동 실행) |
+| `abs_zone.py`, `abs_run_value.py`, `abs_explorer.py` | 실험: ABS 규정 기하·판정 재구성, 2022–2023 심판 모형 대비 ABS RV, 추적 감사 (CI 밖 수동 실행, `analysis/abs/`) |
 | `export_excel.py` | Excel publication |
 
 ## CI

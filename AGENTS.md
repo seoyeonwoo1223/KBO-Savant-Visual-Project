@@ -16,6 +16,7 @@
 | curated 데이터 계약 | [docs/curated-data.md](docs/curated-data.md) |
 | SBJ·TrackMan 데이터 신뢰 감사 | [docs/sbj-data-quality.md](docs/sbj-data-quality.md) |
 | 지표 수식 근거·한계 | `analysis/zone_decision/README.md`, `analysis/plate_decision_v1/` |
+| ABS 판정 재구성·ABS RV(실험) | `analysis/abs/README.md` |
 
 ## 작업 순서
 
