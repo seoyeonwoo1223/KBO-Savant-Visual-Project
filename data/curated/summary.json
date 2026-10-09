@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T05:52:07+00:00",
+  "generated_at": "2026-10-09T08:34:49+00:00",
   "layout": "month",
   "schema_sha256": "4995a911845e10c8cb9c40b7365b57e6b6e4abef1f931ff122e660ec9b414143",
   "reading": {
@@ -347,17 +347,17 @@
         "pitches": {
           "rows": 218193,
           "files": 8,
-          "bytes": 32190524
+          "bytes": 32194607
         },
         "events": {
           "rows": 277746,
           "files": 8,
-          "bytes": 1388371
+          "bytes": 1388219
         },
         "games": {
           "rows": 709,
           "files": 8,
-          "bytes": 97578
+          "bytes": 97595
         }
       },
       "games": 709,

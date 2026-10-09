@@ -1,6 +1,6 @@
 """Cache 2025–2026 regular-season Naver inning relays, at most one request per second.
 
-Run with PYTHONPATH=src: python analysis/sbj_location/bunt_relay_fetch.py
+Run with PYTHONPATH=src: python analysis/sbj_location/bunt_relay_fetch.py [seasons...]   (default 2025 2026)
 Interrupted runs resume from validated, ignored JSON files. Failures are logged
 beside the raw files and never silently counted as complete.
 """
@@ -19,8 +19,15 @@ sys.path.insert(0, str(ROOT / "src"))
 from visualbaseball.curated import load_rows
 
 
-def games() -> list[str]:
-    return sorted({str(row["game_id"]) for season in (2025, 2026)
+SEASONS = (2025, 2026)
+
+
+def seasons_from_argv() -> tuple[int, ...]:
+    return tuple(int(s) for s in sys.argv[1:]) or SEASONS
+
+
+def games(seasons: tuple[int, ...] = SEASONS) -> list[str]:
+    return sorted({str(row["game_id"]) for season in seasons
                    for row in load_rows(ROOT, "games", season, columns=["game_id", "is_final"])
                    if row["is_final"]})
 
@@ -47,7 +54,7 @@ def main() -> None:
     last_request = 0.0
     log_path = DEST / "bunt_fetch_log.jsonl"
     DEST.mkdir(parents=True, exist_ok=True)
-    targets = games()
+    targets = games(seasons_from_argv())
     failures = 0
     print(f"games={len(targets)}", flush=True)
     with log_path.open("a", encoding="utf-8") as log:

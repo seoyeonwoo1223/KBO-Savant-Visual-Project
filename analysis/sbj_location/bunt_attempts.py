@@ -1,6 +1,7 @@
 """Audit observed bunt pitches in cached 2025–2026 Naver relays.
 
-Run with PYTHONPATH=src: python analysis/sbj_location/bunt_attempts.py
+Run with PYTHONPATH=src: python analysis/sbj_location/bunt_attempts.py [seasons...]   (default 2025 2026)
+With seasons given, only those seasons' rows are rebuilt; rows of the other seasons stay as the existing CSV has them.
 Only compact bunt words, never full relay sentences, enter tracked outputs.
 """
 from __future__ import annotations
@@ -12,7 +13,7 @@ from pathlib import Path
 import re
 import sys
 
-from bunt_relay_fetch import games, relay_at
+from bunt_relay_fetch import SEASONS, games, relay_at, seasons_from_argv
 from naver_relay_location_fetch import DEST, ROOT
 
 sys.path.insert(0, str(ROOT / "src"))
@@ -86,12 +87,13 @@ def match(row: dict, by_id: dict, by_context: dict) -> tuple[str, dict | None]:
 
 
 def main() -> None:
-    all_games = games()
+    seasons = seasons_from_argv()
+    all_games = games(seasons)
     columns = ["pitch_id", "game_id", "inning", "inning_half", "pitcher_id", "batter_id",
                "pitch_number", "velocity_kmh", "naver_pitch_id", "pitch_call_code",
                "balls_before", "strikes_before"]
     by_id, by_context = defaultdict(list), defaultdict(list)
-    for season in (2025, 2026):
+    for season in seasons:
         for pitch in load_rows(ROOT, "pitches", season, columns=columns):
             if pitch.get("naver_pitch_id"):
                 by_id[(pitch["game_id"], str(pitch["naver_pitch_id"]))].append(pitch)
@@ -141,6 +143,14 @@ def main() -> None:
                 codes[item["naver_code"]][item["naver_phrase"]] += 1
     RESULT.mkdir(parents=True, exist_ok=True)
     path = RESULT / "bunt_attempts_2025_2026.csv"
+    kept = []
+    if set(seasons) != set(SEASONS) and path.exists():
+        with path.open(encoding="utf-8-sig", newline="") as stream:
+            kept = [r for r in csv.DictReader(stream) if int(r["season"]) not in seasons]
+    rows = [{**r, "season": int(r["season"])} for r in kept] + rows
+    codes = defaultdict(Counter)
+    for r in rows:
+        codes[r["naver_code"]][r["naver_phrase"]] += 1
     with path.open("w", newline="", encoding="utf-8-sig") as stream:
         writer = csv.DictWriter(stream, fieldnames=COLUMNS)
         writer.writeheader()
@@ -154,9 +164,12 @@ def main() -> None:
     for key, count in sorted(cross.items()):
         out.append(f"| {key[0]} | `{key[1]}` | `{key[2]}` | {count} |")
     out += ["", "## 집계", ""]
-    for season in (2025, 2026):
+    for season in SEASONS:
         subset = [r for r in rows if r["season"] == season]
         bunt_foul_b = sum(r["naver_code"] == "W" and r["vb_call"] == "B" for r in subset)
+        if season not in seasons:
+            out.append(f"- {season}: 이번 실행에서 다시 수집하지 않음(기존 CSV 행 유지), 번트 시도 {len(subset)}구, VB `B` {sum(r['vb_call'] == 'B' for r in subset)}구, 네이버 `W`·VB `B` {bunt_foul_b}구")
+            continue
         out.append(f"- {season}: 경기 {sum(game_id.startswith(str(season)) for game_id in all_games)}개, 성공 이닝 {coverage[str(season)]}개, 번트 시도 {len(subset)}구, VB `B` {sum(r['vb_call'] == 'B' for r in subset)}구, 네이버 `W`·VB `B` {bunt_foul_b}구")
     statuses = Counter(r["match_status"] for r in rows)
     out += [f"- 대응 상태: {dict(sorted(statuses.items()))}; ambiguous {statuses['ambiguous']}구, unmatched {statuses['unmatched']}구", "", "## 대응 실패", ""]

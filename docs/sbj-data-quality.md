@@ -68,6 +68,7 @@ Visual Baseball 원본은 번트 파울을 `B`(볼)로 기록한다. 네이버 �
 - **2025–2026 (네이버 기준)**: 네이버 중계 전수 조사(PR #32, `bunt_attempts_2025_2026.csv`)에서 `W/번트파울`은 연결된 VB 공 전부가 `B`였다(2025년 756구, 2026년 623구). 같은 정정표에 `source: naver_relay`로 추가했다(`scripts/build_naver_bunt_corrections.py`). 연결 방식이 `matched_id`·`matched_context`인 행만 쓴다. TrackMan 방식과 달리 타석을 끝낸 2스트라이크 번트 파울(2025년 6구, 2026년 5구)도 포함된다.
   - 대응 검증: `W`·`V` 1,629구 중 1,546구는 "VB 투구 전 카운트 + 1스트라이크 = 네이버 투구 후 카운트"가 그대로 맞는다. 틀린 83구 중 82구는 같은 타석 앞쪽에 번트가 있어 VB 카운트가 이미 어긋난 경우다.
   - 새로 수집한 2026 경기는 정정표를 다시 만들어야 반영된다.
+  - 2024 TrackMan 경로가 놓친 번트 파울 3구(`20240502WOLT0-20240502WOLT0-067-05`, `20240606SSSK0-20240606SSSK0-035-01`, `20240916HTKT0-20240916HTKT0-069-03`)를 ABS 재구성 교차검증(`analysis/abs/naver_crosscheck.py`, PR #92)에서 찾았다. 네이버 `W`, VB `B`다. 2024 curated는 유일한 사본이라 **후속 과제**로 남겼다(정정표 미반영).
   - PR #32에서 연결되지 않은 `W` 6구는 원인을 확인해 `supplements`로 추가했다(`analysis/sbj_location/results/naver_unmatched_W_2025_2026.csv`). 4구는 네이버 투수 ID가 타석 중간에 바뀐 경우라 투수 없는 연결과 카운트 게이트로, 2구는 VB·중계 모두 타석 첫 공 행이 없는 경우라 구속 순서로 사람이 확인했다.
 - **2019–2024 KIA 홈 경기 (네이버 기준)**: TrackMan에 KIA 홈 경기가 없어 네이버 중계로 전수 조사했다(`analysis/sbj_location/naver_kia_home_bunts.py`, 432경기, 누락 이닝 0). 네이버 `W` 443구가 모두 VB `B`와 연결됐다.
   - 정정은 타석 단위 카운트 게이트를 통과한 443구 전부다. 게이트는 정정 뒤 VB 카운트가 타석의 모든 공에서 네이버와 같아야 통과한다.
@@ -177,8 +178,8 @@ ZA report의 채점 투구 수는 2024 **221,551**, 2025 **216,858**, 2026 **202
 2. **수집**: `python analysis/sbj_location/naver_relay_fetch.py analysis/sbj_location/results/naver_count_audit_games_2019_2026.json` (중단되면 같은 명령으로 이어받음)
 3. **감사**: `python analysis/sbj_location/naver_count_audit.py analysis/sbj_location/results/naver_count_audit_games_2019_2026.json` — 전 시즌을 돌린다. 시즌 인자를 주면 결과 CSV가 그 시즌만 남는다.
 4. **정정표**: `python scripts/build_naver_count_corrections.py analysis/sbj_location/results/naver_count_audit_2019_2026.csv`
-5. **2026 번트 파울(PR #32 경로)**: `python analysis/sbj_location/bunt_relay_fetch.py` → `python analysis/sbj_location/bunt_attempts.py` → `python scripts/build_naver_bunt_corrections.py analysis/sbj_location/results/bunt_attempts_2025_2026.csv 2026`
-   - 2025–2026 종료 경기 전부의 중계가 필요하다. 새 환경에서는 수집에 몇 시간이 걸리므로 시즌 종료 후 한 번 해도 된다.
+5. **2026 번트 파울(PR #32 경로)**: `python analysis/sbj_location/bunt_relay_fetch.py 2026` → `python analysis/sbj_location/bunt_attempts.py 2026` → `python scripts/build_naver_bunt_corrections.py analysis/sbj_location/results/bunt_attempts_2025_2026.csv 2026`
+   - 시즌 인자를 주면 그 시즌 종료 경기의 중계만 받고, CSV에서는 그 시즌 행만 다시 만든다(다른 시즌 행은 그대로). 인자가 없으면 기존처럼 2025–2026 전체다. 새 환경에서 2026만 받는 데 약 2시간 걸린다.
 6. **적용과 확인**: 위 "적용과 확인 순서"대로 `apply_call_corrections.py --check` → 적용 → `check_call_corrections.py`(전 시즌 clean). 그 뒤 `--exports-only`, ZA 2024–2025, Pitch Plot 2022–2025를 다시 만들고 `check_zone_decision_outputs.py`, `pytest`를 통과시킨다.
 7. 정정표만 커밋하지 않는다. curated와 파생 산출물을 함께 커밋한다.
 
