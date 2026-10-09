@@ -1,0 +1,23 @@
+{
+  "base": "e48da3a26a617db67fbb51f6b1cbcb072b729eaf",
+  "bio_path": "data/curated/players/player_bio.parquet",
+  "bio_sha256": "07e4f58cb62194f0ca4c1191846ce22e789d10d8fdbedc49ed82fbc4774577ba",
+  "bio_rows": 1379,
+  "non_null": {
+    "height_cm": 0,
+    "weight_kg": 0,
+    "birth_date": 0
+  },
+  "source_names": [
+    "Visual Baseball PBP + canonical trajectory inference"
+  ],
+  "algebra_max_abs_errors": {
+    "accuracy_residual_identity": 1.1102230246251565e-16,
+    "accuracy_decomposition": 0.0
+  },
+  "A1_within_bin_counterexample": {
+    "same_bin_all_take_q_001_accuracy": 0.99,
+    "same_bin_all_take_q_009_accuracy": 0.91
+  },
+  "scope": "player_bio 결측만 독립 확인. 전체 시즌 존 감사·63~91% 포함률은 재실행하지 않음. 대수 검산은 성능 증거 아님."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "B1",
+  "seed": 20261005,
+  "replications_per_cell": 2000,
+  "bootstrap_per_player": 2000,
+  "source_commit": "e48da3a26a617db67fbb51f6b1cbcb072b729eaf",
+  "pitch_path": "data/metrics/zone_awareness/2026/pitches.parquet",
+  "pitch_sha256": "f754f18cc972775315be87eabd4fc88b3c873c420f8e439c0fea5ad13acdfe5f",
+  "grid": {"n": [100,300,1000], "icc": [0,0.1,0.3], "association": [-0.3,0,0.3], "cluster_sizes": ["equal","unequal"], "families": ["gaussian","binary"]},
+  "games": "G=n/10. 불균등은 반복 1,2,3 가중을 n에 배분하고 버림의 나머지는 앞 경기부터 한 구씩 배분",
+  "critical_value": 1.959963984540054,
+  "coverage_limits": [0.92,0.98],
+  "minimum_games_for_primary": 20,
+  "bias_fraction_sd_limit": 0.05,
+  "if_bootstrap_median_limits": [0.9,1.1],
+  "if_bootstrap_p05_p95_limits": [0.75,1.25],
+  "scope": "예측 고정 조건부 원점수 SE. 역사2026 자료·합성 검증. 전시즌/시즌 공동 지수 bootstrap/전체 모형 재적합/새 확증은 미실행"
+}

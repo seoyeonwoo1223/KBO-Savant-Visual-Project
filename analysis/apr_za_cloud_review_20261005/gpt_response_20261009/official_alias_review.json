@@ -1,0 +1,56 @@
+[
+  {
+    "player_id": "50205",
+    "stored_name": "박웅",
+    "profile_name": "박강민",
+    "height_cm": 192,
+    "status": "official_search_alias_verified",
+    "retrieved_date_kst": "2026-10-09",
+    "search_url": "https://www.koreabaseball.com/Player/Search.aspx?searchWord=박웅",
+    "search_html_sha256": "27cf0aee187e4f2d71dc3e6c60bf47a563c79579a0f19c008826035298683611",
+    "search_matched_player_link": "/Futures/Player/PitcherDetail.aspx?playerId=50205",
+    "search_matched_row_text": "57 박강민 두산 투수 1997-11-12 192cm, 103kg 북정초-원동중-경남고-강릉영동대",
+    "profile_url": "https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=50205",
+    "profile_html_sha256": "78654507509258a02df5fea11fdc6ea4b82b3aa11627685eaafd54dd82deffa1",
+    "profile_fields": {
+      "imgProgile": "선수명: 박강민",
+      "lblBackNo": "57",
+      "lblBirthday": "1997년 11월 12일",
+      "lblPosition": "투수(우투우타)",
+      "lblHeightWeight": "192cm/103kg",
+      "lblCareer": "북정초-원동중-경남고-강릉영동대",
+      "lblPayment": "",
+      "lblSalary": "3100만원",
+      "lblDraft": "20 두산 육성선수",
+      "lblJoinInfo": "21두산"
+    },
+    "interpretation": "옛 이름의 공식 검색 결과가 같은 playerId의 현재 이름·생년월일·신장·경력 행으로 연결한다. 법적 개명 여부·시점은 미확인. 이전 수집 원본의 name_mismatch 상태는 보존한다."
+  },
+  {
+    "player_id": "76430",
+    "stored_name": "김상수",
+    "profile_name": "김태혁",
+    "height_cm": 180,
+    "status": "official_search_alias_verified",
+    "retrieved_date_kst": "2026-10-09",
+    "search_url": "https://www.koreabaseball.com/Player/Search.aspx?searchWord=김상수",
+    "search_html_sha256": "ef729a2b485ed997b60547d6357b27f191b53ea4c4da788214012785d63eac47",
+    "search_matched_player_link": "/Record/Player/PitcherDetail/Basic.aspx?playerId=76430",
+    "search_matched_row_text": "24 김태혁 롯데 투수 1988-01-02 180cm, 88kg 신자초(자이언츠리틀)-자양중-신일고-(방송통신대)-삼성-히어로즈-상무-히어로즈-키움-SK-SSG",
+    "profile_url": "https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=76430",
+    "profile_html_sha256": "84ae58a2177a403cb2f374b434f7421edab25531032ea479254161ab40365b24",
+    "profile_fields": {
+      "imgProgile": "선수명: 김태혁",
+      "lblBackNo": "24",
+      "lblBirthday": "1988년 01월 02일",
+      "lblPosition": "투수(우투우타)",
+      "lblHeightWeight": "180cm/88kg",
+      "lblCareer": "신자초(자이언츠리틀)-자양중-신일고-(방송통신대)-삼성-히어로즈-상무-히어로즈-키움-SK-SSG",
+      "lblPayment": "13000만원",
+      "lblSalary": "15000만원",
+      "lblDraft": "06 삼성 2차 2라운드 15순위",
+      "lblJoinInfo": "06삼성"
+    },
+    "interpretation": "옛 이름의 공식 검색 결과가 같은 playerId의 현재 이름·생년월일·신장·경력 행으로 연결한다. 법적 개명 여부·시점은 미확인. 이전 수집 원본의 name_mismatch 상태는 보존한다."
+  }
+]

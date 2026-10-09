@@ -1,0 +1,471 @@
+{
+  "head": "5013eb73ba445d35f19ccf4be8e10801b0851525",
+  "source_commit": "e48da3a26a617db67fbb51f6b1cbcb072b729eaf",
+  "provenance": {
+    "curated_pitches_tree_sha_by_season": {
+      "2019": "9e5824a2088eb2790c241ca6ef074b73285c6c17",
+      "2020": "da8b926687b40ac82d25a81e1d8a0e2d5cf9a32c",
+      "2021": "1fef79a6d60ebd2c58294da72b3d9aa4a98efeaa",
+      "2022": "3a284d9fa74a58f3ca337aac84620788cd50e1d6",
+      "2023": "507ff0098f537c95e0cfba81f02d540baef7f3b1",
+      "2024": "6c5238aa41b390f8c3ee199e81c648467fedc288",
+      "2025": "163387d7c01633d0854c9a3a6efe8dc115d88580",
+      "2026": "999567839db68cc4b0881b8c95213c40a15bd799"
+    },
+    "equal_to_source_commit_trees": true,
+    "working_tree_clean": true,
+    "curated_pitches_gitignored": false,
+    "heights_rerun_equals_cross_check_json": true
+  },
+  "sz_consistency": {
+    "2024": {
+      "pitches": 223216,
+      "sz_missing": 858,
+      "inconsistent_pitches": 1,
+      "inconsistent_share": 4.497252178918681e-06,
+      "batters": 298,
+      "batters_with_inconsistent_pitches": 1,
+      "inconsistent_pairs": 1,
+      "top_pairs": [
+        {
+          "sz_top_ft": 3.368,
+          "sz_bottom_ft": 1.574,
+          "pitches": 1,
+          "batters": 1,
+          "games": 1,
+          "first": "2024-05-23",
+          "last": "2024-05-23",
+          "implied_top_cm": 182.18,
+          "implied_bottom_cm": 173.57
+        }
+      ]
+    },
+    "2025": {
+      "pitches": 217852,
+      "sz_missing": 83,
+      "inconsistent_pitches": 69,
+      "inconsistent_share": 0.00031684950566885094,
+      "batters": 299,
+      "batters_with_inconsistent_pitches": 5,
+      "inconsistent_pairs": 4,
+      "top_pairs": [
+        {
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 49,
+          "batters": 2,
+          "games": 5,
+          "first": "2025-06-03",
+          "last": "2025-09-24",
+          "implied_top_cm": 184.52,
+          "implied_bottom_cm": 169.08
+        },
+        {
+          "sz_top_ft": 3.119,
+          "sz_bottom_ft": 1.552,
+          "pitches": 8,
+          "batters": 1,
+          "games": 1,
+          "first": "2025-04-02",
+          "last": "2025-04-02",
+          "implied_top_cm": 170.52,
+          "implied_bottom_cm": 174.94
+        },
+        {
+          "sz_top_ft": 3.42,
+          "sz_bottom_ft": 1.678,
+          "pitches": 8,
+          "batters": 1,
+          "games": 2,
+          "first": "2025-07-10",
+          "last": "2025-08-15",
+          "implied_top_cm": 186.98,
+          "implied_bottom_cm": 189.15
+        },
+        {
+          "sz_top_ft": 3.636,
+          "sz_bottom_ft": 1.7,
+          "pitches": 4,
+          "batters": 1,
+          "games": 1,
+          "first": "2025-06-28",
+          "last": "2025-06-28",
+          "implied_top_cm": 198.79,
+          "implied_bottom_cm": 191.63
+        }
+      ]
+    },
+    "2026": {
+      "pitches": 211960,
+      "sz_missing": 88,
+      "inconsistent_pitches": 265,
+      "inconsistent_share": 0.001250755172934602,
+      "batters": 290,
+      "batters_with_inconsistent_pitches": 5,
+      "inconsistent_pairs": 2,
+      "top_pairs": [
+        {
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 243,
+          "batters": 4,
+          "games": 28,
+          "first": "2026-05-05",
+          "last": "2026-08-23",
+          "implied_top_cm": 184.52,
+          "implied_bottom_cm": 169.08
+        },
+        {
+          "sz_top_ft": 3.29,
+          "sz_bottom_ft": 1.964,
+          "pitches": 22,
+          "batters": 1,
+          "games": 1,
+          "first": "2026-08-23",
+          "last": "2026-08-23",
+          "implied_top_cm": 179.87,
+          "implied_bottom_cm": 221.39
+        }
+      ]
+    }
+  },
+  "default_cases": {
+    "2026_56637": {
+      "name": "김민규",
+      "games": [
+        {
+          "game_date": "2026-05-27",
+          "game_id": "20260527HTWO0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 6,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-05-29",
+          "game_id": "20260529HTLG0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 5,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-05-31",
+          "game_id": "20260531HTLG0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 3,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-06-04",
+          "game_id": "20260604LTHT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 8,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-06-06",
+          "game_id": "20260606SSHT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 5,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-06-07",
+          "game_id": "20260607SSHT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 24,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-06-09",
+          "game_id": "20260609HTHH0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 14,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-06-10",
+          "game_id": "20260610HTHH0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 9,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-06-13",
+          "game_id": "20260613OBHT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 17,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-06-14",
+          "game_id": "20260614OBHT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 3,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-06-16",
+          "game_id": "20260616LGHT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 12,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-06-25",
+          "game_id": "20260625HTWO0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 3,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-06-28",
+          "game_id": "20260628HTOB0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 5,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-07-03",
+          "game_id": "20260703NCHT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 5,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-07-07",
+          "game_id": "20260707HTLT0",
+          "sz_top_ft": 3.311,
+          "sz_bottom_ft": 1.606,
+          "pitches": 1,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-07-07",
+          "game_id": "20260707HTLT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 2,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-07-08",
+          "game_id": "20260708HTLT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 6,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-07-18",
+          "game_id": "20260718HTSK0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 7,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-07-19",
+          "game_id": "20260719HTSK0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 11,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-07-23",
+          "game_id": "20260723HHHT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 2,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-07-25",
+          "game_id": "20260725WOHT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 8,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-07-30",
+          "game_id": "20260730HTSS0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 1,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-07-31",
+          "game_id": "20260731HTNC0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 3,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-08-13",
+          "game_id": "20260813SSHT0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 1,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-08-23",
+          "game_id": "20260823HTWO0",
+          "sz_top_ft": 3.375,
+          "sz_bottom_ft": 1.5,
+          "pitches": 6,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-09-06",
+          "game_id": "20260906KTHT0",
+          "sz_top_ft": 3.269,
+          "sz_bottom_ft": 1.585,
+          "pitches": 7,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-09-11",
+          "game_id": "20260911SKHT0",
+          "sz_top_ft": 3.269,
+          "sz_bottom_ft": 1.585,
+          "pitches": 15,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-09-20",
+          "game_id": "20260920HTNC0",
+          "sz_top_ft": 3.269,
+          "sz_bottom_ft": 1.585,
+          "pitches": 4,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2026-09-23",
+          "game_id": "20260923HTOB0",
+          "sz_top_ft": 3.269,
+          "sz_bottom_ft": 1.585,
+          "pitches": 12,
+          "raw_has_same_pair": true
+        }
+      ]
+    },
+    "2025_50106": {
+      "name": "유영찬",
+      "games": [
+        {
+          "game_date": "2025-07-10",
+          "game_id": "20250710WOLG0",
+          "sz_top_ft": 3.42,
+          "sz_bottom_ft": 1.678,
+          "pitches": 2,
+          "raw_has_same_pair": true
+        },
+        {
+          "game_date": "2025-08-15",
+          "game_id": "20250815LGSK0",
+          "sz_top_ft": 3.42,
+          "sz_bottom_ft": 1.678,
+          "pitches": 6,
+          "raw_has_same_pair": true
+        }
+      ]
+    }
+  },
+  "height_resolution": {
+    "batter_seasons": 885,
+    "0.1cm": {
+      "observed": 0.9988700564971752,
+      "uniform_expected": 0.45424544610961315
+    },
+    "0.5cm": {
+      "observed": 0.18983050847457628,
+      "uniform_expected": 0.09084908922192263
+    },
+    "1cm": {
+      "observed": 0.103954802259887,
+      "uniform_expected": 0.045424544610961314
+    },
+    "0.25in": {
+      "observed": 0.06440677966101695,
+      "uniform_expected": 0.07153471592277365
+    },
+    "0.5in": {
+      "observed": 0.03615819209039548,
+      "uniform_expected": 0.035767357961386824
+    }
+  },
+  "planes": {
+    "2024": {
+      "pitches": 223216,
+      "trajectory_valid_share": 0.9961561895204645,
+      "both_planes_computable_share": 0.9961561895204645,
+      "reported_location_disagrees_share": 0.0,
+      "signed_mid_minus_back_cm_min_p01_p50_p99": [
+        -0.18722573729721148,
+        1.0574196307310029,
+        2.3744641292254443,
+        4.572226723945267
+      ],
+      "signed_negative_share": 8.959931187728478e-06,
+      "signed_below_1_5cm_share": 0.07405831123216974
+    },
+    "2025": {
+      "pitches": 217852,
+      "trajectory_valid_share": 0.9996190073995189,
+      "both_planes_computable_share": 0.9996190073995189,
+      "reported_location_disagrees_share": 2.754163376971522e-05,
+      "signed_mid_minus_back_cm_min_p01_p50_p99": [
+        -0.037485392327823774,
+        1.0684668245634281,
+        2.420442005948921,
+        4.668311856348536
+      ],
+      "signed_negative_share": 4.590272294952536e-06,
+      "signed_below_1_5cm_share": 0.06985935405688265
+    },
+    "2026": {
+      "pitches": 211960,
+      "trajectory_valid_share": 0.9995848273259106,
+      "both_planes_computable_share": 0.9995848273259106,
+      "reported_location_disagrees_share": 0.0,
+      "signed_mid_minus_back_cm_min_p01_p50_p99": [
+        -0.07326126478636752,
+        1.0408591319310476,
+        2.3683029910429774,
+        4.559690123297947
+      ],
+      "signed_negative_share": 9.435742592942064e-06,
+      "signed_below_1_5cm_share": 0.08110020758633704
+    }
+  },
+  "eligible_2026": {
+    "eligible": 211140,
+    "matched_to_curated_trajectory": 211134,
+    "signed_mid_minus_back_cm_min": -0.07326126478636752,
+    "signed_negative": 2,
+    "takes": 116400,
+    "vertical_flip_takes": 1577,
+    "full_center_flip_takes": 848,
+    "x_relative_unit_cm": 25.400000000000002,
+    "official_half_width_cm": 23.59
+  },
+  "note": "입력 기하·원자료 확인. 콜·p_zone·정확성·모형 적합 없음. ZN-A 등록 시 이미 본 결과로 밝힌다."
+}

@@ -1,0 +1,41 @@
+{
+  "source_url": "https://www.koreabaseball.com/MediaNews/Notice/View.aspx?bdSe=9952",
+  "pdf_url": "/Common/FileDownload.ashx?file=notice%2ffiles%2f2024%2f2%2f%eb%b3%84%ec%b2%a8.%202024%20KBO%20%ea%b7%9c%ec%a0%95%e2%80%a2%ea%b7%9c%ec%b9%99%20%eb%b3%80%ea%b2%bd%20%ec%a3%bc%ec%9a%94%20%ec%82%ac%ed%95%ad%20%ec%95%88%eb%82%b4%ec%9e%90%eb%a3%8c.pdf",
+  "pdf_sha256": "18050581d2b8c64e228638fd3a3041a749bb744286224c6066d273ec102beb17",
+  "retrieved_date_kst": "2026-10-09",
+  "verification": "PDF 3~6페이지를 렌더링해 직접 읽음(6페이지 끝면 차이는 이미지 본문)",
+  "official_2024": {
+    "plate_width_cm": 43.18,
+    "each_side_extension_cm": 2,
+    "horizontal_plane": "중간면",
+    "top_height_ratio": 0.5635,
+    "bottom_height_ratio": 0.2764,
+    "vertical_planes": [
+      "중간면",
+      "끝면"
+    ],
+    "back_height_offset_cm": -1.5,
+    "both_planes_required": true,
+    "boundary_contact": "공의 일부분이 경계에 스치면 스트라이크; 정확한 공 크기는 이 안내자료에서 미확인"
+  },
+  "official_2025_change": {
+    "announcement": "https://www.koreabaseball.com/MediaNews/Notice/View.aspx?bdSe=10321",
+    "announced_date": "2024-12-04",
+    "effective": "2025 시즌부터",
+    "top_ratio": 0.5575,
+    "bottom_ratio": 0.2704
+  },
+  "code_comparison": {
+    "path": "src/visualbaseball/zone_decision.py",
+    "source_sha": "e48da3a26a617db67fbb51f6b1cbcb072b729eaf",
+    "function": "judgment_plane_location",
+    "finding": "max(z_mid,z_back)-sz_top 및 min(z_mid,z_back)-sz_bottom은 끝면 높이 -1.5cm 기준을 반영하지 않음",
+    "required_distance_example": "top=max(z_mid-top_mid,z_back-(top_mid-1.5)); bottom=min(z_mid-bottom_mid,z_back-(bottom_mid-1.5))",
+    "status": "현행 입력 기하와 공식2024기하 차이. 기존 콜 모형 적합에 흡수된 차이인지 미측정. src는 변경하지 않음"
+  },
+  "unverified": [
+    "2026 규정 지속 적용의 별도 공식 근거",
+    "시즌별 공 크기·VB/ABS 측정체계 정합",
+    "장비 결함 시 주심 대체 콜 구분 가능성"
+  ]
+}

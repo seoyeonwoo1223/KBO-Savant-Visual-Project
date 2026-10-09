@@ -1,0 +1,128 @@
+{
+  "source_commit": "e48da3a26a617db67fbb51f6b1cbcb072b729eaf",
+  "research_commit_read": "135c220da604abcfdd9537d4670794ebf17a5d2c",
+  "pitch_sha256": "f754f18cc972775315be87eabd4fc88b3c873c420f8e439c0fea5ad13acdfe5f",
+  "python": "3.12.14",
+  "versions": {
+    "numpy": "2.5.3",
+    "pandas": "2.3.3"
+  },
+  "inputs_sha256": {
+    "gpt_review_20261009/b1_simulation.csv": "e8251ae08f250e1489889acdcee7185c5d7a067ea3496ab8b92dc60cc1531961",
+    "claude_review_20261009/b1_synthetic_replication.csv": "4829947c2634536af527275635487bb587b488568690e2f4a669869559578c3b",
+    "claude_review_20261009/b1_empirical_crosscheck.csv": "f006b3ea1b3e6d9a66d209199bbfe27636d71da9630ed16b8bf664932ff3e6c5",
+    "claude_review_20261009/cross_check.json": "97676815bf74445a2ac94dc782f8208e9f6a05d70a8562eb2c5c4889b3d90010",
+    "gpt_review_20261009/kbo_heights.json": "c331d2e657702a52110696cd97e9ea14ba12659e33b801071d1fd099a869bf11",
+    "swing_take.py@e48da3a26a617db67fbb51f6b1cbcb072b729eaf": "b39cfe218480aa614d3df84d4021cd8c8d0dd2feca93f93855078313954f156d"
+  },
+  "B1": {
+    "original_72_cells_registered_pass_preserved": true,
+    "independent_failed_cells": [
+      30
+    ],
+    "mean_coverage_by_G": {
+      "10": {
+        "original_mean": 0.9068611111111111,
+        "independent_mean": 0.9049027777777776
+      },
+      "30": {
+        "original_mean": 0.9369027777777776,
+        "independent_mean": 0.9355277777777776
+      },
+      "100": {
+        "original_mean": 0.9455972222222222,
+        "independent_mean": 0.9458333333333333
+      }
+    },
+    "cell_30_coverage": 0.9195,
+    "cell_30_wilson_95": [
+      0.9067565315069778,
+      0.9306350658240509
+    ],
+    "analytic_expectation_max_error": 7.105427357601002e-15,
+    "players": 166,
+    "G_min_median_max": [
+      24,
+      84.0,
+      138
+    ],
+    "IF_g_over_independent_bootstrap_quantiles": [
+      0.9837399308201826,
+      1.0100348885184376,
+      1.0351879830771036
+    ],
+    "current_over_independent_bootstrap_quantiles": [
+      0.9822524889407449,
+      1.0204904430968278,
+      1.078586218447497
+    ],
+    "RB3_IF_pass": true,
+    "RB3_current_pass": true,
+    "bootstrap_implementation_record_max_relative_error": 3.2075818045238242e-15,
+    "scope": "동결 CSV·JSON 재집계와 기대값 대수 검산. 108셀 모의실험·166명 bootstrap 전 러너는 이번에 재실행하지 않았다."
+  },
+  "height_2026_frozen_predictions": {
+    "sample": "2026-10-03까지 고정 판단 적격 예측 파일. 전체 curated와 다른 분모.",
+    "pitches": 211140,
+    "batters": 290,
+    "profile_pitch_coverage": 1.0,
+    "top_implied_minus_profile_p05_p50_p95_cm": [
+      -2.008586547085207,
+      0.8879461883408055,
+      2.999675336322875
+    ],
+    "share_abs_difference_le_1cm": 0.35517241379310344,
+    "difference_sd_cm": 1.644715414263568,
+    "top_bottom_max_difference_cm": 15.437339135510939,
+    "top_bottom_median_disagreement_over_1cm": [
+      {
+        "batter_id": "56637",
+        "batter_name": "김민규",
+        "pitches": 204,
+        "top_implied_cm": 184.52017937219733,
+        "bottom_implied_cm": 169.0828402366864,
+        "pairs": [
+          {
+            "sz_top_ft": 3.269,
+            "sz_bottom_ft": 1.585,
+            "pitches": 38
+          },
+          {
+            "sz_top_ft": 3.311,
+            "sz_bottom_ft": 1.606,
+            "pitches": 1
+          },
+          {
+            "sz_top_ft": 3.375,
+            "sz_bottom_ft": 1.5,
+            "pitches": 165
+          }
+        ]
+      }
+    ],
+    "all_season_curated_rerun": false,
+    "curated_provenance_limit": "0012의 heights()는 실행 시 ROOT의 gitignore curated를 읽는다. SOURCE·pitch_sha256은 예측 파일만 고정하며 2019–2025 curated 입력 해시가 없다."
+  },
+  "geometry_2026": {
+    "interpretation": "하강 궤적 가정·공 반지름 0의 입력 기하 진단. 부호는 예측 파일의 max/min에서 확인 불가. 실제 콜/정확성 개선 아님.",
+    "unsigned_plane_difference_min_cm": 0.012067119586966157,
+    "fallback_share": 0.0,
+    "takes": 116403,
+    "vertical_only_flip_takes": 1577,
+    "full_center_geometry_flip_takes_conditional_on_descent": 848,
+    "full_center_geometry_flip_share_conditional_on_descent": 0.007285035609047877,
+    "x_mid_relative_scale_cm": 25.4,
+    "official_horizontal_half_width_cm": 23.59,
+    "general_top_shift": "max(0,1.5-delta)-max(0,-delta)",
+    "general_bottom_shift": "min(0,1.5-delta)-min(0,-delta)",
+    "delta_definition": "signed z_mid-z_back (cm)"
+  },
+  "alias_supplement": {
+    "exact_name_original": 1373,
+    "official_search_alias_verified": 2,
+    "combined_confirmed_ids": 1375,
+    "still_missing_height": 4,
+    "alias_ids_in_2026_eligible_batters": [],
+    "historical_height_effect": "과거 시점 신장·ABS 입력 신장은 미확인"
+  }
+}

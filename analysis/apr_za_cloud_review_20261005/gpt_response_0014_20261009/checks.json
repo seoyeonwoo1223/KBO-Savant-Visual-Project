@@ -1,0 +1,365 @@
+{
+  "source_commit": "e48da3a26a617db67fbb51f6b1cbcb072b729eaf",
+  "review_commit_read": "68e35ce1da6f91cd4659493d63b37169364b2240",
+  "curated_tracking_correction": "0013의 curated gitignore 주장은 잘못이었다. 8개 시즌 tree를 원격 고정 커밋과 대조했다.",
+  "curated_tree_sha_by_season": {
+    "2019": "9e5824a2088eb2790c241ca6ef074b73285c6c17",
+    "2020": "da8b926687b40ac82d25a81e1d8a0e2d5cf9a32c",
+    "2021": "1fef79a6d60ebd2c58294da72b3d9aa4a98efeaa",
+    "2022": "3a284d9fa74a58f3ca337aac84620788cd50e1d6",
+    "2023": "507ff0098f537c95e0cfba81f02d540baef7f3b1",
+    "2024": "6c5238aa41b390f8c3ee199e81c648467fedc288",
+    "2025": "163387d7c01633d0854c9a3a6efe8dc115d88580",
+    "2026": "999567839db68cc4b0881b8c95213c40a15bd799"
+  },
+  "selected_curated_files": {
+    "data/curated/pitches/season=2024/month=03.parquet": {
+      "git_blob": "8355decf5d07bf0c4a505ef7a7e0d38026847917",
+      "sha256": "62d98a5e4cb1933ca70f3b77d8454e0b32c902ad61aa2b9fef8c03455fe4dc24"
+    },
+    "data/curated/pitches/season=2024/month=04.parquet": {
+      "git_blob": "b2abb134af8b6f285ca9ff9c03b62f32533053b3",
+      "sha256": "97c027e4548a03ea376dd8defef127789ed7883c87a5b174211a100a6a25cfb3"
+    },
+    "data/curated/pitches/season=2024/month=05.parquet": {
+      "git_blob": "2fee536ca435bf91f115c7e44c3a9e78994214fd",
+      "sha256": "2f08ea406701b2005a785dd6a73a6a773c53d8b2ea22ff5d78fe0d8b71205acd"
+    },
+    "data/curated/pitches/season=2024/month=06.parquet": {
+      "git_blob": "4c1ddcc18456a877923369f2642d38f214e10ddb",
+      "sha256": "68889060efb2e8eb6f050353f0a54e3a50caf7d6d929d675f3fc9fcd6cbadd71"
+    },
+    "data/curated/pitches/season=2024/month=07.parquet": {
+      "git_blob": "ec1b6a8555f557f88a46206286b75d83bfb2a84d",
+      "sha256": "e7076cab19fade4d6385f0a5c8da67427d2e27b7f809a424c63569925d46c46d"
+    },
+    "data/curated/pitches/season=2024/month=08.parquet": {
+      "git_blob": "cb3e6f08bb2a3d0040858f18a9d2d7d2fcf8bd6d",
+      "sha256": "1c67a2d9e9a89d95d706747075004c95e4e4851af523056c4cb57c89c6a03fa3"
+    },
+    "data/curated/pitches/season=2024/month=09.parquet": {
+      "git_blob": "54f50cadd06843aba5fb5c5506be165859eb34ae",
+      "sha256": "1697063546b783c3afab252274093769725af648a7aeb37ae6031a09a5993579"
+    },
+    "data/curated/pitches/season=2024/month=10.parquet": {
+      "git_blob": "f8a51491922b4829be55d5d8443046dfbc07f2b4",
+      "sha256": "87312c0de98aeefa5b938580b5e571ef062fede609f84a12f860c354fe4849a7"
+    },
+    "data/curated/pitches/season=2025/month=03.parquet": {
+      "git_blob": "b10cd0402bc27527a668279c8be4f6365a6e2b07",
+      "sha256": "447be918f0a3287d4eb2fc7ec28a62c539c454bcd44151ddd49aff0e263b272a"
+    },
+    "data/curated/pitches/season=2025/month=04.parquet": {
+      "git_blob": "cd214a29af9a9e9cd93d5dccb7806b18e7d0f428",
+      "sha256": "edb45b02172b3f0f36645d169ddd4b9e61c5129626c21cf635be10ee72b792c9"
+    },
+    "data/curated/pitches/season=2025/month=05.parquet": {
+      "git_blob": "8d771238a03f2027752fc5faf83bd9675e74e9e1",
+      "sha256": "8cea366183cbfe6ebd2259b2a04e29b7794248d582c1cf73be1250732628a17c"
+    },
+    "data/curated/pitches/season=2025/month=06.parquet": {
+      "git_blob": "55047b94147bd7021618181fa2c26688e4e5790b",
+      "sha256": "1fa09ad65fe4490062898c0d0e46f4ed93b5ff7fe6b082afc6559aa2123e677f"
+    },
+    "data/curated/pitches/season=2025/month=07.parquet": {
+      "git_blob": "6e1c758bf2f1927584bdf309781196776bd82161",
+      "sha256": "2246353ead9a5b484d7588c78acd0ee5cfed17309e52e5e2fe607fe0c9a753c9"
+    },
+    "data/curated/pitches/season=2025/month=08.parquet": {
+      "git_blob": "1c928a647d0fc509c34d28d2cbfd57ba5567880b",
+      "sha256": "a11defabdd88c488adce1ac0ec376afdda1397b9fd47fab09e872a91122b4958"
+    },
+    "data/curated/pitches/season=2025/month=09.parquet": {
+      "git_blob": "c0a65142f99571f6cedc37b4d56929d3dbc54638",
+      "sha256": "f8e1eea239ac0338939d95d77de397c022fb81d64e22646865ca0370f61d93fa"
+    },
+    "data/curated/pitches/season=2025/month=10.parquet": {
+      "git_blob": "2844b069bd38e8ccd484dd760473dd0a523a88b3",
+      "sha256": "2d56b2abba020830f651d7464c4eb782a3260e90a4692bc9249460bc0616d4f1"
+    },
+    "data/curated/pitches/season=2026/month=03.parquet": {
+      "git_blob": "68fbccfd21dd7e283a343a4f5db06122935117fb",
+      "sha256": "0f40f0af9a078aeb123d614eaf3e2decca4017e8c24aa6774dda21633e5bc072"
+    },
+    "data/curated/pitches/season=2026/month=04.parquet": {
+      "git_blob": "a3e6cf2fb4b208e22d6387665a9d52b48ee92faf",
+      "sha256": "ba2f4ec3c2f0798338db5171a6124ccc9e0775d38806efa764d8d2c5cc92ae14"
+    },
+    "data/curated/pitches/season=2026/month=05.parquet": {
+      "git_blob": "63222d0e2e9f49de74519e6b78b53c4d41766bbd",
+      "sha256": "378b9d1ca1e55564cf2163cace15d37d3b7f67b79ebb0eb5017b45b1122fee7b"
+    },
+    "data/curated/pitches/season=2026/month=06.parquet": {
+      "git_blob": "1dfaf7717ea81de8243c57f22a6dc0c2dc92f228",
+      "sha256": "95460e2a9ffe5a9d1284b9740013f2415fc1fb8709d4c0232bc171e33046728e"
+    },
+    "data/curated/pitches/season=2026/month=07.parquet": {
+      "git_blob": "6e8b7e3352d230a425ef051809673504912228c0",
+      "sha256": "3410d3ced92fb100db74934d08d7395e61f0cd8d59de9a264ebef1018d9c245b"
+    },
+    "data/curated/pitches/season=2026/month=08.parquet": {
+      "git_blob": "6324bb5acfbc1f7329e27578414e28b3523b1f31",
+      "sha256": "1b58d0fe09df726badeb90ced233b126f487ad014e51265d5cb015096ddb131e"
+    },
+    "data/curated/pitches/season=2026/month=09.parquet": {
+      "git_blob": "044f8d39d7a49b86ca02932839360b560b2e854e",
+      "sha256": "f973600e77c7d2fd0802af5e5f11bce1d1c6520b941f4ee49fd263b2f51acc4b"
+    },
+    "data/curated/pitches/season=2026/month=10.parquet": {
+      "git_blob": "c6e84b399fb06ad853a3ded4e5d3471ab7bae76a",
+      "sha256": "eb47d13efbf807a3dd79b37c7ae292522147047fb9fba79b986ec30fdc06e3d8"
+    }
+  },
+  "loader_and_geometry_dependencies_git_blob": {
+    "data/curated/summary.json": "0307a0d3ef53bc81602fd448e1c68cafdd22ecdf",
+    "data/curated/schema.json": "15ed46783712e9feb5e01584ccffa5c88ffb0c42",
+    "data/curated/partition-index.json": "4507dc11767a5742cf3b41bc57022a1e04df46c0",
+    "src/visualbaseball/curated.py": "c1212402eae981cfae8a87405387151fce69d3b1",
+    "src/visualbaseball/zone_decision.py": "d94a040ea2fb044aa01657aad6d02cf04a9ecaaf",
+    "src/visualbaseball/swing_take.py": "71404e5715a96b3026375484ef83be25a1197621"
+  },
+  "metadata_sha256": {
+    "summary.json": "a5f187da37a485f820acec0402e963a660b02862ac1d2a218077365f5858b1d6",
+    "schema.json": "79abb3d5094a24a25d769d45c5cf73075e51feb8782c896b8d9673fce7eb3e07"
+  },
+  "seasons": {
+    "2024": {
+      "curated_rows": 223216,
+      "missing_pitch_id": 0,
+      "duplicate_pitch_id": 0,
+      "both_planes": 222358,
+      "signed_negative": 2,
+      "signed_negative_share_all": 8.959931187728478e-06,
+      "signed_negative_share_computable": 8.994504357837362e-06,
+      "signed_min_cm": -0.18722573729721148,
+      "negative_pitch_rows": [
+        {
+          "pitch_id": "20240616SKHH0-20240616SKHH0-023-03",
+          "game_id": "20240616SKHH0",
+          "batter_id": "69737",
+          "delta_cm": -0.0008844307147626296
+        },
+        {
+          "pitch_id": "20240925SKNC0-20240925SKNC0-037-03",
+          "game_id": "20240925SKNC0",
+          "batter_id": "68912",
+          "delta_cm": -0.18722573729721148
+        }
+      ],
+      "reported_location_mismatch": 0,
+      "sz_missing": 858,
+      "sz_inconsistent_by_0_1cm": 1,
+      "sz_inconsistent_by_rounding_intersection": 1,
+      "joint_geometry_and_sz_rows": 222357,
+      "helper_sample_max_error_cm": 2.842170943040401e-14
+    },
+    "2025": {
+      "curated_rows": 217852,
+      "missing_pitch_id": 0,
+      "duplicate_pitch_id": 0,
+      "both_planes": 217769,
+      "signed_negative": 1,
+      "signed_negative_share_all": 4.590272294952536e-06,
+      "signed_negative_share_computable": 4.592021821287694e-06,
+      "signed_min_cm": -0.037485392327823774,
+      "negative_pitch_rows": [
+        {
+          "pitch_id": "20250819OBHH0-20250819OBHH0-072-05",
+          "game_id": "20250819OBHH0",
+          "batter_id": "55703",
+          "delta_cm": -0.037485392327823774
+        }
+      ],
+      "reported_location_mismatch": 6,
+      "sz_missing": 83,
+      "sz_inconsistent_by_0_1cm": 69,
+      "sz_inconsistent_by_rounding_intersection": 69,
+      "joint_geometry_and_sz_rows": 217694,
+      "helper_sample_max_error_cm": 2.842170943040401e-14
+    },
+    "2026": {
+      "curated_rows": 211960,
+      "missing_pitch_id": 0,
+      "duplicate_pitch_id": 0,
+      "both_planes": 211872,
+      "signed_negative": 2,
+      "signed_negative_share_all": 9.435742592942064e-06,
+      "signed_negative_share_computable": 9.439661682525299e-06,
+      "signed_min_cm": -0.07326126478636752,
+      "negative_pitch_rows": [
+        {
+          "pitch_id": "20260415OBSK0-20260415OBSK0-065-02",
+          "game_id": "20260415OBSK0",
+          "batter_id": "79456",
+          "delta_cm": -0.012067119586959052
+        },
+        {
+          "pitch_id": "20260418LGSS0-20260418LGSS0-062-04",
+          "game_id": "20260418LGSS0",
+          "batter_id": "79109",
+          "delta_cm": -0.07326126478636752
+        }
+      ],
+      "reported_location_mismatch": 0,
+      "sz_missing": 88,
+      "sz_inconsistent_by_0_1cm": 265,
+      "sz_inconsistent_by_rounding_intersection": 265,
+      "joint_geometry_and_sz_rows": 211607,
+      "helper_sample_max_error_cm": 2.842170943040401e-14
+    }
+  },
+  "eligible_2026": {
+    "pitches": 211140,
+    "geometry_matched": 211140,
+    "unresolved_geometry": 0,
+    "takes_matched": 116403,
+    "signed_negative": 2,
+    "vertical_flips": 1577,
+    "full_center_flips": 848,
+    "duplicate_geometry_candidates_pitch_rows": 6,
+    "duplicate_geometry_delta_spread_cm": 0.0,
+    "duplicate_geometry_rows": [
+      {
+        "game_id": "20260509KTWO0",
+        "batter_id": "78168",
+        "swing": 1,
+        "rows": 2,
+        "delta_min": 1.5397558198574899,
+        "delta_max": 1.5397558198574899
+      },
+      {
+        "game_id": "20260509KTWO0",
+        "batter_id": "78168",
+        "swing": 0,
+        "rows": 2,
+        "delta_min": 2.437648000718708,
+        "delta_max": 2.437648000718708
+      },
+      {
+        "game_id": "20260509KTWO0",
+        "batter_id": "78168",
+        "swing": 1,
+        "rows": 2,
+        "delta_min": 1.5397558198574899,
+        "delta_max": 1.5397558198574899
+      },
+      {
+        "game_id": "20260509KTWO0",
+        "batter_id": "78168",
+        "swing": 0,
+        "rows": 2,
+        "delta_min": 2.437648000718708,
+        "delta_max": 2.437648000718708
+      },
+      {
+        "game_id": "20260509KTWO0",
+        "batter_id": "76267",
+        "swing": 0,
+        "rows": 2,
+        "delta_min": 2.556276193947321,
+        "delta_max": 2.556276193947321
+      },
+      {
+        "game_id": "20260509KTWO0",
+        "batter_id": "76267",
+        "swing": 1,
+        "rows": 2,
+        "delta_min": 2.556276193947321,
+        "delta_max": 2.556276193947321
+      }
+    ],
+    "not_pitch_identity_join": true,
+    "pitch_sha256": "f754f18cc972775315be87eabd4fc88b3c873c420f8e439c0fea5ad13acdfe5f",
+    "sz_inconsistent_pitch_rows": 264,
+    "sz_exclusions_by_batter": [
+      {
+        "batter_id": "56236",
+        "eligible_before_sz_filter": 613,
+        "sz_excluded": 29,
+        "sz_excluded_share": 0.04730831973898858
+      },
+      {
+        "batter_id": "56613",
+        "eligible_before_sz_filter": 464,
+        "sz_excluded": 24,
+        "sz_excluded_share": 0.05172413793103448
+      },
+      {
+        "batter_id": "56637",
+        "eligible_before_sz_filter": 204,
+        "sz_excluded": 165,
+        "sz_excluded_share": 0.8088235294117647
+      },
+      {
+        "batter_id": "56950",
+        "eligible_before_sz_filter": 939,
+        "sz_excluded": 24,
+        "sz_excluded_share": 0.025559105431309903
+      },
+      {
+        "batter_id": "66606",
+        "eligible_before_sz_filter": 2471,
+        "sz_excluded": 22,
+        "sz_excluded_share": 0.008903278025091057
+      }
+    ]
+  },
+  "radius_offset_nonidentifiability": {
+    "max_probability_difference": 0.0,
+    "identity": "rho+eta, left+eta, right-eta, upper-eta, lower+eta에서 공유 오차 확률이 같다.",
+    "interpretation": "반지름/경계 오프셋을 같이 적합하면 분리할 수 없다. 독립 rho 고정 후에도 무오프셋은 일관성 진단이며 ABS 설정 신장의 직접 증명은 아니다."
+  },
+  "zero_noise_boundary": {
+    "positive_sigma_limit_at_single_exact_contact": 0.5,
+    "sigma_equal_zero_contact_included": 1,
+    "interpretation": "경계에서 sigma가 0으로 가는 대칭 정규 극한 .5와 정확히 sigma=0인 규칙 판정1은 다르다."
+  },
+  "height_grid": {
+    "consistent_batter_season_modes": 885,
+    ".1cm": {
+      "observed_share": 0.9988700564971752,
+      "uniform_phase_reference": 0.45424544610961315
+    },
+    "1cm": {
+      "observed_share": 0.103954802259887,
+      "uniform_phase_reference": 0.045424544610961314
+    },
+    "interpretation": "양자화 해상도 정황이다. 실측 정확도·센서 독립 검증 또는 ABS 설정값 직접 연결 증거가 아니다."
+  },
+  "raw_spot_checks": [
+    {
+      "path": "data/raw/2026/20260527HTWO0.json",
+      "sha256": "1162aac39f4706c76752284c048adc8ad24f060d6062eb61f3d1cbe1157c8d75",
+      "batter_id": "56637",
+      "sz_pairs_ft": [
+        [
+          3.375,
+          1.5
+        ]
+      ]
+    },
+    {
+      "path": "data/raw/2026/20260906KTHT0.json",
+      "sha256": "0bafc988356781807992b3b1c7c0395450e8737060c7f205cd78770767a78186",
+      "batter_id": "56637",
+      "sz_pairs_ft": [
+        [
+          3.269,
+          1.585
+        ]
+      ]
+    },
+    {
+      "path": "data/raw/2025/20250710WOLG0.json",
+      "sha256": "f27fc0354fbbf8538f2043356b783ee88fb3f8621e7891fa1881a956bfccc974",
+      "batter_id": "50106",
+      "sz_pairs_ft": [
+        [
+          3.42,
+          1.678
+        ]
+      ]
+    }
+  ],
+  "scope": "원격 고정 입력의 독립 배열 계산·보조 함수 대조·대수 검산. 모형 적합/전체 heights 재실행/새 확증 아님."
+}

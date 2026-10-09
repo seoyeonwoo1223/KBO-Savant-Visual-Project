@@ -1,0 +1,22 @@
+{
+  "manifest_sha_pass": true,
+  "historical_gates_prefix_preserved": true,
+  "RB0_joint_complex_derivative_max_abs_error": 7.993605777301127e-15,
+  "RB0_finite_difference_max_errors": {
+    "0.0001": 0.002715512533981723,
+    "1e-05": 0.0002715567406852415,
+    "1e-06": 2.7181198660741757e-05
+  },
+  "RB0_constant_negative_controls_max_abs_error": 0.0,
+  "simulation_primary_count": 72,
+  "small_G10_coverage_diagnostic_range": [
+    0.87,
+    0.9245
+  ],
+  "player_bootstrap_t_all_finite_share_range": [
+    1.0,
+    1.0
+  ],
+  "interval_order_all_pass": true,
+  "scope": "등록 구현/manifest/집계 검증. 실제 포함률·전체 재적합·전시즌 검증 아님"
+}
