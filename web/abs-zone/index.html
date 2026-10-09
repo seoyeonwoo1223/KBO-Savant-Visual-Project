@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KBO ABS Zone Explorer</title>
+  <link rel="stylesheet" href="abs-zone.css?v=20261009-1">
+  <link rel="stylesheet" href="../theme.css?v=20261009-1">
+  <script>if (new URLSearchParams(location.search).get("thumb") === "1") document.documentElement.classList.add("thumbnail-mode");</script>
+</head>
+<body>
+  <script src="../site-header.js?v=20261009-1"></script>
+  <main class="site-main">
+    <header class="page-title">
+      <p class="eyebrow">EXPERIMENTAL · 2022–2026 KBO</p>
+      <h1>ABS Zone Explorer</h1>
+    </header>
+
+    <p class="abs-banner"><span class="abs-tag abs-tag--experimental">실험</span>연구 단계 결과입니다. 판정 득점가치는 ABS 이전 심판 모형을 기준으로 한 반사실적 추정이며 ABS 도입의 인과 효과를 확정하지 않습니다.</p>
+
+    <div class="abs-views" role="group" aria-label="화면">
+      <button type="button" data-view="map" aria-pressed="true">Zone Map</button>
+      <button type="button" data-view="audit" aria-pressed="false">Tracking Audit</button>
+      <button type="button" data-view="players" aria-pressed="false">Winners &amp; Losers</button>
+    </div>
+
+    <section id="view-map" class="abs-view" aria-label="ABS Zone Map">
+      <div class="abs-controls">
+        <label>시즌<select id="map-season"></select></label>
+        <label>표시<select id="map-mode">
+          <option value="rate">판정 스트라이크율</option>
+          <option value="umpire">ABS − 심판 모형 예상</option>
+          <option value="vs2023">2023 심판 대비 차이</option>
+        </select></label>
+        <label>타자<select id="map-stance"><option value="all">전체</option><option value="L">좌타</option><option value="R">우타</option></select></label>
+        <label>카운트<select id="map-count"><option value="all">전체</option><option value="s0">0스트라이크</option><option value="s1">1스트라이크</option><option value="s2">2스트라이크</option></select></label>
+        <label>구종<select id="map-group"><option value="all">전체</option><option value="fastball">직구 계열</option><option value="breaking">브레이킹</option><option value="offspeed">오프스피드</option></select></label>
+      </div>
+      <div class="abs-map-layout">
+        <figure class="abs-card abs-map-card" data-thumbnail-target>
+          <figcaption id="map-title" class="abs-card-title"></figcaption>
+          <div class="abs-map-wrap">
+            <svg id="zone-map" viewBox="0 0 520 560" role="img" aria-labelledby="map-title"></svg>
+            <div id="map-tooltip" class="abs-tooltip" hidden></div>
+          </div>
+          <div id="map-legend" class="abs-legend"></div>
+        </figure>
+        <aside class="abs-card abs-map-side">
+          <dl id="map-summary" class="abs-stats"></dl>
+          <p class="abs-note">테이크(볼·루킹 스트라이크)만 집계합니다. 가로는 홈플레이트 중간면 x(cm, 포수 시점), 세로는 중간면 높이를 타자 신장으로 나눈 비율입니다. 신장은 VB가 기록한 ABS 존에서 역산한 등록 신장이며, 2022–2023은 같은 타자의 ABS 시즌 신장을 씁니다(신장이 없는 타자는 제외). 실선은 시즌 규정 존, 점선은 공 반지름만큼 넓힌 판정 경계(중간면)입니다. 하단은 끝면에서 1.5cm 낮은 기준도 함께 적용되므로 중간면 높이만으로는 경계가 조금 위로 보일 수 있습니다. 칸당 15구 미만은 비웁니다.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section id="view-audit" class="abs-view" aria-label="Tracking Audit" hidden>
+      <div class="abs-kinds">
+        <span class="abs-tag abs-tag--observed">관측</span>공식 판정·독립 장비와 실제로 비교한 값
+        <span class="abs-tag abs-tag--model">내부 일관성</span>같은 측정 계통 안에서의 재현·잔차
+        <span class="abs-tag abs-tag--assumed">가정</span>가정한 오차를 넣은 시나리오 (실제 오차 아님)
+      </div>
+      <div id="audit-cards" class="abs-stat-cards"></div>
+      <article class="abs-card">
+        <h2><span class="abs-tag abs-tag--model">내부 일관성</span>VB 좌표로 재구성한 ABS 판정 vs 공식 판정</h2>
+        <p class="abs-note">VB 궤적을 중간면·끝면에 다시 계산하고 KBO 규정(신장 비율, 폭 47.18cm, 끝면 하단 −1.5cm)을 적용했습니다. VB 좌표와 ABS 판정이 같은 PTS 측정을 공유할 가능성이 높으므로, 높은 일치율은 <strong>측정이 정확하다는 증거가 아니라</strong> 두 자료가 같은 계통이라는 증거입니다. σ는 경계 10cm 이내 테이크에 프로빗을 맞춘 불일치 폭입니다.</p>
+        <div class="abs-table-wrap"><table id="recon-seasons"></table></div>
+        <div class="abs-two">
+          <div><h3>구종별</h3><div class="abs-table-wrap"><table id="recon-pitch"></table></div></div>
+          <div><h3>구장별</h3><div class="abs-table-wrap"><table id="recon-stadium"></table></div></div>
+        </div>
+      </article>
+      <article class="abs-card">
+        <h2><span class="abs-tag abs-tag--observed">관측</span>TrackMan vs PTS(VB) 무브먼트 — 독립 장비 비교</h2>
+        <p class="abs-note">2022–2024 1군 TrackMan과 투구 단위로 짝지은 결과입니다. TrackMan 자료에는 <strong>탄착 위치가 없어</strong> 판정 좌표 자체의 정확도는 검증할 수 없습니다. VB 무브먼트는 50ft→플레이트 앞면, TrackMan은 릴리스→플레이트 구간이라 크기 비율이 다르므로, 시즌 전체 선형 관계(기울기)를 뺀 잔차를 구종별로 봅니다. 수평 잔차는 팔쪽(+) 기준, 막대 끝은 투수 단위 부트스트랩 90% 구간입니다.</p>
+        <div class="abs-controls"><label>시즌<select id="tm-season"></select></label><label>성분<select id="tm-component"><option value="hb">수평 (HB)</option><option value="ivb">수직 (IVB)</option></select></label></div>
+        <div id="tm-chart" class="abs-bars"></div>
+        <div class="abs-table-wrap"><table id="tm-overall"></table></div>
+      </article>
+      <article class="abs-card">
+        <h2><span class="abs-tag abs-tag--assumed">가정</span>추적 오차 민감도 시나리오</h2>
+        <p class="abs-note">ABS 좌표에 가정한 오차(독립 정규 σ) 또는 모든 경계를 같은 방향으로 움직이는 계통 오차가 있다면 판정이 바뀌는 테이크 비율입니다. σ 값은 관측 오차가 아닙니다.</p>
+        <div class="abs-controls"><label>시즌<select id="sens-season"></select></label></div>
+        <div class="abs-table-wrap"><table id="sens-table"></table></div>
+      </article>
+      <article class="abs-card">
+        <h2>SSW(Seam-Shifted Wake) 가설 판정</h2>
+        <ul class="abs-list" id="ssw-list"></ul>
+      </article>
+    </section>
+
+    <section id="view-players" class="abs-view" aria-label="ABS Winners and Losers" hidden>
+      <div class="abs-controls">
+        <label>기간<select id="pl-scope"></select></label>
+        <label>역할<select id="pl-role"><option value="batter">타자</option><option value="pitcher">투수</option></select></label>
+        <label>표본<select id="pl-qualified"><option value="qualified">규정 표본</option><option value="all">전체</option></select></label>
+        <label>정렬<select id="pl-sort">
+          <option value="relative_rv">리그 대비 ABS RV</option>
+          <option value="relative_per_1000">리그 대비 /1000</option>
+          <option value="abs_rv">ABS RV (원값)</option>
+          <option value="takes">판정 기회</option>
+        </select></label>
+        <label>검색<input id="pl-search" type="search" placeholder="선수 이름"></label>
+      </div>
+      <p id="pl-league" class="abs-note"></p>
+      <div class="abs-table-wrap abs-table-wrap--tall"><table id="pl-table" class="abs-leaderboard"></table></div>
+      <article id="pl-detail" class="abs-card" hidden></article>
+      <article class="abs-card">
+        <h2>읽는 법과 한계</h2>
+        <ul class="abs-list" id="pl-notes"></ul>
+      </article>
+    </section>
+    <p id="status" class="status" aria-live="polite">데이터를 불러오는 중입니다.</p>
+  </main>
+  <script src="abs-zone-math.js?v=20261009-1"></script>
+  <script src="abs-zone.js?v=20261009-1"></script>
+</body>
+</html>

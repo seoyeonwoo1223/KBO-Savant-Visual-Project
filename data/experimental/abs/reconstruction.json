@@ -1,0 +1,1824 @@
+{
+  "schema_version": 1,
+  "status": "experimental",
+  "radius_cm": 3.62,
+  "seasons": {
+    "2024": {
+      "takes": 120121,
+      "status": {
+        "ok": 119657,
+        "no_trajectory": 464
+      },
+      "overall": {
+        "group": "all",
+        "takes": 119657,
+        "agreement": 0.9993,
+        "mismatches": 79,
+        "mismatches_beyond_2cm": 6,
+        "boundary_takes": 48852,
+        "boundary_agreement": 0.9984,
+        "n": 48852,
+        "bias_cm": 0.0324,
+        "sigma_cm": 0.1326
+      },
+      "by_edge": [
+        {
+          "group": "side",
+          "takes": 56446,
+          "agreement": 0.9991,
+          "mismatches": 49,
+          "mismatches_beyond_2cm": 4,
+          "boundary_takes": 25554,
+          "boundary_agreement": 0.9982,
+          "n": 25554,
+          "bias_cm": 0.0323,
+          "sigma_cm": 0.13
+        },
+        {
+          "group": "bottom",
+          "takes": 34705,
+          "agreement": 0.9998,
+          "mismatches": 8,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 11880,
+          "boundary_agreement": 0.9993,
+          "n": 11880,
+          "bias_cm": 0.0052,
+          "sigma_cm": 0.0074
+        },
+        {
+          "group": "top",
+          "takes": 28506,
+          "agreement": 0.9992,
+          "mismatches": 22,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 11418,
+          "boundary_agreement": 0.9982,
+          "n": 11418,
+          "bias_cm": 0.0456,
+          "sigma_cm": 0.1613
+        }
+      ],
+      "by_pitch_group": [
+        {
+          "group": "fastball",
+          "takes": 57903,
+          "agreement": 0.9992,
+          "mismatches": 44,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 26303,
+          "boundary_agreement": 0.9984,
+          "n": 26303,
+          "bias_cm": 0.0326,
+          "sigma_cm": 0.1419
+        },
+        {
+          "group": "breaking",
+          "takes": 41830,
+          "agreement": 0.9994,
+          "mismatches": 25,
+          "mismatches_beyond_2cm": 4,
+          "boundary_takes": 15929,
+          "boundary_agreement": 0.9986,
+          "n": 15929,
+          "bias_cm": 0.0242,
+          "sigma_cm": 0.0973
+        },
+        {
+          "group": "offspeed",
+          "takes": 19908,
+          "agreement": 0.9995,
+          "mismatches": 10,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 6612,
+          "boundary_agreement": 0.9985,
+          "n": 6612,
+          "bias_cm": 0.0524,
+          "sigma_cm": 0.1492
+        },
+        {
+          "group": "other",
+          "takes": 16,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 8,
+          "boundary_agreement": 1.0,
+          "n": 8,
+          "bias_cm": null,
+          "sigma_cm": null
+        }
+      ],
+      "by_pitch_code": [
+        {
+          "group": "FF",
+          "takes": 50806,
+          "agreement": 0.9992,
+          "mismatches": 39,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 22974,
+          "boundary_agreement": 0.9983,
+          "n": 22974,
+          "bias_cm": 0.038,
+          "sigma_cm": 0.1459
+        },
+        {
+          "group": "SL",
+          "takes": 25727,
+          "agreement": 0.9995,
+          "mismatches": 12,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 9864,
+          "boundary_agreement": 0.9989,
+          "n": 9864,
+          "bias_cm": 0.0218,
+          "sigma_cm": 0.1089
+        },
+        {
+          "group": "CH",
+          "takes": 11453,
+          "agreement": 0.9994,
+          "mismatches": 7,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4040,
+          "boundary_agreement": 0.9983,
+          "n": 4040,
+          "bias_cm": 0.0366,
+          "sigma_cm": 0.0926
+        },
+        {
+          "group": "CU",
+          "takes": 11215,
+          "agreement": 0.9991,
+          "mismatches": 10,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 3935,
+          "boundary_agreement": 0.9975,
+          "n": 3935,
+          "bias_cm": 0.0376,
+          "sigma_cm": 0.0738
+        },
+        {
+          "group": "FS",
+          "takes": 8455,
+          "agreement": 0.9996,
+          "mismatches": 3,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 2572,
+          "boundary_agreement": 0.9988,
+          "n": 2572,
+          "bias_cm": 0.0502,
+          "sigma_cm": 0.1447
+        },
+        {
+          "group": "FT",
+          "takes": 7097,
+          "agreement": 0.9993,
+          "mismatches": 5,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 3329,
+          "boundary_agreement": 0.9985,
+          "n": 3329,
+          "bias_cm": 0.0059,
+          "sigma_cm": 0.1036
+        },
+        {
+          "group": "FC",
+          "takes": 4888,
+          "agreement": 0.9994,
+          "mismatches": 3,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 2130,
+          "boundary_agreement": 0.9991,
+          "n": 2130,
+          "bias_cm": 0.0174,
+          "sigma_cm": 0.0403
+        }
+      ],
+      "by_stadium": [
+        {
+          "group": "잠실",
+          "takes": 24470,
+          "agreement": 0.9993,
+          "mismatches": 17,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 9991,
+          "boundary_agreement": 0.9983,
+          "n": 9991,
+          "bias_cm": 0.0288,
+          "sigma_cm": 0.1055
+        },
+        {
+          "group": "창원",
+          "takes": 12207,
+          "agreement": 0.9993,
+          "mismatches": 8,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4960,
+          "boundary_agreement": 0.9984,
+          "n": 4960,
+          "bias_cm": 0.0291,
+          "sigma_cm": 0.1036
+        },
+        {
+          "group": "광주",
+          "takes": 12144,
+          "agreement": 0.9994,
+          "mismatches": 7,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 5001,
+          "boundary_agreement": 0.9986,
+          "n": 5001,
+          "bias_cm": 0.0294,
+          "sigma_cm": 0.1286
+        },
+        {
+          "group": "문학",
+          "takes": 11951,
+          "agreement": 0.9992,
+          "mismatches": 9,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 4761,
+          "boundary_agreement": 0.9983,
+          "n": 4761,
+          "bias_cm": 0.0409,
+          "sigma_cm": 0.1528
+        },
+        {
+          "group": "대구",
+          "takes": 11764,
+          "agreement": 0.9992,
+          "mismatches": 9,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 4843,
+          "boundary_agreement": 0.9981,
+          "n": 4843,
+          "bias_cm": 0.0093,
+          "sigma_cm": 0.0363
+        },
+        {
+          "group": "수원",
+          "takes": 11657,
+          "agreement": 0.9992,
+          "mismatches": 9,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 4886,
+          "boundary_agreement": 0.9984,
+          "n": 4886,
+          "bias_cm": 0.0456,
+          "sigma_cm": 0.1445
+        },
+        {
+          "group": "고척",
+          "takes": 11641,
+          "agreement": 0.9996,
+          "mismatches": 5,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4774,
+          "boundary_agreement": 0.999,
+          "n": 4774,
+          "bias_cm": 0.0225,
+          "sigma_cm": 0.1475
+        },
+        {
+          "group": "사직",
+          "takes": 11222,
+          "agreement": 0.9993,
+          "mismatches": 8,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 4503,
+          "boundary_agreement": 0.9984,
+          "n": 4503,
+          "bias_cm": 0.0562,
+          "sigma_cm": 0.1565
+        },
+        {
+          "group": "한밭",
+          "takes": 11191,
+          "agreement": 0.9995,
+          "mismatches": 6,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4585,
+          "boundary_agreement": 0.9987,
+          "n": 4585,
+          "bias_cm": 0.0147,
+          "sigma_cm": 0.0691
+        },
+        {
+          "group": "울산",
+          "takes": 619,
+          "agreement": 0.9984,
+          "mismatches": 1,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 238,
+          "boundary_agreement": 0.9958,
+          "n": 238,
+          "bias_cm": 0.0334,
+          "sigma_cm": 0.0022
+        },
+        {
+          "group": "청주",
+          "takes": 499,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 200,
+          "boundary_agreement": 1.0,
+          "n": 200,
+          "bias_cm": -0.0272,
+          "sigma_cm": 0.0189
+        },
+        {
+          "group": "포항",
+          "takes": 292,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 110,
+          "boundary_agreement": 1.0,
+          "n": 110,
+          "bias_cm": -0.0346,
+          "sigma_cm": 0.009
+        }
+      ],
+      "by_month": [
+        {
+          "group": "06",
+          "takes": 20667,
+          "agreement": 0.9994,
+          "mismatches": 13,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 8469,
+          "boundary_agreement": 0.9986,
+          "n": 8469,
+          "bias_cm": 0.0218,
+          "sigma_cm": 0.1384
+        },
+        {
+          "group": "05",
+          "takes": 20645,
+          "agreement": 0.9995,
+          "mismatches": 11,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 8260,
+          "boundary_agreement": 0.9988,
+          "n": 8260,
+          "bias_cm": 0.0011,
+          "sigma_cm": 0.0136
+        },
+        {
+          "group": "04",
+          "takes": 20531,
+          "agreement": 0.9998,
+          "mismatches": 5,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 8477,
+          "boundary_agreement": 0.9994,
+          "n": 8477,
+          "bias_cm": -0.0078,
+          "sigma_cm": 0.0082
+        },
+        {
+          "group": "08",
+          "takes": 19675,
+          "agreement": 0.9991,
+          "mismatches": 17,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 8001,
+          "boundary_agreement": 0.9979,
+          "n": 8001,
+          "bias_cm": 0.0516,
+          "sigma_cm": 0.1336
+        },
+        {
+          "group": "07",
+          "takes": 15985,
+          "agreement": 0.9992,
+          "mismatches": 12,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 6632,
+          "boundary_agreement": 0.9982,
+          "n": 6632,
+          "bias_cm": 0.0395,
+          "sigma_cm": 0.1183
+        },
+        {
+          "group": "09",
+          "takes": 15741,
+          "agreement": 0.9987,
+          "mismatches": 20,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 6370,
+          "boundary_agreement": 0.997,
+          "n": 6370,
+          "bias_cm": 0.0526,
+          "sigma_cm": 0.1651
+        },
+        {
+          "group": "03",
+          "takes": 6282,
+          "agreement": 0.9998,
+          "mismatches": 1,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 2588,
+          "boundary_agreement": 0.9996,
+          "n": 2588,
+          "bias_cm": 0.0003,
+          "sigma_cm": 0.0003
+        },
+        {
+          "group": "10",
+          "takes": 131,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 55,
+          "boundary_agreement": 1.0,
+          "n": 55,
+          "bias_cm": 0.0089,
+          "sigma_cm": 0.0005
+        }
+      ],
+      "rule_change_vs_2024": null
+    },
+    "2025": {
+      "takes": 117799,
+      "status": {
+        "ok": 117743,
+        "no_trajectory": 53,
+        "location_off_trajectory": 3
+      },
+      "overall": {
+        "group": "all",
+        "takes": 117743,
+        "agreement": 0.9992,
+        "mismatches": 91,
+        "mismatches_beyond_2cm": 0,
+        "boundary_takes": 47872,
+        "boundary_agreement": 0.9981,
+        "n": 47872,
+        "bias_cm": 0.0482,
+        "sigma_cm": 0.1671
+      },
+      "by_edge": [
+        {
+          "group": "side",
+          "takes": 54876,
+          "agreement": 0.9991,
+          "mismatches": 48,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 24826,
+          "boundary_agreement": 0.9981,
+          "n": 24826,
+          "bias_cm": 0.05,
+          "sigma_cm": 0.1713
+        },
+        {
+          "group": "bottom",
+          "takes": 33760,
+          "agreement": 0.9997,
+          "mismatches": 11,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 11727,
+          "boundary_agreement": 0.9991,
+          "n": 11727,
+          "bias_cm": 0.0194,
+          "sigma_cm": 0.0836
+        },
+        {
+          "group": "top",
+          "takes": 29107,
+          "agreement": 0.9989,
+          "mismatches": 32,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 11319,
+          "boundary_agreement": 0.9972,
+          "n": 11319,
+          "bias_cm": 0.0663,
+          "sigma_cm": 0.201
+        }
+      ],
+      "by_pitch_group": [
+        {
+          "group": "fastball",
+          "takes": 58114,
+          "agreement": 0.9989,
+          "mismatches": 65,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 25753,
+          "boundary_agreement": 0.9975,
+          "n": 25753,
+          "bias_cm": 0.0568,
+          "sigma_cm": 0.1787
+        },
+        {
+          "group": "breaking",
+          "takes": 40608,
+          "agreement": 0.9995,
+          "mismatches": 22,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 15740,
+          "boundary_agreement": 0.9986,
+          "n": 15740,
+          "bias_cm": 0.0362,
+          "sigma_cm": 0.1353
+        },
+        {
+          "group": "offspeed",
+          "takes": 19008,
+          "agreement": 0.9998,
+          "mismatches": 4,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 6375,
+          "boundary_agreement": 0.9994,
+          "n": 6375,
+          "bias_cm": 0.0149,
+          "sigma_cm": 0.0551
+        },
+        {
+          "group": "other",
+          "takes": 13,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4,
+          "boundary_agreement": 1.0,
+          "n": 4,
+          "bias_cm": null,
+          "sigma_cm": null
+        }
+      ],
+      "by_pitch_code": [
+        {
+          "group": "FF",
+          "takes": 49886,
+          "agreement": 0.9988,
+          "mismatches": 58,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 21879,
+          "boundary_agreement": 0.9973,
+          "n": 21879,
+          "bias_cm": 0.0596,
+          "sigma_cm": 0.181
+        },
+        {
+          "group": "SL",
+          "takes": 23416,
+          "agreement": 0.9994,
+          "mismatches": 14,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 9150,
+          "boundary_agreement": 0.9985,
+          "n": 9150,
+          "bias_cm": 0.0428,
+          "sigma_cm": 0.164
+        },
+        {
+          "group": "CU",
+          "takes": 12084,
+          "agreement": 0.9996,
+          "mismatches": 5,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4419,
+          "boundary_agreement": 0.9989,
+          "n": 4419,
+          "bias_cm": 0.0313,
+          "sigma_cm": 0.1399
+        },
+        {
+          "group": "CH",
+          "takes": 10497,
+          "agreement": 0.9996,
+          "mismatches": 4,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 3718,
+          "boundary_agreement": 0.9989,
+          "n": 3718,
+          "bias_cm": 0.0184,
+          "sigma_cm": 0.0644
+        },
+        {
+          "group": "FS",
+          "takes": 8511,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 2657,
+          "boundary_agreement": 1.0,
+          "n": 2657,
+          "bias_cm": 0.0086,
+          "sigma_cm": 0.0
+        },
+        {
+          "group": "FT",
+          "takes": 8228,
+          "agreement": 0.9991,
+          "mismatches": 7,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 3874,
+          "boundary_agreement": 0.9982,
+          "n": 3874,
+          "bias_cm": 0.0306,
+          "sigma_cm": 0.0723
+        },
+        {
+          "group": "FC",
+          "takes": 4262,
+          "agreement": 0.9993,
+          "mismatches": 3,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 1846,
+          "boundary_agreement": 0.9984,
+          "n": 1846,
+          "bias_cm": 0.0477,
+          "sigma_cm": 0.1156
+        },
+        {
+          "group": "ST",
+          "takes": 846,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 325,
+          "boundary_agreement": 1.0,
+          "n": 325,
+          "bias_cm": -0.0346,
+          "sigma_cm": 0.009
+        }
+      ],
+      "by_stadium": [
+        {
+          "group": "잠실",
+          "takes": 23490,
+          "agreement": 0.9993,
+          "mismatches": 16,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 9409,
+          "boundary_agreement": 0.9983,
+          "n": 9409,
+          "bias_cm": 0.0589,
+          "sigma_cm": 0.1361
+        },
+        {
+          "group": "사직",
+          "takes": 12607,
+          "agreement": 0.9994,
+          "mismatches": 8,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 5159,
+          "boundary_agreement": 0.9984,
+          "n": 5159,
+          "bias_cm": 0.0517,
+          "sigma_cm": 0.1507
+        },
+        {
+          "group": "문학",
+          "takes": 12186,
+          "agreement": 0.9994,
+          "mismatches": 7,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4905,
+          "boundary_agreement": 0.9986,
+          "n": 4905,
+          "bias_cm": 0.0516,
+          "sigma_cm": 0.1756
+        },
+        {
+          "group": "수원",
+          "takes": 11877,
+          "agreement": 0.9993,
+          "mismatches": 8,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4872,
+          "boundary_agreement": 0.9984,
+          "n": 4872,
+          "bias_cm": 0.0231,
+          "sigma_cm": 0.0507
+        },
+        {
+          "group": "광주",
+          "takes": 11606,
+          "agreement": 0.9986,
+          "mismatches": 16,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4730,
+          "boundary_agreement": 0.9966,
+          "n": 4730,
+          "bias_cm": 0.0725,
+          "sigma_cm": 0.1475
+        },
+        {
+          "group": "대전",
+          "takes": 11367,
+          "agreement": 0.9991,
+          "mismatches": 10,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4570,
+          "boundary_agreement": 0.9978,
+          "n": 4570,
+          "bias_cm": 0.0332,
+          "sigma_cm": 0.1978
+        },
+        {
+          "group": "고척",
+          "takes": 11274,
+          "agreement": 0.9993,
+          "mismatches": 8,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4588,
+          "boundary_agreement": 0.9983,
+          "n": 4588,
+          "bias_cm": 0.0262,
+          "sigma_cm": 0.1556
+        },
+        {
+          "group": "대구",
+          "takes": 11123,
+          "agreement": 0.999,
+          "mismatches": 11,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4585,
+          "boundary_agreement": 0.9976,
+          "n": 4585,
+          "bias_cm": 0.0496,
+          "sigma_cm": 0.1782
+        },
+        {
+          "group": "창원",
+          "takes": 10480,
+          "agreement": 0.9993,
+          "mismatches": 7,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 4323,
+          "boundary_agreement": 0.9984,
+          "n": 4323,
+          "bias_cm": 0.0302,
+          "sigma_cm": 0.2208
+        },
+        {
+          "group": "울산",
+          "takes": 1267,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 521,
+          "boundary_agreement": 1.0,
+          "n": 521,
+          "bias_cm": 0.0089,
+          "sigma_cm": 0.0005
+        },
+        {
+          "group": "포항",
+          "takes": 466,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 210,
+          "boundary_agreement": 1.0,
+          "n": 210,
+          "bias_cm": 0.0082,
+          "sigma_cm": 0.0022
+        }
+      ],
+      "by_month": [
+        {
+          "group": "05",
+          "takes": 21479,
+          "agreement": 0.9992,
+          "mismatches": 18,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 8651,
+          "boundary_agreement": 0.9979,
+          "n": 8651,
+          "bias_cm": 0.0513,
+          "sigma_cm": 0.1378
+        },
+        {
+          "group": "08",
+          "takes": 21022,
+          "agreement": 0.9995,
+          "mismatches": 10,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 8612,
+          "boundary_agreement": 0.9988,
+          "n": 8612,
+          "bias_cm": 0.0409,
+          "sigma_cm": 0.1343
+        },
+        {
+          "group": "04",
+          "takes": 18552,
+          "agreement": 0.9992,
+          "mismatches": 15,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 7614,
+          "boundary_agreement": 0.998,
+          "n": 7614,
+          "bias_cm": 0.0323,
+          "sigma_cm": 0.1364
+        },
+        {
+          "group": "06",
+          "takes": 18147,
+          "agreement": 0.9991,
+          "mismatches": 16,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 7344,
+          "boundary_agreement": 0.9978,
+          "n": 7344,
+          "bias_cm": 0.046,
+          "sigma_cm": 0.1135
+        },
+        {
+          "group": "07",
+          "takes": 16156,
+          "agreement": 0.9992,
+          "mismatches": 13,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 6680,
+          "boundary_agreement": 0.9981,
+          "n": 6680,
+          "bias_cm": 0.0411,
+          "sigma_cm": 0.1489
+        },
+        {
+          "group": "09",
+          "takes": 14948,
+          "agreement": 0.9993,
+          "mismatches": 11,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 6056,
+          "boundary_agreement": 0.9982,
+          "n": 6056,
+          "bias_cm": 0.0304,
+          "sigma_cm": 0.1642
+        },
+        {
+          "group": "03",
+          "takes": 6300,
+          "agreement": 0.9989,
+          "mismatches": 7,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 2480,
+          "boundary_agreement": 0.9972,
+          "n": 2480,
+          "bias_cm": 0.1171,
+          "sigma_cm": 0.2504
+        },
+        {
+          "group": "10",
+          "takes": 1139,
+          "agreement": 0.9991,
+          "mismatches": 1,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 435,
+          "boundary_agreement": 0.9977,
+          "n": 435,
+          "bias_cm": 0.1361,
+          "sigma_cm": 0.0849
+        }
+      ],
+      "rule_change_vs_2024": {
+        "takes_compared": 117703,
+        "takes_called_differently_under_2024_rule": 1291,
+        "share": 0.011,
+        "strike_to_ball": 632,
+        "ball_to_strike": 659
+      }
+    },
+    "2026": {
+      "takes": 119037,
+      "status": {
+        "ok": 118989,
+        "no_trajectory": 48
+      },
+      "overall": {
+        "group": "all",
+        "takes": 118989,
+        "agreement": 0.999,
+        "mismatches": 123,
+        "mismatches_beyond_2cm": 19,
+        "boundary_takes": 48684,
+        "boundary_agreement": 0.9977,
+        "n": 48684,
+        "bias_cm": 0.0481,
+        "sigma_cm": 0.1764
+      },
+      "by_edge": [
+        {
+          "group": "side",
+          "takes": 55843,
+          "agreement": 0.9988,
+          "mismatches": 67,
+          "mismatches_beyond_2cm": 11,
+          "boundary_takes": 25396,
+          "boundary_agreement": 0.9977,
+          "n": 25396,
+          "bias_cm": 0.0494,
+          "sigma_cm": 0.1597
+        },
+        {
+          "group": "bottom",
+          "takes": 34469,
+          "agreement": 0.9996,
+          "mismatches": 15,
+          "mismatches_beyond_2cm": 5,
+          "boundary_takes": 11890,
+          "boundary_agreement": 0.9991,
+          "n": 11890,
+          "bias_cm": 0.0148,
+          "sigma_cm": 0.0759
+        },
+        {
+          "group": "top",
+          "takes": 28677,
+          "agreement": 0.9986,
+          "mismatches": 41,
+          "mismatches_beyond_2cm": 3,
+          "boundary_takes": 11398,
+          "boundary_agreement": 0.9965,
+          "n": 11398,
+          "bias_cm": 0.0836,
+          "sigma_cm": 0.2572
+        }
+      ],
+      "by_pitch_group": [
+        {
+          "group": "fastball",
+          "takes": 57645,
+          "agreement": 0.9988,
+          "mismatches": 72,
+          "mismatches_beyond_2cm": 14,
+          "boundary_takes": 25919,
+          "boundary_agreement": 0.9976,
+          "n": 25919,
+          "bias_cm": 0.0564,
+          "sigma_cm": 0.193
+        },
+        {
+          "group": "breaking",
+          "takes": 42554,
+          "agreement": 0.9992,
+          "mismatches": 36,
+          "mismatches_beyond_2cm": 4,
+          "boundary_takes": 16540,
+          "boundary_agreement": 0.9981,
+          "n": 16540,
+          "bias_cm": 0.0411,
+          "sigma_cm": 0.1403
+        },
+        {
+          "group": "offspeed",
+          "takes": 18786,
+          "agreement": 0.9992,
+          "mismatches": 15,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 6223,
+          "boundary_agreement": 0.9976,
+          "n": 6223,
+          "bias_cm": 0.0347,
+          "sigma_cm": 0.1721
+        },
+        {
+          "group": "other",
+          "takes": 4,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 2,
+          "boundary_agreement": 1.0,
+          "n": 2,
+          "bias_cm": null,
+          "sigma_cm": null
+        }
+      ],
+      "by_pitch_code": [
+        {
+          "group": "FF",
+          "takes": 47594,
+          "agreement": 0.9987,
+          "mismatches": 62,
+          "mismatches_beyond_2cm": 10,
+          "boundary_takes": 21256,
+          "boundary_agreement": 0.9974,
+          "n": 21256,
+          "bias_cm": 0.0579,
+          "sigma_cm": 0.2056
+        },
+        {
+          "group": "SL",
+          "takes": 19935,
+          "agreement": 0.9991,
+          "mismatches": 18,
+          "mismatches_beyond_2cm": 3,
+          "boundary_takes": 7692,
+          "boundary_agreement": 0.998,
+          "n": 7692,
+          "bias_cm": 0.0277,
+          "sigma_cm": 0.1147
+        },
+        {
+          "group": "CU",
+          "takes": 10155,
+          "agreement": 0.9992,
+          "mismatches": 8,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 3654,
+          "boundary_agreement": 0.9978,
+          "n": 3654,
+          "bias_cm": 0.0537,
+          "sigma_cm": 0.1493
+        },
+        {
+          "group": "FT",
+          "takes": 10051,
+          "agreement": 0.999,
+          "mismatches": 10,
+          "mismatches_beyond_2cm": 4,
+          "boundary_takes": 4663,
+          "boundary_agreement": 0.9983,
+          "n": 4663,
+          "bias_cm": 0.0428,
+          "sigma_cm": 0.0814
+        },
+        {
+          "group": "CH",
+          "takes": 9505,
+          "agreement": 0.9992,
+          "mismatches": 8,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 3250,
+          "boundary_agreement": 0.9975,
+          "n": 3250,
+          "bias_cm": 0.0474,
+          "sigma_cm": 0.1902
+        },
+        {
+          "group": "FS",
+          "takes": 9281,
+          "agreement": 0.9992,
+          "mismatches": 7,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 2973,
+          "boundary_agreement": 0.9976,
+          "n": 2973,
+          "bias_cm": 0.0231,
+          "sigma_cm": 0.1468
+        },
+        {
+          "group": "FC",
+          "takes": 7154,
+          "agreement": 0.9993,
+          "mismatches": 5,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 3209,
+          "boundary_agreement": 0.9988,
+          "n": 3209,
+          "bias_cm": 0.0233,
+          "sigma_cm": 0.1045
+        },
+        {
+          "group": "ST",
+          "takes": 5310,
+          "agreement": 0.9991,
+          "mismatches": 5,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 1985,
+          "boundary_agreement": 0.9975,
+          "n": 1985,
+          "bias_cm": 0.126,
+          "sigma_cm": 0.2065
+        }
+      ],
+      "by_stadium": [
+        {
+          "group": "잠실",
+          "takes": 23406,
+          "agreement": 0.9986,
+          "mismatches": 33,
+          "mismatches_beyond_2cm": 7,
+          "boundary_takes": 9578,
+          "boundary_agreement": 0.9971,
+          "n": 9578,
+          "bias_cm": 0.0763,
+          "sigma_cm": 0.2238
+        },
+        {
+          "group": "고척",
+          "takes": 12432,
+          "agreement": 0.9993,
+          "mismatches": 9,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 5142,
+          "boundary_agreement": 0.9982,
+          "n": 5142,
+          "bias_cm": 0.0465,
+          "sigma_cm": 0.1102
+        },
+        {
+          "group": "대전",
+          "takes": 12363,
+          "agreement": 0.999,
+          "mismatches": 12,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 5083,
+          "boundary_agreement": 0.9978,
+          "n": 5083,
+          "bias_cm": 0.0408,
+          "sigma_cm": 0.1808
+        },
+        {
+          "group": "창원",
+          "takes": 12253,
+          "agreement": 0.9992,
+          "mismatches": 10,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 5040,
+          "boundary_agreement": 0.998,
+          "n": 5040,
+          "bias_cm": 0.045,
+          "sigma_cm": 0.1478
+        },
+        {
+          "group": "수원",
+          "takes": 12162,
+          "agreement": 0.9985,
+          "mismatches": 18,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 5085,
+          "boundary_agreement": 0.9967,
+          "n": 5085,
+          "bias_cm": 0.0654,
+          "sigma_cm": 0.2523
+        },
+        {
+          "group": "문학",
+          "takes": 12025,
+          "agreement": 0.9992,
+          "mismatches": 10,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 4783,
+          "boundary_agreement": 0.9981,
+          "n": 4783,
+          "bias_cm": 0.0562,
+          "sigma_cm": 0.1842
+        },
+        {
+          "group": "대구",
+          "takes": 11418,
+          "agreement": 0.9995,
+          "mismatches": 6,
+          "mismatches_beyond_2cm": 1,
+          "boundary_takes": 4642,
+          "boundary_agreement": 0.9989,
+          "n": 4642,
+          "bias_cm": 0.0295,
+          "sigma_cm": 0.0861
+        },
+        {
+          "group": "광주",
+          "takes": 11401,
+          "agreement": 0.9988,
+          "mismatches": 14,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 4644,
+          "boundary_agreement": 0.9974,
+          "n": 4644,
+          "bias_cm": 0.03,
+          "sigma_cm": 0.1472
+        },
+        {
+          "group": "사직",
+          "takes": 11201,
+          "agreement": 0.999,
+          "mismatches": 11,
+          "mismatches_beyond_2cm": 4,
+          "boundary_takes": 4537,
+          "boundary_agreement": 0.998,
+          "n": 4537,
+          "bias_cm": 0.023,
+          "sigma_cm": 0.1206
+        },
+        {
+          "group": "포항",
+          "takes": 328,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 150,
+          "boundary_agreement": 1.0,
+          "n": 150,
+          "bias_cm": 0.0039,
+          "sigma_cm": 0.0189
+        }
+      ],
+      "by_month": [
+        {
+          "group": "05",
+          "takes": 21578,
+          "agreement": 0.9992,
+          "mismatches": 17,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 8860,
+          "boundary_agreement": 0.9981,
+          "n": 8860,
+          "bias_cm": 0.0485,
+          "sigma_cm": 0.1475
+        },
+        {
+          "group": "06",
+          "takes": 20521,
+          "agreement": 0.9993,
+          "mismatches": 15,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 8362,
+          "boundary_agreement": 0.9982,
+          "n": 8362,
+          "bias_cm": 0.0302,
+          "sigma_cm": 0.1307
+        },
+        {
+          "group": "04",
+          "takes": 20405,
+          "agreement": 0.9988,
+          "mismatches": 24,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 8363,
+          "boundary_agreement": 0.9971,
+          "n": 8363,
+          "bias_cm": 0.0614,
+          "sigma_cm": 0.2106
+        },
+        {
+          "group": "09",
+          "takes": 17262,
+          "agreement": 0.9984,
+          "mismatches": 27,
+          "mismatches_beyond_2cm": 10,
+          "boundary_takes": 7021,
+          "boundary_agreement": 0.9972,
+          "n": 7021,
+          "bias_cm": 0.0487,
+          "sigma_cm": 0.1879
+        },
+        {
+          "group": "07",
+          "takes": 17247,
+          "agreement": 0.9993,
+          "mismatches": 12,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 7211,
+          "boundary_agreement": 0.9983,
+          "n": 7211,
+          "bias_cm": 0.0294,
+          "sigma_cm": 0.1237
+        },
+        {
+          "group": "08",
+          "takes": 14311,
+          "agreement": 0.9986,
+          "mismatches": 20,
+          "mismatches_beyond_2cm": 2,
+          "boundary_takes": 5834,
+          "boundary_agreement": 0.9967,
+          "n": 5834,
+          "bias_cm": 0.0675,
+          "sigma_cm": 0.184
+        },
+        {
+          "group": "10",
+          "takes": 4822,
+          "agreement": 0.9983,
+          "mismatches": 8,
+          "mismatches_beyond_2cm": 7,
+          "boundary_takes": 1895,
+          "boundary_agreement": 0.9984,
+          "n": 1895,
+          "bias_cm": 0.0267,
+          "sigma_cm": 0.0397
+        },
+        {
+          "group": "03",
+          "takes": 2843,
+          "agreement": 1.0,
+          "mismatches": 0,
+          "mismatches_beyond_2cm": 0,
+          "boundary_takes": 1138,
+          "boundary_agreement": 1.0,
+          "n": 1138,
+          "bias_cm": 0.0089,
+          "sigma_cm": 0.0005
+        }
+      ],
+      "rule_change_vs_2024": {
+        "takes_compared": 118855,
+        "takes_called_differently_under_2024_rule": 1334,
+        "share": 0.0112,
+        "strike_to_ball": 646,
+        "ball_to_strike": 688
+      }
+    }
+  },
+  "pooled_2024_2026": {
+    "overall": {
+      "group": "all",
+      "takes": 356389,
+      "agreement": 0.9992,
+      "mismatches": 293,
+      "mismatches_beyond_2cm": 25,
+      "boundary_takes": 145408,
+      "boundary_agreement": 0.9981,
+      "n": 145408,
+      "bias_cm": 0.0427,
+      "sigma_cm": 0.1585
+    },
+    "by_edge": [
+      {
+        "group": "side",
+        "takes": 167165,
+        "agreement": 0.999,
+        "mismatches": 164,
+        "mismatches_beyond_2cm": 15,
+        "boundary_takes": 75776,
+        "boundary_agreement": 0.998,
+        "n": 75776,
+        "bias_cm": 0.0431,
+        "sigma_cm": 0.1481
+      },
+      {
+        "group": "bottom",
+        "takes": 102934,
+        "agreement": 0.9997,
+        "mismatches": 34,
+        "mismatches_beyond_2cm": 5,
+        "boundary_takes": 35497,
+        "boundary_agreement": 0.9992,
+        "n": 35497,
+        "bias_cm": 0.0146,
+        "sigma_cm": 0.071
+      },
+      {
+        "group": "top",
+        "takes": 86290,
+        "agreement": 0.9989,
+        "mismatches": 95,
+        "mismatches_beyond_2cm": 5,
+        "boundary_takes": 34135,
+        "boundary_agreement": 0.9973,
+        "n": 34135,
+        "bias_cm": 0.0633,
+        "sigma_cm": 0.2049
+      }
+    ],
+    "by_pitch_code": [
+      {
+        "group": "FF",
+        "takes": 148286,
+        "agreement": 0.9989,
+        "mismatches": 159,
+        "mismatches_beyond_2cm": 12,
+        "boundary_takes": 66109,
+        "boundary_agreement": 0.9977,
+        "n": 66109,
+        "bias_cm": 0.0515,
+        "sigma_cm": 0.1797
+      },
+      {
+        "group": "SL",
+        "takes": 69078,
+        "agreement": 0.9994,
+        "mismatches": 44,
+        "mismatches_beyond_2cm": 5,
+        "boundary_takes": 26706,
+        "boundary_agreement": 0.9985,
+        "n": 26706,
+        "bias_cm": 0.028,
+        "sigma_cm": 0.1111
+      },
+      {
+        "group": "CU",
+        "takes": 33454,
+        "agreement": 0.9993,
+        "mismatches": 23,
+        "mismatches_beyond_2cm": 1,
+        "boundary_takes": 12008,
+        "boundary_agreement": 0.9981,
+        "n": 12008,
+        "bias_cm": 0.0385,
+        "sigma_cm": 0.1298
+      },
+      {
+        "group": "CH",
+        "takes": 31455,
+        "agreement": 0.9994,
+        "mismatches": 19,
+        "mismatches_beyond_2cm": 0,
+        "boundary_takes": 11008,
+        "boundary_agreement": 0.9983,
+        "n": 11008,
+        "bias_cm": 0.0455,
+        "sigma_cm": 0.1744
+      },
+      {
+        "group": "FS",
+        "takes": 26247,
+        "agreement": 0.9996,
+        "mismatches": 10,
+        "mismatches_beyond_2cm": 1,
+        "boundary_takes": 8202,
+        "boundary_agreement": 0.9988,
+        "n": 8202,
+        "bias_cm": 0.0312,
+        "sigma_cm": 0.1267
+      },
+      {
+        "group": "FT",
+        "takes": 25376,
+        "agreement": 0.9991,
+        "mismatches": 22,
+        "mismatches_beyond_2cm": 4,
+        "boundary_takes": 11866,
+        "boundary_agreement": 0.9983,
+        "n": 11866,
+        "bias_cm": 0.028,
+        "sigma_cm": 0.0871
+      },
+      {
+        "group": "FC",
+        "takes": 16304,
+        "agreement": 0.9993,
+        "mismatches": 11,
+        "mismatches_beyond_2cm": 2,
+        "boundary_takes": 7185,
+        "boundary_agreement": 0.9987,
+        "n": 7185,
+        "bias_cm": 0.0265,
+        "sigma_cm": 0.098
+      },
+      {
+        "group": "ST",
+        "takes": 6156,
+        "agreement": 0.9992,
+        "mismatches": 5,
+        "mismatches_beyond_2cm": 0,
+        "boundary_takes": 2310,
+        "boundary_agreement": 0.9978,
+        "n": 2310,
+        "bias_cm": 0.1062,
+        "sigma_cm": 0.1946
+      }
+    ],
+    "by_stadium": [
+      {
+        "group": "잠실",
+        "takes": 71366,
+        "agreement": 0.9991,
+        "mismatches": 66,
+        "mismatches_beyond_2cm": 7,
+        "boundary_takes": 28978,
+        "boundary_agreement": 0.9979,
+        "n": 28978,
+        "bias_cm": 0.0567,
+        "sigma_cm": 0.1818
+      },
+      {
+        "group": "문학",
+        "takes": 36162,
+        "agreement": 0.9993,
+        "mismatches": 26,
+        "mismatches_beyond_2cm": 4,
+        "boundary_takes": 14449,
+        "boundary_agreement": 0.9983,
+        "n": 14449,
+        "bias_cm": 0.0499,
+        "sigma_cm": 0.1721
+      },
+      {
+        "group": "수원",
+        "takes": 35696,
+        "agreement": 0.999,
+        "mismatches": 35,
+        "mismatches_beyond_2cm": 3,
+        "boundary_takes": 14843,
+        "boundary_agreement": 0.9978,
+        "n": 14843,
+        "bias_cm": 0.0444,
+        "sigma_cm": 0.1401
+      },
+      {
+        "group": "고척",
+        "takes": 35347,
+        "agreement": 0.9994,
+        "mismatches": 22,
+        "mismatches_beyond_2cm": 0,
+        "boundary_takes": 14504,
+        "boundary_agreement": 0.9985,
+        "n": 14504,
+        "bias_cm": 0.0319,
+        "sigma_cm": 0.1402
+      },
+      {
+        "group": "광주",
+        "takes": 35151,
+        "agreement": 0.9989,
+        "mismatches": 37,
+        "mismatches_beyond_2cm": 2,
+        "boundary_takes": 14375,
+        "boundary_agreement": 0.9976,
+        "n": 14375,
+        "bias_cm": 0.0444,
+        "sigma_cm": 0.1417
+      },
+      {
+        "group": "사직",
+        "takes": 35030,
+        "agreement": 0.9992,
+        "mismatches": 27,
+        "mismatches_beyond_2cm": 5,
+        "boundary_takes": 14199,
+        "boundary_agreement": 0.9983,
+        "n": 14199,
+        "bias_cm": 0.0428,
+        "sigma_cm": 0.1447
+      },
+      {
+        "group": "창원",
+        "takes": 34940,
+        "agreement": 0.9993,
+        "mismatches": 25,
+        "mismatches_beyond_2cm": 0,
+        "boundary_takes": 14323,
+        "boundary_agreement": 0.9983,
+        "n": 14323,
+        "bias_cm": 0.032,
+        "sigma_cm": 0.1299
+      },
+      {
+        "group": "대구",
+        "takes": 34305,
+        "agreement": 0.9992,
+        "mismatches": 26,
+        "mismatches_beyond_2cm": 3,
+        "boundary_takes": 14070,
+        "boundary_agreement": 0.9982,
+        "n": 14070,
+        "bias_cm": 0.036,
+        "sigma_cm": 0.1344
+      },
+      {
+        "group": "대전",
+        "takes": 23730,
+        "agreement": 0.9991,
+        "mismatches": 22,
+        "mismatches_beyond_2cm": 1,
+        "boundary_takes": 9653,
+        "boundary_agreement": 0.9978,
+        "n": 9653,
+        "bias_cm": 0.0372,
+        "sigma_cm": 0.1901
+      },
+      {
+        "group": "한밭",
+        "takes": 11191,
+        "agreement": 0.9995,
+        "mismatches": 6,
+        "mismatches_beyond_2cm": 0,
+        "boundary_takes": 4585,
+        "boundary_agreement": 0.9987,
+        "n": 4585,
+        "bias_cm": 0.0147,
+        "sigma_cm": 0.0691
+      },
+      {
+        "group": "울산",
+        "takes": 1886,
+        "agreement": 0.9995,
+        "mismatches": 1,
+        "mismatches_beyond_2cm": 0,
+        "boundary_takes": 759,
+        "boundary_agreement": 0.9987,
+        "n": 759,
+        "bias_cm": 0.0165,
+        "sigma_cm": 0.0004
+      },
+      {
+        "group": "포항",
+        "takes": 1086,
+        "agreement": 1.0,
+        "mismatches": 0,
+        "mismatches_beyond_2cm": 0,
+        "boundary_takes": 470,
+        "boundary_agreement": 1.0,
+        "n": 470,
+        "bias_cm": 0.0082,
+        "sigma_cm": 0.0022
+      },
+      {
+        "group": "청주",
+        "takes": 499,
+        "agreement": 1.0,
+        "mismatches": 0,
+        "mismatches_beyond_2cm": 0,
+        "boundary_takes": 200,
+        "boundary_agreement": 1.0,
+        "n": 200,
+        "bias_cm": -0.0272,
+        "sigma_cm": 0.0189
+      }
+    ]
+  },
+  "radius_scan": [
+    {
+      "radius_cm": 3.5,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9972,
+      "mismatches": 1001
+    },
+    {
+      "radius_cm": 3.5,
+      "back_plane_offset": "none",
+      "agreement": 0.9896,
+      "mismatches": 3705
+    },
+    {
+      "radius_cm": 3.52,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9976,
+      "mismatches": 862
+    },
+    {
+      "radius_cm": 3.52,
+      "back_plane_offset": "none",
+      "agreement": 0.99,
+      "mismatches": 3568
+    },
+    {
+      "radius_cm": 3.54,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.998,
+      "mismatches": 727
+    },
+    {
+      "radius_cm": 3.54,
+      "back_plane_offset": "none",
+      "agreement": 0.9904,
+      "mismatches": 3431
+    },
+    {
+      "radius_cm": 3.56,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9983,
+      "mismatches": 611
+    },
+    {
+      "radius_cm": 3.56,
+      "back_plane_offset": "none",
+      "agreement": 0.9907,
+      "mismatches": 3304
+    },
+    {
+      "radius_cm": 3.58,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9987,
+      "mismatches": 459
+    },
+    {
+      "radius_cm": 3.58,
+      "back_plane_offset": "none",
+      "agreement": 0.9911,
+      "mismatches": 3156
+    },
+    {
+      "radius_cm": 3.6,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9991,
+      "mismatches": 331
+    },
+    {
+      "radius_cm": 3.6,
+      "back_plane_offset": "none",
+      "agreement": 0.9915,
+      "mismatches": 3025
+    },
+    {
+      "radius_cm": 3.62,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9992,
+      "mismatches": 293
+    },
+    {
+      "radius_cm": 3.62,
+      "back_plane_offset": "none",
+      "agreement": 0.9917,
+      "mismatches": 2967
+    },
+    {
+      "radius_cm": 3.64,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9989,
+      "mismatches": 407
+    },
+    {
+      "radius_cm": 3.64,
+      "back_plane_offset": "none",
+      "agreement": 0.9915,
+      "mismatches": 3016
+    },
+    {
+      "radius_cm": 3.66,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9984,
+      "mismatches": 566
+    },
+    {
+      "radius_cm": 3.66,
+      "back_plane_offset": "none",
+      "agreement": 0.9913,
+      "mismatches": 3116
+    },
+    {
+      "radius_cm": 3.68,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.998,
+      "mismatches": 709
+    },
+    {
+      "radius_cm": 3.68,
+      "back_plane_offset": "none",
+      "agreement": 0.9911,
+      "mismatches": 3188
+    },
+    {
+      "radius_cm": 3.7,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9976,
+      "mismatches": 864
+    },
+    {
+      "radius_cm": 3.7,
+      "back_plane_offset": "none",
+      "agreement": 0.9909,
+      "mismatches": 3252
+    },
+    {
+      "radius_cm": 3.72,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9971,
+      "mismatches": 1030
+    },
+    {
+      "radius_cm": 3.72,
+      "back_plane_offset": "none",
+      "agreement": 0.9907,
+      "mismatches": 3329
+    },
+    {
+      "radius_cm": 3.74,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9967,
+      "mismatches": 1174
+    },
+    {
+      "radius_cm": 3.74,
+      "back_plane_offset": "none",
+      "agreement": 0.9904,
+      "mismatches": 3417
+    },
+    {
+      "radius_cm": 3.76,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9962,
+      "mismatches": 1348
+    },
+    {
+      "radius_cm": 3.76,
+      "back_plane_offset": "none",
+      "agreement": 0.9901,
+      "mismatches": 3514
+    },
+    {
+      "radius_cm": 3.78,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9958,
+      "mismatches": 1501
+    },
+    {
+      "radius_cm": 3.78,
+      "back_plane_offset": "none",
+      "agreement": 0.9899,
+      "mismatches": 3601
+    },
+    {
+      "radius_cm": 3.8,
+      "back_plane_offset": "bottom_only",
+      "agreement": 0.9954,
+      "mismatches": 1647
+    },
+    {
+      "radius_cm": 3.8,
+      "back_plane_offset": "none",
+      "agreement": 0.9897,
+      "mismatches": 3669
+    }
+  ]
+}

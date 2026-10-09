@@ -48,6 +48,12 @@
       "url": "/trendline/?thumb=1&role=pitcher&player=77637",
       "selector": "[data-thumbnail-target]",
       "output": "web/assets/thumbnails/trendline.webp"
+    },
+    {
+      "id": "abs-zone",
+      "url": "/abs-zone/?thumb=1&season=2025",
+      "selector": "[data-thumbnail-target]",
+      "output": "web/assets/thumbnails/abs-zone.webp"
     }
   ]
 }

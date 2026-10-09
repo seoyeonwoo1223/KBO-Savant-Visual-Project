@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "status": "experimental",
+  "heights": {
+    "2024": {
+      "pitches": 223216,
+      "inconsistent_or_missing_zone": 859,
+      "batters": 298,
+      "batters_single_height": 291,
+      "sz_ratio_median": 2.0386,
+      "rule_ratio": 2.0387
+    },
+    "2025": {
+      "pitches": 217852,
+      "inconsistent_or_missing_zone": 152,
+      "batters": 298,
+      "batters_single_height": 294,
+      "sz_ratio_median": 2.0617,
+      "rule_ratio": 2.0618
+    },
+    "2026": {
+      "pitches": 218193,
+      "inconsistent_or_missing_zone": 353,
+      "batters": 291,
+      "batters_single_height": 285,
+      "sz_ratio_median": 2.0617,
+      "rule_ratio": 2.0618
+    },
+    "2024_to_2025": {
+      "batters": 230,
+      "abs_diff_cm_median": 0.7,
+      "abs_diff_cm_p90": 2.2,
+      "abs_diff_cm_max": 4.0
+    },
+    "2025_to_2026": {
+      "batters": 221,
+      "abs_diff_cm_median": 0.7,
+      "abs_diff_cm_p90": 1.7,
+      "abs_diff_cm_max": 3.6
+    }
+  }
+}

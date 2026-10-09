@@ -42,6 +42,7 @@
 
 | [0022](0022-trendline-league-baselines.md) | Trendline과 동일 기간·구종 리그 평균 비교 | 지표·웹 |
 | [0023](0023-trendline-velocity-default.md) | Trendline 구속은 경기별 원값을 기본으로 표시 | 웹 |
+| [0024](0024-abs-zone-explorer.md) | ABS Zone Explorer: 판정 재구성·추적 감사·반사실적 판정 득점가치 (실험) | 지표·웹 |
 
 ### 다른 곳에 있는 결정·근거
 
