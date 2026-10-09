@@ -1,0 +1,49 @@
+{
+  "publication_catalog": "https://www.koreabaseball.com/Kbo/Board/Ebook/EbookPublication.aspx",
+  "sources": [
+    {
+      "season": 2024,
+      "pdf_url": "https://6ptotvmi5753.edge.naverncp.com/KBO_FILE/ebook/pdf/2024_야구규칙.pdf",
+      "pdf_sha256": "f7196a959faa5a1c39953c8172b389d7291a14ff8a3733772d3499aa4eb9d5f1",
+      "pdf_bytes": 1276097,
+      "pdf_page_1based": 28,
+      "rule": "3.01 공",
+      "excerpt": "3.01 공 공은 코르크, 고무 또는 이와 비슷한 재료로 만든 작은 심에 실을 감고, 흰색의 말가죽 또는 쇠가죽 두 쪽으로 이를 싸서 단단하게 만든다. 중량은 5~5¼온스(141.77~148.8g), 둘레는 9~9¼인치(22.9~23.5cm) 로 한다.",
+      "retrieved_date_kst": "2026-10-09"
+    },
+    {
+      "season": 2025,
+      "pdf_url": "https://6ptotvmi5753.edge.naverncp.com/KBO_FILE/ebook/pdf/2025_야구규칙.pdf",
+      "pdf_sha256": "c9af813026d4e42aa4a8f61d6203dfa477d937651008f73936766467a4f31a9d",
+      "pdf_bytes": 4365717,
+      "pdf_page_1based": 30,
+      "rule": "3.01 공",
+      "excerpt": "3.01 공 공은 코르크, 고무 또는 이와 비슷한 재료로 만든 작은 심에 실을 감고, 흰색의 말가죽 또는 쇠가죽 두 쪽으로 이를 싸서 단단하게 만든다. 중량은 5~5¼온스(141.77~148.8g), 둘레는 9~9¼인치(22.9~23.5cm) 로 한다.",
+      "retrieved_date_kst": "2026-10-09"
+    },
+    {
+      "season": 2026,
+      "pdf_url": "https://6ptotvmi5753.edge.naverncp.com/KBO_FILE/ebook/pdf/2026_야구규칙.pdf",
+      "pdf_sha256": "deb2c0d58ef41c6631f47a3dcfbe37d853a97275b9891ad50f0a8525b302a16a",
+      "pdf_bytes": 5270217,
+      "pdf_page_1based": 30,
+      "rule": "3.01 공",
+      "excerpt": "3.01 공 공은 코르크, 고무 또는 이와 비슷한 재료로 만든 작은 심에 실을 감고, 흰색의 말가죽 또는 쇠가죽 두 쪽으로 이를 싸서 단단하게 만든다. 중량은 5~5¼온스(141.77~148.8g), 둘레는 9~9¼인치(22.9~23.5cm) 로 한다.",
+      "retrieved_date_kst": "2026-10-09"
+    }
+  ],
+  "ball_circumference_inches": [
+    9,
+    9.25
+  ],
+  "ball_circumference_cm_exact_from_inches": [
+    22.86,
+    23.495
+  ],
+  "ball_radius_cm_exact_from_inches": [
+    3.6382819990807276,
+    3.739345387944081
+  ],
+  "draft_nominal_radius_cm": 3.6888136935124045,
+  "limitation": "구형공 가정의 규칙상 허용범위. 실제 투구별 공 크기·ABS 내부 구현 반경은 미확인. 2026 페이지를 렌더링해 확인했다."
+}
