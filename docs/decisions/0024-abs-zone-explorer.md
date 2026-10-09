@@ -28,4 +28,5 @@ ABS 판정 좌표의 신뢰성과 ABS 도입으로 판정상 이득·손해를 �
 
 - `tests/test_abs_zone.py`(규정 기하, 끝면 기준, 부호·부트스트랩, 테이크 정의), `tests/test_abs_zone_math.cjs`(화면 계산)를 유지한다.
 - 2024 이후 규정이 바뀌면 `abs_zone.ABS_RULES`에 시즌을 추가하고 VB `sz` 비율이 새 규정과 맞는지 `data_audit.json`으로 확인한다.
+- 재구성 불일치 원인은 `analysis/abs/naver_crosscheck.py`로 네이버 문자중계 기록과 대조한다. 경계에서 먼 불일치 25구 중 22구가 VB 기록 문제(번트파울 오기 20, 궤적 뒤바뀜 2)였다.
 - Winners & Losers를 실험 표시 없이 공개하거나 production 리더보드에 넣으려면 기준 연도 민감도와 신뢰도(투수 한 시즌 홀짝 r ≤ 0.18)를 다시 검토한다.
