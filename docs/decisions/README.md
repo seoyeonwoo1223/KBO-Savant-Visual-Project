@@ -44,6 +44,8 @@
 | [0023](0023-trendline-velocity-default.md) | Trendline 구속은 경기별 원값을 기본으로 표시 | 웹 |
 | [0024](0024-abs-zone-explorer.md) | ABS Zone Explorer: 판정 재구성·추적 감사·반사실적 판정 득점가치 (실험) | 지표·웹 |
 
+| [0023](0023-eaa-registration-paths.md) | eAA 후속 등록 경로 분리와 역사적 등록 보존 | 협업·하네스 |
+
 ### 다른 곳에 있는 결정·근거
 
 | 주제 | 문서 |
