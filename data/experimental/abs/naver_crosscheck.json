@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "status": "experimental",
+  "source": "api-gw.sports.naver.com relay textOptions/ptsOptions",
+  "matched_by": "curated naver_pitch_id == Naver ptsPitchId, else a unique (inning, pitcher, batter, pitch number)",
+  "match": {
+    "inning_pitcher_batter_pitchnum": 214,
+    "naver_pitch_id": 78,
+    "none": 1
+  },
+  "all": {
+    "both_sources_agree_reconstruction_differs": 267,
+    "naver_not_a_take": 22,
+    "trajectory_differs": 2,
+    "naver_unmatched": 1,
+    "vb_call_record_differs": 1
+  },
+  "far_from_boundary": {
+    "both_sources_agree_reconstruction_differs": 3,
+    "naver_not_a_take": 20,
+    "trajectory_differs": 2
+  },
+  "near_boundary": {
+    "both_sources_agree_reconstruction_differs": 264,
+    "naver_unmatched": 1,
+    "vb_call_record_differs": 1,
+    "naver_not_a_take": 2
+  }
+}

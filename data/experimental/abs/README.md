@@ -11,3 +11,4 @@
 | `abs_rv_summary.json` | 시즌별 리그 ABS RV와 분해, 신뢰도(홀짝 경기, 연도 간, 기준 연도 민감도, 심판 시대 편차 상관) |
 | `abs_rv_{batter,pitcher}_{2024,2025,2026,2024-2026}.csv` | 선수별 ABS RV(원값·리그 대비), 90% 구간, 판정 기대 개수, 가정 오차 시나리오 |
 | `tracking_audit.json` | TrackMan vs PTS 무브먼트(관측), 보고 위치 vs 궤적(내부 일관성), 가정 오차 민감도 |
+| `naver_crosscheck.csv`, `naver_crosscheck.json` | 재구성 불일치 투구를 네이버 문자중계 판정·PTS 기록과 대조한 결과 (`analysis/abs/naver_crosscheck.py`) |
