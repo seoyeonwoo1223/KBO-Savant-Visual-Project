@@ -7123,6 +7123,36 @@
             "events": "da4157554d88191606857d246f01b4086cd2f4bef831b22b9e5bb38108c17b62",
             "pitches": "8e13363842ea322f6ee00ff3b4fb3bb3da48c9169476b13c26081c9196b8f0e0"
           }
+        },
+        "20261010LGLT0": {
+          "game_date": "2026-10-10",
+          "month": "10",
+          "revision": 1,
+          "tables": {
+            "games": "f0be12ed2d2ad792eced107c00a2e15f39aa573907a953a3196728c7c3700c02",
+            "events": "7635e4b2c2cb1fb7994e0610f3ab8ac08996122e27caa617c2bf330ccc1a4715",
+            "pitches": "6cc2a25cc6205ffa7373b50f04e68e34a2bc73c8d3b111005fa28e9e33780085"
+          }
+        },
+        "20261010SKHT0": {
+          "game_date": "2026-10-10",
+          "month": "10",
+          "revision": 1,
+          "tables": {
+            "games": "aae257d2949cf7424866539ff2d3829597ab62a512686ed34a9f23c19420c423",
+            "events": "7f4070459f3f492372811dc5a09f509f7cc35606061bd790b7d7838ceb9982ab",
+            "pitches": "dd782974eddb439b76623da80a8e1472f0d11948eaa23779f7d2f75bdf64c768"
+          }
+        },
+        "20261010NCHH0": {
+          "game_date": "2026-10-10",
+          "month": "10",
+          "revision": 1,
+          "tables": {
+            "games": "fdbc3c378a894dfcb31b00969045ebaa7b3999ced40ba44f295a4b08d388df84",
+            "events": "d19308cb3eefc5b6f2e7d618c1f328f7439d0ad7c4125ac3460b12877f259bcb",
+            "pitches": "4228ec90b5e9c9cbf3ea3520fa1d6d2179cf6d105068089298f38a205ef9f267"
+          }
         }
       }
     },

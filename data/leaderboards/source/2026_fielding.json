@@ -7,6 +7,12 @@
     {
       "player_id": "50007",
       "name": "문상준",
+      "position": "2B",
+      "outs": 9
+    },
+    {
+      "player_id": "50007",
+      "name": "문상준",
       "position": "SS",
       "outs": 6
     },
@@ -230,7 +236,7 @@
       "player_id": "50500",
       "name": "황성빈",
       "position": "LF",
-      "outs": 303
+      "outs": 328
     },
     {
       "player_id": "50556",
@@ -248,7 +254,7 @@
       "player_id": "50600",
       "name": "홍종표",
       "position": "2B",
-      "outs": 156
+      "outs": 165
     },
     {
       "player_id": "50600",
@@ -284,7 +290,7 @@
       "player_id": "50657",
       "name": "박민",
       "position": "SS",
-      "outs": 1047
+      "outs": 1053
     },
     {
       "player_id": "50662",
@@ -296,13 +302,13 @@
       "player_id": "50705",
       "name": "강재민",
       "position": "P",
-      "outs": 78
+      "outs": 79
     },
     {
       "player_id": "50707",
       "name": "최인호",
       "position": "CF",
-      "outs": 694
+      "outs": 721
     },
     {
       "player_id": "50707",
@@ -332,7 +338,7 @@
       "player_id": "50709",
       "name": "박정현",
       "position": "SS",
-      "outs": 477
+      "outs": 480
     },
     {
       "player_id": "50710",
@@ -356,13 +362,13 @@
       "player_id": "50820",
       "name": "전의산",
       "position": "1B",
-      "outs": 1973
+      "outs": 1997
     },
     {
       "player_id": "50854",
       "name": "최지훈",
       "position": "CF",
-      "outs": 3570
+      "outs": 3588
     },
     {
       "player_id": "50859",
@@ -392,7 +398,7 @@
       "player_id": "50902",
       "name": "김한별",
       "position": "SS",
-      "outs": 320
+      "outs": 335
     },
     {
       "player_id": "50903",
@@ -404,7 +410,7 @@
       "player_id": "50903",
       "name": "한재환",
       "position": "2B",
-      "outs": 72
+      "outs": 90
     },
     {
       "player_id": "50904",
@@ -434,7 +440,7 @@
       "player_id": "50996",
       "name": "박시원",
       "position": "RF",
-      "outs": 579
+      "outs": 585
     },
     {
       "player_id": "51003",
@@ -488,7 +494,7 @@
       "player_id": "51100",
       "name": "이영빈",
       "position": "1B",
-      "outs": 130
+      "outs": 133
     },
     {
       "player_id": "51100",
@@ -524,7 +530,7 @@
       "player_id": "51154",
       "name": "김진수",
       "position": "P",
-      "outs": 182
+      "outs": 183
     },
     {
       "player_id": "51163",
@@ -584,7 +590,7 @@
       "player_id": "51344",
       "name": "김휘집",
       "position": "3B",
-      "outs": 2013
+      "outs": 2040
     },
     {
       "player_id": "51344",
@@ -650,13 +656,13 @@
       "player_id": "51528",
       "name": "손성빈",
       "position": "C",
-      "outs": 2668
+      "outs": 2698
     },
     {
       "player_id": "51551",
       "name": "나승엽",
       "position": "1B",
-      "outs": 2067
+      "outs": 2094
     },
     {
       "player_id": "51586",
@@ -665,16 +671,22 @@
       "outs": 8
     },
     {
+      "player_id": "51594",
+      "name": "송재영",
+      "position": "P",
+      "outs": 2
+    },
+    {
       "player_id": "51648",
       "name": "이의리",
       "position": "P",
-      "outs": 187
+      "outs": 190
     },
     {
       "player_id": "51702",
       "name": "이준기",
       "position": "P",
-      "outs": 18
+      "outs": 26
     },
     {
       "player_id": "51761",
@@ -692,7 +704,7 @@
       "player_id": "51762",
       "name": "장규현",
       "position": "C",
-      "outs": 165
+      "outs": 174
     },
     {
       "player_id": "51764",
@@ -704,7 +716,7 @@
       "player_id": "51865",
       "name": "조형우",
       "position": "C",
-      "outs": 2492
+      "outs": 2507
     },
     {
       "player_id": "51867",
@@ -722,7 +734,7 @@
       "player_id": "51868",
       "name": "고명준",
       "position": "3B",
-      "outs": 919
+      "outs": 943
     },
     {
       "player_id": "51895",
@@ -746,13 +758,13 @@
       "player_id": "51907",
       "name": "김주원",
       "position": "SS",
-      "outs": 3221
+      "outs": 3233
     },
     {
       "player_id": "51948",
       "name": "이용준",
       "position": "P",
-      "outs": 77
+      "outs": 78
     },
     {
       "player_id": "51991",
@@ -794,7 +806,7 @@
       "player_id": "51996",
       "name": "오태양",
       "position": "LF",
-      "outs": 181
+      "outs": 208
     },
     {
       "player_id": "51996",
@@ -848,7 +860,7 @@
       "player_id": "52121",
       "name": "문정빈",
       "position": "1B",
-      "outs": 1072
+      "outs": 1099
     },
     {
       "player_id": "52121",
@@ -872,7 +884,7 @@
       "player_id": "52154",
       "name": "이주헌",
       "position": "C",
-      "outs": 1022
+      "outs": 1038
     },
     {
       "player_id": "52202",
@@ -974,7 +986,7 @@
       "player_id": "52504",
       "name": "김동혁",
       "position": "LF",
-      "outs": 9
+      "outs": 12
     },
     {
       "player_id": "52504",
@@ -998,7 +1010,7 @@
       "player_id": "52516",
       "name": "조세진",
       "position": "LF",
-      "outs": 149
+      "outs": 151
     },
     {
       "player_id": "52516",
@@ -1016,7 +1028,7 @@
       "player_id": "52568",
       "name": "한태양",
       "position": "2B",
-      "outs": 1139
+      "outs": 1142
     },
     {
       "player_id": "52568",
@@ -1034,13 +1046,13 @@
       "player_id": "52591",
       "name": "윤동희",
       "position": "RF",
-      "outs": 1697
+      "outs": 1727
     },
     {
       "player_id": "52605",
       "name": "김도영",
       "position": "3B",
-      "outs": 2895
+      "outs": 2922
     },
     {
       "player_id": "52628",
@@ -1118,7 +1130,7 @@
       "player_id": "52765",
       "name": "유민",
       "position": "LF",
-      "outs": 141
+      "outs": 147
     },
     {
       "player_id": "52765",
@@ -1130,7 +1142,7 @@
       "player_id": "52769",
       "name": "권광민",
       "position": "1B",
-      "outs": 18
+      "outs": 21
     },
     {
       "player_id": "52769",
@@ -1178,7 +1190,7 @@
       "player_id": "52807",
       "name": "임근우",
       "position": "RF",
-      "outs": 564
+      "outs": 588
     },
     {
       "player_id": "52809",
@@ -1190,7 +1202,7 @@
       "player_id": "52844",
       "name": "김도현",
       "position": "P",
-      "outs": 22
+      "outs": 24
     },
     {
       "player_id": "52867",
@@ -1214,7 +1226,7 @@
       "player_id": "52992",
       "name": "이준혁",
       "position": "P",
-      "outs": 104
+      "outs": 107
     },
     {
       "player_id": "53029",
@@ -1388,7 +1400,7 @@
       "player_id": "53609",
       "name": "곽도규",
       "position": "P",
-      "outs": 92
+      "outs": 95
     },
     {
       "player_id": "53706",
@@ -1412,13 +1424,13 @@
       "player_id": "53764",
       "name": "문현빈",
       "position": "LF",
-      "outs": 2318
+      "outs": 2339
     },
     {
       "player_id": "53827",
       "name": "에레디아",
       "position": "LF",
-      "outs": 2533
+      "outs": 2551
     },
     {
       "player_id": "53827",
@@ -1682,7 +1694,7 @@
       "player_id": "54610",
       "name": "성영탁",
       "position": "P",
-      "outs": 167
+      "outs": 169
     },
     {
       "player_id": "54640",
@@ -1694,7 +1706,7 @@
       "player_id": "54702",
       "name": "원종혁",
       "position": "P",
-      "outs": 48
+      "outs": 51
     },
     {
       "player_id": "54705",
@@ -1706,13 +1718,13 @@
       "player_id": "54729",
       "name": "황준서",
       "position": "P",
-      "outs": 181
+      "outs": 191
     },
     {
       "player_id": "54730",
       "name": "페라자",
       "position": "RF",
-      "outs": 2675
+      "outs": 2690
     },
     {
       "player_id": "54768",
@@ -1724,7 +1736,7 @@
       "player_id": "54795",
       "name": "황영묵",
       "position": "2B",
-      "outs": 844
+      "outs": 850
     },
     {
       "player_id": "54795",
@@ -1748,7 +1760,7 @@
       "player_id": "54843",
       "name": "시라카와",
       "position": "P",
-      "outs": 238
+      "outs": 250
     },
     {
       "player_id": "54903",
@@ -1760,7 +1772,7 @@
       "player_id": "54904",
       "name": "손주환",
       "position": "P",
-      "outs": 115
+      "outs": 116
     },
     {
       "player_id": "54906",
@@ -1808,7 +1820,7 @@
       "player_id": "55130",
       "name": "톨허스트",
       "position": "P",
-      "outs": 475
+      "outs": 490
     },
     {
       "player_id": "55146",
@@ -2138,7 +2150,7 @@
       "player_id": "55636",
       "name": "박재현",
       "position": "LF",
-      "outs": 2239
+      "outs": 2266
     },
     {
       "player_id": "55636",
@@ -2234,7 +2246,7 @@
       "player_id": "55926",
       "name": "정현창",
       "position": "SS",
-      "outs": 667
+      "outs": 670
     },
     {
       "player_id": "55995",
@@ -2348,7 +2360,7 @@
       "player_id": "56168",
       "name": "케네디",
       "position": "P",
-      "outs": 67
+      "outs": 68
     },
     {
       "player_id": "56212",
@@ -2540,7 +2552,7 @@
       "player_id": "56503",
       "name": "이이무라",
       "position": "P",
-      "outs": 99
+      "outs": 100
     },
     {
       "player_id": "56523",
@@ -2558,7 +2570,7 @@
       "player_id": "56536",
       "name": "박정민",
       "position": "P",
-      "outs": 172
+      "outs": 174
     },
     {
       "player_id": "56540",
@@ -2576,7 +2588,7 @@
       "player_id": "56554",
       "name": "이준서",
       "position": "P",
-      "outs": 28
+      "outs": 32
     },
     {
       "player_id": "56563",
@@ -2612,7 +2624,7 @@
       "player_id": "56626",
       "name": "카스트로",
       "position": "1B",
-      "outs": 1128
+      "outs": 1155
     },
     {
       "player_id": "56626",
@@ -2774,7 +2786,7 @@
       "player_id": "56808",
       "name": "신상연",
       "position": "P",
-      "outs": 9
+      "outs": 12
     },
     {
       "player_id": "56811",
@@ -2798,7 +2810,7 @@
       "player_id": "56811",
       "name": "안재연",
       "position": "SS",
-      "outs": 34
+      "outs": 37
     },
     {
       "player_id": "56813",
@@ -2858,7 +2870,7 @@
       "player_id": "56909",
       "name": "신재인",
       "position": "1B",
-      "outs": 458
+      "outs": 485
     },
     {
       "player_id": "56909",
@@ -2876,7 +2888,7 @@
       "player_id": "56911",
       "name": "토다",
       "position": "P",
-      "outs": 430
+      "outs": 435
     },
     {
       "player_id": "56928",
@@ -2894,13 +2906,13 @@
       "player_id": "56939",
       "name": "클레빈저",
       "position": "P",
-      "outs": 49
+      "outs": 65
     },
     {
       "player_id": "56949",
       "name": "고준휘",
       "position": "CF",
-      "outs": 171
+      "outs": 189
     },
     {
       "player_id": "56949",
@@ -2966,7 +2978,7 @@
       "player_id": "60558",
       "name": "오태곤",
       "position": "LF",
-      "outs": 108
+      "outs": 114
     },
     {
       "player_id": "60558",
@@ -2978,7 +2990,7 @@
       "player_id": "60768",
       "name": "이태양",
       "position": "P",
-      "outs": 103
+      "outs": 106
     },
     {
       "player_id": "61101",
@@ -2996,7 +3008,7 @@
       "player_id": "61145",
       "name": "이우찬",
       "position": "P",
-      "outs": 78
+      "outs": 82
     },
     {
       "player_id": "61268",
@@ -3092,7 +3104,7 @@
       "player_id": "62415",
       "name": "박해민",
       "position": "CF",
-      "outs": 3429
+      "outs": 3459
     },
     {
       "player_id": "62528",
@@ -3110,7 +3122,7 @@
       "player_id": "62700",
       "name": "하주석",
       "position": "SS",
-      "outs": 873
+      "outs": 891
     },
     {
       "player_id": "62754",
@@ -3218,7 +3230,7 @@
       "player_id": "62951",
       "name": "이형범",
       "position": "P",
-      "outs": 88
+      "outs": 91
     },
     {
       "player_id": "63123",
@@ -3284,7 +3296,7 @@
       "player_id": "63342",
       "name": "조상우",
       "position": "P",
-      "outs": 185
+      "outs": 186
     },
     {
       "player_id": "63492",
@@ -3314,7 +3326,7 @@
       "player_id": "63765",
       "name": "김종수",
       "position": "P",
-      "outs": 109
+      "outs": 110
     },
     {
       "player_id": "63950",
@@ -3362,7 +3374,7 @@
       "player_id": "64006",
       "name": "심우준",
       "position": "SS",
-      "outs": 2900
+      "outs": 2924
     },
     {
       "player_id": "64007",
@@ -3380,7 +3392,7 @@
       "player_id": "64022",
       "name": "안중열",
       "position": "C",
-      "outs": 1039
+      "outs": 1045
     },
     {
       "player_id": "64101",
@@ -3398,7 +3410,7 @@
       "player_id": "64101",
       "name": "한석현",
       "position": "RF",
-      "outs": 454
+      "outs": 466
     },
     {
       "player_id": "64115",
@@ -3518,7 +3530,7 @@
       "player_id": "64580",
       "name": "김재열",
       "position": "P",
-      "outs": 3
+      "outs": 4
     },
     {
       "player_id": "64596",
@@ -3614,7 +3626,7 @@
       "player_id": "65117",
       "name": "이상규",
       "position": "P",
-      "outs": 174
+      "outs": 177
     },
     {
       "player_id": "65132",
@@ -3626,7 +3638,7 @@
       "player_id": "65207",
       "name": "신민재",
       "position": "2B",
-      "outs": 3002
+      "outs": 3032
     },
     {
       "player_id": "65320",
@@ -3680,7 +3692,7 @@
       "player_id": "65616",
       "name": "이민우",
       "position": "P",
-      "outs": 168
+      "outs": 171
     },
     {
       "player_id": "65639",
@@ -3692,13 +3704,13 @@
       "player_id": "65653",
       "name": "김호령",
       "position": "CF",
-      "outs": 3435
+      "outs": 3462
     },
     {
       "player_id": "65703",
       "name": "이도윤",
       "position": "2B",
-      "outs": 2155
+      "outs": 2167
     },
     {
       "player_id": "65703",
@@ -3770,7 +3782,7 @@
       "player_id": "66108",
       "name": "홍창기",
       "position": "RF",
-      "outs": 2762
+      "outs": 2792
     },
     {
       "player_id": "66112",
@@ -3878,7 +3890,7 @@
       "player_id": "66609",
       "name": "전상현",
       "position": "P",
-      "outs": 130
+      "outs": 133
     },
     {
       "player_id": "66614",
@@ -3890,7 +3902,7 @@
       "player_id": "66614",
       "name": "김규성",
       "position": "2B",
-      "outs": 554
+      "outs": 557
     },
     {
       "player_id": "66614",
@@ -3926,13 +3938,13 @@
       "player_id": "66662",
       "name": "신범수",
       "position": "C",
-      "outs": 181
+      "outs": 190
     },
     {
       "player_id": "66704",
       "name": "김태연",
       "position": "1B",
-      "outs": 2464
+      "outs": 2488
     },
     {
       "player_id": "66704",
@@ -3986,7 +3998,7 @@
       "player_id": "66864",
       "name": "안상현",
       "position": "2B",
-      "outs": 366
+      "outs": 381
     },
     {
       "player_id": "66864",
@@ -4082,13 +4094,13 @@
       "player_id": "67119",
       "name": "고우석",
       "position": "P",
-      "outs": 53
+      "outs": 58
     },
     {
       "player_id": "67143",
       "name": "손주영",
       "position": "P",
-      "outs": 147
+      "outs": 151
     },
     {
       "player_id": "67207",
@@ -4166,7 +4178,7 @@
       "player_id": "67539",
       "name": "나균안",
       "position": "P",
-      "outs": 428
+      "outs": 449
     },
     {
       "player_id": "67588",
@@ -4190,7 +4202,7 @@
       "player_id": "67609",
       "name": "박정우",
       "position": "RF",
-      "outs": 548
+      "outs": 575
     },
     {
       "player_id": "67644",
@@ -4238,7 +4250,7 @@
       "player_id": "67893",
       "name": "박성한",
       "position": "SS",
-      "outs": 3439
+      "outs": 3460
     },
     {
       "player_id": "67905",
@@ -4256,7 +4268,7 @@
       "player_id": "67905",
       "name": "천재환",
       "position": "RF",
-      "outs": 672
+      "outs": 681
     },
     {
       "player_id": "67954",
@@ -4292,7 +4304,7 @@
       "player_id": "68092",
       "name": "한두솔",
       "position": "P",
-      "outs": 107
+      "outs": 111
     },
     {
       "player_id": "68106",
@@ -4316,7 +4328,7 @@
       "player_id": "68110",
       "name": "송찬의",
       "position": "LF",
-      "outs": 1953
+      "outs": 1983
     },
     {
       "player_id": "68110",
@@ -4358,7 +4370,7 @@
       "player_id": "68205",
       "name": "전민재",
       "position": "SS",
-      "outs": 3279
+      "outs": 3309
     },
     {
       "player_id": "68220",
@@ -4454,7 +4466,7 @@
       "player_id": "68507",
       "name": "장두성",
       "position": "CF",
-      "outs": 802
+      "outs": 832
     },
     {
       "player_id": "68507",
@@ -4484,7 +4496,7 @@
       "player_id": "68525",
       "name": "한동희",
       "position": "3B",
-      "outs": 1429
+      "outs": 1459
     },
     {
       "player_id": "68529",
@@ -4502,7 +4514,7 @@
       "player_id": "68646",
       "name": "한준수",
       "position": "C",
-      "outs": 1953
+      "outs": 1977
     },
     {
       "player_id": "68700",
@@ -4526,7 +4538,7 @@
       "player_id": "68743",
       "name": "정은원",
       "position": "2B",
-      "outs": 246
+      "outs": 255
     },
     {
       "player_id": "68743",
@@ -4544,7 +4556,7 @@
       "player_id": "68856",
       "name": "최민준",
       "position": "P",
-      "outs": 301
+      "outs": 308
     },
     {
       "player_id": "68868",
@@ -4586,7 +4598,7 @@
       "player_id": "68912",
       "name": "김형준",
       "position": "C",
-      "outs": 2654
+      "outs": 2675
     },
     {
       "player_id": "68928",
@@ -4658,7 +4670,7 @@
       "player_id": "69100",
       "name": "구본혁",
       "position": "SS",
-      "outs": 792
+      "outs": 822
     },
     {
       "player_id": "69102",
@@ -4670,7 +4682,7 @@
       "player_id": "69102",
       "name": "문보경",
       "position": "3B",
-      "outs": 1318
+      "outs": 1348
     },
     {
       "player_id": "69105",
@@ -4844,13 +4856,13 @@
       "player_id": "69517",
       "name": "고승민",
       "position": "1B",
-      "outs": 588
+      "outs": 591
     },
     {
       "player_id": "69517",
       "name": "고승민",
       "position": "2B",
-      "outs": 1931
+      "outs": 1958
     },
     {
       "player_id": "69517",
@@ -4886,7 +4898,7 @@
       "player_id": "69645",
       "name": "장유호",
       "position": "P",
-      "outs": 133
+      "outs": 136
     },
     {
       "player_id": "69727",
@@ -4904,7 +4916,7 @@
       "player_id": "69737",
       "name": "노시환",
       "position": "3B",
-      "outs": 3176
+      "outs": 3203
     },
     {
       "player_id": "69766",
@@ -4922,13 +4934,13 @@
       "player_id": "69766",
       "name": "유로결",
       "position": "RF",
-      "outs": 3
+      "outs": 15
     },
     {
       "player_id": "69804",
       "name": "채현우",
       "position": "CF",
-      "outs": 72
+      "outs": 78
     },
     {
       "player_id": "69804",
@@ -4982,7 +4994,7 @@
       "player_id": "69992",
       "name": "최정원",
       "position": "CF",
-      "outs": 1574
+      "outs": 1583
     },
     {
       "player_id": "69992",
@@ -5162,7 +5174,7 @@
       "player_id": "78122",
       "name": "김태군",
       "position": "C",
-      "outs": 1610
+      "outs": 1613
     },
     {
       "player_id": "78135",
@@ -5210,7 +5222,7 @@
       "player_id": "78288",
       "name": "최재훈",
       "position": "C",
-      "outs": 843
+      "outs": 861
     },
     {
       "player_id": "78513",
@@ -5228,7 +5240,7 @@
       "player_id": "78603",
       "name": "김선빈",
       "position": "2B",
-      "outs": 2043
+      "outs": 2067
     },
     {
       "player_id": "78756",
@@ -5282,7 +5294,7 @@
       "player_id": "79365",
       "name": "박동원",
       "position": "C",
-      "outs": 2709
+      "outs": 2723
     },
     {
       "player_id": "79402",
